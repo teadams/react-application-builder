@@ -1,4 +1,4 @@
-import {metadata_menus, metadata_fields, metadata_object_types} from '../Models';
+import {metadata_menus, metadata_fields, metadata_object_types} from '../SModels';
 import * as log from './log.js';
 
 export function object(object_type) {
@@ -95,7 +95,7 @@ export function get_selected_menu(selected_menu_index, menu_type) {
   log.func('get selected menu', 'selected_index, metadata_menus, app_menu', 
     selected_menu_index, metadata_menus, metadata_menus.app_menu);
   
-  return (metadata_menus.app_menu.reduce ((accum,menu_item) => {
+  return (get_menu(menu_type).reduce ((accum,menu_item) => {
       log.val('menu item', menu_item)
       if (selected_menu_index == menu_item.index) {
           return (menu_item);
