@@ -19,6 +19,7 @@ const styles = theme => ({
   width: drawerWidth,
   justifyContent: 'flex-start',
   alignItems: 'left',
+  height:600
 
 },
 'appShift-left': {
@@ -227,16 +228,16 @@ class App extends Component {
       }
           
         </main>
-        <Tabs
-          value={0}
-          indicatorColor="primary"
-          textColor="primary"
-          centered
-        >
-          <Tab label="Powered by React ACS AppBuilder" />
-        </Tabs>
         </div>
      </Paper>
+     <Tabs
+       value={0}
+       indicatorColor="primary"
+       textColor="primary"
+       centered
+     >
+       <Tab label="Powered by React ACS AppBuilder" />
+     </Tabs>
     </Fragment>
   }
 }
