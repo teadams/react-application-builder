@@ -1,4 +1,4 @@
-import {metadata_menus, metadata_fields, metadata_object_types} from '../SModels';
+import {app_params, metadata_menus, metadata_fields, metadata_object_types} from '../Models/Test';
 import * as log from './log.js';
 
 export function object(object_type) {
@@ -104,6 +104,11 @@ export function get_selected_menu(selected_menu_index, menu_type) {
   
 }
 
+export function get_param(param) {
+  return app_params[param];
+}
+
+// get the index in the array where field_name is field_value
 export function get_index (array_name, field_name, field_value) {
   log.func("get index", "array_name, field_name, field_value", array_name, field_name, field_value)
   const index = array_name.reduce ((accum, element, element_index) => {

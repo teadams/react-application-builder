@@ -18,8 +18,7 @@ class NavMenuLink extends React.Component {
   }
 
   handleClick = event => {
-      log.func("link handle click","link_menu_index, filter_id, menu link field, link_object_type, menu_link_reference_field", 
-        this.props.link_menu_index, this.props.filter_id, this.props.menu_link_field, this.props.link_object_type, this.props.menu_link_reference_field)
+  //    log.func("link handle click","link_menu_index, filter_id, menu link field, link_object_type, menu_link_reference_field",         this.props.link_menu_index, this.props.filter_id, this.props.menu_link_field, this.props.link_object_type, this.props.menu_link_reference_field)
       this.props.onClick(event, this.props.index)
   }
     

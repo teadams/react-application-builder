@@ -1,7 +1,7 @@
 import React, { Component, Fragment} from 'react';
 import {Grid} from 'material-ui'
 import {Header,Footer, MenuBar, CrudTable, Text} from './Components/Layouts';
-import {NavMenuLink} from './Components/Experimental';
+import {NavMenuLink, DrillDown} from './Components/Experimental';
 import * as meta from './Utils/meta.js'
 import * as log from './Utils/log.js'
 import axios from 'axios';
@@ -19,7 +19,7 @@ const styles = theme => ({
   width: drawerWidth,
   justifyContent: 'flex-start',
   alignItems: 'left',
-  height:600
+  minHeight:600
 
 },
 'appShift-left': {
@@ -149,7 +149,7 @@ class App extends Component {
 //    alert ('menu ' + JSON.stringify(meta_menu))
     const filter_field = meta.field(meta_menu.object_type, meta_menu.filter_field);
     return <Fragment>
-     <Paper style={{ padding:10, marginTop:10, marginBottom:0, height:600, position:'relative'}}>
+     <Paper style={{ padding:10, marginTop:10, marginBottom:0, minHeight:600, position:'relative'}}>
      {drawer_open && hamburger_menu_p &&
      <div style={{ position:"absolute"}}>
      <Drawer 
@@ -186,8 +186,8 @@ class App extends Component {
            <MenuIcon />
         </IconButton> 
         }
-          <Typography variant="headline" color="inherit">
-            ResRent Interface Tracking
+          <Typography variant="headline" color="inherit"> 
+            {meta.get_param('name')}
           </Typography>
            <Button color="inherit">Login</Button>
         </Toolbar>
@@ -211,6 +211,13 @@ class App extends Component {
             text = {meta_menu.text}
           />
         }  
+
+        {meta_menu.component == "DrillDown" &&
+          <DrillDown  
+            object_type = {meta_menu.object_type}
+          />
+        }  
+
         {(!meta_menu.component || meta_menu.component == "CrudTable") &&
         <Grid container>
         <Grid item sm style={{margin:0}}>
@@ -236,7 +243,7 @@ class App extends Component {
        textColor="primary"
        centered
      >
-       <Tab label="Powered by React ACS AppBuilder" />
+       <Tab label={meta.get_param('footer')} />
      </Tabs>
     </Fragment>
   }
