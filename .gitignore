@@ -1,6 +1,7 @@
 
 # Dependency directory
 node_modules
+mui-datatables
 
 # Model data
 Models
