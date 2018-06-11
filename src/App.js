@@ -11,12 +11,15 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 
-const drawerWidth = 100;
+const drawerWidth = 150;
 
 const styles = theme => ({
   drawerPaper: {
   position: 'relative',
   width: drawerWidth,
+  justifyContent: 'flex-start',
+  alignItems: 'left',
+
 },
 'appShift-left': {
   width: `calc(100% - ${drawerWidth}px)`,
@@ -125,7 +128,7 @@ class App extends Component {
            })
     
         } else {
-          alert('setting state to selected menu')
+        //  alert('setting state to selected menu')
           this.setState({selected_menu: selected_menu,
                          selected_menu_type: menu_type,
                         filter_id : link_filter_id?link_filter_id:""
@@ -162,10 +165,10 @@ class App extends Component {
        </div>
        <Divider />
 
-       <List component="nav">
+       <List  component="nav">
           {meta.get_menu("hamburger").map(menu=> {
             var index =  menu.index + '-hamburger'
-          return     <ListItem dense component="div">   <NavMenuLink text={menu.label} index={index} onClick={this.handleMenuChange} /> </ListItem>
+          return     <ListItem style={{padding:0}} dense disableGutters component="div">   <NavMenuLink text={menu.label} index={index} onClick={this.handleMenuChange} /> </ListItem>
           })}
         
         </List>

@@ -25,7 +25,7 @@ class NavMenuLink extends React.Component {
     
   render()  {
 //      const { classes } = this.props;
-      return <Button onClick={this.handleClick}>{this.props.text}</Button>                 
+      return <Button style={{textAlign:'left', padding:3, minWidth:0, minHeight:0, textTransform:'none'}} onClick={this.handleClick}>{this.props.text}</Button>                 
    }
 }
 
