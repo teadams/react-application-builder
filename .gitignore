@@ -1,0 +1,13 @@
+
+# Dependency directory
+node_modules
+
+# Model data
+Models
+SModels
+
+# Optional npm cache directory
+.npm
+
+
+
