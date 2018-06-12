@@ -8,6 +8,9 @@ import axios from 'axios';
 
 function getData (object_type, options, callback)   {
   var urltext = '/api/v1/' + object_type;
+  if (options.id) {
+    urltext += '/'+options.id
+  }
   axios({
    method: 'get',
    url: urltext,
@@ -28,7 +31,8 @@ class DrillDown extends React.Component {
         //selected pretty_name is for user experince
         // we can show the pretty name until the rest of the data loads
         this.state = {
-            data: [],
+            drill_data: [],
+            item_data: {},
             selected_id: '',
             selected_pretty_name: ''
         }  
@@ -44,15 +48,31 @@ class DrillDown extends React.Component {
   }
     
   componentDidMount() {
-      getData (this.props.object_type, "", (data, error) => {
-              this.setState({ data: data
+      getData (this.props.object_type, "", (drill_data, error) => {
+              this.setState({ drill_data: drill_data
             })})
 } 
-  
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    //alert('did i update')
+      if (prevState.selected_id !== this.state.selected_id) {
+
+        getData (this.props.object_type, {id:this.state.selected_id}, (item_data, error) => { 
+  //    alert('updated' + JSON.stringify(item_data) ); 
+                this.setState({ item_data: item_data
+              })}) 
+      }
+  }  
+
+
   render()  {
       const object_attributes = meta.object(this.props.object_type);
+      const object_fields = meta.fields(this.props.object_type);
       const keys = meta.keys(this.props.object_type);
+      //alert ('fields' + JSON.stringify(object_fields));
+    //  alert ('item data is ' + JSON.stringify(this.state.item_data))
 
+//      alert ('item data is ' + JSON.stringify(this.state.item_data.length))
       return (
         <Grid container sm={12}>
         <Grid item sm={3}>
@@ -60,8 +80,8 @@ class DrillDown extends React.Component {
             {object_attributes.pretty_plural} 
         </Typography>
           <List component="nav">
-          {this.state.data && this.state.data.map(row => {
-            return (
+          {this.state.drill_data && this.state.drill_data.map(row => {    
+          return (
             <ListItem dense button onClick={() => this.handleClick(row[keys.key_id], row[keys.pretty_key_id])}>
                 {(row[keys.key_id] === this.state.selected_id) ?
                     <Typography color='primary' variant='headline'> {row[keys.pretty_key_id]}</Typography>
@@ -76,7 +96,12 @@ class DrillDown extends React.Component {
           <Typography variant="headline" gutterBottom>
               {this.state.selected_pretty_name} 
           </Typography>
-          {this.state.selected_id}
+        
+          {this.state.item_data[keys.key_id] && object_fields.map(field => {
+            //  alert ('this is the field' + JSON.stringify(field))
+              return (<div> {field.pretty_name} : {this.state.item_data[keys.key_id]}</div>)
+          })}
+    
         </Grid>
       </Grid>
     
