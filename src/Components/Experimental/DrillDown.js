@@ -32,9 +32,8 @@ class DrillDown extends React.Component {
         // we can show the pretty name until the rest of the data loads
         this.state = {
             drill_data: [],
-            item_data: {},
-            selected_id: '',
-            selected_pretty_name: ''
+            item_data: "",
+            selected_id: ''
         }  
         this.handleClick = this.handleClick.bind(this);
 
@@ -42,8 +41,7 @@ class DrillDown extends React.Component {
 
   handleClick = (id, pretty_name) => {
     this.setState ({
-        selected_id: id,
-        selected_pretty_name: pretty_name
+        selected_id: id
     })
   }
     
@@ -75,7 +73,7 @@ class DrillDown extends React.Component {
 //      alert ('item data is ' + JSON.stringify(this.state.item_data.length))
       return (
         <Grid container sm={12}>
-        <Grid item sm={3}>
+        <Grid item sm={2}>
         <Typography variant="headline" gutterBottom>
             {object_attributes.pretty_plural} 
         </Typography>
@@ -91,17 +89,27 @@ class DrillDown extends React.Component {
           })}
 
           </List>
-        </Grid>
-        <Grid sm={9}>
+        </Grid >
+        <Grid sm={10}>
           <Typography variant="headline" gutterBottom>
-              {this.state.selected_pretty_name} 
+              {this.state.item_data[keys.pretty_key_id]} 
           </Typography>
         
-          {this.state.item_data[keys.key_id] && object_fields.map(field => {
-            //  alert ('this is the field' + JSON.stringify(field))
-              return (<div> {field.pretty_name} : {this.state.item_data[keys.key_id]}</div>)
-          })}
-    
+          <Grid container  sm={12} >
+            {this.state.item_data && object_fields.map(field => {
+                if (field.name != keys.key_id && field.name != keys.pretty_key_id) {
+              //    alert('item keys field and row ' + JSON.stringify(keys) + '   ' +JSON.stringify(field) + ' ' + JSON.stringify(this.state.item_data))
+                  return (<Grid item sm={6}>
+                    <List component="nav">
+                      <ListItem dense button>
+                      {field.pretty_name} : {this.state.item_data[field.name]}
+                        </ListItem>
+                    </List>
+                    </Grid>
+                      )  
+                }  
+              })}
+            </Grid>
         </Grid>
       </Grid>
     
