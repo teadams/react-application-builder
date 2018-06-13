@@ -33,10 +33,13 @@ class DrillDown extends React.Component {
             drill_data: [],
             item_data: "",
             selected_id: '',
+            pretty_name_edit: false,
             props_object_type: ''
         }  
         this.handleClick = this.handleClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleFocus = this.handleFocus.bind(this);
+
   }
 
 
@@ -60,6 +63,7 @@ class DrillDown extends React.Component {
               new_state["form_" + field.name] = "";
             // Keep track of this field has changed since last db update
               new_state["form_changed_" + field.name] = false
+              new_state["form_underlined_" + field.name] = false
       })
     // alert ('new state is ' + JSON.stringify(new_state))
       return new_state
@@ -91,6 +95,7 @@ class DrillDown extends React.Component {
         //        alert (' form and value ' + formValues[field.name] + ' value ' + item_data[field.name])
                 new_state["form_" + field.name] = item_data[field.name]?item_data[field.name]:"";
                 new_state["form_changed_" + field.name] = false
+                new_state["form_underlined_" + field.name] =  item_data[field.name]?false:true
               })
 //              alert ("updated form values in did update" + JSON.stringify(formValues))
               this.setState(new_state)
@@ -108,9 +113,18 @@ class DrillDown extends React.Component {
       this.setState(new_state);
   }
 
+  handleFocus = event => {
+    //  const target = event.target;
+//  alert ('even target key' + event.target.key)
+//alert ('event target id ' + event.target.id)
+      var new_state = {}
+      new_state["form_underlined_" +event.target.id ] = true
+      this.setState(new_state);
+  }
 
   handleSubmit = event => {
       event.preventDefault(); 
+//  alert('handling submit')
 //      alert ('event is id' + event.target.id + ' key ' + event.target.key  + ' value ' + event.target.value)
       this.handleDBUpdate(event);
   }
@@ -118,22 +132,34 @@ class DrillDown extends React.Component {
   handleDBUpdate(event) {
         const object_type = this.props.object_type;
         const field_name = event.target.id;
+  //     alert('form change')
+//        alert ('form changes ' + this.state["form_changed_"+ field_name])
         if (this.state["form_changed_"+field_name]) {
             var data_object = Object();
             data_object[field_name] = this.state["form_"+field_name];
             const id = this.state["form_"+meta.keys(object_type).key_id]
             var urltext = '/api/v1/'+ object_type +'/'+ id ;
-        //    alert ('about to update')
+            //alert ('about to update')
             axios({
               method: 'put',
               url: urltext,
               data: { data_object }
             }).then (result => {
-              var new_state={};
-              new_state["form_changed_"+field_name] = false;
-              this.setState(new_state);
+  //            alert ('updated')
+                var new_state={};
+                new_state.pretty_name_edit = false;
+                new_state["form_changed_"+field_name] = false;
+                new_state["form_underlined_" + field_name ] = false;
+                this.setState(new_state);
+            }).catch(error => {
+              alert ('error is ' + error.message)
             });
-      }
+        } else {
+            var new_state={};
+            new_state.pretty_name_edit = false;
+            new_state["form_underlined_" + field_name ] = false;
+            this.setState(new_state);
+        }
   }
   
 
@@ -141,6 +167,8 @@ class DrillDown extends React.Component {
       const object_attributes = meta.object(this.props.object_type);
       const object_fields = meta.fields(this.props.object_type);
       const keys = meta.keys(this.props.object_type);
+      const id = this.state["form_"+meta.keys(this.props.object_type).key_id]
+      const pretty_name_field = meta.pretty_name_column(this.props.object_type)
       //alert ('fields' + JSON.stringify(object_fields));
     //  alert ('item data is ' + JSON.stringify(this.state.item_data))
     //alert ("form values in render " + JSON.stringify(this.state.formValues))
@@ -169,11 +197,26 @@ class DrillDown extends React.Component {
           </Paper>
         </Grid >
         <Grid item sm={10}>
-        <Paper style={{minHeight:600, padding:10}}>
-          <Typography variant="headline" gutterBottom>
-              {this.state.item_data[keys.pretty_key_id]} 
-          </Typography>
-        
+        <Paper id = "pretty_key" style={{minHeight:600, padding:10}}>
+          {this.state.pretty_name_edit ? 
+              <form onSubmit={this.handleSubmit}
+              id={id+'-'+this.state.item_data[keys.pretty_key_id]}>
+              <TextField    
+              margin="normal"
+              id={keys.pretty_key_id}
+              key={keys.pretty_key_id}
+              type="text"
+              value=  {this.state["form_"+pretty_name_field]}
+            //  value={this.state.formValues[field.name]}
+    //                       value={this.state.formValues?this.state.formValues[field.name]:""}
+    //                      style={{width:200, marginRight:20, marginBottom:20}}
+              onChange={this.handleChange(pretty_name_field)}
+              onBlur={this.handleSubmit}
+              />
+             </form>
+          :           <Typography onClick={()=>{this.setState({pretty_name_edit:true})}} variant="headline" gutterBottom>{this.state["form_" + pretty_name_field]}</Typography>
+
+        }
           <Grid container  sm={12} >
             {this.state.item_data && object_fields.map(field => {
 //alert ('looping around field')
@@ -181,11 +224,14 @@ class DrillDown extends React.Component {
 
 
               //    alert('item keys field and row ' + JSON.stringify(keys) + '   ' +JSON.stringify(field) + ' ' + JSON.stringify(this.state.item_data))
-          //      alert ('field and form is ' + field.name + ' ' + JSON.stringify(this.state.formValues))
+///alert ('underline ste for field ' + field.name + ' ' + this.state["form_underlined_" + field.name])
+                  var disable_underline = !this.state["form_underlined_" + field.name]
                   return (<Grid item sm={6}>
                       <form onSubmit={this.handleSubmit} id={field.name}>
                       <TextField    
                       margin="normal"
+                      InputProps={{disableUnderline:disable_underline}}
+                      InputLabelProps={{shrink:true}}
                       id={field.name}
                       key={field.name}
                       label={field.pretty_name}
@@ -195,6 +241,7 @@ class DrillDown extends React.Component {
                     //  value={this.state.formValues[field.name]}
 //                       value={this.state.formValues?this.state.formValues[field.name]:""}
 //                      style={{width:200, marginRight:20, marginBottom:20}}
+                      onFocus={this.handleFocus}
                       onChange={this.handleChange(field.name)}
                       onBlur={this.handleSubmit}
                      />
