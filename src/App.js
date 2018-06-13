@@ -19,7 +19,7 @@ const styles = theme => ({
   width: drawerWidth,
   justifyContent: 'flex-start',
   alignItems: 'left',
-  minHeight:600
+  height:600
 
 },
 'appShift-left': {
