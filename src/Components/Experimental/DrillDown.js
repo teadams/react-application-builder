@@ -231,7 +231,8 @@ class DrillDown extends React.Component {
 ///alert ('underline ste for field ' + field.name + ' ' + this.state["form_underlined_" + field.name])
                 var disable_underline = !this.state["form_underlined_" + field.name]
 
-                  if (field.valid_values || field.references || field.data_type === "boolean") {
+                  if (field.valid_values || field.references || field.data_type === "boolean" || 
+                    (field.data_type === "integer" && field.input_type !== "text")) {
                      return (<Grid item sm={6}>
                       <form onSubmit={this.handleSubmit(field.name)}  id={id+'-'+field.name}>
                     <SelectField 
@@ -242,6 +243,7 @@ class DrillDown extends React.Component {
                      shrink="true"
                      field={field}
                      disableUnderline = {disable_underline}
+                     helperText={field.helper_text}
                      form_object_type={this.props.object_type}
                      label={field.pretty_name}
                      value= {this.state["form_"+field.name]}

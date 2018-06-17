@@ -78,7 +78,7 @@ class SelectField extends React.Component {
   componentDidMount() {
     log.func("Select Field: Did Mount", "props", this.props);
   //  alert ('select field mounted with '+ JSON.stringify(this.props));
-      const { open} = this.props;
+      const { open, field} = this.props;
       
       if (open)  {
           if (this.props.field.valid_values) {
@@ -86,13 +86,20 @@ class SelectField extends React.Component {
                   return [value, value];
               })
               this.setState({ select_menu_options: select_menu_options})
-          } else if (this.props.field.data_type == "boolean") {
+          } else if (field.data_type == "boolean") {
                 var select_menu_options = [[true, "Yes"], [false, "No"]]
-//        alert ('select menu options ' + JSON.stringify(select_menu_options))
-
-
                 this.setState({ select_menu_options: select_menu_options})
 
+          } else if (field.data_type == "integer"){
+            var select_menu_options = []
+            const start_value = field.start_value?field.start_value:0
+            const end_value = field.end_value?field.end_value:10
+            const increment = field.increment?field.increment:1
+
+            for (var i=start_value; i<=end_value;  i += increment) {
+                select_menu_options.push ([i,i]);
+            }
+            this.setState({ select_menu_options: select_menu_options})
           } else {
               getSelectOptions (this.props.object_type, this.props.field, this.props.form_object_type, this.props.dependent_value, (select_menu_options) => {
                 log.func("Return from select value options db", "select menu options", select_menu_options);
@@ -161,6 +168,7 @@ class SelectField extends React.Component {
     autoFocus={this.props.autoFocus?true:false}
     value={this.state.value}
     disabled = {this.props.disabled}  
+    helperText={this.props.helperText}
     disableUnderline  = {this.props.disableUnderline}
     InputLableProps = {this.props.InputLableProps}
     onChange={this.submithandleChange} 
