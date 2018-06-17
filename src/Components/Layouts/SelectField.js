@@ -54,7 +54,7 @@ class SelectField extends React.Component {
   constructor(props) {
         super(props);
       //  log.func("SelectField: constructor", "props", props);
-//        alert('in select field with' + JSON.stringify(this.props));
+//       alert('in select field with' + JSON.stringify(this.props));
         this.state = {
           select_menu_options : [],
           selectTouched: false,
@@ -63,13 +63,14 @@ class SelectField extends React.Component {
           prop_value : this.props.value?this.props.value:'',
           prop_form_values: this.props.form_values?this.props.form_values:''
         }
-        this.submitHandleChange = this.submitHandleChange.bind(this);
+        this.submithandleChange = this.submithandleChange.bind(this);
 
   }
 
-   submitHandleChange = event => {
+   submithandleChange = event => {
        log.func("select handle change", "value", event.target.value);
       //  console.log('in select handle change');
+      // alert("in select field name " + JSON.stringify(event.target.name) + ' ID ' + event.target.id)
         this.setState({ value: event.target.value , selectTouched: true});
         this.props.onChange(event);
     }
@@ -135,28 +136,38 @@ class SelectField extends React.Component {
   
   render() {
     log.func("selectfield Render", "props", this.props)
+
+//alert ('select menu options is ' + this.state.select_menu_options)
+//alert ('value is ' + this.state.value)
+//  alert ('select value is ' + this.props.value + ' state ' + this.state.value)
   //  log.func("SelectField: Render", "field name, value, select menu options", this.props.field_name, this.state.value, this.state.select_menu_options);
     // Note, this.props.value may be either the value of the menu option or the pretty text that shows in the text checkbox
     // after onChange, this.state.value is the value of the menu option
-    const {  open, field } = this.props;
+    const {  open, field, label,id, shrink } = this.props;
+    const shrink_label = shrink?true:false
+    const { value} = this.state;
     return (<FormControl style={this.props.style}>
-      <InputLabel  htmlFor="{this.props.label}">{this.props.label}</InputLabel>
+      <InputLabel shrink={shrink_label}  htmlFor="{this.props.label}">{this.props.label}</InputLabel>
       <Select
     autoFocus={this.props.autoFocus?true:false}
     value={this.state.value}
-    disabled = {this.props.disabled}
-    onChange={this.submitHandleChange} 
+    disabled = {this.props.disabled}  
+    disableUnderline  = {this.props.disableUnderline}
+    InputLableProps = {this.props.InputLableProps}
+    onChange={this.submithandleChange} 
     onBlur={this.props.onBlur}
+    id={id}
     inputProps={{
-      name: '{this.props.label}',
-      id: '{this.props.label}',
+      name: label,
+      id: id
     }}
   >
+
     {this.state.select_menu_options.map(menu_option => {
     //  log.val("menu option, state value", menu_option, this.state.value)
-      var selected = (this.state.value == menu_option[0] || this.props.value == menu_option[1])?true:false
+//      var selected = (this.state.value == menu_option[0] || this.props.value == menu_option[1])?true:false
     //  log.val("selected", selected);
-      return <MenuItem key={menu_option[0]} value={menu_option[0]}>{menu_option[1]}</MenuItem>
+      return <MenuItem  key={menu_option[0]} value={menu_option[0]}>{menu_option[1]}</MenuItem>
 
     })}
   </Select>
