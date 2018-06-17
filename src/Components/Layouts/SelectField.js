@@ -79,15 +79,24 @@ class SelectField extends React.Component {
     log.func("Select Field: Did Mount", "props", this.props);
   //  alert ('select field mounted with '+ JSON.stringify(this.props));
       const { open} = this.props;
+      
       if (open)  {
-          if (this.props.valid_values) {
+          if (this.props.field.valid_values) {
               var select_menu_options = this.props.valid_values.split(",").map(value=>{
                   return [value, value];
               })
               this.setState({ select_menu_options: select_menu_options})
+          } else if (this.props.field.data_type == "boolean") {
+                var select_menu_options = [[true, "Yes"], [false, "No"]]
+//        alert ('select menu options ' + JSON.stringify(select_menu_options))
+
+
+                this.setState({ select_menu_options: select_menu_options})
+
           } else {
               getSelectOptions (this.props.object_type, this.props.field, this.props.form_object_type, this.props.dependent_value, (select_menu_options) => {
                 log.func("Return from select value options db", "select menu options", select_menu_options);
+//        alert ('select menu options ' + JSON.stringify(select_menu_options))
                 this.setState({ select_menu_options: select_menu_options});                
              })
            }

@@ -92,17 +92,18 @@ class DrillDown extends React.Component {
       if (prevState.selected_id !== this.state.selected_id) {
 
         getData (this.props.object_type, {id:this.state.selected_id}, (item_data, error) => { 
-          //  alert('updated item valuse' + JSON.stringify(item_data) ); 
+      //     alert('updated item valuse' + JSON.stringify(item_data) ); 
               var new_state = {};
               new_state.item_data = item_data;
               meta.fields(this.props.object_type).map(field => {
         //        alert (' form and value ' + formValues[field.name] + ' value ' + item_data[field.name])
-                new_state["form_" + field.name] = item_data[field.name]?item_data[field.name]:"";
-
+                // React is not applying null when changing the form
+                new_state["form_" + field.name] = (item_data[field.name] !== null)?item_data[field.name]:""
+//                new_state["form_" + field.name] = item_data[field.name]
                 new_state["form_changed_" + field.name] = false
-                new_state["form_underlined_" + field.name] =  item_data[field.name]?false:true
+                new_state["form_underlined_" + field.name] =  (item_data[field.name]===null || item_data[field.name===""])?true:false
               })
-//              alert ("updated form values in did update" + JSON.stringify(formValues))
+  //            alert ("setting new state to" + JSON.stringify(new_state))
               this.setState(new_state)
         }) 
       }
@@ -175,7 +176,7 @@ class DrillDown extends React.Component {
       const keys = meta.keys(this.props.object_type);
       const id = this.state["form_"+meta.keys(this.props.object_type).key_id]
       const pretty_name_field = meta.pretty_name_column(this.props.object_type)
-      //alert ('fields' + JSON.stringify(object_fields));
+//      alert ('state ' + JSON.stringify(this.state));
     //  alert ('item data is ' + JSON.stringify(this.state.item_data))
     //alert ("form values in render " + JSON.stringify(this.state.formValues))
     //    alert ("item data is " + JSON.stringify(this.state.item_data))
@@ -209,7 +210,7 @@ class DrillDown extends React.Component {
               id={id+'-'+this.state.item_data[keys.pretty_key_id]}>
               <TextField    
               margin="normal"
-              id={keys.pretty_key_id}
+        //      id={keys.pretty_key_id}
               name={keys.pretty_key_id}
               type="text"
               value=  {this.state["form_"+pretty_name_field]}
@@ -230,17 +231,17 @@ class DrillDown extends React.Component {
 ///alert ('underline ste for field ' + field.name + ' ' + this.state["form_underlined_" + field.name])
                 var disable_underline = !this.state["form_underlined_" + field.name]
 
-                  if (field.valid_values || field.references) {
+                  if (field.valid_values || field.references || field.data_type === "boolean") {
                      return (<Grid item sm={6}>
-                      <form onSubmit={this.handleSubmit(field.name)} id={field.name}>
+                      <form onSubmit={this.handleSubmit(field.name)}  id={id+'-'+field.name}>
                     <SelectField 
                      key={field.name}           
                      object_type={field.references}
                      valid_values={field.valid_values}
                     // id={field.name}
-                    shrink="true"
-                    field={field}
-                    disableUnderline = {disable_underline}
+                     shrink="true"
+                     field={field}
+                     disableUnderline = {disable_underline}
                      form_object_type={this.props.object_type}
                      label={field.pretty_name}
                      value= {this.state["form_"+field.name]}
@@ -259,12 +260,13 @@ class DrillDown extends React.Component {
                   } else {
 
                     return (<Grid item sm={6}>
-                          <form onSubmit={this.handleSubmit(field.name)} id={field.name}>
+                          <form onSubmit={this.handleSubmit(field.name)}  id={id+'-'+field.name}>
+
                       <TextField    
                       margin="normal"
                       InputProps={{disableUnderline:disable_underline}}
                       InputLabelProps={{shrink:true}}
-                      id={field.name}
+          //            id={field.name}
                       name={field.name}
                       label={field.pretty_name}
                       type="text"
