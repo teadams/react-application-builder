@@ -70,7 +70,7 @@ class SelectField extends React.Component {
    submithandleChange = event => {
        log.func("select handle change", "value", event.target.value);
       //  console.log('in select handle change');
-      // alert("in select field name " + JSON.stringify(event.target.name) + ' ID ' + event.target.id)
+    //    alert("in select field name " + JSON.stringify(event.target.name) + ' ID ' + event.target.id)
         this.setState({ value: event.target.value , selectTouched: true});
         this.props.onChange(event);
     }
@@ -167,8 +167,10 @@ class SelectField extends React.Component {
     // Note, this.props.value may be either the value of the menu option or the pretty text that shows in the text checkbox
     // after onChange, this.state.value is the value of the menu option
     const {  open, field, label,id, shrink } = this.props;
-    const shrink_label = shrink?true:false
-    const { value} = this.state;
+    var shrink_label = (this.state.value || this.state.value === false)?true:false
+    if (shrink) {
+        shrink_label = true
+    }
     return (<FormControl style={this.props.style}>
       <InputLabel shrink={shrink_label}  htmlFor="{this.props.label}">{this.props.label}</InputLabel>
       <Select

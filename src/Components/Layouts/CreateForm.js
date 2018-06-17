@@ -51,7 +51,7 @@ class CreateForm extends React.Component {
 
 
   handleChange = name => event => {
-    // alert('handle change in form'
+//      alert('handle change in form ' +name + ' value' + event.target.value)
       const target = event.target;
       const value = target.type === 'checkbox' ? target.checked : target.value;
       this.state.formTouched = true;
@@ -183,7 +183,8 @@ class CreateForm extends React.Component {
                       if (field.dependent_field) {
                           dependent_value = this.state.formValues[field.dependent_field]
                       }
-                     if (field.valid_values || field.references) {
+                      if (field.valid_values || field.references || field.data_type === "boolean" || (field.data_type === "integer" && field.input_type !== "text" || field.input_type === "color_picker")) {
+
                         return <SelectField 
                         key={field.name}           
                         object_type={field.references}

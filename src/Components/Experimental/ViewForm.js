@@ -66,8 +66,21 @@ class ViewForm extends React.Component {
     return null
   }
 
+  componentDidMount() {
+    getData (this.props.object_type, {id:this.props.selected_id}, (item_data, error) => { 
+          var new_state = {};
+          new_state.item_data = item_data;
+          meta.fields(this.props.object_type).map(field => {
+            new_state["form_" + field.name] = (item_data[field.name] !== null)?item_data[field.name]:""
+            new_state["form_changed_" + field.name] = false
+            new_state["form_underlined_" + field.name] =  (item_data[field.name]===null || item_data[field.name===""])?true:false
+          })
+          this.setState(new_state)
+    }) 
+  }
+
   componentDidUpdate(prevProps, prevState, snapshot) {
-  //  alert('DID UPDATE update and form values is ' + JSON.stringify(formValues))
+  //  alert('DID UPDATE upate and form values is ' + JSON.stringify(formValues))
       if (prevProps.selected_id !== this.props.selected_id) {
         getData (this.props.object_type, {id:this.props.selected_id}, (item_data, error) => { 
               var new_state = {};
@@ -137,7 +150,7 @@ class ViewForm extends React.Component {
     const keys = meta.keys(this.props.object_type);
     const id = this.state["form_"+meta.keys(this.props.object_type).key_id]
     const pretty_name_field = meta.pretty_name_column(this.props.object_type)
-
+  //  alert ('render with selected id ' + this.props.selected_id)
     return (
       <Fragment>
       {this.state.pretty_name_edit ? 

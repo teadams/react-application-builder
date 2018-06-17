@@ -4,7 +4,7 @@ import {TextField, Paper, Button, Grid, ListItem, List,  Typography} from '@mate
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import axios from 'axios';
-import {SelectField} from "../Layouts/index.js";
+import {SelectField, CreateForm} from "../Layouts/index.js";
 import {ViewForm} from "./index.js";
  
 
@@ -26,7 +26,6 @@ function getData (object_type, options, callback)   {
 }
 
 
-
 class DrillDown extends React.Component {
 
   constructor(props) {
@@ -38,6 +37,8 @@ class DrillDown extends React.Component {
             selected_id: '',
         }  
         this.handleClick = this.handleClick.bind(this);
+        this.handleDataChange = this.handleDataChange.bind(this);
+
   }
   
 
@@ -46,6 +47,11 @@ class DrillDown extends React.Component {
         selected_id: id
     })
   }
+
+   handleDataChange = value => {
+     console.log('in create close');
+      this.setState({ create_object_type: false});
+   };
 
   componentDidMount() {
       getData (this.props.object_type, "", (drill_data, error) => {
@@ -56,8 +62,9 @@ class DrillDown extends React.Component {
 
   render()  {
       const object_attributes = meta.object(this.props.object_type);
-    //  const object_fields = meta.fields(this.props.object_type);
+      const object_fields = meta.fields(this.props.object_type);
       const keys = meta.keys(this.props.object_type);
+      //alert ('create about type ' + this.state.create_object_type)
     //  const id = this.state["form_"+meta.keys(this.props.object_type).key_id]
     //  const pretty_name_field = meta.pretty_name_column(this.props.object_type)
       return (
@@ -79,7 +86,7 @@ class DrillDown extends React.Component {
           })}
 
           </List>
-          <Button  variant='outlined' size="small" color ="primary" onClick={this.handleCreateEditOpen}>
+          <Button  variant='outlined' size="small" color ="primary" onClick={()=> {this.setState({create_object_type: this.props.object_type, selected_id:""})}}>
                   Create {object_attributes.pretty_name}
           </Button>
 
@@ -87,14 +94,27 @@ class DrillDown extends React.Component {
         </Grid >
         <Grid item sm={10}>
         <Paper id = "pretty_key" style={{minHeight:600, padding:10}}>
+        {this.state.create_object_type && 
+          <CreateForm
+              object_type={this.props.object_type}
+              object_fields={object_fields}
+              object_attributes={object_attributes}
+              open="true"
+               onClose={this.handleDataChange}
+//              id={this.state.form_edit_id}
+           />
+        }
         {this.state.selected_id && 
             <ViewForm 
                 object_type = {this.props.object_type}
                 selected_id = {this.state.selected_id}
-            />} 
+            />}
+
         </Paper>
         </Grid>
       </Grid>
+
+
     
      )
    }
