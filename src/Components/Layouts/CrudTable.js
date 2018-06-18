@@ -392,6 +392,10 @@ class CrudTable extends Component {
                   create_form_open: false, 
                   force_data_refresh: true,
                   form_edit_id: ''});
+    if (this.props.onDataChange) {
+  //      alert ('Calling parent on data change')
+        this.props.onDataChange();
+    }
  };
  
  handleClearNotice = () => {

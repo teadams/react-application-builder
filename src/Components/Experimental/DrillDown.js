@@ -23,6 +23,7 @@ class DrillDown extends React.Component {
         }  
         this.handleClick = this.handleClick.bind(this);
         this.handleDataChange = this.handleDataChange.bind(this);
+        this.loadDrill = this.loadDrill.bind(this);
   }
   
   handleClick = (id, pretty_name) => {
@@ -34,23 +35,33 @@ class DrillDown extends React.Component {
   }
   // TODO - NAME?
    handleDataChange = value => {
-      this.setState({ create_object_form: false});
+    //  alert ("in drill data change")
+      this.setState({ create_object_form: false, refresh_drill: true});
    };
+  
+  loadDrill(deleted)  {
+    const grouping_object_type = this.props.grouping_object_type
+    var options = {}
+    if (grouping_object_type) {
+        const grouping_keys = meta.keys(grouping_object_type)
+        const order_by = grouping_object_type+'_'+grouping_keys.pretty_key_id
+        options.order_by = order_by
+   }
+
+    data.getData (this.props.object_type, options, (drill_data, error) => {
+            this.setState({ drill_data: drill_data, refresh_drill: false
+    })})
+  }
 
   componentDidMount() {
-      const grouping_object_type = this.props.grouping_object_type
-      var options = {}
-      if (grouping_object_type) {
-          const grouping_keys = meta.keys(grouping_object_type)
-          const order_by = grouping_object_type+'_'+grouping_keys.pretty_key_id
-          options.order_by = order_by
-     }
-
-      data.getData (this.props.object_type, options, (drill_data, error) => {
-              this.setState({ drill_data: drill_data
-      })})
+      this.loadDrill();
   } 
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+      if (this.state.refresh_drill) {
+        this.loadDrill();
+      }
+  }
 
   render()  {
       const object_attributes = meta.object(this.props.object_type);
@@ -135,6 +146,8 @@ class DrillDown extends React.Component {
               <CrudTable object_type={this.state.manage_object_type}
               object_attributes={meta.object(this.state.manage_object_type)}
               object_fields={meta.fields(this.state.manage_object_type)}
+              onDataChange= {this.handleDataChange}
+
               />
             }
           </Paper>
