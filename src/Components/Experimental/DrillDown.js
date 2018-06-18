@@ -4,7 +4,7 @@ import {TextField, Paper, Button, Grid, ListItem, List,  Typography} from '@mate
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import axios from 'axios';
-import {SelectField, CreateForm} from "../Layouts/index.js";
+import {SelectField, CreateForm, CrudTable} from "../Layouts/index.js";
 import {ViewForm} from "./index.js";
  
 
@@ -44,13 +44,15 @@ class DrillDown extends React.Component {
 
   handleClick = (id, pretty_name) => {
     this.setState ({
-        selected_id: id
+        selected_id: id,
+        create_object_form: false,
+        manage_object_type: ""
     })
   }
 
    handleDataChange = value => {
      console.log('in create close');
-      this.setState({ create_object_type: false});
+      this.setState({ create_object_form: false});
    };
 
   componentDidMount() {
@@ -64,7 +66,7 @@ class DrillDown extends React.Component {
       const object_attributes = meta.object(this.props.object_type);
       const object_fields = meta.fields(this.props.object_type);
       const keys = meta.keys(this.props.object_type);
-      //alert ('create about type ' + this.state.create_object_type)
+      //alert ('create about type ' + this.state.create_object_form)
     //  const id = this.state["form_"+meta.keys(this.props.object_type).key_id]
     //  const pretty_name_field = meta.pretty_name_column(this.props.object_type)
       return (
@@ -86,15 +88,19 @@ class DrillDown extends React.Component {
           })}
 
           </List>
-          <Button  variant='outlined' size="small" color ="primary" onClick={()=> {this.setState({create_object_type: this.props.object_type, selected_id:""})}}>
+          <Button  style={{marginBottom:10}} variant='outlined' size="small" color ="primary" onClick={()=> {this.setState({create_object_form: this.props.object_type, selected_id:""})}}>
                   Create {object_attributes.pretty_name}
           </Button>
-
+          {this.props.grouping_object_type &&
+            <Button  variant='outlined' size="small" color ="primary" onClick={()=> {this.setState({manage_object_type: this.props.grouping_object_type, selected_id:""})}}>
+                    Manage {meta.object(this.props.grouping_object_type).pretty_plural}
+          </Button>    
+          }
           </Paper>
         </Grid >
         <Grid item sm={10}>
         <Paper id = "pretty_key" style={{minHeight:600, padding:10}}>
-        {this.state.create_object_type && 
+        {this.state.create_object_form && 
           <CreateForm
               object_type={this.props.object_type}
               object_fields={object_fields}
@@ -109,6 +115,13 @@ class DrillDown extends React.Component {
                 object_type = {this.props.object_type}
                 selected_id = {this.state.selected_id}
             />}
+
+        {this.state.manage_object_type && 
+          <CrudTable object_type={this.state.manage_object_type}
+          object_attributes={meta.object(this.state.manage_object_type)}
+          object_fields={meta.fields(this.state.manage_object_type)}
+          />
+        }
 
         </Paper>
         </Grid>

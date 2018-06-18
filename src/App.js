@@ -215,6 +215,7 @@ class App extends Component {
         {meta_menu.component == "DrillDown" &&
           <DrillDown  
             object_type = {meta_menu.object_type}
+            grouping_object_type = {meta_menu.grouping_object_type}
           />
         }  
 
