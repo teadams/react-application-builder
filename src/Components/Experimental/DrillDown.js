@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { Component, Fragment} from 'react';
+
+//import React from 'react';
 //import { Button } from 'material-ui';
 import {TextField, Paper, Button, Grid, ListItem, List,  Typography} from '@material-ui/core'
 import * as log from '../../Utils/log.js'
@@ -54,6 +56,13 @@ class DrillDown extends React.Component {
       const object_attributes = meta.object(this.props.object_type);
       const object_fields = meta.fields(this.props.object_type);
       const keys = meta.keys(this.props.object_type);
+      const grouping_object_type = this.props.grouping_object_type;
+      var grouping_column = ""
+      var current_grouping = ""
+      if (grouping_object_type) {
+          const grouping_keys = meta.keys(grouping_object_type)
+          grouping_column = grouping_object_type+'_'+grouping_keys.pretty_key_id 
+      }
 
       return (
         <Grid container spacing="8" sm={12}>
@@ -64,13 +73,36 @@ class DrillDown extends React.Component {
             </Typography>
             <List component="nav">
               {this.state.drill_data && this.state.drill_data.map(row => {    
-                return (
+                if (grouping_object_type) { 
+                  if (current_grouping != row[grouping_column]) {
+                      current_grouping = row[grouping_column]
+                      return(<Fragment>
+                            <Typography style={{marginLeft:10}} align="left" variant="title">{ row[grouping_column]}</Typography>
+                            <ListItem dense button onClick={() => this.handleClick(row[keys.key_id], row[keys.pretty_key_id])}>
+                              {(row[keys.key_id] === this.state.selected_id) ?
+                                <Typography color='primary' variant='title'>{row[keys.pretty_key_id]} </Typography>
+                                : <Typography variant="body2">{row[keys.pretty_key_id]}</Typography>
+                              }
+                              </ListItem>
+                             </Fragment>
+                            )
+                  } else {
+                    return(<ListItem dense button onClick={() => this.handleClick(row[keys.key_id], row[keys.pretty_key_id])}>
+                      {(row[keys.key_id] === this.state.selected_id) ?
+                        <Typography color='primary' variant='title'>{row[keys.pretty_key_id]} </Typography>
+                        : <Typography variant="body2">{row[keys.pretty_key_id]}</Typography>
+                      }
+                      </ListItem>)
+                  }
+                } else {
+                  return (
                   <ListItem dense button onClick={() => this.handleClick(row[keys.key_id], row[keys.pretty_key_id])}>
                     {(row[keys.key_id] === this.state.selected_id) ?
                       <Typography color='primary' variant='headline'>{row["service_category_name"]} </Typography>
-                      : <Typography>{row["service_category_name"]} {row[keys.pretty_key_id]}</Typography>
+                      : <Typography>{row[keys.pretty_key_id]}</Typography>
                     }
                     </ListItem> )
+                }
               })}
             </List>
             <Button  style={{marginBottom:10}} variant='outlined' size="small" color ="primary" onClick={()=> {this.setState({create_object_form: this.props.object_type, selected_id:""})}}>
