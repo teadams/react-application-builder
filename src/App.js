@@ -135,7 +135,8 @@ class App extends Component {
                         filter_id : link_filter_id?link_filter_id:""
                       });
           }
-      }               
+      }
+    this.handleDrawerClose();               
   }
     
   render() {    
