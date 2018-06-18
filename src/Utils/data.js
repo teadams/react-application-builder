@@ -7,6 +7,10 @@ export function getData (object_type, options, callback)   {
   if (options.id) {
     urltext += '/'+options.id
   }
+  if (options.order_by) {
+    urltext += "?order_by="+options.order_by
+  }
+
   axios({
    method: 'get',
    url: urltext,
