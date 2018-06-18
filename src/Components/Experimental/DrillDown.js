@@ -3,27 +3,12 @@ import React from 'react';
 import {TextField, Paper, Button, Grid, ListItem, List,  Typography} from '@material-ui/core'
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
+import * as data from '../../Utils/data.js';
+
 import axios from 'axios';
 import {SelectField, CreateForm, CrudTable} from "../Layouts/index.js";
 import {ViewForm} from "./index.js";
  
-
-
-function getData (object_type, options, callback)   {
-  var urltext = '/api/v1/' + object_type;
-  if (options.id) {
-    urltext += '/'+options.id
-  }
-  axios({
-   method: 'get',
-   url: urltext,
- }).then(results => {
-      callback(results.data,"");
-  }).catch(error => {
-    log.val('in catch error', error.message)
-    callback('', error);
-  })
-}
 
 
 class DrillDown extends React.Component {
@@ -41,7 +26,6 @@ class DrillDown extends React.Component {
 
   }
   
-
   handleClick = (id, pretty_name) => {
     this.setState ({
         selected_id: id,
@@ -56,7 +40,7 @@ class DrillDown extends React.Component {
    };
 
   componentDidMount() {
-      getData (this.props.object_type, "", (drill_data, error) => {
+      data.getData (this.props.object_type, "", (drill_data, error) => {
               this.setState({ drill_data: drill_data
       })})
 } 
