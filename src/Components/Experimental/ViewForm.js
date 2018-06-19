@@ -5,8 +5,8 @@ import axios from 'axios';
 import { withStyles } from '@material-ui/core/styles';
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
-import {SelectField} from "../Layouts/index.js";
-
+import {SelectField, EditButton} from "../Layouts/index.js";
+import {MappingForm} from "./index.js"
 
 
 function getData (object_type, options, callback)   {
@@ -39,6 +39,7 @@ class ViewForm extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.handleDBUpdate = this.handleDBUpdate.bind(this);
+    this.handleMappingClose = this.handleMappingClose.bind(this);
     this.renderField = this.renderField.bind(this);
 
   } 
@@ -97,6 +98,12 @@ class ViewForm extends React.Component {
       }
   }  
 
+  handleMappingClose = field => {
+//      alert('in maping close ' + field)
+      this.setState({mapping_open:false});
+  }
+
+  
   handleChange = name => event => {
       const target = event.target;
       const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -141,6 +148,11 @@ class ViewForm extends React.Component {
                 new_state["form_changed_"+field_name] = false;
                 new_state["form_underlined_" + field_name ] = false;
                 this.setState(new_state);
+                if (field_name == this.props.grouping_field_name || field_name == meta.keys(object_type).pretty_key_id) {
+//                  alert("field name, grouping field "  + field_name + ' ' + this.props.grouping_field_name)
+                    this.props.onDataChange();
+
+                }
             }).catch(error => {
               alert ('error is ' + error.message)
       });
@@ -156,9 +168,18 @@ class ViewForm extends React.Component {
 
     if (field.name != keys.key_id && field.name != keys.pretty_key_id) {
         var disable_underline = !this.state["form_underlined_" + field.name]
-        if (field.valid_values || field.references || field.data_type === "boolean" || (field.data_type === "integer" && field.input_type !== "text" || field.input_type === "color_picker")) {
+          if (field.mapping) {
+            return(
+              <Grid item style={{padding:10, boxBorder:"border-box"}}  sm={grid_col}>
+                <Typography style={{padding:0, border:0}}>{field.pretty_name}
+               <EditButton size="small" onClick={()=>{this.setState({mapping_open:true, mapping_field_name:field.name})}} value={field.name}/>
+                </Typography>
+              </Grid>
+              )
+
+          }  else if (field.valid_values || field.references || field.data_type === "boolean" || (field.data_type === "integer" && field.input_type !== "text" || field.input_type === "color_picker")) {
           return (            
-          <Grid item  sm={grid_col}>
+          <Grid item style={{padding:10, boxBorder:"border-box"}}  sm={grid_col}>
               <form onSubmit={this.handleSubmit(field.name)}  id={id+'-'+field.name}>
                 <SelectField 
                    key={field.name}           
@@ -181,10 +202,9 @@ class ViewForm extends React.Component {
         )  
     } else {
       return (
-        <Grid item sm={grid_col}>
+        <Grid item style={{padding:10, boxBorder:"border-box"}} sm={grid_col}>
             <form onSubmit={this.handleSubmit(field.name)}  id={id+'-'+field.name}>
                   <TextField    
-                  margin="normal"
                   InputProps={{disableUnderline:disable_underline}}
                   InputLabelProps={{shrink:true}}
                   name={field.name}
@@ -215,6 +235,16 @@ class ViewForm extends React.Component {
   //  alert ('render with selected id ' + this.props.selected_id)
     return (
       <Fragment>
+      {this.state.mapping_open &&
+        <MappingForm 
+          open={this.state.mapping_open}
+          onClose={this.handleMappingClose}
+          object_type={this.props.object_type}
+          mapping_field_name = {this.state.mapping_field_name}
+          mapping_field_value = {id}
+          mapping_field_pretty_name ={this.state["form_" + pretty_name_field]}
+        />}
+
       {this.state.pretty_name_edit ? 
         <form onSubmit={this.handleSubmit(pretty_name_field)}
         id={id+'-'+this.state.item_data[keys.pretty_key_id]}>

@@ -232,7 +232,7 @@ class CrudTable extends Component {
   }
   
   handleEditRender(index, value, updateValue) {
-      return <EditButton size="small" onClick={this.handleCreateEditOpen} index={index} row={this.state.data[index]}/>
+      return <EditButton size="small" onClick={this.handleCreateEditOpen} value={index} row={this.state.data[index]}/>
   }
   
   handleDeleteRender(index, value, updateValue) {

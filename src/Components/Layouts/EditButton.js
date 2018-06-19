@@ -13,7 +13,7 @@ class EditButton extends React.Component {
   
 
   handleOnClick = event => {
-    this.props.onClick(event, this.props.index);
+    this.props.onClick(event, this.props.value);
   }
 
   render() {

@@ -11,6 +11,7 @@ export function object(object_type) {
 
 export function fields(object_type) {
 //    log.val('meta fields for ', object_type);
+//alert ('fields object type ' + object_type)
     return metadata_fields[object_type];
 }
 
@@ -135,4 +136,14 @@ export function section_fields (object_type, section_name) {
         return false
       }}
     )
+}
+
+export function unmapped_field (mapping_object_type, unmapped_field_name) {
+  //      alert ('meta function mapping ojbect type is ' + mapping_object_type)
+  //      alert ("field is " + JSON.stringify(fields(mapping_object_type)))
+    return fields(mapping_object_type).filter ( field => {
+      if (field.name != unmapped_field_name && field.map_field ) {
+          return true
+      } 
+    })[0]
 }

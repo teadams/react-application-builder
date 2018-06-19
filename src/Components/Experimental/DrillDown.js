@@ -6,7 +6,6 @@ import {TextField, Paper, Button, Grid, ListItem, List,  Typography} from '@mate
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import * as data from '../../Utils/data.js';
-
 import {SelectField, CreateForm, CrudTable} from "../Layouts/index.js";
 import {ViewForm} from "./index.js";
  
@@ -161,6 +160,8 @@ class DrillDown extends React.Component {
               <ViewForm 
                   object_type = {this.props.object_type}
                   selected_id = {this.state.selected_id}
+                  grouping_field_name = {this.props.grouping_field_name}
+                  onDataChange = {this.handleDataChange}
               />}
             {this.state.manage_object_type && 
               <CrudTable object_type={this.state.manage_object_type}

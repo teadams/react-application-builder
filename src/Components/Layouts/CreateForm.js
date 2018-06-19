@@ -35,6 +35,8 @@ class CreateForm extends React.Component {
             if (field.name == nextProps.filter_field) {
               log.func("Passed in filter id","field, filter_field, filter_id", field, nextProps.filter_field, nextProps.filter_id)
               formValues[field.name] = nextProps.filter_id
+            } else if (field.default) {
+              formValues[field.name] = field.default
             } else {
               formValues[field.name] = ""
             }
