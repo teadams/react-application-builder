@@ -19,7 +19,7 @@ const styles = theme => ({
   width: drawerWidth,
   justifyContent: 'flex-start',
   alignItems: 'left',
-  height:600
+  height:800
 
 },
 'appShift-left': {
@@ -150,7 +150,7 @@ class App extends Component {
 //    alert ('menu ' + JSON.stringify(meta_menu))
     const filter_field = meta.field(meta_menu.object_type, meta_menu.filter_field);
     return <Fragment>
-     <Paper style={{ padding:10, marginTop:10, marginBottom:0, minHeight:600, position:'relative'}}>
+     <Paper style={{ padding:10, marginTop:10, marginBottom:0, minHeight:800, position:'relative'}}>
      {drawer_open && hamburger_menu_p &&
      <div style={{ position:"absolute"}}>
      <Drawer 

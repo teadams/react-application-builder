@@ -1,4 +1,4 @@
-import {app_params, metadata_menus, metadata_fields, metadata_object_types} from '../Models/Test';
+import {app_params, metadata_menus, metadata_fields, metadata_object_types, metadata_sections} from '../Models/Test';
 import * as log from './log.js';
 
 export function object(object_type) {
@@ -120,4 +120,19 @@ export function get_index (array_name, field_name, field_value) {
   }, "")
   
   return index
+}
+
+
+export function sections(object_type) {
+    return metadata_sections[object_type]
+}
+
+export function section_fields (object_type, section_name) {
+    return fields(object_type).filter (field => {
+      if (field.section === section_name || !field.section && !section_name) {
+        return true
+      } else {
+        return false
+      }}
+    )
 }

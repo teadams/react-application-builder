@@ -93,6 +93,7 @@ class DrillDown extends React.Component {
         } 
 //        alert ('grouping columns is ' + grouping_column)
       }
+//      alert (JSON.stringify(meta.section_fields (this.props.object_type,"")))
 
       return (
         <Grid container spacing="8" sm={12}>
@@ -172,9 +173,7 @@ class DrillDown extends React.Component {
           </Paper>
         </Grid>
         </Grid>
-
-
-    
+  
      )
    }
 }
