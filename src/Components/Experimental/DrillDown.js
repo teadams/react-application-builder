@@ -39,13 +39,22 @@ class DrillDown extends React.Component {
       this.setState({ create_object_form: false, refresh_drill: true});
    };
   
-  loadDrill(deleted)  {
-    const grouping_object_type = this.props.grouping_object_type
+  loadDrill()  {
+    const grouping_field_name = this.props.grouping_field_name
     var options = {}
-    if (grouping_object_type) {
-        const grouping_keys = meta.keys(grouping_object_type)
-        const order_by = grouping_object_type+'_'+grouping_keys.pretty_key_id
-        options.order_by = order_by
+    if (grouping_field_name) {
+      //  alert ('creating order by')
+        const grouping_field = meta.field(this.props.object_type, grouping_field_name)
+        if (grouping_field.references) {
+          const grouping_object_type = grouping_field.references
+          const grouping_keys = meta.keys(grouping_object_type)
+      //    alert ('groupting object type and keys' + grouping_object_type + ' ' + JSON.stringify(grouping_keys))
+          const order_by = grouping_object_type+'_'+grouping_keys.pretty_key_id
+    //      alert ('order by is ' + JSON.stringify(order_by))
+          options.order_by = order_by
+        } else {
+          options.order_by = this.props.object_type + "." +grouping_field_name
+        }
    }
 
     data.getData (this.props.object_type, options, (drill_data, error) => {
@@ -67,12 +76,22 @@ class DrillDown extends React.Component {
       const object_attributes = meta.object(this.props.object_type);
       const object_fields = meta.fields(this.props.object_type);
       const keys = meta.keys(this.props.object_type);
-      const grouping_object_type = this.props.grouping_object_type;
+    //  alert ("groping field is " + this.props.grouping_field_name)
+      const grouping_field_name = this.props.grouping_field_name;
       var grouping_column = ""
       var current_grouping = ""
-      if (grouping_object_type) {
+      var grouping_object_type = ""
+      if (grouping_field_name) {
+        const grouping_field = meta.field(this.props.object_type, grouping_field_name)
+        if (grouping_field.references) {
+           grouping_object_type = grouping_field.references
+   //alert ('grouping object type is ' + grouping_object_type)
           const grouping_keys = meta.keys(grouping_object_type)
-          grouping_column = grouping_object_type+'_'+grouping_keys.pretty_key_id 
+          grouping_column = grouping_field_name+'_'+grouping_keys.pretty_key_id 
+        } else {
+          grouping_column = grouping_field_name
+        } 
+//        alert ('grouping columns is ' + grouping_column)
       }
 
       return (
@@ -84,11 +103,11 @@ class DrillDown extends React.Component {
             </Typography>
             <List component="nav">
               {this.state.drill_data && this.state.drill_data.map(row => {    
-                if (grouping_object_type) { 
-                  if (current_grouping != row[grouping_column]) {
-                      current_grouping = row[grouping_column]
+                if (grouping_field_name) { 
+                  if (current_grouping != row[grouping_column].toString()) {
+                      current_grouping = row[grouping_column].toString()
                       return(<Fragment>
-                            <Typography style={{marginLeft:10}} align="left" variant="title">{ row[grouping_column]}</Typography>
+                            <Typography style={{marginLeft:10}} align="left" variant="title">{ row[grouping_column].toString()}</Typography>
                             <ListItem dense button onClick={() => this.handleClick(row[keys.key_id], row[keys.pretty_key_id])}>
                               {(row[keys.key_id] === this.state.selected_id) ?
                                 <Typography color='primary' variant='title'>{row[keys.pretty_key_id]} </Typography>
@@ -98,7 +117,7 @@ class DrillDown extends React.Component {
                              </Fragment>
                             )
                   } else {
-                    return(<ListItem dense button onClick={() => this.handleClick(row[keys.key_id], row[keys.pretty_key_id])}>
+                    return(<ListItem dense button onClick={() => this.handleClick(row[keys.key_id], row[keys.pretty_key_id])}> 
                       {(row[keys.key_id] === this.state.selected_id) ?
                         <Typography color='primary' variant='title'>{row[keys.pretty_key_id]} </Typography>
                         : <Typography variant="body2">{row[keys.pretty_key_id]}</Typography>
@@ -119,9 +138,9 @@ class DrillDown extends React.Component {
             <Button  style={{marginBottom:10}} variant='outlined' size="small" color ="primary" onClick={()=> {this.setState({create_object_form: this.props.object_type, selected_id:""})}}>
                     Create {object_attributes.pretty_name}
             </Button>
-            {this.props.grouping_object_type &&
-              <Button  variant='outlined' size="small" color ="primary" onClick={()=> {this.setState({manage_object_type: this.props.grouping_object_type, selected_id:""})}}>
-                      Manage {meta.object(this.props.grouping_object_type).pretty_plural}
+            {grouping_object_type &&
+              <Button  variant='outlined' size="small" color ="primary" onClick={()=> {this.setState({manage_object_type: grouping_object_type, selected_id:""})}}>
+                      Manage   {meta.object(grouping_object_type).pretty_plural}
             </Button>    
             }
           </Paper>
