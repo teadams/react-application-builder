@@ -68,7 +68,7 @@ class MappingForm extends React.Component {
       });
     } else {
         const id = event.target.id;
-        alert ('id is ' +event.target.id)
+    //    alert ('id is ' +event.target.id)
         var urltext = '/api/v1/' + mapping_object_type + '/' + id;
       axios({
           method: 'delete',
@@ -158,7 +158,7 @@ class MappingForm extends React.Component {
     var current_grouping = ""
     var grouping_text = ""
     if (mapping_field.grouping_field_name) {
-      grouping_column =  meta.grouping_column(this.props.object_type, mapping_field.grouping_field_name)
+      grouping_column =  meta.grouping_column_info(this.props.object_type, mapping_field.grouping_field_name)[0]
     } 
 //    alert ('grouping column is ' + grouping_column)
     if (!open) {

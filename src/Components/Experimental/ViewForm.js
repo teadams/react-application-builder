@@ -176,6 +176,8 @@ class ViewForm extends React.Component {
             const mapped_field_name = field.mapped_field;
             const unmapped_field = meta.unmapped_field(mapping_object_type, mapped_field_name)
             const other_mapped_table = unmapped_field.references;  
+      
+//      alert ('grouping columns is ' + grouping_column)
         //    alert ('mapping object type'+mapping_object_type)
         //    alert ('mapepd field name ' + mapped_field_name)
         //    alert (' unmapped_field ' + JSON.stringify(unmapped_field))
@@ -186,9 +188,11 @@ class ViewForm extends React.Component {
                <EditButton size="small" onClick={()=>{this.setState({mapping_open:true, mapping_field_name:field.name})}} value={field.name}/><div>
                 {this.state["form_" + field.name] &&
                     this.state["form_" + field.name].map(row => {
+  
 //                    alert('alert is ' + JSON.stringify(row[meta.keys[other_mapped_table].pretty_key_id
   //alert ('field is ' + unmapped_field.name +"_"+ meta.keys(other_mapped_table).pretty_key_id)
-                      return (<Chip label={row[unmapped_field.name +"_" + meta.keys(other_mapped_table).pretty_key_id]} />)
+                      
+                      return (<Chip label={row[unmapped_field.name +"_" + meta.keys(other_mapped_table).pretty_key_id]}/>)
                     })
                 }
                 </div>

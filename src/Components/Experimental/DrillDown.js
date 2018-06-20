@@ -82,7 +82,10 @@ class DrillDown extends React.Component {
       var grouping_object_type = ""
     //  alert ('before render')
       if (grouping_field_name) {
-          grouping_column =  meta.grouping_column(this.props.object_type, grouping_field_name)
+          const grouping_column_info = meta.grouping_column_info(this.props.object_type, grouping_field_name)
+//          alert ("grouping column info " +grouping_column_info)
+          grouping_column =  grouping_column_info[0]
+          grouping_object_type = grouping_column_info[1]
       }
       //alert ('grouping column is ' + grouping_column)
 //      alert (JSON.stringify(meta.section_fields (this.props.object_type,"")))
