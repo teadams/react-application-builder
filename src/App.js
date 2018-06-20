@@ -19,7 +19,7 @@ const styles = theme => ({
   width: drawerWidth,
   justifyContent: 'flex-start',
   alignItems: 'left',
-  height:800
+  height:600
 
 },
 'appShift-left': {
@@ -116,16 +116,21 @@ class App extends Component {
              method: 'get',
              url: urltext,
            }).then(results => {
-             log.val("results", results.data[0])
-             filter_id = results.data[0][filter_key_id]
-             log.val("filter id, filter_field", filter_id, link_filter_field)
-             this.setState({selected_menu: selected_menu,
+             log.val("results", results.data)
+              if (results.data.length > 0) {
+                filter_id = results.data[0][filter_key_id]
+            } else {
+                filter_id = ""
+            }
+                log.val("filter id, filter_field", filter_id, link_filter_field)
+                this.setState({selected_menu: selected_menu,
                           selected_menu_type: menu_type,
                            object_type : meta_menu.object_type,
                            filter_id : filter_id
                          });
+              
            }).catch(error => {
-              console.log("error")
+              console.log("error " +error.message)
            })
     
         } else {
@@ -179,8 +184,8 @@ class App extends Component {
     </div>
     }
     <div  className={classNames( {[classes[`appShift-left`]]: drawer_open})}>
-       
-     <AppBar position="relative">
+
+     <AppBar position="sticky">
         <Toolbar>  
         {hamburger_menu_p &&
         <IconButton style={{ marginLeft: -12, marginRight: 20}} color="inherit"  onClick={this.handleDrawerOpen}>
@@ -202,6 +207,7 @@ class App extends Component {
           centered
        >
        {meta.get_menu("app_menu").map(menu=> {
+          log.val("menu before tab", menu)
           return <Tab key={menu.index} label={menu.label}/>
        })}
         </Tabs>

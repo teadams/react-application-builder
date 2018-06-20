@@ -135,13 +135,18 @@ class CrudTable extends Component {
        var table_column = {};
        table_column.name = field.pretty_name;
        table_column.database_id_column = field.name;
+
        table_column.database_name = field.name;
        table_column.valid_values = field.valid_values;
        table_column.references = field.references;
+       if (field.references) {
+          
+          table_column.database_id_column = field.name + '_' + meta.keys(field.references).pretty_key_id
+          table_column.database_name = field.name + '_' + meta.keys(field.references).pretty_key_id
+       }
        table_column.menu_link = field.menu_link;
        table_column.menu_link_field = field.menu_link_field;
        table_column.menu_link_reference_field = field.menu_link_reference_field;
-  
 
        table_column.options  = {};
        if (field.menu_link) {
@@ -457,7 +462,7 @@ class CrudTable extends Component {
   }
    
  render() {
-  // log.func("crud render",'object_attributes, object_type, notice_open', this.props.object_attributes, this.props.object_type, this.state.notice_open);
+   log.func("crud render",'object_attributes, object_type, notice_open', this.props.object_attributes, this.props.object_type, this.state.notice_open);
  //alert('props ' + JSON.stringify(this.props))
 
     return (

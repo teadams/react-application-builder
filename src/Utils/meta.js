@@ -1,4 +1,4 @@
-import {app_params, metadata_menus, metadata_fields, metadata_object_types, metadata_sections} from '../Models/Test';
+import {app_params, metadata_menus, metadata_fields, metadata_object_types, metadata_sections} from '../Models/Interface';
 import * as log from './log.js';
 
 export function object(object_type) {

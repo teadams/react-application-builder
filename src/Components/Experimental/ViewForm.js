@@ -9,8 +9,6 @@ import {SelectField, EditButton} from "../Layouts/index.js";
 import {MappingForm} from "./index.js"
 import * as data from '../../Utils/data.js';
 
-
-
 class ViewForm extends React.Component {
 
   constructor(props) {
@@ -160,13 +158,15 @@ class ViewForm extends React.Component {
       });
   }
 
-  renderField(field, grid_col) {
+  renderField(field) {
     const object_attributes = meta.object(this.props.object_type);
     const object_fields = meta.fields(this.props.object_type);
     const keys = meta.keys(this.props.object_type);
     const id = this.state["form_"+meta.keys(this.props.object_type).key_id]
     const pretty_name_field = meta.pretty_name_column(this.props.object_type)
-    grid_col = grid_col?grid_col:4
+    const grid_col = field.grid_col?field.grid_col:4
+    const width= grid_col * 70
+    const multiline = (field.size=="large")?true:false
 
     if (field.name != keys.key_id && field.name != keys.pretty_key_id) {
         var disable_underline = !this.state["form_underlined_" + field.name]
@@ -218,7 +218,7 @@ class ViewForm extends React.Component {
                    open="true"
                    onBlur={this.handleSubmit(field.name)}
                    onChange={this.handleChange(field.name)}
-                   style={{width:200}}/> 
+                   style={{width:width}}/> 
               </form>
             </Grid>
           
@@ -233,11 +233,13 @@ class ViewForm extends React.Component {
                   name={field.name}
                   label={field.pretty_name}
                   type="text"
+                  multiline={multiline}
                   helperText={field.helper_text}
                   value=  {this.state["form_"+field.name]}
                   onFocus={this.handleFocus}
                   onChange={this.handleChange(field.name)}
                   onBlur={this.handleSubmit(field.name)}
+                  style={{width:width}}
                  />
             </form>
        </Grid>
@@ -280,7 +282,7 @@ class ViewForm extends React.Component {
         onBlur={this.handleSubmit(pretty_name_field)}
         />
       </form>
-          : <Typography onClick={()=>{this.setState({pretty_name_edit:true})}} variant="headline" gutterBottom>{this.state["form_" + pretty_name_field]} </Typography>} 
+          : <Typography  style= {{textTransform:"capitalize"}}  onClick={()=>{this.setState({pretty_name_edit:true})}} variant="headline" gutterBottom>{this.state["form_" + pretty_name_field]} </Typography>} 
       <Grid container alignItems="stretch"   direction={flex_direction} wrap="wrap" sm={12}>
       {this.state.item_data && !sections && object_fields.map(field => {
 //  alert ('trying to render '+ field.name)
@@ -298,7 +300,7 @@ class ViewForm extends React.Component {
                   <Paper style={{boxSizing:"border-box", padding:10, height:"100%"}}>
                     <Typography variant="title" > {section.title} </Typography>
                     <Divider style={{marginBottom:10}}/>
-                    <Grid container sm={12}>
+                    <Grid container >
                     {field_render}
                     </Grid>
                   </Paper>

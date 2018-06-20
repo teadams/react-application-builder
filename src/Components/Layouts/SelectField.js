@@ -81,16 +81,16 @@ class SelectField extends React.Component {
       const { open, field} = this.props;
       
       if (open)  {
-          if (this.props.field.valid_values) {
+          if (field && this.props.field.valid_values) {
               var select_menu_options = this.props.valid_values.split(",").map(value=>{
                   return [value, value];
               })
               this.setState({ select_menu_options: select_menu_options})
-          } else if (field.data_type == "boolean") {
+          } else if (field && field.data_type == "boolean") {
                 var select_menu_options = [[true, "Yes"], [false, "No"]]
                 this.setState({ select_menu_options: select_menu_options})
 
-          } else if (field.data_type == "integer") {
+          } else if (field && field.data_type == "integer") {
             var select_menu_options = []
             const start_value = field.start_value?field.start_value:0
             const end_value = field.end_value?field.end_value:10
@@ -100,7 +100,7 @@ class SelectField extends React.Component {
                 select_menu_options.push ([i,i]);
             }
             this.setState({ select_menu_options: select_menu_options})
-          } else if (field.input_type === "color_picker") {
+          } else if (field && field.input_type === "color_picker") {
               var select_menu_options = [];
               select_menu_options.push (["red", "red"]);
               select_menu_options.push (["green", "green"]);
