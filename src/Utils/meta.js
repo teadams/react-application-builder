@@ -147,3 +147,17 @@ export function unmapped_field (mapping_object_type, unmapped_field_name) {
       } 
     })[0]
 }
+
+export function grouping_column(object_type, grouping_field_name) {
+  // returns the appropriate grouping field name 
+  // (which is dependent if the grouping_field_name is a reference or not)
+  const grouping_field = field(object_type, grouping_field_name)
+  if (grouping_field.references) {
+    const  grouping_object_type = grouping_field.references
+  //alert ('grouping object type is ' + grouping_object_type)
+    const grouping_keys = keys(grouping_object_type)
+    return ( grouping_field_name+'_'+grouping_keys.pretty_key_id )
+  } else {
+    return ( grouping_field_name )
+  } 
+}
