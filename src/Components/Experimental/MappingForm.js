@@ -37,7 +37,8 @@ class MappingForm extends React.Component {
     const mapping_object_type = mapping_field.mapping;
     const mapped_field_name = mapping_field.mapped_field;
     const unmapped_field = meta.unmapped_field(mapping_object_type, mapped_field_name)
-    const other_mapped_table = unmapped_field.references;  
+    const other_mapped_table = unmapped_field.references; 
+
     //  alert ('mapped keys is ' + JSON.stringify(meta.keys(other_mapped_table)))
 //    const key_id = meta.keys(other_mapped_table).key_id;
   //  alert ('unampped_field_id  '+ unmapped_field_id)
@@ -153,6 +154,13 @@ class MappingForm extends React.Component {
     const other_mapped_table = unmapped_field.references;
     const other_mapped_keys = meta.keys(other_mapped_table)
   //  alert ('other mapped keys is ' +JSON.stringify(other_mapped_keys))
+    var grouping_column = ""
+    var current_grouping = ""
+    var grouping_text = ""
+    if (mapping_field.grouping_field_name) {
+      grouping_column =  meta.grouping_column(this.props.object_type, mapping_field.grouping_field_name)
+    } 
+//    alert ('grouping column is ' + grouping_column)
     if (!open) {
       return "";
     }
@@ -162,10 +170,22 @@ class MappingForm extends React.Component {
       <Dialog open={this.props.open}  onClose={this.handleClose}  aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">{mapping_field.pretty_name}: {mapping_field_pretty_name}</DialogTitle>
           <DialogContent>
-            <DialogContentText>          </DialogContentText> <FormGroup row>        
+            <DialogContentText>          </DialogContentText>       
           {this.state.other_mapped_data && 
             this.state.other_mapped_data.map(row => {
+              if(grouping_column && row[grouping_column] !== current_grouping) {
+                grouping_text = row[grouping_column]
+                current_grouping = row[grouping_column] 
+              } else {
+                  grouping_text = ""
+              }
+                
                 return (
+                        <Fragment>
+                        {grouping_text &&
+                          <Fragment><br/>
+                          <Typography>{grouping_text}</Typography></Fragment>
+                        }
                        <FormControlLabel
                          control={
                            <Checkbox
@@ -176,11 +196,11 @@ class MappingForm extends React.Component {
                            />
                          }
                          label={row[other_mapped_keys.pretty_key_id]}
-                       />)
+                       /></Fragment>)
             }
           )
         }
-          </FormGroup>
+          
           
           </DialogContent>
       
