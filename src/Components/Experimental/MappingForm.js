@@ -52,16 +52,16 @@ class MappingForm extends React.Component {
               url: urltext,
               data: { data_object }
           }).then (result => {
-            alert("result of insert is " + JSON.stringify(result.data))
+          //  alert("result of insert is " + JSON.stringify(result.data))
       
               var inserted_id = result.data.rows[0][meta.keys(mapping_object_type).key_id]
-          alert('inserted id is' + inserted_id)
+        //  alert('inserted id is' + inserted_id)
           
     //        alert ("handle change for unmapped id " + unmapped_field+ " " + true)
             this.setState({["form_"+unmapped_field_id]: true,
                             ["form_map_id_" + unmapped_field_id]: inserted_id 
-                          });
           
+                          });
           }).catch(error => {
             alert ('error is ' + error.message)
       });
@@ -84,7 +84,7 @@ class MappingForm extends React.Component {
 
   handleClose(event) {
   //    alert ("mapping handle close")
-      this.props.onClose(this.props.mapping_field);
+      this.props.onClose(this.props.mapping_field_name);
   };
 
   componentDidMount() {

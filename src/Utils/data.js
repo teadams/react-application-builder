@@ -4,6 +4,7 @@ import axios from 'axios';
 
 export function getData (object_type, options, callback)   {
   var urltext = '/api/v1/' + object_type;
+
   //alert ('options  ' + JSON.stringify(options))
   if (options.id) {
     urltext += '/'+options.id
@@ -20,7 +21,7 @@ export function getData (object_type, options, callback)   {
   }
 // alert (' param clause is ' + param_clause)
   urltext += "?"+param_clause.join("&")
-//alert ('urltext ' + urltext)
+// alert ('urltext ' + urltext)
   axios({
    method: 'get',
    url: urltext,

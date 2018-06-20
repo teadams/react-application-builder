@@ -1,29 +1,14 @@
 //import {React, Fragment} from 'react';
 import React, { Component, Fragment} from 'react';
-import { Typography, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper } from '@material-ui/core';
+import { Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper } from '@material-ui/core';
 import axios from 'axios';
 import { withStyles } from '@material-ui/core/styles';
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import {SelectField, EditButton} from "../Layouts/index.js";
 import {MappingForm} from "./index.js"
+import * as data from '../../Utils/data.js';
 
-
-function getData (object_type, options, callback)   {
-  var urltext = '/api/v1/' + object_type;
-  if (options.id) {
-    urltext += '/'+options.id
-  }
-  axios({
-   method: 'get',
-   url: urltext,
- }).then(results => {
-      callback(results.data,"");
-  }).catch(error => {
-    log.val('in catch error', error.message)
-    callback('', error);
-  })
-}
 
 
 class ViewForm extends React.Component {
@@ -41,7 +26,8 @@ class ViewForm extends React.Component {
     this.handleDBUpdate = this.handleDBUpdate.bind(this);
     this.handleMappingClose = this.handleMappingClose.bind(this);
     this.renderField = this.renderField.bind(this);
-
+    this.loadData = this.loadData.bind(this);
+    this.loadMappedData = this.loadMappedData.bind(this);
   } 
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -69,37 +55,53 @@ class ViewForm extends React.Component {
     return null
   }
 
-  componentDidMount() {
-    getData (this.props.object_type, {id:this.props.selected_id}, (item_data, error) => { 
+  loadData() {
+    data.getData (this.props.object_type, {id:this.props.selected_id}, (item_data, error) => { 
           var new_state = {};
+//          alert ("get data")
           new_state.item_data = item_data;
           meta.fields(this.props.object_type).map(field => {
-            new_state["form_" + field.name] = (item_data[field.name] !== null)?item_data[field.name]:""
-            new_state["form_changed_" + field.name] = false
-            new_state["form_underlined_" + field.name] =  (item_data[field.name]===null || item_data[field.name===""])?true:false
-          })
+            if (!field.mapping) {
+              new_state["form_" + field.name] = (item_data[field.name] !== null)?item_data[field.name]:""
+              new_state["form_changed_" + field.name] = false
+              new_state["form_underlined_" + field.name] =  (item_data[field.name]===null || item_data[field.name===""])?true:false
+          } else {
+//              alert ('new get data for ' + this.props.selected_id)
+                this.loadMappedData(field);
+          }})
           this.setState(new_state)
-    }) 
+    })   
+  }
+
+  loadMappedData(field) {
+    var options = {}
+    options.filter_field = field.mapped_field
+    options.filter_id = this.props.selected_id;
+    options.key_type = "key_id"
+    data.getData (field.mapping, options, (mapped_data, error) => { 
+      var mapped_state = {}
+//      alert ('mapped data for ' + field.name + ' is  '+ JSON.stringify(mapped_data))
+      mapped_state["form_" + field.name] = mapped_data
+      mapped_state["form_changed_" + field.name] = false
+      this.setState(mapped_state)
+    })
+  }
+  componentDidMount() {
+      this.loadData();
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
   //  alert('DID UPDATE upate and form values is ' + JSON.stringify(formValues))
+//alert("coponent id update " + this.props.selected_id )
       if (prevProps.selected_id !== this.props.selected_id) {
-        getData (this.props.object_type, {id:this.props.selected_id}, (item_data, error) => { 
-              var new_state = {};
-              new_state.item_data = item_data;
-              meta.fields(this.props.object_type).map(field => {
-                new_state["form_" + field.name] = (item_data[field.name] !== null)?item_data[field.name]:""
-                new_state["form_changed_" + field.name] = false
-                new_state["form_underlined_" + field.name] =  (item_data[field.name]===null || item_data[field.name===""])?true:false
-              })
-              this.setState(new_state)
-        }) 
+  //  alert("outside getting datat")
+          this.loadData();
       }
   }  
 
-  handleMappingClose = field => {
-//      alert('in maping close ' + field)
+  handleMappingClose = field_name => {
+//      alert('in maping close ' + field_name)
+      this.loadMappedData(meta.field(this.props.object_type, field_name))
       this.setState({mapping_open:false});
   }
 
@@ -169,10 +171,27 @@ class ViewForm extends React.Component {
     if (field.name != keys.key_id && field.name != keys.pretty_key_id) {
         var disable_underline = !this.state["form_underlined_" + field.name]
           if (field.mapping) {
+//            const mapping_field = meta.field(object_type, mapping_field_name);
+            const mapping_object_type = field.mapping;
+            const mapped_field_name = field.mapped_field;
+            const unmapped_field = meta.unmapped_field(mapping_object_type, mapped_field_name)
+            const other_mapped_table = unmapped_field.references;  
+        //    alert ('mapping object type'+mapping_object_type)
+        //    alert ('mapepd field name ' + mapped_field_name)
+        //    alert (' unmapped_field ' + JSON.stringify(unmapped_field))
+          //  alert ('other mapped table ' +other_mapped_table)
             return(
               <Grid item style={{padding:10, boxBorder:"border-box"}}  sm={grid_col}>
                 <Typography style={{padding:0, border:0}}>{field.pretty_name}
-               <EditButton size="small" onClick={()=>{this.setState({mapping_open:true, mapping_field_name:field.name})}} value={field.name}/>
+               <EditButton size="small" onClick={()=>{this.setState({mapping_open:true, mapping_field_name:field.name})}} value={field.name}/><div>
+                {this.state["form_" + field.name] &&
+                    this.state["form_" + field.name].map(row => {
+//                    alert('alert is ' + JSON.stringify(row[meta.keys[other_mapped_table].pretty_key_id
+  //alert ('field is ' + unmapped_field.name +"_"+ meta.keys(other_mapped_table).pretty_key_id)
+                      return (<Chip label={row[unmapped_field.name +"_" + meta.keys(other_mapped_table).pretty_key_id]} />)
+                    })
+                }
+                </div>
                 </Typography>
               </Grid>
               )
