@@ -285,16 +285,14 @@ class ViewForm extends React.Component {
           : <Typography  style= {{textTransform:"capitalize"}}  onClick={()=>{this.setState({pretty_name_edit:true})}} variant="headline" gutterBottom>{this.state["form_" + pretty_name_field]} </Typography>} 
       <Grid container alignItems="stretch"   direction={flex_direction} wrap="wrap" >
       {this.state.item_data && !sections && object_fields.map(field => {
-//  alert ('trying to render '+ field.name)
           return (this.renderField(field))
       })}
-
       {this.state.item_data && sections && sections.map(section => {
         var section_fields = meta.section_fields(this.props.object_type, section.name)
         if (section_fields.length > 0) {
-          var field_render = (section_fields.map(field=>{
-                return (this.renderField(field))
-          }))
+           var field_render = (section_fields.map(field=>{
+                  return (this.renderField(field))
+           }))
            return (
               <Grid item style={{padding:10}} sm={12}>
                   <Paper style={{boxSizing:"border-box", padding:10, height:"100%"}}>
@@ -305,18 +303,10 @@ class ViewForm extends React.Component {
                     </Grid>
                   </Paper>
               </Grid>)
-        } else {
+            } else {
                 return ""
-        }
-//              alert ('foo is ' + foo)
-  //            return (<Typography variant="title"> {section.name} </Typography>)
-        //  })
-        //  return (<Typography>{section}</Typography>
-    //      var form_text = meta.section_fields(this.props.object_type, section).map(field => {
-      //      return (this.renderField(field))
-        //  })
-      //    return {section.name}
-      })}
+            }
+          })}
   </Grid>
   </Fragment>
 )}
