@@ -33,6 +33,7 @@ class DrillDown extends React.Component {
       var new_state = {}
       new_state.drill_data =[]
       new_state.refresh_drill = true
+      new_state.props_object_type = nextProps.object_type
       return new_state
     } else {
       return null
@@ -46,9 +47,10 @@ class DrillDown extends React.Component {
     })
   }
   // TODO - NAME?
-   handleDataChange = value => {
+   handleDataChange = (value, inserted_id) => {
     //  alert ("in drill data change")
-      this.setState({ create_object_form: false, refresh_drill: true});
+      const selected_id = inserted_id?inserted_id:this.state.selected_id
+      this.setState({ create_object_form: false, refresh_drill: true, selected_id:selected_id});
    };
   
   loadDrill()  {
@@ -119,12 +121,13 @@ class DrillDown extends React.Component {
             <List component="nav">
               {this.state.drill_data && this.state.drill_data.map(row => {    
                 log.val('looping around drilld ata', row)
-                if (grouping_field_name) { 
-                  if (current_grouping != row[grouping_column].toString()) {
-                      current_grouping = row[grouping_column].toString()
+                if (grouping_field_name) {
+                    var grouping_value = row[grouping_column]? row[grouping_column].toString():"None"
+                  if (current_grouping != grouping_value) {
+                      current_grouping = grouping_value
                         log.val("under grouping field name", row)
                       return(<Fragment key={row[keys.key_id]}>
-                            <Typography style={{marginLeft:10}} align="left" variant="title">{ row[grouping_column].toString()}</Typography>
+                            <Typography style={{marginLeft:10}} align="left" variant="title">{grouping_value}</Typography>
                             <ListItem dense button onClick={() => this.handleClick(row[keys.key_id], row[keys.pretty_key_id])}>
                               {(row[keys.key_id] === this.state.selected_id) ?
                                 <Typography color='primary' variant='title'>{row[keys.pretty_key_id]} </Typography>

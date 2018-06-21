@@ -4,6 +4,7 @@ import {SelectField} from "./index.js";
 import axios from 'axios';
 import { withStyles } from '@material-ui/core/styles';
 import * as log from '../../Utils/log.js'
+import * as meta from '../../Utils/meta.js';
 
 
 class CreateForm extends React.Component {
@@ -77,7 +78,8 @@ class CreateForm extends React.Component {
             url: urltext,
             data: { data_object }
           }).then (result => {
-              this.handleClose(event,'created');
+              var inserted_id = result.data.rows[0][meta.keys(this.props.object_type).key_id]  
+              this.handleClose(event,'created', inserted_id);
           });
         } else {
           var urltext = '/api/v1/' + this.props.object_type + '/' +this.props.id;
@@ -94,7 +96,7 @@ class CreateForm extends React.Component {
       }
     }
 
-  handleClose(event, action_text) {
+  handleClose(event, action_text, inserted_id) {
     var formValues = {};
     this.props.object_fields.map(field => {
         if (!field.key) {
@@ -102,7 +104,8 @@ class CreateForm extends React.Component {
         }
     })
 //    this.setState({formTouched:false, formValues:formValues, id:''});
-    this.props.onClose(action_text?`${this.props.object_attributes.pretty_name}  ` +action_text:'');
+    // this will change once we change the form to use the context
+    this.props.onClose(action_text?`${this.props.object_attributes.pretty_name}  ` +action_text:'', inserted_id);
 
   };
 

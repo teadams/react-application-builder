@@ -161,7 +161,7 @@ class App extends Component {
      <Drawer 
       variant="permanent"
       anchor="left" 
-      open="true"
+      open={true}
       classes={{
        paper: classes.drawerPaper,
      }}>
@@ -175,7 +175,7 @@ class App extends Component {
        <List  component="nav">
           {meta.get_menu("hamburger").map(menu=> {
             var index =  menu.index + '-hamburger'
-          return     <ListItem style={{padding:0}} dense disableGutters component="div">   <NavMenuLink text={menu.label} index={index} onClick={this.handleMenuChange} /> </ListItem>
+          return     <ListItem key={menu.index} style={{padding:0}} dense disableGutters component="div">   <NavMenuLink text={menu.label} index={index} onClick={this.handleMenuChange} /> </ListItem>
           })}
         
         </List>

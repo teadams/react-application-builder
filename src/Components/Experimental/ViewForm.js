@@ -183,9 +183,9 @@ class ViewForm extends React.Component {
         //    alert (' unmapped_field ' + JSON.stringify(unmapped_field))
           //  alert ('other mapped table ' +other_mapped_table)
             return(
-              <Grid item style={{padding:10, boxBorder:"border-box"}}  sm={grid_col}>
+              <Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}}  sm={grid_col}>
                 <Typography style={{padding:0, border:0}}>{field.pretty_name}
-               <EditButton size="small" onClick={()=>{this.setState({mapping_open:true, mapping_field_name:field.name})}} value={field.name}/><div>
+               <EditButton size="small" onClick={()=>{this.setState({mapping_open:true, mapping_field_name:field.name})}} value={field.name}/>
                 {this.state["form_" + field.name] &&
                     this.state["form_" + field.name].map(row => {
   
@@ -195,14 +195,14 @@ class ViewForm extends React.Component {
                       return (<Chip label={row[unmapped_field.name +"_" + meta.keys(other_mapped_table).pretty_key_id]}/>)
                     })
                 }
-                </div>
+                
                 </Typography>
               </Grid>
               )
 
           }  else if (field.valid_values || field.references || field.data_type === "boolean" || (field.data_type === "integer" && field.input_type !== "text" || field.input_type === "color_picker")) {
           return (            
-          <Grid item style={{padding:10, boxBorder:"border-box"}}  sm={grid_col}>
+          <Grid key={field.name}  item style={{padding:10, boxBorder:"border-box"}}  sm={grid_col}>
               <form onSubmit={this.handleSubmit(field.name)}  id={id+'-'+field.name}>
                 <SelectField 
                    key={field.name}           
@@ -225,7 +225,7 @@ class ViewForm extends React.Component {
         )  
     } else {
       return (
-        <Grid item style={{padding:10, boxBorder:"border-box"}} sm={grid_col}>
+        <Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}} sm={grid_col}>
             <form onSubmit={this.handleSubmit(field.name)}  id={id+'-'+field.name}>
                   <TextField    
                   InputProps={{disableUnderline:disable_underline}}
@@ -283,7 +283,7 @@ class ViewForm extends React.Component {
         />
       </form>
           : <Typography  style= {{textTransform:"capitalize"}}  onClick={()=>{this.setState({pretty_name_edit:true})}} variant="headline" gutterBottom>{this.state["form_" + pretty_name_field]} </Typography>} 
-      <Grid container alignItems="stretch"   direction={flex_direction} wrap="wrap" sm={12}>
+      <Grid container alignItems="stretch"   direction={flex_direction} wrap="wrap" >
       {this.state.item_data && !sections && object_fields.map(field => {
 //  alert ('trying to render '+ field.name)
           return (this.renderField(field))
