@@ -299,6 +299,7 @@ class ViewForm extends React.Component {
                     <Typography variant="title" > {section.title} </Typography>
                     <Divider style={{marginBottom:10}}/>
                     <Grid container >
+                    <Grid item sm={12}><Typography>{section.text}</Typography></Grid>
                     {field_render}
                     </Grid>
                   </Paper>
