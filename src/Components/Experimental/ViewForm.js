@@ -303,9 +303,22 @@ class ViewForm extends React.Component {
                     </Grid>
                   </Paper>
               </Grid>)
-            } else {
-                return ""
-            }
+          } else if (section.text) {
+                return (
+                  <Grid item style={{padding:10}} sm={12}>
+                      <Paper style={{boxSizing:"border-box", padding:10, height:"100%"}}>
+                        <Typography variant="title" > {section.title} </Typography>
+                        <Divider style={{marginBottom:10}}/>
+                        <Grid container >
+                        {section.text}
+                        </Grid>
+                      </Paper>
+                  </Grid>
+      
+                )               
+          } else {
+            return ""
+          }
           })}
   </Grid>
   </Fragment>
