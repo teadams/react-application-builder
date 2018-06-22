@@ -223,6 +223,7 @@ class App extends Component {
           <DrillDown  
             object_type = {meta_menu.object_type}
             grouping_field_name = {meta_menu.grouping_field_name}
+            create_form_sections = {meta_menu.create_form_sections}
           />
         }  
 
