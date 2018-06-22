@@ -153,14 +153,15 @@ class MappingForm extends React.Component {
     const unmapped_field = meta.unmapped_field(mapping_object_type, mapped_field_name)
     const other_mapped_table = unmapped_field.references;
     const other_mapped_keys = meta.keys(other_mapped_table)
-  //  alert ('other mapped keys is ' +JSON.stringify(other_mapped_keys))
+  //  alert ('other mapped keys is ' +JSON.stringify(other_mapped_keys)
     var grouping_column = ""
     var current_grouping = ""
     var grouping_text = ""
+//alert ('other mapped table is ' + other_mapped_table)
     if (mapping_field.grouping_field_name) {
-      grouping_column =  meta.grouping_column_info(this.props.object_type, mapping_field.grouping_field_name)[0]
+      grouping_column =  meta.grouping_column_info(other_mapped_table, mapping_field.grouping_field_name)[0]
     } 
-//    alert ('grouping column is ' + grouping_column)
+  // alert ('grouping column is ' + grouping_column)
     if (!open) {
       return "";
     }

@@ -168,7 +168,9 @@ export function unmapped_field (mapping_object_type, unmapped_field_name) {
 export function grouping_column_info(object_type, grouping_field_name) {
   // returns the appropriate grouping field name and object type
   // (which is dependent if the grouping_field_name is a reference or not)
+  //alert ('groupoing field name object type' + grouping_field_name +' ' + object_type)
   const grouping_field = field(object_type, grouping_field_name)
+  // alert ('grouping field is ' + JSON.stringify(grouping_field))
   if (grouping_field.references) {
     const  grouping_object_type = grouping_field.references
   //  alert ('grouping object type in meta ' + grouping_object_type)
