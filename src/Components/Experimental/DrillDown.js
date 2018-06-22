@@ -150,7 +150,7 @@ class DrillDown extends React.Component {
                   return (
                   <ListItem dense button onClick={() => this.handleClick(row[keys.key_id], row[keys.pretty_key_id])}>
                     {(row[keys.key_id] === this.state.selected_id) ?
-                      <Typography color='primary' variant='headline'>{row["service_category_name"]} </Typography>
+                      <Typography color='primary' variant='headline'>{row[keys.pretty_key_id]} </Typography>
                       : <Typography>{row[keys.pretty_key_id]}</Typography>
                     }
                     </ListItem> )
