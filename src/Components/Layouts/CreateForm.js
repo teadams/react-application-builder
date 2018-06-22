@@ -13,6 +13,9 @@ class CreateForm extends React.Component {
       log.func("create form constructor");
         super(props);           
       //  alert('this props id is '+ this.props.id)
+        //props
+        // object_type - type of object 
+        // section - limit to sections in the form
         this.state = {
           formTouched: false,
           action: this.props.id?'Edit':'Create'
@@ -213,7 +216,10 @@ class CreateForm extends React.Component {
 
   render() {
     const { onClose, object_type, object_fields, object_attributes, ...other } = this.props;
-    const sections = meta.sections(this.props.object_type);
+
+   const sections =this.props.sections?meta.sections(this.props.object_type,this.props.sections):meta.sections(this.props.object_type);
+//  const sections = meta.sections(this.props.object_type)
+//    alert ('sections is ' + JSON.stringify( sections))
     const flex_direction= sections?"column":"row"
 
     log.func("Create form: render","open", this.props.open);

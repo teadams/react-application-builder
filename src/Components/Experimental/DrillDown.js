@@ -175,6 +175,7 @@ class DrillDown extends React.Component {
                 object_fields={object_fields}
                 object_attributes={object_attributes}
                 open="true"
+                sections="basic"
                  onClose={this.handleDataChange}
              />
             }

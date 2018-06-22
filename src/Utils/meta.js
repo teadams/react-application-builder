@@ -124,9 +124,25 @@ export function get_index (array_name, field_name, field_value) {
 }
 
 
-export function sections(object_type) {
-    return metadata_sections[object_type]
+export function sections(object_type, section_names) {
+    if (!section_names) {
+      return metadata_sections[object_type]
+    } else {    
+//alert ('section name is ' + section_names)
+      const section_name_array = section_names.split(",");
+//    alert ('section name array ' + section_name_array)
+      return metadata_sections[object_type].filter (section => {
+        //alert ('section is ' + JSON.stringify(section))
+          if (section_name_array.indexOf(section.name)>=0) {
+            return true
+          } else {
+            return false
+          }
+      })
+    } 
 }
+
+
 
 export function section_fields (object_type, section_name) {
     return fields(object_type).filter (field => {
@@ -137,6 +153,7 @@ export function section_fields (object_type, section_name) {
       }}
     )
 }
+
 
 export function unmapped_field (mapping_object_type, unmapped_field_name) {
   //      alert ('meta function mapping ojbect type is ' + mapping_object_type)
