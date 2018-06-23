@@ -54,6 +54,7 @@ class ViewForm extends React.Component {
   }
 
   loadData() {
+//    window.scrollTo(0,0)
     data.getData (this.props.object_type, {id:this.props.selected_id}, (item_data, error) => { 
           var new_state = {};
 //          alert ("get data")
@@ -76,6 +77,7 @@ class ViewForm extends React.Component {
     options.filter_field = field.mapped_field
     options.filter_id = this.props.selected_id;
     options.key_type = "key_id"
+  //  alert ("getting mapped data for " + JSON.stringify(options))
     data.getData (field.mapping, options, (mapped_data, error) => { 
       var mapped_state = {}
 //      alert ('mapped data for ' + field.name + ' is  '+ JSON.stringify(mapped_data))
@@ -283,7 +285,7 @@ class ViewForm extends React.Component {
         />
       </form>
           : <Typography  style= {{textTransform:"capitalize"}}  onClick={()=>{this.setState({pretty_name_edit:true})}} variant="headline" gutterBottom>{this.state["form_" + pretty_name_field]} </Typography>} 
-      <Grid container alignItems="stretch"   direction={flex_direction} wrap="wrap" >
+      <Grid container alignItems="stretch" alignContent='flex-start'  justify="flex-start" direction={flex_direction} wrap="wrap" >
       {this.state.item_data && !sections && object_fields.map(field => {
           return (this.renderField(field))
       })}

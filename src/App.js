@@ -224,6 +224,8 @@ class App extends Component {
             object_type = {meta_menu.object_type}
             grouping_field_name = {meta_menu.grouping_field_name}
             create_form_sections = {meta_menu.create_form_sections}
+            expand_contract = {meta_menu.expand_contract}
+            manage_object_types = {meta_menu.manage_object_types}
           />
         }  
 

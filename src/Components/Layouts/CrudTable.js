@@ -12,7 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
 function getData (object_type, table_columns, object_attributes, filter_field, filter_id, callback )   {
-
+  //window.scrollTo(0, 0);
   var data = [];
   var clean_data = [];
   var data_row_array = [];
