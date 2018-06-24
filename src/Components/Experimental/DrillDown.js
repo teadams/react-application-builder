@@ -105,11 +105,23 @@ class DrillDown extends React.Component {
       }
   }
 
+
+
+  convertDerived(derived_pattern, row) {
+    function derivedMatch(match, p1, offset, string) {
+       return (row[p1])
+    }
+
+    return (derived_pattern.replace(/{(.*?)}/ig, derivedMatch));
+
+  }
+
   render()  {
       log.func ('Render Drill down', 'drill down render state', this.state)
       const object_attributes = meta.object(this.props.object_type);
       const object_fields = meta.fields(this.props.object_type);
       const keys = meta.keys(this.props.object_type);
+      const pretty_name_field_derived = meta.field(this.props.object_type,keys.pretty_key_id).derived
       const expand_contract = this.props.expand_contract?this.props.expand_contract:false
     //  alert ("groping field is " + this.props.grouping_field_name)
       const grouping_field_name = this.props.grouping_field_name;
@@ -139,6 +151,8 @@ class DrillDown extends React.Component {
             </div>
             <List component="nav">
               {this.state.drill_data && this.state.drill_data.map(row => {    
+                let drill_link = pretty_name_field_derived?this.convertDerived(pretty_name_field_derived, row): row[keys.pretty_key_id]
+//              alert ("dirll is " + drill_link)
                 log.val('looping around drilld ata', row)
                 if (grouping_field_name) {
                     var grouping_value = row[grouping_column]? row[grouping_column].toString():"None"
@@ -157,8 +171,8 @@ class DrillDown extends React.Component {
                                 {(!expand_contract || this.state["less_"+current_grouping]) &&
                                 <ListItem dense button onClick={() => this.handleClick(row[keys.key_id],  row[keys.pretty_key_id])}>
                               {(row[keys.key_id] === this.state.selected_id) ?
-                                <Typography color='primary' variant='title'>{row[keys.pretty_key_id]} </Typography>
-                                : <Typography variant="body2"> {row[keys.pretty_key_id]}</Typography>
+                                <Typography color='primary' variant='title'>{drill_link} </Typography>
+                                : <Typography variant="body2"> {drill_link}</Typography>
                               }
                               </ListItem>
                               }
@@ -167,8 +181,8 @@ class DrillDown extends React.Component {
                   } else if   (!expand_contract || this.state["less_"+current_grouping]) {
                     return(<ListItem key={row[keys.key_id]}  dense button onClick={() => this.handleClick(row[keys.key_id], row[keys.pretty_key_id])}> 
                       {(row[keys.key_id] === this.state.selected_id) ?
-                        <Typography color='primary' variant='title'>{row[keys.pretty_key_id]} </Typography>
-                        : <Typography variant="body2"> {row[keys.pretty_key_id]}</Typography>
+                        <Typography color='primary' variant='title'>{drill_link}</Typography>
+                        : <Typography variant="body2"> {drill_link}</Typography>
                       }
                       </ListItem>)
                   } else {
@@ -179,8 +193,8 @@ class DrillDown extends React.Component {
                   return (
                   <ListItem dense button onClick={() => this.handleClick(row[keys.key_id], row[keys.pretty_key_id])}>
                     {(row[keys.key_id] === this.state.selected_id) ?
-                      <Typography color='primary' variant='headline'>{row[keys.pretty_key_id]} </Typography>
-                      : <Typography>{row[keys.pretty_key_id]}</Typography>
+                      <Typography color='primary' variant='headline'>{drill_link} </Typography>
+                      : <Typography>{drill_link}</Typography>
                     }
                     </ListItem> )
                 }

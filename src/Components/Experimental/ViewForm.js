@@ -140,6 +140,7 @@ class ViewForm extends React.Component {
   
   handleDBUpdate(field_name) {
       const object_type = this.props.object_type;
+      const pretty_field_name = meta.keys(object_type).pretty_key_id;
       var data_object = Object();
       data_object[field_name] = this.state["form_"+field_name];
       const id = this.state["form_"+meta.keys(object_type).key_id]
@@ -154,8 +155,11 @@ class ViewForm extends React.Component {
                 new_state["form_changed_"+field_name] = false;
                 new_state["form_underlined_" + field_name ] = false;
                 this.setState(new_state);
-                if (field_name == this.props.grouping_field_name || field_name == meta.keys(object_type).pretty_key_id) {
-//                  alert("field name, grouping field "  + field_name + ' ' + this.props.grouping_field_name)
+                if (field_name == this.props.grouping_field_name || 
+                  field_name == pretty_field_name || meta.field(object_type, pretty_field_name).derived) {
+//                  if the pretty field name is derived, we will update the drill down at
+// every data change. (if this prove inefficient, we'll have to track which fields contribute to the
+// derived fields). Made engineering choice to streamline this for now.
                     this.props.onDataChange();
 
                 }
