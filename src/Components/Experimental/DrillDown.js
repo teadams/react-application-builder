@@ -35,12 +35,18 @@ class DrillDown extends React.Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-
+//    alert ("derived state from props")
     if (nextProps.object_type !== prevState.props_object_type)  {
+  //    alert ('deriving')
+      // TODO - clear the state for all the "less_" state.  Will require either
+      // looping around current state and getting all fields starting with less or
+      // keeping list of grouping values in the state so they can be cleared
+
       var new_state = {}
       new_state.drill_data =[]
       new_state.refresh_drill = true
       new_state.props_object_type = nextProps.object_type
+      new_state.selected_id = ''
       return new_state
     } else {
       return null
@@ -87,6 +93,7 @@ class DrillDown extends React.Component {
   }
 
   componentDidMount() {
+    //  alert ('drill mount')
       log.val('drill down did mount')
       this.loadDrill();
   } 

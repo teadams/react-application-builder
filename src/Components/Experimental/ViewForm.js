@@ -8,6 +8,7 @@ import * as meta from '../../Utils/meta.js';
 import {SelectField, EditButton} from "../Layouts/index.js";
 import {MappingForm} from "./index.js"
 import * as data from '../../Utils/data.js';
+import update from 'immutability-helper';
 
 class ViewForm extends React.Component {
 
@@ -87,6 +88,7 @@ class ViewForm extends React.Component {
     })
   }
   componentDidMount() {
+//    alert ("drill mount")
       this.loadData();
   }
 
