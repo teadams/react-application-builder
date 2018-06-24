@@ -17,8 +17,9 @@ class EditButton extends React.Component {
   }
 
   render() {
+      const float = this.props.float?this.props.float:'none'
       return (
-      <IconButton size="small" style={{margin:0, height:'50%', width:'50%'}} onClick={this.handleOnClick}>
+      <IconButton size="small" style={{margin:0, height:'50%', width:'50%', float:float}} onClick={this.handleOnClick}>
       <EditIcon style={{margin:0, height:18, width:18}}/></IconButton>
       )
   }

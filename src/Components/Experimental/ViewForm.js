@@ -178,6 +178,7 @@ class ViewForm extends React.Component {
             const mapped_field_name = field.mapped_field;
             const unmapped_field = meta.unmapped_field(mapping_object_type, mapped_field_name)
             const other_mapped_table = unmapped_field.references;  
+            const width= grid_col * 70
       
 //      alert ('grouping columns is ' + grouping_column)
         //    alert ('mapping object type'+mapping_object_type)
@@ -186,19 +187,14 @@ class ViewForm extends React.Component {
           //  alert ('other mapped table ' +other_mapped_table)
             return(
               <Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}}  sm={grid_col}>
-                <Typography style={{padding:0, border:0}}>{field.pretty_name}
-               <EditButton size="small" onClick={()=>{this.setState({mapping_open:true, mapping_field_name:field.name})}} value={field.name}/>
+                <Typography style={{padding:0, border:0, width:width}}>{field.pretty_name}
+               <EditButton float="right" size="small" onClick={()=>{this.setState({mapping_open:true, mapping_field_name:field.name})}} value={field.name}/> </Typography>
                 {this.state["form_" + field.name] &&
                     this.state["form_" + field.name].map(row => {
-  
-//                    alert('alert is ' + JSON.stringify(row[meta.keys[other_mapped_table].pretty_key_id
-  //alert ('field is ' + unmapped_field.name +"_"+ meta.keys(other_mapped_table).pretty_key_id)
-                      
                       return (<Chip label={row[unmapped_field.name +"_" + meta.keys(other_mapped_table).pretty_key_id]}/>)
                     })
                 }
                 
-                </Typography>
               </Grid>
               )
 
@@ -285,7 +281,7 @@ class ViewForm extends React.Component {
         />
       </form>
           : <Typography  style= {{textTransform:"capitalize"}}  onClick={()=>{this.setState({pretty_name_edit:true})}} variant="headline" gutterBottom>{this.state["form_" + pretty_name_field]} </Typography>} 
-      <Grid container alignItems="stretch" alignContent='flex-start'  justify="flex-start" direction={flex_direction} wrap="wrap" >
+      <Grid container  alignContent='flex-start'  justify="flex-start" direction={flex_direction} wrap="wrap" >
       {this.state.item_data && !sections && object_fields.map(field => {
           return (this.renderField(field))
       })}
