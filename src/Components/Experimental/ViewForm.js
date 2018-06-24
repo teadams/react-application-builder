@@ -27,7 +27,9 @@ class ViewForm extends React.Component {
     this.renderField = this.renderField.bind(this);
     this.loadData = this.loadData.bind(this);
     this.loadMappedData = this.loadMappedData.bind(this);
+    this.derivedMatch = this.derivedMatch.bind(this);
   } 
+
 
   static getDerivedStateFromProps(nextProps, prevState) {
     // in order for our dynamically managed form elements to be controlled,
@@ -157,17 +159,27 @@ class ViewForm extends React.Component {
                     this.props.onDataChange();
 
                 }
+  
             }).catch(error => {
               alert ('error is ' + error.message)
       });
   }
 
+  
+  derivedMatch(match, p1, offset, string) {
+     return (this.state["form_"+p1])
+  }
+
+  convertDerived(derived_pattern) {
+    return (derived_pattern.replace(/{(.*?)}/ig, this.derivedMatch));
+  }
+  
   renderField(field) {
     const object_attributes = meta.object(this.props.object_type);
     const object_fields = meta.fields(this.props.object_type);
     const keys = meta.keys(this.props.object_type);
     const id = this.state["form_"+meta.keys(this.props.object_type).key_id]
-    const pretty_name_field = meta.pretty_name_column(this.props.object_type)
+    const pretty_name_field_name = meta.pretty_name_column(this.props.object_type)
     const grid_col = field.grid_col?field.grid_col:4
     const width= grid_col * 70
     const multiline = (field.size=="large")?true:false
@@ -181,12 +193,6 @@ class ViewForm extends React.Component {
             const unmapped_field = meta.unmapped_field(mapping_object_type, mapped_field_name)
             const other_mapped_table = unmapped_field.references;  
             const width= grid_col * 70
-      
-//      alert ('grouping columns is ' + grouping_column)
-        //    alert ('mapping object type'+mapping_object_type)
-        //    alert ('mapepd field name ' + mapped_field_name)
-        //    alert (' unmapped_field ' + JSON.stringify(unmapped_field))
-          //  alert ('other mapped table ' +other_mapped_table)
             return(
               <Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}}  sm={grid_col}>
                 <Typography style={{padding:0, border:0, width:width}}>{field.pretty_name}
@@ -199,8 +205,15 @@ class ViewForm extends React.Component {
                 
               </Grid>
               )
-
-          }  else if (field.valid_values || field.references || field.data_type === "boolean" || (field.data_type === "integer" && field.input_type !== "text" || field.input_type === "color_picker")) {
+          } else if (field.derived)  { 
+            const derived_value = this.convertDerived(field.derived)
+            return (<Grid key={field.name}  item style={{padding:10, boxBorder:"border-box"}}  sm={grid_col}>
+              <Fragment>
+                <Typography style={{padding:0, border:0, width:width}}>{field.pretty_name}</Typography>
+                <Typography>{derived_value}</Typography>
+              </Fragment>
+            </Grid>)
+          } else if (field.valid_values || field.references || field.data_type === "boolean" || (field.data_type === "integer" && field.input_type !== "" || field.input_type === "color_picker")) {
           return (            
           <Grid key={field.name}  item style={{padding:10, boxBorder:"border-box"}}  sm={grid_col}>
               <form onSubmit={this.handleSubmit(field.name)}  id={id+'-'+field.name}>
@@ -249,11 +262,15 @@ class ViewForm extends React.Component {
   }
 
   render () {
+  //  alert ('in render')
     const object_attributes = meta.object(this.props.object_type);
     const object_fields = meta.fields(this.props.object_type);
     const keys = meta.keys(this.props.object_type);
     const id = this.state["form_"+meta.keys(this.props.object_type).key_id]
-    const pretty_name_field = meta.pretty_name_column(this.props.object_type)
+    const pretty_name_field_name = meta.pretty_name_column(this.props.object_type)
+    const pretty_name_field_derived = meta.field(this.props.object_type,pretty_name_field_name).derived
+  //  alert ("pretty name derived" + pretty_name_field_derived)
+    
     const sections = meta.sections(this.props.object_type);
     const flex_direction= sections?"column":"row"
 
@@ -267,23 +284,26 @@ class ViewForm extends React.Component {
           object_type={this.props.object_type}
           mapping_field_name = {this.state.mapping_field_name}
           mapping_field_value = {id}
-          mapping_field_pretty_name ={this.state["form_" + pretty_name_field]}
+          mapping_field_pretty_name ={this.state["form_" + pretty_name_field_name]}
         />}
 
-      {this.state.pretty_name_edit ? 
-        <form onSubmit={this.handleSubmit(pretty_name_field)}
+      {this.state.pretty_name_edit  ? 
+        <form onSubmit={this.handleSubmit(pretty_name_field_name)}
         id={id+'-'+this.state.item_data[keys.pretty_key_id]}>
         <TextField    
         margin="normal"
         name={keys.pretty_key_id}
         type="text"
-        value=  {this.state["form_"+pretty_name_field]}
-        onChange={this.handleChange(pretty_name_field)}
-        onBlur={this.handleSubmit(pretty_name_field)}
+        value=  {this.state["form_"+pretty_name_field_name]}
+        onChange={this.handleChange(pretty_name_field_name)}
+        onBlur={this.handleSubmit(pretty_name_field_name)}
         />
       </form>
-          : <Typography  style= {{textTransform:"capitalize"}}  onClick={()=>{this.setState({pretty_name_edit:true})}} variant="headline" gutterBottom>{this.state["form_" + pretty_name_field]} </Typography>} 
-      <Grid container  alignContent='flex-start'  justify="flex-start" direction={flex_direction} wrap="wrap" >
+          : (pretty_name_field_derived)? <Typography  style= {{textTransform:"capitalize"}}  variant="headline" gutterBottom>{this.convertDerived(pretty_name_field_derived)}</Typography>
+          : <Typography  style= {{textTransform:"capitalize"}}  onClick={()=>{this.setState({pretty_name_edit:true})}} variant="headline" gutterBottom>{this.state["form_" + pretty_name_field_name]} </Typography>}
+  
+
+     <Grid container  alignContent='flex-start'  justify="flex-start" direction={flex_direction} wrap="wrap" >
       {this.state.item_data && !sections && object_fields.map(field => {
           return (this.renderField(field))
       })}
