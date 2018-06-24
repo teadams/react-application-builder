@@ -189,7 +189,22 @@ class ViewForm extends React.Component {
     const multiline = (field.size=="large")?true:false
 
     if (field.name != keys.key_id && field.name != keys.pretty_key_id) {
-        var disable_underline = !this.state["form_underlined_" + field.name]
+        const disable_underline = !this.state["form_underlined_" + field.name]
+        const dependent_field = field.dependent_field
+        let disabled = false
+        let visible = true
+//        alert ('depednent field  for ' +field.name + ' is' + this.state["form_"+dependent_field])
+        if (dependent_field && !this.state["form_"+dependent_field]) {
+            disabled = true
+            if (field.dependent_action ===  "visible") {
+                visible = false
+//              alert ("visible is false")
+            }
+        }
+        if (!visible) {
+            return ""
+        }
+          
           if (field.mapping) {
 //            const mapping_field = meta.field(object_type, mapping_field_name);
             const mapping_object_type = field.mapping;
@@ -199,8 +214,8 @@ class ViewForm extends React.Component {
             const width= grid_col * 70
             return(
               <Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}}  sm={grid_col}>
-                <Typography style={{padding:0, border:0, width:width}}>{field.pretty_name}
-               <EditButton float="right" size="small" onClick={()=>{this.setState({mapping_open:true, mapping_field_name:field.name})}} value={field.name}/> </Typography>
+                <Typography style={{padding:0, border:0, width:width}}>{field.pretty_name} 
+               {!disabled && <EditButton float="right" size="small" onClick={()=>{this.setState({mapping_open:true, mapping_field_name:field.name})}} value={field.name}/>} </Typography>
                 {this.state["form_" + field.name] &&
                     this.state["form_" + field.name].map(row => {
                       return (<Chip label={row[unmapped_field.name +"_" + meta.keys(other_mapped_table).pretty_key_id]}/>)
@@ -209,7 +224,7 @@ class ViewForm extends React.Component {
                 
               </Grid>
               )
-          } else if (field.derived)  { 
+          } else if (field.derived )  { 
             const derived_value = this.convertDerived(field.derived)
             return (<Grid key={field.name}  item style={{padding:10, boxBorder:"border-box"}}  sm={grid_col}>
               <Fragment>
@@ -217,12 +232,13 @@ class ViewForm extends React.Component {
                 <Typography>{derived_value}</Typography>
               </Fragment>
             </Grid>)
-          } else if (field.valid_values || field.references || field.data_type === "boolean" || (field.data_type === "integer" && field.input_type !== "" || field.input_type === "color_picker")) {
+          } else if (visible || field.valid_values || field.references || field.data_type === "boolean" || (field.data_type === "integer" && field.input_type !== "" || field.input_type === "color_picker")) {
           return (            
           <Grid key={field.name}  item style={{padding:10, boxBorder:"border-box"}}  sm={grid_col}>
               <form onSubmit={this.handleSubmit(field.name)}  id={id+'-'+field.name}>
                 <SelectField 
-                   key={field.name}           
+                   key={field.name}    
+                   disabled={disabled}
                    object_type={field.references}
                    valid_values={field.valid_values}
                    shrink="true"
@@ -240,7 +256,7 @@ class ViewForm extends React.Component {
             </Grid>
           
         )  
-    } else {
+      } else {
       return (
         <Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}} sm={grid_col}>
             <form onSubmit={this.handleSubmit(field.name)}  id={id+'-'+field.name}>
@@ -249,6 +265,7 @@ class ViewForm extends React.Component {
                   InputLabelProps={{shrink:true}}
                   name={field.name}
                   label={field.pretty_name}
+                  disabled={disabled}
                   type="text"
                   multiline={multiline}
                   helperText={field.helper_text}
