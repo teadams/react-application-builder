@@ -7,7 +7,7 @@ import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import * as data from '../../Utils/data.js';
 import {SelectField, CreateForm, CrudTable, ButtonCreate, ButtonExpandMore, ButtonExpandLess} from "../Layouts/index.js";
-import {ViewForm} from "./index.js";
+import {ViewForm, Field} from "./index.js";
  
 
 class DrillDown extends React.Component {
@@ -35,9 +35,8 @@ class DrillDown extends React.Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-//    alert ("derived state from props")
+
     if (nextProps.object_type !== prevState.props_object_type)  {
-  //    alert ('deriving')
       // TODO - clear the state for all the "less_" state.  Will require either
       // looping around current state and getting all fields starting with less or
       // keeping list of grouping values in the state so they can be cleared
@@ -52,6 +51,7 @@ class DrillDown extends React.Component {
       return null
     }
   }  
+
   handleClick = (id, pretty_name) => {
     window.scrollTo(0,0)
     this.setState ({
@@ -60,7 +60,7 @@ class DrillDown extends React.Component {
         manage_object_type: ""
     })
   }
-  // TODO - NAME?
+
    handleDataChange = (value, inserted_id) => {
     //  alert ("in drill data change")
       const selected_id = inserted_id?inserted_id:this.state.selected_id
@@ -71,9 +71,9 @@ class DrillDown extends React.Component {
     log.val('drill down load drill. grouping_field_name', grouping_field_name)
     const grouping_field_name = this.props.grouping_field_name
     var options = {}
-     //alert ('grouping field is ' + grouping_field_name)
+  
     if (grouping_field_name) {
-      //  alert ('creating order by')
+      //  figure out the appropriate order by if we are grouping
         const grouping_field = meta.field(this.props.object_type, grouping_field_name)
         if (grouping_field.references) {
           const grouping_object_type = grouping_field.references
@@ -93,28 +93,16 @@ class DrillDown extends React.Component {
   }
 
   componentDidMount() {
-    //  alert ('drill mount')
       log.val('drill down did mount')
       this.loadDrill();
   } 
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-        log.val("drill down did update")
       if (this.state.refresh_drill) {
         this.loadDrill();
       }
   }
 
-
-
-  convertDerived(derived_pattern, row) {
-    function derivedMatch(match, p1, offset, string) {
-       return (row[p1])
-    }
-
-    return (derived_pattern.replace(/{(.*?)}/ig, derivedMatch));
-
-  }
 
   render()  {
       log.func ('Render Drill down', 'drill down render state', this.state)
@@ -135,9 +123,7 @@ class DrillDown extends React.Component {
           grouping_column =  grouping_column_info[0]
           grouping_object_type = grouping_column_info[1]
       }
-    //  alert ('grouping column is ' + grouping_column)
-//      alert (JSON.stringify(meta.section_fields (this.props.object_type,"")))
-  //    log.val("start of drill render")
+
       return (
         <Grid container spacing={8} >
         <Grid item sm={2}>
@@ -147,73 +133,55 @@ class DrillDown extends React.Component {
               {object_attributes.pretty_plural} 
             <ButtonCreate  float="right" onClick={()=> {this.setState({create_object_form: this.props.object_type, selected_id:""})}}/>
             </Typography>
-
             </div>
             <List component="nav">
-              {this.state.drill_data && this.state.drill_data.map(row => {    
-                let drill_link = pretty_name_field_derived?this.convertDerived(pretty_name_field_derived, row): row[keys.pretty_key_id]
-//              alert ("dirll is " + drill_link)
-                log.val('looping around drilld ata', row)
-                if (grouping_field_name) {
+              {this.state.drill_data && this.state.drill_data.map(row => {
+                  const variant = (row[keys.key_id] === this.state.selected_id)?"title":"body2"    
+                  const color = (row[keys.key_id] === this.state.selected_id)?"primary":""    
+                  let group_header = ""
+                  if (grouping_field_name) {
                     var grouping_value = row[grouping_column]? row[grouping_column].toString():"None"
-                  if (current_grouping != grouping_value) {
+                    if (current_grouping != grouping_value) {
                       current_grouping = grouping_value
-                        log.val("under grouping field name", row)
-                      return(<Fragment key={row[keys.key_id]}>
-                            <Typography style={{marginLeft:5,marginBottom:5}} align="left" variant="subheading">{grouping_value}
-                              {expand_contract  &&
-                                (!this.state["less_"+current_grouping]? 
-                                <ButtonExpandMore  float="right" onClick={()=> {this.setState({["less_"+row[grouping_column]]:true})}}/>
-                                :
-                                  <ButtonExpandLess  float="right" onClick={()=> {this.setState({["less_"+row[grouping_column]]:false})}}/>
-                                )}
-                            </Typography>
-                                {(!expand_contract || this.state["less_"+current_grouping]) &&
-                                <ListItem dense button onClick={() => this.handleClick(row[keys.key_id],  row[keys.pretty_key_id])}>
-                              {(row[keys.key_id] === this.state.selected_id) ?
-                                <Typography color='primary' variant='title'>{drill_link} </Typography>
-                                : <Typography variant="body2"> {drill_link}</Typography>
-                              }
-                              </ListItem>
-                              }
-             </Fragment>
-                            )
-                  } else if   (!expand_contract || this.state["less_"+current_grouping]) {
-                    return(<ListItem key={row[keys.key_id]}  dense button onClick={() => this.handleClick(row[keys.key_id], row[keys.pretty_key_id])}> 
-                      {(row[keys.key_id] === this.state.selected_id) ?
-                        <Typography color='primary' variant='title'>{drill_link}</Typography>
-                        : <Typography variant="body2"> {drill_link}</Typography>
-                      }
-                      </ListItem>)
+                      group_header = <Field style={{marginLeft:5,marginBottom:5}} align="left" variant="subheading" object_type={this.props.object_type} field_name={grouping_field_name} data={row} mode="text"> 
+                          {expand_contract  &&
+                          (!this.state["less_"+current_grouping]? 
+                          <ButtonExpandMore  float="right" onClick={()=> {this.setState({["less_"+row[grouping_column]]:true})}}/>
+                          :
+                            <ButtonExpandLess  float="right" onClick={()=> {this.setState({["less_"+row[grouping_column]]:false})}}/>
+                          )}
+                      </Field>;
+                  }}
+
+                if (!expand_contract || this.state["less_"+current_grouping]) {
+                        return(<Fragment>{group_header}
+                        <ListItem key={row[keys.key_id]}  dense button onClick={() => this.handleClick(row[keys.key_id], row[keys.pretty_key_id])}> 
+                          <Field object_type = {this.props.object_type} 
+                              field_name = {keys.pretty_key_id}  
+                              data={row}
+                              mode="view"
+                              variant={variant}
+                              color={color}
+                            /> 
+                        </ListItem>
+                        </Fragment>)
                   } else {
-                    return(<Fragment/>)
+                    return(<Fragment>{group_header}</Fragment>)
                   }
-                } else {
-                  log.val('in the second else')
-                  return (
-                  <ListItem dense button onClick={() => this.handleClick(row[keys.key_id], row[keys.pretty_key_id])}>
-                    {(row[keys.key_id] === this.state.selected_id) ?
-                      <Typography color='primary' variant='headline'>{drill_link} </Typography>
-                      : <Typography>{drill_link}</Typography>
-                    }
-                    </ListItem> )
-                }
               })}
             </List>
 
             {this.props.manage_object_types && 
               this.props.manage_object_types.split(",").map(manage_type => {
-  //      alert ('mange type is ' + manage_type)
                 return (<Button  style={{marginBottom:10, marginTop:10, width:'100%'}}variant='outlined' size="small" color ="primary" onClick={()=>
                 {window.scrollTo(0,0);
                 this.setState({manage_object_type: manage_type, selected_id:""})}}>
                         Manage   {meta.object(manage_type).pretty_plural}
                 </Button>)  
-              })
-  
-            }
+                })}
           </Paper>
-        </Grid >
+          </Grid >
+
         <Grid item sm={10}>
           <Paper id = "pretty_key" style={{minHeight:600, padding:10}}>
             {this.state.create_object_form  &&
@@ -242,8 +210,7 @@ class DrillDown extends React.Component {
             }
           </Paper>
         </Grid>
-        </Grid>
-  
+        </Grid>  
      )
    }
 }

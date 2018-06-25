@@ -150,10 +150,9 @@ class App extends Component {
     const {drawer_open } = this.state;
     const hamburger_menu_p = meta.get_menu("hamburger")?true:false  
     const meta_menu = meta.get_selected_menu(this.state.selected_menu,this.state.selected_menu_type)
-    const filter_object_type = meta.field(meta_menu.object_type, meta_menu.filter_field).references
+    const filter_field = meta_menu.object_type?meta.field(meta_menu.object_type, meta_menu.filter_field):""
+    const filter_object_type = filter_field.references
 
-//    alert ('menu ' + JSON.stringify(meta_menu))
-    const filter_field = meta.field(meta_menu.object_type, meta_menu.filter_field);
     return <Fragment>
      <Paper style={{ padding:10, marginTop:10, marginBottom:0, minHeight:600, position:'relative'}}>
      {drawer_open && hamburger_menu_p &&

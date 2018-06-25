@@ -188,3 +188,22 @@ export function grouping_column_info(object_type, grouping_field_name) {
     return ( grouping_field_name )
   } 
 }
+
+export function get_display_value(object_type, field_name, data) {
+    const display_field = field(object_type, field_name)
+    if (display_field.references) {
+        const referenced_table = display_field.references;
+        const referenced_pretty_id_column = keys(referenced_table).pretty_key_id
+        return (data[display_field.name +'_'+referenced_pretty_id_column])
+    } else if (display_field.derived) {
+      function derivedMatch(match, p1, offset, string) {
+         return (data[p1])
+      }
+      return (display_field.derived.replace(/{(.*?)}/ig, derivedMatch));
+    } else if (display_field.mapping) {
+        // mappings do not have a base display value
+        return ""
+    } else {
+        return (data[field_name])
+    }
+}

@@ -1,6 +1,7 @@
-import React from 'react';
-import { Paper} from '@material-ui/core';
-import * as meta from '../../Utils/meta.js'
+import React, {Fragment} from 'react';
+import {Paper, Typography} from '@material-ui/core';
+//import * as meta from '../../Utils/meta.js'
+import {Field} from "../Experimental"
 
 class Text extends React.Component {
   constructor(props) {
@@ -8,12 +9,22 @@ class Text extends React.Component {
   }
 
   render() {
+    const data = {first_name:"Tracy", last_anme:"Adams", service_category_name:"Nail"}
     return (
-      <div>
-       {this.props.title}
-       <p/>
-       {this.props.text}
-      </div>
+      <Fragment>
+        <Typography variant="headline">
+         {this.props.title}
+        </Typography>
+        <Typography variant="body1" style={{padding:10}}>
+         {this.props.text}
+        </Typography>
+        <Field
+            object_type="employee"
+            field_name="full_name"
+            mode = "view"
+            data={data}
+        />
+      </Fragment>
     )
   }
 }
