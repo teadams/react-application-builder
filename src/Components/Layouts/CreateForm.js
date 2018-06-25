@@ -173,7 +173,7 @@ class CreateForm extends React.Component {
       disabled = true
     }
     log.val("field, disabled", field.name, disabled)
-   if (!field.key && !field.menu_link) {
+   if (!field.key && !field.menu_link && !field.derived) {
 //       log.val('create form field', field);
       var dependent_value = ''
       if (field.dependent_field) {

@@ -200,6 +200,7 @@ class MappingForm extends React.Component {
         <DialogTitle id="form-dialog-title">{mapping_field.pretty_name}: {mapping_field_pretty_name}</DialogTitle>
           <DialogContent>
             <DialogContentText>          </DialogContentText>       
+            <Grid container>
           {this.state.other_mapped_data && 
             this.state.other_mapped_data.map(row => {
               let label = other_mapped_pretty_derived?this.convertDerived(other_mapped_pretty_derived, row):row[other_mapped_keys.pretty_key_id]
@@ -213,9 +214,11 @@ class MappingForm extends React.Component {
                 return (
                         <Fragment>
                         {grouping_text &&
-                          <Fragment><br/>
-                          <Typography variant="title">{grouping_text}</Typography></Fragment>
+                          <Grid item sm={12}><br/>
+                          <Typography variant="title">{grouping_text}</Typography>
+                          </Grid>
                         }
+                        <Grid item sm={4}>
                        <FormControlLabel style={{marginLeft:10}}
                          control={
                            <Checkbox
@@ -226,12 +229,13 @@ class MappingForm extends React.Component {
                            />
                          }
                          label={label}
-                       /></Fragment>)
+                       /></Grid>
+                      </Fragment>)
             }
           )
         }
           
-          
+          </Grid>  
           </DialogContent>
       
             <DialogActions>
