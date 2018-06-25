@@ -101,7 +101,7 @@ class MappingForm extends React.Component {
     var new_state = {};
     var options = {}
     options.key_type = "key_id"
-    data.getData (other_mapped_table,options, (other_mapped_data, error) => { 
+    data.getData (other_mapped_table, options, (other_mapped_data, error) => { 
           new_state.other_mapped_data = other_mapped_data;
           other_mapped_data.map(row => {
             new_state["form_" + row[key_id]] = false;
@@ -143,6 +143,15 @@ class MappingForm extends React.Component {
       }
   }  
 
+  convertDerived(derived_pattern, row) {
+    function derivedMatch(match, p1, offset, string) {
+       return (row[p1])
+    }
+
+    return (derived_pattern.replace(/{(.*?)}/ig, derivedMatch));
+
+  }
+
 
   render () {
     const { open, object_type, mapping_field_name, mapping_field_value, mapping_field_pretty_name, ...other } = this.props;
@@ -153,6 +162,9 @@ class MappingForm extends React.Component {
     const unmapped_field = meta.unmapped_field(mapping_object_type, mapped_field_name)
     const other_mapped_table = unmapped_field.references;
     const other_mapped_keys = meta.keys(other_mapped_table)
+    const other_mapped_pretty_field = meta.field(other_mapped_table, other_mapped_keys.pretty_key_id)
+    const other_mapped_pretty_derived = other_mapped_pretty_field.derived
+
   //  alert ('other mapped keys is ' +JSON.stringify(other_mapped_keys)
     var grouping_column = ""
     var current_grouping = ""
@@ -174,6 +186,7 @@ class MappingForm extends React.Component {
             <DialogContentText>          </DialogContentText>       
           {this.state.other_mapped_data && 
             this.state.other_mapped_data.map(row => {
+              let label = other_mapped_pretty_derived?this.convertDerived(other_mapped_pretty_derived, row):row[other_mapped_keys.pretty_key_id]
               if(grouping_column && row[grouping_column] !== current_grouping) {
                 grouping_text = row[grouping_column]
                 current_grouping = row[grouping_column] 
@@ -185,9 +198,9 @@ class MappingForm extends React.Component {
                         <Fragment>
                         {grouping_text &&
                           <Fragment><br/>
-                          <Typography>{grouping_text}</Typography></Fragment>
+                          <Typography variant="title">{grouping_text}</Typography></Fragment>
                         }
-                       <FormControlLabel
+                       <FormControlLabel style={{marginLeft:10}}
                          control={
                            <Checkbox
                              checked={this.state["form_"+row[other_mapped_keys.key_id]]}
@@ -196,7 +209,7 @@ class MappingForm extends React.Component {
                             id = {this.state["form_map_id_"+row[other_mapped_keys.key_id]]}
                            />
                          }
-                         label={row[other_mapped_keys.pretty_key_id]}
+                         label={label}
                        /></Fragment>)
             }
           )
