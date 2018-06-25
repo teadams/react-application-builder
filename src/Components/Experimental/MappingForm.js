@@ -27,11 +27,50 @@ class MappingForm extends React.Component {
     } 
 
       this.handleClose = this.handleClose.bind(this);
-      this.handleChange = this.handleChange.bind(this);
-
+      this.handleCheckChange = this.handleCheckChange.bind(this);
+      this.handleAdditionalChange = this.handleAdditionalChange.bind(this);
+      this.handleAdditionalSubmit = this.handleAdditionalSubmit.bind(this);
     }
 
-  handleChange = unmapped_field_id => event => {
+    handleAdditionalChange = name => event => {
+        const target = event.target;
+        let new_state = this.state
+        new_state.formValues[name] = event.target.value;
+        new_state.formChanged[name] = true
+        //alert ('handle change ' + name)
+        this.setState(new_state);
+    }
+
+    handleAdditionalSubmit = name => event => {
+      const { object_type, mapping_field_name } = this.props;
+      const mapping_field = meta.field(object_type, mapping_field_name);
+      const mapping_object_type = mapping_field.mapping;
+  //alert ('in additional submit')
+
+        event.preventDefault();
+        if (this.state.formChanged[name]) {
+          //alert ('form changes ' + name)
+          const column = name.split("_").slice(1).join('_')
+          //  alert ('column is ' + column)
+          const id = name.split("_")[0]
+          let data_object = Object();
+          data_object[column] = event.target.value;
+        //  alert ('data object is ' + JSON.stringify(data_object))
+          const urltext = '/api/v1/'+ mapping_object_type +'/'+ id ;
+          axios({
+                  method: 'put',
+                  url: urltext,
+                  data: { data_object }
+          }).then (result => {
+      
+          }).catch(error => {
+                  alert ('error is ' + error.message)
+          });
+      
+        }
+    }
+
+  handleCheckChange = unmapped_field_id => event => {
     const { open, object_type, mapping_field_name, mapping_field_value, mapping_field_pretty_name, ...other } = this.props;
     const mapping_field = meta.field(object_type, mapping_field_name);
     const mapping_object_type = mapping_field.mapping;
@@ -102,6 +141,8 @@ class MappingForm extends React.Component {
     const key_id = meta.keys(other_mapped_table).key_id;
     //  alert ('key is id ' + key_id)
 
+
+
 // REWORD WITH IMMUTABILITY
     var options = {}
     options.key_type = "key_id"
@@ -117,6 +158,7 @@ class MappingForm extends React.Component {
 
           mapped_data_state.formValues = {}
           mapped_data_state.formMapIds  ={}
+          mapped_data_state.formChanged ={}
           other_mapped_data.map(row => {
             mapped_data_state.formValues[row[key_id]] = false;
           })
@@ -131,8 +173,15 @@ class MappingForm extends React.Component {
       const { open, object_type, mapping_field_name, mapping_field_value, mapping_field_pretty_name, ...other } = this.props;
       const mapping_field = meta.field(object_type, mapping_field_name);
       const mapping_object_type = mapping_field.mapping;
+      const mapping_key_id = meta.keys(mapping_object_type).key_id;
       const mapped_field_name = mapping_field.mapped_field;
       const unmapped_field = meta.unmapped_field(mapping_object_type, mapped_field_name)
+
+      let additional_fields = []
+      if (mapping_field.mapping_include_additional_fields) {
+        //  alert ('looking for additional fields if ' + mapping_object_type)
+          additional_fields = meta.mapping_additional_fields(mapping_object_type);
+      }
 
       if (this.state.other_mapped_data && this.state.load_mapping_info) {
         var options = {}
@@ -152,6 +201,11 @@ class MappingForm extends React.Component {
                 mapping_info.map(info => {
                     new_state.formValues[info[unmapped_field.name]] = true
                     new_state.formMapIds[info[unmapped_field.name]] = info[meta.keys(mapping_object_type).key_id]
+                    if (additional_fields.length >0) {
+                        additional_fields.map(field=>{
+                            new_state.formValues[info[mapping_key_id]+"_" + field.name] = info[field.name]
+                        })
+                    }
               })
              } 
               this.setState(new_state)
@@ -173,9 +227,20 @@ class MappingForm extends React.Component {
     const { open, object_type, mapping_field_name, mapping_field_value, mapping_field_pretty_name, ...other } = this.props;
 
     const mapping_field = meta.field(object_type, mapping_field_name);
+    
+    // information about the mapping
     const mapping_object_type = mapping_field.mapping;
     const mapped_field_name = mapping_field.mapped_field;
     const unmapped_field = meta.unmapped_field(mapping_object_type, mapped_field_name)
+
+    let additional_fields = []
+    if (mapping_field.mapping_include_additional_fields) {
+      //  alert ('looking for additional fields if ' + mapping_object_type)
+        additional_fields = meta.mapping_additional_fields(mapping_object_type);
+    }
+//    alert ('additional fields i ' + JSON.stringify(additional_fields ))
+
+    //information about the other table
     const other_mapped_table = unmapped_field.references;
     const other_mapped_keys = meta.keys(other_mapped_table)
     const other_mapped_pretty_field = meta.field(other_mapped_table, other_mapped_keys.pretty_key_id)
@@ -203,6 +268,7 @@ class MappingForm extends React.Component {
             <Grid container>
           {this.state.other_mapped_data && 
             this.state.other_mapped_data.map(row => {
+              let id = row[other_mapped_keys.key_id]
               let label = other_mapped_pretty_derived?this.convertDerived(other_mapped_pretty_derived, row):row[other_mapped_keys.pretty_key_id]
               if(grouping_column && row[grouping_column] !== current_grouping) {
                 grouping_text = row[grouping_column]
@@ -218,18 +284,54 @@ class MappingForm extends React.Component {
                           <Typography variant="title">{grouping_text}</Typography>
                           </Grid>
                         }
-                        <Grid item sm={4}>
+                      {(additional_fields.length>0)?
+                        <Grid container>
+                        <Grid item sm={4} style={{paddingTop:10, paddingBottom:10}}>
+                         <FormControlLabel style={{marginLeft:10}}
+                           control={
+                             <Checkbox
+                               checked={this.state.formValues[id]}
+                               onChange={this.handleCheckChange(id)}
+                               value={this.state.formValues[id]}
+                              id = {this.state.formMapIds[id]}
+                             />
+                           }
+                           label={label}
+                          /></Grid>
+                          {this.state.formValues[id] && additional_fields.map(field=> {
+                            return(<Grid item sm={4} style={{paddingTop:10, paddingBottom:10}}>
+                              <form id={id+'-'+field.name}>
+                                    <TextField    
+                                  //  InputProps={{disableUnderline:true}}
+                                //    InputLabelProps={{shrink:true}}
+                                    name={this.state.formMapIds[id]+'_'+field.name}
+                                    label={field.pretty_name}
+                                    disabled={false}
+                                    type="text"
+                                    helperText={field.helper_text}
+                                    value= {this.state.formValues[this.state.formMapIds[id]+'_'+field.name]}
+                                    onChange={this.handleAdditionalChange(this.state.formMapIds[id]+'_'+field.name)}
+                                    onBlur={this.handleAdditionalSubmit(this.state.formMapIds[id]+'_'+field.name)}
+                                   />
+                              </form>
+
+                            </Grid>)
+                          })
+                          }
+                          </Grid>
+                      :<Grid item sm={4}>
                        <FormControlLabel style={{marginLeft:10}}
                          control={
                            <Checkbox
                              checked={this.state.formValues[row[other_mapped_keys.key_id]]}
-                             onChange={this.handleChange(row[other_mapped_keys.key_id])}
+                             onChange={this.handleCheckChange(row[other_mapped_keys.key_id])}
                              value={row[other_mapped_keys.key_id]}
                             id = {this.state.formMapIds[row[other_mapped_keys.key_id]]}
                            />
                          }
                          label={label}
                        /></Grid>
+                      }
                       </Fragment>)
             }
           )

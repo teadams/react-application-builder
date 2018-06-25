@@ -232,7 +232,7 @@ class ViewForm extends React.Component {
                 <Typography>{derived_value}</Typography>
               </Fragment>
             </Grid>)
-          } else if (visible || field.valid_values || field.references || field.data_type === "boolean" || (field.data_type === "integer" && field.input_type !== "" || field.input_type === "color_picker")) {
+          } else if ( field.valid_values || field.references || field.data_type === "boolean" || (field.data_type === "integer" && field.input_type !== "" || field.input_type === "color_picker")) {
           return (            
           <Grid key={field.name}  item style={{padding:10, boxBorder:"border-box"}}  sm={grid_col}>
               <form onSubmit={this.handleSubmit(field.name)}  id={id+'-'+field.name}>

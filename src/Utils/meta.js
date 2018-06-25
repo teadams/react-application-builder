@@ -165,6 +165,14 @@ export function unmapped_field (mapping_object_type, unmapped_field_name) {
     })[0]
 }
 
+export function mapping_additional_fields (mapping_object_type) {
+    return fields(mapping_object_type).filter ( field => {
+      if (!field.key && !field.map_field ) {
+          return true
+      } 
+    })
+}
+
 export function grouping_column_info(object_type, grouping_field_name) {
   // returns the appropriate grouping field name and object type
   // (which is dependent if the grouping_field_name is a reference or not)
