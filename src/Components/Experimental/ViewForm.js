@@ -172,8 +172,9 @@ class ViewForm extends React.Component {
   
 
   convertDerived(derived_pattern, source, row, field_base) {
+    const state = this.state  
     function derivedMatch(match, p1, offset, string) {
-       return (this.state["form_"+p1])
+       return (state["form_"+p1])
     }
     function derivedMappingMatch(match, p1, offset, string) {
 //  alert ('derive mapping match with p1 ' + p1 )
