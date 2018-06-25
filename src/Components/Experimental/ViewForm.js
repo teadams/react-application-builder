@@ -27,7 +27,7 @@ class ViewForm extends React.Component {
     this.renderField = this.renderField.bind(this);
     this.loadData = this.loadData.bind(this);
     this.loadMappedData = this.loadMappedData.bind(this);
-    this.derivedMatch = this.derivedMatch.bind(this);
+    this.convertDerived = this.convertDerived.bind(this);
   } 
 
 
@@ -170,12 +170,23 @@ class ViewForm extends React.Component {
   }
 
   
-  derivedMatch(match, p1, offset, string) {
-     return (this.state["form_"+p1])
-  }
 
-  convertDerived(derived_pattern) {
-    return (derived_pattern.replace(/{(.*?)}/ig, this.derivedMatch));
+  convertDerived(derived_pattern, source, row, field_base) {
+    function derivedMatch(match, p1, offset, string) {
+       return (this.state["form_"+p1])
+    }
+    function derivedMappingMatch(match, p1, offset, string) {
+//  alert ('derive mapping match with p1 ' + p1 )
+//alert ('and here is teh row ' + JSON.stringify(row))
+       return (row[field_base + '_'+ p1])
+    }
+
+    if (source === "mapping") {
+    //alert ('getting mapping with field base ' + field_base)
+      return (derived_pattern.replace(/{(.*?)}/ig, derivedMappingMatch));  
+    } else {
+      return (derived_pattern.replace(/{(.*?)}/ig, derivedMatch));
+    }
   }
   
   renderField(field) {
@@ -185,7 +196,7 @@ class ViewForm extends React.Component {
     const id = this.state["form_"+meta.keys(this.props.object_type).key_id]
     const pretty_name_field_name = meta.pretty_name_column(this.props.object_type)
     const grid_col = field.grid_col?field.grid_col:4
-    const width= grid_col * 70
+    const width= grid_col * 75
     const multiline = (field.size=="large")?true:false
 
     if (field.name != keys.key_id && field.name != keys.pretty_key_id) {
@@ -211,6 +222,8 @@ class ViewForm extends React.Component {
             const mapped_field_name = field.mapped_field;
             const unmapped_field = meta.unmapped_field(mapping_object_type, mapped_field_name)
             const other_mapped_table = unmapped_field.references;  
+            const other_mapped_pretty_field = meta.field(other_mapped_table, meta.keys(other_mapped_table).pretty_key_id)
+            const other_mapped_pretty_derived = other_mapped_pretty_field.derived
             const width= grid_col * 70
             return(
               <Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}}  sm={grid_col}>
@@ -218,7 +231,10 @@ class ViewForm extends React.Component {
                {!disabled && <EditButton float="right" size="small" onClick={()=>{this.setState({mapping_open:true, mapping_field_name:field.name})}} value={field.name}/>} </Typography>
                 {this.state["form_" + field.name] &&
                     this.state["form_" + field.name].map(row => {
-                      return (<Chip label={row[unmapped_field.name +"_" + meta.keys(other_mapped_table).pretty_key_id]}/>)
+                      let chip_label = other_mapped_pretty_derived ?
+                            this.convertDerived(other_mapped_pretty_derived, "mapping", row, unmapped_field.name)
+                          :row[unmapped_field.name +"_" + meta.keys(other_mapped_table).pretty_key_id]
+                      return (<Chip style={{marginRight:10}} label={chip_label}/>)
                     })
                 }
                 
