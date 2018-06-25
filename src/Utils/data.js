@@ -26,9 +26,11 @@ export function getData (object_type, options, callback)   {
    method: 'get',
    url: urltext,
  }).then(results => {
+  //      alert ('got data')
       callback(results.data,"");
   }).catch(error => {
     log.val('in catch error', error.message)
+    alert ('error getting data', error.message)
     callback('', error);
   })
 }
