@@ -24,6 +24,7 @@ class Field extends React.Component {
             // text - text only
             // form - full form, this component will call server to update
             // form-element - one form element - this component will not call server to update
+      // id - the value for the the key from this row
       this.state = {
         value_changed: false
       }
@@ -48,7 +49,7 @@ class Field extends React.Component {
   //  alert ('loading mapped data for ' + field_name)
     var options = {}
     options.filter_field = field.mapped_field;
-    options.filter_id = this.props.selected_id;
+    options.filter_id = this.props.id;
     options.key_type = "key_id";
     data.getData(field.mapping, options, (mapped_data, error) => { 
     //  alert ("mapped data is " + JSON.stringify(mapped_data))
