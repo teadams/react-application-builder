@@ -15,10 +15,19 @@ class ViewForm extends React.Component {
   constructor(props) {
     super(props);           
 
+  // props
+  // object_type
+  // selected_id
+  // grouping_field_name
+  // onDataChange
+
     this.state = {
         item_data: "",
         pretty_name_edit: false,
-        props_object_type: ''
+        props_object_type: '',
+        formValues: {},
+        formChanged: {},
+        formUnderlined:{}
     }  
     this.handleChange = this.handleChange.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
@@ -32,26 +41,16 @@ class ViewForm extends React.Component {
 
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    // in order for our dynamically managed form elements to be controlled,
-    // we need initialized them with values set in the state.  Otherwise
-    // we get "you are changing uncontrolled components to controlled" warnings
     if (nextProps.object_type && nextProps.object_type != prevState.props_object_type) {
-      var new_state = {};
-      new_state.props_object_type = nextProps.object_type;
-      meta.fields(nextProps.object_type).map(field => {
-            // We choose to stare each form value in the state with field name
-            // pre-pended by "form"
-            //  a) No chance of name collision with other state variables
-            //  b) We avoid complications with storing objects in the state.
-            //     (because javascript passes objects by reference, it takes
-            //      work/resources to avoid changing the state directly)
-              new_state["form_" + field.name] = "";
-            // Keep track of this field has changed since last db update
-              new_state["form_changed_" + field.name] = false
-              new_state["form_underlined_" + field.name] = false
-      })
-    // alert ('new state is ' + JSON.stringify(new_state))
-      return new_state
+      const refreshed_state =    {
+              item_data: "",
+              pretty_name_edit: false,
+              props_object_type: nextProps.object_type,
+              formValues: {},
+              formChanged: {},
+              formUnderlined: {}
+          }  
+      return refreshed_state
     }
     return null
   }
@@ -59,16 +58,16 @@ class ViewForm extends React.Component {
   loadData() {
 //    window.scrollTo(0,0)
     data.getData (this.props.object_type, {id:this.props.selected_id}, (item_data, error) => { 
-          var new_state = {};
-//          alert ("get data")
+          // set completed new state
+          var new_state = this.state;
           new_state.item_data = item_data;
+          new_state.pretty_name_edit = false;
           meta.fields(this.props.object_type).map(field => {
             if (!field.mapping) {
-              new_state["form_" + field.name] = (item_data[field.name] !== null)?item_data[field.name]:""
-              new_state["form_changed_" + field.name] = false
-              new_state["form_underlined_" + field.name] =  (item_data[field.name]===null || item_data[field.name===""])?true:false
+              new_state.formValues[field.name] = (item_data[field.name] !== null)?item_data[field.name]:""
+              new_state.formChanged[field.name] = false
+              new_state.formUnderlined[field.name] =  (item_data[field.name]===null || item_data[field.name===""])?true:false
           } else {
-//              alert ('new get data for ' + this.props.selected_id)
                 this.loadMappedData(field);
           }})
           this.setState(new_state)
@@ -82,10 +81,10 @@ class ViewForm extends React.Component {
     options.key_type = "key_id"
   //  alert ("getting mapped data for " + JSON.stringify(options))
     data.getData (field.mapping, options, (mapped_data, error) => { 
-      var mapped_state = {}
-//      alert ('mapped data for ' + field.name + ' is  '+ JSON.stringify(mapped_data))
-      mapped_state["form_" + field.name] = mapped_data
-      mapped_state["form_changed_" + field.name] = false
+// TODO - fix this to be ummuatable
+      var mapped_state = this.state
+      mapped_state.formValues[field.name] = mapped_data
+      mapped_state.formChanged[field.name] = false
       this.setState(mapped_state)
     })
   }
@@ -95,16 +94,13 @@ class ViewForm extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-  //  alert('DID UPDATE upate and form values is ' + JSON.stringify(formValues))
-//alert("coponent id update " + this.props.selected_id )
-      if (prevProps.selected_id !== this.props.selected_id) {
-  //  alert("outside getting datat")
+      if (prevProps.selected_id !== this.props.selected_id || 
+          prevProps.object_type !== this.props.object_type) {
           this.loadData();
       }
   }  
 
   handleMappingClose = field_name => {
-//      alert('in maping close ' + field_name)
       this.loadMappedData(meta.field(this.props.object_type, field_name))
       this.setState({mapping_open:false});
   }
@@ -113,31 +109,35 @@ class ViewForm extends React.Component {
   handleChange = name => event => {
       const target = event.target;
       const value = target.type === 'checkbox' ? target.checked : target.value;
-      var new_state = {}
-      new_state["form_"+name] = value;
-      new_state["form_changed_" +name ] = true
+      // TODO make ummutable
+      var new_state =this.State
+      new_state.formValues[name] = value;
+      new_state.formChanged[name ] = true
       //alert ('handle change ' + name)
       this.setState(new_state);
   }
 
+/// Beleive this will move down a level
   handleFocus = event => {
       var new_state = {}
-      new_state["form_underlined_" +event.target.name ] = true
+      new_state.formUnderlined[event.target.name ] = true
       this.setState(new_state);
   }
 
+// BELIEVE this will move donw a leve
   handleSubmit = name => event => {
       event.preventDefault();
-      if (this.state["form_changed_"+name]) {
+      if (this.state.formChanged[name]) {
         this.handleDBUpdate(name);
       } else {
-          var new_state={};
+          var new_state=this.state;
           new_state.pretty_name_edit = false;
-          new_state["form_underlined_" + name ] = false;
+          new_state.formUnderlined[name ] = false;
           this.setState(new_state);
       }
   }
-  
+
+// THIS will move down a level  
   handleDBUpdate(field_name) {
       const object_type = this.props.object_type;
       const pretty_field_name = meta.keys(object_type).pretty_key_id;
@@ -171,10 +171,11 @@ class ViewForm extends React.Component {
 
   
 
+// This will move down a level
   convertDerived(derived_pattern, source, row, field_base) {
     const state = this.state  
     function derivedMatch(match, p1, offset, string) {
-       return (state["form_"+p1])
+       return (state.formValues[p1])
     }
     function derivedMappingMatch(match, p1, offset, string) {
 //  alert ('derive mapping match with p1 ' + p1 )
@@ -229,7 +230,8 @@ class ViewForm extends React.Component {
             return(
               <Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}}  sm={grid_col}>
                 <Typography style={{padding:0, border:0, width:width}}>{field.pretty_name} 
-               {!disabled && <EditButton float="right" size="small" onClick={()=>{this.setState({mapping_open:true, mapping_field_name:field.name})}} value={field.name}/>} </Typography>
+    
+              {!disabled && <EditButton float="right" size="small" onClick={()=>{this.setState({mapping_open:true, mapping_field_name:field.name})}} value={field.name}/>} </Typography>
                 {this.state["form_" + field.name] &&
                     this.state["form_" + field.name].map(row => {
                       let chip_label = other_mapped_pretty_derived ?
@@ -307,15 +309,13 @@ class ViewForm extends React.Component {
     const id = this.state["form_"+meta.keys(this.props.object_type).key_id]
     const pretty_name_field_name = meta.pretty_name_column(this.props.object_type)
     const pretty_name_field_derived = meta.field(this.props.object_type,pretty_name_field_name).derived
-  //  alert ("pretty name derived" + pretty_name_field_derived)
-    
+  //  alert ("pretty name derived" + pretty_name_field_derived)    
     const sections = meta.sections(this.props.object_type);
-    const flex_direction= sections?"column":"row"
 
   //  alert ('render with selected id ' + this.props.selected_id)
     return (
       <Fragment>
-      {this.state.mapping_open &&
+        {this.state.mapping_open &&
         <MappingForm 
           open={this.state.mapping_open}
           onClose={this.handleMappingClose}
@@ -325,63 +325,55 @@ class ViewForm extends React.Component {
           mapping_field_pretty_name ={this.state["form_" + pretty_name_field_name]}
         />}
 
-      {this.state.pretty_name_edit  ? 
+        {this.state.pretty_name_edit  ? 
         <form onSubmit={this.handleSubmit(pretty_name_field_name)}
         id={id+'-'+this.state.item_data[keys.pretty_key_id]}>
         <TextField    
         margin="normal"
         name={keys.pretty_key_id}
         type="text"
-        value=  {this.state["form_"+pretty_name_field_name]}
+        value=  {this.state.formValues[pretty_name_field_name]}
         onChange={this.handleChange(pretty_name_field_name)}
         onBlur={this.handleSubmit(pretty_name_field_name)}
         />
-      </form>
-          : (pretty_name_field_derived)? <Typography  style= {{textTransform:"capitalize"}}  variant="headline" gutterBottom>{this.convertDerived(pretty_name_field_derived)}</Typography>
-          : <Typography  style= {{textTransform:"capitalize"}}  onClick={()=>{this.setState({pretty_name_edit:true})}} variant="headline" gutterBottom>{this.state["form_" + pretty_name_field_name]} </Typography>}
-  
-
-     <Grid container  alignContent='flex-start'  justify="flex-start" direction={flex_direction} wrap="wrap" >
-      {this.state.item_data && !sections && object_fields.map(field => {
+        </form>
+          : (pretty_name_field_derived)? <Typography  style= {{textTransform:"capitalize"}}        variant="headline" gutterBottom>{this.convertDerived(pretty_name_field_derived)}</Typography>
+          : <Typography  style= {{textTransform:"capitalize"}}  onClick={()=>{this.setState({pretty_name_edit:true})}} variant="headline" gutterBottom>{this.state.formValues[pretty_name_field_name]} </Typography>
+        }
+        <Grid container  alignContent='flex-start'  justify="flex-start" wrap="wrap" >
+        {this.state.item_data && !sections && object_fields.map(field => {
           return (this.renderField(field))
       })}
-      {this.state.item_data && sections && sections.map(section => {
-        var section_fields = meta.section_fields(this.props.object_type, section.name)
-        if (section_fields.length > 0) {
-           var field_render = (section_fields.map(field=>{
-                  return (this.renderField(field))
-           }))
-           return (
-              <Grid item style={{padding:10}} sm={12}>
-                  <Paper style={{boxSizing:"border-box", padding:10, height:"100%"}}>
-                    <Typography variant="title" > {section.title} </Typography>
-                    <Divider style={{marginBottom:10}}/>
-                    <Grid container >
-                    <Grid item sm={12}><Typography>{section.text}</Typography></Grid>
-                    {field_render}
-                    </Grid>
-                  </Paper>
-              </Grid>)
-          } else if (section.text) {
-                return (
+        {this.state.item_data && sections && sections.map(section => {
+        return (
+          <Grid item style={{padding:10}} sm={12}>
+          <Paper style={{boxSizing:"border-box", padding:10, height:"100%"}}>  
+          <Grid container  alignContent='flex-start'  justify="flex-start"  wrap="wrap" >
+            {section.title &&
+                <Grid item sm={12}>
+                  <Typography variant="title" > {section.title} </Typography>
+                  <Divider style={{marginBottom:10}}/>
+                </Grid>
+            }
+            {section.text && 
                   <Grid item style={{padding:10}} sm={12}>
-                      <Paper style={{boxSizing:"border-box", padding:10, height:"100%"}}>
-                        <Typography variant="title" > {section.title} </Typography>
-                        <Divider style={{marginBottom:10}}/>
-                        <Grid container >
-                        {section.text}
-                        </Grid>
-                      </Paper>
+                    {section.text}
                   </Grid>
-      
-                )               
-          } else {
-            return ""
-          }
-          })}
-  </Grid>
-  </Fragment>
-)}
+            }
+            
+                {meta.section_fields(this.props.object_type, section.name).map(field=>{
+                      return (this.renderField(field))
+                })
+              }
+              
+            </Grid>
+          </Paper>
+          </Grid>)  
+        })}    
+        </Grid>        
+      </Fragment>
+    )
+  } 
 }
 
 
