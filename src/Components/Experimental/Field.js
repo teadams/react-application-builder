@@ -87,9 +87,20 @@ class Field extends React.Component {
       const { object_type, field_name, data_object } = this.props;
       const field = meta.field(object_type,field_name);
 
-      if (field.mapping) {
+      if (field.derived) {
+        return( <TextField    
+          InputLabelProps={{shrink:true}}
+          name={field.name}
+          label={field.pretty_name}
+          disabled={true}
+          type="text"
+          helperText={field.helper_text}
+          value=  {this.getDisplayView()}
+         style={{width:"90%"}}
+    />)
+
+      } else if (field.mapping) {
 //                <Typography style={{padding:0, border:0, width:width}}>{field.pretty_name} 
-    
     
 //          {!disabled && <EditButton float="right" size="small" onClick={()=>{this.setState({mapping_open:true, mapping_field_name:field.name})}} value={field.name}/>} </Typography>
   
@@ -107,7 +118,7 @@ class Field extends React.Component {
                 helperText={field.helper_text}
                 form_object_type={this.props.object_type}
                 label={field.pretty_name}
-//               value= {this.state["form_"+field.name]}
+                value= {this.state.value}
                 open="true"
 //               onBlur={this.handleSubmit(field.name)}
 //               onChange={this.handleChange(field.name)}
@@ -126,7 +137,7 @@ class Field extends React.Component {
           type="text"
           multiline={multiline}
           helperText={field.helper_text}
-          value=  "TEST"
+          value=  {this.state.value}
   //        onFocus={this.handleFocus}
   //        onChange={this.handleChange(field.name)}
   //        onBlur={this.handleSubmit(field.name)}

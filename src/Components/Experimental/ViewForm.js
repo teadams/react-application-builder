@@ -210,7 +210,7 @@ class ViewForm extends React.Component {
         onBlur={this.handleSubmit(pretty_name_field_name)}
         />
         </form>
-          : (pretty_name_field_derived)? <Typography  style= {{textTransform:"capitalize"}}        variant="headline" gutterBottom>{this.convertDerived(pretty_name_field_derived)}</Typography>
+          : (pretty_name_field_derived)? <Typography  style= {{textTransform:"capitalize"}}        variant="headline" gutterBottom>pretty_name_field_derived</Typography>
           : <Typography  style= {{textTransform:"capitalize"}}  onClick={()=>{this.setState({pretty_name_edit:true})}} variant="headline" gutterBottom>{this.state.formValues[pretty_name_field_name]} </Typography>
         }
         <Grid container  alignContent='flex-start'  justify="flex-start" wrap="wrap" >
