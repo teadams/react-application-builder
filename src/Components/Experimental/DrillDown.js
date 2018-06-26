@@ -145,26 +145,26 @@ class DrillDown extends React.Component {
                     grouping_value = grouping_value?grouping_value.toString():"None"
                     if (current_grouping != grouping_value) {
                       current_grouping = grouping_value
-                      group_header = <Field style={{marginLeft:5,marginBottom:5}} align="left" variant="subheading" object_type={this.props.object_type} field_name={grouping_field_name} data={row} mode="text"> 
+                      group_header = <Typography style={{marginLeft:5,marginBottom:5}} align="left" variant="subheading"> <Field object_type={this.props.object_type} field_name={grouping_field_name} data={row} mode="text"/> 
                           {expand_contract  &&
                           (!this.state["less_"+current_grouping]? 
                           <ButtonExpandMore  float="right" onClick={()=> {this.setState({["less_"+row[grouping_column]]:true})}}/>
                           :
                             <ButtonExpandLess  float="right" onClick={()=> {this.setState({["less_"+row[grouping_column]]:false})}}/>
                           )}
-                      </Field>;
+                      </Typography>;
                   }}
 
                 if (!expand_contract || this.state["less_"+current_grouping]) {
                         return(<Fragment>{group_header}
                         <ListItem key={row[keys.key_id]}  dense button onClick={() => this.handleClick(row[keys.key_id], row[keys.pretty_key_id])}> 
-                          <Field object_type = {this.props.object_type} 
+                          <Typography color={color} variant={variant}>
+                            <Field object_type = {this.props.object_type} 
                               field_name = {keys.pretty_key_id}  
                               data={row}
                               mode="view"
-                              variant={variant}
-                              color={color}
                             /> 
+                          </Typography>
                         </ListItem>
                         </Fragment>)
                   } else {

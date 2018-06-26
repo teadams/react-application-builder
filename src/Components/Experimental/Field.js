@@ -37,21 +37,15 @@ class Field extends React.Component {
 
   render()  {
 // handle visibility and disabled handleEditRender
-      return (<Typography variant={this.props.variant} 
-                color={this.props.color} style={this.props.style} align={this.props.align}>
+      return (<Fragment>
                 {this.getDisplayView()} 
-                {this.props.children}
-              </Typography>)
+              </Fragment>)
   }
 
 }
 
 Field.defaultProps = {
-    mode: 'text',
-    variant: 'body2',
-    color:'',
-    style:{},
-    align:''
+    mode: 'text'
   };
 
 export default Field;
