@@ -105,7 +105,7 @@ class DrillDown extends React.Component {
 
 
   render()  {
-      log.func ('Render Drill down', 'drill down render state', this.state)
+//      log.func ('Render Drill down', 'drill down render state', this.state)
       const object_attributes = meta.object(this.props.object_type);
 // TODO - create form should not need object fields as prop
       const object_fields = meta.fields(this.props.object_type);
@@ -135,7 +135,7 @@ class DrillDown extends React.Component {
                     grouping_value = grouping_value?grouping_value.toString():"None"
                     if (current_grouping != grouping_value) {
                       current_grouping = grouping_value
-                      group_header = <Typography style={{marginLeft:5,marginBottom:5}} align="left" variant="subheading"> <Field object_type={this.props.object_type} field_name={grouping_field_name} data={row} mode="text"/> 
+                      group_header = <Typography style={{marginLeft:5,marginBottom:5}} align="left" variant="subheading"> <Field object_type={this.props.object_type} field_name={grouping_field_name} data_object={row} mode="text"/> 
                           {expand_contract  &&
                           (!this.state["less_"+current_grouping]? 
                           <ButtonExpandMore  float="right" onClick={()=> {this.setState({["less_"+grouping_value]:true})}}/>
@@ -151,7 +151,7 @@ class DrillDown extends React.Component {
                           <Typography color={color} variant={variant}>
                             <Field object_type = {this.props.object_type} 
                               field_name = {keys.pretty_key_id}  
-                              data={row}
+                              data_object={row}
                               mode="view"
                             /> 
                           </Typography>

@@ -191,14 +191,32 @@ export function grouping_column_info(object_type, grouping_field_name) {
 
 export function get_display_value(object_type, field_name, data) {
     const display_field = field(object_type, field_name)
+    function derivedMatch(match, p1, offset, string) {
+        log.val ("p1", p1)
+       return (data[p1])
+    }
     if (display_field.references) {
+      
         const referenced_table = display_field.references;
         const referenced_pretty_id_column = keys(referenced_table).pretty_key_id
-        return (data[display_field.name +'_'+referenced_pretty_id_column])
+        const referenced_field = field(referenced_table, referenced_pretty_id_column)
+        log.val('column ' , display_field.name +'_'+referenced_pretty_id_column)
+        log.val('referenced_field', referenced_field)
+        log.val('data', data)
+        function derivedReferencedMatch(match, p1, offset, string) {
+            log.val ("p1", p1)
+           return (data[field_name+"_"+p1])
+        }
+        if (referenced_field.derived) {
+          return (referenced_field.derived.replace(/{(.*?)}/ig, derivedReferencedMatch));
+        } else {
+          return (data[display_field.name +'_'+referenced_pretty_id_column])
+        }
     } else if (display_field.derived) {
-      function derivedMatch(match, p1, offset, string) {
-         return (data[p1])
-      }
+      log.func("get display values")
+      log.val ('field',display_field)
+      log.val('data', data)
+      log.val('display field derived', display_field.derived)
       return (display_field.derived.replace(/{(.*?)}/ig, derivedMatch));
     } else if (display_field.mapping) {
         // mappings do not have a base display value

@@ -22,7 +22,7 @@ class Text extends React.Component {
             object_type="employee"
             field_name="full_name"
             mode = "view"
-            data={data}
+            data_object={data}
         />
       </Fragment>
     )

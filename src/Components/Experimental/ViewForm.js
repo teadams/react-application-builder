@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import {SelectField, EditButton} from "../Layouts/index.js";
-import {MappingForm} from "./index.js"
+import {MappingForm, Field} from "./index.js"
 import * as data from '../../Utils/data.js';
 import update from 'immutability-helper';
 
@@ -192,9 +192,23 @@ class ViewForm extends React.Component {
   }
   
   renderField(field) {
+    const keys = meta.keys(this.props.object_type);
+
+    if (field.name != keys.key_id && field.name != keys.pretty_key_id) {
+      return (
+      <Grid item sm={4}>{field.name} =
+        <Field object_type = {this.props.object_type} 
+          field_name = {field.name}  
+          data_object={this.state.item_data}
+          mode="view"
+        /> 
+      </Grid>)
+    } else {
+        return null
+    }
     const object_attributes = meta.object(this.props.object_type);
     const object_fields = meta.fields(this.props.object_type);
-    const keys = meta.keys(this.props.object_type);
+  //  const keys = meta.keys(this.props.object_type);
     const id = this.state["form_"+meta.keys(this.props.object_type).key_id]
     const pretty_name_field_name = meta.pretty_name_column(this.props.object_type)
     const grid_col = field.grid_col?field.grid_col:4
@@ -206,7 +220,7 @@ class ViewForm extends React.Component {
         const dependent_field = field.dependent_field
         let disabled = false
         let visible = true
-//        alert ('depednent field  for ' +field.name + ' is' + this.state["form_"+dependent_field])
+
         if (dependent_field && !this.state["form_"+dependent_field]) {
             disabled = true
             if (field.dependent_action ===  "visible") {
@@ -214,9 +228,7 @@ class ViewForm extends React.Component {
 //              alert ("visible is false")
             }
         }
-        if (!visible) {
-            return ""
-        }
+
           
           if (field.mapping) {
 //            const mapping_field = meta.field(object_type, mapping_field_name);
@@ -244,13 +256,7 @@ class ViewForm extends React.Component {
               </Grid>
               )
           } else if (field.derived )  { 
-            const derived_value = this.convertDerived(field.derived)
-            return (<Grid key={field.name}  item style={{padding:10, boxBorder:"border-box"}}  sm={grid_col}>
-              <Fragment>
-                <Typography style={{padding:0, border:0, width:width}}>{field.pretty_name}</Typography>
-                <Typography>{derived_value}</Typography>
-              </Fragment>
-            </Grid>)
+
           } else if ( field.valid_values || field.references || field.data_type === "boolean" || (field.data_type === "integer" && field.input_type !== "" || field.input_type === "color_picker")) {
           return (            
           <Grid key={field.name}  item style={{padding:10, boxBorder:"border-box"}}  sm={grid_col}>
