@@ -95,24 +95,24 @@ class Field extends React.Component {
   
           return (this.getDisplayView())
       } else if ( field.valid_values || field.references || field.data_type === "boolean" || (field.data_type === "integer" && field.input_type !== "" || field.input_type === "color_picker")) {
-            return(<Typography>Select field goes here</Typography>)
-
-//            <SelectField 
-//               key={field.name}    
+            return(
+            <SelectField 
+              key={field.name}    
 //               disabled={disabled}
-//               object_type={field.references}
-//               valid_values={field.valid_values}
-//               shrink="true"
-//               field={field}
+                object_type={field.references}
+                valid_values={field.valid_values}
+                shrink="true"
+                field={field}
 //               disableUnderline = {disable_underline}
-//               helperText={field.helper_text}
-//               form_object_type={this.props.object_type}
-//               label={field.pretty_name}
+                helperText={field.helper_text}
+                form_object_type={this.props.object_type}
+                label={field.pretty_name}
 //               value= {this.state["form_"+field.name]}
-//               open="true"
+                open="true"
 //               onBlur={this.handleSubmit(field.name)}
 //               onChange={this.handleChange(field.name)}
-//               style={{width:width}}/> 
+               style={{width:"90%"}}
+              /> )
 
       } else {
         const multiline = (field.size=="large")?true:false
@@ -130,7 +130,7 @@ class Field extends React.Component {
   //        onFocus={this.handleFocus}
   //        onChange={this.handleChange(field.name)}
   //        onBlur={this.handleSubmit(field.name)}
-  //        style={{width:width}}
+           style={{width:"90%"}}
         />)
     }
   }
