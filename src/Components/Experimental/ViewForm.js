@@ -35,8 +35,6 @@ class ViewForm extends React.Component {
     this.handleMappingClose = this.handleMappingClose.bind(this);
     this.renderField = this.renderField.bind(this);
     this.loadData = this.loadData.bind(this);
-    this.loadMappedData = this.loadMappedData.bind(this);
-    this.convertDerived = this.convertDerived.bind(this);
   } 
 
 
@@ -67,27 +65,12 @@ class ViewForm extends React.Component {
               new_state.formValues[field.name] = (item_data[field.name] !== null)?item_data[field.name]:""
               new_state.formChanged[field.name] = false
               new_state.formUnderlined[field.name] =  (item_data[field.name]===null || item_data[field.name===""])?true:false
-          } else {
-                this.loadMappedData(field);
-          }})
+          } 
           this.setState(new_state)
-    })   
+          })})   
   }
 
-  loadMappedData(field) {
-    var options = {}
-    options.filter_field = field.mapped_field
-    options.filter_id = this.props.selected_id;
-    options.key_type = "key_id"
-  //  alert ("getting mapped data for " + JSON.stringify(options))
-    data.getData (field.mapping, options, (mapped_data, error) => { 
-// TODO - fix this to be ummuatable
-      var mapped_state = this.state
-      mapped_state.formValues[field.name] = mapped_data
-      mapped_state.formChanged[field.name] = false
-      this.setState(mapped_state)
-    })
-  }
+
   componentDidMount() {
 //    alert ("drill mount")
       this.loadData();
@@ -170,141 +153,25 @@ class ViewForm extends React.Component {
   }
 
   
-
-// This will move down a level
-  convertDerived(derived_pattern, source, row, field_base) {
-    const state = this.state  
-    function derivedMatch(match, p1, offset, string) {
-       return (state.formValues[p1])
-    }
-    function derivedMappingMatch(match, p1, offset, string) {
-//  alert ('derive mapping match with p1 ' + p1 )
-//alert ('and here is teh row ' + JSON.stringify(row))
-       return (row[field_base + '_'+ p1])
-    }
-
-    if (source === "mapping") {
-    //alert ('getting mapping with field base ' + field_base)
-      return (derived_pattern.replace(/{(.*?)}/ig, derivedMappingMatch));  
-    } else {
-      return (derived_pattern.replace(/{(.*?)}/ig, derivedMatch));
-    }
-  }
   
   renderField(field) {
     const keys = meta.keys(this.props.object_type);
+    const grid_col = field.grid_col?field.grid_col:4
+    const width= grid_col * 75
 
     if (field.name != keys.key_id && field.name != keys.pretty_key_id) {
       return (
-      <Grid item sm={4}>{field.name} =
+      <Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}} sm={grid_col}>
         <Field object_type = {this.props.object_type} 
           field_name = {field.name}  
           data_object={this.state.item_data}
-          mode="view"
+          mode="form"
+          id = {this.props.selected_id}
         /> 
       </Grid>)
     } else {
         return null
-    }
-    const object_attributes = meta.object(this.props.object_type);
-    const object_fields = meta.fields(this.props.object_type);
-  //  const keys = meta.keys(this.props.object_type);
-    const id = this.state["form_"+meta.keys(this.props.object_type).key_id]
-    const pretty_name_field_name = meta.pretty_name_column(this.props.object_type)
-    const grid_col = field.grid_col?field.grid_col:4
-    const width= grid_col * 75
-    const multiline = (field.size=="large")?true:false
-
-    if (field.name != keys.key_id && field.name != keys.pretty_key_id) {
-        const disable_underline = !this.state["form_underlined_" + field.name]
-        const dependent_field = field.dependent_field
-        let disabled = false
-        let visible = true
-
-        if (dependent_field && !this.state["form_"+dependent_field]) {
-            disabled = true
-            if (field.dependent_action ===  "visible") {
-                visible = false
-//              alert ("visible is false")
-            }
-        }
-
-          
-          if (field.mapping) {
-//            const mapping_field = meta.field(object_type, mapping_field_name);
-            const mapping_object_type = field.mapping;
-            const mapped_field_name = field.mapped_field;
-            const unmapped_field = meta.unmapped_field(mapping_object_type, mapped_field_name)
-            const other_mapped_table = unmapped_field.references;  
-            const other_mapped_pretty_field = meta.field(other_mapped_table, meta.keys(other_mapped_table).pretty_key_id)
-            const other_mapped_pretty_derived = other_mapped_pretty_field.derived
-            const width= grid_col * 70
-            return(
-              <Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}}  sm={grid_col}>
-                <Typography style={{padding:0, border:0, width:width}}>{field.pretty_name} 
-    
-              {!disabled && <EditButton float="right" size="small" onClick={()=>{this.setState({mapping_open:true, mapping_field_name:field.name})}} value={field.name}/>} </Typography>
-                {this.state["form_" + field.name] &&
-                    this.state["form_" + field.name].map(row => {
-                      let chip_label = other_mapped_pretty_derived ?
-                            this.convertDerived(other_mapped_pretty_derived, "mapping", row, unmapped_field.name)
-                          :row[unmapped_field.name +"_" + meta.keys(other_mapped_table).pretty_key_id]
-                      return (<Chip style={{marginRight:10}} label={chip_label}/>)
-                    })
-                }
-                
-              </Grid>
-              )
-          } else if (field.derived )  { 
-
-          } else if ( field.valid_values || field.references || field.data_type === "boolean" || (field.data_type === "integer" && field.input_type !== "" || field.input_type === "color_picker")) {
-          return (            
-          <Grid key={field.name}  item style={{padding:10, boxBorder:"border-box"}}  sm={grid_col}>
-              <form onSubmit={this.handleSubmit(field.name)}  id={id+'-'+field.name}>
-                <SelectField 
-                   key={field.name}    
-                   disabled={disabled}
-                   object_type={field.references}
-                   valid_values={field.valid_values}
-                   shrink="true"
-                   field={field}
-                   disableUnderline = {disable_underline}
-                   helperText={field.helper_text}
-                   form_object_type={this.props.object_type}
-                   label={field.pretty_name}
-                   value= {this.state["form_"+field.name]}
-                   open="true"
-                   onBlur={this.handleSubmit(field.name)}
-                   onChange={this.handleChange(field.name)}
-                   style={{width:width}}/> 
-              </form>
-            </Grid>
-          
-        )  
-      } else {
-      return (
-        <Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}} sm={grid_col}>
-            <form onSubmit={this.handleSubmit(field.name)}  id={id+'-'+field.name}>
-                  <TextField    
-                  InputProps={{disableUnderline:disable_underline}}
-                  InputLabelProps={{shrink:true}}
-                  name={field.name}
-                  label={field.pretty_name}
-                  disabled={disabled}
-                  type="text"
-                  multiline={multiline}
-                  helperText={field.helper_text}
-                  value=  {this.state["form_"+field.name]}
-                  onFocus={this.handleFocus}
-                  onChange={this.handleChange(field.name)}
-                  onBlur={this.handleSubmit(field.name)}
-                  style={{width:width}}
-                 />
-            </form>
-       </Grid>
-      )
-    }    
-    }
+    }  
   }
 
   render () {

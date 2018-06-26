@@ -83,11 +83,88 @@ class Field extends React.Component {
     }
   }
 
+  renderField() {
+      const { object_type, field_name, data_object } = this.props;
+      const field = meta.field(object_type,field_name);
+
+      if (field.mapping) {
+//                <Typography style={{padding:0, border:0, width:width}}>{field.pretty_name} 
+    
+    
+//          {!disabled && <EditButton float="right" size="small" onClick={()=>{this.setState({mapping_open:true, mapping_field_name:field.name})}} value={field.name}/>} </Typography>
+  
+          return (this.getDisplayView())
+      } else if ( field.valid_values || field.references || field.data_type === "boolean" || (field.data_type === "integer" && field.input_type !== "" || field.input_type === "color_picker")) {
+            return(<Typography>Select field goes here</Typography>)
+
+//            <SelectField 
+//               key={field.name}    
+//               disabled={disabled}
+//               object_type={field.references}
+//               valid_values={field.valid_values}
+//               shrink="true"
+//               field={field}
+//               disableUnderline = {disable_underline}
+//               helperText={field.helper_text}
+//               form_object_type={this.props.object_type}
+//               label={field.pretty_name}
+//               value= {this.state["form_"+field.name]}
+//               open="true"
+//               onBlur={this.handleSubmit(field.name)}
+//               onChange={this.handleChange(field.name)}
+//               style={{width:width}}/> 
+
+      } else {
+        const multiline = (field.size=="large")?true:false
+          return (
+            <TextField    
+    //      InputProps={{disableUnderline:disable_underline}}
+          InputLabelProps={{shrink:true}}
+          name={field.name}
+          label={field.pretty_name}
+  //        disabled={disabled}
+          type="text"
+          multiline={multiline}
+          helperText={field.helper_text}
+          value=  "TEST"
+  //        onFocus={this.handleFocus}
+  //        onChange={this.handleChange(field.name)}
+  //        onBlur={this.handleSubmit(field.name)}
+  //        style={{width:width}}
+        />)
+    }
+  }
+
+// add onsubmit and name to form
   render()  {
 // handle visibility and disabled handleEditRender
-      return (<Fragment>
+
+//const disable_underline = !this.state["form_underlined_" + field.name]
+//const dependent_field = field.dependent_field
+//let disabled = false
+//let visible = true
+
+//if (dependent_field && !this.state["form_"+dependent_field]) {
+//    disabled = true/
+//    if (field.dependent_action ===  "visible") {
+//        visible = false
+//              alert ("visible is false")
+//    }
+
+    switch (this.props.mode) {
+      case "form":
+        return (<form>
+                {this.renderField()} 
+              </form>)
+        break;
+      default :
+        return (<Fragment>
                 {this.getDisplayView()} 
               </Fragment>)
+        break
+      }
+
+
   }
 
 }
