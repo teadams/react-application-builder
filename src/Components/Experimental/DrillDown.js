@@ -107,23 +107,13 @@ class DrillDown extends React.Component {
   render()  {
       log.func ('Render Drill down', 'drill down render state', this.state)
       const object_attributes = meta.object(this.props.object_type);
+// TODO - create form should not need object fields as prop
       const object_fields = meta.fields(this.props.object_type);
       const keys = meta.keys(this.props.object_type);
-      const pretty_name_field_derived = meta.field(this.props.object_type,keys.pretty_key_id).derived
       const expand_contract = this.props.expand_contract?this.props.expand_contract:false
     //  alert ("groping field is " + this.props.grouping_field_name)
       const grouping_field_name = this.props.grouping_field_name;
-      var grouping_column = ""
-      var current_grouping = ""
-      var grouping_object_type = ""
-      //alert ('grouping field name' + grouping_field_name)
-      if (grouping_field_name) {
-          const grouping_column_info = meta.grouping_column_info(this.props.object_type, grouping_field_name)
-        // alert ("grouping column info " +grouping_column_info)
-          grouping_column =  grouping_column_info[0]
-          grouping_object_type = grouping_column_info[1]
-      }
-
+      let current_grouping = ""
       return (
         <Grid container spacing={8} >
         <Grid item sm={2}>
@@ -148,9 +138,9 @@ class DrillDown extends React.Component {
                       group_header = <Typography style={{marginLeft:5,marginBottom:5}} align="left" variant="subheading"> <Field object_type={this.props.object_type} field_name={grouping_field_name} data={row} mode="text"/> 
                           {expand_contract  &&
                           (!this.state["less_"+current_grouping]? 
-                          <ButtonExpandMore  float="right" onClick={()=> {this.setState({["less_"+row[grouping_column]]:true})}}/>
+                          <ButtonExpandMore  float="right" onClick={()=> {this.setState({["less_"+grouping_value]:true})}}/>
                           :
-                            <ButtonExpandLess  float="right" onClick={()=> {this.setState({["less_"+row[grouping_column]]:false})}}/>
+                            <ButtonExpandLess  float="right" onClick={()=> {this.setState({["less_"+grouping_value]:false})}}/>
                           )}
                       </Typography>;
                   }}
