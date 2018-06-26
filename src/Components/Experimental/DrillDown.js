@@ -140,7 +140,9 @@ class DrillDown extends React.Component {
                   const color = (row[keys.key_id] === this.state.selected_id)?"primary":""    
                   let group_header = ""
                   if (grouping_field_name) {
-                    var grouping_value = row[grouping_column]? row[grouping_column].toString():"None"
+                    let grouping_value = meta.get_display_value(this.props.object_type, grouping_field_name, row)
+
+                    grouping_value = grouping_value?grouping_value.toString():"None"
                     if (current_grouping != grouping_value) {
                       current_grouping = grouping_value
                       group_header = <Field style={{marginLeft:5,marginBottom:5}} align="left" variant="subheading" object_type={this.props.object_type} field_name={grouping_field_name} data={row} mode="text"> 
