@@ -29,6 +29,7 @@ class Field extends React.Component {
         value_changed: false
       }
       this.loadMappedData = this.loadMappedData.bind(this);
+      this.handleChange = this.handleChange.bind(this);
 
   }
 
@@ -57,6 +58,13 @@ class Field extends React.Component {
     })
   }
 
+  handleChange(event) {
+      const target = event.target;
+      const value = target.type === 'checkbox' ? target.checked : target.value;
+      this.setState({value:value, value_changed:true});
+      this.props.onChange(this.props.field_name, value);
+  }
+
   getDisplayView() {
     const { object_type, field_name, data_object } = this.props;
     const field = meta.field(object_type,field_name);
@@ -82,6 +90,8 @@ class Field extends React.Component {
       }))
     }
   }
+
+
 
   renderField() {
       const { object_type, field_name, data_object } = this.props;
@@ -121,7 +131,7 @@ class Field extends React.Component {
                 value= {this.state.value}
                 open="true"
 //               onBlur={this.handleSubmit(field.name)}
-//               onChange={this.handleChange(field.name)}
+               onChange={this.handleChange}
                style={{width:"90%"}}
               /> )
 
@@ -139,7 +149,7 @@ class Field extends React.Component {
           helperText={field.helper_text}
           value=  {this.state.value}
   //        onFocus={this.handleFocus}
-  //        onChange={this.handleChange(field.name)}
+          onChange={this.handleChange}
   //        onBlur={this.handleSubmit(field.name)}
            style={{width:"90%"}}
         />)

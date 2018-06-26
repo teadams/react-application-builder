@@ -89,15 +89,13 @@ class ViewForm extends React.Component {
   }
 
   
-  handleChange = name => event => {
-      const target = event.target;
-      const value = target.type === 'checkbox' ? target.checked : target.value;
-      // TODO make ummutable
-      var new_state =this.State
-      new_state.formValues[name] = value;
-      new_state.formChanged[name ] = true
+  handleChange (field_name, value)  {
+      // TODO make( ummutable
+  //    alert("in handle change of parent")
+      var new_formValues =this.state.formValues
+      new_formValues[field_name] = value;
       //alert ('handle change ' + name)
-      this.setState(new_state);
+      this.setState({formValues:new_formValues});
   }
 
 /// Beleive this will move down a level
@@ -166,6 +164,7 @@ class ViewForm extends React.Component {
           field_name = {field.name}  
           data_object={this.state.item_data}
           mode="form"
+          onChange={this.handleChange}
           id = {this.props.selected_id}
         /> 
       </Grid>)
