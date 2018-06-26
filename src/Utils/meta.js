@@ -195,8 +195,10 @@ export function get_display_value(object_type, field_name, data) {
         log.val ("p1", p1)
        return (data[p1])
     }
-    if (display_field.references) {
-      
+
+    if (data[field_name] === null || data[field_name] === "") {
+        return ""
+    }  else if (display_field.references) {
         const referenced_table = display_field.references;
         const referenced_pretty_id_column = keys(referenced_table).pretty_key_id
         const referenced_field = field(referenced_table, referenced_pretty_id_column)
@@ -221,7 +223,7 @@ export function get_display_value(object_type, field_name, data) {
     } else if (display_field.mapping) {
         // mappings do not have a base display value
         return ""
-    } else {
-        return (data[field_name])
+    } else  {
+        return (data[field_name].toString())
     }
 }
