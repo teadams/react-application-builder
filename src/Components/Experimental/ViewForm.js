@@ -124,15 +124,7 @@ class ViewForm extends React.Component {
   handleSubmit(field_name) {
       const object_type = this.props.object_type;
       const pretty_field_name = meta.keys(object_type).pretty_key_id;
-      // TODO - THIS DETERMINATION SHOULD MOVE TO THE PARENT
-     if (field_name == this.props.grouping_field_name || 
-         field_name == pretty_field_name || 
-         meta.field(object_type, pretty_field_name).derived) {
-        // if the pretty field name is derived, we will update the drill down at
-        // every data change. (if this prove inefficient, we'll have to track which fields contribute to the
-        // derived fields). Made engineering choice to streamline this for now.
-              this.props.onDataChange();
-      }
+      this.props.onDataChange('','',field_name);
   }
 
   
@@ -170,7 +162,7 @@ class ViewForm extends React.Component {
         />}
         <Grid container  alignContent='flex-start'  justify="flex-start" wrap="wrap" >
         <Grid style={{padding:10, boxBorder:"border-box"}} item sm={4}>
-        {this.renderField(meta.field(this.props.object_type,keys.pretty_key_id), true)}
+        {this.renderField(meta.field(this.props.object_type,keys.pretty_key_id))}
         </Grid>
         <Grid item sm={8}/>
         {this.state.item_data && !sections && object_fields.map(field => {

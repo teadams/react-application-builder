@@ -61,10 +61,23 @@ class DrillDown extends React.Component {
     })
   }
 
-   handleDataChange = (value, inserted_id) => {
+   handleDataChange = (value, inserted_id, field_name) => {
     //  alert ("in drill data change")
-      const selected_id = inserted_id?inserted_id:this.state.selected_id
-      this.setState({ create_object_form: false, refresh_drill: true, selected_id:selected_id});
+      const selected_id = inserted_id?inserted_id:this.state.selected_id;  
+      const { object_type, grouping_field_name } = this.props;
+      const pretty_field_name = meta.keys(this.props.object_type).pretty_key_id;
+
+      if (field_name == grouping_field_name || 
+          field_name == pretty_field_name || 
+          meta.field(object_type, pretty_field_name).derived) {
+  alert('data change')
+            this.setState({ create_object_form: false, 
+                            refresh_drill: true, 
+                            selected_id:selected_id});
+      } 
+         // if the pretty field name is derived, we will update the drill down at
+         // every data change. (if this prove inefficient, we'll have to track which fields contribute to the
+         // derived fields). Made engineering choice to streamline this for now.
    };
   
   loadDrill()  {
