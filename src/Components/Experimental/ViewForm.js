@@ -37,7 +37,6 @@ class ViewForm extends React.Component {
     this.loadData = this.loadData.bind(this);
   } 
 
-
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.object_type && nextProps.object_type != prevState.props_object_type) {
       const refreshed_state =    {
@@ -57,21 +56,19 @@ class ViewForm extends React.Component {
 //    window.scrollTo(0,0)
 //alert ('load data in view')
     data.getData (this.props.object_type, {id:this.props.selected_id}, (item_data, error) => { 
-          // set completed new state
-          var new_state = this.state;
-          new_state.item_data = item_data;
-          new_state.pretty_name_edit = false;
+
+          let updated_state = {};
+          updated_state.formValues = {};
+          updated_state.item_data = item_data;
+          updated_state.pretty_name_edit = false;
           meta.fields(this.props.object_type).map(field => {
             if (!field.mapping) {
-              new_state.formValues[field.name] = (item_data[field.name] !== null)?item_data[field.name]:""
-              new_state.formChanged[field.name] = false
-              new_state.formUnderlined[field.name] =  (item_data[field.name]===null || item_data[field.name===""])?true:false
+              updated_state.formValues[field.name] = (item_data[field.name] !== null)?item_data[field.name]:""
             } else {
               this.loadMappedData(field.name)
             }
           })
-//              alert ('view state in load data ' +JSON.stringify(new_state.formValues))
-              this.setState(new_state)
+              this.setState(updated_state)
           })   
   }
 
@@ -133,6 +130,8 @@ class ViewForm extends React.Component {
     //  alert ('in parent submit for ' + field_name)
       const object_type = this.props.object_type;
       const pretty_field_name = meta.keys(object_type).pretty_key_id;
+
+      // TODO - THIS DETERMINATION SHOULD MOVE TO THE PARENT
      if (field_name == this.props.grouping_field_name || 
          field_name == pretty_field_name || 
          meta.field(object_type, pretty_field_name).derived) {
@@ -145,12 +144,7 @@ class ViewForm extends React.Component {
 
   
   renderField(field) {
-    const keys = meta.keys(this.props.object_type);
-    const grid_col = field.grid_col?field.grid_col:4
-    const width= grid_col * 75
-    if (field.name != keys.key_id && field.name != keys.pretty_key_id) {
       return (
-      <Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}} sm={grid_col}>
         <Field object_type = {this.props.object_type} 
           field_name = {field.name}  
           data_object={this.state.formValues}
@@ -160,24 +154,17 @@ class ViewForm extends React.Component {
           onMappingClick={this.handleMappingOpen}
           id = {this.props.selected_id}
         /> 
-      </Grid>)
-    } else {
-        return null
-    }  
+        )
   }
 
   render () {
   //  alert ('in render')
-    const object_attributes = meta.object(this.props.object_type);
     const object_fields = meta.fields(this.props.object_type);
     const keys = meta.keys(this.props.object_type);
     const id = this.state.formValues[meta.keys(this.props.object_type).key_id]
-    const pretty_name_field_name = meta.pretty_name_column(this.props.object_type)
-    const pretty_name_field_derived = meta.field(this.props.object_type,pretty_name_field_name).derived
   //  alert ("pretty name derived" + pretty_name_field_derived)    
     const sections = meta.sections(this.props.object_type);
     //alert ('form values in render View ' + JSON.stringify(this.state.formValues))
-
   //  alert ('render with selected id ' + this.props.selected_id)
     return (
       <Fragment>
@@ -188,54 +175,49 @@ class ViewForm extends React.Component {
           object_type={this.props.object_type}
           mapping_field_name = {this.state.mapping_field_name}
           mapping_field_value = {id}
-          mapping_field_pretty_name ={this.state.formValues[pretty_name_field_name]}
+          mapping_field_pretty_name ={this.state.formValues[keys.pretty_key_id]}
         />}
-
-        {this.state.pretty_name_edit  ? 
-        <form onSubmit={this.handleSubmit(pretty_name_field_name)}
-        id={id+'-'+this.state.item_data[keys.pretty_key_id]}>
-        <TextField    
-        margin="normal"
-        name={keys.pretty_key_id}
-        type="text"
-        value=  {this.state.formValues[pretty_name_field_name]}
-        onChange={this.handleChange(pretty_name_field_name)}
-        onBlur={this.handleSubmit(pretty_name_field_name)}
-        />
-        </form>
-          : (pretty_name_field_derived)? <Typography  style= {{textTransform:"capitalize"}}        variant="headline" gutterBottom>pretty_name_field_derived</Typography>
-          : <Typography  style= {{textTransform:"capitalize"}}  onClick={()=>{this.setState({pretty_name_edit:true})}} variant="headline" gutterBottom>{this.state.formValues[pretty_name_field_name]} </Typography>
-        }
         <Grid container  alignContent='flex-start'  justify="flex-start" wrap="wrap" >
+        <Grid style={{padding:10, boxBorder:"border-box"}} item sm={4}>
+        {this.renderField(meta.field(this.props.object_type,keys.pretty_key_id))}
+        </Grid>
+        <Grid item sm={8}/>
         {this.state.item_data && !sections && object_fields.map(field => {
-          return (this.renderField(field))
-      })}
+          let grid_col = field.grid_col?field.grid_col:4
+          return (
+            <Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}} sm={grid_col}>
+              {this.renderField(field)}
+            </Grid>)
+        })}
+
         {this.state.item_data && sections && sections.map(section => {
-        return (
-          <Grid item style={{padding:10}} sm={12}>
-          <Paper style={{boxSizing:"border-box", padding:10, height:"100%"}}>  
-          <Grid container  alignContent='flex-start'  justify="flex-start"  wrap="wrap" >
-            {section.title &&
+          return (
+            <Grid item style={{padding:10}} sm={12}>
+            <Paper style={{boxSizing:"border-box", padding:10, height:"100%"}}>  
+            <Grid container  alignContent='flex-start'  justify="flex-start"  wrap="wrap" >
+              {section.title &&
                 <Grid item sm={12}>
                   <Typography variant="title" > {section.title} </Typography>
                   <Divider style={{marginBottom:10}}/>
                 </Grid>
-            }
-            {section.text && 
+              }
+              {section.text && 
                   <Grid item style={{padding:10}} sm={12}>
                     {section.text}
                   </Grid>
-            }
-            
-                {meta.section_fields(this.props.object_type, section.name).map(field=>{
-                      return (this.renderField(field))
-                })
-              }
-              
+              }            
+                {meta.section_fields(this.props.object_type, section.name).map(field=> {
+                  if (field.name != keys.key_id && field.name != keys.pretty_key_id) {
+                      let grid_col = field.grid_col?field.grid_col:4
+                      return (
+                        <Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}} sm={grid_col}>
+                          {this.renderField(field)}
+                        </Grid>)
+                }})}
             </Grid>
           </Paper>
-          </Grid>)  
-        })}    
+          </Grid>  
+        )})}    
         </Grid>        
       </Fragment>
     )

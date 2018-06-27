@@ -39,17 +39,15 @@ class Field extends React.Component {
     const { object_type, field_name, data_object } = this.props;
   //  alert ('mount and form value is ' + JSON.stringify(this.props.data_object[field_name]))
     const field = meta.field(object_type,field_name);
+  //  alert ('mount with data_object ' + JSON.stringify(this.props.data_object))
     this.setState({value: this.props.data_object[field_name]})
   } 
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-  //    alert ("view data update")
     const { object_type, field_name, data_object, id, mapping_update } = this.props;
     const field = meta.field(object_type,field_name);
-    
       if (prevProps.id !== id || 
           prevProps.object_type !== object_type || prevProps.data_object[field_name] !== this.props.data_object[field_name]) {
-        //      alert ("setting value")
               this.setState({value: this.props.data_object[field_name]})
       }
   }  
@@ -167,7 +165,8 @@ class Field extends React.Component {
     const field = meta.field(object_type,field_name);
 
     const multiline = (field.size=="large")?true:false
-
+  //  alert ('text field for ' + field_name)
+//    alert ('vaule is ' + this.state.value)
     return (
       <TextField    
         InputLabelProps={{shrink:true}}

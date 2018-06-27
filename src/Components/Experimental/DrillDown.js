@@ -146,6 +146,7 @@ class DrillDown extends React.Component {
                   }}
 
                 if (!expand_contract || this.state["less_"+current_grouping]) {
+                //        alert('current row is ' + row[keys.key_id])
                         return(<Fragment>{group_header}
                         <ListItem key={row[keys.key_id]}  dense button onClick={() => this.handleClick(row[keys.key_id], row[keys.pretty_key_id])}> 
                           <Typography color={color} variant={variant}>
