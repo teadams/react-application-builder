@@ -115,22 +115,15 @@ class ViewForm extends React.Component {
 
   
   handleChange (field_name, value)  {
-      // TODO make( ummutable
-  //    alert("in handle change of parent " + field_name)
-      var new_formValues =this.state.formValues
-      new_formValues[field_name] = value;
-      //alert ("form values is " + JSON.stringify(new_formValues))
-      //alert ('handle change ' + name)
+      let formValues  = update(this.state.formValues,{
+                  [field_name]: {$set: value}
+                  })
       this.setState({formValues:new_formValues});
   }
 
-
-// BELIEVE this will move donw a leve
   handleSubmit(field_name) {
-    //  alert ('in parent submit for ' + field_name)
       const object_type = this.props.object_type;
       const pretty_field_name = meta.keys(object_type).pretty_key_id;
-
       // TODO - THIS DETERMINATION SHOULD MOVE TO THE PARENT
      if (field_name == this.props.grouping_field_name || 
          field_name == pretty_field_name || 
@@ -158,14 +151,10 @@ class ViewForm extends React.Component {
   }
 
   render () {
-  //  alert ('in render')
     const object_fields = meta.fields(this.props.object_type);
     const keys = meta.keys(this.props.object_type);
-    const id = this.state.formValues[meta.keys(this.props.object_type).key_id]
-  //  alert ("pretty name derived" + pretty_name_field_derived)    
+    const id = this.state.formValues[meta.keys(this.props.object_type).key_id]  
     const sections = meta.sections(this.props.object_type);
-    //alert ('form values in render View ' + JSON.stringify(this.state.formValues))
-  //  alert ('render with selected id ' + this.props.selected_id)
     return (
       <Fragment>
         {this.state.mapping_open &&
@@ -206,14 +195,14 @@ class ViewForm extends React.Component {
                     {section.text}
                   </Grid>
               }            
-                {meta.section_fields(this.props.object_type, section.name).map(field=> {
+              {meta.section_fields(this.props.object_type, section.name).map(field=> {
                   if (field.name != keys.key_id && field.name != keys.pretty_key_id) {
                       let grid_col = field.grid_col?field.grid_col:4
                       return (
                         <Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}} sm={grid_col}>
                           {this.renderField(field)}
                         </Grid>)
-                }})}
+              }})}
             </Grid>
           </Paper>
           </Grid>  
@@ -223,7 +212,6 @@ class ViewForm extends React.Component {
     )
   } 
 }
-
 
 export default ViewForm;
 
