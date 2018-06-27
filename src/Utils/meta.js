@@ -189,6 +189,34 @@ export function grouping_column_info(object_type, grouping_field_name) {
   } 
 }
 
+export function get_contributing_field_names(object_type, field_name) {
+    // returns the array of field names that contribute to the display values
+      const original_field = field(object_type, field_name)
+      if (!original_field.derived) {
+            return [field_name]
+      }
+      let matched_field_array = []
+      let array;
+      const regex = /{(.*?)}/ig
+      // Saving code here in case I need this logic
+      // this deal with fields used to get the display value
+            // const referenced_table = original_field.references;
+            // const referenced_pretty_id_column = keys(referenced_table).pretty_key_id;
+            // const referenced_field = field(referenced_table, referenced_pretty_id_column);
+            // if (!referenced_field.derived) {
+            //     return (original_field.name +'_'+referenced_pretty_id_column)
+            // } else {
+            //   while ((array= regex.exec(referenced_field.derived)) !== null) {
+            //     matched_field_array.push(original_field.name + '_' + array[1])
+            //   }
+            //   return matched_field_array
+            // }      
+      while ((array= regex.exec(original_field.derived)) !== null) {
+          matched_field_array.push(array[1])
+      }
+      return matched_field_array 
+}
+
 export function get_display_value(object_type, field_name, data) {
     const display_field = field(object_type, field_name)
     function derivedMatch(match, p1, offset, string) {
