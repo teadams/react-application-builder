@@ -7,7 +7,7 @@ import * as data from '../../Utils/data.js';
 
 import update from 'immutability-helper';
 
-import {SelectField, CreateForm, CrudTable, ButtonCreate, ButtonExpandMore, ButtonExpandLess} from "../Layouts/index.js";
+import {SelectField, EditButton, CreateForm, CrudTable, ButtonCreate, ButtonExpandMore, ButtonExpandLess} from "../Layouts/index.js";
 
 
 class Field extends React.Component {
@@ -25,38 +25,34 @@ class Field extends React.Component {
             // form - full form, this component will call server to update
             // form-element - one form element - this component will not call server to update
       // id - the value for the the key from this row
+      // mapping_update - name of mapping field that should be updated
+
       this.state = {
         value_changed: false
       }
-      this.loadMappedData = this.loadMappedData.bind(this);
       this.handleChange = this.handleChange.bind(this);
+      this.handleSubmit  = this.handleSubmit.bind(this);
 
   }
 
   componentDidMount() {
     const { object_type, field_name, data_object } = this.props;
+  //  alert ('mount and form value is ' + JSON.stringify(this.props.data_object[field_name]))
     const field = meta.field(object_type,field_name);
-
-    if (field.mapping) {
-        this.loadMappedData()
-    } else {
-      this.setState({value: this.props.data_object[field_name]})
-    }
+    this.setState({value: this.props.data_object[field_name]})
   } 
 
-  loadMappedData() {
-    const { object_type, field_name, data_object } = this.props;
+  componentDidUpdate(prevProps, prevState, snapshot) {
+  //    alert ("view data update")
+    const { object_type, field_name, data_object, id, mapping_update } = this.props;
     const field = meta.field(object_type,field_name);
-  //  alert ('loading mapped data for ' + field_name)
-    var options = {}
-    options.filter_field = field.mapped_field;
-    options.filter_id = this.props.id;
-    options.key_type = "key_id";
-    data.getData(field.mapping, options, (mapped_data, error) => { 
-    //  alert ("mapped data is " + JSON.stringify(mapped_data))
-      this.setState({value:mapped_data, value_changed:false})
-    })
-  }
+    
+      if (prevProps.id !== id || 
+          prevProps.object_type !== object_type || prevProps.data_object[field_name] !== this.props.data_object[field_name]) {
+        //      alert ("setting value")
+              this.setState({value: this.props.data_object[field_name]})
+      }
+  }  
 
   handleChange(event) {
       const target = event.target;
@@ -65,113 +61,155 @@ class Field extends React.Component {
       this.props.onChange(this.props.field_name, value);
   }
 
+  handleSubmit(event) {
+    const { object_type, field_name, mode, id } = this.props;
+    const field = meta.field(object_type,field_name);
+      // only for form mode
+      if (mode !== "form") {
+          return null
+      }
+      event.preventDefault();
+      if (this.state.value_changed) {
+        var update_object = Object();
+        update_object[field_name] = this.state.value;
+        update_object.id = id;
+        data.putData(object_type, update_object, {}, (mapped_data, error) => { 
+          if (error) {
+                alert ('error is ' + error.message)
+          } else {
+            this.setState({value_changed:false})
+            this.props.onSubmit(this.props.field_name)
+          }
+        })
+      }
+  }
+
   getDisplayView() {
     const { object_type, field_name, data_object } = this.props;
     const field = meta.field(object_type,field_name);
   //  alert ('fied and data object ' + field_name + ' ' + JSON.stringify(data_object))
     if (!field.mapping) {
       return(meta.get_display_value(object_type, field_name, data_object))
-    } else {
-      if (!this.state.value) {
+    } else if (!this.state.value) {
         return null
-      }
+    } else {
       const unmapped_field = meta.unmapped_field(field.mapping, field.mapped_field)
         //alert ('file mapping, unmapped field data object ' + field.mapping + ' ' + unmapped_field.name + ' ' + JSON.stringify(this.state.value) )  
-    
+  //    alert ("value abot to render is " + JSON.stringify(this.state.value))
       return (this.state.value.map(row=>{
-  log.val ('filed mapping, unmapped field,row', field.mapping, unmapped_field.name, row)
-//        let chip_label = other_mapped_pretty_derived ?
-//              this.convertDerived(other_mapped_pretty_derived, "mapping", row, unmapped_field.nathis.state.value
-//            :row[unmapped_field.name +"_" + meta.keys(other_mapped_table).pretty_key_id]
-
+        log.val ('filed mapping, unmapped field,row', field.mapping, unmapped_field.name, row)
         let chip_label = meta.get_display_value(field.mapping,unmapped_field.name, row)
-        return (<Chip style={{marginRight:10}} label={chip_label}/>)
+        return (
+            <Chip style={{marginRight:10}} label={chip_label}/>
+        )
 
       }))
     }
   }
 
+  renderDerived(options) {
+    const { object_type, field_name, data_object } = this.props;
+    const field = meta.field(object_type,field_name);
+    return( <TextField    
+      InputLabelProps={{shrink:true}}
+      name={field.name}
+      label={field.pretty_name}
+      disabled={true}
+      type="text"
+      helperText={field.helper_text}
+      value=  {this.getDisplayView()}
+     style={{width:"90%"}}
+    />)
+  }
 
+  renderMapping(options) {
+    const disabled = options.disabled?options.disabled:false
+    const { object_type, field_name, data_object } = this.props;
+    const field = meta.field(object_type,field_name);
+    return (
+      <Fragment>
+        <Typography style={{padding:0, border:0}}>{field.pretty_name} 
+          <EditButton  size="small" onClick={()=>{this.props.onMappingClick(field.name)}} value={field.name}/>
+        </Typography>
+        {this.getDisplayView()}
+      </Fragment>
+    )
+
+  }
+
+ renderSelectField(options) {
+    const disabled = options.disabled?options.disabled:false
+    const { object_type, field_name, data_object } = this.props;
+    const field = meta.field(object_type,field_name);
+    return(
+    <SelectField 
+      key={field.name}    
+        disabled={disabled}
+        object_type={field.references}
+        valid_values={field.valid_values}
+        shrink="true"
+        field={field}
+//               disableUnderline = {disable_underline}
+        helperText={field.helper_text}
+        form_object_type={this.props.object_type}
+        label={field.pretty_name}
+        value= {this.state.value}
+        open="true"
+        onBlur={this.handleSubmit}
+        onChange={this.handleChange}
+        style={{width:"100%"}}
+      /> )
+  }
+
+  renderTextField(options) {
+    const disabled = options.disabled?options.disabled:false
+    const { object_type, field_name, data_object } = this.props;
+    const field = meta.field(object_type,field_name);
+
+    const multiline = (field.size=="large")?true:false
+
+    return (
+      <TextField    
+        InputLabelProps={{shrink:true}}
+        name={field.name}
+        label={field.pretty_name}
+        disabled={disabled}
+        type="text"
+        multiline={multiline}
+        helperText={field.helper_text}
+        value=  {this.state.value}
+        onChange={this.handleChange}
+        onBlur={this.handleSubmit}
+      style={{width:"100%"}}
+    />)
+  }
 
   renderField() {
       const { object_type, field_name, data_object } = this.props;
       const field = meta.field(object_type,field_name);
+      let disabled = false;
+      if (field.dependent_field) {
+        if (!this.props.data_object[field.dependent_field]) {
+               disabled = true;
+            if (field.dependent_action ===  "visible") {
+                return null
+              }
+        }
+      } 
 
       if (field.derived) {
-        return( <TextField    
-          InputLabelProps={{shrink:true}}
-          name={field.name}
-          label={field.pretty_name}
-          disabled={true}
-          type="text"
-          helperText={field.helper_text}
-          value=  {this.getDisplayView()}
-         style={{width:"90%"}}
-    />)
-
-      } else if (field.mapping) {
-//                <Typography style={{padding:0, border:0, width:width}}>{field.pretty_name} 
-    
-//          {!disabled && <EditButton float="right" size="small" onClick={()=>{this.setState({mapping_open:true, mapping_field_name:field.name})}} value={field.name}/>} </Typography>
-  
-          return (this.getDisplayView())
+          return(this.renderDerived({disabled:disabled}))
+      }  else if (field.mapping) { 
+        return(this.renderMapping({disabled:disabled}))
       } else if ( field.valid_values || field.references || field.data_type === "boolean" || (field.data_type === "integer" && field.input_type !== "" || field.input_type === "color_picker")) {
-            return(
-            <SelectField 
-              key={field.name}    
-//               disabled={disabled}
-                object_type={field.references}
-                valid_values={field.valid_values}
-                shrink="true"
-                field={field}
-//               disableUnderline = {disable_underline}
-                helperText={field.helper_text}
-                form_object_type={this.props.object_type}
-                label={field.pretty_name}
-                value= {this.state.value}
-                open="true"
-//               onBlur={this.handleSubmit(field.name)}
-               onChange={this.handleChange}
-               style={{width:"90%"}}
-              /> )
-
+        return(this.renderSelectField({disabled:disabled}))
       } else {
-        const multiline = (field.size=="large")?true:false
-          return (
-            <TextField    
-    //      InputProps={{disableUnderline:disable_underline}}
-          InputLabelProps={{shrink:true}}
-          name={field.name}
-          label={field.pretty_name}
-  //        disabled={disabled}
-          type="text"
-          multiline={multiline}
-          helperText={field.helper_text}
-          value=  {this.state.value}
-  //        onFocus={this.handleFocus}
-          onChange={this.handleChange}
-  //        onBlur={this.handleSubmit(field.name)}
-           style={{width:"90%"}}
-        />)
+        return(this.renderTextField({disabled:disabled}))
     }
   }
 
 // add onsubmit and name to form
   render()  {
-// handle visibility and disabled handleEditRender
-
-//const disable_underline = !this.state["form_underlined_" + field.name]
-//const dependent_field = field.dependent_field
-//let disabled = false
-//let visible = true
-
-//if (dependent_field && !this.state["form_"+dependent_field]) {
-//    disabled = true/
-//    if (field.dependent_action ===  "visible") {
-//        visible = false
-//              alert ("visible is false")
-//    }
-
     switch (this.props.mode) {
       case "form":
         return (<form>
@@ -179,6 +217,7 @@ class Field extends React.Component {
               </form>)
         break;
       default :
+        // default is text
         return (<Fragment>
                 {this.getDisplayView()} 
               </Fragment>)

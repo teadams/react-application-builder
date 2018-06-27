@@ -49,7 +49,7 @@ class MappingForm extends React.Component {
 
         event.preventDefault();
         if (this.state.formChanged[name]) {
-          //alert ('form changes ' + name)
+          alert ('form changes ' + name)
           const column = name.split("_").slice(1).join('_')
           //  alert ('column is ' + column)
           const id = name.split("_")[0]

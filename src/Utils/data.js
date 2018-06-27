@@ -34,3 +34,20 @@ export function getData (object_type, options, callback)   {
     callback('', error);
   })
 }
+
+
+export function putData (object_type, data_object, options, callback)   {
+  let urltext = '/api/v1/' + object_type;
+  urltext += '/'+data_object.id
+  axios({
+   method: 'put',
+   url: urltext,
+   data: { data_object }
+ }).then(results => {
+      callback(results.data,"");
+  }).catch(error => {
+    log.val('in catch error', error.message)
+    alert ('error getting data', error.message)
+    callback('', error);
+  })
+}

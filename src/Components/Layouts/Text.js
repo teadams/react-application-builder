@@ -18,12 +18,7 @@ class Text extends React.Component {
         <Typography variant="body1" style={{padding:10}}>
          {this.props.text}
         </Typography>
-        <Field
-            object_type="employee"
-            field_name="full_name"
-            mode = "view"
-            data_object={data}
-        />
+
       </Fragment>
     )
   }
