@@ -1,5 +1,5 @@
 import React from 'react';
-import {FormControl, MenuItem, InputLabel, Select} from '@material-ui/core';
+import {FormControl, MenuItem, InputLabel, Select, FormHelperText} from '@material-ui/core';
 import axios from 'axios';
 import * as meta from '../../Utils/meta.js';
 import * as log from '../../Utils/log.js'
@@ -177,7 +177,6 @@ class SelectField extends React.Component {
     autoFocus={this.props.autoFocus?true:false}
     value={this.state.value}
     disabled = {this.props.disabled}  
-    helperText={this.props.helperText}
     disableUnderline  = {this.props.disableUnderline}
     InputLableProps = {this.props.InputLableProps}
     onChange={this.submithandleChange} 
@@ -197,6 +196,7 @@ class SelectField extends React.Component {
 
     })}
   </Select>
+ <FormHelperText>{this.props.helperText}</FormHelperText>
 </FormControl>
 )
 

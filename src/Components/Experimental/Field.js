@@ -7,8 +7,7 @@ import * as data from '../../Utils/data.js';
 
 import update from 'immutability-helper';
 
-import {SelectField, EditButton, CreateForm, CrudTable, ButtonCreate, ButtonExpandMore, ButtonExpandLess} from "../Layouts/index.js";
-
+import {SelectField, EditButton} from "../Layouts/index.js";
 
 class Field extends React.Component {
 
@@ -17,15 +16,12 @@ class Field extends React.Component {
       //props 
       // object_type
       // field_name
-      // data_object - object containing data set
-      // variant - for text mode, typography variant
-      // color - for text mode, typography color
+      // data_object - object containing data set. Used to determine value, derived, and dependent fields
       // mode 
             // text - text only
-            // form - full form, this component will call server to update
-            // form-element - one form element - this component will not call server to update
-      // id - the value for the the key from this row
-      // mapping_update - name of mapping field that should be updated
+            // form - full form, this component will call server to update. Used for ObjectView
+            // form-element - one form element - this component will not call server to update. Used for ObjectCreate
+      // id - the value for the the key from this row (not required for view mode)
 
       this.state = {
         value_changed: false
@@ -36,15 +32,13 @@ class Field extends React.Component {
   }
 
   componentDidMount() {
-    const { object_type, field_name, data_object } = this.props;
-  //  alert ('mount and form value is ' + JSON.stringify(this.props.data_object[field_name]))
+    const { object_type, field_name} = this.props;
     const field = meta.field(object_type,field_name);
-  //  alert ('mount with data_object ' + JSON.stringify(this.props.data_object))
     this.setState({value: this.props.data_object[field_name]})
   } 
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { object_type, field_name, data_object, id, mapping_update } = this.props;
+    const { object_type, field_name, data_object, id } = this.props;
     const field = meta.field(object_type,field_name);
       if (prevProps.id !== id || 
           prevProps.object_type !== object_type || prevProps.data_object[field_name] !== this.props.data_object[field_name]) {
@@ -85,22 +79,19 @@ class Field extends React.Component {
   getDisplayView() {
     const { object_type, field_name, data_object } = this.props;
     const field = meta.field(object_type,field_name);
-  //  alert ('fied and data object ' + field_name + ' ' + JSON.stringify(data_object))
+
     if (!field.mapping) {
       return(meta.get_display_value(object_type, field_name, data_object))
     } else if (!this.state.value) {
+        // mapping data is not loaded yet
         return null
     } else {
       const unmapped_field = meta.unmapped_field(field.mapping, field.mapped_field)
-        //alert ('file mapping, unmapped field data object ' + field.mapping + ' ' + unmapped_field.name + ' ' + JSON.stringify(this.state.value) )  
-  //    alert ("value abot to render is " + JSON.stringify(this.state.value))
       return (this.state.value.map(row=>{
-        log.val ('filed mapping, unmapped field,row', field.mapping, unmapped_field.name, row)
         let chip_label = meta.get_display_value(field.mapping,unmapped_field.name, row)
         return (
             <Chip style={{marginRight:10}} label={chip_label}/>
         )
-
       }))
     }
   }
@@ -132,11 +123,11 @@ class Field extends React.Component {
         {this.getDisplayView()}
       </Fragment>
     )
-
   }
 
  renderSelectField(options) {
     const disabled = options.disabled?options.disabled:false
+    const disableUnderline = options.disableUnderline?options.disableUnderline:false
     const { object_type, field_name, data_object } = this.props;
     const field = meta.field(object_type,field_name);
     return(
@@ -147,7 +138,7 @@ class Field extends React.Component {
         valid_values={field.valid_values}
         shrink="true"
         field={field}
-//               disableUnderline = {disable_underline}
+        disableUnderline = {disableUnderline}
         helperText={field.helper_text}
         form_object_type={this.props.object_type}
         label={field.pretty_name}
@@ -159,32 +150,32 @@ class Field extends React.Component {
       /> )
   }
 
+
   renderTextField(options) {
     const disabled = options.disabled?options.disabled:false
+    const disableUnderline = options.disableUnderline?options.disableUnderline:false
     const { object_type, field_name, data_object } = this.props;
     const field = meta.field(object_type,field_name);
-
     const multiline = (field.size=="large")?true:false
-  //  alert ('text field for ' + field_name)
-//    alert ('vaule is ' + this.state.value)
     return (
       <TextField    
         InputLabelProps={{shrink:true}}
         name={field.name}
         label={field.pretty_name}
         disabled={disabled}
+        InputProps = {{disableUnderline:disableUnderline}}
         type="text"
         multiline={multiline}
         helperText={field.helper_text}
         value=  {this.state.value}
         onChange={this.handleChange}
         onBlur={this.handleSubmit}
-      style={{width:"100%"}}
+        style={{width:"100%"}}
     />)
   }
 
   renderField() {
-      const { object_type, field_name, data_object } = this.props;
+      const { object_type, field_name, data_object, disableUnderline } = this.props;
       const field = meta.field(object_type,field_name);
       let disabled = false;
       if (field.dependent_field) {
@@ -197,13 +188,13 @@ class Field extends React.Component {
       } 
 
       if (field.derived) {
-          return(this.renderDerived({disabled:disabled}))
+          return(this.renderDerived({disabled:disabled, disableUnderline:disableUnderline}))
       }  else if (field.mapping) { 
-        return(this.renderMapping({disabled:disabled}))
+        return(this.renderMapping({disabled:disabled, disableUnderline:disableUnderline}))
       } else if ( field.valid_values || field.references || field.data_type === "boolean" || (field.data_type === "integer" && field.input_type !== "" || field.input_type === "color_picker")) {
-        return(this.renderSelectField({disabled:disabled}))
+        return(this.renderSelectField({disabled:disabled, disableUnderline:disableUnderline}))
       } else {
-        return(this.renderTextField({disabled:disabled}))
+        return(this.renderTextField({disabled:disabled, disableUnderline:disableUnderline}))
     }
   }
 

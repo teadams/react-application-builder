@@ -118,7 +118,7 @@ class ViewForm extends React.Component {
       let formValues  = update(this.state.formValues,{
                   [field_name]: {$set: value}
                   })
-      this.setState({formValues:new_formValues});
+      this.setState({formValues:formValues});
   }
 
   handleSubmit(field_name) {
@@ -136,12 +136,14 @@ class ViewForm extends React.Component {
   }
 
   
-  renderField(field) {
+  renderField(field, disableUnderline) {
+
       return (
         <Field object_type = {this.props.object_type} 
           field_name = {field.name}  
           data_object={this.state.formValues}
           mode="form"
+          disableUnderline={disableUnderline?disableUnderline:false}
           onChange={this.handleChange}
           onSubmit={this.handleSubmit}
           onMappingClick={this.handleMappingOpen}
@@ -168,7 +170,7 @@ class ViewForm extends React.Component {
         />}
         <Grid container  alignContent='flex-start'  justify="flex-start" wrap="wrap" >
         <Grid style={{padding:10, boxBorder:"border-box"}} item sm={4}>
-        {this.renderField(meta.field(this.props.object_type,keys.pretty_key_id))}
+        {this.renderField(meta.field(this.props.object_type,keys.pretty_key_id), true)}
         </Grid>
         <Grid item sm={8}/>
         {this.state.item_data && !sections && object_fields.map(field => {
