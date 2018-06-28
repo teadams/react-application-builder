@@ -232,19 +232,22 @@ class Field extends React.Component {
 
 // add onsubmit and name to form
   render()  {
+    const { object_type, field_name } = this.props;
+    const field = meta.field(object_type,field_name);
+    const disabled =  (field.prevent_edit || field.derived || (field.not_in_db))?true:false
+    let options = {disabled:disabled}
+
     switch (this.props.mode) {
       case "form":
         return (<form>
-                {this.renderField()} 
+                {this.renderField(options)} 
               </form>)
         break;
       case "view_click_form":
-          const { object_type, field_name } = this.props;
-          const field = meta.field(object_type,field_name);
           return (
            this.state.form ? 
               <form>
-                {this.renderField()} 
+                {this.renderField(options)} 
               </form>
             :  
               field.derived ?
@@ -254,9 +257,13 @@ class Field extends React.Component {
                 :
                 <div onClick={this.handleClick}>
                   {this.getDisplayView()} &nbsp;
-                </div>
-              
+                </div>              
           )
+      case "form_element":
+        return (<Fragment>
+                  {this.renderField(options)}
+                </Fragment>) 
+        break;
       default :
         return (<Fragment>
                 {this.getDisplayView()} 

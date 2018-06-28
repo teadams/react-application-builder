@@ -7,6 +7,8 @@ import { withStyles } from '@material-ui/core/styles';
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import update from 'immutability-helper';
+import {MappingForm, Field} from "../Experimental/index.js"
+
 
 class CreateForm extends React.Component {
 
@@ -54,11 +56,9 @@ class CreateForm extends React.Component {
   }
 
 
-  handleChange = name => event => {
-      const target = event.target;
-      const value = target.type === 'checkbox' ? target.checked : target.value;
+  handleChange (field_name, value)  {
       this.setState({ formTouched:true, formValues: update(this.state.formValues,{
-                  [name]: {$set: value}
+                  [field_name]: {$set: value}
                   }) });
   }
 
@@ -113,55 +113,25 @@ class CreateForm extends React.Component {
  }
 
   renderField(field) {
-      var disabled=false;
-    // diable field
-    // 1. if we are editing, but not allowed to edit 
-    // 2. if we are creating and the field is not in the db
-    if ( (field.prevent_edit && this.props.id) || 
-      (field.not_in_db)
-    ) {
-      disabled = true
-    }
-    log.val("field, disabled", field.name, disabled)
-   if (!field.key && !field.menu_link && !field.derived) {
-//       log.val('create form field', field);
-      var dependent_value = ''
-      if (field.dependent_field) {
-          dependent_value = this.state.formValues[field.dependent_field]
-      }
-      if (field.valid_values || field.references || field.data_type === "boolean" || (field.data_type === "integer" && field.input_type !== "text" || field.input_type === "color_picker")) {
+    return (
+      <Field object_type = {this.props.object_type} 
+        field_name = {field.name}  
+        data_object={this.state.formValues}
+        mode="form_element"
+        disableUnderline={false}
+        onChange={this.handleChange}
+        id = {this.props.id}
+      /> 
+      )
 
-        return <SelectField 
-        key={field.name}           
-        object_type={field.references}
-        valid_values={field.valid_values}
-        field={field}
-        disabled = {disabled}
-        form_object_type={this.props.object_type}
-        dependent_value = {dependent_value}
-        label={field.pretty_name}
-        value={this.state.formValues[field.name]}
-        open={this.props.open}
-        onChange={this.handleChange(field.name)}
-        style={{width:200, marginRight:20, marginBottom:20}}
-        />
-     } else {
-    //  console.log('form values is ' + JSON.stringify(this.state.formValues));
-    //   console.log('value of' +field.name)
-    //   console.log(this.state.formValues[field.name]);
-       return <TextField          
-         id={field.name}
-         key={field.name}
-         label={field.pretty_name}
-         type="text"
-         disabled = {disabled}
-         value={this.state.formValues[field.name]}
-//                       value={this.state.formValues?this.state.formValues[field.name]:""}
-         style={{width:200, marginRight:20, marginBottom:20}}
-         onChange={this.handleChange(field.name)}
-        />
-     }
-    }
+//   if (!field.key && !field.menu_link && !field.derived) {
+//       log.val('create form field', field);
+  //    var dependent_value = ''
+  //    if (field.dependent_field) {
+  //        dependent_value = this.state.formValues[field.dependent_field]
+//    }
+//  open={this.props.open}
+
   }
 
   render() {
@@ -180,18 +150,23 @@ class CreateForm extends React.Component {
         <DialogTitle id="form-dialog-title">{this.state.action} {meta.object(object_type).pretty_name}</DialogTitle>
           <DialogContent>
             <DialogContentText>{meta.object(object_type).create_form_message}</DialogContentText>
-              <form  noValidate autoComplete="off">
+              <form onSubmit={this.handleSubmit}>
               {sections && sections.map(section => {
                 var section_fields = meta.section_fields(this.props.object_type, section.name)
                 if (section_fields.length > 0) {
                   var field_render = (section_fields.map(field=>{
-                        return (this.renderField(field))
+                        let grid_col = field.grid_col?field.grid_col:4
+                        if (!field.key) { 
+                          return (<Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}} sm={grid_col}>
+                                    {this.renderField(field)}
+                                  </Grid>)
+                        }
                   }))
                   return (
                      <Grid item style={{padding:10}} sm={12}>
                          <Paper style={{boxSizing:"border-box", padding:10, height:"100%"}}>
                            <Typography variant="title" > {section.title} </Typography>
-                           <Divider style={{marginBottom:10}}/>
+                             <Divider style={{marginBottom:10}}/>
                            <Grid container >
                            {field_render}
                            </Grid>
@@ -202,7 +177,12 @@ class CreateForm extends React.Component {
                 }
                 })}
                 {!sections && object_fields.map(field => {
-                  return (this.renderField(field))
+                  let grid_col = field.grid_col?field.grid_col:4
+                    if (!field.key) { 
+                      return (<Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}} sm={grid_col}>
+                              {this.renderField(field)}
+                            </Grid>)
+                    }
                 })}
               </form>
             </DialogContent>
