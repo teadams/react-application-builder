@@ -20,9 +20,9 @@ class Field extends React.Component {
       // mode 
             // text - text only
             // form - full form, this component will call server to update. Used for ObjectView
-            // text-click-form - initial view is text, then on click changes to form. used    
+            // view_click_form - initial view is text, then on click changes to form. used    
             //     for pretty_name field on ObjectView.  Potentially use for table cells
-            // form-element - one form element - this component will not call server to update. Used for ObjectCreate
+            // form_element - one form element (no form tags)- this component will not call server to update. Used for ObjectCreate
       // id - the value for the the key from this row (not required for view mode)
 
       this.state = {
@@ -30,11 +30,11 @@ class Field extends React.Component {
       }
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit  = this.handleSubmit.bind(this);
-
+      this.handleClick = this.handleClick.bind(this);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-      if (nextState.value !== this.state.value) {
+      if (nextState !== this.state) {
         return true;
       } else if (nextProps.object_type !== this.props.object_type) {
         return true;
@@ -76,8 +76,7 @@ class Field extends React.Component {
   handleSubmit(event) {
     const { object_type, field_name, mode, id } = this.props;
     const field = meta.field(object_type,field_name);
-      // only for form mode
-      if (mode !== "form") {
+      if (mode !== "form" && !this.state.form ) {
           return null
       }
       event.preventDefault();
@@ -89,10 +88,12 @@ class Field extends React.Component {
           if (error) {
                 alert ('error is ' + error.message)
           } else {
-            this.setState({value_changed:false})
+            this.setState({value_changed:false, form:false})
             this.props.onSubmit(this.props.field_name)
           }
         })
+      } else {
+          this.setState({form:false})
       }
   }
 
@@ -182,6 +183,8 @@ class Field extends React.Component {
     return (
       <TextField    
         InputLabelProps={{shrink:true}}
+        id = {data_object[meta.keys(object_type,field_name).key_id + '+' + field_name]}
+        autoFocus = {(this.props.mode=="view_click_form")?true:false}
         name={field.name}
         label={field.pretty_name}
         disabled={disabled}
@@ -220,6 +223,11 @@ class Field extends React.Component {
     }
   }
 
+  handleClick(event) {
+    this.setState({form:true})
+  
+  }
+
 // add onsubmit and name to form
   render()  {
     switch (this.props.mode) {
@@ -228,18 +236,25 @@ class Field extends React.Component {
                 {this.renderField()} 
               </form>)
         break;
-      // case "text-click-form":
-      //   return (
-      //      this.state.form ? 
-      //         <form>
-      //           {this.renderField()} 
-      //         </form>
-      //       :
-      //       <div onclick="()=>{this.setState({form:true})}">
-      //               {this.getDisplayView()} 
-      //       </div>
-      // 
-      //     )
+      case "view_click_form":
+          const { object_type, field_name } = this.props;
+          const field = meta.field(object_type,field_name);
+          return (
+           this.state.form ? 
+              <form>
+                {this.renderField()} 
+              </form>
+            :  
+              field.derived ?
+                <div>
+                  {this.getDisplayView()}&nbsp;
+                </div>  
+                :
+                <div onClick={this.handleClick}>
+                  {this.getDisplayView()} &nbsp;
+                </div>
+              
+          )
       default :
         return (<Fragment>
                 {this.getDisplayView()} 

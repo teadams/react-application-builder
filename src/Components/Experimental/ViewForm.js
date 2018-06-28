@@ -119,14 +119,14 @@ class ViewForm extends React.Component {
   }
 
   
-  renderField(field, disableUnderline) {
-
+  renderField(field, options) {
+      options = options?options:{}
       return (
         <Field object_type = {this.props.object_type} 
           field_name = {field.name}  
           data_object={this.state.item_data}
-          mode="form"
-          disableUnderline={disableUnderline?disableUnderline:false}
+          mode={options.mode?options.mode:"view_click_form"}
+          disableUnderline={options.disableUnderline?options.disableUnderline:false}
           onChange={this.handleChange}
           onSubmit={this.handleSubmit}
           onMappingClick={this.handleMappingOpen}
@@ -158,14 +158,14 @@ class ViewForm extends React.Component {
         />}
         <Grid container  alignContent='flex-start'  justify="flex-start" wrap="wrap" >
         <Grid style={{padding:10, boxBorder:"border-box"}} item sm={4}>
-        {this.renderField(meta.field(this.props.object_type,keys.pretty_key_id))}
+        {this.renderField(meta.field(this.props.object_type,keys.pretty_key_id,{mode:"view_click_form"}))}
         </Grid>
         <Grid item sm={8}/>
         {this.state.item_data && !sections && object_fields.map(field => {
           let grid_col = field.grid_col?field.grid_col:4
           return (
             <Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}} sm={grid_col}>
-              {this.renderField(field,{mode:"text-click-form"})}
+              {this.renderField(field)}
             </Grid>)
         })}
 
