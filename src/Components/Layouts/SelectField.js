@@ -17,6 +17,8 @@ function getSelectOptions (object_type, field, form_object_type, dependent_value
         const id_column_name =form_object_type_keys.key_id
         const name_column_name = form_object_type_keys.pretty_key_id;
         log.val('dependent field set, id co name, name col name', dependent_value, id_column_name, name_column_name)
+
+        // get data - Option - custom --
         axios.get('/api/v1/custom/' + form_object_type +'/'+field.name +'/dependent_query/where_id/' + dependent_value).then(function (response) {
             log.val("response data", response.data);
              var select_menu_options = response.data.map (row => {

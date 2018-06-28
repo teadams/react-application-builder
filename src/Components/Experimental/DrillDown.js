@@ -77,7 +77,9 @@ class DrillDown extends React.Component {
              this.setState({ create_object_form: false, 
                              refresh_drill: true, 
                              selected_id:selected_id});
-      } 
+      } else {
+          this.setState({ create_object_form: false});
+      }
    };
   
   loadDrill()  {
@@ -199,11 +201,9 @@ class DrillDown extends React.Component {
             {this.state.create_object_form  &&
               <CreateForm
                 object_type={this.props.object_type}
-                object_fields={object_fields}
-                object_attributes={object_attributes}
                 open="true"
                 sections={this.props.create_form_sections}
-                 onClose={this.handleDataChange}
+                onClose={this.handleDataChange}
              />
             }
             { this.state.selected_id  &&

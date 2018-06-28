@@ -64,6 +64,7 @@ class CreateForm extends React.Component {
 
   handleSubmit(event) {
       if (this.state.formTouched) {
+          alert ('form touched')
         if (!this.props.id) {
           data.postData(this.props.object_type, this.state.formValues, {}, (data, error) => { 
             if (error) {
@@ -88,9 +89,10 @@ class CreateForm extends React.Component {
     }
 
   handleClose(event, action_text, inserted_id) {
+alert ('in handlec lose')
     const object_fields = meta.fields(this.props.object_type)
     this.setState({ formValues: {}, formTouched:true})
-    this.props.onClose(action_text?`${meta.object(this.props.object_type).pretty_name}  ` +action_text:'', inserted_id);
+    this.props.onClose(action_text?`${meta.object(this.props.object_type).pretty_name}  ${action_text}`:'', inserted_id);
   };
 
   componentDidMount() {
@@ -146,7 +148,7 @@ class CreateForm extends React.Component {
 
 
     return (
-      <Dialog open={this.props.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+      <Dialog style={{width:"95%"}} open={this.props.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">{this.state.action} {meta.object(object_type).pretty_name}</DialogTitle>
           <DialogContent>
             <DialogContentText>{meta.object(object_type).create_form_message}</DialogContentText>

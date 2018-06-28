@@ -156,6 +156,8 @@ class Field extends React.Component {
     const { object_type, field_name, data_object } = this.props;
     const field = meta.field(object_type,field_name);
     return(
+// pass in object type of form, dependent value
+// Post in object_type and FIeld... not all the details
     <SelectField 
       key={field.name}    
         disabled={disabled}
