@@ -9,7 +9,7 @@ import * as data from '../../Utils/data.js';
 import update from 'immutability-helper';
 
 import {SelectField, CreateForm, CrudTable, ButtonCreate, ButtonExpandMore, ButtonExpandLess} from "../Layouts/index.js";
-import {ViewForm, Field} from "./index.js";
+import {ObjectView, Field} from "./index.js";
  
 
 class DrillDown extends React.Component {
@@ -207,7 +207,7 @@ class DrillDown extends React.Component {
              />
             }
             { this.state.selected_id  &&
-              <ViewForm 
+              <ObjectView
                   object_type = {this.props.object_type}
                   selected_id = {this.state.selected_id}
                   grouping_field_name = {this.props.grouping_field_name}

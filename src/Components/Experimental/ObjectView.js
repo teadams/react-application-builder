@@ -10,7 +10,7 @@ import {MappingForm, Field} from "./index.js"
 import * as data from '../../Utils/data.js';
 import update from 'immutability-helper';
 
-class ViewForm extends React.Component {
+class ObjectView extends React.Component {
 
   constructor(props) {
     super(props);           
@@ -204,5 +204,5 @@ class ViewForm extends React.Component {
   } 
 }
 
-export default ViewForm;
+export default ObjectView;
 
