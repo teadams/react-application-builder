@@ -22,10 +22,9 @@ class ViewForm extends React.Component {
   // onDataChange
 
     this.state = {
-        item_data: "",
+        item_data: {},
         pretty_name_edit: false,
         props_object_type: '',
-        formValues: {},
         formChanged: {},
         formUnderlined:{}
     }  
@@ -40,10 +39,9 @@ class ViewForm extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.object_type && nextProps.object_type != prevState.props_object_type) {
       const refreshed_state =    {
-              item_data: "",
+              item_data: {},
               pretty_name_edit: false,
               props_object_type: nextProps.object_type,
-              formValues: {},
               formChanged: {},
               formUnderlined: {}
           }  
@@ -58,13 +56,10 @@ class ViewForm extends React.Component {
     data.getData (this.props.object_type, {id:this.props.selected_id}, (item_data, error) => { 
 
           let updated_state = {};
-          updated_state.formValues = {};
           updated_state.item_data = item_data;
           updated_state.pretty_name_edit = false;
           meta.fields(this.props.object_type).map(field => {
-            if (!field.mapping) {
-              updated_state.formValues[field.name] = (item_data[field.name] !== null)?item_data[field.name]:""
-            } else {
+            if (field.mapping) {
               this.loadMappedData(field.name)
             }
           })
@@ -82,12 +77,9 @@ class ViewForm extends React.Component {
     options.filter_id = this.props.selected_id;
     options.key_type = "key_id";
     data.getData(field.mapping, options, (mapped_data, error) => { 
-    //  alert ("mapped data is " + JSON.stringify(mapped_data))
-      let formValues  = update(this.state.formValues,{
+      this.setState({item_data:update(this.state.item_data,{
                   [field_name]: {$set: mapped_data}
-                  })
-    //  alert ('mapped state is ' + formValues[field_name].length)
-      this.setState({formValues:formValues})
+                  })})
     })
   }
 
@@ -115,10 +107,9 @@ class ViewForm extends React.Component {
 
   
   handleChange (field_name, value)  {
-      let formValues  = update(this.state.formValues,{
+      this.setState({item_data:update(this.state.item_data,{
                   [field_name]: {$set: value}
-                  })
-      this.setState({formValues:formValues});
+                  })});
   }
 
   handleSubmit(field_name) {
@@ -133,8 +124,8 @@ class ViewForm extends React.Component {
       return (
         <Field object_type = {this.props.object_type} 
           field_name = {field.name}  
-          data_object={this.state.formValues}
-          mode="form"
+          data_object={this.state.item_data}
+          mode="view"
           disableUnderline={disableUnderline?disableUnderline:false}
           onChange={this.handleChange}
           onSubmit={this.handleSubmit}
@@ -145,10 +136,15 @@ class ViewForm extends React.Component {
   }
 
   render () {
+
+    if (!this.state.item_data) {
+        return null
+    } 
+
     const object_fields = meta.fields(this.props.object_type);
     const keys = meta.keys(this.props.object_type);
-    const id = this.state.formValues[meta.keys(this.props.object_type).key_id]  
-    const sections = meta.sections(this.props.object_type);
+    const id = this.state.item_data[meta.keys(this.props.object_type).key_id]  
+    const sections = meta.sections(this.props.object_type)
     return (
       <Fragment>
         {this.state.mapping_open &&
@@ -158,7 +154,7 @@ class ViewForm extends React.Component {
           object_type={this.props.object_type}
           mapping_field_name = {this.state.mapping_field_name}
           mapping_field_value = {id}
-          mapping_field_pretty_name ={this.state.formValues[keys.pretty_key_id]}
+          mapping_field_pretty_name ={this.state.item_data[keys.pretty_key_id]}
         />}
         <Grid container  alignContent='flex-start'  justify="flex-start" wrap="wrap" >
         <Grid style={{padding:10, boxBorder:"border-box"}} item sm={4}>
@@ -169,7 +165,7 @@ class ViewForm extends React.Component {
           let grid_col = field.grid_col?field.grid_col:4
           return (
             <Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}} sm={grid_col}>
-              {this.renderField(field)}
+              {this.renderField(field,{mode:"text-click-form"})}
             </Grid>)
         })}
 

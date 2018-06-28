@@ -225,7 +225,7 @@ export function get_display_value(object_type, field_name, data) {
     }
 
     if (data[field_name] === null || data[field_name] === "") {
-        return ""
+        return null
     }  else if (display_field.references) {
         const referenced_table = display_field.references;
         const referenced_pretty_id_column = keys(referenced_table).pretty_key_id
@@ -237,10 +237,21 @@ export function get_display_value(object_type, field_name, data) {
             log.val ("p1", p1)
            return (data[field_name+"_"+p1])
         }
+        //alert ("display field name " + display_field.name)
+        //alert ("referenced_pretty_id_column " + referenced_pretty_id_column)
+        //alert ("data " + JSON.stringify(data))
         if (referenced_field.derived) {
           return (referenced_field.derived.replace(/{(.*?)}/ig, derivedReferencedMatch));
         } else {
-          return (data[display_field.name +'_'+referenced_pretty_id_column])
+            log.val("redner value",data[display_field.name +'_'+referenced_pretty_id_column] )
+      //    alert (data[display_field.name +'_'+referenced_pretty_id_column])
+            const display_value = data[display_field.name +'_'+referenced_pretty_id_column]
+            if (display_value) {
+              return display_value
+            } else {
+              return null
+            }
+  //          return(data[display_field.name +'_'+referenced_pretty_id_column])
         }
     } else if (display_field.derived) {
       log.func("get display values")
@@ -252,6 +263,10 @@ export function get_display_value(object_type, field_name, data) {
         // mappings do not have a base display value
         return ""
     } else  {
-        return (data[field_name].toString())
+        if (data[field_name]) { 
+          return (data[field_name].toString())
+        } else {
+          return null
+        }
     }
 }

@@ -20,6 +20,8 @@ class Field extends React.Component {
       // mode 
             // text - text only
             // form - full form, this component will call server to update. Used for ObjectView
+            // text-click-form - initial view is text, then on click changes to form. used    
+            //     for pretty_name field on ObjectView.  Potentially use for table cells
             // form-element - one form element - this component will not call server to update. Used for ObjectCreate
       // id - the value for the the key from this row (not required for view mode)
 
@@ -29,6 +31,21 @@ class Field extends React.Component {
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit  = this.handleSubmit.bind(this);
 
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+      if (nextProps.object_type !== this.props.object_type) {
+        return true;
+      } else if (nextProps.field_name != this.props.field_name) {
+        return true;
+      } else if (nextProps.data_object[this.props.field_name] !== this.props.data_object[this.props.field_name]) {
+        return true;
+      } else if (meta.field(nextProps.object_type, nextProps.field_name).derived) {
+        // a derived field may be influence by changes in other fields in data_object
+        return true;
+      } else {
+        return false
+      }
   }
 
   componentDidMount() {
@@ -79,8 +96,10 @@ class Field extends React.Component {
   getDisplayView() {
     const { object_type, field_name, data_object } = this.props;
     const field = meta.field(object_type,field_name);
-
-    if (!field.mapping) {
+    //alert ("data object is " +JSON.stringify(this.props.data_object))
+    if (Object.keys(data_object).length == 0) {
+      return null
+    } else if (!field.mapping) {
       return(meta.get_display_value(object_type, field_name, data_object))
     } else if (!this.state.value) {
         // mapping data is not loaded yet
@@ -188,7 +207,7 @@ class Field extends React.Component {
       } 
 
       if (field.derived) {
-          return(this.renderDerived({disabled:disabled, disableUnderline:disableUnderline}))
+        return(this.renderDerived({disabled:disabled, disableUnderline:disableUnderline}))
       }  else if (field.mapping) { 
         return(this.renderMapping({disabled:disabled, disableUnderline:disableUnderline}))
       } else if ( field.valid_values || field.references || field.data_type === "boolean" || (field.data_type === "integer" && field.input_type !== "" || field.input_type === "color_picker")) {
@@ -206,8 +225,19 @@ class Field extends React.Component {
                 {this.renderField()} 
               </form>)
         break;
+      // case "text-click-form":
+      //   return (
+      //      this.state.form ? 
+      //         <form>
+      //           {this.renderField()} 
+      //         </form>
+      //       :
+      //       <div onclick="()=>{this.setState({form:true})}">
+      //               {this.getDisplayView()} 
+      //       </div>
+      // 
+      //     )
       default :
-        // default is text
         return (<Fragment>
                 {this.getDisplayView()} 
               </Fragment>)
