@@ -121,11 +121,12 @@ class ViewForm extends React.Component {
   
   renderField(field, options) {
       options = options?options:{}
+      //alert ('options is ' + JSON.stringify(options))
       return (
         <Field object_type = {this.props.object_type} 
           field_name = {field.name}  
           data_object={this.state.item_data}
-          mode={options.mode?options.mode:"view_click_form"}
+          mode={options.mode?options.mode:"form"}
           disableUnderline={options.disableUnderline?options.disableUnderline:false}
           onChange={this.handleChange}
           onSubmit={this.handleSubmit}
@@ -158,7 +159,7 @@ class ViewForm extends React.Component {
         />}
         <Grid container  alignContent='flex-start'  justify="flex-start" wrap="wrap" >
         <Grid style={{padding:10, boxBorder:"border-box"}} item sm={4}>
-        {this.renderField(meta.field(this.props.object_type,keys.pretty_key_id,{mode:"view_click_form"}))}
+        {this.renderField(meta.field(this.props.object_type,keys.pretty_key_id),{mode:"view_click_form"})}
         </Grid>
         <Grid item sm={8}/>
         {this.state.item_data && !sections && object_fields.map(field => {
