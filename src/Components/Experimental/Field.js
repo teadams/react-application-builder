@@ -34,13 +34,16 @@ class Field extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-      if (nextProps.object_type !== this.props.object_type) {
+      if (nextState.value !== this.state.value) {
+        return true;
+      } else if (nextProps.object_type !== this.props.object_type) {
         return true;
       } else if (nextProps.field_name != this.props.field_name) {
         return true;
       } else if (nextProps.data_object[this.props.field_name] !== this.props.data_object[this.props.field_name]) {
         return true;
-      } else if (meta.field(nextProps.object_type, nextProps.field_name).derived) {
+      } else if (meta.field(nextProps.object_type, nextProps.field_name).derived ||
+        meta.field(nextProps.object_type, nextProps.field_name).dependent_field) {
         // a derived field may be influence by changes in other fields in data_object
         return true;
       } else {

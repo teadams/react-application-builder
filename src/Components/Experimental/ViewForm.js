@@ -125,7 +125,7 @@ class ViewForm extends React.Component {
         <Field object_type = {this.props.object_type} 
           field_name = {field.name}  
           data_object={this.state.item_data}
-          mode="view"
+          mode="form"
           disableUnderline={disableUnderline?disableUnderline:false}
           onChange={this.handleChange}
           onSubmit={this.handleSubmit}
