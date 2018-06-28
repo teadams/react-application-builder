@@ -6,6 +6,8 @@ import {TextField, Paper, Button, Grid, ListItem, List,  Typography} from '@mate
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import * as data from '../../Utils/data.js';
+import update from 'immutability-helper';
+
 import {SelectField, CreateForm, CrudTable, ButtonCreate, ButtonExpandMore, ButtonExpandLess} from "../Layouts/index.js";
 import {ViewForm, Field} from "./index.js";
  
@@ -24,6 +26,7 @@ class DrillDown extends React.Component {
   
         this.state = {
             drill_data: [],
+            expanded:{},
             selected_id: '',
             create_object_form: false,
             manage_object_type: "",
@@ -43,6 +46,7 @@ class DrillDown extends React.Component {
 
       var new_state = {}
       new_state.drill_data =[]
+      new_state.expanded = {},
       new_state.refresh_drill = true
       new_state.props_object_type = nextProps.object_type
       new_state.selected_id = ''
@@ -112,9 +116,11 @@ class DrillDown extends React.Component {
       }
   }
 
+  toggle_expand(grouping, value) {
+      this.setState({expanded:update(this.state.expanded, {$toggle:[grouping]})})
+  }
 
   render()  {
-//      log.func ('Render Drill down', 'drill down render state', this.state)
       const object_attributes = meta.object(this.props.object_type);
 // TODO - create form should not need object fields as prop
       const object_fields = meta.fields(this.props.object_type);
@@ -146,15 +152,19 @@ class DrillDown extends React.Component {
                       current_grouping = grouping_value
                       group_header = <Typography style={{marginLeft:5,marginBottom:5}} align="left" variant="subheading"> <Field object_type={this.props.object_type} field_name={grouping_field_name} data_object={row} mode="text"/> 
                           {expand_contract  &&
-                          (!this.state["less_"+current_grouping]? 
-                          <ButtonExpandMore  float="right" onClick={()=> {this.setState({["less_"+grouping_value]:true})}}/>
+                          (!this.state.expanded[current_grouping]? 
+                          <ButtonExpandMore  float="right" onClick={()=> {
+                                this.toggle_expand(grouping_value, true)
+                          }}/>
                           :
-                            <ButtonExpandLess  float="right" onClick={()=> {this.setState({["less_"+grouping_value]:false})}}/>
+                            <ButtonExpandLess  float="right" onClick={()=> {
+                                this.toggle_expand(grouping_value, false)
+                            }}/>
                           )}
                       </Typography>;
                   }}
 
-                if (!expand_contract || this.state["less_"+current_grouping]) {
+                if (!expand_contract || this.state.expanded[current_grouping]) {
                 //        alert('current row is ' + row[keys.key_id])
                         return(<Fragment>{group_header}
                         <ListItem key={row[keys.key_id]}  dense button onClick={() => this.handleClick(row[keys.key_id], row[keys.pretty_key_id])}> 

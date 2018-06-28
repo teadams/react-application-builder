@@ -213,8 +213,6 @@ class Field extends React.Component {
               </Fragment>)
         break
       }
-
-
   }
 
 }
