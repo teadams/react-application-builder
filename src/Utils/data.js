@@ -1,6 +1,6 @@
 import * as log from './log.js';
 import axios from 'axios';
-
+import * as meta from './meta.js';
 
 export function getData (object_type, options, callback)   {
   var urltext = '/api/v1/' + object_type;
@@ -35,10 +35,30 @@ export function getData (object_type, options, callback)   {
   })
 }
 
+// INSERTS 
+export function postData (object_type, data_object, options, callback)   {
+  let urltext = '/api/v1/' + object_type;
+  axios({
+   method: 'post',
+   url: urltext,
+   data: { data_object }
+ }).then(results => {
+      callback(results.data,"");
+  }).catch(error => {
+    log.val('in catch error', error.message)
+    alert ('error getting data', error.message)
+    callback('', error);
+  })
+}
 
+/// UPDATES
 export function putData (object_type, data_object, options, callback)   {
   let urltext = '/api/v1/' + object_type;
-  urltext += '/'+data_object.id
+  if (data_object.id) {
+    urltext += '/'+data_object.id
+  } else {
+    urltext += '/'+data_object[meta.keys[object_type].key_id]
+  } 
   axios({
    method: 'put',
    url: urltext,

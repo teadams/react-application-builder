@@ -2,9 +2,11 @@ import React from 'react';
 import {  Grid, Paper, Typography, Divider, MenuItem, TextField, Dialog, DialogTitle, DialogContent ,DialogContentText, DialogActions, Button } from '@material-ui/core';
 import {SelectField} from "./index.js";
 import axios from 'axios';
+import * as data from '../../Utils/data.js';
 import { withStyles } from '@material-ui/core/styles';
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
+import update from 'immutability-helper';
 
 class CreateForm extends React.Component {
 
@@ -46,44 +48,39 @@ class CreateForm extends React.Component {
         action: nextProps.id?'Edit':'Create',
         formValues: formValues
       };
+    } else {
+      return null
     }
-    return null
   }
 
 
   handleChange = name => event => {
       const target = event.target;
       const value = target.type === 'checkbox' ? target.checked : target.value;
-      this.state.formTouched = true;
-      var temp_form_values = this.state.formValues;
-      temp_form_values[name] = value;
-      this.setState({ formValues: temp_form_values });
+      this.setState({ formTouched:true, formValues: update(this.state.formValues,{
+                  [name]: {$set: value}
+                  }) });
   }
 
   handleSubmit(event) {
       if (this.state.formTouched) {
-        event.preventDefault();
-        var data_object = Object();
-        var data_object = this.state.formValues;
         if (!this.props.id) {
-          var urltext = '/api/v1/' + this.props.object_type;
-          axios({
-            method: 'post',
-            url: urltext,
-            data: { data_object }
-          }).then (result => {
-              var inserted_id = result.data.rows[0][meta.keys(this.props.object_type).key_id]  
+          data.postData(this.props.object_type, this.state.formValues, {}, (data, error) => { 
+            if (error) {
+                  alert ('error is ' + error.message)
+            } else {
+              var inserted_id = data.rows[0][meta.keys(this.props.object_type).key_id]  
               this.handleClose(event,'created', inserted_id);
-          });
+            }
+          })
         } else {
-          var urltext = '/api/v1/' + this.props.object_type + '/' +this.props.id;
-          axios({
-            method: 'put',
-            url: urltext,
-            data: { data_object }
-          }).then (result => {
+          data.putData(this.props.object_type, this.state.formValues, {}, (result, error) => { 
+            if (error) {
+                  alert ('error is ' + error.message)
+            } else { 
               this.handleClose(event,'edited');
-          });
+            }
+          })
         }
       } else {
           this.handleClose(event);
@@ -92,58 +89,26 @@ class CreateForm extends React.Component {
 
   handleClose(event, action_text, inserted_id) {
     const object_fields = meta.fields(this.props.object_type)
-    var formValues = {};
-    object_fields.map(field => {
-        if (!field.key) {
-          formValues[field.name] = ""
-        }
-    })
+    this.setState({ formValues: {}, formTouched:true})
     this.props.onClose(action_text?`${meta.object(this.props.object_type).pretty_name}  ` +action_text:'', inserted_id);
-
   };
 
   componentDidMount() {
     const object_fields = meta.fields(this.props.object_type)
-
     if (this.props.id) {
-       var urltext = '/api/v1/' + this.props.object_type + '/'+ this.props.id;
-       axios({
-        method: 'get',
-        url: urltext,
-      }).then(results => {
-        var result_row = results.data;
-        var formValues = {};
-        object_fields.map(field => {
-            if (!field.key) {
-              formValues[field.name] = result_row[field.name];
-            }
-        })
-         this.setState({ formValues: formValues, formTouched:true})
-      });  
+      data.getData (this.props.object_type, {id:this.props.id}, (item_data, error) => { 
+              this.setState({ formValues: item_data, formTouched:true})
+      })   
     }
   }
 
 
  componentDidUpdate(prevProps, prevState, snapshot) {
-   log.func("CreateForm: DidUpdate", "props id", this.props.id)
    const object_fields = meta.fields(this.props.object_type)
    if (this.props.id && !this.state.formTouched) {
-      var urltext = '/api/v1/' + this.props.object_type + '/'+ this.props.id;
-      log.val("url text", urltext);
-      axios({
-       method: 'get',
-       url: urltext,
-     }).then(results => {
-       var result_row = results.data;
-       var formValues = {};
-       object_fields.map(field => {
-           if (!field.key) {
-             formValues[field.name] = result_row[field.name];
-           }
-    
-       })
-        this.setState({ formValues: formValues, formTouched:true})
-     });  
+     data.getData (this.props.object_type, {id:this.props.id}, (item_data, error) => { 
+             this.setState({ formValues: item_data, formTouched:true})
+     })  
    }
  }
 

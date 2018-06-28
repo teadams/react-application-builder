@@ -24,6 +24,8 @@ class Field extends React.Component {
             //     for pretty_name field on ObjectView.  Potentially use for table cells
             // form_element - one form element (no form tags)- this component will not call server to update. Used for ObjectCreate
       // id - the value for the the key from this row (not required for view mode)
+      //      in theory, this could be derived from data_object. However, I don't want to allow data object to only
+      //      contain the field (for example, for filter fields)
 
       this.state = {
         value_changed: false
