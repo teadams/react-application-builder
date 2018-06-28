@@ -6,16 +6,10 @@ import { withStyles } from '@material-ui/core/styles';
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 
-
 class CreateForm extends React.Component {
 
   constructor(props) {
-      log.func("create form constructor");
         super(props);           
-      //  alert('this props id is '+ this.props.id)
-        //props
-        // object_type - type of object 
-        // section - limit to sections in the form
         this.state = {
           formTouched: false,
           action: this.props.id?'Edit':'Create'
@@ -30,16 +24,14 @@ class CreateForm extends React.Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     log.func("Create Form: Derived State from Props", "nextProps",nextProps);
-//    log.val('next object name, prev object name', nextProps.object_type, prevState.props_object_type)
+    const object_fields = meta.fields(nextProps.object_type)
+
     if (nextProps.object_type && nextProps.object_type != prevState.props_object_type) {
-      log.log('changing state formValue')
       var formValues = {};
 
-      nextProps.object_fields.map(field => {
-  
+      object_fields.map(field => {
           if (!field.key ) {
             if (field.name == nextProps.filter_field) {
-              log.func("Passed in filter id","field, filter_field, filter_id", field, nextProps.filter_field, nextProps.filter_id)
               formValues[field.name] = nextProps.filter_id
             } else if (field.default) {
               formValues[field.name] = field.default
@@ -48,6 +40,7 @@ class CreateForm extends React.Component {
             }
           }
       })
+
       return {
         props_object_type : nextProps.object_type,
         action: nextProps.id?'Edit':'Create',
@@ -59,13 +52,11 @@ class CreateForm extends React.Component {
 
 
   handleChange = name => event => {
-//      alert('handle change in form ' +name + ' value' + event.target.value)
       const target = event.target;
       const value = target.type === 'checkbox' ? target.checked : target.value;
       this.state.formTouched = true;
       var temp_form_values = this.state.formValues;
       temp_form_values[name] = value;
-      log.func("Form Handle Change", "form values", temp_form_values);
       this.setState({ formValues: temp_form_values });
   }
 
@@ -74,8 +65,6 @@ class CreateForm extends React.Component {
         event.preventDefault();
         var data_object = Object();
         var data_object = this.state.formValues;
-        console.log ('form to send db ' + JSON.stringify(data_object));
-
         if (!this.props.id) {
           var urltext = '/api/v1/' + this.props.object_type;
           axios({
@@ -102,38 +91,33 @@ class CreateForm extends React.Component {
     }
 
   handleClose(event, action_text, inserted_id) {
+    const object_fields = meta.fields(this.props.object_type)
     var formValues = {};
-    this.props.object_fields.map(field => {
+    object_fields.map(field => {
         if (!field.key) {
           formValues[field.name] = ""
         }
     })
-//    this.setState({formTouched:false, formValues:formValues, id:''});
-    // this will change once we change the form to use the context
-    this.props.onClose(action_text?`${this.props.object_attributes.pretty_name}  ` +action_text:'', inserted_id);
+    this.props.onClose(action_text?`${meta.object(this.props.object_type).pretty_name}  ` +action_text:'', inserted_id);
 
   };
 
   componentDidMount() {
-    log.func("CreateForm: DidMount", "props", this.props)
+    const object_fields = meta.fields(this.props.object_type)
+
     if (this.props.id) {
-      //TODO - Consolodate the db call
        var urltext = '/api/v1/' + this.props.object_type + '/'+ this.props.id;
-       log.val("url text", urltext);
        axios({
         method: 'get',
         url: urltext,
       }).then(results => {
-        log.val('results, data', results, results.data)
         var result_row = results.data;
-        log.val("result_row", result_row);
         var formValues = {};
-        this.props.object_fields.map(field => {
+        object_fields.map(field => {
             if (!field.key) {
               formValues[field.name] = result_row[field.name];
             }
         })
-          log.func("Create form Setting state with form values", "formvalue", formValues)
          this.setState({ formValues: formValues, formTouched:true})
       });  
     }
@@ -142,6 +126,7 @@ class CreateForm extends React.Component {
 
  componentDidUpdate(prevProps, prevState, snapshot) {
    log.func("CreateForm: DidUpdate", "props id", this.props.id)
+   const object_fields = meta.fields(this.props.object_type)
    if (this.props.id && !this.state.formTouched) {
       var urltext = '/api/v1/' + this.props.object_type + '/'+ this.props.id;
       log.val("url text", urltext);
@@ -151,7 +136,7 @@ class CreateForm extends React.Component {
      }).then(results => {
        var result_row = results.data;
        var formValues = {};
-       this.props.object_fields.map(field => {
+       object_fields.map(field => {
            if (!field.key) {
              formValues[field.name] = result_row[field.name];
            }
@@ -215,23 +200,21 @@ class CreateForm extends React.Component {
   }
 
   render() {
-    const { onClose, object_type, object_fields, object_attributes, ...other } = this.props;
+    const { onClose, object_type, open} = this.props;    
+    const object_fields = meta.fields(object_type)
+    if (!this.props.open) {
+      return null;
+    }
 
    const sections =this.props.sections?meta.sections(this.props.object_type,this.props.sections):meta.sections(this.props.object_type);
-//  const sections = meta.sections(this.props.object_type)
-//    alert ('sections is ' + JSON.stringify( sections))
     const flex_direction= sections?"column":"row"
 
-    log.func("Create form: render","open", this.props.open);
-    if (!this.props.open) {
-      return "";
-    }
-//    log.val("rendering form, disabled id", disabled)
+
     return (
       <Dialog open={this.props.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">{this.state.action} {object_attributes.pretty_name}</DialogTitle>
+        <DialogTitle id="form-dialog-title">{this.state.action} {meta.object(object_type).pretty_name}</DialogTitle>
           <DialogContent>
-            <DialogContentText>{object_attributes.create_form_message}</DialogContentText>
+            <DialogContentText>{meta.object(object_type).create_form_message}</DialogContentText>
               <form  noValidate autoComplete="off">
               {sections && sections.map(section => {
                 var section_fields = meta.section_fields(this.props.object_type, section.name)
@@ -254,9 +237,7 @@ class CreateForm extends React.Component {
                 }
                 })}
                 {!sections && object_fields.map(field => {
-//                    alert ('in the else')
                   return (this.renderField(field))
-//                      return "text"
                 })}
               </form>
             </DialogContent>
