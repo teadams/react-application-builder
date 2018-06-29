@@ -77,7 +77,6 @@ class CreateForm extends React.Component {
         } else {
           data.putData(this.props.object_type, this.state.formValues, {}, (result, error) => { 
             if (error) {
-                  alert ('error is ' + error.message)
             } else { 
               this.handleClose(event,'edited');
             }
@@ -89,7 +88,6 @@ class CreateForm extends React.Component {
     }
 
   handleClose(event, action_text, inserted_id) {
-alert ('in handlec lose')
     const object_fields = meta.fields(this.props.object_type)
     this.setState({ formValues: {}, formTouched:true})
     this.props.onClose(action_text?`${meta.object(this.props.object_type).pretty_name}  ${action_text}`:'', inserted_id);
@@ -144,20 +142,26 @@ alert ('in handlec lose')
     }
 
    const sections =this.props.sections?meta.sections(this.props.object_type,this.props.sections):meta.sections(this.props.object_type);
-    const flex_direction= sections?"column":"row"
-
+    
+  const flex_direction= sections?"column":"row"
+  
+   // used to determine the size of the dialog
+   const section_longest_length = meta.section_longest_length(this.props.object_type, this.props.sections)
+   const maxWidth = (section_longest_length > 4 || (sections && sections.length>2))?'md':'sm'
+   const gridCol_scale = (maxWidth == 'sm')?3:1
 
     return (
-      <Dialog style={{width:"95%"}} open={this.props.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+      <Dialog fullWidth={true} maxWidth={maxWidth} open={this.props.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">{this.state.action} {meta.object(object_type).pretty_name}</DialogTitle>
           <DialogContent>
             <DialogContentText>{meta.object(object_type).create_form_message}</DialogContentText>
               <form onSubmit={this.handleSubmit}>
               {sections && sections.map(section => {
-                var section_fields = meta.section_fields(this.props.object_type, section.name)
+                let section_fields = meta.section_fields(this.props.object_type, section.name)
                 if (section_fields.length > 0) {
                   var field_render = (section_fields.map(field=>{
                         let grid_col = field.grid_col?field.grid_col:4
+                        grid_col = grid_col * gridCol_scale
                         if (!field.key) { 
                           return (<Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}} sm={grid_col}>
                                     {this.renderField(field)}
@@ -178,14 +182,18 @@ alert ('in handlec lose')
                     return ""
                 }
                 })}
-                {!sections && object_fields.map(field => {
-                  let grid_col = field.grid_col?field.grid_col:4
+                {!sections && 
+                  <Grid container>
+                  {object_fields.map(field => {
+                    let grid_col = field.grid_col?field.grid_col:4
+                    grid_col = grid_col * gridCol_scale
                     if (!field.key) { 
                       return (<Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}} sm={grid_col}>
                               {this.renderField(field)}
                             </Grid>)
-                    }
-                })}
+                    }})}
+                    </Grid>
+                  }
               </form>
             </DialogContent>
             <DialogActions>

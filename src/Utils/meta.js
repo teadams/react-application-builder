@@ -124,6 +124,7 @@ export function get_index (array_name, field_name, field_value) {
 }
 
 
+// return the sections preject in the fields for that object type
 export function sections(object_type, section_names) {
     if (!section_names) {
       return metadata_sections[object_type]
@@ -141,6 +142,29 @@ export function sections(object_type, section_names) {
       })
     } 
 }
+
+export function section_longest_length(object_type, section_names) {
+    let section_name_array = []
+    if (!section_names) {
+        if (!metadata_sections[object_type] || metadata_sections[object_type].length == 0) {
+          return fields(object_type).length;
+        } else {
+         section_name_array  =  metadata_sections[object_type].map (section =>{
+                            return section.name
+                            })  
+        }
+    } else {
+      section_name_array = section_names.split(",");
+    }
+    let longest_length = 0
+      for (let i = 0; i < section_name_array.length; i++)  {
+            if (section_fields(object_type, section_name_array[i]).length > longest_length) {
+              longest_length = section_fields (object_type, section_name_array[i]).length
+            }
+      }
+      return longest_length
+}
+
 
 
 
