@@ -1,10 +1,10 @@
 import NavMenuLink from './NavMenuLink';
 import DrillDown from './DrillDown';
 import ObjectView from './ObjectView';
-import MappingForm from './MappingForm';
+import ObjectMapping from './ObjectMapping';
 import Field from './Field'
 
 
 export {
-    NavMenuLink, DrillDown, ObjectView, MappingForm, Field
+    NavMenuLink, DrillDown, ObjectView, ObjectMapping, Field
 }

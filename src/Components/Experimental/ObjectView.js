@@ -1,12 +1,11 @@
 //import {React, Fragment} from 'react';
 import React, { Component, Fragment} from 'react';
 import { Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper } from '@material-ui/core';
-import axios from 'axios';
 import { withStyles } from '@material-ui/core/styles';
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import {SelectField, EditButton} from "../Layouts/index.js";
-import {MappingForm, Field} from "./index.js"
+import {ObjectMapping, Field} from "./index.js"
 import * as data from '../../Utils/data.js';
 import update from 'immutability-helper';
 
@@ -149,7 +148,7 @@ class ObjectView extends React.Component {
     return (
       <Fragment>
         {this.state.mapping_open &&
-        <MappingForm 
+        <ObjectMapping 
           open={this.state.mapping_open}
           onClose={this.handleMappingClose}
           object_type={this.props.object_type}

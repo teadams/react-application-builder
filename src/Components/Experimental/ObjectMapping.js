@@ -5,6 +5,8 @@ import { withStyles } from '@material-ui/core/styles';
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import * as data from '../../Utils/data.js';
+import update from 'immutability-helper';
+
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 
@@ -35,7 +37,7 @@ class MappingForm extends React.Component {
     handleAdditionalChange = name => event => {
         const target = event.target;
         let new_state = this.state
-        new_state.formValues[name] = event.target.value;
+        new_state.formMapIds[name] = event.target.value;
         new_state.formChanged[name] = true
         //alert ('handle change ' + name)
         this.setState(new_state);
@@ -49,12 +51,12 @@ class MappingForm extends React.Component {
 
         event.preventDefault();
         if (this.state.formChanged[name]) {
-          alert ('form changes ' + name)
           const column = name.split("_").slice(1).join('_')
           //  alert ('column is ' + column)
           const id = name.split("_")[0]
           let data_object = Object();
           data_object[column] = event.target.value;
+          
         //  alert ('data object is ' + JSON.stringify(data_object))
           const urltext = '/api/v1/'+ mapping_object_type +'/'+ id ;
           axios({
@@ -78,50 +80,27 @@ class MappingForm extends React.Component {
     const unmapped_field = meta.unmapped_field(mapping_object_type, mapped_field_name)
     const other_mapped_table = unmapped_field.references; 
 
-    //  alert ('mapped keys is ' + JSON.stringify(meta.keys(other_mapped_table)))
-//    const key_id = meta.keys(other_mapped_table).key_id;
-  //  alert ('unampped_field_id  '+ unmapped_field_id)
-
     if (event.target.checked) {
       var data_object = Object();
       data_object[unmapped_field.name] = unmapped_field_id;
       data_object[mapped_field_name] = mapping_field_value;
-      var urltext = '/api/v1/'+ mapping_object_type ;
-      axios({
-              method: 'post',
-              url: urltext,
-              data: { data_object }
-          }).then (result => {
-          //  alert("result of insert is " + JSON.stringify(result.data))
-      
-              var inserted_id = result.data.rows[0][meta.keys(mapping_object_type).key_id]
-        //  alert('inserted id is' + inserted_id)
-          
-    //        alert ("handle change for unmapped id " + unmapped_field+ " " + true)
+      data.postData(mapping_object_type, data_object, {}, (data, error) => {
+           var inserted_id = data.rows[0][meta.keys(mapping_object_type).key_id]
             let newState = this.state;
-            newState.formValues[unmapped_field_id] = true;
             newState.formMapIds[unmapped_field_id] = inserted_id
-            this.setState({newState  });
-          }).catch(error => {
-            alert ('error is ' + error.message)
-      });
+            this.setState({formMapIds: update(this.state.formMapIds,{
+                            [unmapped_field_id]: {$set: inserted_id}
+                        })
+                        });
+          })
     } else {
-        const id = event.target.id;
-    //    alert ('id is ' +event.target.id)
-        var urltext = '/api/v1/' + mapping_object_type + '/' + id;
-      axios({
-          method: 'delete',
-          url: urltext,
-        }).then (result => {
-  //        alert ("handle change for unmapped id " + unmapped_field+ " " + true)
-          let newState = this.state   
-          newState.formValues[unmapped_field_id] = false
-          this.setState({newState});
-        }).catch(error => {
-          alert ('error is ' + error.message)
-    });
-
-    }
+        var data_object = Object();
+        data_object[meta.keys(mapping_object_type).key_id] = event.target.id;
+        data.deleteData(mapping_object_type, data_object, {}, (result, error) => {
+              this.setState({formMapIds: update(this.state.formMapIds,{
+                          [unmapped_field_id]: {$set: false}})
+              })
+    })}
 };
 
   handleClose(event) {
@@ -155,12 +134,10 @@ class MappingForm extends React.Component {
   //        alert ('return from get data')
 //          alert ('other mapped data' + JSON.stringify(other_mapped_data))
           let mapped_data_state = this.state;
-
-          mapped_data_state.formValues = {}
           mapped_data_state.formMapIds  ={}
           mapped_data_state.formChanged ={}
           other_mapped_data.map(row => {
-            mapped_data_state.formValues[row[key_id]] = false;
+            mapped_data_state.formMapIds[row[key_id]] = false;
           })
           mapped_data_state.other_mapped_data = other_mapped_data;
           mapped_data_state.load_mapping_info = true
@@ -188,22 +165,18 @@ class MappingForm extends React.Component {
         options.filter_field = mapped_field_name
         options.filter_id = this.props.mapping_field_value;
         options.key_type = "key_id"
-  //      options[mapped_field_name] = this.props.mapping_field_value
-//alert ('unmapped field is ' + JSON.stringify(unmapped_field.name))
-//alert ('state is ' + JSON.stringify(this.state))
+
         data.getData (mapping_object_type, options, (mapping_info, error) => { 
-    //      alert ('mapping info is ' + JSON.stringify(mapping_info))
-// REWORK TO MAKE IMMUTABLE
+
               var new_state = this.state;
               new_state.load_mapping_info = false
               new_state.mapping_info = mapping_info;
               if (mapping_info) {
-                mapping_info.map(info => {
-                    new_state.formValues[info[unmapped_field.name]] = true
+                mapping_info.map(info => {                  
                     new_state.formMapIds[info[unmapped_field.name]] = info[meta.keys(mapping_object_type).key_id]
                     if (additional_fields.length >0) {
                         additional_fields.map(field=>{
-                            new_state.formValues[info[mapping_key_id]+"_" + field.name] = info[field.name]
+                            new_state.formMapIds[info[mapping_key_id]+"_" + field.name] = info[field.name]
                         })
                     }
               })
@@ -290,15 +263,15 @@ class MappingForm extends React.Component {
                          <FormControlLabel style={{marginLeft:10}}
                            control={
                              <Checkbox
-                               checked={this.state.formValues[id]}
+                               checked={this.state.formMapIds[id]}
                                onChange={this.handleCheckChange(id)}
-                               value={this.state.formValues[id]}
+                               value={this.state.formMapIds[id]}
                               id = {this.state.formMapIds[id]}
                              />
                            }
                            label={label}
                           /></Grid>
-                          {this.state.formValues[id] && additional_fields.map(field=> {
+                          {this.state.formMapIds[id] && additional_fields.map(field=> {
                             return(<Grid item sm={4} style={{paddingTop:10, paddingBottom:10}}>
                               <form id={id+'-'+field.name}>
                                     <TextField    
@@ -309,7 +282,7 @@ class MappingForm extends React.Component {
                                     disabled={false}
                                     type="text"
                                     helperText={field.helper_text}
-                                    value= {this.state.formValues[this.state.formMapIds[id]+'_'+field.name]}
+                                    value= {this.state.formMapIds[this.state.formMapIds[id]+'_'+field.name]}
                                     onChange={this.handleAdditionalChange(this.state.formMapIds[id]+'_'+field.name)}
                                     onBlur={this.handleAdditionalSubmit(this.state.formMapIds[id]+'_'+field.name)}
                                    />
@@ -323,7 +296,7 @@ class MappingForm extends React.Component {
                        <FormControlLabel style={{marginLeft:10}}
                          control={
                            <Checkbox
-                             checked={this.state.formValues[row[other_mapped_keys.key_id]]}
+                             checked={this.state.formMapIds[row[other_mapped_keys.key_id]]}
                              onChange={this.handleCheckChange(row[other_mapped_keys.key_id])}
                              value={row[other_mapped_keys.key_id]}
                             id = {this.state.formMapIds[row[other_mapped_keys.key_id]]}

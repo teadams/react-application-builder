@@ -71,3 +71,20 @@ export function putData (object_type, data_object, options, callback)   {
     callback('', error);
   })
 }
+
+
+export function deleteData (object_type, data_object, options, callback)   {
+  let urltext = '/api/v1/' + object_type;
+  urltext += '/'+data_object[meta.keys(object_type).key_id]
+  axios({
+   method: 'delete',
+   url: urltext,
+   data: { data_object }
+ }).then(results => {
+      callback(results.data,"");
+  }).catch(error => {
+    log.val('in db delete catch error', error.message)
+    alert ('error deleting data', error.message)
+    callback('', error);
+  })
+}
