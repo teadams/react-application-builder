@@ -157,25 +157,13 @@ class Field extends React.Component {
   }
 
   getDisplayView() {
-    const { field_name, data_object, object_type } = this.props;
-    let final_object_type = this.props.object_type;
-    let field = meta.field(object_type,field_name);
-    let final_field = field;
-    //alert ("data object is " +JSON.stringify(this.props.data_object))
-    let prefix = ""
-    if (field.field_object_type) {
-      // the data object will have everything prefixed by the 
-      // name of the reference field pointing to this tables    
-      prefix = meta.reference_field(object_type,field.field_object_type)
-      // object_type is the other table
-      final_object_type = field.field_object_type
-      final_field = meta.field(field.field_object_type, field.field_field_name)
-   }
-
+    const { data_object, object_type, field_name } = this.props;
+    // meta.get_display_value will take references, dervived, etc. into consideration
+    const field = meta.field(object_type, field_name)
     if (Object.keys(data_object).length == 0) {
       return null
     } else if (!field.mapping) {
-      return(meta.get_display_value(final_object_type, final_field.name, data_object, prefix))
+      return(meta.get_display_value(object_type, field_name, data_object))
     } else if (!this.state.value) {
         // mapping data is not loaded yet
         return null
@@ -183,7 +171,7 @@ class Field extends React.Component {
     
       const unmapped_field = meta.unmapped_field(field.mapping, field.mapped_field)
       return (this.state.value.map(row=>{
-        let chip_label = meta.get_display_value(field.mapping,unmapped_field.name, row, prefix)
+        let chip_label = meta.get_display_value(field.mapping,unmapped_field.name, row)
         return (
             <Chip style={{marginRight:10}} label={chip_label}/>
         )
@@ -191,89 +179,55 @@ class Field extends React.Component {
     }
   }
 
-  renderDerived(options) {
-    const {field_name, data_object, object_type } = this.props;
-    let final_object_type = this.props.object_type;
-    let field = meta.field(object_type,field_name);
-    let final_field = field;
-    let prefix = ""
-    if (field.field_object_type) {
-      // the data object will have everything prefixed by the 
-      // name of the reference field pointing to this tables    
-      prefix = meta.reference_field(object_type,field.field_object_type)
-      // object_type is the other table
-      final_object_type = field.field_object_type
-      final_field = meta.field(field.field_object_type, field.field_field_name)
-   }
+  renderDerived(object_type, field, prefix, options) {
+    const { data_object } = this.props;
+
     return( <TextField    
       InputLabelProps={{shrink:true}}
-      name={final_field.name}
-      label={final_field.pretty_name}
+      name={field.name}
+      label={field.pretty_name}
       disabled={options.disabled?options.disabled:true}
       type="text"
-      helperText={final_field.helper_text}
-      value=  {this.getDisplayView()}
+      helperText={field.helper_text}
+      value=  {this.getDisplayView(object_type,field,prefix)}
      style={{width:"90%"}}
     />)
   }
 
-  renderMapping(options) {
+  renderMapping(object_type, field, prefix, options) {
     const disabled = options.disabled?options.disabled:false
-    const { field_name, data_object, object_type } = this.props;
-    let final_object_type = this.props.object_type;
-    let field = meta.field(object_type,field_name);
-    let final_field = field;
-    let prefix = ""
-    if (field.field_object_type) {
-      // the data object will have everything prefixed by the 
-      // name of the reference field pointing to this tables    
-      prefix = meta.reference_field(object_type,field.field_object_type)
-      // object_type is the other table
-      final_object_type = field.field_object_type
-      final_field = meta.field(field.field_object_type, field.field_field_name)
-   }
+    const { data_object } = this.props;
     return (
       <Fragment>
-        <Typography style={{padding:0, border:0}}>{final_field.pretty_name} 
-          <EditButton  size="small" onClick={()=>{this.props.onMappingClick(final_field.name)}} value={final_field.name}/>
+        <Typography style={{padding:0, border:0}}>{field.pretty_name} 
+          <EditButton  size="small" onClick={()=>{this.props.onMappingClick(field.name)}} value={field.name}/>
         </Typography>
         {this.getDisplayView()}
       </Fragment>
     )
   }
 
- renderSelectField(options) {
+ renderSelectField(object_type, field, prefix, options) {
     const disabled = options.disabled?options.disabled:false
     const disableUnderline = options.disableUnderline?options.disableUnderline:false
-    const { field_name, data_object, object_type } = this.props;
-    let final_object_type = this.props.object_type;
-    let prefix = ""
-    let field = meta.field(object_type,field_name);
-    let final_field = field
-    if (field.field_object_type) {
-//      alert ('field object to is ' + field.field_object_type + ' and disabled is '  + options.disabled)
-    //  alert ('state is ' + JSON.stringify(this.state.value))
-      // the data object will have everything prefixed by the 
-      // name of the reference field pointing to this tables    
-      prefix = meta.reference_field(object_type,field.field_object_type)
-      // object_type is the other table
-      final_object_type = field.field_object_type
-      final_field = meta.field(field.field_object_type, field.field_field_name)
-   }
+    const {  data_object} = this.props;
+
     return(
 // pass in object type of form, dependent value
 // Post in object_type and FIeld... not all the details
     <SelectField 
       key={field.name}    
         disabled={disabled}
-        object_type={final_field.references}
-        valid_values={final_field.valid_values}
+        object_type={field.references}
+        valid_values={field.valid_values}
         shrink="true"
         field={field}
         disableUnderline = {disableUnderline}
-        helperText={final_field.helper_text}
-        form_object_type={this.props.object_type}
-        label={final_field.pretty_name}
+        helperText={field.helper_text}
+        // used for custom query where the field is a reference, but custom query is written
+        // on the field in the original object
+        form_object_type={field.object_type}
+        label={field.pretty_name}
         value= {this.state.value}
         open="true"
         onBlur={this.handleSubmit}
@@ -283,39 +237,23 @@ class Field extends React.Component {
   }
 
 
-  renderTextField(options) {
+  renderTextField(object_type, field, prefix, options) {
     const disabled = options.disabled?options.disabled:false
     const disableUnderline = options.disableUnderline?options.disableUnderline:false
-    const { field_name, data_object, object_type } = this.props;
-    let final_object_type = this.props.object_type;
-    let field = meta.field(object_type,field_name);
-    let final_field=field;
-    let prefix = ""
-    if (field.field_object_type) {
-      // the data object will have everything prefixed by the 
-      // name of the reference field pointing to this tables    
-      prefix = meta.reference_field(object_type,field.field_object_type)
-      // object_type is the other table
-      final_object_type = field.field_object_type
-      final_field = meta.field(field.field_object_type, field.field_field_name)
-    //  alert('state is ' + JSON.stringify(this.state.value))
-    //  alert ("object type is " + object_type)
-    //  alert ("field is "  + JSON.stringify(field))
-      //alert ("data boject is " + JSON.stringify(data_object))
-   }
+    const {  data_object } = this.props;
     const multiline = (field.size=="large")?true:false
     return (
       <TextField    
         InputLabelProps={{shrink:true}}
-        id = {data_object[meta.keys(object_type,field_name).key_id + '+' + final_field.name]}
+        id = {data_object[meta.keys(object_type,field.name).key_id + '+' + field.name]}
         autoFocus = {(this.props.mode=="view_click_form")?true:false}
-        name={final_field.name}
-        label={final_field.pretty_name}
+        name={field.name}
+        label={field.pretty_name}
         disabled={disabled}
         InputProps = {{disableUnderline:disableUnderline}}
         type="text"
         multiline={multiline}
-        helperText={final_field.helper_text}
+        helperText={field.helper_text}
         value=  {this.state.value}
         onChange={this.handleChange}
         onBlur={this.handleSubmit}
@@ -323,11 +261,24 @@ class Field extends React.Component {
     />)
   }
 
+
   renderField() {
       const {  field_name, data_object, disableUnderline, object_type } = this.props;
       let final_object_type = this.props.object_type;
       let field = meta.field(object_type,field_name);
       let final_field = field;
+      let prefix = ""
+      // role of renderField is to figure out the final object_type and field
+      // that should be displayed
+      if (field.field_object_type) {
+        // the data object will have everything prefixed by the 
+        // name of the reference field pointing to this tables    
+        prefix = meta.reference_field(object_type,field.field_object_type)
+        // object_type is another table
+        final_object_type = field.field_object_type
+        final_field = meta.field(field.field_object_type, field.field_field_name)
+     }
+
       // for now, field in other tables are disabled. may be expanded later!!
       let  disabled =  (field.prevent_edit || field.derived || field.not_in_db || field.field_object_type)?true:false
       if (field.dependent_field) {
@@ -339,24 +290,15 @@ class Field extends React.Component {
         }
       } 
       let options = {disabled:disabled}
-      let prefix = ""
-      if (field.field_object_type) {
-        // the data object will have everything prefixed by the 
-        // name of the reference field pointing to this tables    
-        prefix = meta.reference_field(object_type,field.field_object_type)
-        // object_type is the other table
-        final_object_type = field.field_object_type
-        final_field = meta.field(field.field_object_type, field.field_field_name)
-     }
 
-      if (field.derived) {
-        return(this.renderDerived({disabled:disabled, disableUnderline:disableUnderline}))
-      }  else if (field.mapping) { 
-        return(this.renderMapping({disabled:disabled, disableUnderline:disableUnderline}))
-      } else if ( field.valid_values || field.references || field.data_type === "boolean" || (field.data_type === "integer" && field.input_type !== "" || field.input_type === "color_picker")) {
-        return(this.renderSelectField({disabled:disabled, disableUnderline:disableUnderline}))
+      if (final_field.derived) {
+        return(this.renderDerived(final_object_type, final_field, prefix, {disabled:disabled, disableUnderline:disableUnderline}))
+      }  else if (final_field.mapping) { 
+        return(this.renderMapping(final_object_type, final_field, prefix, {disabled:disabled, disableUnderline:disableUnderline}))
+      } else if ( final_field.valid_values || final_field.references || final_field.data_type === "boolean" || (final_field.data_type === "integer" && final_field.input_type !== "" || final_field.input_type === "color_picker")) {
+        return(this.renderSelectField(final_object_type, final_field, prefix, {disabled:disabled, disableUnderline:disableUnderline}))
       } else {
-        return(this.renderTextField({disabled:disabled, disableUnderline:disableUnderline}))
+        return(this.renderTextField(final_object_type, final_field, prefix, {disabled:disabled, disableUnderline:disableUnderline}))
     }
   }
 
