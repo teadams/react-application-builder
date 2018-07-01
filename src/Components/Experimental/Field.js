@@ -76,7 +76,8 @@ class Field extends React.Component {
   }
 
   handleSubmit(event) {
-    const { object_type, field_name, mode, id } = this.props;
+
+    const { object_type, field_name, mode, id, data_object } = this.props;
     const field = meta.field(object_type,field_name);
       if (mode !== "form" && !this.state.form ) {
           return null
@@ -85,13 +86,15 @@ class Field extends React.Component {
       if (this.state.value_changed) {
         var update_object = Object();
         update_object[field_name] = this.state.value;
-        update_object.id = id;
+        update_object.id = id?id:data_object[meta.keys(object_type).key_id]
         data.putData(object_type, update_object, {}, (mapped_data, error) => { 
           if (error) {
                 alert ('error is ' + error.message)
           } else {
             this.setState({value_changed:false, form:false})
-            this.props.onSubmit(this.props.field_name)
+            if (this.props.onSubmit) {
+              this.props.onSubmit(this.props.field_name)
+            }
           }
         })
       } else {

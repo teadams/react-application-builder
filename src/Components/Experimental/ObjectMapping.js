@@ -36,8 +36,9 @@ class ObjectMapping extends React.Component {
       this.handleAdditionalSubmit = this.handleAdditionalSubmit.bind(this);
     }
 
-    handleAdditionalChange(id, name, value) {
+    handleAdditionalChange = id => (name, value)=> {
         // TODO - NED to MAKE Immutable
+  //  alert ('id name value' + id + ' ' + name + ' '+ value)
         let new_state = this.state
         new_state.mapping_info[id][name] = value;
         this.setState(new_state);
@@ -230,9 +231,8 @@ class ObjectMapping extends React.Component {
                                       data_object={this.state.mapping_info[id]}
                                       mode="form"
                                       disableUnderline={true}
-                                      id = {this.state.mapping_info[id][meta.keys(mapping_object_type).key_id]}
-                                      onChange={this.handleAdditionalChange}
-                                      onBlur={this.handleAdditionalSubmit}
+                                      onChange={this.handleAdditionalChange(id)}
+                                    //  onBlur={this.handleAdditionalSubmit}
                                     />                                   
                                   </Grid>)                        
                         })}
