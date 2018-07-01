@@ -236,18 +236,13 @@ class Field extends React.Component {
 // pass in object type of form, dependent value
 // Post in object_type and FIeld... not all the details
     <SelectField 
-      key={field.name}    
+       key={data_object[meta.keys(object_type,field.name).key_id + '+' + field.name]}
         disabled={disabled}
-        object_type={field.references}
-        valid_values={field.valid_values}
+        object_type={object_type}
         shrink="true"
         field={field}
         disableUnderline = {disableUnderline}
         helperText={field.helper_text}
-        // used for custom query where the field is a reference, but custom query is written
-        // on the field in the original object
-        form_object_type={field.object_type}
-        label={field.pretty_name}
         value= {this.state.value}
         open="true"
         onBlur={this.handleSubmit}
