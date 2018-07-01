@@ -39,9 +39,11 @@ class ObjectMapping extends React.Component {
     handleAdditionalChange = id => (name, value)=> {
         // TODO - NED to MAKE Immutable
   //  alert ('id name value' + id + ' ' + name + ' '+ value)
-        let new_state = this.state
-        new_state.mapping_info[id][name] = value;
-        this.setState(new_state);
+      //  let new_state = this.stat
+      //  new_state.mapping_info[id][name] = value;
+      //  this.setState(new_state);
+        this.setState({load_mapping_info:true})
+
     }
 
     handleAdditionalSubmit(id, name) {
@@ -77,9 +79,11 @@ class ObjectMapping extends React.Component {
             //alert ("unmapped_filed_id is " + unmapped_field_id)
             log.val ('Mapping infor', this.state.mapping_info)
             log.val('this mapping info', this.state.mapping_info[unmapped_field_id])
-
-        this.setState({mapping_info: update(this.state.mapping_info, {[unmapped_field_id]: {$set:{[mapping_id_name]:inserted_id}}})
-        });
+            // if there are additional fields, need to do a query to get the additional
+            // field for the new row
+            this.setState({load_mapping_info:true})
+            //        this.setState({mapping_info: update(this.state.mapping_info, {[unmapped_field_id]: {$set:{[mapping_id_name]:inserted_id}}})
+//        });
       })
     } else {
 //  alert ('target ' + event.target.id)
