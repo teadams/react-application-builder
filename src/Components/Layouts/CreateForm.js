@@ -113,6 +113,7 @@ class CreateForm extends React.Component {
  }
 
   renderField(field) {
+    alert ('data object is ' + JSON.stringify(this.state.formValues))
     return (
       <Field object_type = {this.props.object_type} 
         field_name = {field.name}  

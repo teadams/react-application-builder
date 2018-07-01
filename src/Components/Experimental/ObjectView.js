@@ -105,13 +105,23 @@ class ObjectView extends React.Component {
   }
 
   
-  handleChange (field_name, value)  {
+  handleChange (column_name, value)  {
+      //alert ('setting value of ' + column_name + ' data ' + JSON.stringify(this.state.item_data))
       this.setState({item_data:update(this.state.item_data,{
-                  [field_name]: {$set: value}
-                  })});
+                  [column_name]: {$set: value}
+                  })}
+      );
   }
 
   handleSubmit(field_name) {
+      const field= meta.field(this.props.object_type, field_name)
+      if (field.references) {
+            if (meta.reference_fields_shown(this.props.object_type, field.references).length>0) {
+      //          alert ("in the submit and changed reference")
+              alert('ref fields shown' + JSON.stringify(meta.reference_fields_shown(this.props.object_type, field.references)))
+            this.loadData();
+          }
+      }
     //  const object_type = this.props.object_type;
     //  const pretty_field_name = meta.keys(object_type).pretty_key_id;
       this.props.onDataChange('','',field_name);

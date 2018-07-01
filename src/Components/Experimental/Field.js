@@ -36,7 +36,7 @@ class Field extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-      //return true
+      return true
       let prefix = ""
       let final_object_type = nextProps.object_type;
       let field = meta.field(nextProps.object_type, nextProps.field_name)
@@ -54,8 +54,7 @@ class Field extends React.Component {
         return true;
       } else if (nextProps.data_object[prefix+final_field.name] !== this.props.data_object[prefix+final_field.name]) {
         return true;
-      } else if (meta.field(final_object_type, final_field.name).derived ||
-        meta.field(final_object_type, final_field.name).dependent_field) {
+      } else if (final_field.derived || final_field.dependent_field) {
         // a derived field may be influence by changes in other fields in data_object
         return true;
       } else {
@@ -100,7 +99,7 @@ class Field extends React.Component {
 //           alert ("field is " + prefix+final_field.name)
       }
 
-      if (this.props.data_object[prefix + final_field.name] && (prevProps.id !== id || 
+      if (this.props.data_object[prefix + final_field.name] !== undefined && (prevProps.id !== id || 
           prevProps.object_type !== object_type || 
           prevProps.data_object[prefix + final_field.name] !== this.props.data_object[prefix + final_field.name])) {
               this.setState({value: this.props.data_object[prefix + final_field.name]})
@@ -125,7 +124,7 @@ class Field extends React.Component {
       //    alert ("field is " + prefix+field.name)
       }
       this.setState({value:value, value_changed:true});
-      this.props.onChange(prefix+field.name, value);
+      this.props.onChange(prefix+final_field.name, value);
   }
 
   handleSubmit(event) {
@@ -137,11 +136,31 @@ class Field extends React.Component {
       }
       event.preventDefault();
       if (this.state.value_changed) {
+        let prefix=""
+        let final_field = field
+        let final_object_type = object_type
+        let final_id =  id?id:data_object[meta.keys(object_type).key_id]
+        if (field.field_object_type) {
+          // the data object will have everything prefixed by the 
+          // name of the reference field pointing to this tables    
+            let reference_field = meta.reference_field(object_type,field.field_object_type)
+            prefix = reference_field.name + "_"
+      //      alert ('prefix is ' + prefix)
+            final_object_type = field.field_object_type
+            final_field = meta.field(field.field_object_type, field.field_field_name)
+            final_id = data_object[prefix+meta.keys(final_object_type).key_id]
+      //      alert ('final id is ' + final_id)
+        //    alert ("state is " + JSON.stringify(this.state.value))
+        //    alert ("data object is " + JSON.stringify(this.props.data_object))
+        //    alert ("field is " + prefix+field.name)
+        }
         var update_object = Object();
-        update_object[field_name] = this.state.value;
+        update_object[final_field.name] = this.state.value;
         // if we want field in other tables to be updatable, change here
-        update_object.id = id?id:data_object[meta.keys(object_type).key_id]
-        data.putData(object_type, update_object, {}, (mapped_data, error) => { 
+        update_object[meta.keys(final_object_type).key_id] = final_id
+    //    alert ("final object type " + final_object_type)
+    //    alert ("update object is " + JSON.stringify(update_object))
+        data.putData(final_object_type, update_object, {}, (mapped_data, error) => { 
           if (error) {
                 alert ('error is ' + error.message)
           } else {
@@ -211,8 +230,9 @@ class Field extends React.Component {
     const disabled = options.disabled?options.disabled:false
     const disableUnderline = options.disableUnderline?options.disableUnderline:false
     const {  data_object} = this.props;
-
+//  alert ('value if field ' + field.name + ' is ' +this.state.value + " data object " + JSON.stringify(this.state.data_object))
     return(
+
 // pass in object type of form, dependent value
 // Post in object_type and FIeld... not all the details
     <SelectField 
@@ -280,7 +300,7 @@ class Field extends React.Component {
      }
 
       // for now, field in other tables are disabled. may be expanded later!!
-      let  disabled =  (field.prevent_edit || field.derived || field.not_in_db || field.field_object_type)?true:false
+      let  disabled =  (field.prevent_edit || field.derived || field.not_in_db || (field.field_object_type && !field.edit_p))?true:false
       if (field.dependent_field) {
         if (!this.props.data_object[field.dependent_field]) {
                disabled = true;

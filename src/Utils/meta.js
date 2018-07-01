@@ -314,3 +314,12 @@ export function reference_field(object_type,field_object_type) {
           });
       return results[0]
 }
+
+export function reference_fields_shown(object_type,reference_table) {
+      let results = metadata_fields[object_type].filter (field => {
+          if (field.field_object_type === reference_table)
+              return true;
+//      alert ("results is "  + JSON.stringify(results))
+          });
+      return results
+}

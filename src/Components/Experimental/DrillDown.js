@@ -73,7 +73,7 @@ class DrillDown extends React.Component {
       // Fields who influence the display values of grouping_field_name and 
       // pretty_field_name (considers  derived)
       const contributing_fields = meta.get_contributing_field_names(object_type, pretty_field_name).concat(meta.get_contributing_field_names(object_type, grouping_field_name));
-      if (inserted_id || contributing_fields.indexOf(field_name) >=0) {
+      if (inserted_id || contributing_fields.indexOf(field_name) >=0 || meta.field(this.props.object_type,field_name).field_object_type) {
              this.setState({ create_object_form: false, 
                              refresh_drill: true, 
                              selected_id:selected_id});
