@@ -36,16 +36,26 @@ class Field extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+      return true
+      let prefix = ""
+      let final_object_type = nextProps.object_type;
+      let field = meta.field(nextProps.object_type, nextProps.field_name)
+      let final_field = field
+      if (field.field_object_type) {
+        prefix = meta.reference_field(nextProps.object_type,field.field_object_type).name + "_"
+        final_object_type = field.field_object_type
+        final_field = meta.field(field.field_object_type, field.field_field_name)
+     }
       if (nextState !== this.state) {
-        return true;
+        return true
       } else if (nextProps.object_type !== this.props.object_type) {
         return true;
       } else if (nextProps.field_name != this.props.field_name) {
         return true;
-      } else if (nextProps.data_object[this.props.field_name] !== this.props.data_object[this.props.field_name]) {
+      } else if (nextProps.data_object[prefix+final_field.name] !== this.props.data_object[prefix+final_field.name]) {
         return true;
-      } else if (meta.field(nextProps.object_type, nextProps.field_name).derived ||
-        meta.field(nextProps.object_type, nextProps.field_name).dependent_field) {
+      } else if (meta.field(final_object_type, final_field.name).derived ||
+        meta.field(final_object_type, final_field.name).dependent_field) {
         // a derived field may be influence by changes in other fields in data_object
         return true;
       } else {
@@ -54,17 +64,44 @@ class Field extends React.Component {
   }
 
   componentDidMount() {
-    const { object_type, field_name} = this.props;
-    const field = meta.field(object_type,field_name);
-    this.setState({value: this.props.data_object[field_name]})
+    let { object_type, field_name} = this.props;
+    let field = meta.field(object_type,field_name);
+    log.val('mount field name, data oboject ', field.name, this.props.data_object)
+  //  alert ('field and data object ' + field.name + ' ' + JSON.stringify(this.props.data_object))
+    let prefix = ""
+    if (field.field_object_type) {
+      // the data object will have everything prefixed by the 
+      // name of the reference field pointing to this tables    
+      prefix = meta.reference_field(object_type,field.field_object_type).name + "_"
+      object_type = field.field_object_type
+      field = meta.field(field.field_object_type, field.field_field_name)
+    //  alert ('prefix is ' + prefix)
+    //  alert ('dta object is ' + JSON.stringify(this.props.data_object))
+   }
+    this.setState({value: this.props.data_object[prefix + field.name]})
   } 
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { object_type, field_name, data_object, id } = this.props;
-    const field = meta.field(object_type,field_name);
-      if (prevProps.id !== id || 
-          prevProps.object_type !== object_type || prevProps.data_object[field_name] !== this.props.data_object[field_name]) {
-              this.setState({value: this.props.data_object[field_name]})
+    const { data_object, id } = this.props;
+    let {object_type, field_name } = this.props;
+    let field = meta.field(object_type,field_name);
+//          alert ('dta object is ' + JSON.stringify(this.props.data_object))
+    log.val('update field name, data object', field.name, this.props.data_object)
+    let prefix = "";
+      if (field.field_object_type) {
+        // the data object will have everything prefixed by the 
+        // name of the reference field pointing to this tables    
+          prefix = meta.reference_field(object_type,field.field_object_type).name + "_"
+    //      alert ('prefix is ' + prefix)
+          field = meta.field(field.field_object_type, field.field_field_name)
+      //    alert ("state is " + JSON.stringify(this.state.value))
+      //    alert ("data object is " + JSON.stringify(this.props.data_object))
+      //    alert ("field is " + prefix+field.name)
+      }
+      if (this.props.data_object[prefix + field.name] && (prevProps.id !== id || 
+          prevProps.object_type !== object_type || 
+          prevProps.data_object[prefix + field.name] !== this.props.data_object[prefix + field.name])) {
+              this.setState({value: this.props.data_object[prefix + field.name]})
       }
   }  
 
@@ -86,6 +123,7 @@ class Field extends React.Component {
       if (this.state.value_changed) {
         var update_object = Object();
         update_object[field_name] = this.state.value;
+        // if we want field in other tables to be updatable, change here
         update_object.id = id?id:data_object[meta.keys(object_type).key_id]
         data.putData(object_type, update_object, {}, (mapped_data, error) => { 
           if (error) {
@@ -103,20 +141,32 @@ class Field extends React.Component {
   }
 
   getDisplayView() {
-    const { object_type, field_name, data_object } = this.props;
-    const field = meta.field(object_type,field_name);
+    const { field_name, data_object } = this.props;
+    let object_type = this.props.object_type;
+    let field = meta.field(object_type,field_name);
     //alert ("data object is " +JSON.stringify(this.props.data_object))
+    let prefix = ""
+    if (field.field_object_type) {
+      // the data object will have everything prefixed by the 
+      // name of the reference field pointing to this tables    
+      prefix = meta.reference_field(object_type,field.field_object_type)
+      // object_type is the other table
+      object_type = field.field_object_type
+      field = meta.field(field.field_object_type, field.field_field_name)
+   }
+
     if (Object.keys(data_object).length == 0) {
       return null
     } else if (!field.mapping) {
-      return(meta.get_display_value(object_type, field_name, data_object))
+      return(meta.get_display_value(object_type, field_name, data_object, prefix))
     } else if (!this.state.value) {
         // mapping data is not loaded yet
         return null
     } else {
+    
       const unmapped_field = meta.unmapped_field(field.mapping, field.mapped_field)
       return (this.state.value.map(row=>{
-        let chip_label = meta.get_display_value(field.mapping,unmapped_field.name, row)
+        let chip_label = meta.get_display_value(field.mapping,unmapped_field.name, row, prefix)
         return (
             <Chip style={{marginRight:10}} label={chip_label}/>
         )
@@ -125,13 +175,23 @@ class Field extends React.Component {
   }
 
   renderDerived(options) {
-    const { object_type, field_name, data_object } = this.props;
-    const field = meta.field(object_type,field_name);
+    const {field_name, data_object } = this.props;
+    let object_type = this.props.object_type;
+    let field = meta.field(object_type,field_name);
+    let prefix = ""
+    if (field.field_object_type) {
+      // the data object will have everything prefixed by the 
+      // name of the reference field pointing to this tables    
+      prefix = meta.reference_field(object_type,field.field_object_type)
+      // object_type is the other table
+      object_type = field.field_object_type
+      field = meta.field(field.field_object_type, field.field_field_name)
+   }
     return( <TextField    
       InputLabelProps={{shrink:true}}
       name={field.name}
       label={field.pretty_name}
-      disabled={true}
+      disabled={options.disabled?options.disabled:true}
       type="text"
       helperText={field.helper_text}
       value=  {this.getDisplayView()}
@@ -141,8 +201,18 @@ class Field extends React.Component {
 
   renderMapping(options) {
     const disabled = options.disabled?options.disabled:false
-    const { object_type, field_name, data_object } = this.props;
-    const field = meta.field(object_type,field_name);
+    const { field_name, data_object } = this.props;
+    let object_type = this.props.object_type;
+    let field = meta.field(object_type,field_name);
+    let prefix = ""
+    if (field.field_object_type) {
+      // the data object will have everything prefixed by the 
+      // name of the reference field pointing to this tables    
+      prefix = meta.reference_field(object_type,field.field_object_type)
+      // object_type is the other table
+      object_type = field.field_object_type
+      field = meta.field(field.field_object_type, field.field_field_name)
+   }
     return (
       <Fragment>
         <Typography style={{padding:0, border:0}}>{field.pretty_name} 
@@ -156,8 +226,20 @@ class Field extends React.Component {
  renderSelectField(options) {
     const disabled = options.disabled?options.disabled:false
     const disableUnderline = options.disableUnderline?options.disableUnderline:false
-    const { object_type, field_name, data_object } = this.props;
-    const field = meta.field(object_type,field_name);
+    const { field_name, data_object } = this.props;
+    let object_type = this.props.object_type;
+    let prefix = ""
+    let field = meta.field(object_type,field_name);
+    if (field.field_object_type) {
+//      alert ('field object to is ' + field.field_object_type + ' and disabled is '  + options.disabled)
+    //  alert ('state is ' + JSON.stringify(this.state.value))
+      // the data object will have everything prefixed by the 
+      // name of the reference field pointing to this tables    
+      prefix = meta.reference_field(object_type,field.field_object_type)
+      // object_type is the other table
+      object_type = field.field_object_type
+      field = meta.field(field.field_object_type, field.field_field_name)
+   }
     return(
 // pass in object type of form, dependent value
 // Post in object_type and FIeld... not all the details
@@ -184,8 +266,21 @@ class Field extends React.Component {
   renderTextField(options) {
     const disabled = options.disabled?options.disabled:false
     const disableUnderline = options.disableUnderline?options.disableUnderline:false
-    const { object_type, field_name, data_object } = this.props;
-    const field = meta.field(object_type,field_name);
+    const { field_name, data_object } = this.props;
+    let object_type = this.props.object_type;
+    let field = meta.field(object_type,field_name);
+    let prefix = ""
+    if (field.field_object_type) {
+      // the data object will have everything prefixed by the 
+      // name of the reference field pointing to this tables    
+      prefix = meta.reference_field(object_type,field.field_object_type)
+      // object_type is the other table
+      object_type = field.field_object_type
+      field = meta.field(field.field_object_type, field.field_field_name)
+    //  alert ("object type is " + object_type)
+    //  alert ("field is "  + JSON.stringify(field))
+      //alert ("data boject is " + JSON.stringify(data_object))
+   }
     const multiline = (field.size=="large")?true:false
     return (
       <TextField    
@@ -207,9 +302,11 @@ class Field extends React.Component {
   }
 
   renderField() {
-      const { object_type, field_name, data_object, disableUnderline } = this.props;
-      const field = meta.field(object_type,field_name);
-      let disabled = false;
+      const {  field_name, data_object, disableUnderline } = this.props;
+      let object_type = this.props.object_type;
+      let field = meta.field(object_type,field_name);
+      // for now, field in other tables are disabled. may be expanded later!!
+      let  disabled =  (field.prevent_edit || field.derived || field.not_in_db || field.field_object_type)?true:false
       if (field.dependent_field) {
         if (!this.props.data_object[field.dependent_field]) {
                disabled = true;
@@ -218,6 +315,16 @@ class Field extends React.Component {
               }
         }
       } 
+      let options = {disabled:disabled}
+      let prefix = ""
+      if (field.field_object_type) {
+        // the data object will have everything prefixed by the 
+        // name of the reference field pointing to this tables    
+        prefix = meta.reference_field(object_type,field.field_object_type)
+        // object_type is the other table
+        object_type = field.field_object_type
+        field = meta.field(field.field_object_type, field.field_field_name)
+     }
 
       if (field.derived) {
         return(this.renderDerived({disabled:disabled, disableUnderline:disableUnderline}))
@@ -237,22 +344,20 @@ class Field extends React.Component {
 
 // add onsubmit and name to form
   render()  {
-    const { object_type, field_name } = this.props;
-    const field = meta.field(object_type,field_name);
-    const disabled =  (field.prevent_edit || field.derived || (field.not_in_db))?true:false
-    let options = {disabled:disabled}
+    const { object_type, field_name, data_object, disableUnderline } = this.props;
+    let field = meta.field(object_type,field_name);
 
     switch (this.props.mode) {
       case "form":
         return (<form>
-                {this.renderField(options)} 
+                {this.renderField()} 
               </form>)
         break;
       case "view_click_form":
           return (
            this.state.form ? 
               <form>
-                {this.renderField(options)} 
+                {this.renderField()} 
               </form>
             :  
               field.derived ?
@@ -266,7 +371,7 @@ class Field extends React.Component {
           )
       case "form_element":
         return (<Fragment>
-                  {this.renderField(options)}
+                  {this.renderField()}
                 </Fragment>) 
         break;
       default :

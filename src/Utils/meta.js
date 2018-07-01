@@ -294,3 +294,12 @@ export function get_display_value(object_type, field_name, data) {
         }
     }
 }
+
+export function reference_field(object_type,field_object_type) {
+      let results = metadata_fields[object_type].filter (field => {
+          if (field.references === field_object_type)
+              return true;
+//      alert ("results is "  + JSON.stringify(results))
+          });
+      return results[0]
+}
