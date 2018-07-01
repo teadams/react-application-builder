@@ -112,8 +112,8 @@ class ObjectView extends React.Component {
   }
 
   handleSubmit(field_name) {
-      const object_type = this.props.object_type;
-      const pretty_field_name = meta.keys(object_type).pretty_key_id;
+    //  const object_type = this.props.object_type;
+    //  const pretty_field_name = meta.keys(object_type).pretty_key_id;
       this.props.onDataChange('','',field_name);
   }
 
