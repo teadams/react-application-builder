@@ -183,7 +183,7 @@ class ObjectMapping extends React.Component {
     log.val ("mapping info", this.state.mapping_info)
 
     return (
-      <Dialog open={this.props.open}  onClose={this.handleClose}  aria-labelledby="form-dialog-title">
+      <Dialog maxWidth="md" fullWidth={true} open={this.props.open}  onClose={this.handleClose}  aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">{mapping_field.pretty_name}: {mapping_field_pretty_name}</DialogTitle>
           <DialogContent>
             <DialogContentText>          </DialogContentText>       
@@ -198,7 +198,7 @@ class ObjectMapping extends React.Component {
                 grouping_text = row[grouping_column]
                 current_grouping = row[grouping_column] 
               }
-              let checkbox_fragment = <Grid item sm={4} style={{paddingTop:10, paddingBottom:10}}>
+              let checkbox_fragment = <Grid item sm={2} style={{padding:10}}>
               <FormControlLabel style={{marginLeft:10}}
                 control={
                    <Checkbox
@@ -225,7 +225,7 @@ class ObjectMapping extends React.Component {
                 <Grid container>                
                     {checkbox_fragment}
                         {this.state.mapping_info[id] && additional_fields.map(field=> {
-                                return(<Grid item sm={4} style={{paddingTop:10, paddingBottom:10}}>
+                                return(<Grid item sm={2} style={{padding:10}}>
                                     <Field object_type = {mapping_object_type}
                                       field_name = {field.name}  
                                       data_object={this.state.mapping_info[id]}
