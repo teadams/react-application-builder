@@ -193,11 +193,23 @@ class ObjectMapping extends React.Component {
               let id = row[other_mapped_keys.key_id]
               let label = meta.get_display_value(other_mapped_table,other_mapped_pretty_field.name, row)
               log.val('lable, id, mapping_info id', label, id, this.state.mapping_info[id])
-//              alert ('lable is ' + label + ' and mapping_infos is ' + this.state.mapping_info[id])
               if(grouping_column && row[grouping_column] !== current_grouping) {
                 grouping_text = row[grouping_column]
                 current_grouping = row[grouping_column] 
               }
+              let checkbox_fragment = <Grid item sm={4} style={{paddingTop:10, paddingBottom:10}}>
+              <FormControlLabel style={{marginLeft:10}}
+                control={
+                   <Checkbox
+                     checked={this.state.mapping_info[id]?true:false}
+                     onChange={this.handleCheckChange(id)}
+                     value={this.state.mapping_info[id]?true:false}
+                     id = {this.state.mapping_info[id]}
+                   />
+                 }
+                  label={label}
+                />
+              </Grid>
   
               return (
                 <Fragment>
@@ -206,36 +218,28 @@ class ObjectMapping extends React.Component {
                   <Typography variant="title">{grouping_text}</Typography>
                   </Grid>
                 }
-                  <Grid item sm={4} style={{paddingTop:10, paddingBottom:10}}>
-                    <FormControlLabel style={{marginLeft:10}}
-                      control={
-                         <Checkbox
-                           checked={this.state.mapping_info[id]?true:false}
-                           onChange={this.handleCheckChange(id)}
-                           value={this.state.mapping_info[id]?true:false}
-                           id = {this.state.mapping_info[id]}
-                         />
-                       }
-                        label={label}
-                      />
+                {additional_fields.length == 0 ?
+                    checkbox_fragment
+                :
+                <Grid container>                
+                    {checkbox_fragment}
+                        {this.state.mapping_info[id] && additional_fields.map(field=> {
+                                return(<Grid item sm={4} style={{paddingTop:10, paddingBottom:10}}>
+                                    <Field object_type = {mapping_object_type}
+                                      field_name = {field.name}  
+                                      data_object={this.state.mapping_info[id]}
+                                      mode="form"
+                                      disableUnderline={true}
+                                      id = {this.state.mapping_info[id][meta.keys(mapping_object_type).key_id]}
+                                      onChange={this.handleAdditionalChange}
+                                      onBlur={this.handleAdditionalSubmit}
+                                    />                                   
+                                  </Grid>)                        
+                        })}
                   </Grid>
-                  {this.state.mapping_info[id] && additional_fields.map(field=> {
-                  return(<Grid item sm={4} style={{paddingTop:10, paddingBottom:10}}>
-                              <Field object_type = {this.props.mapping_object_type}
-                                field_name = {field.name}  
-                                data_object={this.state.mapping_info[id]}
-                                mode="form"
-                                disableUnderline={true}
-                                id = {this.state.mapping_info[id][meta.keys(mapping_object_type).key_id]}
-                                onChange={this.handleAdditionalChange}
-                                onBlur={this.handleAdditionalSubmit}
-                              />                                   
-                          </Grid>)
-                    })}
+                }
               </Fragment>)
-            }
-          )
-        }        
+            })}        
         </Grid>  
         </DialogContent>
       
