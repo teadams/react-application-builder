@@ -61,6 +61,7 @@ class SelectField extends React.Component {
   }
 
    submithandleChange = event => {
+//        alert ('submit event target is '  + event.target.value)
         this.setState({ value: event.target.value , selectTouched: true});
         this.props.onChange(event);
     }
@@ -69,8 +70,8 @@ class SelectField extends React.Component {
     log.func("Select Field: Did Mount", "props", this.props);
       const { open, field} = this.props;
       if (open)  {
-          if (field && this.props.field.valid_values) {
-              var select_menu_options = this.props.valid_values.split(",").map(value=>{
+          if (field && field.valid_values) {
+              var select_menu_options = field.valid_values.split(",").map(value=>{
                   return [value, value];
               })
               this.setState({ select_menu_options: select_menu_options})
@@ -97,20 +98,26 @@ class SelectField extends React.Component {
               this.setState({ select_menu_options: select_menu_options})
           } else {
               getSelectOptions (this.props.field.references, this.props.field, this.props.object_type, this.props.dependent_value, (select_menu_options) => {
-                log.func("Return from select value options db", "select menu options", select_menu_options);
-                this.setState({ select_menu_options: select_menu_options});                
-             })
-           }
+                if (this.props.required && !this.state.value ) {
+                    this.setState({ select_menu_options: select_menu_options,
+                                    value: select_menu_options[0][0]}, () => {
+                                      this.props.onChange("",select_menu_options[0][0]);
+                                  }) 
+                } else {
+                    this.setState({ select_menu_options: select_menu_options})
+                }
+           })
         }
+    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     const field = this.props.field;
     const dependent_value = this.props.dependent_value;
     log.func("Select Field: Did Update", "props, field, form_values, prev props, prev state", this.props, field, dependent_value, prevProps,prevState);
-  if (field) {
-    log.val("prev, this", prevProps.dependent_value, dependent_value);
-  }
+    if (field) {
+      log.val("prev, this", prevProps.dependent_value, dependent_value);
+    }
     // Get a new list if
     // a) the form was closed and nflist depends on changes
     // c) The object_type
@@ -119,14 +126,21 @@ class SelectField extends React.Component {
       (field && field.dependent_field && dependent_value !== prevProps.dependent_value))  {
         log.func("Updating", "field, props", field, this.props)
             getSelectOptions (this.props.field.references, this.props.field, this.props.object_type, dependent_value, (select_menu_options) => {
-        //      log.func("got select options", "select menu options", select_menu_optionfs);              
-              this.setState({ select_menu_options: select_menu_options});                
+              if (this.props.required && !this.state.value ) {
+                  this.setState({ select_menu_options: select_menu_options,
+                                    value: select_menu_options[0][0]}, () => {
+                                    this.props.onChange("",select_menu_options[0][0]);
+                                }) 
+              } else {
+                  this.setState({ select_menu_options: select_menu_options})
+              }        
            })
     }
   }
   
  
   static getDerivedStateFromProps(nextProps, prevState) {
+    //  alert ("derived state from props " + nextProps.value)
      log.func("SelectField: Derived State", "next props, prevstate", nextProps, prevState)
     if (nextProps.value !==  prevState.prop_value) {
       console.log('setting the value  to ' +nextProps.value);

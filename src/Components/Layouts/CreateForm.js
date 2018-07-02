@@ -64,7 +64,7 @@ class CreateForm extends React.Component {
 
   handleSubmit(event) {
       if (this.state.formTouched) {
-          alert ('form touched')
+        //  alert ('form touched')
         if (!this.props.id) {
           data.postData(this.props.object_type, this.state.formValues, {}, (data, error) => { 
             if (error) {
@@ -113,7 +113,7 @@ class CreateForm extends React.Component {
  }
 
   renderField(field) {
-    alert ('data object is ' + JSON.stringify(this.state.formValues))
+  //  alert ('data object is ' + JSON.stringify(this.state.formValues))
     return (
       <Field object_type = {this.props.object_type} 
         field_name = {field.name}  

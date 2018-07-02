@@ -61,8 +61,6 @@ class App extends Component {
   };
 
   handleMenuChange(event, selected_menu, link_filter_id, link_filter_field, link_field_object_type, menu_link_reference_field) {
-//alert('handle menu change' + event.target.value + ' ' + selected_menu)
-      
       var menu_type = 'app_menu'
       // Tabs can only send an integer
       // TODO - file up the huge variable list to be an object with options
@@ -72,74 +70,30 @@ class App extends Component {
         menu_type = split_menu[1]?split_menu[1]:'app_menu'
         selected_menu = split_menu[0]
       } 
-  //    alert ('menu type is ' + menu_type)
-      const meta_menu = meta.get_selected_menu(selected_menu, menu_type)
-//alert ('resulting menu' + JSON.stringify(meta_menu))
-      log.val("resulting menu", meta_menu)
-      var filter_id = ""
-    
-      if (link_filter_field) {
-//alert('in link filter fields')
-          if (menu_link_reference_field) {
-            log.func("need to navigate to another table", "menu_link_reference_field", menu_link_reference_field)
-            var urltext = '/api/v1/reference/' + link_field_object_type + '/'+ menu_link_reference_field + '/' + link_filter_id;            
-          } else {
 
-            log.func("Need to get the filter field here","filter field, filter_id, field_object_type", link_filter_field, link_filter_id, link_field_object_type)
-              var urltext = '/api/v1/' + link_field_object_type + '/'+ link_filter_id;
-          }
-          log.val("url text", urltext);
+      const meta_menu = meta.get_selected_menu(selected_menu, menu_type)
+      let filter_id = link_filter_id
+      //alert ('fitler id ' + filter_id)
+      if (link_filter_field) {
+         // link_filter_id is the id field.  Based on this, retrieve another field
+          var urltext = '/api/v1/' + link_field_object_type + '/'+ link_filter_id;
           axios({
            method: 'get',
            url: urltext,
          }).then(results => {
-           log.val("results", results.data[0])
-           filter_id = results.data[0][link_filter_field]
-           log.val("filter id, filter_field", filter_id, link_filter_field)
+           filter_id = results.data[link_filter_field]
            this.setState({selected_menu: selected_menu,
                           selected_menu_type: menu_type,
-                         filter_id : filter_id?filter_id:""
+                          filter_id : filter_id
                        });
          })
 
       } else {
-        log.func("changing menu", "filter_id, meta_menu", link_filter_id, meta_menu)
-          // look at the object field in the filter field_ and get the references
-          
-          if (meta_menu.require_filter_id && !link_filter_id) {
-            
-            const filter_object_type = meta.field(meta_menu.object_type, meta_menu.filter_field).references
-            const filter_key_id = meta.keys(filter_object_type).key_id
-            log.val('filter object type, filter key id ', filter_object_type, filter_key_id)
-            var urltext = '/api/v1/' + filter_object_type;
-            axios({
-             method: 'get',
-             url: urltext,
-           }).then(results => {
-             log.val("results", results.data)
-              if (results.data.length > 0) {
-                filter_id = results.data[0][filter_key_id]
-            } else {
-                filter_id = ""
-            }
-                log.val("filter id, filter_field", filter_id, link_filter_field)
-                this.setState({selected_menu: selected_menu,
-                          selected_menu_type: menu_type,
-                           object_type : meta_menu.object_type,
-                           filter_id : filter_id
-                         });
-              
-           }).catch(error => {
-              console.log("error " +error.message)
-           })
-    
-        } else {
-        //  alert('setting state to selected menu')
+
           this.setState({selected_menu: selected_menu,
                          selected_menu_type: menu_type,
-                        filter_id : link_filter_id?link_filter_id:""
+                         filter_id : filter_id
                       });
-          }
       }
     this.handleDrawerClose();               
   }
@@ -152,7 +106,8 @@ class App extends Component {
     const meta_menu = meta.get_selected_menu(this.state.selected_menu,this.state.selected_menu_type)
     const filter_field = meta_menu.object_type?meta.field(meta_menu.object_type, meta_menu.filter_field):""
     const filter_object_type = filter_field.references
-
+     //alert ('fitler required is ' + JSON.stringify(meta_menu))
+    //alert ("redner filter id is S" + this.state.filter_id)
     return <Fragment>
      <Paper style={{ padding:10, marginTop:10, marginBottom:0, minHeight:600, position:'relative'}}>
      {drawer_open && hamburger_menu_p &&
@@ -236,6 +191,7 @@ class App extends Component {
             object_attributes={meta.object(meta_menu.object_type)}
             object_fields={meta.fields(meta_menu.object_type)}
             filter_field = {meta_menu.filter_field}
+            filter_required = {meta_menu.filter_required}
             filter_object_type = {filter_object_type}
             filter_label = {meta_menu.pretty_name}
             filterOnChange = {this.handleMenuChange}

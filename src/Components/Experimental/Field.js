@@ -22,6 +22,7 @@ class Field extends React.Component {
             // form - full form, this component will call server to update. Used for ObjectView
             // view_click_form - initial view is text, then on click changes to form. used    
             //     for pretty_name field on ObjectView.  Potentially use for table cells
+            // filter -- used as a filter
             // form_element - one form element (no form tags)- this component will not call server to update. Used for ObjectCreate
       // id - the value for the the key from this row (not required for view mode)
       //      in theory, this could be derived from data_object. However, I don't want to allow data object to only
@@ -99,16 +100,27 @@ class Field extends React.Component {
 //           alert ("field is " + prefix+final_field.name)
       }
 
-      if (this.props.data_object[prefix + final_field.name] !== undefined && (prevProps.id !== id || 
+//      alert ("prior and this object type "  + prevProps.object_type + " " + this.props.object_type)
+//      alert ('this props data object ' + JSON.stringify(this.props.data_object))
+      if (prevProps.id !== id || 
           prevProps.object_type !== object_type || 
-          prevProps.data_object[prefix + final_field.name] !== this.props.data_object[prefix + final_field.name])) {
-              this.setState({value: this.props.data_object[prefix + final_field.name]})
+          prevProps.data_object[prefix + final_field.name] !== this.props.data_object[prefix + final_field.name]) {
+  //            alert ("updating state to " + this.props.data_object[prefix + final_field.name])
+              if (this.props.data_object[prefix + final_field.name] !== undefined) {
+                this.setState({value: this.props.data_object[prefix + final_field.name]})      
+              } else {
+                this.setState({value: ""})
+              }
       }
   }  
 
-  handleChange(event) {
-      const target = event.target;
-      const value = target.type === 'checkbox' ? target.checked : target.value;
+  handleChange(event, value) {
+      if (event) {
+      //  alert ('event is ' + event.target.value)
+        const target = event.target;
+        value = target.type === 'checkbox' ? target.checked : target.value;
+      }
+//      alert ('handle change with ' + value)
       let prefix=""
       let object_type = this.props.object_type
       let field =  meta.field(this.props.object_type,this.props.field_name)
@@ -124,6 +136,7 @@ class Field extends React.Component {
       //    alert ("field is " + prefix+field.name)
       }
       this.setState({value:value, value_changed:true});
+//      alert ("field value changed and field and value is " + final_field.name + " value " + value)
       this.props.onChange(prefix+final_field.name, value);
   }
 
@@ -229,22 +242,19 @@ class Field extends React.Component {
  renderSelectField(object_type, field, prefix, options) {
     const disabled = options.disabled?options.disabled:false
     const disableUnderline = options.disableUnderline?options.disableUnderline:false
-    const {  data_object} = this.props;
-//  alert ('value if field ' + field.name + ' is ' +this.state.value + " data object " + JSON.stringify(this.state.data_object))
-    return(
+    const {open,  data_object} = this.props;
 
-// pass in object type of form, dependent value
-// Post in object_type and FIeld... not all the details
+    return(
     <SelectField 
-       key={data_object[meta.keys(object_type,field.name).key_id + '+' + field.name]}
+        key={data_object?data_object[meta.keys(object_type,field.name).key_id + '+' + field.name]:field.name}
         disabled={disabled}
         object_type={object_type}
         shrink="true"
         field={field}
+        required = {this.props.filter_required}
         disableUnderline = {disableUnderline}
-        helperText={field.helper_text}
         value= {this.state.value}
-        open="true"
+        open={open?open:true}
         onBlur={this.handleSubmit}
         onChange={this.handleChange}
         style={{width:"100%"}}
@@ -295,7 +305,7 @@ class Field extends React.Component {
      }
 
       // for now, field in other tables are disabled. may be expanded later!!
-      let  disabled =  (field.prevent_edit || field.derived || field.not_in_db || (field.field_object_type && !field.edit_p))?true:false
+      let  disabled =  ((field.prevent_edit && this.props.mode !== "filter") || field.derived || field.not_in_db || (field.field_object_type && !field.edit_p))?true:false
       if (field.dependent_field) {
         if (!this.props.data_object[field.dependent_field]) {
                disabled = true;
@@ -354,6 +364,12 @@ class Field extends React.Component {
                   {this.renderField()}
                 </Fragment>) 
         break;
+      case "filter":
+          return (<Fragment>
+                {this.renderField()}
+              </Fragment>) 
+        break;
+
       default :
         return (<Fragment>
                 {this.getDisplayView()} 

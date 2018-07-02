@@ -1,9 +1,10 @@
 import React, { Component, Fragment} from 'react';
-import {Snackbar, SnackbarContent, Button} from '@material-ui/core';
+import {Snackbar, SnackbarContent, Button, Grid} from '@material-ui/core';
 //import {Tab} from "material-ui/Tabs";
 //import {CrudRow} from "./index.js"
 import MUIDataTable from "../../mui-datatables/src";
-import { MenuLink, EditButton, DeleteButton, CreateForm, Cell, SelectField} from "./index.js";
+import {Field} from "../Experimental";
+import { MenuLink, EditButton, DeleteButton, CreateForm, Cell} from "./index.js";
 import axios from 'axios';
 import * as meta from '../../Utils/meta.js';
 import * as log from '../../Utils/log.js'
@@ -13,6 +14,8 @@ import CloseIcon from '@material-ui/icons/Close';
 
 function getData (object_type, table_columns, object_attributes, filter_field, filter_id, callback )   {
   //window.scrollTo(0, 0);
+  //alert ('filter field and id is ' +filter_field + ' ' + filter_id)
+  log.func("getData","object type, table columns, filter_field, filter_id", object_type, table_columns, filter_field, filter_id)
   var data = [];
   var clean_data = [];
   var data_row_array = [];
@@ -103,20 +106,22 @@ class CrudTable extends Component {
     log.func("CrudTable: DerivedState", "next Props", nextProps)
     log.val ("next object_type, prev object_type", nextProps.object_type, prevState.object_type)
     if (nextProps.filter_id !== prevState.filter_id || nextProps.object_type != prevState.object_type) {
-        // do not operation on state directlry. table_options object is in state becuase it is an object
+        // do not operation on state directlry. table_options object is in state becuase it is an 
+      //  alert ("resetting to filter id " + nextProps.filter_id)
         var temp_table_options = prevState.table_options;
         temp_table_options.selectableRows	=  nextProps.object_attributes.prevent_delete?false:true;
         log.val(" New Filter_id, seletable rows", nextProps.filter_id, temp_table_options.selectableRows);
         return {filter_id: nextProps.filter_id,
-                table_options: temp_table_options}
+                table_options: temp_table_options,
+                table_columns:[]}
       } else {
         return null
       }
   }
   
   
-  massageColumns(object_fields, object_type) {
-    log.func("massageColumns","object_type, object_fields", object_type, object_fields);
+  massageColumns(object_type) {
+    log.func("massageColumns","object_type", object_type);
     var table_columns = [
       {name:"Edit", options:{
         "customRender" : this.handleEditRender,
@@ -130,7 +135,7 @@ class CrudTable extends Component {
       }
   
     
-    table_columns =  table_columns.concat(object_fields.map((field, index) => {
+    table_columns =  table_columns.concat(meta.fields(object_type).map((field, index) => {
       //    log.val("field, index", field, index);
        var table_column = {};
        table_column.name = field.pretty_name;
@@ -168,15 +173,18 @@ class CrudTable extends Component {
        if(field.key || field.crud_hide_column) {
           table_column.options.display = false;
        }
+       log.val("massage columns table column return", table_column)
        return table_column;
      }));
+     log.val("massage columns return", table_columns)
+
     return table_columns;
   }
 
   
-  handleFilterChange = event => {
-      log.func('handleFilterChange', "value", event.target.value)
-       this.setState({ filter_id: event.target.value,
+  handleFilterChange(name,value) {
+    //  alert ("Crud Table handle filter change with name and value " + name + " " + value)
+       this.setState({ filter_id: value,
                       notice_open: false,
                       force_data_refresh: true});
    }
@@ -298,11 +306,13 @@ class CrudTable extends Component {
 
   componentDidMount() {
     log.func("CrudTable: DidMount")
+    //alert ("mount filter field is " + this.props.filter_field)
     const object_fields = this.props.object_fields;
     const object_attributes = this.props.object_attributes;
     // Ideally, we would put this in DerviveStateFromProps,but it has no access to this, which 
     // is needed to link the appropriate render functions
-    var table_columns = this.massageColumns(object_fields, this.props.object_type);
+    log.val("mounting call to table columns object type ", this.props.object_type)
+    var table_columns = this.massageColumns(this.props.object_type);
     var id_column_name = meta.id_column(this.props.object_type); 
     var name_column_name = meta.pretty_key_field(this.props.object_type).name;
     var id_index;
@@ -317,9 +327,9 @@ class CrudTable extends Component {
       }
     })
     //log.val("id_index, name_index", id_index, name_index)
-    
+    log.func("mounting get data", "table columns", table_columns)
     getData (this.props.object_type, table_columns, object_attributes, this.props.filter_field, this.state.filter_id, (results) => {
-          
+          log.val("before set state bbbb new table colums", table_columns )
           this.setState({ data: results.data,
                           clean_data: results.clean_data,
                           id_index: id_index,
@@ -334,19 +344,24 @@ class CrudTable extends Component {
   }
 
  componentDidUpdate(prevProps, prevState, snapshot) {
+  // alert ("update filter field is " + this.props.filter_field)
+//   alert ("did update with object type " + this.props.object_type )
    log.func("Crud Table COmponent did update")
     var id_index = this.state.id_index;
     var name_index = this.state.name_index;
   //  log.func("Crud Table COmponent did update", "id_index,name_index", id_index, name_index)
-    
     // setting up new object so do not change state directly
-    var new_table_columns = this.state.table_columns;
-    log.val("new table columns, prev prop type, new object type", new_table_columns, prevProps.object_type, this.props.object_type)
-  
+    let new_table_columns = this.state.table_columns;
+    log.func("BEFORE GET DATA", "new table columns, prev prop type, new object type", new_table_columns, prevProps.object_type, this.props.object_type)
+    //alert ("boject type and object fields " + this.props.object_type + "  " + JSON.stringify(this.props.object_fields))
     if (this.props.object_type !== prevProps.object_type) {
+      log.val("XXXXXXXX")
+      log.func("NEW OBject type", "this object type, prev object type", this.props.object_type, prevProps.object_type)
       const object_fields = this.props.object_fields;
       const object_attributes = this.props.object_attributes;
-        var new_table_columns = this.massageColumns(this.props.object_fields, this.props.object_type);
+        //alert ("massages with " + this.props.object_type)    
+        new_table_columns = this.massageColumns(this.props.object_type);
+        //alert ("table columns is " + JSON.stringify(new_table_columns))
     //    log.val('after massage table is ', new_table_columns);
         var id_column_name = meta.id_column(this.props.object_type); 
         var name_column_name = meta.pretty_key_field(this.props.object_type);
@@ -359,8 +374,12 @@ class CrudTable extends Component {
           }
       })
     }
+    log.func("YYYYYYY", "table columns state, table columns value, this object type, prev object type ", this.state.table_columns, new_table_columns, this.props.object_type, prevProps.object_type )
     if (this.props.object_type !== prevProps.object_type ||
        this.state.force_data_refresh) {  
+  
+      log.val("AAAAAAAA")
+      log.func("new table columns before call", "new table columns", new_table_columns)
       getData (this.props.object_type, new_table_columns, this.state.object_attributes, this.props.filter_field, this.state.filter_id, (results) => {
         var notice_message = this.state.force_data_refresh?this.state.notice_message:'';
         var notice_open = this.state.force_data_refresh?true:false;
@@ -370,18 +389,19 @@ class CrudTable extends Component {
           notice_open = true;
           notice_type = "error";
         } 
-    
+            alert ("result is " + JSON.stringify(results.data))
+            log.func("UPDATING Get Callbefore set state a new table colums", "new_table_columns", new_table_columns )
             this.setState({ data: results.data,
                             clean_data: results.clean_data,
                             id_index: id_index,
                             name_index: name_index,
-                            table_columns: new_table_columns?new_table_columns:this.state.table_columns,
+                            table_columns: new_table_columns,
                             iniital_load: false,
                             force_data_refresh:false,
-                            notice_message: notice_message,
-                            notice_open: notice_open,
-                            notice_type: notice_type
-              })
+                        //    notice_message: notice_message,
+                        //    notice_open: notice_open,
+                        //    notice_type: notice_type
+              }, () => { log.func("AFTER SET STATE", "table columns", this.state.table_columns)})
       })
     }
       
@@ -462,9 +482,14 @@ class CrudTable extends Component {
   }
    
  render() {
+    if (this.state.table_columns.length===0) {
+      return null
+    }
    log.func("crud render",'object_attributes, object_type, notice_open', this.props.object_attributes, this.props.object_type, this.state.notice_open);
+    const filter_data_object = {[this.props.filter_field]:this.state.filter_id}
+  //  alert ("handlefilter ojbect" + JSON.stringify(filter_data_object))
  //alert('props ' + JSON.stringify(this.props))
-
+//    alert ("object type and field " + this.props.filter_object_type + "  field " + this.props.filter_field)
     return (
         <Fragment>
         <Snackbar
@@ -480,12 +505,15 @@ class CrudTable extends Component {
           style = {{backgroundColor:this.state.notice_type=="error"?"red":"green"}}
           />
          </Snackbar>
-         
+    
         <form>
+        <Grid container>
+         <Grid item sm={4}>
           <Button  style={{marginTop:0, marginBottom:5, marginLeft:10, marginRight:10}}  variant='outlined' size="medium" color ="primary" onClick={this.handleCreateEditOpen}>
                   Create {this.props.object_attributes.pretty_name}
-          </Button>
-            
+          </Button>    
+          </Grid>
+      
         {this.state.create_form_open &&
         <CreateForm
             object_type={this.props.object_type}
@@ -498,18 +526,22 @@ class CrudTable extends Component {
             filter_id={this.state.filter_id}
          />
        }
-      
-         {this.props.filter_field &&
-             <SelectField 
-             key="filter"
-             object_type={this.props.filter_object_type} 
-             label={this.props.filter_label}
-             value={this.state.filter_id}
-             open="true"
-             onChange={this.handleFilterChange}
-             style={{width:200,  marginBottom:20}}
+         {this.props.filter_field && 
+            <Fragment>
+            <Grid item sm={6}></Grid>
+            <Grid item sm={2}> 
+            <Field object_type = {this.props.object_type} 
+              field_name = {this.props.filter_field}    
+              filter_required = {this.props.filter_required}
+              mode={"filter"}
+              data_object = {filter_data_object}
+              open="true"
+              onChange={this.handleFilterChange}
              />
+            </Grid>
+            </Fragment>
          }
+          </Grid>
          </form>
          
          <MUIDataTable
@@ -536,8 +568,6 @@ class CrudTable extends Component {
           type="file"
         />
         </form>
-         
-        
       </Fragment>
     )
   }
