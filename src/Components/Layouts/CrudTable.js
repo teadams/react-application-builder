@@ -113,7 +113,8 @@ class CrudTable extends Component {
         log.val(" New Filter_id, seletable rows", nextProps.filter_id, temp_table_options.selectableRows);
         return {filter_id: nextProps.filter_id,
                 table_options: temp_table_options,
-                table_columns:[]}
+                table_columns:[],
+                data:[]}
       } else {
         return null
       }
@@ -191,12 +192,14 @@ class CrudTable extends Component {
   
   handleLinkRender(index, value, updateValue) {
 
-    var cell_data = value.split('//**//');
-    var database_name = cell_data[0];  
+    let cell_data = value.split('//**//');
+    let database_name = cell_data[0];  
     log.func("handle link render","database_name, index, table_columns, data, has data", database_name, index, 
       this.state.table_columns, this.state.data, this.state.data[index])
       // Muidatatable calls this with an index that does not exist
     if (this.state.data[index]) {
+      //alert ("state data is " +JSON.stringify(this.state.data))
+      //alert ("table columns " + JSON.stringify(this.state.table_columns))
       var column_options = this.state.table_columns.filter (col => {
           log.val("col database name, database name", col.database_name, database_name);
           if ( col.database_name === database_name) {
@@ -305,106 +308,84 @@ class CrudTable extends Component {
 
 
   componentDidMount() {
-    log.func("CrudTable: DidMount")
-    //alert ("mount filter field is " + this.props.filter_field)
-    const object_fields = this.props.object_fields;
+    const object_fields = meta.fields(this.props.object_type);
     const object_attributes = this.props.object_attributes;
-    // Ideally, we would put this in DerviveStateFromProps,but it has no access to this, which 
+    // Ideally, we would put this in DerviveStateFromProps,
+    // but it has no access to this, which 
     // is needed to link the appropriate render functions
-    log.val("mounting call to table columns object type ", this.props.object_type)
     var table_columns = this.massageColumns(this.props.object_type);
     var id_column_name = meta.id_column(this.props.object_type); 
     var name_column_name = meta.pretty_key_field(this.props.object_type).name;
     var id_index;
     var name_index = ""
-  //  log.func('looking for indexes name_column_name','name_column_name, id_column_name',name_column_name, id_column_name)
     table_columns.map((column, index) => {
-    //  log.val("column, index", column, index)
       if (column.database_id_column === id_column_name) {
         id_index = index;
       } else if (column.database_id_column === name_column_name) {
         name_index = index;
       }
     })
-    //log.val("id_index, name_index", id_index, name_index)
-    log.func("mounting get data", "table columns", table_columns)
-    getData (this.props.object_type, table_columns, object_attributes, this.props.filter_field, this.state.filter_id, (results) => {
+    this.setState({  id_index: id_index,
+                              name_index: name_index,
+                              table_columns: table_columns})
+
+    if (!this.props.filter_required || this.state.filter_id) {
+      getData (this.props.object_type, table_columns, object_attributes, this.props.filter_field, this.state.filter_id, (results) => {
           log.val("before set state bbbb new table colums", table_columns )
           this.setState({ data: results.data,
                           clean_data: results.clean_data,
-                          id_index: id_index,
-                          name_index: name_index,
                           notice_message: (results.error)?"Problem Retrieving Data From Server":"",
                           notice_open:(results.error)?true:false,
                           notice_type:"error",
-                          table_columns: table_columns,
                           initial_load: false
           })
-    })
+    })}
   }
 
  componentDidUpdate(prevProps, prevState, snapshot) {
-  // alert ("update filter field is " + this.props.filter_field)
-//   alert ("did update with object type " + this.props.object_type )
-   log.func("Crud Table COmponent did update")
-    var id_index = this.state.id_index;
-    var name_index = this.state.name_index;
-  //  log.func("Crud Table COmponent did update", "id_index,name_index", id_index, name_index)
-    // setting up new object so do not change state directly
+    let id_index = this.state.id_index;
+    let name_index = this.state.name_index;
     let new_table_columns = this.state.table_columns;
-    log.func("BEFORE GET DATA", "new table columns, prev prop type, new object type", new_table_columns, prevProps.object_type, this.props.object_type)
-    //alert ("boject type and object fields " + this.props.object_type + "  " + JSON.stringify(this.props.object_fields))
-    if (this.props.object_type !== prevProps.object_type) {
-      log.val("XXXXXXXX")
-      log.func("NEW OBject type", "this object type, prev object type", this.props.object_type, prevProps.object_type)
-      const object_fields = this.props.object_fields;
-      const object_attributes = this.props.object_attributes;
-        //alert ("massages with " + this.props.object_type)    
-        new_table_columns = this.massageColumns(this.props.object_type);
-        //alert ("table columns is " + JSON.stringify(new_table_columns))
-    //    log.val('after massage table is ', new_table_columns);
-        var id_column_name = meta.id_column(this.props.object_type); 
-        var name_column_name = meta.pretty_key_field(this.props.object_type);
 
-      new_table_columns.map((column, index) => {
+    if (this.props.object_type !== prevProps.object_type) {
+        const object_fields = meta.fields(this.props.object_type)
+        const object_attributes = this.props.object_attributes;  
+        new_table_columns = this.massageColumns(this.props.object_type);
+        let id_column_name = meta.id_column(this.props.object_type); 
+        let name_column_name = meta.pretty_key_field(this.props.object_type);
+        new_table_columns.map((column, index) => {
            if (column.database_id_column === id_column_name) {
                 id_index= index;
           } else if (column.database_id_column === name_column_name) {
                 name_index = index;
           }
       })
+        this.setState({ table_columns: new_table_columns,
+                        id_index: id_index,
+                        name_index: name_index})
     }
-    log.func("YYYYYYY", "table columns state, table columns value, this object type, prev object type ", this.state.table_columns, new_table_columns, this.props.object_type, prevProps.object_type )
-    if (this.props.object_type !== prevProps.object_type ||
-       this.state.force_data_refresh) {  
-  
-      log.val("AAAAAAAA")
-      log.func("new table columns before call", "new table columns", new_table_columns)
-      getData (this.props.object_type, new_table_columns, this.state.object_attributes, this.props.filter_field, this.state.filter_id, (results) => {
-        var notice_message = this.state.force_data_refresh?this.state.notice_message:'';
-        var notice_open = this.state.force_data_refresh?true:false;
-        var notice_type = "success";
-        if (results.error) {
-          notice_message = "Problem Retrieving Data From Server";
-          notice_open = true;
-          notice_type = "error";
-        } 
-            alert ("result is " + JSON.stringify(results.data))
-            log.func("UPDATING Get Callbefore set state a new table colums", "new_table_columns", new_table_columns )
+
+    if ((this.props.object_type !== prevProps.object_type || this.state.force_data_refresh) && 
+       (!this.props.filter_required || this.state.filter_id)) {
+        getData (this.props.object_type, new_table_columns, this.state.object_attributes, this.props.filter_field, this.state.filter_id, (results) => {
+          var notice_message = this.state.force_data_refresh?this.state.notice_message:'';
+          var notice_open = this.state.force_data_refresh?true:false;
+          var notice_type = "success";
+          if (results.error) {
+            notice_message = "Problem Retrieving Data From Server";
+            notice_open = true;
+            notice_type = "error";
+          } 
             this.setState({ data: results.data,
                             clean_data: results.clean_data,
-                            id_index: id_index,
-                            name_index: name_index,
-                            table_columns: new_table_columns,
-                            iniital_load: false,
+                            initial_load: false,
                             force_data_refresh:false,
-                        //    notice_message: notice_message,
-                        //    notice_open: notice_open,
-                        //    notice_type: notice_type
-              }, () => { log.func("AFTER SET STATE", "table columns", this.state.table_columns)})
-      })
-    }
-      
+                            notice_message: notice_message,
+                            notice_open: notice_open,
+                            notice_type: notice_type
+              })
+      })}
+          
  }
 
 
@@ -482,9 +463,10 @@ class CrudTable extends Component {
   }
    
  render() {
-    if (this.state.table_columns.length===0) {
-      return null
-    }
+    if (this.state.table_columns.length===0 ) {
+        return null
+      }
+    
    log.func("crud render",'object_attributes, object_type, notice_open', this.props.object_attributes, this.props.object_type, this.state.notice_open);
     const filter_data_object = {[this.props.filter_field]:this.state.filter_id}
   //  alert ("handlefilter ojbect" + JSON.stringify(filter_data_object))
