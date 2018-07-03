@@ -114,6 +114,7 @@ class CrudTable extends Component {
         return {filter_id: nextProps.filter_id,
                 table_options: temp_table_options,
                 table_columns:[],
+                force_data_refresh:true,
                 data:[]}
       } else {
         return null
@@ -347,7 +348,7 @@ class CrudTable extends Component {
     let name_index = this.state.name_index;
     let new_table_columns = this.state.table_columns;
 
-    if (this.props.object_type !== prevProps.object_type) {
+    if (this.props.object_type !== prevProps.object_type || this.state.table_columns.length === 0) {
         const object_fields = meta.fields(this.props.object_type)
         const object_attributes = this.props.object_attributes;  
         new_table_columns = this.massageColumns(this.props.object_type);
@@ -364,8 +365,9 @@ class CrudTable extends Component {
                         id_index: id_index,
                         name_index: name_index})
     }
-
-    if ((this.props.object_type !== prevProps.object_type || this.state.force_data_refresh) && 
+     
+  //  alert ('props filter id and state filter id' + this.props.filter_id + " -- " + this.state.filter_id)
+    if ((this.props.object_type !== prevProps.object_type ||  this.state.force_data_refresh) && 
        (!this.props.filter_required || this.state.filter_id)) {
         getData (this.props.object_type, new_table_columns, this.state.object_attributes, this.props.filter_field, this.state.filter_id, (results) => {
           var notice_message = this.state.force_data_refresh?this.state.notice_message:'';
@@ -525,7 +527,7 @@ class CrudTable extends Component {
          }
           </Grid>
          </form>
-         
+      
          <MUIDataTable
            title={this.props.object_attributes.pretty_plural}
            data={this.state.data}
