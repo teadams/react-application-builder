@@ -231,7 +231,7 @@ class CrudTable extends Component {
 
       log.val("finanl link, text", link_id_value, column_options.name)
       
-      return <MenuLink text={column_options.name} menu_link_field={column_options.menu_link_field}  link_menu_index={column_options.menu_link} link_object_type={this.props.object_type}    filter_id={link_id_value} menu_link_reference_field={column_options.menu_link_reference_field}  onClick={this.props.filterOnChange} />
+      return <MenuLink text={column_options.name} menu_link_field={column_options.menu_link_field}  link_menu_index={column_options.menu_link} link_object_type={this.props.object_type}    filter_id={link_id_value} menu_link_reference_field={column_options.menu_link_reference_field}  onClick={this.props.OnMenuChange} />
     } else {
       return ""
     }

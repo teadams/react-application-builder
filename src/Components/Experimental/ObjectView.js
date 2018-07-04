@@ -95,6 +95,8 @@ class ObjectView extends React.Component {
       }
   }  
 
+
+
   handleMappingOpen(field_name) {
     this.setState({mapping_open:true, mapping_field_name:field_name})
   } 
@@ -139,6 +141,7 @@ class ObjectView extends React.Component {
           disableUnderline={options.disableUnderline?options.disableUnderline:false}
           onChange={this.handleChange}
           onSubmit={this.handleSubmit}
+          onMenuChange = {this.props.onMenuChange}
           onMappingClick={this.handleMappingOpen}
           id = {this.props.selected_id}
         /> 

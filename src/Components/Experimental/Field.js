@@ -7,7 +7,7 @@ import * as data from '../../Utils/data.js';
 
 import update from 'immutability-helper';
 
-import {SelectField, EditButton} from "../Layouts/index.js";
+import {SelectField, EditButton, MenuLink} from "../Layouts/index.js";
 
 class Field extends React.Component {
 
@@ -226,6 +226,12 @@ class Field extends React.Component {
     />)
   }
 
+  renderMenuLink(object_type, field, prefix, options) {
+    return (
+      <MenuLink text={field.name} menu_link_field={field.menu_link_field}  link_menu_index={field.menu_link} link_object_type={object_type}    filter_id={this.props.id} menu_link_reference_field={field.menu_link_reference_field}  onClick={this.props.onMenuChange} />
+    )
+  }
+
   renderMapping(object_type, field, prefix, options) {
     const disabled = options.disabled?options.disabled:false
     const { data_object } = this.props;
@@ -316,7 +322,9 @@ class Field extends React.Component {
       } 
       let options = {disabled:disabled}
 
-      if (final_field.derived) {
+      if (final_field.menu_link) {
+        return(this.renderMenuLink(final_object_type, final_field,prefix))
+      } else if(final_field.derived) {
         return(this.renderDerived(final_object_type, final_field, prefix, {disabled:disabled, disableUnderline:disableUnderline}))
       }  else if (final_field.mapping) { 
         return(this.renderMapping(final_object_type, final_field, prefix, {disabled:disabled, disableUnderline:disableUnderline}))
