@@ -14,6 +14,7 @@ import CloseIcon from '@material-ui/icons/Close';
 
 function getData (object_type, table_columns, object_attributes, filter_field, filter_id, callback )   {
   //window.scrollTo(0, 0);
+  //  alert ("calling db")
   //alert ('filter field and id is ' +filter_field + ' ' + filter_id)
   log.func("getData","object type, table columns, filter_field, filter_id", object_type, table_columns, filter_field, filter_id)
   var data = [];
@@ -104,10 +105,14 @@ class CrudTable extends Component {
   
   static getDerivedStateFromProps(nextProps, prevState) {
     log.func("CrudTable: DerivedState", "next Props", nextProps)
+    //alert ("dervied")
     log.val ("next object_type, prev object_type", nextProps.object_type, prevState.object_type)
-    if (nextProps.filter_id !== prevState.filter_id || nextProps.object_type != prevState.object_type) {
-        // do not operation on state directlry. table_options object is in state becuase it is an 
-      //  alert ("resetting to filter id " + nextProps.filter_id)
+    if (nextProps.filter_id !== prevState.props_filter_id || nextProps.object_type != prevState.props_object_type) {
+      //alert("resetting")
+        // If the passed in object_type or fitler_id change, force a refresh and clear out any old data.
+        // props_fitler_id and props_object_type is convension for storing the previous props
+      
+        // This will get removed with the rework
         var temp_table_options = prevState.table_options;
         temp_table_options.selectableRows	=  nextProps.object_attributes.prevent_delete?false:true;
         log.val(" New Filter_id, seletable rows", nextProps.filter_id, temp_table_options.selectableRows);
@@ -115,7 +120,9 @@ class CrudTable extends Component {
                 table_options: temp_table_options,
                 table_columns:[],
                 force_data_refresh:true,
-                data:[]}
+                data:[],
+                props_filter_id : nextProps.filter_id,
+                props_object_type: nextProps.object_type}
       } else {
         return null
       }
@@ -186,6 +193,7 @@ class CrudTable extends Component {
   
   handleFilterChange(name,value) {
     //  alert ("Crud Table handle filter change with name and value " + name + " " + value)
+      //  alert ("handle filter change")
        this.setState({ filter_id: value,
                       notice_open: false,
                       force_data_refresh: true});
@@ -327,14 +335,18 @@ class CrudTable extends Component {
       }
     })
     this.setState({  id_index: id_index,
-                              name_index: name_index,
-                              table_columns: table_columns})
+                    name_index: name_index,
+                    table_columns: table_columns,
+                    force_data_refresh: false})
 
+  //  alert ("mount")
     if (!this.props.filter_required || this.state.filter_id) {
       getData (this.props.object_type, table_columns, object_attributes, this.props.filter_field, this.state.filter_id, (results) => {
+    //    alert ("mount get data")
           log.val("before set state bbbb new table colums", table_columns )
           this.setState({ data: results.data,
                           clean_data: results.clean_data,
+                          force_data_refresh: false,
                           notice_message: (results.error)?"Problem Retrieving Data From Server":"",
                           notice_open:(results.error)?true:false,
                           notice_type:"error",
@@ -347,7 +359,7 @@ class CrudTable extends Component {
     let id_index = this.state.id_index;
     let name_index = this.state.name_index;
     let new_table_columns = this.state.table_columns;
-
+//  alert ("udpated")
     if (this.props.object_type !== prevProps.object_type || this.state.table_columns.length === 0) {
         const object_fields = meta.fields(this.props.object_type)
         const object_attributes = this.props.object_attributes;  
@@ -363,12 +375,15 @@ class CrudTable extends Component {
       })
         this.setState({ table_columns: new_table_columns,
                         id_index: id_index,
-                        name_index: name_index})
+                        name_index: name_index,
+                        force_data_refresh: false})
     }
      
   //  alert ('props filter id and state filter id' + this.props.filter_id + " -- " + this.state.filter_id)
     if ((this.props.object_type !== prevProps.object_type ||  this.state.force_data_refresh) && 
        (!this.props.filter_required || this.state.filter_id)) {
+      //    alert ("update get data prev this " +prevProps.object_type + " and " +  this.props.object_type)
+      //  alert ("force data is " + this.state.force_data_refresh)
         getData (this.props.object_type, new_table_columns, this.state.object_attributes, this.props.filter_field, this.state.filter_id, (results) => {
           var notice_message = this.state.force_data_refresh?this.state.notice_message:'';
           var notice_open = this.state.force_data_refresh?true:false;
@@ -394,6 +409,7 @@ class CrudTable extends Component {
 // Rename - handleDataChange
  handleDataChange = value => {
    console.log('in create close');
+  //    alert ("in handle data change")
     this.setState({ notice_message: value,
                   notice_open: value?true:false,
                   notice_type: "success",

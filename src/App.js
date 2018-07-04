@@ -61,11 +61,13 @@ class App extends Component {
   };
 
   handleMenuChange(event, selected_menu, link_filter_id, link_filter_field, link_field_object_type, menu_link_reference_field) {
-      var menu_type = 'app_menu'
+      let menu_type = 'app_menu'
       // Tabs can only send an integer
       // TODO - file up the huge variable list to be an object with options
       // and option can be the menu type
+      //alert ("selectced menu is " + JSON.stringify(selected_menu))
       if ((typeof selected_menu) == "string") {
+        //alert ("type is string")
         const split_menu = selected_menu.split('-');
         menu_type = split_menu[1]?split_menu[1]:'app_menu'
         selected_menu = split_menu[0]
@@ -73,29 +75,33 @@ class App extends Component {
 
       const meta_menu = meta.get_selected_menu(selected_menu, menu_type)
       let filter_id = link_filter_id
-      //alert ('fitler id ' + filter_id)
+        //alert ("selected menu and type is " + selected_menu + " " + menu_type)
+  //    alert ('fitler id ' + filter_id  + ' filter field  ' + link_filter_field)
       if (link_filter_field) {
          // link_filter_id is the id field.  Based on this, retrieve another field
-          var urltext = '/api/v1/' + link_field_object_type + '/'+ link_filter_id;
+            //let urltext ='api/v1/system_groups'
+            let urltext = '/api/v1/' + link_field_object_type + '/'+ link_filter_id;
           axios({
            method: 'get',
            url: urltext,
          }).then(results => {
            filter_id = results.data[link_filter_field]
+           //alert ("filter id  after query is " + filter_id)
            this.setState({selected_menu: selected_menu,
                           selected_menu_type: menu_type,
                           filter_id : filter_id
-                       });
+                       }, () => {this.handleDrawerClose()});
          })
 
       } else {
 
           this.setState({selected_menu: selected_menu,
                          selected_menu_type: menu_type,
-                         filter_id : filter_id
+                        filter_id : filter_id
+                      }, ()=> {
+                        this.handleDrawerClose();               
                       });
       }
-    this.handleDrawerClose();               
   }
     
   render() {    
@@ -183,7 +189,7 @@ class App extends Component {
           />
         }  
 
-        {(!meta_menu.component || meta_menu.component == "CrudTable") &&
+        {this.state.selected_menu !== undefined && (!meta_menu.component || meta_menu.component == "CrudTable") &&
         <Grid container>
         <Grid item sm style={{margin:0}}>
          <CrudTable
@@ -195,7 +201,8 @@ class App extends Component {
             filter_object_type = {filter_object_type}
             filter_label = {meta_menu.pretty_name}
             filterOnChange = {this.handleMenuChange}
-            filter_id = {this.state.filter_id}/>
+            filter_id = {this.state.filter_id}
+              />
         </Grid>
         </Grid>
       }
