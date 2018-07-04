@@ -171,7 +171,7 @@ class ObjectView extends React.Component {
         {this.renderField(meta.field(this.props.object_type,keys.pretty_key_id),{mode:"view_click_form"})}
         </Grid>
         <Grid item sm={8}/>
-        {this.state.item_data && !sections && object_fields.map(field => {
+        {this.state.item_data && !sections && meta.section_fields(this.props.object_type, "", "view").map(field => {
           let grid_col = field.grid_col?field.grid_col:4
           return (
             <Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}} sm={grid_col}>
@@ -195,7 +195,7 @@ class ObjectView extends React.Component {
                     {section.text}
                   </Grid>
               }            
-              {meta.section_fields(this.props.object_type, section.name).map(field=> {
+              {meta.section_fields(this.props.object_type, section.name, "view").map(field=> {
                   if (field.name != keys.key_id && field.name != keys.pretty_key_id) {
                       let grid_col = field.grid_col?field.grid_col:4
                       return (

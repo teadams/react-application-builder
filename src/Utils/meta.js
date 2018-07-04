@@ -7,8 +7,8 @@ export function object(object_type) {
   //  log.val('object_type, meta object type accum', object_type, accum);
     return (meta_object_type.name === object_type)?meta_object_type:accum
   },{})) 
-}
 
+}
 export function fields(object_type) {
 //    log.val('meta fields for ', object_type);
 //alert ('fields object type ' + object_type)
@@ -170,6 +170,11 @@ export function section_longest_length(object_type, section_names="", mode="view
 
 export function section_fields (object_type, section_name="", mode="view") {
     return fields(object_type).filter (field => {
+      if (field.key) {
+        // for now, all key fields are not shown to the user.
+        // Their purpose is for the database.  This may evolve over time
+        return false
+      }
       if (field.section === section_name || !section_name) {
         if (mode === "view") {
             return true
