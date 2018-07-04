@@ -39,17 +39,17 @@ class DrillDown extends React.Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
 
-    if (nextProps.object_type !== prevState.props_object_type)  {
-      // TODO - clear the state for all the "less_" state.  Will require either
-      // looping around current state and getting all fields starting with less or
-      // keeping list of grouping values in the state so they can be cleared
+    if (nextProps.object_type !== prevState.props_object_type  ||
+        nextProps.selected_id !== prevState.props_selected_id
+      )  {
 
       var new_state = {}
       new_state.drill_data =[]
       new_state.expanded = {},
       new_state.refresh_drill = true
+      new_state.selected_id = nextProps.selected_id    
       new_state.props_object_type = nextProps.object_type
-      new_state.selected_id = ''
+      new_state.props_selected_id = nextProps.select_id
       return new_state
     } else {
       return null

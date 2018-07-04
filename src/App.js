@@ -188,7 +188,7 @@ class App extends Component {
             expand_contract = {meta_menu.expand_contract}
             manage_object_types = {meta_menu.manage_object_types}
             OnMenuChange = {this.handleMenuChange}
-            filter_id = {this.state.filter_id}
+            selected_id = {this.state.filter_id}
           />
         }  
 
