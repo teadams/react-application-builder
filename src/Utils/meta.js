@@ -143,11 +143,11 @@ export function sections(object_type, section_names) {
     } 
 }
 
-export function section_longest_length(object_type, section_names) {
+export function section_longest_length(object_type, section_names="", mode="view") {
     let section_name_array = []
     if (!section_names) {
         if (!metadata_sections[object_type] || metadata_sections[object_type].length == 0) {
-          return fields(object_type).length;
+          return section_fields(object_type, "", mode).length;
         } else {
          section_name_array  =  metadata_sections[object_type].map (section =>{
                             return section.name
@@ -158,7 +158,7 @@ export function section_longest_length(object_type, section_names) {
     }
     let longest_length = 0
       for (let i = 0; i < section_name_array.length; i++)  {
-            if (section_fields(object_type, section_name_array[i]).length > longest_length) {
+            if (section_fields(object_type, section_name_array[i], mode).length > longest_length) {
               longest_length = section_fields (object_type, section_name_array[i]).length
             }
       }
@@ -168,10 +168,19 @@ export function section_longest_length(object_type, section_names) {
 
 
 
-export function section_fields (object_type, section_name) {
+export function section_fields (object_type, section_name="", mode="view") {
     return fields(object_type).filter (field => {
-      if (field.section === section_name || !field.section && !section_name) {
-        return true
+      if (field.section === section_name || !section_name) {
+        if (mode === "view") {
+            return true
+       } else if (mode === "form") {
+            // exclude fields that should not be shown on objectForm 
+          if (field.menu_link || field.mapping) {
+              return false
+          } else {
+              return true
+          }
+       }
       } else {
         return false
       }}

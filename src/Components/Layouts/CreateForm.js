@@ -124,15 +124,6 @@ class CreateForm extends React.Component {
         id = {this.props.id}
       /> 
       )
-
-//   if (!field.key && !field.menu_link && !field.derived) {
-//       log.val('create form field', field);
-  //    var dependent_value = ''
-  //    if (field.dependent_field) {
-  //        dependent_value = this.state.formValues[field.dependent_field]
-//    }
-//  open={this.props.open}
-
   }
 
   render() {
@@ -142,12 +133,15 @@ class CreateForm extends React.Component {
       return null;
     }
 
+  // By default, show all sections
+  //  If there are specific sections in the props, show those
    const sections =this.props.sections?meta.sections(this.props.object_type,this.props.sections):meta.sections(this.props.object_type);
     
   const flex_direction= sections?"column":"row"
   
-   // used to determine the size of the dialog
-   const section_longest_length = meta.section_longest_length(this.props.object_type, this.props.sections)
+   // used to determine the size of the dialog.
+  // gridCol_scale will be used to show less fields per row in smaller dialogs
+   const section_longest_length = meta.section_longest_length(this.props.object_type, this.props.sections,"form")
    const maxWidth = (section_longest_length > 4 || (sections && sections.length>2))?'md':'sm'
    const gridCol_scale = (maxWidth == 'sm')?3:1
 
@@ -158,7 +152,7 @@ class CreateForm extends React.Component {
             <DialogContentText>{meta.object(object_type).create_form_message}</DialogContentText>
               <form onSubmit={this.handleSubmit}>
               {sections && sections.map(section => {
-                let section_fields = meta.section_fields(this.props.object_type, section.name)
+                let section_fields = meta.section_fields(this.props.object_type, section.name, "form")
                 if (section_fields.length > 0) {
                   var field_render = (section_fields.map(field=>{
                         let grid_col = field.grid_col?field.grid_col:4
@@ -185,7 +179,7 @@ class CreateForm extends React.Component {
                 })}
                 {!sections && 
                   <Grid container>
-                  {object_fields.map(field => {
+                  {meta.section_fields(this.props.object_type, "", "form").map(field => {
                     let grid_col = field.grid_col?field.grid_col:4
                     grid_col = grid_col * gridCol_scale
                     if (!field.key) { 
