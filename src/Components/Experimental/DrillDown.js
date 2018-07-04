@@ -212,13 +212,14 @@ class DrillDown extends React.Component {
                   selected_id = {this.state.selected_id}
                   grouping_field_name = {this.props.grouping_field_name}
                   onDataChange = {this.handleDataChange}
-                  onMenuChange = {this.props.OnMenuChange}
+                  onMenuChange = {this.props.onMenuChange}
               />}
             {this.state.manage_object_type  &&
               <CrudTable object_type={this.state.manage_object_type}
               object_attributes={meta.object(this.state.manage_object_type)}
               object_fields={meta.fields(this.state.manage_object_type)}
               onDataChange= {this.handleDataChange}
+              onMenuChange = {this.props.onMenuChange}
               />
             }
           </Paper>

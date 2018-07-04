@@ -61,7 +61,7 @@ class App extends Component {
   };
 
   handleMenuChange(event, selected_menu, link_filter_id, link_filter_field, link_field_object_type, menu_link_reference_field) {
-//    alert ("app menu change")
+ 
       let menu_type = 'app_menu'
       // Tabs can only send an integer
       // TODO - file up the huge variable list to be an object with options
@@ -187,8 +187,8 @@ class App extends Component {
             create_form_sections = {meta_menu.create_form_sections}
             expand_contract = {meta_menu.expand_contract}
             manage_object_types = {meta_menu.manage_object_types}
-            OnMenuChange = {this.handleMenuChange}
-            selected_id = {this.state.filter_id}
+            onMenuChange = {this.handleMenuChange}
+            selected_id = {this.state.selected_id}
           />
         }  
 
@@ -203,7 +203,7 @@ class App extends Component {
             filter_required = {meta_menu.filter_required}
             filter_object_type = {filter_object_type}
             filter_label = {meta_menu.pretty_name}
-            OnMenuChange = {this.handleMenuChange}
+            onMenuChange = {this.handleMenuChange}
             filter_id = {this.state.filter_id}
               />
         </Grid>
