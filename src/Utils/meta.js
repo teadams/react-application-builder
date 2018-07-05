@@ -177,10 +177,14 @@ export function section_fields (object_type, section_name="", mode="view") {
       }
       if (field.section === section_name || !section_name) {
         if (mode === "view") {
-            return true
+            if (!(field.restrict_from_view)) {
+              return true
+            } else {
+              return false
+            }
        } else if (mode === "form") {
             // exclude fields that should not be shown on objectForm 
-          if (field.menu_link || field.mapping) {
+          if (field.menu_link || field.mapping || field.restrict_from_form) {
               return false
           } else {
               return true

@@ -60,8 +60,9 @@ class App extends Component {
     this.setState({ drawer_open: false });
   };
 
+
   handleMenuChange(event, selected_menu, link_filter_id, link_filter_field, link_field_object_type, menu_link_reference_field) {
- 
+      alert ("handle menu change " + selected_menu)
       let menu_type = 'app_menu'
       // Tabs can only send an integer
       // TODO - file up the huge variable list to be an object with options
@@ -161,14 +162,13 @@ class App extends Component {
       </AppBar>
 
       <Tabs 
-          value={this.props.value}
+          value={this.state.selected_menu}
           onChange={this.handleMenuChange}
           indicatorColor="primary"
           textColor="primary"
           centered
        >
        {meta.get_menu("app_menu").map(menu=> {
-          log.val("menu before tab", menu)
           return <Tab key={menu.index} label={menu.label}/>
        })}
         </Tabs>
