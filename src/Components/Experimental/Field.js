@@ -239,6 +239,7 @@ class Field extends React.Component {
       object_fields={meta.fields(field.referenced_by)}
       filter_field ={meta.referencing_field(field.referenced_by, this.props.object_type).name}
       filter_id =  {this.props.data_object[prefix+meta.keys(this.props.object_type).key_id]}
+      restricted_fields = {field.restricted_from_crud_fields}
     //  onDataChange= {this.handleDataChange}
     //  onMenuChange = {this.props.onMenuChange}
       />

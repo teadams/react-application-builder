@@ -143,8 +143,9 @@ class CrudTable extends Component {
             "filter"        : false }})
       }
   
-    
-    table_columns =  table_columns.concat(meta.fields(object_type).map((field, index) => {
+    let restricted_fields = this.props.restricted_fields?this.props.restricted_fields.split(","):[]
+
+    table_columns =  table_columns.concat(meta.fields(object_type,restricted_fields).map((field, index) => {
       //    log.val("field, index", field, index);
        var table_column = {};
        table_column.name = field.pretty_name;

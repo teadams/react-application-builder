@@ -9,10 +9,20 @@ export function object(object_type) {
   },{})) 
 
 }
-export function fields(object_type) {
+export function fields(object_type, restricted_fields = []) {
 //    log.val('meta fields for ', object_type);
 //alert ('fields object type ' + object_type)
-    return metadata_fields[object_type];
+    if (restricted_fields.length == 0) {
+      return metadata_fields[object_type];
+    } else {
+      return metadata_fields[object_type].filter(field=> {        
+        if (restricted_fields.indexOf(field.name)>=0) {
+            return false
+          } else {
+            return true
+          }
+      })
+    } 
 }
 
 export function field(object_type, field_name) {
