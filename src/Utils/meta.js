@@ -184,7 +184,7 @@ export function section_fields (object_type, section_name="", mode="view") {
             }
        } else if (mode === "form") {
             // exclude fields that should not be shown on objectForm 
-          if (field.menu_link || field.mapping || field.restrict_from_form) {
+          if (field.menu_link || field.mapping || field.restrict_from_form || field.referenced_by) {
               return false
           } else {
               return true
@@ -340,4 +340,16 @@ export function reference_fields_shown(object_type,reference_table) {
 //      alert ("results is "  + JSON.stringify(results))
           });
       return results
+}
+
+
+export function referencing_field(referencing_object_type, referenced_object_type) {
+    let referencing_object_fields = fields(referencing_object_type)
+    // assumes we only have 1 field referencing this table. this may
+    // need to expand
+    return ( referencing_object_fields.filter(field=>{
+              if (field.references === referenced_object_type) {
+                  return true
+              }
+    })[0] )
 }

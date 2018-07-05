@@ -7,7 +7,7 @@ import * as data from '../../Utils/data.js';
 
 import update from 'immutability-helper';
 
-import {SelectField, EditButton, MenuLink} from "../Layouts/index.js";
+import {SelectField, CrudTable, EditButton, MenuLink} from "../Layouts/index.js";
 
 class Field extends React.Component {
 
@@ -226,6 +226,24 @@ class Field extends React.Component {
     />)
   }
 
+  renderReferencedBy(object_type, field, prefix, options) {
+  //    alert('field is ' + JSON.stringify(field))
+//meta.referencing_field(field.referenced_by, this.props.object_type)}
+    // meta.referencing_field(referenced_by, referenced_to)
+    // look at object referenced_by
+    // find the field references that points to the original table
+
+    return (
+      <CrudTable object_type={field.referenced_by}
+      object_attributes={meta.object(field.referenced_by)}
+      object_fields={meta.fields(field.referenced_by)}
+      filter_field ={meta.referencing_field(field.referenced_by, this.props.object_type).name}
+      filter_id =  {this.props.data_object[prefix+meta.keys(this.props.object_type).key_id]}
+    //  onDataChange= {this.handleDataChange}
+    //  onMenuChange = {this.props.onMenuChange}
+      />
+    )
+  }
   renderMenuLink(object_type, field, prefix, options) {
     return (
       <MenuLink text={field.name} menu_link_field={field.menu_link_field}  link_menu_index={field.menu_link} link_object_type={object_type}    filter_id={this.props.id} menu_link_reference_field={field.menu_link_reference_field}  onClick={this.props.onMenuChange} />
@@ -321,8 +339,10 @@ class Field extends React.Component {
         }
       } 
       let options = {disabled:disabled}
-
-      if (final_field.menu_link) {
+      
+      if (final_field.referenced_by) {
+        return(this.renderReferencedBy(final_object_type, final_field,prefix))
+      } else if (final_field.menu_link) {
         return(this.renderMenuLink(final_object_type, final_field,prefix))
       } else if(final_field.derived) {
         return(this.renderDerived(final_object_type, final_field, prefix, {disabled:disabled, disableUnderline:disableUnderline}))

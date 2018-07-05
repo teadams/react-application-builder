@@ -62,7 +62,7 @@ class App extends Component {
 
 
   handleMenuChange(event, selected_menu, link_filter_id, link_filter_field, link_field_object_type, menu_link_reference_field) {
-      alert ("handle menu change " + selected_menu)
+    //  alert ("handle menu change " + selected_menu)
       let menu_type = 'app_menu'
       // Tabs can only send an integer
       // TODO - file up the huge variable list to be an object with options

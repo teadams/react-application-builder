@@ -343,6 +343,7 @@ class CrudTable extends Component {
     if (!this.props.filter_required || this.state.filter_id) {
       getData (this.props.object_type, table_columns, object_attributes, this.props.filter_field, this.state.filter_id, (results) => {
     //    alert ("mount get data")
+    //    alert ('mount data is ' + JSON.stringify(results.data))
           log.val("before set state bbbb new table colums", table_columns )
           this.setState({ data: results.data,
                           clean_data: results.clean_data,
@@ -388,6 +389,7 @@ class CrudTable extends Component {
           var notice_message = this.state.force_data_refresh?this.state.notice_message:'';
           var notice_open = this.state.force_data_refresh?true:false;
           var notice_type = "success";
+  //  alert ('update data is ' + JSON.stringify(results.data))
           if (results.error) {
             notice_message = "Problem Retrieving Data From Server";
             notice_open = true;
@@ -484,7 +486,9 @@ class CrudTable extends Component {
     if (this.state.table_columns.length===0 ) {
         return null
       }
-    
+  //  alert ("render with data is " + JSON.stringify(this.state.data))
+  //  alert ("render with table coulns " + JSON.stringify(this.state.table_columns))
+  // alert ("render with table options" + JSON.stringify(this.state.table_options))
    log.func("crud render",'object_attributes, object_type, notice_open', this.props.object_attributes, this.props.object_type, this.state.notice_open);
     const filter_data_object = {[this.props.filter_field]:this.state.filter_id}
   //  alert ("handlefilter ojbect" + JSON.stringify(filter_data_object))
