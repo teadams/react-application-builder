@@ -271,7 +271,7 @@ class Field extends React.Component {
 
     return(
     <SelectField 
-        key={data_object?data_object[meta.keys(object_type,field.name).key_id + '+' + field.name]:field.name}
+        key={data_object?data_object[prefix+meta.keys(object_type,field.name).key_id + '+' + field.name]:field.name}
         disabled={disabled}
         object_type={object_type}
         shrink="true"

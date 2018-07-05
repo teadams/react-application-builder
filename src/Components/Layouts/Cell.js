@@ -82,14 +82,11 @@ class Cell extends React.Component {
 
 
   render() {
-//    alert ('field in cell is ' + JSON.stringify(this.propso.field));
-//    log.func("Cell Render", "field, table columns", this.props.field, this.props.table_columns);
-//    log.val("edit, db", this.props.table_columns.edit, this.props.table_columns.db);
-  /// Will be removed when customrender is fixed in MUIDataTable
-    
+//    alert ('state of clicked is ' + this.state.clicked)
     if (this.state.clicked && !this.props.field.prevent_edit && !this.props.field.not_in_db) { 
-
+        //  alert ('editable field ' + JSON.stringify(this.props.field))
             if (this.props.field.valid_values || this.props.field.references) {
+        //        alert ("select cell")
                  return (<form onSubmit={this.handleSubmit} > 
                  <SelectCell
                  autoFocus={true}

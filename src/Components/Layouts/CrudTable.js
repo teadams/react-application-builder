@@ -35,7 +35,7 @@ function getData (object_type, table_columns, object_attributes, filter_field, f
 
       results.data.map (row => {
           data_row_array =table_columns.map (field => {
-            return(field.database_name+'//**//'+row[field.database_name])
+            return(field.meta_name+'//**//'+row[field.database_name])
           });
           clean_data_row_array =table_columns.map (field => {
               return(row[field.database_name])
@@ -150,6 +150,7 @@ class CrudTable extends Component {
        var table_column = {};
        table_column.name = field.pretty_name;
        table_column.database_id_column = field.name;
+       table_column.meta_name = field.name;
 
        table_column.database_name = field.name;
        table_column.valid_values = field.valid_values;

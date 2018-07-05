@@ -14,6 +14,7 @@ function getSelectOptions (field, row, table_columns, object_type, callback) {
     log.func("get select options","id column name, name column name, dependent_field, field, references, table_columns",
      id_column_name, name_column_name, dependent_field, field, references, table_columns);
     
+  //  alert ('select cell get data')
     if (dependent_field) {
       log.func("Need to do something different", 'dependent_field', dependent_field)
       const dependent_field_index = meta.get_index(table_columns, 'name', dependent_field)
@@ -69,6 +70,7 @@ class SelectCell extends React.Component {
 
   componentDidMount() {
       const { open} = this.props;
+//      alert ("select cell mount")
       console.log('Select field did mount');
       //console.log('in select and props are ' +JSON.stringify(this.props));
   //    alert ('mounted in ' + JSON.stringify('field'))
@@ -91,7 +93,7 @@ class SelectCell extends React.Component {
                       }
                   })
                   console.log('menu options are ' +select_menu_options);
-
+              //    alert ("setting state " + JSON.stringify(select_menu_options) + " and select menu is " + selected_menu)
                   this.setState({ select_menu_options: select_menu_options,
                                     value: selected_menu})
               })
@@ -103,20 +105,21 @@ class SelectCell extends React.Component {
 
   
   render() {
+  if (this.state.select_menu_options.length===0) {
+      return null
+  } 
+//    alert ("in render")
+//  alert ("this.state.select_menu_options" +JSON.stringify(this.state.select_menu_options))
   //  alert ('render with ' + this.state.value);
   log.func("mapping menu options", "menu options", this.state.select_menu_options);
-  console.log('in render for ' + this.props.field.name)
-  console.log('in render and props  is  ' + this.props.value);
-  console.log('in render and state is ' + this.state.value);
-  console.log('in render and props are ' + JSON.stringify(this.props));
     const {  open, field, ...other } = this.props;
-    return (<FormControl style={this.props.style}>
+    return (<div><FormControl style={this.props.style}>
   <InputLabel  htmlFor="{field.name}">{field.pretty_name}</InputLabel>
   <Select
-    autoFocus={this.props.autoFocus?true:false}
+  //  autoFocus={this.props.autoFocus?true:false}
     value={this.state.value}
-    onChange={this.submitHandleChange} 
-    onBlur={this.props.onBlur}
+   onChange={this.submitHandleChange} 
+     onBlur={this.props.onBlur}
     inputProps={{
       name: '{field.name}',
       id: '{field.name}',
@@ -136,7 +139,7 @@ class SelectCell extends React.Component {
     })}
   </Select>
 </FormControl>
-)
+</div>)
 
 }}
 
