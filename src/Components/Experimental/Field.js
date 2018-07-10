@@ -395,7 +395,7 @@ class Field extends React.Component {
         return(this.renderDerived(final_object_type, final_field, prefix, {disabled:disabled, disableUnderline:disableUnderline}))
       }  else if (final_field.mapping) { 
         return(this.renderMapping(final_object_type, final_field, prefix, {disabled:disabled, disableUnderline:disableUnderline}))
-      } else if ( final_field.valid_values || final_field.references || final_field.data_type === "boolean" || (final_field.data_type === "integer" && final_field.input_type !== "" || final_field.input_type === "color_picker")) {
+      } else if ( final_field.valid_values || final_field.references || final_field.data_type === "boolean" || (final_field.data_type === "integer" && final_field.start_value && final_field.end_value) || final_field.input_type === "color_picker") {
         return(this.renderSelectField(final_object_type, final_field, prefix, {disabled:disabled, disableUnderline:disableUnderline}))
       } else {
         return(this.renderTextField(final_object_type, final_field, prefix, {disabled:disabled, disableUnderline:disableUnderline}))

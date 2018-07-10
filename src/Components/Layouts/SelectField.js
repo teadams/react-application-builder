@@ -79,15 +79,17 @@ class SelectField extends React.Component {
                 var select_menu_options = [[true, "Yes"], [false, "No"]]
                 this.setState({ select_menu_options: select_menu_options})
 
-          } else if (field && field.data_type == "integer") {
+          } else if (field && field.data_type == "integer" && (field.start_value && field.end_value)) {
             var select_menu_options = []
-            const start_value = field.start_value?field.start_value:0
-            const end_value = field.end_value?field.end_value:10
+
+            const start_value = field.start_value?field.start_value:""
+            const end_value = field.end_value?field.end_value:""
             const increment = field.increment?field.increment:1
 
             for (var i=start_value; i<=end_value;  i += increment) {
                 select_menu_options.push ([i,i]);
             }
+
             this.setState({ select_menu_options: select_menu_options})
           } else if (field && field.input_type === "color_picker") {
               var select_menu_options = [];
