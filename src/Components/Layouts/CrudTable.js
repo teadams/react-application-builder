@@ -181,7 +181,7 @@ class CrudTable extends Component {
        log.val('option filter is' , table_column.options.filter)     
        table_column.options.sort = true;
   
-       if(field.key || field.crud_hide_column || field.derived) {
+       if(field.key || field.crud_hide_column || field.derived || field.referenced_by || field.derived) {
           table_column.options.display = false;
        }
        log.val("massage columns table column return", table_column)
