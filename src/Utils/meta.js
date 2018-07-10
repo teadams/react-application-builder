@@ -363,3 +363,17 @@ export function referencing_field(referencing_object_type, referenced_object_typ
               }
     })[0] )
 }
+
+export function sort_field_name (object_type) {
+  // for now, assume 1 field is the sort
+    const pretty_key_field_name = keys(object_type).pretty_key_id
+    if (field(object_type,pretty_key_field_name).derived) {
+          return (fields(object_type).filter(field=>{
+              if (field.order_by) {
+                return true
+              }
+          })[0].name)
+    } else {
+        return pretty_key_field_name
+    }
+} 

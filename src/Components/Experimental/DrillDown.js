@@ -94,8 +94,10 @@ class DrillDown extends React.Component {
           const grouping_object_type = grouping_field.references
           const grouping_keys = meta.keys(grouping_object_type)
       //    alert ('groupting object type and keys' + grouping_object_type + ' ' + JSON.stringify(grouping_keys))
-          const order_by = grouping_field_name +'_'+grouping_keys.pretty_key_id + ' ,' + this.props.object_type + "." + meta.keys(this.props.object_type).pretty_key_id
-        //  alert ('order by is ' + JSON.stringify(order_by))
+          const order_by = grouping_field_name +'_'+meta.sort_field_name(grouping_object_type) + ' ,' + this.props.object_type + "." + meta.sort_field_name(this.props.object_type)
+          
+      
+//          alert ('order by is ' + JSON.stringify(order_by))
           options.order_by = order_by
         } else {
           options.order_by = this.props.object_type + "." +grouping_field_name + ' ,' + this.props.object_type + "." + meta.keys(this.props.object_type).pretty_key_id
