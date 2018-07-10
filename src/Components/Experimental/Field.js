@@ -5,7 +5,7 @@ import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsPr
 import DatePicker from 'material-ui-pickers/DatePicker';
 import TimePicker from 'material-ui-pickers/TimePicker'
 import DateTimePicker from 'material-ui-pickers/DateTimePicker';
-
+import format  from 'date-fns/format';
 
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
@@ -127,7 +127,8 @@ class Field extends React.Component {
   handleDateChange(date) {
 //     alert ("on change")
     // callback is a workaround until DatePicker supports onBlur
-      this.handleChange("",date, true)
+      this.handleChange("",format(date, 'MM/DD/YYYY')
+, true)
   }
 
   handleChange(event, value, submit_p) {
@@ -236,11 +237,14 @@ class Field extends React.Component {
 
   renderDate(object_type, field, prefix, options) {
     const { data_object } = this.props;
+    const openToYearSelection = field.openToYearSelection?field.openToYearSelection:false
     return  (<MuiPickersUtilsProvider utils={DateFnsUtils}>
         <DatePicker
           value={this.state.value}
           //autoOk={true}
+          openToYearSelection={openToYearSelection}
           onBlur={this.handleSubmit}
+          animateYearScrolling={true}
           invalidDateMessage=""
           invalidLabel=""
           label={field.pretty_name}
