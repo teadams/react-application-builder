@@ -1,5 +1,11 @@
 import React, { Component, Fragment} from 'react';
 import {Chip, TextField, Paper, Button, Grid, ListItem, List,  Typography} from '@material-ui/core'
+import DateFnsUtils from 'material-ui-pickers/utils/date-fns-utils';
+import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
+import DatePicker from 'material-ui-pickers/DatePicker';
+import TimePicker from 'material-ui-pickers/TimePicker'
+import DateTimePicker from 'material-ui-pickers/DateTimePicker';
+
 
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
@@ -7,7 +13,7 @@ import * as data from '../../Utils/data.js';
 
 import update from 'immutability-helper';
 
-import {SelectField, CrudTable, EditButton, MenuLink} from "../Layouts/index.js";
+import {ButtonExpandMore, SelectField, CrudTable, EditButton, MenuLink} from "../Layouts/index.js";
 
 class Field extends React.Component {
 
@@ -32,6 +38,8 @@ class Field extends React.Component {
         value_changed: false
       }
       this.handleChange = this.handleChange.bind(this);
+      this.handleDateChange = this.handleDateChange.bind(this);
+//      this.handleDateClose = this.handleDateClose.bind(this);
       this.handleSubmit  = this.handleSubmit.bind(this);
       this.handleClick = this.handleClick.bind(this);
   }
@@ -114,9 +122,18 @@ class Field extends React.Component {
       }
   }  
 
-  handleChange(event, value) {
+
+
+  handleDateChange(date) {
+//     alert ("on change")
+    // callback is a workaround until DatePicker supports onBlur
+      this.handleChange("",date, true)
+  }
+
+  handleChange(event, value, submit_p) {
+      //alert ("change " + event)
       if (event) {
-      //  alert ('event is ' + event.target.value)
+        //alert ('event is ' + event.target)
         const target = event.target;
         value = target.type === 'checkbox' ? target.checked : target.value;
       }
@@ -135,19 +152,25 @@ class Field extends React.Component {
       //    alert ("data object is " + JSON.stringify(this.props.data_object))
       //    alert ("field is " + prefix+field.name)
       }
+
+    if (submit_p) {
+        this.setState({value:value, value_changed:true}, ()=>{this.handleSubmit(event)});
+    } else {
       this.setState({value:value, value_changed:true});
-//      alert ("field value changed and field and value is " + final_field.name + " value " + value)
+    }
       this.props.onChange(prefix+final_field.name, value);
   }
 
   handleSubmit(event) {
-
+    //alert ('handle submit')
     const { object_type, field_name, mode, id, data_object } = this.props;
     const field = meta.field(object_type,field_name);
       if (mode !== "form" && !this.state.form ) {
           return null
       }
-      event.preventDefault();
+      if (event) {
+        event.preventDefault();
+      }
       if (this.state.value_changed) {
         let prefix=""
         let final_field = field
@@ -209,6 +232,26 @@ class Field extends React.Component {
         )
       }))
     }
+  }
+
+  renderDate(object_type, field, prefix, options) {
+    const { data_object } = this.props;
+    return  (<MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <DatePicker
+          value={this.state.value}
+          //autoOk={true}
+          onBlur={this.handleSubmit}
+          invalidDateMessage=""
+          invalidLabel=""
+          label={field.pretty_name}
+          onChange={this.handleDateChange}
+  //        onClose={this.handleDateClose}
+          showTodayButton={true}
+          format="MM/DD/YYYY"
+          leftArrowIcon="<"
+          rightArrowIcon=">"
+        />
+         </MuiPickersUtilsProvider>)
   }
 
   renderDerived(object_type, field, prefix, options) {
@@ -331,6 +374,7 @@ class Field extends React.Component {
 
       // for now, field in other tables are disabled. may be expanded later!!
       let  disabled =  ((field.prevent_edit && this.props.mode !== "filter") || field.derived || field.not_in_db || (field.field_object_type && !field.edit_p))?true:false
+
       if (field.dependent_field) {
         if (!this.props.data_object[field.dependent_field]) {
                disabled = true;
@@ -340,8 +384,10 @@ class Field extends React.Component {
         }
       } 
       let options = {disabled:disabled}
-      
-      if (final_field.referenced_by) {
+        
+      if (final_field.data_type==="date") {
+        return(this.renderDate(final_object_type, final_field,prefix))
+      } else if (final_field.referenced_by) {
         return(this.renderReferencedBy(final_object_type, final_field,prefix))
       } else if (final_field.menu_link) {
         return(this.renderMenuLink(final_object_type, final_field,prefix))
@@ -368,7 +414,7 @@ class Field extends React.Component {
 
     switch (this.props.mode) {
       case "form":
-        return (<form>
+        return (<form onSubmit={this.handleSubmit}>
                 {this.renderField()} 
               </form>)
         break;
