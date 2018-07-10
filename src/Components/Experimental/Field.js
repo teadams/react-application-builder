@@ -284,7 +284,7 @@ class Field extends React.Component {
       filter_id =  {this.props.data_object[prefix+meta.keys(this.props.object_type).key_id]}
       restricted_fields = {field.restricted_from_crud_fields}
     //  onDataChange= {this.handleDataChange}
-    //  onMenuChange = {this.props.onMenuChange}
+       onMenuChange = {this.props.onMenuChange}
       />
     )
   }
