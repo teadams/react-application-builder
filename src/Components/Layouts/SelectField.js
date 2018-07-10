@@ -34,7 +34,7 @@ function getSelectOptions (select_object_type, field, form_object_type, dependen
           const id_column_name =meta.keys(select_object_type).key_id;
           const name_column_name = meta.keys(select_object_type).pretty_key_id;
           var select_menu_options = response.data.map (row => {
-            return [row[id_column_name], row[name_column_name] ];
+            return [row[id_column_name], meta.get_display_value(select_object_type, name_column_name, row)];
           })
           callback(select_menu_options); 
         }).catch(function (error) {
@@ -156,7 +156,7 @@ class SelectField extends React.Component {
   
   render() {
     log.func("selectfield Render", "props", this.props)
-
+//    alert ("select menu options i s" + JSON.stringify(this.state.select_menu_options))
     const {  open, field, id, shrink } = this.props;
     var shrink_label = (this.state.value || this.state.value === false)?true:false
     if (shrink) {
