@@ -1,4 +1,4 @@
-import {app_params, metadata_menus, metadata_fields, metadata_object_types, metadata_sections} from '../Models/Interface';
+import {app_params, metadata_menus, metadata_fields, metadata_object_types, metadata_sections} from '../Models/Nets';
 import * as log from './log.js';
 
 export function object(object_type) {
@@ -194,7 +194,7 @@ export function section_fields (object_type, section_name="", mode="view") {
             }
        } else if (mode === "form") {
             // exclude fields that should not be shown on objectForm 
-          if (field.menu_link || field.mapping || field.restrict_from_form || field.referenced_by) {
+          if (field.menu_link || field.mapping || field.restrict_from_form || field.referenced_by || field.derived) {
               return false
           } else {
               return true
