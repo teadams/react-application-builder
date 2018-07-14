@@ -196,7 +196,7 @@ class App extends Component {
 
         {meta_menu.component == "ResourceSchedule" &&
           <ResourceSchedule
-            resource_object = {meta_menu.resource_object}
+            resource_object_type = {meta_menu.resource_object}
           />
         }  
         {this.state.selected_menu !== undefined && (!meta_menu.component || meta_menu.component == "CrudTable") &&
