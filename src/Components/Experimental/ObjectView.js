@@ -120,7 +120,7 @@ class ObjectView extends React.Component {
       if (field.references) {
             if (meta.reference_fields_shown(this.props.object_type, field.references).length>0) {
       //          alert ("in the submit and changed reference")
-              alert('ref fields shown' + JSON.stringify(meta.reference_fields_shown(this.props.object_type, field.references)))
+      //        alert('ref fields shown' + JSON.stringify(meta.reference_fields_shown(this.props.object_type, field.references)))
             this.loadData();
           }
       }
@@ -181,6 +181,8 @@ class ObjectView extends React.Component {
               {this.renderField(field)}
             </Grid>)
         })}
+
+
 
         {this.state.item_data && sections && sections.map(section => {
           return (

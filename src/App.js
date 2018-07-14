@@ -2,6 +2,7 @@ import React, { Component, Fragment} from 'react';
 import {Grid} from 'material-ui'
 import {Header,Footer, MenuBar, CrudTable, Text} from './Components/Layouts';
 import {NavMenuLink, DrillDown} from './Components/Experimental';
+import {ResourceSchedule} from './Components'
 import * as meta from './Utils/meta.js'
 import * as log from './Utils/log.js'
 import axios from 'axios';
@@ -193,6 +194,11 @@ class App extends Component {
           />
         }  
 
+        {meta_menu.component == "ResourceSchedule" &&
+          <ResourceSchedule
+            resource_object = {meta_menu.resource_object}
+          />
+        }  
         {this.state.selected_menu !== undefined && (!meta_menu.component || meta_menu.component == "CrudTable") &&
         <Grid container>
         <Grid item sm style={{margin:0}}>

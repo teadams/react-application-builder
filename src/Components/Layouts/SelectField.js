@@ -72,7 +72,14 @@ class SelectField extends React.Component {
       if (open)  {
           if (field && field.valid_values) {
               var select_menu_options = field.valid_values.split(",").map(value=>{
-                  return [value, value];
+                //  alert ("value is " + JSON.stringify(value))
+                  value = value.split(";")
+                  //alert ('value is ' + JSON.stringify(value))
+                  if (value.length===1) {
+                    return [value[0], value[0]];
+                  } else {
+                    return [value[0], value[1]]
+                  }
               })
               this.setState({ select_menu_options: select_menu_options})
           } else if (field && field.data_type == "boolean") {
