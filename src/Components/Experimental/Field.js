@@ -358,8 +358,16 @@ class Field extends React.Component {
     />)
   }
 
+  renderImageField(object_type, field, prefix, options) {
+    return (
+      <div>
+      {field.pretty_name}<br/>
+      <img width='102' height='68' src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Photovoltaik_Dachanlage_Hannover_-_Schwarze_Heide_-_1_MW.jpg/1200px-Photovoltaik_Dachanlage_Hannover_-_Schwarze_Heide_-_1_MW.jpg'/>
+     </div>
+    )
+  }
 
-  renderField() {
+  renderField(mode) {
       const {  field_name, data_object, disableUnderline, object_type } = this.props;
       let final_object_type = this.props.object_type;
       let field = meta.field(object_type,field_name);
@@ -401,6 +409,9 @@ class Field extends React.Component {
         return(this.renderMapping(final_object_type, final_field, prefix, {disabled:disabled, disableUnderline:disableUnderline}))
       } else if ( final_field.valid_values || final_field.references || final_field.data_type === "boolean" || (final_field.data_type === "integer" && (final_field.start_value !== undefined) && (final_field.end_value !== undefined)) || final_field.input_type === "color_picker") {
         return(this.renderSelectField(final_object_type, final_field, prefix, {disabled:disabled, disableUnderline:disableUnderline}))
+      } else if (final_field.image) {
+  //alert ('image field')
+        return(this.renderImageField(final_object_type, final_field, prefix, { disableUnderline:disableUnderline}))
       } else {
         return(this.renderTextField(final_object_type, final_field, prefix, {disabled:disabled, disableUnderline:disableUnderline}))
     }
@@ -425,13 +436,13 @@ class Field extends React.Component {
       case "view_click_form":
           return (
            this.state.form ? 
-              <form>
-                {this.renderField()} 
+             <form>
+               {this.renderField()} 
               </form>
             :  
               field.derived ?
                 <div>
-                  {this.getDisplayView()}&nbsp;
+                 {this.getDisplayView()}&nbsp;
                 </div>  
                 :
                 <div onClick={this.handleClick}>

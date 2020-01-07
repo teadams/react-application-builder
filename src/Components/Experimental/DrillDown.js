@@ -176,7 +176,7 @@ class DrillDown extends React.Component {
                             <Field object_type = {this.props.object_type} 
                               field_name = {keys.pretty_key_id}  
                               data_object={row}
-                              mode="view"
+                              mode="text"
                             /> 
                           </Typography>
                         </ListItem>

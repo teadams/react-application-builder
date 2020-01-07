@@ -1,5 +1,7 @@
- import React from 'react'
+import React from 'react'
 import BigCalendar from 'react-big-calendar'
+import { Typography} from '@material-ui/core'
+
 import moment from 'moment'
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
@@ -9,6 +11,14 @@ import 'react-big-calendar/lib/css/react-big-calendar.css'
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
 let allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k])
 
+
+let MyCustomHeader = () => (
+  <div>
+    CUSTOM HEADER:
+
+     BUTTOn
+  </div>
+)
 
 class ResourceSchedule extends React.Component {
   constructor(props) {
@@ -35,7 +45,9 @@ class ResourceSchedule extends React.Component {
 
               resource_list[index]["resourceIDAccessor"] = resource[meta.keys(resource_object_type).key_id]
 
-              resource_list[index]["resourceTitleAccessor"] = meta.get_display_value(resource_object_type, meta.keys(resource_object_type).pretty_key_id, resource)            
+              resource_list[index]["resourceTitleAccessor"] = meta.get_display_value(resource_object_type, meta.keys(resource_object_type).pretty_key_id, resource)  
+//resource_list[index]["resourceTitleAccessor"] = "<Typography variant='headline' >HELLO</Typography>"
+         
           })
             this.setState({ resource_list: resource_list})
     })
@@ -51,6 +63,7 @@ class ResourceSchedule extends React.Component {
 //    const calendar_day = calendar_date.getDate();
 //    const calendar_dow = calendar_date.getDay();
     let event_list = []
+
 //      alert ("day of week is " + calendar_dow)
     data.getData ("schedule_resource_base", "", (schedule, error) => {
 
@@ -99,6 +112,12 @@ class ResourceSchedule extends React.Component {
   render() {
     //alert ('render ' + this.state.foo)
     const { resource_object_type} = this.props;
+    const components = {
+      day: {
+        header: MyCustomHeader,
+      }
+    }
+const TimeGutter = () => <p>Custom gutter text</p>
   //  alert ('events is ' + JSON.stringify(this.state.event_list))
 //    alert ("resource list is " + JSON.stringify(this.state.resource_list))
     return (
@@ -106,13 +125,17 @@ class ResourceSchedule extends React.Component {
     <BigCalendar
       events={this.state.event_list}
       defaultView={BigCalendar.Views.DAY}
+  popup
       views={['day', 'week']}
       step={60}
       showMultiDayTimes
+      components={{
+        timeGutterHeader: TimeGutter,
+      }}
       defaultDate={this.state.calendar_date}
-      resources={this.state.resource_list}
-      resourceIdAccessor="resourceIDAccessor"
-      resourceTitleAccessor="resourceTitleAccessor"
+  //    resources={this.state.resource_list}
+  //    resourceIdAccessor="resourceIDAccessor"
+  //    resourceTitleAccessor="resourceTitleAccessor"
       onNavigate={this.onNavigate}
       />
   </div>

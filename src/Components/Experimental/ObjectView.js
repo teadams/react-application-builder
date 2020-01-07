@@ -132,6 +132,10 @@ class ObjectView extends React.Component {
   
   renderField(field, options) {
       options = options?options:{}
+      //var no_edit = true;
+      //if (no_edit) {
+      //    options.mode = "view_form"
+      //}
       //alert ('options is ' + JSON.stringify(options))
       return (
         <Field object_type = {this.props.object_type} 

@@ -1,6 +1,6 @@
 import React, { Component, Fragment} from 'react';
 import {Grid} from 'material-ui'
-import {Header,Footer, MenuBar, CrudTable, Text} from './Components/Layouts';
+import {Header,Footer, MenuBar, CrudTable, Text, GoogleMap} from './Components/Layouts';
 import {NavMenuLink, DrillDown} from './Components/Experimental';
 import {ResourceSchedule} from './Components'
 import * as meta from './Utils/meta.js'
@@ -197,6 +197,13 @@ class App extends Component {
         {meta_menu.component == "ResourceSchedule" &&
           <ResourceSchedule
             resource_object_type = {meta_menu.resource_object}
+          />
+        } 
+        {meta_menu.component == "GoogleMap" &&
+          <GoogleMap 
+            title = {meta_menu.title}
+            text = {meta_menu.text}
+            object_type = {meta_menu.object_type}
           />
         }  
         {this.state.selected_menu !== undefined && (!meta_menu.component || meta_menu.component == "CrudTable") &&
