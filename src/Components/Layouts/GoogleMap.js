@@ -90,5 +90,5 @@ componentDidMount() {
 
 
 export default GoogleApiWrapper({
-  apiKey: ("AIzaSyA-6-xjmefANA9RLDL6d2xnatCBNr-lwnA")
+  apiKey: ("AIzaSyB7xya0w0DAsz0kODQ0_MWlApayXELLBGo")
 })(GoogleMap)
