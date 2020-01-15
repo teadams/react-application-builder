@@ -1,7 +1,8 @@
 import React, { Component, Fragment} from 'react';
 import {Grid} from 'material-ui'
-import {Header,Footer, MenuBar, CrudTable, Text, GoogleMap} from './Components/Layouts';
+import {MenuBar, CrudTable, Text, GoogleMap} from './Components/Layouts';
 import {NavMenuLink, DrillDown} from './Components/Experimental';
+import {Login} from './Components/User';
 import {ResourceSchedule} from './Components'
 import * as meta from './Utils/meta.js'
 import * as log from './Utils/log.js'
@@ -11,6 +12,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
+
+const AuthContext = React.createContext('');
 
 const drawerWidth = 150;
 
@@ -48,11 +51,12 @@ class App extends Component {
           selected_menu_type: 'app_menu',
           filter_id: "",
           drawer_open: false,
-
+          test_context: "GGGGGG"
       }
       this.handleMenuChange = this.handleMenuChange.bind(this);
   }
-  
+  static contextType = AuthContext;
+
   handleDrawerOpen = () => {
     this.setState({ drawer_open: true });
   };
@@ -116,11 +120,14 @@ class App extends Component {
     const meta_menu = meta.get_selected_menu(this.state.selected_menu,this.state.selected_menu_type)
     const filter_field = meta_menu.object_type?meta.field(meta_menu.object_type, meta_menu.filter_field):""
     const filter_object_type = filter_field.references
+    
      //alert ('fitler required is ' + JSON.stringify(meta_menu))
-    //alert ("redner filter id is S" + this.state.filter_id)
-    return <Fragment>
+    //alert ("redner filter <id is S" + this.state.filter_id)
+    return      <Fragment>
      <Paper style={{ padding:10, marginTop:10, marginBottom:0, minHeight:600, position:'relative'}}>
-     {drawer_open && hamburger_menu_p &&
+    this is the top of the paper {this.context.value}  - the value
+    
+     {drawer_open && hamburger_menu_p && 
      <div style={{ position:"absolute"}}>
      <Drawer 
       variant="permanent"
@@ -139,6 +146,7 @@ class App extends Component {
        <List  component="nav">
           {meta.get_menu("hamburger").map(menu=> {
             var index =  menu.index + '-hamburger'
+          
           return     <ListItem key={menu.index} style={{padding:0}} dense disableGutters component="div">   <NavMenuLink text={menu.label} index={index} onClick={this.handleMenuChange} /> </ListItem>
           })}
         
@@ -157,9 +165,12 @@ class App extends Component {
         </IconButton> 
         }
           <Typography variant="headline" color="inherit"> 
-            {meta.get_param('name')}
+            {meta.get_param('name')} 
           </Typography>
-           <Button color="inherit">Login</Button>
+<AuthContext.Provider value={this.state.text_context}>
+           <Login></Login>
+</AuthContext.Provider>
+           <Button color="inherit">Logout</Button>
         </Toolbar>
       </AppBar>
 
@@ -236,6 +247,7 @@ class App extends Component {
        <Tab label={meta.get_param('footer')} />
      </Tabs>
     </Fragment>
+  
   }
 }
 
