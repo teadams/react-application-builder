@@ -2,7 +2,7 @@ import React, { Component, Fragment} from 'react';
 import {Grid} from 'material-ui'
 import {MenuBar, CrudTable, Text, GoogleMap} from './Components/Layouts';
 import {NavMenuLink, DrillDown} from './Components/Experimental';
-import {Login} from './Components/User';
+import {AuthToggleLink, AuthContext, AuthProvider} from './Components/User';
 import {ResourceSchedule} from './Components'
 import * as meta from './Utils/meta.js'
 import * as log from './Utils/log.js'
@@ -13,8 +13,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 
-const AuthContext = React.createContext('');
-
+//const MyContext = React.createContext("creation");
 const drawerWidth = 150;
 
 const styles = theme => ({
@@ -40,8 +39,6 @@ drawerHeader: {
 },
 });
 
-
-
 class App extends Component {
   constructor(props) {
       super(props);
@@ -51,11 +48,10 @@ class App extends Component {
           selected_menu_type: 'app_menu',
           filter_id: "",
           drawer_open: false,
-          test_context: "GGGGGG"
+          context: "GGGGGG"
       }
       this.handleMenuChange = this.handleMenuChange.bind(this);
   }
-  static contextType = AuthContext;
 
   handleDrawerOpen = () => {
     this.setState({ drawer_open: true });
@@ -113,19 +109,15 @@ class App extends Component {
   }
     
   render() {    
-//    alert('ham menu is ' + JSON.stringify(meta.get_menu("hamburger_menu")));
     const { classes, theme } = this.props;
     const {drawer_open } = this.state;
     const hamburger_menu_p = meta.get_menu("hamburger")?true:false  
     const meta_menu = meta.get_selected_menu(this.state.selected_menu,this.state.selected_menu_type)
     const filter_field = meta_menu.object_type?meta.field(meta_menu.object_type, meta_menu.filter_field):""
     const filter_object_type = filter_field.references
-    
-     //alert ('fitler required is ' + JSON.stringify(meta_menu))
-    //alert ("redner filter <id is S" + this.state.filter_id)
+
     return      <Fragment>
      <Paper style={{ padding:10, marginTop:10, marginBottom:0, minHeight:600, position:'relative'}}>
-    this is the top of the paper {this.context.value}  - the value
     
      {drawer_open && hamburger_menu_p && 
      <div style={{ position:"absolute"}}>
@@ -167,10 +159,10 @@ class App extends Component {
           <Typography variant="headline" color="inherit"> 
             {meta.get_param('name')} 
           </Typography>
-<AuthContext.Provider value={this.state.text_context}>
-           <Login></Login>
-</AuthContext.Provider>
-           <Button color="inherit">Logout</Button>
+
+        <AuthProvider> 
+           <AuthToggleLink></AuthToggleLink>
+        </AuthProvider>
         </Toolbar>
       </AppBar>
 
@@ -250,6 +242,7 @@ class App extends Component {
   
   }
 }
+
 
 export default withStyles(styles, { withTheme: true })(App);
 //export default App;
