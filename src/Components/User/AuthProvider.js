@@ -6,7 +6,7 @@ class AuthProvider extends Component {
   constructor(props) {
       super(props);
       this.state = {
-          user: "Guest" 
+          user: "" 
       };
   } 
     render() {

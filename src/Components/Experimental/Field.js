@@ -39,7 +39,6 @@ class Field extends React.Component {
       }
       this.handleChange = this.handleChange.bind(this);
       this.handleDateChange = this.handleDateChange.bind(this);
-//      this.handleDateClose = this.handleDateClose.bind(this);
       this.handleSubmit  = this.handleSubmit.bind(this);
       this.handleClick = this.handleClick.bind(this);
   }
@@ -413,6 +412,7 @@ class Field extends React.Component {
   //alert ('image field')
         return(this.renderImageField(final_object_type, final_field, prefix, { disableUnderline:disableUnderline}))
       } else {
+        //alert ("final obbect type final field prefix" + final_object_type + " " + JSON.stringify(final_field) + " " + prefix)
         return(this.renderTextField(final_object_type, final_field, prefix, {disabled:disabled, disableUnderline:disableUnderline}))
     }
   }
