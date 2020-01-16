@@ -338,6 +338,12 @@ class Field extends React.Component {
     const disableUnderline = options.disableUnderline?options.disableUnderline:false
     const {  data_object } = this.props;
     const multiline = (field.size=="large")?true:false
+    let type = field["input_type"]=="password"?"password":"text"
+    // default type is "text"
+    // -- override if there is a input_type of password as
+    // part of the meta data
+    // -- then override if there is a type in the pops
+    type = this.props.type?this.props.type:type
     return (
       <TextField    
         InputLabelProps={{shrink:true}}
@@ -347,7 +353,7 @@ class Field extends React.Component {
         label={field.pretty_name}
         disabled={disabled}
         InputProps = {{disableUnderline:disableUnderline}}
-        type="text"
+        type={type}
         multiline={multiline}
         helperText={field.helper_text}
         value=  {this.state.value}
@@ -414,7 +420,7 @@ class Field extends React.Component {
       } else {
         //alert ("final obbect type final field prefix" + final_object_type + " " + JSON.stringify(final_field) + " " + prefix)
         return(this.renderTextField(final_object_type, final_field, prefix, {disabled:disabled, disableUnderline:disableUnderline}))
-    }
+}
   }
 
   handleClick(event) {
