@@ -1,10 +1,20 @@
 import React, {Fragment} from 'react';
 import {Typography, Button} from '@material-ui/core';
 import AuthContext from './AuthContext';
+import LoginForm from './LoginForm'
 
 class AuthToggleLink extends React.Component {
     constructor(props) {
-      super(props);      
+      super(props);  
+      this.state = {
+          login_form:false
+      };
+      this.handleLogin = this.handleLogin.bind(this);
+    }
+
+  handleLogin(event) {
+    //  alert ("handle login") 
+    this.setState({login_form:true})
   }
   render() {
     if (this.context.user) {
@@ -16,7 +26,12 @@ class AuthToggleLink extends React.Component {
     } else {
       return (
         <Fragment>
-            <Button color="inherit">Login</Button>
+            <Button onClick={this.handleLogin}
+            color="inherit">Login</Button>
+            {this.state.login_form  &&
+              <LoginForm
+                open="true"
+             />}
         </Fragment>
       )
     }
