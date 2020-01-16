@@ -31,6 +31,7 @@ class LoginForm extends React.Component {
     })
     // update context
     //close form
+    // call the handle close from the props
   }
   handleClose(event) {
   }

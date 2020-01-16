@@ -1,5 +1,5 @@
-import ResourceSchedule from './Schedule/ResourceSchedule';
+import {AuthToggleLink, AuthContext, AuthProvider, LoginForm} from "./User/index.js"
 
 export {
-    ResourceSchedule
+  AuthToggleLink, AuthContext, AuthProvider, LoginForm
 }

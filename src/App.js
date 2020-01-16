@@ -3,7 +3,6 @@ import {Grid} from 'material-ui'
 import {MenuBar, CrudTable, Text, GoogleMap} from './Components/Layouts';
 import {NavMenuLink, DrillDown} from './Components/Experimental';
 import {AuthToggleLink, AuthContext, AuthProvider} from './Components/User';
-import {ResourceSchedule} from './Components'
 import * as meta from './Utils/meta.js'
 import * as log from './Utils/log.js'
 import axios from 'axios';
@@ -116,7 +115,7 @@ class App extends Component {
     const filter_field = meta_menu.object_type?meta.field(meta_menu.object_type, meta_menu.filter_field):""
     const filter_object_type = filter_field.references
 
-    return      <Fragment>
+    return      <Fragment>  <AuthProvider> 
      <Paper style={{ padding:10, marginTop:10, marginBottom:0, minHeight:600, position:'relative'}}>
     
      {drawer_open && hamburger_menu_p && 
@@ -158,11 +157,8 @@ class App extends Component {
         }
           <Typography variant="headline" color="inherit"> 
             {meta.get_param('name')} 
-          </Typography>
-
-        <AuthProvider> 
+          </Typography>  
            <AuthToggleLink></AuthToggleLink>
-        </AuthProvider>
         </Toolbar>
       </AppBar>
 
@@ -197,11 +193,7 @@ class App extends Component {
           />
         }  
 
-        {meta_menu.component == "ResourceSchedule" &&
-          <ResourceSchedule
-            resource_object_type = {meta_menu.resource_object}
-          />
-        } 
+
         {meta_menu.component == "GoogleMap" &&
           <GoogleMap 
             title = {meta_menu.title}
@@ -238,7 +230,7 @@ class App extends Component {
      >
        <Tab label={meta.get_param('footer')} />
      </Tabs>
-    </Fragment>
+    </AuthProvider></Fragment>
   
   }
 }
