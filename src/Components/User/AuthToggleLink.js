@@ -10,7 +10,7 @@ class AuthToggleLink extends React.Component {
     if (this.context.user) {
       return (  
         <Fragment>
-          <Button color="inherit">  {this.context.user} Logout</Button>
+          <Button color="inherit" onClick={this.context.logout}>  {this.context.user} Logout</Button>
         </Fragment>
       )
     } else {

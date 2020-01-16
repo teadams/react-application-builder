@@ -13,8 +13,9 @@ class AuthProvider extends Component {
         return (
             <AuthContext.Provider
             value={{
-               user: this.state.user
-           }}
+               user: this.state.user,
+               logout: ()=> {this.setState({user:""})}      
+              }}
             >      
             {this.props.children}
             </AuthContext.Provider>
