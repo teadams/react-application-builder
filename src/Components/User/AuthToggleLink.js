@@ -7,7 +7,7 @@ class AuthToggleLink extends React.Component {
     constructor(props) {
       super(props);  
       this.state = {
-          login_form:false
+          login_form:false 
       };
       this.handleLogin = this.handleLogin.bind(this);
     }
@@ -20,7 +20,7 @@ class AuthToggleLink extends React.Component {
     if (this.context.user) {
       return (  
         <Fragment>
-          <Button color="inherit" onClick={this.context.logout}>  {this.context.user} Logout</Button>
+          <Button color="inherit" onClick={this.context.logout}>  {this.context.user.first_name} Logout</Button>
         </Fragment>
       )
     } else {

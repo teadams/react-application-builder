@@ -6,6 +6,8 @@ import { withStyles } from '@material-ui/core/styles';
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import update from 'immutability-helper';
+import AuthContext from './AuthContext';
+
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -19,6 +21,16 @@ class LoginForm extends React.Component {
   }
 
   handleSubmit(event) {
+    data.getData ("nwn_user", {filter_id:this.state.formValues["email"], filter_field:"email"}, (user_data, error) => {
+        if (user_data.length == 0) {
+            alert ('user not found')
+        } else {
+          //  alert ('user infor is ' + JSON.stringify(user_data[0]["id"]))
+          this.context.login(user_data[0])
+        }
+    })
+    // update context
+    //close form
   }
   handleClose(event) {
   }
@@ -68,4 +80,5 @@ class LoginForm extends React.Component {
   }
 }
 
+LoginForm.contextType = AuthContext;
 export default LoginForm;
