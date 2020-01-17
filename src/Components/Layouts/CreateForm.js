@@ -30,7 +30,8 @@ class CreateForm extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     log.func("Create Form: Derived State from Props", "nextProps",nextProps);
     const object_fields = meta.fields(nextProps.object_type)
-
+    // function is to clear the form when
+    // we are looking at a new object type or object
     if (nextProps.object_type && nextProps.object_type != prevState.props_object_type) {
       var formValues = {};
 
@@ -94,27 +95,42 @@ class CreateForm extends React.Component {
     this.props.onClose(action_text?`${meta.object(this.props.object_type).pretty_name}  ${action_text}`:'', inserted_id);
   };
 
-  componentDidMount() {
-    const object_fields = meta.fields(this.props.object_type)
+  initializeData() {
     if (this.props.id) {
+      // editing an ojbect
       data.getData (this.props.object_type, {id:this.props.id}, (item_data, error) => { 
-              this.setState({ formValues: item_data, formTouched:true})
+            this.setState({ formValues: item_data, formTouched:true})
       })   
+    } else if (this.context.user) {
+      // if we are in create mode, the field
+      // references a user, and the user is logged in
+      // prefill with the current user
+      const object_fields = meta.fields(this.props.object_type)
+      object_fields.map(field => {
+          if (field.references == "nwn_user") {
+            ///alert ("fild name " + field.name)
+            this.setState({ formTouched:true, formValues: update(this.state.formValues,{
+                        [field.name]: {$set: this.context.user.id}
+                        }) });
+          }
+      });   
     }
   }
-
+  componentDidMount() {
+    //const object_fields = meta.fields(this.props.object_type)
+    this.initializeData();
+  }
 
  componentDidUpdate(prevProps, prevState, snapshot) {
-   const object_fields = meta.fields(this.props.object_type)
-   if (this.props.id && !this.state.formTouched) {
-     data.getData (this.props.object_type, {id:this.props.id}, (item_data, error) => { 
-             this.setState({ formValues: item_data, formTouched:true})
-     })  
+   //const object_fields = meta.fields(this.props.object_type)
+   if (!this.state.formTouched) {
+     // this is a change other than a change to the form
+     // For example a new object_type
+      this.initializeData();
    }
  }
 
   renderField(field) {
-  //  alert ('data object is ' + JSON.stringify(this.state.formValues))
     return (
       <Field object_type = {this.props.object_type} 
         field_name = {field.name}  

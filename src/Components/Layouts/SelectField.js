@@ -162,6 +162,7 @@ class SelectField extends React.Component {
   
   
   render() {
+  //  alert ("select optoins is" + JSON.stringify(this.state.select_menu_options) + " state + " +this.state.value)
     log.func("selectfield Render", "props", this.props)
 //    alert ("select menu options i s" + JSON.stringify(this.state.select_menu_options))
     const {  open, field, id, shrink } = this.props;
