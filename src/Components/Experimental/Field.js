@@ -217,13 +217,21 @@ class Field extends React.Component {
     const field = meta.field(object_type, field_name)
     if (Object.keys(data_object).length == 0) {
       return null
+    } else if (field.input_type == "image") {
+        try {
+            var img_info = JSON.parse(data_object[field.name])   
+        }  catch(err) {
+            // object was not formated properly
+            // use default
+            var img_info = JSON.parse('{"height":400, "width":400, "alt":"image alt"}')
+        }
+        return (<Fragment> <img width={img_info.width} height={img_info.height} alt={img_info.alt} title={img_info.alt} src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Photovoltaik_Dachanlage_Hannover_-_Schwarze_Heide_-_1_MW.jpg/1200px-Photovoltaik_Dachanlage_Hannover_-_Schwarze_Heide_-_1_MW.jpg'/> </Fragment>)
     } else if (!field.mapping) {
       return(meta.get_display_value(object_type, field_name, data_object))
     } else if (!this.state.value) {
         // mapping data is not loaded yet
         return null
     } else {
-    
       const unmapped_field = meta.unmapped_field(field.mapping, field.mapped_field)
       return (this.state.value.map(row=>{
         let chip_label = meta.get_display_value(field.mapping,unmapped_field.name, row)
@@ -433,7 +441,7 @@ class Field extends React.Component {
     const { object_type, field_name, data_object, disableUnderline } = this.props;
     let field = meta.field(object_type,field_name);
 
-    switch (this.props.mode) {
+    switch ("view") {
       case "form":
         return (<form onSubmit={this.handleSubmit}>
                 {this.renderField()} 

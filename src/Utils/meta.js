@@ -274,6 +274,9 @@ export function get_display_value(object_type, field_name, data) {
     let final_field = initial_field;
     let final_object_type = object_type;
     let prefix = ""
+  
+    // check to see if the field comes from 
+    // another object
     if (initial_field.field_object_type) {
           // the data object will have everything prefixed by the 
           // name of the reference field pointing to this tables    
@@ -282,12 +285,14 @@ export function get_display_value(object_type, field_name, data) {
           final_object_type = initial_field.field_object_type
           final_field = field(initial_field.field_object_type, initial_field.field_field_name)
     }
+
     function derivedMatch(match, p1, offset, string) {
         log.val ("p1", p1)
        return (data[p1])
     }
 
     if (data[prefix + final_field.name] === null || data[prefix + final_field.name] === "") {
+        // field is blank
         return null
     }  else if (final_field.references) {
         const referenced_table = final_field.references;
