@@ -219,13 +219,17 @@ class Field extends React.Component {
     if (Object.keys(data_object).length == 0) {
       return null
     } else if (field.input_type == "image") {
-        let img_info = ""
-        alert (" image infor is " + JSON.stringify(data_object))
+        let img_info = {}
         // image url path has object Type,
         // id of the object, then specific field
-        let image_url = [data.get_url_path_base()] +  "image" + "/" + object_type + "/" + data_object[meta.keys(object_type).key_id] + "/" + field.name 
+        let image_url = [data.get_url_path_base()] +  "image" + "/" + object_type + "/" + data_object[meta.keys(object_type).key_id] + "/" + field.name
+        img_info.width = data_object[field.name +"_width"]
+        img_info.height = data_object[field.name +"_height"]
+        img_info.filename = data_object[field.name +"_filename"]
+
+        alert ("image infor is " + JSON.stringify(img_info))
         image_url = "images/index.jpg"
-        return (<Fragment> <img width={img_info.width} height={img_info.height} alt={img_info.alt} title={img_info.alt} src={image_url}/> </Fragment>)
+        return (<Fragment> <img width={img_info.width} height={img_info.height} alt={img_info.filename} title={img_info.filename} src={image_url}/> </Fragment>)
     } else if (!field.mapping) {
       return(meta.get_display_value(object_type, field_name, data_object))
     } else if (!this.state.value) {
