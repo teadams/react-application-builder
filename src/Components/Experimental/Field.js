@@ -196,9 +196,7 @@ class Field extends React.Component {
         update_object[meta.keys(final_object_type).key_id] = final_id
     //    alert ("final object type " + final_object_type)
     //    alert ("update object is " + JSON.stringify(update_object))
-        if (final_field.input_type == "image") {
-          alert ("this is an image")
-        }
+
         data.putData(final_object_type, update_object, {}, (mapped_data, error) => { 
           if (error) {
                 alert ('error is ' + error.message)
@@ -222,16 +220,7 @@ class Field extends React.Component {
       return null
     } else if (field.input_type == "image") {
         let img_info = ""
-        // for now, only support images in the 
-        // base object.  Not images in referenced tables.
-        try {
-            img_info = JSON.parse(data_object[field.name])   
-        }  catch(err) {
-            // object was not formated properly
-            // use default
-            img_info = JSON.parse('{"height":400, "width":400, "alt":"image alt"}')
-        }
-    
+        alert (" image infor is " + JSON.stringify(data_object))
         // image url path has object Type,
         // id of the object, then specific field
         let image_url = [data.get_url_path_base()] +  "image" + "/" + object_type + "/" + data_object[meta.keys(object_type).key_id] + "/" + field.name 
@@ -357,13 +346,13 @@ class Field extends React.Component {
     const disableUnderline = options.disableUnderline?options.disableUnderline:false
     const {  data_object } = this.props;
     const multiline = (field.size=="large")?true:false
-    let type = field["input_type"]=="password"?"password":field["input_type"]=="image"?"file":"text"
+    let html_input_type = field["input_type"]=="password"?"password":field["input_type"]=="image"?"file":"text"
     // default type is "text"
     // -- override if there is a input_type of password as
     // part of the meta data
-    // -- override if there is input_type of file 
     // -- then override if there is a type in the pops
-    type = this.props.type?this.props.type:type
+    html_input_type = this.props.type?this.props.type:html_input_type
+
     return (
       <TextField    
         InputLabelProps={{shrink:true}}
@@ -373,7 +362,7 @@ class Field extends React.Component {
         label={field.pretty_name}
         disabled={disabled}
         InputProps = {{disableUnderline:disableUnderline}}
-        type={type}
+        type={html_input_type}
         multiline={multiline}
         helperText={field.helper_text}
         value=  {this.state.value}
@@ -394,7 +383,6 @@ class Field extends React.Component {
 
   renderField(mode) {
       const {  field_name, data_object, disableUnderline, object_type } = this.props;
-
       let final_object_type = this.props.object_type;
       let field = meta.field(object_type,field_name);
       let final_field = field;
@@ -435,11 +423,6 @@ class Field extends React.Component {
         return(this.renderMapping(final_object_type, final_field, prefix, {disabled:disabled, disableUnderline:disableUnderline}))
       } else if ( final_field.valid_values || final_field.references || final_field.data_type === "boolean" || (final_field.data_type === "integer" && (final_field.start_value !== undefined) && (final_field.end_value !== undefined)) || final_field.input_type === "color_picker") {
         return(this.renderSelectField(final_object_type, final_field, prefix, {disabled:disabled, disableUnderline:disableUnderline}))
-  //    } else if (final_field.image) {
-  //    if (field_name == "thumbnail") {
-  //      alert ("rendering image for " + JSON.stringify(this.props))
-//      }
-//        return(this.renderImageField(final_object_type, final_field, prefix, { disableUnderline:disableUnderline}))
       } else {
         //alert ("final obbect type final field prefix" + final_object_type + " " + JSON.stringify(final_field) + " " + prefix)
         return(this.renderTextField(final_object_type, final_field, prefix, {disabled:disabled, disableUnderline:disableUnderline}))
@@ -455,10 +438,9 @@ class Field extends React.Component {
   render()  {
     const { object_type, field_name, data_object, disableUnderline } = this.props;
     let field = meta.field(object_type,field_name);
-
-    switch (this.props.mode) {
+    switch ("view") {
       case "form":
-        return (<form onSubmit={this.handleSubmit}>
+        return (<form r={this.handleSubmit}>
                 {this.renderField()} 
               </form>)
         break;
