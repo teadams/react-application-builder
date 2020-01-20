@@ -226,10 +226,13 @@ class Field extends React.Component {
         img_info.width = data_object[field.name +"_width"]
         img_info.height = data_object[field.name +"_height"]
         img_info.filename = data_object[field.name +"_filename"]
-
-        alert ("image infor is " + JSON.stringify(img_info))
-        image_url = "images/index.jpg"
-        return (<Fragment> <img width={img_info.width} height={img_info.height} alt={img_info.filename} title={img_info.filename} src={image_url}/> </Fragment>)
+  //      alert ("image infor is " + JSON.stringify(img_info))
+        if (img_info.width) {
+          image_url = "images/index.jpg"
+          return (<Fragment> <img width={img_info.width} height={img_info.height} alt={img_info.filename} title={img_info.filename} src={image_url}/> </Fragment>)
+      } else {
+          return ""
+      }
     } else if (!field.mapping) {
       return(meta.get_display_value(object_type, field_name, data_object))
     } else if (!this.state.value) {
@@ -357,9 +360,12 @@ class Field extends React.Component {
     // -- then override if there is a type in the pops
     html_input_type = this.props.type?this.props.type:html_input_type
 
+  
+
     return (
       <TextField    
         InputLabelProps={{shrink:true}}
+
         id = {data_object[meta.keys(object_type,field.name).key_id + '+' + field.name]}
         autoFocus = {(this.props.mode=="view_click_form")?true:false}
         name={field.name}
@@ -377,12 +383,32 @@ class Field extends React.Component {
   }
 
   renderImageField(object_type, field, prefix, options) {
+    const disabled = options.disabled?options.disabled:false
+    const disableUnderline = options.disableUnderline?options.disableUnderline:false
+    const {  data_object } = this.props;  
+
     return (
+      <Fragment>
       <div>
-      {field.pretty_name}<br/>
-      <img width='102' height='68' src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Photovoltaik_Dachanlage_Hannover_-_Schwarze_Heide_-_1_MW.jpg/1200px-Photovoltaik_Dachanlage_Hannover_-_Schwarze_Heide_-_1_MW.jpg'/>
-     </div>
-    )
+       {this.getDisplayView()}&nbsp;
+      </div> 
+      <div>
+      <TextField    
+        InputLabelProps={{shrink:true}}
+
+        id = {data_object[meta.keys(object_type,field.name).key_id + '+' + field.name]}
+        autoFocus = {(this.props.mode=="view_click_form")?true:false}
+        name={field.name}
+        label={field.pretty_name}
+        disabled={disabled}
+        InputProps = {{disableUnderline:disableUnderline}}
+        type="file"
+        helperText={field.helper_text}
+        value=  {this.state.value}
+        onChange={this.handleChange}
+        onBlur={this.handleSubmit}
+        style={{width:"100%"}}
+    /></div></Fragment>)
   }
 
   renderField(mode) {
@@ -427,10 +453,12 @@ class Field extends React.Component {
         return(this.renderMapping(final_object_type, final_field, prefix, {disabled:disabled, disableUnderline:disableUnderline}))
       } else if ( final_field.valid_values || final_field.references || final_field.data_type === "boolean" || (final_field.data_type === "integer" && (final_field.start_value !== undefined) && (final_field.end_value !== undefined)) || final_field.input_type === "color_picker") {
         return(this.renderSelectField(final_object_type, final_field, prefix, {disabled:disabled, disableUnderline:disableUnderline}))
-      } else {
+      } else if (final_field.input_type == "image") {
+          return(this.renderImageField(final_object_type, final_field, prefix, {disabled:disabled, disableUnderline:disableUnderline}))
+      }  else {
         //alert ("final obbect type final field prefix" + final_object_type + " " + JSON.stringify(final_field) + " " + prefix)
         return(this.renderTextField(final_object_type, final_field, prefix, {disabled:disabled, disableUnderline:disableUnderline}))
-}
+    }
   }
 
   handleClick(event) {
@@ -442,12 +470,11 @@ class Field extends React.Component {
   render()  {
     const { object_type, field_name, data_object, disableUnderline } = this.props;
     let field = meta.field(object_type,field_name);
-    switch ("view") {
-      case "form":
-        return (<form r={this.handleSubmit}>
-                {this.renderField()} 
-              </form>)
-        break;
+    switch (this.props.mode) {
+      case "form":  
+        return (<form onSubmit={this.handleSubmit}>
+              {this.renderField()} 
+            </form>)
       case "view_click_form":
           return (
            this.state.form ? 
