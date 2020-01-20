@@ -2,6 +2,11 @@ import * as log from './log.js';
 import axios from 'axios';
 import * as meta from './meta.js';
 
+export function get_url_path_base () {
+      // later this will be a config
+      return "/api/v1/"
+} 
+
 export function getData (object_type, options, callback)   {
   var urltext = '/api/v1/' + object_type;
 

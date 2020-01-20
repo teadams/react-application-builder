@@ -218,14 +218,22 @@ class Field extends React.Component {
     if (Object.keys(data_object).length == 0) {
       return null
     } else if (field.input_type == "image") {
+        let img_info = ""
+        // for now, only support images in the 
+        // base object.  Not images in referenced tables.
         try {
-            var img_info = JSON.parse(data_object[field.name])   
+            img_info = JSON.parse(data_object[field.name])   
         }  catch(err) {
             // object was not formated properly
             // use default
-            var img_info = JSON.parse('{"height":400, "width":400, "alt":"image alt"}')
+            img_info = JSON.parse('{"height":400, "width":400, "alt":"image alt"}')
         }
-        return (<Fragment> <img width={img_info.width} height={img_info.height} alt={img_info.alt} title={img_info.alt} src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Photovoltaik_Dachanlage_Hannover_-_Schwarze_Heide_-_1_MW.jpg/1200px-Photovoltaik_Dachanlage_Hannover_-_Schwarze_Heide_-_1_MW.jpg'/> </Fragment>)
+    
+        // image url path has object Type,
+        // id of the object, then specific field
+        let image_url = [data.get_url_path_base()] + object_type + "/" + data_object[meta.keys(object_type).key_id] + "/" + field.name 
+        
+        return (<Fragment> <img width={img_info.width} height={img_info.height} alt={img_info.alt} title={img_info.alt} src={image_url}/> </Fragment>)
     } else if (!field.mapping) {
       return(meta.get_display_value(object_type, field_name, data_object))
     } else if (!this.state.value) {
