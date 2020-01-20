@@ -231,7 +231,7 @@ class Field extends React.Component {
     
         // image url path has object Type,
         // id of the object, then specific field
-        let image_url = [data.get_url_path_base()] + object_type + "/" + data_object[meta.keys(object_type).key_id] + "/" + field.name 
+        let image_url = [data.get_url_path_base()] +  "image" + "/" + object_type + "/" + data_object[meta.keys(object_type).key_id] + "/" + field.name 
         
         return (<Fragment> <img width={img_info.width} height={img_info.height} alt={img_info.alt} title={img_info.alt} src={image_url}/> </Fragment>)
     } else if (!field.mapping) {
