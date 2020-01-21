@@ -173,7 +173,6 @@ class Field extends React.Component {
       if (event) {
         event.preventDefault();
       }
-      
       if (field.input_type == "image") {
         //alert ("looking at image")
         const image_data = new FormData();
@@ -182,10 +181,15 @@ class Field extends React.Component {
           image_data.append('file', this.fileInput.current.files[0]);
           axios.post('/api/v1/upload/image/' + this.props.object_type + '/' + field.name + "/" + data_object[meta.keys(object_type).key_id]  , image_data)
           .then (result => { 
-              alert ("success")
-              console.log("FILE WAS UPLOADED" + JSON.stringify(result));         
+            
+              console.log("FILE WAS UPLOADED" + JSON.stringify(result));
+              if (this.props.onUploadFile) { 
+                // as file upload is not controlled by React
+                // we have to force a load of the data object 
+                // get the new filepath, height, width
+                this.props.onUploadFile();
+              }
           }).catch(function (error) {
-              alert ("failure")
               console.log(error);
           });
         }
@@ -236,17 +240,14 @@ class Field extends React.Component {
     const field = meta.field(object_type, field_name)
     if (Object.keys(data_object).length == 0) {
       return null
-    } else if (field.input_type == "image") {
+    } else if (field.input_type) {
         let img_info = {}
-        // image url path has object Type,
-        // id of the object, then specific field
-        let image_url = [data.get_url_path_base()] +  "image" + "/" + object_type + "/" + data_object[meta.keys(object_type).key_id] + "/" + field.name
-        img_info.width = data_object[field.name +"_width"]
-        img_info.height = data_object[field.name +"_height"]
-        img_info.filename = data_object[field.name +"_filename"]
-  //      alert ("image infor is " + JSON.stringify(img_info))
+        if (data_object[field_name]) {
+          img_info =JSON.parse(data_object[field_name])
+        }
+    
+        let image_url = "images" + "/" + object_type + "/" + field_name + "/" + img_info.name
         if (img_info.width) {
-          image_url = "images/index.jpg"
           return (<Fragment> <img width={img_info.width} height={img_info.height} alt={img_info.filename} title={img_info.filename} src={image_url}/> </Fragment>)
       } else {
           return ""
@@ -404,6 +405,7 @@ class Field extends React.Component {
     const disabled = options.disabled?options.disabled:false
     const disableUnderline = options.disableUnderline?options.disableUnderline:false
     const {  data_object } = this.props;  
+    
 
     return (
       <Fragment>

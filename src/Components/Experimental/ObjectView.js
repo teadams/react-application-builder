@@ -51,7 +51,6 @@ class ObjectView extends React.Component {
 
   loadData() {
 //    window.scrollTo(0,0)
-//alert ('load data in view')
     data.getData (this.props.object_type, {id:this.props.selected_id}, (item_data, error) => { 
 
           let updated_state = {};
@@ -147,6 +146,7 @@ class ObjectView extends React.Component {
           onSubmit={this.handleSubmit}
           onMenuChange = {this.props.onMenuChange}
           onMappingClick={this.handleMappingOpen}
+          onUploadFile = {this.loadData}
           id = {this.props.selected_id}
         /> 
         )
