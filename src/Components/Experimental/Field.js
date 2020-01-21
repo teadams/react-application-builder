@@ -6,6 +6,7 @@ import DatePicker from 'material-ui-pickers/DatePicker';
 import TimePicker from 'material-ui-pickers/TimePicker'
 import DateTimePicker from 'material-ui-pickers/DateTimePicker';
 import format  from 'date-fns/format';
+import axios from 'axios';
 
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
@@ -41,6 +42,7 @@ class Field extends React.Component {
       this.handleDateChange = this.handleDateChange.bind(this);
       this.handleSubmit  = this.handleSubmit.bind(this);
       this.handleClick = this.handleClick.bind(this);
+      this.fileInput = React.createRef();
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -171,7 +173,23 @@ class Field extends React.Component {
       if (event) {
         event.preventDefault();
       }
-      if (this.state.value_changed) {
+      
+      if (field.input_type == "image") {
+        //alert ("looking at image")
+        const image_data = new FormData();
+        if (this.fileInput.current) {
+        //alert (" file is " + JSON.stringify(this.fileInput.current.files))
+          image_data.append('file', this.fileInput.current.files[0]);
+          axios.post('/api/v1/upload/image/' + this.props.object_type + '/' + field.name + "/" + data_object[meta.keys(object_type).key_id]  , image_data)
+          .then (result => { 
+              alert ("success")
+              console.log("FILE WAS UPLOADED" + JSON.stringify(result));         
+          }).catch(function (error) {
+              alert ("failure")
+              console.log(error);
+          });
+        }
+      } else if (this.state.value_changed) {
         let prefix=""
         let final_field = field
         let final_object_type = object_type
@@ -392,23 +410,10 @@ class Field extends React.Component {
       <div>
        {this.getDisplayView()}&nbsp;
       </div> 
-      <div>
-      <TextField    
-        InputLabelProps={{shrink:true}}
-
-        id = {data_object[meta.keys(object_type,field.name).key_id + '+' + field.name]}
-        autoFocus = {(this.props.mode=="view_click_form")?true:false}
-        name={field.name}
-        label={field.pretty_name}
-        disabled={disabled}
-        InputProps = {{disableUnderline:disableUnderline}}
-        type="file"
-        helperText={field.helper_text}
-        value=  {this.state.value}
-        onChange={this.handleChange}
-        onBlur={this.handleSubmit}
-        style={{width:"100%"}}
-    /></div></Fragment>)
+      <div>{field.pretty_name}
+        <input     name={field.name} type="file" ref={this.fileInput} />
+      />  <button type="submit">Upload</button>
+      </div></Fragment>)
   }
 
   renderField(mode) {
