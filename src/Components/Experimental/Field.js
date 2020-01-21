@@ -414,7 +414,7 @@ class Field extends React.Component {
       </div> 
       <div>{field.pretty_name}
         <input     name={field.name} type="file" ref={this.fileInput} />
-      />  <button type="submit">Upload</button>
+       <button type="submit">Upload</button>
       </div></Fragment>)
   }
 
