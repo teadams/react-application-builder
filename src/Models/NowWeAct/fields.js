@@ -37,7 +37,7 @@ const metadata_fields = {
     {name:"nwn_project", section:"basic", pretty_name: "Project", references:"nwn_project", index:true}, 
     {name:"description", section:"basic",grid_col:6, pretty_name: "Role Description", data_type: "string"}
   ],
-  nwn_volunteer: [
+  nwn_project_volunteer: [
     {name:"id",  section:"basic",  pretty_name: "Id", data_type: "integer", required:true, key:true},
     {name:"leader", section:"basic", pretty_name:"Project Leader", references:"nwn_user", index:true, pretty_key:true},
     {name:"role_type", section:"basic",grid_col:6, pretty_name: "Role Type", data_type: "string"},
@@ -76,9 +76,9 @@ const metadata_fields = {
     {name:"name", pretty_name: "State nor Province", data_type: "string", pretty_key:true},
   ],
   nwn_project_type: [
-    {name:"id", pretty_name: "Id", data_type: "integer", required:true, key:true},
-    {name:"name", pretty_name: "Project Type", data_type: "string", pretty_key:true},
-    {name:"thumbnail",  pretty_name: "Thumbnail", data_type: "image", input_type: "image"},
+    {name:"id", section:"basic", pretty_name: "Id", data_type: "integer", required:true, key:true},
+    {name:"name", section:"basic", grid_col:12, pretty_name: "Project Type", data_type: "string", pretty_key:true},
+    {name:"thumbnail",  grid_col:12, section:"thumbnail", pretty_name: " ", data_type: "image", input_type: "image"},
   ],
   nwn_user: [
     {name:"id", pretty_name: "Id", data_type: "integer", required:true, key:true},

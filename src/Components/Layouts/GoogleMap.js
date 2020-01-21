@@ -34,6 +34,7 @@ componentDidMount() {
 //  alert ('data is '  + JSON.stringify(marker_data))
              this.setState({ marker_data:marker_data})
   //alert ('after set set')
+            //  alert ('maker data is ' + JSON.stringify(marker_data))
       })
 
   }
@@ -52,11 +53,12 @@ componentDidMount() {
           <Map google={this.props.google} zoom={3}>
             {this.state.marker_data.map(marker => {
             //  alert ("maker is " + JSON.stringify(marker))
-              
+              var icon = JSON.parse(marker["type_thumbnail"]).name
               var position = {}
               position.lat = marker.latitude
               position.lng = marker.longitude
-    
+              var url = "/images/nwn_project_type/thumbnail/"+icon
+              
               return (
               <Marker onMouseover={this.onMouseover}
               name={marker.name}
@@ -65,6 +67,10 @@ componentDidMount() {
               description = {marker.description}
               leader_first_name = {marker.leader_first_name}
               leader_last_name = {marker.leader_last_name}
+              icon= {{
+                url:url,
+                scaledSize: {"width":20,"height":20}
+              }}
               id = {marker.id}
               position={position}></Marker>
               )
