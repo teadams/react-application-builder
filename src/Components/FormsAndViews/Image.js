@@ -20,22 +20,42 @@ class Image extends React.Component {
     // standard sizing (later can be application
     //  parameters)
     let standard_sizing = {}
-    standard_sizing.tiny = {height:20, width:20}
+    standard_sizing.tiny = {height:20, width:300}
     standard_sizing.small = {height:50, width:50}
     standard_sizing.medium = {height:100, width:100}
     standard_sizing.large = {height:300, width:300}
-    return standard_sizing[size]
+    
+    let resized_dim = standard_sizing[size]
+    // algorythm to resize approprialy so image
+    // does not get warped
+    if (image_object) {
+      // To avoid warping, height and width
+      // must be divided by the same number.
+      // We do not want either the height 
+      // width to be bigger than the standard 
+      // dimension.  So we will divide both
+      // by the largest ratio
+      let height_ratio  = image_object.height / standard_sizing[size].height
+      let width_ratio  = image_object.width /  standard_sizing[size].width
+      if (height_ratio > width_ratio) {
+          resized_dim.height = Math.floor(image_object.height / height_ratio)
+          resized_dim.width = Math.floor(image_object.width / height_ratio)
+       } else {
+         resized_dim.height = Math.floor(image_object.height / width_ratio)
+         resized_dim.width = Math.floor(image_object.width / width_ratio)
+       }
+    }
+    return resized_dim
   } 
 
   get_image_dimensions (image_object) {
-    let image_dim = {}
+    
     // Supports the following sizes
     // tiny, small, medium (default), large
     // at a later point in time, the default
     // image dimensions will be an application
     // paramter.
-    image_dim = this.get_resized_image(image_dim, this.props.size)
-    return image_dim
+    return this.get_resized_image(image_object, this.props.size)
   } 
 
 //# size - tiny, smail, med, large
