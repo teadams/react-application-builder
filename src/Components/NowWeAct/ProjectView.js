@@ -97,7 +97,9 @@ class ProjectView extends React.Component {
               <center>
               <Avatar  style={{ height:thumbnail_data.height, width:thumbnail_data.width}} src={img_src}/>
             
-              <Image avatar={true} object_type="nwn_project" image_object={thumbnail_data} field_name="thumbnail"/>
+              <Image avatar={true} object_type="nwn_project"
+              size="tiny"
+              image_object={thumbnail_data} field_name="thumbnail"/>
             </center>
             
             <Typography variant="title">

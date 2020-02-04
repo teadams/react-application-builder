@@ -20,9 +20,9 @@ class Image extends React.Component {
     // standard sizing (later can be application
     //  parameters)
     let standard_sizing = {}
-    standard_sizing.tiny = {height:50, width:50}
-    standard_sizing.small = {height:100, width:100}
-    standard_sizing.medium = {height:200, width:200}
+    standard_sizing.tiny = {height:20, width:20}
+    standard_sizing.small = {height:50, width:50}
+    standard_sizing.medium = {height:100, width:100}
     standard_sizing.large = {height:300, width:300}
     return standard_sizing[size]
   } 
@@ -34,7 +34,7 @@ class Image extends React.Component {
     // at a later point in time, the default
     // image dimensions will be an application
     // paramter.
-    image_dim = this.get_resized_image(image_dim)
+    image_dim = this.get_resized_image(image_dim, this.props.size)
     return image_dim
   } 
 
