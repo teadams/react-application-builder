@@ -16,7 +16,6 @@ class ProjectView extends React.Component {
     super(props);           
 
     this.state = {
-        item_data: {},
         pretty_name_edit: false,
         props_object_type: '',
         formChanged: {},
@@ -42,64 +41,29 @@ class ProjectView extends React.Component {
   //alert ('upper projet id is ' + this.props.project_id)
 //    window.scrollTo(0,0)
     data.getData ("nwn_project", {id:this.props.project_id}, (item_data, error) => { 
-
           let updated_state = {};
           updated_state.item_data = item_data;
           updated_state.pretty_name_edit = false;
-//          alert ('item data is is ' + JSON.stringify(item_data))
-    //      meta.fields(this.props.object_type).map(field => {
-      //      if (field.mapping) {
-      //        this.loadMappedData(field.name)
-      //      }
-    //      })
               this.setState(updated_state)
           })   
   }
 
   render () {
-  
-        var project_data = this.state.item_data
-//        alert ('project data is ' + JSON.stringify(project_data))
-        var thumbnail_data = {};
-        var img_src = "";
-        if (project_data["thumbnail"]) {
-            thumbnail_data = JSON.parse(project_data["thumbnail"])
-            img_src = "/images/nwn_project/thumbnail/"+thumbnail_data.name
-        } else {
-          img_src = ""
-        }
-        thumbnail_data.width = 150
-        thumbnail_data.height = 143
-      var icon_src
-      var type_thumbnail_data
-      if (project_data["type_thumbnail"]) {
-        type_thumbnail_data = JSON.parse(project_data["type_thumbnail"])
-        icon_src = "/images/nwn_project_type/thumbnail/"+type_thumbnail_data.name
-      }
-      var leader_src = ""
-      var leader_thumbnail_data = {}
-      if (project_data["leader_thumbnail"]) {
-        leader_thumbnail_data = JSON.parse(project_data["leader_thumbnail"])
-        leader_src = "/images/nwn_user/thumbnail/"+leader_thumbnail_data.name
-      }
-      leader_thumbnail_data.width = 150
-      leader_thumbnail_data.height = 143
-      //  alert ("data is " +JSON.stringify(this.state.item_data))
-        if (project_data) {
-          return (
+    var project_data = this.state.item_data
+    
+    if (project_data) {
+      return (  
         <Fragment>
           <Paper elevation={24} square={false}>
           <Grid container>
               <Grid item xs={3}>
               <Paper elavatrion={10} style={{  backgroundColor:"white",padding:20}}>
-            
               <Paper style={{padding:20}}>
-              <center>
-              <Avatar  style={{ height:thumbnail_data.height, width:thumbnail_data.width}} src={img_src}/>
-            
+              <center>          
+
               <Image avatar={true} object_type="nwn_project"
-              size="tiny"
-              image_object={thumbnail_data} field_name="thumbnail"/>
+              size="medium"
+              image_object={JSON.parse(project_data.thumbnail)} field_name="thumbnail"/>
             </center>
             
             <Typography variant="title">
@@ -111,9 +75,12 @@ class ProjectView extends React.Component {
             </Paper>
             
             <Paper  elevation={10} style={{marginBottom:20, marginTop:20, 
-            backgroundColor:"rgba(200, 200, 200, 0.5)", padding:20, border:'5px solid "rgba(255, 99, 71, 0.8)"'}}>
+            backgroundColor:"rgba(200, 200, 200, 0.5)", padding:20, border:'5px solid "rgba(255, 99, 71, 0.8)"'}}>    
+              <Image avatar={true} object_type="nwn_project_type"
+            size="tiny"
+            image_object={JSON.parse(project_data.type_thumbnail)} field_name="thumbnail"/>        
               {project_data.description}
-              <Avatar style={{align:"right"}} src={icon_src}/>
+
             </Paper>
 
       <Divider/>
@@ -140,7 +107,9 @@ class ProjectView extends React.Component {
               <Paper style={{padding:20}}>
               <Paper style={{padding:20, marginBottom:20}} >
               <center>
-              <Avatar  style={{ height:leader_thumbnail_data.height, width:leader_thumbnail_data.width}} src={leader_src}/>
+              <Image avatar={true} object_type="nwn_user"
+              size="medium"
+              image_object={JSON.parse(project_data.leader_thumbnail)} field_name="thumbnail"/>
               </center>
               <Typography variant="title">
                 <center> {project_data.leader_first_name} {project_data.leader_last_name} </center>
@@ -148,7 +117,7 @@ class ProjectView extends React.Component {
               <Typography variant="body">
                 <center> Project Leader </center>
               </Typography>
-      
+    
                 </Paper>
                 <Paper style={{padding:20, marginBottom:20}} >
                 <ProjectVolunteers project_id={this.props.project_id} object_type="nwn_project" />

@@ -7,8 +7,11 @@ class Image extends React.Component {
   }
   
   get_image_url (object_type, field_name, image_object) {
-  //  alert ("in image Url")
-      return ("/images/" + object_type + "/" + field_name +"/" + image_object.name)
+      if (image_object) {
+        return ("/images/" + object_type + "/" + field_name +"/" + image_object.name)
+      } else {
+        return ""
+      }   
   }
 
   get_resized_image (image_object, size="medium") {
@@ -63,8 +66,6 @@ class Image extends React.Component {
 //# object name
 //# field name
   render() {
-
-//    alert ('props are ' + JSON.stringify(this.props))
     let image_url = this.get_image_url(this.props.object_type, this.props.field_name, this.props.image_object)
     let image_dim = {}
     if (this.props.image_object) {
