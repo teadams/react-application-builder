@@ -11,13 +11,30 @@ class Image extends React.Component {
       return ("/images/" + object_type + "/" + field_name +"/" + image_object.name)
   }
 
+  get_resized_image (image_object, size="medium") {
+    // resizes the image 
+    // image_object contains the native height
+    // and width attributes of the image.
+    // size will be tiny, small, medium (default),
+    // large
+    // standard sizing (later can be application
+    //  parameters)
+    let standard_sizing = {}
+    standard_sizing.tiny = {height:50, width:50}
+    standard_sizing.small = {height:100, width:100}
+    standard_sizing.medium = {height:200, width:200}
+    standard_sizing.large = {height:300, width:300}
+    return standard_sizing[size]
+  } 
+
   get_image_dimensions (image_object) {
     let image_dim = {}
-    // figure out the size (smal, etc)
-
-    // ratios 
-    image_dim.height = 150;
-    image_dim.width = 150;  
+    // Supports the following sizes
+    // tiny, small, medium (default), large
+    // at a later point in time, the default
+    // image dimensions will be an application
+    // paramter.
+    image_dim = this.get_resized_image(image_dim)
     return image_dim
   } 
 
