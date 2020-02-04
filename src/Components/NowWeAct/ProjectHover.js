@@ -4,7 +4,7 @@ import { Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, Dialo
 import { withStyles } from '@material-ui/core/styles';
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
-import {SelectField, EditButton} from "../Layouts/index.js";
+import {SelectField, EditButton, MenuLink} from "../Layouts/index.js";
 //import {ObjectMapping, Field} from "./index.js"
 import * as data from '../../Utils/data.js';
 import update from 'immutability-helper';
@@ -17,39 +17,43 @@ class ProjectHover extends React.Component {
         item_data: {},      
         props_object_type: ''
     }  
-    this.loadData = this.loadData.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    
   } 
 
-  loadData() {
-    alert("loading data")
-//    window.scrollTo(0,0)
-//alert ('load data in view')
-    data.getData (this.props.object_type, {id:this.props.selected_id}, (item_data, error) => { 
-          let updated_state = {};
-          updated_state.item_data = item_data;
-          updated_state.pretty_name_edit = false;
-              this.setState(updated_state)
-          })   
-  }
+  handleClick = event => {
+      console.log('button has been clicked')
+      alert ('handle clik')
 
-  componentDidMount() {
-     alert ("view data mount")
-      this.loadData();
+      //this.props.onMore(event, this.props.link_menu_index, this.props.filter_id, this.props.menu_link_field, this.props.link_object_type, this.props.menu_link_reference_field)
   }
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    alert ("view data update")
-  }  
 
   render () {
-      return (
+      var marker_data = this.props.full_marker
+      if (marker_data) {
+        //alert ("marker data is " + JSON.stringify(marker_data.thumbnail))
+        var thumbnail_data = {};
+        var img_src
+        if (marker_data["thumbnail"]) {
+          thumbnail_data = JSON.parse(marker_data["thumbnail"])
+        // alert ("thumbnail data is " + JSON.stringify(thumbnail_data))
+        // TODO - pass in object type and file
+          img_src = "/images/nwn_project/thumbnail/"+thumbnail_data.name
+        } else {
+          img_src = ""
+        }
+        thumbnail_data.width = 300
+        thumbnail_data.height = 287
+
+//        alert ("image source is " +img_src)
+        return (
         <Fragment>
-        <Paper>
-         <div style={{ padding: 10 }}>
-        <Grid container spacing={4}>
-          <Grid item>
-          <div style={{ padding: 5 }}>
-            <img width='102' height='68' src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Photovoltaik_Dachanlage_Hannover_-_Schwarze_Heide_-_1_MW.jpg/1200px-Photovoltaik_Dachanlage_Hannover_-_Schwarze_Heide_-_1_MW.jpg'/>
+          <Paper>
+            <div style={{ padding: 10 }}>
+              <Grid container spacing={4}>
+                <Grid item>
+                <div style={{ padding: 5 }}>
+            <img width = {thumbnail_data.width} height={thumbnail_data.height} src={img_src} />
             </div>
           </Grid>
           <Grid item>
@@ -71,14 +75,18 @@ class ProjectHover extends React.Component {
             {this.props.description}
             </Typography>
           </div><center>
-          <Button variant="contained">Learn More</Button>
+          <Button  variant="contained">Learn More</Button>
           </center>
         </Grid>
         </Grid>
 </div>
 </Paper>
 </Fragment>
-      )    
+      ) 
+      } else {
+        // marker data is not loaded yet
+        return ("")
+      }   
   } 
 }
 

@@ -26,8 +26,8 @@ export function getData (object_type, options, callback)   {
   }
 // alert (' param clause is ' + param_clause)
   urltext += "?"+param_clause.join("&")
- //alert ('urltext ' + urltext)
-
+  //alert ('urltext ' + urltext)
+  
   axios({
    method: 'get',
    url: urltext,

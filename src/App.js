@@ -1,8 +1,9 @@
 import React, { Component, Fragment} from 'react';
 import {Grid} from 'material-ui'
-import {MenuBar, CrudTable, Text, GoogleMap} from './Components/Layouts';
+import { CrudTable, Text, GoogleMap} from './Components/Layouts';
 import {NavMenuLink, DrillDown} from './Components/Experimental';
 import {AuthToggleLink, AuthContext, AuthProvider} from './Components/User';
+import {ProjectView} from './Components/NowWeAct';
 import * as meta from './Utils/meta.js'
 import * as log from './Utils/log.js'
 import axios from 'axios';
@@ -65,6 +66,7 @@ class App extends Component {
     //  alert ("handle menu change " + selected_menu
       window.scrollTo(0,0)
       let menu_type = 'app_menu'
+      //alert ('handle menu change')
       // Tabs can only send an integer
       // TODO - file up the huge variable list to be an object with options
       // and option can be the menu type
@@ -181,6 +183,11 @@ class App extends Component {
           />
         }  
 
+        {meta_menu.component == "ProjectView" &&
+          <ProjectView object_type="nwn_project" project_id="1"
+          />
+        } 
+
         {meta_menu.component == "DrillDown" &&
           <DrillDown  
             object_type = {meta_menu.object_type}
@@ -198,6 +205,7 @@ class App extends Component {
           <GoogleMap 
             title = {meta_menu.title}
             text = {meta_menu.text}
+            onMore={this.handleMenuChange}
             object_type = {meta_menu.object_type}
           />
         }  

@@ -1,6 +1,6 @@
 const app_params =    {
   name:"Now We Act" , 
-  footer: "Powered by ACS React Appbuilder"
+  footer: ""
 }
 
 export default app_params

@@ -17,6 +17,13 @@ class GoogleMap extends React.Component {
             activeMarker: {},
             selectedPlace: {},
         }   
+        this.handleMoreClick = this.handleMoreClick.bind(this);
+  }
+
+  handleMoreClick = event => {
+      console.log('button has been clicked')
+      alert ('handle clik')
+      //this.props.onMore(event, this.props.link_menu_index, this.props.filter_id, this.props.menu_link_field, this.props.link_object_type, this.props.menu_link_reference_field)
   }
 
   onMouseover = (props, marker, e) =>
@@ -67,10 +74,13 @@ componentDidMount() {
               description = {marker.description}
               leader_first_name = {marker.leader_first_name}
               leader_last_name = {marker.leader_last_name}
+              full_marker = {marker}
+              onMore= {this.props.onMore}
               icon= {{
                 url:url,
                 scaledSize: {"width":20,"height":20}
               }}
+
               id = {marker.id}
               position={position}></Marker>
               )
@@ -83,8 +93,9 @@ componentDidMount() {
                   description = {this.state.selectedPlace.description}
                 leader_first_name = {this.state.selectedPlace.leader_first_name}
                 leader_last_name = {this.state.selectedPlace.leader_last_name}
-                  summary = {this.state.selectedPlace.summary}/>
-                  
+                  summary = {this.state.selectedPlace.summary}
+                full_marker = {this.state.selectedPlace.full_marker}
+                handleMoreClick = {this.handleMoreClick}/>
             </InfoWindow>
         </Map>
         </Typography>

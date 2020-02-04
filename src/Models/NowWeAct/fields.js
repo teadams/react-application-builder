@@ -39,7 +39,8 @@ const metadata_fields = {
   ],
   nwn_project_volunteer: [
     {name:"id",  section:"basic",  pretty_name: "Id", data_type: "integer", required:true, key:true},
-    {name:"leader", section:"basic", pretty_name:"Project Leader", references:"nwn_user", index:true, pretty_key:true},
+    {name:"name", section:"basic", pretty_name:"Volunteer Name", references:"nwn_user", index:true, pretty_key:true},
+    {name:"nwn_project", section:"basic", pretty_name: "Project", references:"nwn_project", index:true}, 
     {name:"role_type", section:"basic",grid_col:6, pretty_name: "Role Type", data_type: "string"},
     {name:"status", section:"admin",grid_col:6, pretty_name: "Status", data_type: "string", valid_values:"Applied, Accepted, Denied, Retired", default:"Applied"},
     {name:"leader_notes", section:"admin",grid_col:6, pretty_name: "Leader Notes", data_type: "string"}

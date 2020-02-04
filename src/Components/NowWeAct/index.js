@@ -1,7 +1,7 @@
 import ProjectHover from './ProjectHover';
-
-
+import ProjectView from './ProjectView';
+import ProjectVolunteers from './ProjectVolunteers';
 
 export {
-    ProjectHover
+    ProjectView, ProjectHover, ProjectVolunteers
 }
