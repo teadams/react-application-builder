@@ -4,8 +4,7 @@ import { Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, Dialo
 import { withStyles } from '@material-ui/core/styles';
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
-import {SelectField, EditButton} from "../Layouts/index.js";
-import {ObjectMapping, Field} from "../index.js"
+import { Image} from "../index.js"
 import * as data from '../../Utils/data.js';
 import update from 'immutability-helper';
 
@@ -58,7 +57,20 @@ class ProjectVolunteers extends React.Component {
       <Fragment>Project Volunteers
       {this.state.data.map(row=>{
           //alert ('row is ' + JSON.stringify(row))  
-          return(<Typography>{row.name_first_name} {row.name_last_name} </Typography>)   
+          return(
+              <Grid container>
+                <Grid item>
+                  <Image avatar={true} object_type="nwn_user"
+                    size="small" fix="standard"
+                    image_object={JSON.parse(row.name_thumbnail)} field_name="thumbnail"/> 
+                </Grid>
+                <Grid>
+                  <Typography>
+                  {row.name_first_name} {row.name_last_name} 
+                  </Typography>
+                </Grid>
+              </Grid>
+            )   
       })}
       </Fragment>  
   )}

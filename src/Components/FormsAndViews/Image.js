@@ -28,6 +28,7 @@ class Image extends React.Component {
     //      Change height proportionately
     // fix = height - change the height to matcht standard_sizing
     //      Change width proportionaliy
+    // fix = standard - accept the standard sizing, with potnetial warping
     // fix = none
             // To avoid warping, height and width
             // must be divided by the same number.
@@ -45,7 +46,7 @@ class Image extends React.Component {
     let resized_dim = standard_sizing[size]
     // algorythm to resize approprialy so image
     // does not get warped
-    if (image_object) {
+    if (image_object && fix != "standard") {
       
       let height_ratio  = image_object.height / standard_sizing[size].height
       let width_ratio  = image_object.width /  standard_sizing[size].width
