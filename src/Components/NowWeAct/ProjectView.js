@@ -63,7 +63,7 @@ class ProjectView extends React.Component {
               <center>          
 
               <Image avatar={true} object_type="nwn_project"
-              size="medium"
+              size="medium" fix="height"
               image_object={JSON.parse(project_data.thumbnail)} field_name="thumbnail"/>
             </center>
             
@@ -109,7 +109,7 @@ class ProjectView extends React.Component {
               <Paper style={{padding:20, marginBottom:20}} >
               <center>
               <Image avatar={true} object_type="nwn_user"
-              size="medium"
+              size="medium" fix="height"
               image_object={JSON.parse(project_data.leader_thumbnail)} field_name="thumbnail"/>
               </center>
               <Typography variant="title">
