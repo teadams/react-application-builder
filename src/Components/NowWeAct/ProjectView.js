@@ -5,6 +5,7 @@ import {ProjectVolunteers} from './index.js';
 import { withStyles } from '@material-ui/core/styles';
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
+import * as utils from '../../Utils/utils.js';
 import {SelectField, EditButton} from "../Layouts/index.js";
 import {ObjectMapping, Image, Field} from "../index.js"
 import * as data from '../../Utils/data.js';
@@ -51,7 +52,7 @@ class ProjectView extends React.Component {
   render () {
     var project_data = this.state.item_data
     
-    if (project_data) {
+    if (!utils.isEmptyObject(project_data)) {
       return (  
         <Fragment>
           <Paper elevation={24} square={false}>
