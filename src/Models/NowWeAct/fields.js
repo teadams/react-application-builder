@@ -10,13 +10,24 @@ const metadata_fields = {
     {name:"read_p", pretty_name: "Read?",  data_type: "boolean", default:true},
     {name:"creation_date", section:"basic", pretty_name: "Creation Date", data_type:"date"},
   ],
-
+  nwn_project_post: [
+    {name:"id",  section:"basic",  pretty_name: "Id", data_type: "integer", required:true, key:true},
+    {name:"nwn_project", section:"basic", pretty_name: "Project", references:"nwn_project", index:true}, 
+    {name:"name", section:"basic", pretty_name: "Title", index:true, pretty_key:"true"}, 
+    {name:"body",  section:"basic",  pretty_name: "Description", data_type: "string"},
+    {name:"url",  section:"basic",  pretty_name: "You Tube URL", data_type: "string", input_type:'string',  you_tube:true},
+    {name:"image",  section:"basic",  pretty_name: "Image", data_type: "image", input_type: "image"},
+    {name:"name", section:"basic", pretty_name: "Role Type", references:"nwn_role_type", index:true, pretty_key:"true"},
+    {name:"status", section:"admin",grid_col:6, pretty_name: "Status", data_type: "string", valid_values:"Active, Inactive", default:"Active"},
+  ],
   nwn_project_video: [
     {name:"id",  section:"basic",  pretty_name: "Id", data_type: "integer", required:true, key:true},
     {name:"nwn_project", section:"basic", pretty_name: "Project", references:"nwn_project", index:true}, 
     {name:"name", section:"basic", pretty_name: "Title", index:true, pretty_key:"true"}, 
     {name:"description",  section:"basic",  pretty_name: "Description", data_type: "string"},
-    {name:"url",  section:"basic",  pretty_name: "URL", data_type: "string"},
+    {name:"url",  section:"basic",  pretty_name: "URL", data_type: "string", you_tube:true},
+    {name:"primary_video", section:"admin",grid_col:6, pretty_name: "Primary", data_type: "boolean", default:true},
+    {name:"status", section:"admin",grid_col:6, pretty_name: "Status", data_type: "string", valid_values:"Active, Inactive", default:"Active"},
   ],
   nwn_project_document: [
     {name:"id",  section:"basic",  pretty_name: "Id", data_type: "integer", required:true, key:true},
@@ -29,12 +40,12 @@ const metadata_fields = {
     {name:"id",  section:"basic",  pretty_name: "Id", data_type: "integer", required:true, key:true},
     {name:"name", section:"basic", pretty_name: "Role Type", references:"nwn_role_type", index:true, pretty_key:"true"},
     {name:"nwn_project", section:"basic", pretty_name: "Project", references:"nwn_project", index:true}, 
-    {name:"description",  section:"basic",  pretty_name: "Description", data_type: "string"}
+    {name:"description",  section:"basic",  pretty_name: "Description", data_type: "string"},
+    {name:"status", section:"admin",grid_col:6, pretty_name: "Status", data_type: "string", valid_values:"Recruiting, Filled", default:"Recruiting"},
   ],
   nwn_role_type: [
     {name:"id",  section:"basic",  pretty_name: "Id", data_type: "integer", required:true, key:true},
     {name:"name", section:"basic",grid_col:6, pretty_name: "Role Type", data_type: "string", pretty_key:"true"},
-    {name:"nwn_project", section:"basic", pretty_name: "Project", references:"nwn_project", index:true}, 
     {name:"description", section:"basic",grid_col:6, pretty_name: "Role Description", data_type: "string"}
   ],
   nwn_project_volunteer: [
