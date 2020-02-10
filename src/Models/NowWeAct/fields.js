@@ -17,7 +17,7 @@ const metadata_fields = {
     {name:"body",  section:"basic",  pretty_name: "Description", data_type: "string"},
     {name:"url",  section:"basic",  pretty_name: "You Tube URL", data_type: "string", input_type:'string',  you_tube:true},
     {name:"image",  section:"basic",  pretty_name: "Image", data_type: "image", input_type: "image"},
-    {name:"role_type", section:"basic", pretty_name: "Role Type", references:"nwn_role_type", index:true, pretty_key:"true"},
+    {name:"role_type", section:"basic", pretty_name: "Role Type", references:"nwn_role_type", index:true},
     {name:"status", section:"admin",grid_col:6, pretty_name: "Status", data_type: "string", valid_values:"Active, Inactive", default:"Active"},
   ],
   nwn_project_video: [

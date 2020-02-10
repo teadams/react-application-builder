@@ -1,7 +1,7 @@
 //import {React, Fragment} from 'react';
 import React, { Component, Fragment} from 'react';
 import { Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
-import {ProjectVolunteers, ProjectNeeds} from './index.js';
+import {ProjectVolunteers, ProjectNeeds, ProjectAnnouncements} from './index.js';
 import { withStyles } from '@material-ui/core/styles';
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
@@ -103,7 +103,7 @@ class ProjectView extends React.Component {
               </Paper>
 
               <Paper style={{padding:20}}>
-                Project Posts of all types go here newest to oldest
+              <ProjectAnnouncements/>
               </Paper>
               </Paper>
               </Grid>

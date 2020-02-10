@@ -5,7 +5,7 @@ const metadata_menus = {
     {index:"2", label: "Projects", object_type:"nwn_project", component:"DrillDown"},
     {index:"3", label: "Learning Library", component:"Text", text:"Zac and Jesse will teach you what you need", title:"Learning Library"}, 
     {index:"4", label: "My Messages",  object_type:"nwn_project_message"}, 
-    {index:"0", label: "One Projects",  object_type:"nwn_project", component:"ProjectView", project_id:2},
+    {index:"0", label: "One Project",  object_type:"nwn_project", component:"ProjectView", project_id:2},
  ],
   hamburger: [
       {index:"0", label: "Projects", object_type: "nwn_project", component:"DrillDown"},
@@ -19,7 +19,7 @@ const metadata_menus = {
       {index:"8", label: "Documents", object_type:"nwn_project_document"},
       {index:"9", label: "Volunteers", object_type:"nwn_project_volunteer"},
       {index:"10", label: "Messages", object_type:"nwn_project_message"},
-      {index:"11", label: "Announcements", object_type:"nwn_project_post"},
+      {index:"11", label: "Announcements", object_type:"nwn_project_post", component:"DrillDown"},
     ]
 } 
 
