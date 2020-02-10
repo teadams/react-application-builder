@@ -60,11 +60,7 @@ class ProjectAnnouncements extends React.Component {
       </Grid>
       <Grid>
       {this.state.data.map(row=>{
- 
 
-//          {name:"image",  section:"basic",  pretty_name: "Image", data_type: "image", input_type: "image"},
-//          {name:"role_type", section:"basic", pretty_name: "Role Type", references:"nwn_role_type", index:true, pretty_key:"true"},
-//          {name:"status", section:"admin",grid_col:6, pretty_name: "Status", data_type: "string", valid_values:"Active, Inactive", default:"Active"},
           return(
               <Paper style={{padding:20}}>
                   <Typography variant='title' gutterBottom>
