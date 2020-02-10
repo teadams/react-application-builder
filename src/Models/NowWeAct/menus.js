@@ -1,11 +1,11 @@
 const metadata_menus = {
   app_menu: [
-    {index:"0", label: "Map", object_type: "nwn_project", component:"GoogleMap", title:"Projects Across the World", text:"Click on a pin to learn more about a project", object_type:"nwn_project"},
+    {index:"5", label: "Map", object_type: "nwn_project", component:"GoogleMap", title:"Projects Across the World", text:"Click on a pin to learn more about a project", object_type:"nwn_project"},
     {index:"1", label: "Help Out", object_type: "nwn_project_volunter",  object_type:"nwn_project_volunteer"},
     {index:"2", label: "Projects", object_type:"nwn_project", component:"DrillDown"},
     {index:"3", label: "Learning Library", component:"Text", text:"Zac and Jesse will teach you what you need", title:"Learning Library"}, 
     {index:"4", label: "My Messages",  object_type:"nwn_project_message"}, 
-    {index:"5", label: "One Projects",  object_type:"nwn_project", component:"ProjectView", project_id:2},
+    {index:"0", label: "One Projects",  object_type:"nwn_project", component:"ProjectView", project_id:2},
  ],
   hamburger: [
       {index:"0", label: "Projects", object_type: "nwn_project", component:"DrillDown"},

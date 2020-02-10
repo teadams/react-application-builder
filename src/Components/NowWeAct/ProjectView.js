@@ -1,7 +1,7 @@
 //import {React, Fragment} from 'react';
 import React, { Component, Fragment} from 'react';
 import { Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
-import {ProjectVolunteers} from './index.js';
+import {ProjectVolunteers, ProjectNeeds} from './index.js';
 import { withStyles } from '@material-ui/core/styles';
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
@@ -125,7 +125,7 @@ class ProjectView extends React.Component {
   
                 </Paper>
                 <Paper style={{padding:20, marginBottom:20}} >
-                Project needs <br/>
+                <ProjectNeeds project_id={this.props.project_id} object_type="nwn_project" />
                 </Paper>
               </Paper>
               </Grid>
