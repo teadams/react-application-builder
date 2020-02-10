@@ -19,6 +19,7 @@ const metadata_menus = {
       {index:"8", label: "Documents", object_type:"nwn_project_document"},
       {index:"9", label: "Volunteers", object_type:"nwn_project_volunteer"},
       {index:"10", label: "Messages", object_type:"nwn_project_message"},
+      {index:"11", label: "Announcements", object_type:"nwn_project_post"},
     ]
 } 
 

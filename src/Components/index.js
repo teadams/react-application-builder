@@ -4,10 +4,10 @@ import {  MenuLink,SelectCell, MenuBar,CrudTable, CreateForm, SelectField, Cell,
 
 import {NavMenuLink, DrillDown, ObjectView, ObjectMapping, Field} from "./Experimental/index.js"
 
-import {Image} from "./FormsAndViews/index.js"
+import {Image, YouTube} from "./FormsAndViews/index.js"
 
 export {
-  Image, AuthToggleLink, AuthContext, AuthProvider, LoginForm,   MenuLink,SelectCell, MenuBar,CrudTable, CreateForm, SelectField, Cell, DeleteButton, EditButton, Text, ButtonCreate, ButtonExpandMore, ButtonExpandLess, GoogleMap,    NavMenuLink, DrillDown, ObjectView, ObjectMapping, Field
+  Image, YouTube, AuthToggleLink, AuthContext, AuthProvider, LoginForm,   MenuLink,SelectCell, MenuBar,CrudTable, CreateForm, SelectField, Cell, DeleteButton, EditButton, Text, ButtonCreate, ButtonExpandMore, ButtonExpandLess, GoogleMap,    NavMenuLink, DrillDown, ObjectView, ObjectMapping, Field
 
 }
 

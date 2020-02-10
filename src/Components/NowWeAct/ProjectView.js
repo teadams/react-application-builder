@@ -7,7 +7,7 @@ import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import * as utils from '../../Utils/utils.js';
 import {SelectField, EditButton} from "../Layouts/index.js";
-import {ObjectMapping, Image, Field} from "../index.js"
+import {ObjectMapping, Image, YouTube, Field} from "../index.js"
 import * as data from '../../Utils/data.js';
 import update from 'immutability-helper';
 
@@ -96,9 +96,12 @@ class ProjectView extends React.Component {
               </Grid>
               <Grid style={{padding:20}} item xs={6}>
               <Paper style={{padding:20}}>
-              <Paper style={{padding:20, marginBottom:20}} ><center>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/_Ett1KsKQi4?start=4&autoplay=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> </center>
+              <Paper style={{padding:20, marginBottom:20}} >
+              <YouTube
+              size="medium" fix="height"
+              initial_url="https://youtu.be/_Ett1KsKQi4"/>
               </Paper>
+
               <Paper style={{padding:20}}>
                 Project Posts of all types go here newest to oldest
               </Paper>
