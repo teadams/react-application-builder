@@ -1,9 +1,11 @@
-import React from 'react';
-import {FormControl, MenuItem, InputLabel, Select, FormHelperText} from '@material-ui/core';
+
+import React, { Component, Fragment} from 'react';
+import {FormControl, FormLabel,  MenuItem, InputLabel, Select, FormHelperText, RadioGroup, FormControlLabel, Radio}  from '@material-ui/core';
 import axios from 'axios';
 import * as meta from '../../Utils/meta.js';
 import * as log from '../../Utils/log.js'
 import * as data from '../../Utils/data.js';
+
 
 
 class SelectObject extends React.Component {
@@ -18,7 +20,7 @@ class SelectObject extends React.Component {
           prop_value : this.props.value?this.props.value:'',
           prop_form_values: this.props.form_values?this.props.form_values:''
         }
-        this.submithandleChange = this.submithandleChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.loadData = this.loadData.bind(this);
 
   }
@@ -36,10 +38,12 @@ class SelectObject extends React.Component {
   }
 
     
-  submithandleChange = event => {
+  handleChange = event => {
 //        alert ('submit event target is '  + event.target.value)
         this.setState({ value: event.target.value , selectTouched: true});
-        this.props.onChange(event);
+        if (this.props.onChange) {
+          this.props.onChange(event);
+        } 
     }
 
   componentDidMount() {
@@ -70,26 +74,33 @@ class SelectObject extends React.Component {
 
     const name_column_name = meta.keys(this.props.object_type).pretty_key_id;
     const field = meta.field(this.props.object_type, name_column_name)
-    const {  open,  id, shrink } = this.props;
-    
-    var shrink_label = (this.state.value || this.state.value === false)?true:false
-    if (shrink) {
-        shrink_label = true
-    }
-    return (<FormControl style={this.props.style}>
-      <InputLabel shrink={shrink_label}  htmlFor="{field.pretty_name}">{field.pretty_name}</InputLabel>
+    if (this.props.input_type == "radio") {
+      return (<Fragment>
+          <FormControl style={this.props.style}>
+          <FormLabel component="legend">{field.pretty_name}</FormLabel>
+          <RadioGroup name={this.props.object_type} area-label={this.props.object_type} onChange={this.handleChange} value={this.state.value}>
+          {this.state.select_menu_options.map(menu_option => {
+            // Not sure why, radio group did not work where
+            // value was an integer
+            let radio_value = menu_option[0].toString()
+            return (
+         <FormControlLabel  value={radio_value} label={menu_option[1]} control={<Radio/>}/>) 
+          })}
+          </RadioGroup>
+          </FormControl></Fragment>
+        )
+    } else {
+      return (<FormControl style={this.props.style}>
+      <FormLabel component="legend">{field.pretty_name}</FormLabel>
       <Select
       autoFocus={this.props.autoFocus?true:false}
       value={this.state.value}
       disabled = {this.props.disabled}  
       disableUnderline  = {this.props.disableUnderline}
       InputLableProps = {this.props.InputLableProps}
-      onChange={this.submithandleChange} 
-      onBlur={this.props.onBlur}
-      id={id}
+      onChange={this.handleChange} 
       inputProps={{
         name: field.pretty_name,
-        id: id
       }}
     >
 
@@ -99,7 +110,8 @@ class SelectObject extends React.Component {
   </Select>
  <FormHelperText>{field.helper_text}</FormHelperText>
 </FormControl>
-)
+      )
+    }
 
 }}
 

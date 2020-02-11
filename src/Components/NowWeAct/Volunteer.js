@@ -44,12 +44,12 @@ class Volunteer extends React.Component {
       </Typography>
       <Grid container>
       <Grid item xs={4}>
-        <SelectObject object_type="nwn_project"/>
+        <SelectObject object_type="nwn_project" shrink="false" style={{width:"90%"}} id = {this.props.project_id}/>
       </Grid> <Grid item xs={4}>
-        <SelectObject object_type="nwn_role_type"/>
+        <SelectObject object_type="nwn_role_type" input_type="radio" shrink="false" style={{width:"90%"}} id = {this.props.role_type_id}/>
       </Grid>
       </Grid>
-      PROJECT - Project Box,
+      PROJECT
       ROLE -- ROLE Multiple check,
       If project is selected, then the roles will narrow.
       If role is select, then the project will narrow,
