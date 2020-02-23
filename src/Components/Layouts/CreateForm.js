@@ -107,7 +107,7 @@ class CreateForm extends React.Component {
       // prefill with the current user
       const object_fields = meta.fields(this.props.object_type)
       object_fields.map(field => {
-          if (field.references == "nwn_user") {
+          if (field.references == "nwn_user" && field.use_context) {
             ///alert ("fild name " + field.name)
             this.setState({ formTouched:true, formValues: update(this.state.formValues,{
                         [field.name]: {$set: this.context.user.id}
@@ -144,12 +144,12 @@ class CreateForm extends React.Component {
   }
 
   render() {
+
     const { onClose, object_type, open} = this.props;    
     const object_fields = meta.fields(object_type)
     if (!this.props.open) {
       return null;
     }
-
   // By default, show all sections
   //  If there are specific sections in the props, show those
    const sections =this.props.sections?meta.sections(this.props.object_type,this.props.sections):meta.sections(this.props.object_type);

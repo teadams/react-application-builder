@@ -2,13 +2,14 @@
 const metadata_fields = {
   nwn_project_message: [
     {name:"id",  section:"basic",  pretty_name: "Id", data_type: "integer", required:true, key:true},
-    {name:"from_user", section:"basic", pretty_name:"From", references:"nwn_user", index:true, pretty_key:true},
+      // if use_context is true, the create form will take the initial value from the context variables
+    {name:"from_user", section:"basic", pretty_name:"From", references:"nwn_user", use_context:true, index:true, pretty_key:true},
     {name:"to_user", section:"basic", pretty_name:"To", references:"nwn_user", index:true, pretty_key:true},
     {name:"nwn_project", section:"basic", pretty_name: "Project", references:"nwn_project", index:true}, 
-    {name:"subject", section:"basic", pretty_name: "Subject", index:true, pretty_key:"true"}, 
-    {name:"body",  section:"basic",  pretty_name: "Body", data_type: "string"},
+    {name:"subject", grid_col:12, section:"basic", pretty_name: "Subject", index:true, pretty_key:"true"}, 
+    {name:"body",  grid_col:12, size:"large", section:"basic",  pretty_name: "Body", data_type: "string"},
     {name:"read_p", section:"hidden", pretty_name: "Read?",  data_type: "boolean", default:false},
-    {name:"creation_date", section:"hiiden", section:"basic", pretty_name: "Creation Date", data_type:"date"},
+    {name:"creation_date", section:"hidden", pretty_name: "Creation Date", data_type:"date"},
   ],
   nwn_project_post: [
     {name:"id",  section:"basic",  pretty_name: "Id", data_type: "integer", required:true, key:true},
@@ -50,7 +51,7 @@ const metadata_fields = {
   ],
   nwn_project_volunteer: [
     {name:"id",  section:"basic",  pretty_name: "Id", data_type: "integer", required:true, key:true},
-    {name:"name", section:"basic", pretty_name:"Volunteer Name", references:"nwn_user", index:true, pretty_key:true},
+    {name:"name", section:"basic", pretty_name:"Volunteer Name", references:"nwn_user",  use_context:true, index:true, pretty_key:true},
     {name:"nwn_project", section:"basic", pretty_name: "Project", references:"nwn_project", index:true}, 
     {name:"role_type", section:"basic",grid_col:6, pretty_name: "Role Type", data_type: "string"},
     {name:"status", section:"admin",grid_col:6, pretty_name: "Status", data_type: "string", valid_values:"Applied, Accepted, Denied, Retired", default:"Applied"},
@@ -60,7 +61,7 @@ const metadata_fields = {
     {name:"id",  section:"basic",  pretty_name: "Id", data_type: "integer", required:true, key:true},
     {name:"name", section:"basic",grid_col:6, pretty_name: "Project Name", data_type: "string", pretty_key:"true"},
     {name:"type", section:"basic",grid_col:6, pretty_name: "Project Type", references:"nwn_project_type", index:true},
-    {name:"leader", section:"basic", pretty_name:"Project Leader", references:"nwn_user", index:true},
+    {name:"leader", section:"basic", pretty_name:"Project Leader", references:"nwn_user", index:true,  use_context:true},
     {name:"summary", section:"basic", grid_col:6, pretty_name: "Short Summary", data_type: "string"},
     {name:"description", section:"basic", grid_col:12, pretty_name: "Project Description", size:"large", data_type: "string"},
     {name:"country", section:"location", pretty_name: "Country", references:"nwn_country"}, 

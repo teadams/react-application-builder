@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import * as utils from '../../Utils/utils.js';
-import {SelectField, EditButton} from "../Layouts/index.js";
+import {SelectField, EditButton, CreateForm} from "../Layouts/index.js";
 import {ObjectMapping, Image, YouTube, Field} from "../index.js"
 import * as data from '../../Utils/data.js';
 import update from 'immutability-helper';
@@ -21,10 +21,21 @@ class ProjectView extends React.Component {
         pretty_name_edit: false,
         props_object_type: '',
         formChanged: {},
-        formUnderlined:{}
+        formUnderlined:{},
+        create_message_open:false
     }  
     this.loadData = this.loadData.bind(this);
+    this.handleCreateMessageOpen = this.handleCreateMessageOpen.bind(this);
+    this.handleMessageCreated = this.handleMessageCreated.bind(this);
   } 
+
+  handleCreateMessageOpen()  {
+    this.setState({create_message_open:true});
+  }
+
+  handleMessageCreated()  {
+    this.setState({create_message_open:false});
+  }
 
   componentDidMount() {
   //   alert ("view data mount")
@@ -52,10 +63,11 @@ class ProjectView extends React.Component {
 
   render () {
     var project_data = this.state.item_data
-    
     if (!utils.isEmptyObject(project_data)) {
       return (  
         <Fragment>
+
+
           <Paper elevation={24} square={false}>
           <Grid container>
               <Grid item xs={3}>
@@ -78,8 +90,17 @@ class ProjectView extends React.Component {
 
             <Paper elevation={10} style={{backgrounColor:"white", padding:20}}>
             <center>
-            <Button variant="contained">Send a Message</Button>
+            <Button variant="contained" onClick={this.handleCreateMessageOpen}>Send a Message</Button>
             </center>
+            {this.state.create_message_open &&
+              <CreateForm
+                object_type="nwn_project_message" 
+                open={this.state.create_message_open}
+                onClose={this.handleMessageCreated}
+                sections="basic"
+
+              />
+            }
             </Paper>
           
             <Paper  elevation={10} style={{marginBottom:20, marginTop:20, 
