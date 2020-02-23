@@ -17,6 +17,7 @@ class CreateForm extends React.Component {
         super(props);           
         this.state = {
           formTouched: false,
+          contextInitialized: false,
           action: this.props.id?'Edit':'Create'
         }
         
@@ -96,26 +97,35 @@ class CreateForm extends React.Component {
   };
 
   initializeData() {
+    alert ("initialize")
     if (this.props.id) {
       // editing an ojbect
       data.getData (this.props.object_type, {id:this.props.id}, (item_data, error) => { 
-            this.setState({ formValues: item_data, formTouched:true})
+            this.setState({ formValues: item_data})
       })   
     } else if (this.context.user) {
+      // If the component loads and the user has to log in, this will not execute
+      // formINitialized is used to allow ComponentDidUpdate to trigger this once
+
       // if we are in create mode, the field
       // references a user, and the user is logged in
-      // prefill with the current user
+      // prefill with the current user if the meta data specifies we should use the context
       const object_fields = meta.fields(this.props.object_type)
+      let defaultedFormValues = {}
       object_fields.map(field => {
-          if (field.references == "nwn_user" && field.use_context) {
-            ///alert ("fild name " + field.name)
-            this.setState({ formTouched:true, formValues: update(this.state.formValues,{
-                        [field.name]: {$set: this.context.user.id}
-                        }) });
+          if (field.references == "nwn_user" ) {
+            // Bug, this will only work for the last match in the loop as the formValues is overwridden
+            defaultedFormValues[field.name] = this.context.user.id
           }
-      });   
+      });
+      alert ("defaultedFormValues is " + JSON.stringify(defaultedFormValues))
+      if (defaultedFormValues) {
+        alert ("setting state")
+        this.setState({contextInitialized:true, formValues: defaultedFormValues });
+      }
     }
   }
+
   componentDidMount() {
     //const object_fields = meta.fields(this.props.object_type)
     this.initializeData();
@@ -123,9 +133,12 @@ class CreateForm extends React.Component {
 
  componentDidUpdate(prevProps, prevState, snapshot) {
    //const object_fields = meta.fields(this.props.object_type)
-   if (!this.state.formTouched) {
-     // this is a change other than a change to the form
+   if (prevProps != this.props || this.context.user && !this.state.contextInitialized ) {
+      
+     // 1. this is a change other than a change to the form
      // For example a new object_type
+     // 2. OR - the user has just logged in (change in context) and we want 
+    //    to prefill any user fields
       this.initializeData();
    }
  }
