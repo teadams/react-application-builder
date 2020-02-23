@@ -6,7 +6,7 @@ const metadata_fields = {
     {name:"from_user", section:"basic", pretty_name:"From", references:"nwn_user", use_context:true, index:true, pretty_key:true},
     {name:"to_user", section:"basic", pretty_name:"To", references:"nwn_user", index:true, pretty_key:true},
     {name:"nwn_project", section:"basic", pretty_name: "Project", references:"nwn_project", index:true}, 
-    {name:"subject", grid_col:12, section:"basic", pretty_name: "Subject", index:true, pretty_key:"true"}, 
+    {name:"subject",default:"interested in your project", grid_col:12, section:"basic", pretty_name: "Subject", index:true, pretty_key:"true"}, 
     {name:"body",  grid_col:12, size:"large", section:"basic",  pretty_name: "Body", data_type: "string"},
     {name:"read_p", section:"hidden", pretty_name: "Read?",  data_type: "boolean", default:false},
     {name:"creation_date", section:"hidden", pretty_name: "Creation Date", data_type:"date"},

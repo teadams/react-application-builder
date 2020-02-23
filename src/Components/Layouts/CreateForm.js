@@ -34,24 +34,9 @@ class CreateForm extends React.Component {
     // function is to clear the form when
     // we are looking at a new object type or object
     if (nextProps.object_type && nextProps.object_type != prevState.props_object_type) {
-      var formValues = {};
-
-      object_fields.map(field => {
-          if (!field.key ) {
-            if (field.name == nextProps.filter_field) {
-              formValues[field.name] = nextProps.filter_id
-            } else if (field.default) {
-              formValues[field.name] = field.default
-            } else {
-              formValues[field.name] = ""
-            }
-          }
-      })
-
       return {
         props_object_type : nextProps.object_type,
         action: nextProps.id?'Edit':'Create',
-        formValues: formValues
       };
     } else {
       return null
@@ -97,42 +82,57 @@ class CreateForm extends React.Component {
   };
 
   initializeData() {
-    alert ("initialize")
     if (this.props.id) {
-      // editing an ojbect
+      // editing an ojbect, take existing values
       data.getData (this.props.object_type, {id:this.props.id}, (item_data, error) => { 
             this.setState({ formValues: item_data})
       })   
-    } else if (this.context.user) {
+    } else {
+      // Will will take care of the folloing cases in this border
+      // 1. Field should be defaulted from the meta-databa
+      // 2. Filter field is present and should be defaulted
+      // 3. User is logged in and there are fields that reference nwn_user and should be prefilled
+
       // If the component loads and the user has to log in, this will not execute
       // formINitialized is used to allow ComponentDidUpdate to trigger this once
-
-      // if we are in create mode, the field
-      // references a user, and the user is logged in
-      // prefill with the current user if the meta data specifies we should use the context
-      const object_fields = meta.fields(this.props.object_type)
       let defaultedFormValues = {}
+      let contextInitialized = false
+
+      const object_fields = meta.fields(this.props.object_type)
       object_fields.map(field => {
-          if (field.references == "nwn_user" ) {
-            // Bug, this will only work for the last match in the loop as the formValues is overwridden
-            defaultedFormValues[field.name] = this.context.user.id
-          }
+          if (!field.key ) {
+            if (field.name == this.props.filter_field) {
+              defaultedFormValues[field.name] = this.props.filter_id
+            } else if (field.default) {
+              defaultedFormValues[field.name] = field.default
+            } else {
+              defaultedFormValues[field.name] = ""
+            }
+          // context overrides defaults
+            if (field.references == "nwn_user"  && this.context.user.id  && field. use_context) {
+            // if we are in create mode, the field
+            // references a user, and the user is logged in
+            // prefill with the current user if the meta data specifies we should use the context
+              defaultedFormValues[field.name] = this.context.user.id
+              contextInitialized = true
+            }
+        }
       });
-      alert ("defaultedFormValues is " + JSON.stringify(defaultedFormValues))
       if (defaultedFormValues) {
-        alert ("setting state")
-        this.setState({contextInitialized:true, formValues: defaultedFormValues });
+        this.setState({contextInitialized: contextInitialized, formValues: defaultedFormValues });
       }
     }
   }
 
   componentDidMount() {
     //const object_fields = meta.fields(this.props.object_type)
+    alert ("mounting")
     this.initializeData();
   }
 
  componentDidUpdate(prevProps, prevState, snapshot) {
    //const object_fields = meta.fields(this.props.object_type)
+    alert ("update")
    if (prevProps != this.props || this.context.user && !this.state.contextInitialized ) {
       
      // 1. this is a change other than a change to the form
