@@ -1,9 +1,10 @@
 import React,  {Fragment} from 'react';
-import {Paper,  Typography} from '@material-ui/core';
+import {Paper,  Typography, Button} from '@material-ui/core';
 //import * as meta from '../../Utils/meta.js'
 import {Field, ObjectView} from "../Experimental"
 import {ProjectHover} from "../NowWeAct"
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import {CreateForm} from "../Layouts/index.js";
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import * as data from '../../Utils/data.js';
@@ -18,6 +19,16 @@ class GoogleMap extends React.Component {
             selectedPlace: {},
         }   
         this.handleMoreClick = this.handleMoreClick.bind(this);
+        this.handleCreateProjectOpen = this.handleCreateProjectOpen.bind(this);
+        this.handleProjectCreated = this.handleProjectCreated.bind(this);
+  }
+
+  handleCreateProjectOpen()  {
+    this.setState({create_project_open:true});
+  }
+
+  handleProjectCreated()  {
+    this.setState({create_project_open:false});
   }
 
   handleMoreClick = event => {
@@ -54,18 +65,36 @@ componentDidMount() {
       <Fragment>
         <Typography variant="headline">
            {this.props.title}
+           <Button variant="contained" onClick={this.handleCreateProjectOpen}>Create a Project</Button>
         </Typography>
+        {this.state.create_project_open &&
+          <CreateForm
+            object_type="nwn_project" 
+            open={this.state.create_project_open}
+            hidden={{leader:true}}
+            onClose={this.handleProjectCreated}
+            sections="basic"
+          />}
         <Typography variant="body1" style={{padding:10}}>
             {this.props.text}
           <Map google={this.props.google} zoom={3}>
             {this.state.marker_data.map(marker => {
             //  alert ("maker is " + JSON.stringify(marker))
-              var icon = JSON.parse(marker["type_thumbnail"]).name
+              var icon
+              if (marker["type_thumbnail"]) {   
+                var icon_name = JSON.parse(marker["type_thumbnail"]).name
+                var url = "/images/nwn_project_type/thumbnail/"+icon_name
+                icon = {}
+                icon.url = url;
+                icon.scaledSize ={"width":20,"height":20}
+              }  else  {
+                icon = ""
+              }
+
               var position = {}
               position.lat = marker.latitude
               position.lng = marker.longitude
-              var url = "/images/nwn_project_type/thumbnail/"+icon
-              
+            
               return (
               <Marker onMouseover={this.onMouseover}
               name={marker.name}
@@ -76,10 +105,8 @@ componentDidMount() {
               leader_last_name = {marker.leader_last_name}
               full_marker = {marker}
               onMore= {this.props.onMore}
-              icon= {{
-                url:url,
-                scaledSize: {"width":20,"height":20}
-              }}
+              icon = {icon}
+
 
               id = {marker.id}
               position={position}></Marker>
