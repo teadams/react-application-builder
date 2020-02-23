@@ -63,6 +63,11 @@ class ProjectView extends React.Component {
 
   render () {
     var project_data = this.state.item_data
+    let hidden = {}
+    hidden["from_user"] = true;
+    hidden["to_user"] = true;
+    hidden["nwn_project"] = true;
+
     if (!utils.isEmptyObject(project_data)) {
       return (  
         <Fragment>
@@ -95,9 +100,12 @@ class ProjectView extends React.Component {
             {this.state.create_message_open &&
               <CreateForm
                 object_type="nwn_project_message" 
-                subject= "interested in your project"
+                subject= {"Interested in your project:"+ project_data.name}
+                nwn_project = {project_data.id}
+                to_user = {project_data.leader}
                 open={this.state.create_message_open}
                 onClose={this.handleMessageCreated}
+                hidden = {hidden}
                 sections="basic"
 
               />

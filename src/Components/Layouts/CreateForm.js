@@ -162,7 +162,8 @@ class CreateForm extends React.Component {
 
     const { onClose, object_type, open} = this.props;    
     const object_fields = meta.fields(object_type)
-    if (!this.props.open) {
+    if (!this.props.open || !this.state.formValues) {
+      // do not render if the form is not open or the formValues have not been initialized
       return null;
     }
   // By default, show all sections
@@ -200,7 +201,7 @@ class CreateForm extends React.Component {
                   var field_render = (section_fields.map(field=>{
                         let grid_col = field.grid_col?field.grid_col:4
                         grid_col = grid_col * gridCol_scale
-                        if (!field.key) { 
+                        if (!field.key && (!this.props.hidden || !this.props.hidden[field.name])) { 
                           return (<Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}} sm={grid_col}>
                                     {this.renderField(field)}
                                   </Grid>)
