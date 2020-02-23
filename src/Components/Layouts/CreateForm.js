@@ -92,7 +92,7 @@ class CreateForm extends React.Component {
       // 1. Field should be defaulted from the meta-databa
       // 2. Filter field is present and should be defaulted
       // 3. User is logged in and there are fields that reference nwn_user and should be prefilled
-
+      // 4. The value is possed in via a props
       // If the component loads and the user has to log in, this will not execute
       // formINitialized is used to allow ComponentDidUpdate to trigger this once
       let defaultedFormValues = {}
@@ -108,13 +108,17 @@ class CreateForm extends React.Component {
             } else {
               defaultedFormValues[field.name] = ""
             }
-          // context overrides defaults
+            // context overrides defaults
             if (field.references == "nwn_user"  && this.context.user.id  && field. use_context) {
             // if we are in create mode, the field
             // references a user, and the user is logged in
             // prefill with the current user if the meta data specifies we should use the context
               defaultedFormValues[field.name] = this.context.user.id
               contextInitialized = true
+            }
+            // props overrides everything
+            if (this.props[field.name]) {
+                defaultedFormValues[field.name] = this.props[field.name]
             }
         }
       });
@@ -126,13 +130,11 @@ class CreateForm extends React.Component {
 
   componentDidMount() {
     //const object_fields = meta.fields(this.props.object_type)
-    alert ("mounting")
     this.initializeData();
   }
 
  componentDidUpdate(prevProps, prevState, snapshot) {
    //const object_fields = meta.fields(this.props.object_type)
-    alert ("update")
    if (prevProps != this.props || this.context.user && !this.state.contextInitialized ) {
       
      // 1. this is a change other than a change to the form

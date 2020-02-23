@@ -95,6 +95,7 @@ class ProjectView extends React.Component {
             {this.state.create_message_open &&
               <CreateForm
                 object_type="nwn_project_message" 
+                subject= "interested in your project"
                 open={this.state.create_message_open}
                 onClose={this.handleMessageCreated}
                 sections="basic"
