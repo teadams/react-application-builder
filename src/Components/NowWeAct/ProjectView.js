@@ -1,8 +1,9 @@
 //import {React, Fragment} from 'react';
 import React, { Component, Fragment} from 'react';
 import { Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
-import {ProjectVolunteers, ProjectNeeds, ProjectAnnouncements} from './index.js';
+import {ProjectVolunteers, ProjectNeeds, ProjectAnnouncements, ProjectDocuments} from './index.js';
 import { withStyles } from '@material-ui/core/styles';
+
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import * as utils from '../../Utils/utils.js';
@@ -74,7 +75,13 @@ class ProjectView extends React.Component {
               <center> {project_data.summary} </center>
             </Typography>
             </Paper>
-            
+
+            <Paper elevation={10} style={{backgrounColor:"white", padding:20}}>
+            <center>
+            <Button variant="contained">Send a Message</Button>
+            </center>
+            </Paper>
+          
             <Paper  elevation={10} style={{marginBottom:20, marginTop:20, 
             backgroundColor:"rgba(200, 200, 200, 0.5)", padding:20, border:'5px solid "rgba(255, 99, 71, 0.8)"'}}>    
               <Image avatar={true} object_type="nwn_project_type"
@@ -85,13 +92,10 @@ class ProjectView extends React.Component {
             </Paper>
 
       <Divider/>
+      <Paper style={{padding:20, marginBottom:20}} >
+      <ProjectDocuments project_id={this.props.project_id} object_type="nwn_project" />
+      </Paper>
 
-              <Paper elevation={10} style={{backgrounColor:"white", padding:20}}>
-              <center>
-              <Button variant="contained">Send a Message</Button>
-              </center>
-              </Paper>
-  
               </Paper>
               </Grid>
               <Grid style={{padding:20}} item xs={6}>

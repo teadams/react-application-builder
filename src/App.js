@@ -211,8 +211,7 @@ class App extends Component {
         }  
 
         {meta_menu.component == "Volunteer" &&
-          <Volunteer
-          />
+          <Volunteer          />
         }  
         {this.state.selected_menu !== undefined && (!meta_menu.component || meta_menu.component == "CrudTable") &&
         <Grid container>

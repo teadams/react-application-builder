@@ -49,9 +49,10 @@ export function postData (object_type, data_object, options, callback)   {
    url: urltext,
    data: { data_object }
  }).then(results => {
+      log.val("post successful")
       callback(results.data,"");
   }).catch(error => {
-    log.val('in catch error', error.message)
+//    log.val('in catch error', error.message)
     alert ('error getting data', error.message)
     callback('', error);
   })
@@ -73,7 +74,7 @@ export function putData (object_type, data_object, options, callback)   {
       callback(results.data,"");
   }).catch(error => {
     log.val('in catch error', error.message)
-    alert ('error getting data', error.message)
+    //alert ('error getting data', error.message)
     callback('', error);
   })
 }

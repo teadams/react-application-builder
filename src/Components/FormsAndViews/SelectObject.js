@@ -15,7 +15,6 @@ class SelectObject extends React.Component {
 //       alert('in select field with' + JSON.stringify(this.props));
         this.state = {
           select_menu_options : [],
-          selectTouched: false,
           value : this.props.value?this.props.value:'',
           prop_value : this.props.value?this.props.value:'',
           prop_form_values: this.props.form_values?this.props.form_values:''
@@ -40,7 +39,7 @@ class SelectObject extends React.Component {
     
   handleChange = event => {
 //        alert ('submit event target is '  + event.target.value)
-        this.setState({ value: event.target.value , selectTouched: true});
+//        this.setState({ value: event.target.value , selectTouched: true});
         if (this.props.onChange) {
           this.props.onChange(event);
         } 
@@ -71,20 +70,19 @@ class SelectObject extends React.Component {
   
   
   render() {
-
     const name_column_name = meta.keys(this.props.object_type).pretty_key_id;
     const field = meta.field(this.props.object_type, name_column_name)
     if (this.props.input_type == "radio") {
       return (<Fragment>
           <FormControl style={this.props.style}>
           <FormLabel component="legend">{field.pretty_name}</FormLabel>
-          <RadioGroup name={this.props.object_type} area-label={this.props.object_type} onChange={this.handleChange} value={this.state.value}>
+          <RadioGroup name={this.props.object_type} area-label={this.props.object_type} onChange={this.handleChange} value={this.props.value}>
           {this.state.select_menu_options.map(menu_option => {
             // Not sure why, radio group did not work where
             // value was an integer
             let radio_value = menu_option[0].toString()
             return (
-         <FormControlLabel  value={radio_value} label={menu_option[1]} control={<Radio/>}/>) 
+         <FormControlLabel  value={radio_value} label={menu_option[1]} control={<Radio key={radio_value}/>}/>) 
           })}
           </RadioGroup>
           </FormControl></Fragment>
@@ -94,7 +92,7 @@ class SelectObject extends React.Component {
       <FormLabel component="legend">{field.pretty_name}</FormLabel>
       <Select
       autoFocus={this.props.autoFocus?true:false}
-      value={this.state.value}
+      value={this.props.value}
       disabled = {this.props.disabled}  
       disableUnderline  = {this.props.disableUnderline}
       InputLableProps = {this.props.InputLableProps}
@@ -105,7 +103,8 @@ class SelectObject extends React.Component {
     >
 
     {this.state.select_menu_options.map(menu_option => {
-      return <MenuItem  key={menu_option[0]} value={menu_option[0]}>{menu_option[1]}</MenuItem>
+      let option_value = menu_option[0].toString()
+      return <MenuItem  key={menu_option[0]} value={option_value}>{menu_option[1]}</MenuItem>
     })}
   </Select>
  <FormHelperText>{field.helper_text}</FormHelperText>
