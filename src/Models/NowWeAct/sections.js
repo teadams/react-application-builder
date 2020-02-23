@@ -13,6 +13,10 @@ const metadata_sections = {
         {name:"additional", title:"Additional Details"},
         {name:"thumbnail", title:"Thumbnail"},
       ],
+    nwn_project_message: [
+      {name:"basic", title:""},
+      {name:"hidden", title:"Hidden"},
+    ]
 //      nwn_project_type: [
   //        {name:"basic", title:"Basic Information"},
     //      {name:"thumbnail", title:"Thumbnail"},

@@ -2,13 +2,13 @@
 const metadata_fields = {
   nwn_project_message: [
     {name:"id",  section:"basic",  pretty_name: "Id", data_type: "integer", required:true, key:true},
-    {name:"from_user", section:"basic", pretty_name:"Project Leader", references:"nwn_user", index:true, pretty_key:true},
-    {name:"to_user", section:"basic", pretty_name:"Project Leader", references:"nwn_user", index:true, pretty_key:true},
+    {name:"from_user", section:"basic", pretty_name:"From", references:"nwn_user", index:true, pretty_key:true},
+    {name:"to_user", section:"basic", pretty_name:"To", references:"nwn_user", index:true, pretty_key:true},
     {name:"nwn_project", section:"basic", pretty_name: "Project", references:"nwn_project", index:true}, 
-    {name:"subject", section:"basic", pretty_name: "Title", index:true, pretty_key:"true"}, 
-    {name:"body",  section:"basic",  pretty_name: "Description", data_type: "string"},
-    {name:"read_p", pretty_name: "Read?",  data_type: "boolean", default:true},
-    {name:"creation_date", section:"basic", pretty_name: "Creation Date", data_type:"date"},
+    {name:"subject", section:"basic", pretty_name: "Subject", index:true, pretty_key:"true"}, 
+    {name:"body",  section:"basic",  pretty_name: "Body", data_type: "string"},
+    {name:"read_p", section:"hidden", pretty_name: "Read?",  data_type: "boolean", default:false},
+    {name:"creation_date", section:"hiiden", section:"basic", pretty_name: "Creation Date", data_type:"date"},
   ],
   nwn_project_post: [
     {name:"id",  section:"basic",  pretty_name: "Id", data_type: "integer", required:true, key:true},
