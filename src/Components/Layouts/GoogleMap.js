@@ -27,8 +27,9 @@ class GoogleMap extends React.Component {
     this.setState({create_project_open:true});
   }
 
-  handleProjectCreated()  {
+  handleProjectCreated(action_text, inserted_id)  {
     this.setState({create_project_open:false});
+    this.props.onMenuChange("", 5, inserted_id, this.props.menu_link_field, this.props.link_object_type, this.props.menu_link_reference_field)
   }
 
   handleMoreClick = event => {

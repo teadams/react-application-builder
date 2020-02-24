@@ -59,6 +59,7 @@ class CreateForm extends React.Component {
                   alert ('error is ' + error.message)
             } else {
               var inserted_id = data.rows[0][meta.keys(this.props.object_type).key_id]  
+              
               this.handleClose(event,'created', inserted_id);
             }
           })

@@ -1,7 +1,7 @@
 //import {React, Fragment} from 'react';
 import React, { Component, Fragment} from 'react';
 import { Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
-import {ProjectVolunteers, ProjectNeeds, ProjectAnnouncements, ProjectDocuments} from './index.js';
+import {ProjectVolunteers, ProjectVideo, ProjectNeeds, ProjectAnnouncements, ProjectDocuments} from './index.js';
 import { withStyles } from '@material-ui/core/styles';
 
 import * as log from '../../Utils/log.js'
@@ -53,6 +53,7 @@ class ProjectView extends React.Component {
   loadData() {
   //alert ('upper projet id is ' + this.props.project_id)
 //    window.scrollTo(0,0)
+    //alert ("loading data with " + this. props.project_id)
     data.getData ("nwn_project", {id:this.props.project_id}, (item_data, error) => { 
           let updated_state = {};
           updated_state.item_data = item_data;
@@ -67,8 +68,9 @@ class ProjectView extends React.Component {
     hidden["from_user"] = true;
     hidden["to_user"] = true;
     hidden["nwn_project"] = true;
-
+  //  alert ("project_id = " + JSON.stringify(project_data))
     if (!utils.isEmptyObject(project_data)) {
+    //  alert ("about to return object")
       return (  
         <Fragment>
 
@@ -79,10 +81,11 @@ class ProjectView extends React.Component {
               <Paper elavatrion={10} style={{  backgroundColor:"white",padding:20}}>
               <Paper style={{padding:20}}>
               <center>          
-
+              {project_data.thumbnail && 
               <Image avatar={true} object_type="nwn_project"
               size="medium" fix="height"
               image_object={JSON.parse(project_data.thumbnail)} field_name="thumbnail"/>
+              }
             </center>
             
             <Typography variant="title">
@@ -131,13 +134,11 @@ class ProjectView extends React.Component {
               <Grid style={{padding:20}} item xs={6}>
               <Paper style={{padding:20}}>
               <Paper style={{padding:20, marginBottom:20}} >
-              <YouTube
-              size="medium" fix="height"
-              initial_url="https://youtu.be/_Ett1KsKQi4"/>
+              <ProjectVideo project_id={project_data.id}/>
               </Paper>
 
               <Paper style={{padding:20}}>
-              <ProjectAnnouncements/>
+              <ProjectAnnouncements  project_id={project_data.id}/>
               </Paper>
               </Paper>
               </Grid>
@@ -145,9 +146,11 @@ class ProjectView extends React.Component {
               <Paper style={{padding:20}}>
               <Paper style={{padding:20, marginBottom:20}} >
               <center>
-              <Image avatar={true} object_type="nwn_user"
-              size="medium" fix="height"
-              image_object={JSON.parse(project_data.leader_thumbnail)} field_name="thumbnail"/>
+              {project_data.leader_thumbnail &&
+                <Image avatar={true} object_type="nwn_user"
+                size="medium" fix="height"
+                image_object={JSON.parse(project_data.leader_thumbnail)} field_name="thumbnail"/>
+              }
               </center>
               <Typography variant="title">
                 <center> {project_data.leader_first_name} {project_data.leader_last_name} </center>

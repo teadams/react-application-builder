@@ -102,7 +102,7 @@ class App extends Component {
 
           this.setState({selected_menu: selected_menu,
                          selected_menu_type: menu_type,
-                        filter_id : filter_id
+                         filter_id : filter_id
                       }, ()=> {
                         this.handleDrawerClose();               
                       });
@@ -184,7 +184,7 @@ class App extends Component {
         }  
 
         {meta_menu.component == "ProjectView" &&
-          <ProjectView object_type="nwn_project" project_id="1"
+          <ProjectView object_type="nwn_project" project_id={this.state.filter_id?this.state.filter_id:1}
           />
         } 
 
@@ -206,6 +206,7 @@ class App extends Component {
             title = {meta_menu.title}
             text = {meta_menu.text}
             onMore={this.handleMenuChange}
+            onMenuChange = {this.handleMenuChange}
             object_type = {meta_menu.object_type}
           />
         }  

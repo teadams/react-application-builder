@@ -1,15 +1,15 @@
 //import {React, Fragment} from 'react';
 import React, { Component, Fragment} from 'react';
-import { Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
+import { Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, List, ListItem, ListItemText } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import { Image, YouTube} from "../index.js"
 import * as data from '../../Utils/data.js';
 import update from 'immutability-helper';
+import 'typeface-roboto'
 
-
-class ProjectAnnouncements extends React.Component {
+class ProjectVideo extends React.Component {
 
   constructor(props) {
     super(props);           
@@ -35,16 +35,16 @@ class ProjectAnnouncements extends React.Component {
 
   loadData() {
 //    window.scrollTo(0,0)
-    const object_type  = "nwn_project_post";
+    const object_type  = "nwn_project_need";
     const project_id = this.props.project_id
-
+//  alert ('project id is ' + project_id)
     // note leader is misnamed
 //  alert ('loading mapped data for ' + field_name)
     var options = {}
     options.filter_field = "nwn_project";
     options.filter_id = project_id;
     options.key_type = "key_id";
-    data.getData("nwn_project_post", options, (data, error) => { 
+    data.getData("nwn_project_video", options, (data, error) => { 
         let updated_state = [];
         updated_state.data = data;
         this.setState(updated_state)
@@ -52,38 +52,29 @@ class ProjectAnnouncements extends React.Component {
   }
 
   render () {
+    
       return (
       <Fragment>
       <Grid container spacing='32' direction='column'>
       <Grid item>
-      <Typography variant="title">Project Announcements</Typography>
+      <Typography variant="title">Project Video</Typography>
       </Grid>
       <Grid>
+      <List>
       {this.state.data.map(row=>{
-
+          //alert ('row is ' + JSON.stringify(row))  
           return(
-              <Paper style={{padding:20}}>
-                  <Typography variant='title' gutterBottom>
-                    {row.name}
-                  </Typography>
-                  <Typography  gutterBottom>
-                  {row.body}
-                  </Typography>
-                  {row.role_type && 
-                      <Button variant='contained'>I can help!</Button>
-                  }
-                  {row.url && <YouTube initial_url={row.url}/>}
-                  {row.image && <Image object_type="nwn_project_post"
-                  size="medium" fix="width"
-                  image_object={JSON.parse(row.image)} field_name="image"/>}
-              </Paper>
+            <YouTube
+            size="medium" fix="height"
+            initial_url="https://youtu.be/_Ett1KsKQi4"/>
             )   
       })}
+      </List>
       </Grid>
       </Grid>
       </Fragment>  
   )}
 }
 
-export default ProjectAnnouncements;
+export default ProjectVideo;
 
