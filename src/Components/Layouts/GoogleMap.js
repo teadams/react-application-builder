@@ -1,5 +1,5 @@
 import React,  {Fragment} from 'react';
-import {Paper,  Typography, Button} from '@material-ui/core';
+import {Paper,  Typography, Button, Grid} from '@material-ui/core';
 //import * as meta from '../../Utils/meta.js'
 import {Field, ObjectView} from "../Experimental"
 import {ProjectHover} from "../NowWeAct"
@@ -64,10 +64,18 @@ componentDidMount() {
 
     return (
       <Fragment>
-        <Typography variant="headline">
+        <Grid container >
+          <Grid item  style={{padding:20}}>
+          <Typography variant="headline">
            {this.props.title}
-           <Button variant="contained" onClick={this.handleCreateProjectOpen}>Create a Project</Button>
-        </Typography>
+          </Typography>
+          </Grid>
+          <Grid item  style={{padding:20}}> <Button variant="contained" onClick={this.handleCreateProjectOpen}>Create a Project</Button></Grid>
+          <Grid item  style={{padding:20}}>
+              Number of active Projects:    Number of successful projects:   Number of Volunteers: 
+          </Grid>
+          </Grid>
+        
         {this.state.create_project_open &&
           <CreateForm
             object_type="nwn_project" 
