@@ -41,6 +41,30 @@ export function getData (object_type, options, callback)   {
   })
 }
 
+export function getCount (object_type, options, callback)   {
+  var urltext = '/api/v1/count/' + object_type;
+
+  //alert ('options  ' + JSON.stringify(options))
+
+  var param_clause = []
+  if (options.filter_id) {
+    param_clause.push("filter_field="+options.filter_field+"&filter_id="+options.filter_id)
+  }
+
+  urltext += "?"+param_clause.join("&")
+  axios({
+   method: 'get',
+   url: urltext,
+ }).then(results => {
+  //      alert ('got data')
+      callback(results.data,"");
+  }).catch(error => {
+    log.val('in catch error', error.message)
+    alert ('error getting data', error.message)
+    callback('', error);
+  })
+}
+
 // INSERTS 
 export function postData (object_type, data_object, options, callback)   {
   let urltext = '/api/v1/' + object_type;

@@ -49,13 +49,30 @@ componentDidMount() {
       log.val('drill down did mount')
 
       //alert('object type is ' + this.props.object_type)
-      data.getData (this.props.object_type, "", (marker_data, error) => {
+      data.getData(this.props.object_type, "", (marker_data, error) => {
 //  alert ('data is '  + JSON.stringify(marker_data))
              this.setState({ marker_data:marker_data})
   //alert ('after set set')
             //  alert ('maker data is ' + JSON.stringify(marker_data))
       })
 
+      data.getCount(this.props.object_type, "", (num_projects, error) => {
+             this.setState({num_projects:num_projects})
+      })
+
+      data.getCount("nwn_project_volunteer", "", (num_volunteers, error) => {
+             this.setState({num_volunteers:num_volunteers})
+      })
+
+      let options = {}
+      options.filter_field = "status"
+      options.filter_id = "Success"
+      data.getCount("nwn_project", options, (num_successful_projects, error) => {
+             this.setState({num_successful_projects:num_successful_projects})
+      })
+
+
+      
   }
 
   render() {
@@ -72,10 +89,11 @@ componentDidMount() {
           </Grid>
           <Grid item  style={{padding:20}}> <Button variant="contained" onClick={this.handleCreateProjectOpen}>Create a Project</Button></Grid>
           <Grid item  style={{padding:20}}>
-              Number of active Projects:    Number of successful projects:   Number of Volunteers: 
+              Number of active Projects: {this.state.num_projects}   Number of successful projects: {this.state.num_successful_projects}   Number of Volunteers: {this.state.num_volunteers}
           </Grid>
           </Grid>
         
+
         {this.state.create_project_open &&
           <CreateForm
             object_type="nwn_project" 
