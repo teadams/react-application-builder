@@ -4,7 +4,7 @@ const metadata_menus = {
     {index:"1", label: "Help Out", object_type: "nwn_project_volunter",  object_type:"nwn_project_volunteer"},
     {index:"2", label: "Projects", object_type:"nwn_project", component:"DrillDown"},
     {index:"3", label: "Learning Library", component:"Text", text:"Zac and Jesse will teach you what you need", title:"Learning Library"}, 
-    {index:"4", label: "My Messages",  object_type:"nwn_project_message"}, 
+    {index:"4", label: "My Messages", component:"ProjectMessages",  object_type:"nwn_project_message"}, 
     {index:"5", label: "One Project",  object_type:"nwn_project", component:"ProjectView", project_id:2},
     {index:"6", label: "Volunteer",  object_type:"nwn_project", component:"Volunteer", project_id:2},
 

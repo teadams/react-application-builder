@@ -3,7 +3,7 @@ import {Grid} from 'material-ui'
 import { CrudTable, Text, GoogleMap} from './Components/Layouts';
 import {NavMenuLink, DrillDown} from './Components/Experimental';
 import {AuthToggleLink, AuthContext, AuthProvider} from './Components/User';
-import {ProjectView, Volunteer} from './Components/NowWeAct';
+import {ProjectView, Volunteer, ProjectMessages} from './Components/NowWeAct';
 import * as meta from './Utils/meta.js'
 import * as log from './Utils/log.js'
 import axios from 'axios';
@@ -213,6 +213,9 @@ class App extends Component {
 
         {meta_menu.component == "Volunteer" &&
           <Volunteer          />
+        }  
+        {meta_menu.component == "ProjectMessages" &&
+          <ProjectMessages/>
         }  
         {this.state.selected_menu !== undefined && (!meta_menu.component || meta_menu.component == "CrudTable") &&
         <Grid container>
