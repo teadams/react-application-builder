@@ -9,76 +9,47 @@ import * as data from '../../Utils/data.js';
 import update from 'immutability-helper';
 import 'typeface-roboto'
 
-class ProjectNeeds extends React.Component {
+class ProjectMessage extends React.Component {
 
   constructor(props) {
     super(props);           
-
-    this.state = {
-        data: [],
-    }  
-    this.loadData = this.loadData.bind(this);
   } 
 
-  componentDidMount() {
-  //   alert ("view data mount")
-      this.loadData();
-  }
-  
-  componentDidUpdate(prevProps, prevState, snapshot) {
-  //    alert ("view data update")
-      if (prevProps.id !== this.props.id || 
-          prevProps.object_type !== this.props.object_type) {
-          this.loadData();
-      }
-  } 
-
-  loadData() {
-//    window.scrollTo(0,0)
-    const object_type  = "nwn_project_need";
-    const project_id = this.props.project_id
-//  alert ('project id is ' + project_id)
-    // note leader is misnamed
-//  alert ('loading mapped data for ' + field_name)
-    var options = {}
-    options.filter_field = "nwn_project";
-    options.filter_id = project_id;
-    options.key_type = "key_id";
-    data.getData("nwn_project_need", options, (data, error) => { 
-        let updated_state = [];
-        updated_state.data = data;
-        this.setState(updated_state)
-      })
-  }
 
   render () {
+    
+    if (this.props.row.read_p) {
       return (
-      <Fragment>
-      <Grid container spacing='32' direction='column'>
-      <Grid item>
-      <Typography variant="title">Project Needs</Typography>
-      </Grid>
-      <Grid>
-      <List>
-      {this.state.data.map(row=>{
-          //alert ('row is ' + JSON.stringify(row))  
-          return(
               <ListItem>
                 <ListItemText>
-                {row.name_name}   
-                </ListItemText>
-                <ListItemText>
-                {row.description}
-                </ListItemText>
+                  <Grid direction="horizonal" container>
+                  <Grid item style={{width:100}}>{this.props.row.creation_date}</Grid><Grid item style={{paddingLeft:20, width:300}}>   
+                  {this.props.row.from_user_first_name} {this.props.row.from_user_last_name} 
+                  </Grid>
+                  <Grid item style={{paddingLeft:20}}>
+                  {this.props.row.subject}
+                  </Grid></Grid>
+                  </ListItemText>
               </ListItem>
-            )   
-      })}
-      </List>
-      </Grid>
-      </Grid>
-      </Fragment>  
-  )}
+            )  
+    } else {
+
+      return (
+              <ListItem>
+                <ListItemText>
+                  <Grid direction="horizonal" container>
+                  <Grid item style={{width:100}}>{this.props.row.creation_date}</Grid><Grid item style={{paddingLeft:20, width:300}}>   
+                  {this.props.row.from_user_first_name} {this.props.row.from_user_last_name} 
+                  </Grid>
+                  <Grid item style={{paddingLeft:20}}>
+                  <b>{this.props.row.subject}</b>
+                  </Grid></Grid>
+                  </ListItemText>
+              </ListItem>
+            )
+    } 
+  }
 }
 
-export default ProjectNeeds;
+export default ProjectMessage;
 
