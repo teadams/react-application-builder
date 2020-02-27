@@ -28,9 +28,19 @@ class GoogleMap extends React.Component {
     this.setState({create_project_open:true});
   }
 
-  handleProjectCreated(action_text, inserted_id)  {
+  handleProjectCreated(action_text, inserted_id, formValues)  {
     this.setState({create_project_open:false});
     this.props.onMenuChange("", 5, inserted_id, this.props.menu_link_field, this.props.link_object_type, this.props.menu_link_reference_field)
+    let params = {}
+    params.address="9415 Gulf Shore Drive, Naples, Fl, 34108"
+    params.key = google_map.get_key()
+    alert ("form values is " + JSON.stringify(formValues))
+    data.getURL("https://maps.googleapis.com/maps/api/geocode/json", params, (data, error) => { 
+        //alert ("return is " + JSON.stringify(data.results[0].geometry.location))
+        const latitude = data.results[0].geometry.location.lat
+        const longitude = data.results[0].geometry.location.lng
+      
+    })
   }
 
   handleMoreClick = event => {
@@ -79,18 +89,7 @@ componentDidMount() {
 
   render() {
 
-    let api_key = google_map.get_key()
-    let url = "https://maps.googleapis.com/maps/api/geocode/json"
-    let params = {}
-    params.address="9415 Gulf Shore Drive, Naples, Fl, 34108"
-    params.key = api_key
-    data.getURL(url, params, (data, error) => { 
-        alert ("return is " + JSON.stringify(data.results[0].geometry.location))
-        const latitude = data.results[0].geometry.location.lat
-        const longitude = data.results[0].geometry.location.lng
-      
-    })
-
+    let sections = "basic,location"
     return (
       <Fragment>
         <Grid container >
@@ -112,7 +111,7 @@ componentDidMount() {
             open={this.state.create_project_open}
             hidden={{leader:true}}
             onClose={this.handleProjectCreated}
-            sections="basic"
+            sections={sections}
           />}
         <Typography variant="body1" style={{padding:10}}>
             {this.props.text}

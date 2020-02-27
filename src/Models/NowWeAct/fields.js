@@ -64,10 +64,10 @@ const metadata_fields = {
     {name:"leader", section:"basic", pretty_name:"Project Leader", references:"nwn_user", index:true,  use_context:true},
     {name:"summary", section:"basic", grid_col:6, pretty_name: "Short Summary", data_type: "string"},
     {name:"description", section:"basic", grid_col:12, pretty_name: "Project Description", size:"large", data_type: "string"},
-    {name:"country", section:"location", pretty_name: "Country", references:"nwn_country"}, 
     {name:"state",  section:"location", pretty_name: "State or Province", references:"nwn_state_province"},
-    {name:"latitude", section:"location", pretty_name: "Latitude", data_type: "string"},
-    {name:"longitude", section:"location", pretty_name: "Longitude", data_type: "string"},
+    {name:"country", section:"location", pretty_name: "Country", references:"nwn_country"}, 
+    {name:"latitude", section:"geo", pretty_name: "Latitude", data_type: "string"},
+    {name:"longitude", section:"geo", pretty_name: "Longitude", data_type: "string"},
 // image field will store an object with height
 // width and alt tag.  Images themselves will
 // be stored in a core images object.

@@ -77,6 +77,7 @@ class CreateForm extends React.Component {
     }
 
   handleClose(event, action_text, inserted_id) {
+    const formValues=this.state.formValues
     const object_fields = meta.fields(this.props.object_type)
     this.setState({ formValues: {}, formTouched:true})
     this.props.onClose(action_text?`${meta.object(this.props.object_type).pretty_name}  ${action_text}`:'', inserted_id);
@@ -86,9 +87,10 @@ class CreateForm extends React.Component {
     if (this.props.id) {
       // editing an ojbect, take existing values
       data.getData (this.props.object_type, {id:this.props.id}, (item_data, error) => { 
-            this.setState({ formValues: item_data})
+            this.setState({ formValues: item_data, contextInitialized: true})
       })   
     } else {
+    
       // Will will take care of the folloing cases in this border
       // 1. Field should be defaulted from the meta-databa
       // 2. Filter field is present and should be defaulted
@@ -98,7 +100,6 @@ class CreateForm extends React.Component {
       // formINitialized is used to allow ComponentDidUpdate to trigger this once
       let defaultedFormValues = {}
       let contextInitialized = false
-
       const object_fields = meta.fields(this.props.object_type)
       object_fields.map(field => {
           if (!field.key ) {
@@ -121,8 +122,14 @@ class CreateForm extends React.Component {
             if (this.props[field.name]) {
                 defaultedFormValues[field.name] = this.props[field.name]
             }
+
+            if (this.context.user.id) {
+              // we have the full context this loop.  
+              contextInitialized = true
+            }
         }
       });
+      
       if (defaultedFormValues) {
         this.setState({contextInitialized: contextInitialized, formValues: defaultedFormValues });
       }
@@ -135,9 +142,9 @@ class CreateForm extends React.Component {
   }
 
  componentDidUpdate(prevProps, prevState, snapshot) {
-   //const object_fields = meta.fields(this.props.object_type)
-   if (prevProps != this.props || this.context.user && !this.state.contextInitialized ) {
-      
+
+   if (prevProps != this.props || (this.context.user && !this.state.contextInitialized)) {
+  
      // 1. this is a change other than a change to the form
      // For example a new object_type
      // 2. OR - the user has just logged in (change in context) and we want 
@@ -160,7 +167,7 @@ class CreateForm extends React.Component {
   }
 
   render() {
-
+    
     const { onClose, object_type, open} = this.props;    
     const object_fields = meta.fields(object_type)
     if (!this.props.open || !this.state.formValues) {
