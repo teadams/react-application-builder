@@ -12,8 +12,14 @@ import 'typeface-roboto'
 class ProjectMessage extends React.Component {
 
   constructor(props) {
-    super(props);           
+    super(props);    
+    this.handleSubjectClick = this.handleSubjectClick.bind(this);       
   } 
+
+
+  handleSubjectClick = event => {
+      alert ("subject is clicked")
+  }
 
 
   render () {
@@ -26,8 +32,8 @@ class ProjectMessage extends React.Component {
                   <Grid item style={{width:100}}>{this.props.row.creation_date}</Grid><Grid item style={{paddingLeft:20, width:300}}>   
                   {this.props.row.from_user_first_name} {this.props.row.from_user_last_name} 
                   </Grid>
-                  <Grid item style={{paddingLeft:20}}>
-                  {this.props.row.subject}
+                  <Grid  item style={{paddingLeft:20}}>
+                  <Typography onClick={this.handleSubjectClick}>{this.props.row.subject}</Typography>
                   </Grid></Grid>
                   </ListItemText>
               </ListItem>

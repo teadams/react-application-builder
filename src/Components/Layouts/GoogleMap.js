@@ -8,6 +8,7 @@ import {CreateForm} from "../Layouts/index.js";
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import * as data from '../../Utils/data.js';
+import * as google_map from './api.js'
 
 class GoogleMap extends React.Component {
   constructor(props) {
@@ -78,7 +79,8 @@ componentDidMount() {
   render() {
   //alert ('about  to render object' + JSON.stringify(this.state.marker_data))
 //  alert ("market data is "  + this.state.marker_data)
-
+    let api_key = google_map.get_key()
+    let fields = google_map.kfield("nwn_project")
     return (
       <Fragment>
         <Grid container >
@@ -161,5 +163,5 @@ componentDidMount() {
 
 
 export default GoogleApiWrapper({
-  apiKey: ("AIzaSyB7xya0w0DAsz0kODQ0_MWlApayXELLBGo")
+  apiKey: google_map.get_key()
 })(GoogleMap)
