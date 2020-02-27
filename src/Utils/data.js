@@ -119,3 +119,22 @@ export function deleteData (object_type, data_object, options, callback)   {
     callback('', error);
   })
 }
+
+
+export function getURL (url, params, callback)   {
+  // params is an object containing URL params
+
+  axios({
+   method: 'get',
+   url: url,
+   params: params
+//   data: {address: "France", key: "AIzaSyB7xya0w0DAsz0kODQ0_MWlApayXELLBGo"}
+ }).then(results => {
+  //      alert ('got data')
+      callback(results.data,"");
+  }).catch(error => {
+    log.val('in catch error', error.message)
+    alert ("error getting url " + url + "  "+ error.message)
+    callback('', error);
+  })
+}

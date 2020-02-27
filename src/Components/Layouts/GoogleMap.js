@@ -76,11 +76,21 @@ componentDidMount() {
       
   }
 
+
   render() {
-  //alert ('about  to render object' + JSON.stringify(this.state.marker_data))
-//  alert ("market data is "  + this.state.marker_data)
+
     let api_key = google_map.get_key()
-    let fields = google_map.kfield("nwn_project")
+    let url = "https://maps.googleapis.com/maps/api/geocode/json"
+    let params = {}
+    params.address="9415 Gulf Shore Drive, Naples, Fl, 34108"
+    params.key = api_key
+    data.getURL(url, params, (data, error) => { 
+        alert ("return is " + JSON.stringify(data.results[0].geometry.location))
+        const latitude = data.results[0].geometry.location.lat
+        const longitude = data.results[0].geometry.location.lng
+      
+    })
+
     return (
       <Fragment>
         <Grid container >
