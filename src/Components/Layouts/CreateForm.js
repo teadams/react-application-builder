@@ -59,15 +59,14 @@ class CreateForm extends React.Component {
                   alert ('error is ' + error.message)
             } else {
               var inserted_id = data.rows[0][meta.keys(this.props.object_type).key_id]  
-              
-              this.handleClose(event,'created', inserted_id);
+              this.handleClose(event,'created', inserted_id, this.state.formValues);
             }
           })
         } else {
           data.putData(this.props.object_type, this.state.formValues, {}, (result, error) => { 
             if (error) {
             } else { 
-              this.handleClose(event,'edited');
+              this.handleClose(event,'edited', this.state.formValues);
             }
           })
         }
@@ -125,6 +124,8 @@ class CreateForm extends React.Component {
 
             if (this.context.user.id) {
               // we have the full context this loop.  
+              // TODO - This take 2 passes through the default values
+              // code when the user has to log in. Is there a cleaner way?
               contextInitialized = true
             }
         }

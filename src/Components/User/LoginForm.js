@@ -22,7 +22,6 @@ class LoginForm extends React.Component {
 
   handleSubmit(event) {
     data.getData ("nwn_user", {filter_id:this.state.formValues["email"], filter_field:"email"}, (user_data, error) => {
-        alert ("end submit and " + JSON.stringify(user_data))
         if (user_data.length == 0) {
             alert ('user not found')
         } else {

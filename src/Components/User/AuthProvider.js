@@ -16,7 +16,6 @@ class AuthProvider extends Component {
                user: this.state.user,
                logout: ()=> {this.setState({user:""})},   
                login: (user)=> {
-                  alert ("log in user")
                   this.setState({user:user})}    
               }}
             >      
