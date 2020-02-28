@@ -123,7 +123,6 @@ export function deleteData (object_type, data_object, options, callback)   {
 
 export function getURL (url, params, callback)   {
   // params is an object containing URL params
-
   axios({
    method: 'get',
    url: url,

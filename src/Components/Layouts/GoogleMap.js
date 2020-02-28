@@ -29,18 +29,32 @@ class GoogleMap extends React.Component {
   }
 
   handleProjectCreated(action_text, inserted_id, formValues)  {
-    this.setState({create_project_open:false});
-    this.props.onMenuChange("", 5, inserted_id, this.props.menu_link_field, this.props.link_object_type, this.props.menu_link_reference_field)
-    let params = {}
-    params.address="9415 Gulf Shore Drive, Naples, Fl, 34108"
-    params.key = google_map.get_key()
-    alert ("form values is " + JSON.stringify(formValues))
-    data.getURL("https://maps.googleapis.com/maps/api/geocode/json", params, (data, error) => { 
-        //alert ("return is " + JSON.stringify(data.results[0].geometry.location))
-        const latitude = data.results[0].geometry.location.lat
-        const longitude = data.results[0].geometry.location.lng
-      
+    this.setState({create_project_open:false})
+    // though we have access to formValues, state and Country
+    //  are id's and not the text name.   Simplest path forward
+    // (unfortunately) is to query back the project infor from
+    // the server
+    let options = {}
+    options.id = inserted_id
+    data.getData("nwn_project", options, (project_data, error) => { 
+      let params = {}
+//      alert ("data is " + JSON.stringify(data))
+      params.address=project_data["state_name"] +",  " + project_data["country_name"]
+      params.key = google_map.get_key()
+      data.getURL("https://maps.googleapis.com/maps/api/geocode/json", params, (result, error) => { 
+          options.latitude = result.results[0].geometry.location.lat
+          options.longitude = result.results[0].geometry.location.lng 
+
+          data.postData("nwn_project", options, {}, (data, error) => { 
+            if (error) {
+                  alert ('error is ' + error.message)
+            } else {
+            }
+          })     
+      })
     })
+    this.props.onMenuChange("", 5, inserted_id, this.props.menu_link_field, this.props.link_object_type, this.props.menu_link_reference_field)
+
   }
 
   handleMoreClick = event => {

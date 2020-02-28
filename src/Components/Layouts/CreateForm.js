@@ -59,7 +59,7 @@ class CreateForm extends React.Component {
                   alert ('error is ' + error.message)
             } else {
               var inserted_id = data.rows[0][meta.keys(this.props.object_type).key_id]  
-              this.handleClose(event,'created', inserted_id, this.state.formValues);
+              this.handleClose(event,'created', inserted_id);
             }
           })
         } else {
@@ -78,8 +78,8 @@ class CreateForm extends React.Component {
   handleClose(event, action_text, inserted_id) {
     const formValues=this.state.formValues
     const object_fields = meta.fields(this.props.object_type)
+    this.props.onClose(action_text?`${meta.object(this.props.object_type).pretty_name}  ${action_text}`:'', inserted_id, formValues);
     this.setState({ formValues: {}, formTouched:true})
-    this.props.onClose(action_text?`${meta.object(this.props.object_type).pretty_name}  ${action_text}`:'', inserted_id);
   };
 
   initializeData() {
