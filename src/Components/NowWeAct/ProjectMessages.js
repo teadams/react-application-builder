@@ -21,6 +21,7 @@ class ProjectMessages extends React.Component {
         data: [],
     }  
     this.loadData = this.loadData.bind(this);
+    this.handleReadMessage = this.handleReadMessage.bind(this);
   } 
 
   componentDidMount() {
@@ -48,7 +49,14 @@ class ProjectMessages extends React.Component {
       })
   }
 
+  handleReadMessage(index) {
+      let messages  = this.state.data
+      messages[index].read_p = true;
+      this.setState({data:messages})
+  }
+
   render () {
+      let x=0
       return (
       <Fragment>
       <Grid container spacing='32' direction='column'>
@@ -68,10 +76,10 @@ class ProjectMessages extends React.Component {
           </Grid></Grid>
           </ListItemText>
       </ListItem>
-      {this.state.data.map(row=>{
-          //alert ('row is ' + JSON.stringify(row))  
+      {this.state.data.map(row=>{  
+          x+=1
           return(
-              <ProjectMessage row={row}/>
+              <ProjectMessage index={x-1} onRead={this.handleReadMessage} row={row}/>
             )   
       })}
       </List>
