@@ -94,8 +94,15 @@ class ProjectView extends React.Component {
             <Typography variant="body">
               <center> {project_data.summary} </center>
             </Typography>
-            </Paper>
+              </Paper>
 
+            <Paper elevation = {10} style={{padding:10}}>
+              <center>
+              <Typography>{project_data.street_address}</Typography>
+              <Typography>{project_data.city}</Typography>
+              <Typography>{project_data.state_name},  {project_data.country_name} {project_data.zip_code}</Typography>
+              </center>
+            </Paper>
             <Paper elevation={10} style={{backgrounColor:"white", padding:20}}>
             <center>
             <Button variant="contained" onClick={this.handleCreateMessageOpen}>Send a Message</Button>

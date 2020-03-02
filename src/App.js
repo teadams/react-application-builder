@@ -184,7 +184,7 @@ class App extends Component {
         }  
 
         {meta_menu.component == "ProjectView" &&
-          <ProjectView object_type="nwn_project" project_id={this.state.filter_id?this.state.filter_id:1}
+          <ProjectView object_type="nwn_project" project_id={this.state.filter_id?this.state.filter_id:meta_menu.project_id}
           />
         } 
 

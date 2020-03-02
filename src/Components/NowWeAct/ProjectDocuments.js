@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import { Image} from "../index.js"
+import { ButtonCreate, CreateForm} from "../Layouts/index.js"
 import * as data from '../../Utils/data.js';
 import update from 'immutability-helper';
 import 'typeface-roboto'
@@ -16,9 +17,20 @@ class ProjectDocuments extends React.Component {
 
     this.state = {
         data: [],
+        form_open:false
     }  
     this.loadData = this.loadData.bind(this);
+    this.handleOnClick = this.handleOnClick.bind(this);
+    this.handleOnClose = this.handleOnClose.bind(this);
   } 
+
+  handleOnClick()  {
+    this.setState({form_open:true});
+  }
+
+  handleOnClose(action_text, inserted_id, formValues)  {
+    this.setState({form_open:false});
+  }
 
   componentDidMount() {
   //   alert ("view data mount")
@@ -54,9 +66,17 @@ class ProjectDocuments extends React.Component {
   render () {
       return (
       <Fragment>
+      {this.state.form_open && 
+      <CreateForm open={this.state.form_open}  nwn_project={this.props.project_id} hidden={{nwn_project:true}} onClose={this.handleOnClose } object_type="nwn_project_document" />}
       <Grid container spacing='32' direction='column'>
       <Grid item>
-      <Typography variant="title">Project Documents</Typography>
+        <Grid container direction='row'>
+           <Grid item>
+              <Typography variant="title">Project Documents</Typography>
+            </Grid><Grid  style={{paddingLeft:10}} item>
+              <ButtonCreate onClick={this.handleOnClick} />
+            </Grid>
+        </Grid>
       </Grid>
       <Grid>
       {this.state.data.map(row=>{

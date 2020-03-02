@@ -16,6 +16,9 @@ const metadata_sections = {
     nwn_project_message: [
       {name:"basic", title:""},
       {name:"hidden", title:"Hidden"},
+    ],
+    nwn_project_document: [
+      {name:"basic", title:""}
     ]
 //      nwn_project_type: [
   //        {name:"basic", title:"Basic Information"},

@@ -78,7 +78,10 @@ class CreateForm extends React.Component {
   handleClose(event, action_text, inserted_id) {
     const formValues=this.state.formValues
     const object_fields = meta.fields(this.props.object_type)
-    this.props.onClose(action_text?`${meta.object(this.props.object_type).pretty_name}  ${action_text}`:'', inserted_id, formValues);
+    if (this.props.onClose) {
+        this.props.onClose(action_text?`${meta.object(this.props.object_type).pretty_name}  ${action_text}`:'', inserted_id, formValues);
+    } 
+    
     this.setState({ formValues: {}, formTouched:true})
   };
 
@@ -117,6 +120,7 @@ class CreateForm extends React.Component {
               defaultedFormValues[field.name] = this.context.user.id
               contextInitialized = true
             }
+          //  alert ("filed name is " + [field.name])
             // props overrides everything
             if (this.props[field.name]) {
                 defaultedFormValues[field.name] = this.props[field.name]
@@ -210,6 +214,9 @@ class CreateForm extends React.Component {
                   var field_render = (section_fields.map(field=>{
                         let grid_col = field.grid_col?field.grid_col:4
                         grid_col = grid_col * gridCol_scale
+                      
+                        // Bug/Missing - hidden field only work for
+                        // forms with section
                         if (!field.key && (!this.props.hidden || !this.props.hidden[field.name])) { 
                           return (<Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}} sm={grid_col}>
                                     {this.renderField(field)}

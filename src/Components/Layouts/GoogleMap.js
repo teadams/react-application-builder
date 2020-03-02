@@ -39,8 +39,8 @@ class GoogleMap extends React.Component {
     data.getData("nwn_project", options, (project_data, error) => { 
       let params = {}
 //      alert ("data is " + JSON.stringify(data))
-      params.address=project_data["state_name"] +",  " + project_data["country_name"]
-      params.key = google_map.get_key()
+      params.address= project_data.street_address  + ", " + project_data.city  +", " + project_data["state_name"] +",  " + project_data["country_name"] +", " + project_data.zip_code
+      params.key = google_map.get_key() 
       data.getURL("https://maps.googleapis.com/maps/api/geocode/json", params, (result, error) => { 
           options.latitude = result.results[0].geometry.location.lat
           options.longitude = result.results[0].geometry.location.lng 
