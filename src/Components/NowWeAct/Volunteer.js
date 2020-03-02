@@ -8,6 +8,8 @@ import { Image} from "../index.js"
 import * as data from '../../Utils/data.js';
 import update from 'immutability-helper';
 import {SelectObject} from "../index.js";
+import AuthContext from '../User/AuthContext';
+
 
 class Volunteer extends React.Component {
 
@@ -21,6 +23,7 @@ class Volunteer extends React.Component {
         email_p:true
     }  
     this.loadData = this.loadData.bind(this);
+    this.handleProjectChange = this.handleProjectChange.bind(this);
     this.handleRoleTypeChange = this.handleRoleTypeChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -37,38 +40,44 @@ class Volunteer extends React.Component {
       log.val(JSON.stringify(this.state))
       for (var key in this.state) {
           if (this.state.hasOwnProperty(key)) {
-            log.val ("keey is " + key)
-            alert ("key searc is "  + key + " " + key.search("need_"))
             if (key.search("need_") == 0) {
-               alert ("in a need")
                 // need it is the index of the need from project_needs
                 // not the id in the database
                 let need_idx =  key.replace("need_","")
-                log.val("need is " +need_idx)   
                 let need = this.state.project_needs[need_idx]
-                log.val(JSON.stringify(need))
                 let project_id = need.nwn_project_id
                 let need_id = need.id
-                let user = 4
+                let user = this.context.user
                 let volunteer_object = {}
                 volunteer_object.nwn_project  = need.nwn_project_id
-                volunteer_object.name = 4
+                volunteer_object.name = user.id
                 volunteer_object.role_type = need.name
-        //        alert ('volunteer object is ' + JSON.stringify(volunteer_object))
                 data.postData("nwn_project_volunteer", volunteer_object, {}, (result, error) => { 
                   log.val("callback of postdata")
                   if (error) {
                       log.val("error is " + error)
                   } else { 
-                      log.val("need submitted for " + need_idx)
+                      let volunteer_record = result.rows[0].id;
+                      let message_object = {}
+                      message_object.from_user = user.id;
+                      message_object.to_user = need.nwn_project_leader;
+                      message_object.nwn_project_volunteer = volunteer_record;
+                      message_object.nwn_project = need.nwn_project_id;
+                      message_object.subject  = "Volunteer Application for " + need.name_description;
+                      message_object.body = this.state.message;
+                      message_object.read_p = false;  
+                      data.postData("nwn_project_message", message_object, {}, (result, error) => { 
+                        log.val("callback of postdata")
+                        if (error) {
+                            log.val("error is " + error)
+                        } else {
+                            alert ("You volunteer application has been submitted")
+                        }})
+
                   }
-                })
-               // create volunteer application
-                // have to get the user
-               // create project Message      
+                })    
             } 
           }
-          alert ("done with property")
       }
   
       //alert ("about to finish submit")
@@ -85,31 +94,38 @@ class Volunteer extends React.Component {
     this.setState(state_object)   
   }
 
-  loadData () {
+  loadData (project_id, role_type_id) {
       let object_type = "nwn_project_need"
-      data.getData(object_type, "", (data, error) => { 
+      let options = {}
+      if(project_id) {
+        options.filter_id = project_id
+        options.filter_field = "nwn_project"
+      } else {
+        options.filter_id = role_type_id
+        options.filter_field = "nwn_role_type"
+      }
+      // TODO _ FILTER WITH BOTH, But that needs a change to the back end
+      data.getData(object_type, options, (data, error) => { 
         const id_column_name =meta.keys(object_type).key_id;
         const name_column_name = meta.keys(object_type).pretty_key_id;
+      //  alert ("needs is " + JSON.stringify(data))
         this.setState({ project_needs: data})          
       })
-      
   }
 
-  handleProjectChange = event => {
-      //  alert ("changeing project id")
-//        alert ('submit event target is '  + event.target.value)
-        if (event.target.value != this.state.project_id) {
-          this.setState({ project_id: event.target.value , selectTouched: true});
-          this.loadData()
+  handleProjectChange(value, project_name) {
+
+        if (value != this.state.project_id) {
+          this.setState({ project_name: project_name, project_id:value, selectTouched: true});
+          this.loadData(value, this.state.role_type_id)
         }
   }
 
-  handleRoleTypeChange = event => {
-      //alert ("chageing role")
-//        alert ('submit event target is '  + event.target.value)
-    if (event.target.value != this.state.role_type_id) {
-        this.setState({ role_type_id: event.target.value , selectTouched: true});
-        this.loadData()
+  handleRoleTypeChange(value, role_name) {
+  
+    if (value != this.state.role_type_id) {
+        this.setState({ role_name: role_name, role_type_id: value, selectTouched: true});
+        this.loadData(this.state.project_id, value)
     }
   }
 
@@ -130,6 +146,19 @@ class Volunteer extends React.Component {
       if (this.state.project_id || this.state.role_type_id) {
         show_needs = true
       }
+
+      let form_title = ""
+      if (this.state.project_id && !this.state.role_type_id) {
+        // only project is selected;
+        form_title = "Opportunities for Project " + this.state.project_name
+      } else if (!this.state.project_id && this.state.role_type_id) {
+        // role is selected
+        form_title = "Opportunities for Role " + this.state.role_name
+      } else {
+        // both role and project are selected
+        form_title = "Opportunities for  Role " + this.state.role_name + " in project " + this.state.project_name
+    }
+     
       return (
       <Fragment>
       <Typography style={{padding:20}}>
@@ -148,28 +177,29 @@ class Volunteer extends React.Component {
       </Grid>
       </Grid> 
       {show_needs &&  
-      <Fragment>
-      <form onSubmit={this.handleSubmit}>
-      <FormControl>
-      <FormLabel>Avaialable Needs</FormLabel>
-      <Typography>Check the volunteer opportunities you are interested in.  You may select more than 1. </Typography>
+
+      <Paper elevation={24} style={{padding:20}}>
+        <Fragment>
+          <form onSubmit={this.handleSubmit}>
+          <Typography variant="title">{form_title}</Typography>
+          <FormControl>
+  
+          <Typography>Check the volunteer opportunities you are interested in.  You may select more than 1. </Typography>
     
-      <FormGroup name={this.props.object_type} area-label="Available Needs">
-      {this.state.project_needs.map(need => {
-          let need_field_name = "need_" + need_idx
-          // for the next loop
-          need_idx += 1
-          return (  
-            <Fragment>
-            <FormControlLabel name={need_field_name} value={this.state["need_name"]} id={need_field_name} label={need.name_name} control={<Checkbox onChange={this.handleChange}/>}/>
-            <Typography> Project: {need.nwn_project_name}: {need.nwn_project}</Typography>
-            </Fragment>
-          ) 
-
-
-      })}
-      </FormGroup>
-      <TextField
+          <FormGroup name={this.props.object_type} area-label="Available Needs">
+        {this.state.project_needs.map(need => {
+            let need_field_name = "need_" + need_idx
+            // for the next loop
+            need_idx += 1
+            return (  
+              <Fragment>
+                <FormControlLabel name={need_field_name} value={this.state["need_name"]} id={need_field_name} label={need.name_name} control={<Checkbox onChange={this.handleChange}/>}/>
+                <Typography> Project: {need.nwn_project_name}: {need.nwn_project}</Typography>
+              </Fragment>
+            ) 
+        })}
+        </FormGroup>
+        <TextField
         id="message"
         name="message"
         rows="5"
@@ -180,14 +210,18 @@ class Volunteer extends React.Component {
         multiline />
       <FormControlLabel name="email_name" id="email_id" value={this.state.email_name} label="Check here if it is ok to share your email address with the project email.  This will allow you to continue your conversation with email directly." control={<Checkbox onChange={this.handleChange} defaultChecked/>}/>    
       <Button type="submit" value="Submit">Submit</Button>
-    </FormControl>
-    </form>
+      </FormControl>
+      </form>
       </Fragment>
-
+      </Paper>
       }
-      </Fragment>  )
-  }
+      </Fragment> 
+      
+        )
+
+    }
 }
 
+Volunteer.contextType = AuthContext;
 export default Volunteer;
 

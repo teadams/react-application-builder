@@ -10,6 +10,7 @@ const metadata_fields = {
     {name:"body",  grid_col:12, size:"large", section:"basic",  pretty_name: "Body", data_type: "string"},
     {name:"read_p", section:"hidden", pretty_name: "Read?",  data_type: "boolean", default:false},
     {name:"creation_date", section:"hidden", pretty_name: "Creation Date", data_type:"date"},
+    {name:"nwn_project_volunteer", section:"hidden", pretty_name: "Volunteer", references:"nwn_project_volunteer", index:true}
   ],
   nwn_project_post: [
     {name:"id",  section:"basic",  pretty_name: "Id", data_type: "integer", required:true, key:true},
@@ -64,8 +65,11 @@ const metadata_fields = {
     {name:"leader", section:"basic", pretty_name:"Project Leader", references:"nwn_user", index:true,  use_context:true},
     {name:"summary", section:"basic", grid_col:6, pretty_name: "Short Summary", data_type: "string"},
     {name:"description", section:"basic", grid_col:12, pretty_name: "Project Description", size:"large", data_type: "string"},
-    {name:"state",  section:"location", pretty_name: "State or Province", references:"nwn_state_province"},
-    {name:"country", section:"location", pretty_name: "Country", references:"nwn_country"}, 
+    {name:"street_address", section:"location", grid_col:12, pretty_name: "Street Address",  data_type: "string"},
+    {name:"city", section:"location", grid_col:6, pretty_name: "City",  data_type: "string"},
+    {name:"state",  section:"location", grid_col:6, pretty_name: "State or Province", references:"nwn_state_province"},
+    {name:"country", section:"location", grid_col:6, pretty_name: "Country", references:"nwn_country"}, 
+    {name:"zip_code", section:"location", grid_col:6, pretty_name: "Zip Code",  data_type: "string"},
     {name:"latitude", section:"geo", pretty_name: "Latitude", data_type: "string"},
     {name:"longitude", section:"geo", pretty_name: "Longitude", data_type: "string"},
 // image field will store an object with height

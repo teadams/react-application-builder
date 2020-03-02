@@ -32,16 +32,24 @@ class SelectObject extends React.Component {
           var select_menu_options = data.map (row => {
             return [row[id_column_name], meta.get_display_value(this.props.object_type, name_column_name, row)];
           })
+          select_menu_options.push(["","Any"])
           this.setState({ select_menu_options: select_menu_options})          
         })
   }
 
     
   handleChange = event => {
-//        alert ('submit event target is '  + event.target.value)
-//        this.setState({ value: event.target.value , selectTouched: true});
+      let value = event.target.value
+      
+      // Unfortunatly, have to find the pretty prop as
+      // I could not get anything but the value to pass 
+      // in the event.  So I use the original array of
+      // options
+
+      let selected_option = this.state.select_menu_options.filter(menu_option => menu_option[0].toString() == value)
+      let pretty_value = selected_option[0][1]
         if (this.props.onChange) {
-          this.props.onChange(event);
+          this.props.onChange(value, pretty_value);
         } 
     }
 
@@ -82,7 +90,7 @@ class SelectObject extends React.Component {
             // value was an integer
             let radio_value = menu_option[0].toString()
             return (
-         <FormControlLabel  value={radio_value} label={menu_option[1]} control={<Radio key={radio_value}/>}/>) 
+         <FormControlLabel key={menu_option[1]} name={menu_option[1]} value={radio_value} label={menu_option[1]} control={<Radio key={radio_value}/>}/>) 
           })}
           </RadioGroup>
           </FormControl></Fragment>
@@ -93,6 +101,9 @@ class SelectObject extends React.Component {
       <Select
       autoFocus={this.props.autoFocus?true:false}
       value={this.props.value}
+      id = {field.pretty_name}
+      label = {field.pretty_name}
+      name = {field.pretty_name}
       disabled = {this.props.disabled}  
       disableUnderline  = {this.props.disableUnderline}
       InputLableProps = {this.props.InputLableProps}
@@ -104,7 +115,7 @@ class SelectObject extends React.Component {
 
     {this.state.select_menu_options.map(menu_option => {
       let option_value = menu_option[0].toString()
-      return <MenuItem  key={menu_option[0]} value={option_value}>{menu_option[1]}</MenuItem>
+      return <MenuItem  key={menu_option[0]} id={menu_option[1]} name={menu_option[1]} label={menu_option[1]} value={option_value}>{menu_option[1]}</MenuItem>
     })}
   </Select>
  <FormHelperText>{field.helper_text}</FormHelperText>
