@@ -18,6 +18,8 @@ class ProjectMessage extends React.Component {
     }
     this.handleBodyOpen = this.handleBodyOpen.bind(this);     
     this.handleBodyClose = this.handleBodyClose.bind(this);  
+    this.handleApproveApplication = this.handleApproveApplication.bind(this);  
+
   } 
 
 
@@ -31,6 +33,18 @@ class ProjectMessage extends React.Component {
 
   handleBodyClose = event => {
       this.setState({bodyOpen:false})
+  }
+
+  handleApproveApplication = event => {
+      let volunteer_object = {}
+      volunteer_object.id =  this.props.row.nwn_project_volunteer_id
+      volunteer_object.status = "Accepted"
+      data.postData("nwn_project_volunteer", volunteer_object, {}, (result, error) => { 
+        if (error) {
+            alert ("error is " + JSON.stringify(error))
+        } else {
+          this.setState({bodyOpen:false})
+        }})
   }
 
 
@@ -66,8 +80,13 @@ class ProjectMessage extends React.Component {
                 <DialogTitle id="form-dialog-title">Message</DialogTitle>
                   <DialogContent>
                     <DialogContentText>{this.props.row.body}</DialogContentText>
+                    {this.state.bodyOpen && this.props.row.nwn_project_volunteer && this.props.row.nwn_project_volunteer_status == "Accepted" && 
+                    <Typography style={{padding:20}}>This application has been accepted</Typography>}
                   </DialogContent>
                   <DialogActions>
+                  {this.state.bodyOpen && this.props.row.nwn_project_volunteer && this.props.row.nwn_project_volunteer_status == "Applied" &&
+                  <Button onClick = {this.handleApproveApplication}> Approve Application </Button>
+                  }
                   <Button onClick={this.handleBodyClose} color="primary">
                     Close
                   </Button>
