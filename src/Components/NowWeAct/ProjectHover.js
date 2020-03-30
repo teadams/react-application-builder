@@ -8,6 +8,8 @@ import {SelectField, EditButton, MenuLink} from "../Layouts/index.js";
 //import {ObjectMapping, Field} from "./index.js"
 import * as data from '../../Utils/data.js';
 import update from 'immutability-helper';
+import {  BrowserRouter as Router,  Switch,  Route,  Link,  Redirect, useHistory } from "react-router-dom";
+
 
 class ProjectHover extends React.Component {
 
@@ -22,7 +24,6 @@ class ProjectHover extends React.Component {
   } 
 
   handleClick = event => {
-      console.log('button has been clicked')
       alert ('handle clik')
 
       //this.props.onMore(event, this.props.link_menu_index, this.props.filter_id, this.props.menu_link_field, this.props.link_object_type, this.props.menu_link_reference_field)
@@ -46,7 +47,9 @@ class ProjectHover extends React.Component {
         thumbnail_data.height = 287
 
 //        alert ("image source is " +img_src)
+        let path="/app_menu/5/" +this.props.selected_id
         return (
+      
         <Fragment>
           <Paper>
             <div style={{ padding: 10 }}>
@@ -75,7 +78,10 @@ class ProjectHover extends React.Component {
             {this.props.description}
             </Typography>
           </div><center>
-          <Button  variant="contained">Learn More</Button>
+          <Router>
+          <Link to={path}>Learn More</Link>
+          </Router>
+        
           </center>
         </Grid>
         </Grid>

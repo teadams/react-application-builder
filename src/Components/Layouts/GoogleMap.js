@@ -149,6 +149,7 @@ componentDidMount() {
             
               return (
               <Marker onMouseover={this.onMouseover}
+
               name={marker.name}
               project_type = {marker.project_type}
               summary = {marker.summary}
@@ -158,8 +159,6 @@ componentDidMount() {
               full_marker = {marker}
               onMore= {this.props.onMore}
               icon = {icon}
-
-
               id = {marker.id}
               position={position}></Marker>
               )
