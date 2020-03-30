@@ -1,9 +1,10 @@
 import React, { Component, Fragment} from 'react';
 import {Grid} from 'material-ui'
-import { CrudTable, Text, GoogleMap} from './Components/Layouts';
+import {CrudTable, Text, GoogleMap} from './Components/Layouts';
 import {NavMenuLink, DrillDown} from './Components/Experimental';
 import {AuthToggleLink, AuthContext, AuthProvider} from './Components/User';
 import {ProjectView, Volunteer, ProjectMessages} from './Components/NowWeAct';
+import Body from "./Body"
 import * as meta from './Utils/meta.js'
 import * as log from './Utils/log.js'
 import axios from 'axios';
@@ -175,68 +176,9 @@ class App extends Component {
           return <Tab key={menu.index} label={menu.label}/>
        })}
         </Tabs>
-        <  main  style={{marginLeft:20, marginRight:20}}>
-        {meta_menu.component == "Text" &&
-          <Text  
-            title = {meta_menu.title}
-            text = {meta_menu.text}
-          />
-        }  
 
-        {meta_menu.component == "ProjectView" &&
-          <ProjectView object_type="nwn_project" project_id={this.state.filter_id?this.state.filter_id:meta_menu.project_id}
-          />
-        } 
-
-        {meta_menu.component == "DrillDown" &&
-          <DrillDown  
-            object_type = {meta_menu.object_type}
-            grouping_field_name = {meta_menu.grouping_field_name}
-            create_form_sections = {meta_menu.create_form_sections}
-            expand_contract = {meta_menu.expand_contract}
-            manage_object_types = {meta_menu.manage_object_types}
-            onMenuChange = {this.handleMenuChange}
-            selected_id = {this.state.filter_id}
-          />
-        }  
-
-
-        {meta_menu.component == "GoogleMap" &&
-          <GoogleMap 
-            title = {meta_menu.title}
-            text = {meta_menu.text}
-            onMore={this.handleMenuChange}
-            onMenuChange = {this.handleMenuChange}
-            object_type = {meta_menu.object_type}
-          />
-        }  
-
-        {meta_menu.component == "Volunteer" &&
-          <Volunteer          />
-        }  
-        {meta_menu.component == "ProjectMessages" &&
-          <ProjectMessages/>
-        }  
-        {this.state.selected_menu !== undefined && (!meta_menu.component || meta_menu.component == "CrudTable") &&
-        <Grid container>
-        <Grid item sm style={{margin:0}}>
-         <CrudTable
-            object_type={meta_menu.object_type}
-            object_attributes={meta.object(meta_menu.object_type)}
-            object_fields={meta.fields(meta_menu.object_type)}
-            filter_field = {meta_menu.filter_field}
-            filter_required = {meta_menu.filter_required}
-            filter_object_type = {filter_object_type}
-            filter_label = {meta_menu.pretty_name}
-            onMenuChange = {this.handleMenuChange}
-            filter_id = {this.state.filter_id}
-              />
-        </Grid>
-        </Grid>
-      }
-          
-        </main>
-        </div>
+      <Body   selected_menu={this.state.selected_menu} selected_manu_type={this.state.selected_menu_type} filter_id={this.state.filter_id} />
+      </div>
      </Paper>
      <Tabs
        value={0}

@@ -1,11 +1,11 @@
 //import {React, Fragment} from 'react';
 import React, { Component, Fragment} from 'react';
-import { Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
+import { Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, ListItemSecondaryAction, List, ListItem, ListItemText } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import { Image} from "../index.js"
-import { ButtonCreate, CreateForm} from "../Layouts/index.js"
+import { ButtonCreate, EditButton, CreateForm} from "../Layouts/index.js"
 import * as data from '../../Utils/data.js';
 import update from 'immutability-helper';
 import 'typeface-roboto'
@@ -17,7 +17,8 @@ class ProjectDocuments extends React.Component {
 
     this.state = {
         data: [],
-        form_open:false
+        form_open:false,
+        current_id:""
     }  
     this.loadData = this.loadData.bind(this);
     this.handleOnClick = this.handleOnClick.bind(this);
@@ -29,7 +30,7 @@ class ProjectDocuments extends React.Component {
   }
 
   handleOnClose(action_text, inserted_id, formValues)  {
-    this.setState({form_open:false});
+    this.setState({form_open:false, current_id:""});
   }
 
   componentDidMount() {
@@ -67,7 +68,8 @@ class ProjectDocuments extends React.Component {
       return (
       <Fragment>
       {this.state.form_open && 
-      <CreateForm open={this.state.form_open}  nwn_project={this.props.project_id} hidden={{nwn_project:true}} onClose={this.handleOnClose } object_type="nwn_project_document" />}
+      <CreateForm open={this.state.form_open} id={this.state.current_id} nwn_project={this.props.project_id} hidden={{nwn_project:true}} onClose={this.handleOnClose } object_type="nwn_project_document" />}
+
       <Grid container spacing='32' direction='column'>
       <Grid item>
         <Grid container direction='row'>
@@ -79,19 +81,20 @@ class ProjectDocuments extends React.Component {
         </Grid>
       </Grid>
       <Grid>
+      <List>
       {this.state.data.map(row=>{
           //alert ('row is ' + JSON.stringify(row))  
           return(
-              <Grid container spacing='32'>
-                <Grid item>
-                  <Typography variant='subtitle1' gutterBottom>
-                    {row.name} :   {row.description}
-                  </Typography>
-                </Grid>
-
-              </Grid>
+            <ListItem>
+              <ListItemText>
+              {row.name} -
+              {row.description}
+              </ListItemText>
+              <ListItemSecondaryAction><EditButton name={row.id} onClick={this.handleOnClick} /></ListItemSecondaryAction>
+            </ListItem>
             )   
       })}
+      </List>
       </Grid>
       </Grid>
       </Fragment>  

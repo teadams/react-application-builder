@@ -2,12 +2,13 @@ import React from 'react';
 import {render}  from 'react-dom';
 import App from "./App.js";
 import './index.css';
+import { BrowserRouter as Router, Route, IndexRoute } from 'react-router-dom'
 
-//import App from './App';
-//import registerServiceWorker from './registerServiceWorker';
+render((
+  <Router>
+    <Route path="/" component={App}></Route>
+  </Router>
+), document.getElementById("root"))
 
 
-render(<App/>,document.getElementById("root"));
-
-//ReactDOM.render(<App />, document.getElementById('root'));
-//registerServiceWorker();
+//render(<App/>,document.getElementById("root"));
