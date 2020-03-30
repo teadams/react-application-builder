@@ -13,6 +13,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
+import {  BrowserRouter as Router,  Switch,  Route,  Link,  Redirect, useHistory } from "react-router-dom";
+
 
 //const MyContext = React.createContext("creation");
 const drawerWidth = 150;
@@ -45,9 +47,6 @@ class App extends Component {
       super(props);
       log.func(' Menu constructor');
       this.state = {
-          selected_menu: 0,
-          selected_menu_type: 'app_menu',
-          filter_id: "",
           drawer_open: false,
           context: "GGGGGG"
       }
@@ -84,6 +83,8 @@ class App extends Component {
         //alert ("selected menu and type is " + selected_menu + " " + menu_type)
   //    alert ('fitler id ' + filter_id  + ' filter field  ' + link_filter_field)
       if (link_filter_field) {
+        // this is a more complex case that was used for the interface tracking project
+        // consider removing
          // link_filter_id is the id field.  Based on this, retrieve another field
             //let urltext ='api/v1/system_groups'
             let urltext = '/api/v1/' + link_field_object_type + '/'+ link_filter_id;
@@ -92,31 +93,32 @@ class App extends Component {
            url: urltext,
          }).then(results => {
            filter_id = results.data[link_filter_field]
+            let path = `/${menu_type}/${selected_menu}/${filter_id}`
            //alert ("filter id  after query is " + filter_id)
-           this.setState({selected_menu: selected_menu,
-                          selected_menu_type: menu_type,
-                          filter_id : filter_id
-                       }, () => {this.handleDrawerClose()});
+            this.handleDrawerClose();
+            this.props.history.push(path);  
          })
 
       } else {
+          let path = `/${menu_type}/${selected_menu}`
+          if (filter_id) {
+              path = path + '/${filter_id}'
+          }
 
-          this.setState({selected_menu: selected_menu,
-                         selected_menu_type: menu_type,
-                         filter_id : filter_id
-                      }, ()=> {
-                        this.handleDrawerClose();               
-                      });
+          this.handleDrawerClose();   
+          this.props.history.push(path);                    
       }
   }
     
   render() {    
+    let { selected_menu, filter_id, selected_menu_type } = this.props.match.params
     const { classes, theme } = this.props;
     const {drawer_open } = this.state;
     const hamburger_menu_p = meta.get_menu("hamburger")?true:false  
-    const meta_menu = meta.get_selected_menu(this.state.selected_menu,this.state.selected_menu_type)
+    const meta_menu = meta.get_selected_menu(selected_menu,selected_menu_type)
     const filter_field = meta_menu.object_type?meta.field(meta_menu.object_type, meta_menu.filter_field):""
     const filter_object_type = filter_field.references
+
 
     return      <Fragment>  <AuthProvider> 
      <Paper style={{ padding:10, marginTop:10, marginBottom:0, minHeight:600, position:'relative'}}>
@@ -166,7 +168,7 @@ class App extends Component {
       </AppBar>
 
       <Tabs 
-          value={this.state.selected_menu}
+          value={(selected_menu_type=="app_menu")?selected_menu:""}
           onChange={this.handleMenuChange}
           indicatorColor="primary"
           textColor="primary"
@@ -176,9 +178,8 @@ class App extends Component {
           return <Tab key={menu.index} label={menu.label}/>
        })}
         </Tabs>
-
-      <Body   selected_menu={this.state.selected_menu} selected_manu_type={this.state.selected_menu_type} filter_id={this.state.filter_id} />
-      </div>
+        <Body selected_menu={selected_menu} selected_menu_type={selected_menu_type} filter_id={filter_id}/>
+        </div>
      </Paper>
      <Tabs
        value={0}

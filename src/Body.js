@@ -12,22 +12,24 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-
+import {  BrowserRouter as Router,  Switch,  Route,  Link,  useParams } from "react-router-dom";
 
 class Body extends Component {
   constructor(props) {
       super(props);
   }
-    
+  
   render() {    
     // selected_menu and selected_menu_type will come from the URL
-    const { selected_menu, selected_menu_type, filter_id } = this.props;
-// ??    const hamburger_menu_p = meta.get_menu("hamburger")?true:false  
+    const { selected_menu, filter_id, selected_menu_type } = this.props
+
+    //let selected_menu_type = this.props.params["selected_menu_type"]
+    const hamburger_menu_p = meta.get_menu("hamburger")?true:false  
     const meta_menu = meta.get_selected_menu(selected_menu,selected_menu_type)
     const filter_field = meta_menu.object_type?meta.field(meta_menu.object_type, meta_menu.filter_field):""
     const filter_object_type = filter_field.references
 
-    return    (<Fragment>  
+    return    (<Fragment>
         {meta_menu.component == "ProjectView" &&
           <ProjectView object_type="nwn_project" project_id={filter_id?filter_id:meta_menu.project_id}
           />
