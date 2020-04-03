@@ -61,12 +61,12 @@ class ProjectMessage extends React.Component {
 
 
   render () {
-      alert ("row is " + JSON.stringify(this.props.row))
+      log.val("row", this.props.row.creation_date)
       return (<Fragment>
               <ListItem>
                 <ListItemText>
                   <Grid direction="horizonal" container>
-                  <Grid item style={{width:100}}>{this.props.row.creation_date}</Grid><Grid item style={{paddingLeft:20, width:300}}>   
+                  <Grid item style={{width:100}}> {this.props.row.last_updated_date}</Grid><Grid item style={{paddingLeft:20, width:300}}>   
                   {this.props.row.from_user_first_name} {this.props.row.from_user_last_name} 
                   </Grid>
                   <Grid  item style={{paddingLeft:20}}>

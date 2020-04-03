@@ -9,7 +9,6 @@ const metadata_fields = {
     {name:"subject",default:"interested in your project", grid_col:12, section:"basic", pretty_name: "Subject", index:true, pretty_key:"true"}, 
     {name:"body",  grid_col:12, size:"large", section:"basic",  pretty_name: "Body", data_type: "string"},
     {name:"read_p", section:"hidden", pretty_name: "Read?",  data_type: "boolean", default:false},
-    {name:"creation_date", section:"hidden", pretty_name: "Creation Date", data_type:"date"},
     {name:"nwn_project_volunteer", section:"hidden", pretty_name: "Volunteer", references:"nwn_project_volunteer", index:true}
   ],
   nwn_project_post: [

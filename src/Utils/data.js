@@ -18,6 +18,10 @@ export function getData (object_type, options, callback)   {
   if (options.order_by) {
     param_clause.push("order_by="+options.order_by)
   }
+  if (options.order_by_direction) {
+    param_clause.push("order_by_direction="+options.order_by_direction)
+  }
+
   if (options.filter_id) {
     param_clause.push("filter_field="+options.filter_field+"&filter_id="+options.filter_id)
   }

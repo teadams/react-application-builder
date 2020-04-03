@@ -42,6 +42,9 @@ class ProjectMessages extends React.Component {
     options.filter_field = "to_user";
     options.filter_id = this.context.user.id
     options.key_type = "key_id";
+
+    options.order_by = "last_updated_date"
+    options.order_by_direction = "desc"
     data.getData("nwn_project_message", options, (data, error) => { 
         let updated_state = [];
         updated_state.data = data;
