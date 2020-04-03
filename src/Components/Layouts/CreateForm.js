@@ -172,7 +172,6 @@ class CreateForm extends React.Component {
   }
 
   render() {
-    
     const { onClose, object_type, open} = this.props;    
     const object_fields = meta.fields(object_type)
     if (!this.props.open || !this.state.formValues) {

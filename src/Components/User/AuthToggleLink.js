@@ -10,12 +10,17 @@ class AuthToggleLink extends React.Component {
           login_form:false 
       };
       this.handleLogin = this.handleLogin.bind(this);
+      this.handleClose = this.handleClose.bind(this);
     }
 
   handleLogin(event) {
-    //  alert ("handle login") 
     this.setState({login_form:true})
   }
+
+  handleClose(event) {
+    this.setState({login_form:false})
+  }
+
   render() {
     if (this.context.user) {
       return (  
@@ -30,7 +35,8 @@ class AuthToggleLink extends React.Component {
             color="inherit">Login</Button>
             {this.state.login_form  &&
               <LoginForm
-                open="true"
+                open={this.state.login_form}
+                handleClose={this.handleClose}
              />}
         </Fragment>
       )
