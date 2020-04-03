@@ -18,6 +18,16 @@ let metadata_custom = require('../Models/NowWeAct')
 
 metadata_fields = Object.assign(metadata_core.metadata_fields, metadata_custom.metadata_fields);
 metadata_object_types = metadata_core.metadata_object_types.concat(metadata_custom.metadata_object_types);
+
+// for each object type, add core reference_fields_shown
+metadata_object_types.forEach(function(object_type,i) {
+  
+    let object_type_name = object_type.name
+    if (object_type_name != "core_fiields") {
+      metadata_fields[object_type_name] = metadata_fields[object_type_name].concat( metadata_fields["core_fields"])
+    }
+})
+
 metadata_sections = Object.assign(metadata_sections,metadata_custom.metadata_sections);
 
 

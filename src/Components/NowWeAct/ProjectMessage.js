@@ -61,6 +61,7 @@ class ProjectMessage extends React.Component {
 
 
   render () {
+      alert ("row is " + JSON.stringify(this.props.row))
       return (<Fragment>
               <ListItem>
                 <ListItemText>
