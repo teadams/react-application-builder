@@ -7,12 +7,6 @@ const metadata_sections = {
       {name:"videos", title:"Project Videos"},
       {name:"documents", title:"Project Documents"},
     ],
-    nwn_user: [
-        {name:"basic", title:"Basic Information"},
-        {name:"location", title:"Location"},
-        {name:"additional", title:"Additional Details"},
-        {name:"thumbnail", title:"Thumbnail"},
-      ],
     nwn_project_message: [
       {name:"basic", title:""},
       {name:"hidden", title:"Hidden"},

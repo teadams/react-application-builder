@@ -1,7 +1,31 @@
-import {app_params, metadata_menus, metadata_fields, metadata_object_types, metadata_sections} from '../Models/NowWeAct';
+
+import app_params from '../Models/NowWeAct/app'
+import metadata_menus from '../Models/NowWeAct/menus'
+
+
 import * as log from './log.js';
 
+const custom_model="NowWeAct"
+const all_models = ["Core", custom_model]
+
+let metadata_fields = {}
+let metadata_object_types = []
+let metadata_sections = {}
+
+let metadata_core = require('../Models/Core')
+let metadata_custom = require('../Models/NowWeAct')
+// load in the core and the custom models
+
+metadata_fields = Object.assign(metadata_core.metadata_fields, metadata_custom.metadata_fields);
+metadata_object_types = metadata_core.metadata_object_types.concat(metadata_custom.metadata_object_types);
+metadata_sections = Object.assign(metadata_sections,metadata_custom.metadata_sections);
+
+
+
+
+
 export function object(object_type) {
+  //  alert ("object types are" + JSON.stringify(metadata_object_types))
   //  log.func('object', 'object type, metadata_object_types', object_type,metadata_object_types);
     return (metadata_object_types.reduce ((accum, meta_object_type) => {
   //  log.val('object_type, meta object type accum', object_type, accum);

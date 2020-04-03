@@ -10,9 +10,9 @@ const metadata_menus = {
  ],
   hamburger: [
       {index:"0", label: "Projects", object_type: "nwn_project", component:"DrillDown"},
-      {index:"1", label: "Users", object_type: "nwn_user", component:"DrillDown" },
-      {index:"2", label: "Countries", object_type: "nwn_country"},
-      {index:"3", label: "States", object_type: "nwn_state_province"},
+      {index:"1", label: "Users", object_type: "core_user", component:"DrillDown" },
+      {index:"2", label: "Countries", object_type: "core_country"},
+      {index:"3", label: "States", object_type: "core_state_province"},
       {index:"4", label: "Project Types", object_type: "nwn_project_type", component:"DrillDown"},
       {index:"5", label: "Role Types", object_type: "nwn_role_type"},
       {index:"6", label: "Needs", object_type: "nwn_project_need"},

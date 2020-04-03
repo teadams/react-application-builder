@@ -1,5 +1,6 @@
 const app_params =    {
-  name:"Now We Act" , 
+  name:"Now We Act",
+  prefix:"nwa",
   footer: ""
 }
 

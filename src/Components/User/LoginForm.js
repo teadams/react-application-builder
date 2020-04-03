@@ -32,11 +32,11 @@ class LoginForm extends React.Component {
       if (this.state.formValues.password != this.state.formValues.password_confirm) {
           alert ("password and password confirm do not match")
       } else {
-        data.postData("nwn_user", this.state.formValues, {}, (result, error) => { 
+        data.postData("core_user", this.state.formValues, {}, (result, error) => { 
           if (error) {
               alert ("there has been an error")
           } else { 
-            var inserted_id = result.rows[0][meta.keys("nwn_user").key_id] 
+            var inserted_id = result.rows[0][meta.keys("core_user").key_id] 
             this.setState({ formValues: update(this.state.formValues,{
                         id: {$set: inserted_id}
                         })},
@@ -48,7 +48,7 @@ class LoginForm extends React.Component {
   }
 
   handleLoginSubmit(event) {
-    data.getData ("nwn_user", {filter_id:this.state.formValues["email"], filter_field:"email"}, (user_data, error) => {
+    data.getData ("core_user", {filter_id:this.state.formValues["email"], filter_field:"email"}, (user_data, error) => {
         if (user_data.length == 0) {
             alert ('user not found')
         } else {
@@ -93,7 +93,7 @@ class LoginForm extends React.Component {
            <form onSubmit={this.handleLoginSubmit}>
             <Grid container>
               <Grid item style={{padding:10}} sm={12}>
-                  <Field object_type = "nwn_user"
+                  <Field object_type = "core_user"
                   field_name = "email"  
                   mode="form_element"
                   data_object={this.state.formValues}
@@ -105,7 +105,7 @@ class LoginForm extends React.Component {
             </Grid>
             <Grid container>
               <Grid item style={{padding:10}} sm={12}>
-                  <Field object_type = "nwn_user"
+                  <Field object_type = "core_user"
                   field_name = "password"  
                   mode="form_element"  
                   data_object= {this.state.formValues}
@@ -135,7 +135,7 @@ class LoginForm extends React.Component {
               <form onSubmit={this.handleCreateSubmit}>
               <Grid container>
                 <Grid item style={{padding:10}} sm={6}>
-                    <Field object_type = "nwn_user"
+                    <Field object_type = "core_user"
                       field_name = "first_name"  
                       mode="form_element"
                       data_object={this.state.formValues}
@@ -145,7 +145,7 @@ class LoginForm extends React.Component {
                     /> 
                 </Grid>
                 <Grid item style={{padding:10}} sm={6}>
-                    <Field object_type = "nwn_user"
+                    <Field object_type = "core_user"
                       field_name = "last_name"  
                       mode="form_element"
                       data_object={this.state.formValues}
@@ -157,7 +157,7 @@ class LoginForm extends React.Component {
               </Grid>
               <Grid container>
                 <Grid item style={{padding:10}} sm={12}>
-                  <Field object_type = "nwn_user"
+                  <Field object_type = "core_user"
                     field_name = "email"  
                     mode="form_element"
                     data_object={this.state.formValues}
@@ -169,7 +169,7 @@ class LoginForm extends React.Component {
               </Grid>
               <Grid container>
                 <Grid item style={{padding:10}} sm={6}>
-                 <Field object_type = "nwn_user"
+                 <Field object_type = "core_user"
                     field_name = "password"  
                     mode="form_element"
                     data_object={this.state.formValues}
@@ -179,7 +179,7 @@ class LoginForm extends React.Component {
                   /> 
                 </Grid>
                 <Grid item style={{padding:10}} sm={6}>
-                  <Field object_type = "nwn_user"
+                  <Field object_type = "core_user"
                   field_name = "password_confirm"  
                   mode="form_element"
                   data_object={this.state.formValues}
