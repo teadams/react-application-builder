@@ -216,7 +216,7 @@ class CreateForm extends React.Component {
   
                         // Bug/Missing - hidden field only work for
                         // forms with section
-                        if (!field.key && !field.hidden && (!this.props.hidden || !this.props.hidden[field.name])) { 
+                        if (!field.key && !field.system_controlled && (!this.props.hidden || !this.props.hidden[field.name])) { 
                           return (<Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}} sm={grid_col}>
                                     {this.renderField(field)}
                                   </Grid>)
@@ -241,7 +241,7 @@ class CreateForm extends React.Component {
                   {meta.section_fields(this.props.object_type, "", "form").map(field => {
                     let grid_col = field.grid_col?field.grid_col:4
                     grid_col = grid_col * gridCol_scale
-                    if (!field.key && !field.hidden) { 
+                    if (!field.key && !field.system_controlled) { 
                       return (<Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}} sm={grid_col}>
                               {this.renderField(field)}
                             </Grid>)

@@ -350,10 +350,9 @@ class Field extends React.Component {
     const {open,  data_object} = this.props;
 
     return(
-    <SelectField 
+      <SelectField 
         key={data_object?data_object[prefix+meta.keys(object_type,field.name).key_id + '+' + field.name]:field.name}
         disabled={disabled}
-        object_type={object_type}
         shrink="true"
         field={field}
         required = {this.props.filter_required}
@@ -384,7 +383,6 @@ class Field extends React.Component {
     return (
       <TextField    
         InputLabelProps={{shrink:true}}
-
         id = {data_object[meta.keys(object_type,field.name).key_id + '+' + field.name]}
         autoFocus = {(this.props.mode=="view_click_form")?true:false}
         name={field.name}
@@ -436,7 +434,7 @@ class Field extends React.Component {
      }
 
       // for now, field in other tables are disabled. may be expanded later!!
-      let  disabled =  ((field.prevent_edit && this.props.mode !== "filter") || field.derived || field.not_in_db || (field.field_object_type && !field.edit_p))?true:false
+      let  disabled =  (((field.system_controlled  || field.prevent_edit) && this.props.mode !== "filter") || field.derived || field.not_in_db ||  (field.field_object_type && !field.edit_p))?true:false
 
       if (field.dependent_field) {
         if (!this.props.data_object[field.dependent_field]) {
@@ -486,11 +484,11 @@ class Field extends React.Component {
           return (
            this.state.form ? 
              <form>
-               {this.renderField()} 
+              {this.renderField()} 
               </form>
             :  
               field.derived ?
-                <div>
+                <div>sytem
                  {this.getDisplayView()}&nbsp;
                 </div>  
                 :

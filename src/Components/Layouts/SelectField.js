@@ -67,6 +67,7 @@ class SelectField extends React.Component {
     }
 
   componentDidMount() {
+
     log.func("Select Field: Did Mount", "props", this.props);
       const { open, field} = this.props;
       if (open)  {
@@ -86,7 +87,9 @@ class SelectField extends React.Component {
                 var select_menu_options = [[true, "Yes"], [false, "No"]]
                 this.setState({ select_menu_options: select_menu_options})
 
-          } else if (field && field.data_type == "integer") {
+          } else if (field && (field.data_type == "integer" && !field.references)) {
+              // a field that references another object_type might have
+              // data_type defined as integer (not required)
             var select_menu_options = []
 
             const increment = field.increment?field.increment:1
