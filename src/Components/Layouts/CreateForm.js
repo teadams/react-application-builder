@@ -166,6 +166,7 @@ class CreateForm extends React.Component {
         mode="form_element"
         disableUnderline={false}
         onChange={this.handleChange}
+        action={this.state.action}
         id = {this.props.id}
       /> 
       )
