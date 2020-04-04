@@ -113,7 +113,7 @@ class CreateForm extends React.Component {
               defaultedFormValues[field.name] = ""
             }
             // context overrides defaults
-            if (field.references == "nwn_user"  && this.context.user.id  && field. use_context) {
+            if (field.references == "core_user"  && this.context.user.id  && field. use_context) {
             // if we are in create mode, the field
             // references a user, and the user is logged in
             // prefill with the current user if the meta data specifies we should use the context
@@ -213,10 +213,10 @@ class CreateForm extends React.Component {
                   var field_render = (section_fields.map(field=>{
                         let grid_col = field.grid_col?field.grid_col:4
                         grid_col = grid_col * gridCol_scale
-                      
+  
                         // Bug/Missing - hidden field only work for
                         // forms with section
-                        if (!field.key && (!this.props.hidden || !this.props.hidden[field.name])) { 
+                        if (!field.key && !field.hidden && (!this.props.hidden || !this.props.hidden[field.name])) { 
                           return (<Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}} sm={grid_col}>
                                     {this.renderField(field)}
                                   </Grid>)
@@ -241,11 +241,12 @@ class CreateForm extends React.Component {
                   {meta.section_fields(this.props.object_type, "", "form").map(field => {
                     let grid_col = field.grid_col?field.grid_col:4
                     grid_col = grid_col * gridCol_scale
-                    if (!field.key) { 
+                    if (!field.key && !field.hidden) { 
                       return (<Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}} sm={grid_col}>
                               {this.renderField(field)}
                             </Grid>)
                     }})}
+
                     </Grid>
                   }
               </form>

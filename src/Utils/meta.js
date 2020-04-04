@@ -1,12 +1,9 @@
 
 import app_params from '../Models/NowWeAct/app'
 import metadata_menus from '../Models/NowWeAct/menus'
-
-
 import * as log from './log.js';
 
 const custom_model="NowWeAct"
-const all_models = ["Core", custom_model]
 
 let metadata_fields = {}
 let metadata_object_types = []
@@ -23,7 +20,7 @@ metadata_object_types = metadata_core.metadata_object_types.concat(metadata_cust
 metadata_object_types.forEach(function(object_type,i) {
   
     let object_type_name = object_type.name
-    if (object_type_name != "core_fiields") {
+    if (object_type_name != "core_fields") {
       metadata_fields[object_type_name] = metadata_fields[object_type_name].concat( metadata_fields["core_fields"])
     }
 })

@@ -21,6 +21,7 @@ const metadata_menus = {
       {index:"9", label: "Volunteers", object_type:"nwn_project_volunteer"},
       {index:"10", filter_field:"nwn_project", label: "Messages", object_type:"nwn_project_message"},
       {index:"11", label: "Announcements", object_type:"nwn_project_post", component:"DrillDown"},
+      {index:"11", label: "Site Wide Adminsitrators", object_type:"core_site_admin", component:"DrillDown"},
     ]
 } 
 

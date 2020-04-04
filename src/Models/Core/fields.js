@@ -2,9 +2,9 @@
 const metadata_fields = {
   // fields that are added to every table
   core_fields: [
-    {name:"creation_date", pretty_name:"Creation Date", data_type: "timestamp", default:"now()", required:true, index:true},
-    {name:"last_updated_date", pretty_name:"Last Updated Date", data_type: "timestamp", default:"now()", required:true, index:true},
-    {name:"creation_user", pretty_name:"Creation User", data_type:"integer", references:"core_user"}
+    {name:"creation_date", pretty_name:"Creation Date", data_type: "timestamp", default:"now()", required:true, index:true, hidden:true},
+    {name:"last_updated_date", pretty_name:"Last Updated Date", data_type: "timestamp", default:"now()", required:true, index:true, hidden:true},
+    {name:"creation_user", pretty_name:"Creation User", data_type:"integer", references:"core_user", use_context:true, hidden:true}
   ],
   core_country: [
     {name:"id", pretty_name: "Id", data_type: "integer", required:true, key:true},
@@ -28,6 +28,10 @@ const metadata_fields = {
     {name:"twitter", section:"additional", pretty_name: "Twitter Handle",  data_type: "string"},
     {name:"phone", section:"additional", pretty_name: "Phone",  data_type: "string"},
   ],
+  core_site_admin: [
+    {name:"id", pretty_name: "Id", data_type: "integer", required:true, key:true},
+    {name:"name", pretty_name:"Site Administrator Name", references:"core_user", index:true, pretty_key:true}
+  ]
 }
 
 //module.exports = {

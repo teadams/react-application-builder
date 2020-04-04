@@ -71,7 +71,7 @@ class ProjectMessages extends React.Component {
       <ListItem>
         <ListItemText>
           <Grid direction="horizonal" container>
-          <Grid item style={{width:100}}><b>Creation Date/Time</b></Grid><Grid item style={{paddingLeft:20, width:300}}>   
+          <Grid item style={{width:100}}><b>Date/Time</b></Grid><Grid item style={{paddingLeft:20, width:300}}>   
           <b>From</b>
           </Grid>
           <Grid item style={{paddingLeft:20}}>
