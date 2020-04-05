@@ -3,11 +3,12 @@ const metadata_fields = {
   // fields that are added to every table
   // fields that are added to every table
   core_fields: [
-    {name:"creation_date", pretty_name:"Creation Date", data_type: "timestamp", default:"now()", required:true, index:true},
-    {name:"last_updated_date", pretty_name:"Last Updated Date", data_type: "timestamp", default:"now()", required:true, index:true},
-    {name:"creation_user", pretty_name:"Creation User", data_type:"integer", references:"core_user"},
-    // later - technically only needed for objects that ues subsites
-    {name:"core_subsite", pretty_name:"Core Subsite", data_type:"integer", references:"core_subsite"}
+    {name:"creation_date", pretty_name:"Creation Date", data_type: "timestamp", default:"now()", required:true, index:true, system_controlled:true},
+    {name:"last_updated_date", pretty_name:"Last Updated Date", data_type: "timestamp", default:"now()", required:true, index:true, system_controlled:true},
+    {name:"creation_user", pretty_name:"Creation User", data_type:"integer", references:"core_user", system_controlled:true},
+  ],
+  core_subsite_field: [
+    {name:"core_subsite", pretty_name:"Core Subsite", data_type:"integer", references:"core_subsite", system_controlled:true}
   ],
   // subsites are within a tenant. Tables are striped with the subsite_id
   // Roles will be linked to subsite
@@ -17,7 +18,7 @@ const metadata_fields = {
     {name:"name", pretty_name: "Subsite", data_type: "string", pretty_key:true, index:true},
     // level is a denormlization as you could technically figure it out from core_subsite_hierarchy
     // top level is 1. 
-    {name:"level", pretty_name: "Level", data_type: "integer", start_value:1, end_value:3, index:true}
+    {name:"level", pretty_name: "Level", data_type: "integer", start_value:1, end_value:3, index:true, default:1}
   ],
   // denormalization
   // this one row for each subsite, pluse one row for each subsite in it's heirarcy
