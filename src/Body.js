@@ -23,6 +23,7 @@ class Body extends Component {
     // selected_menu and selected_menu_type will come from the URL
     const { selected_menu, filter_id, selected_menu_type } = this.props
 
+
     //let selected_menu_type = this.props.params["selected_menu_type"]
     const hamburger_menu_p = meta.get_menu("hamburger")?true:false  
     const meta_menu = meta.get_selected_menu(selected_menu,selected_menu_type)
@@ -31,7 +32,7 @@ class Body extends Component {
 
     return    (<Fragment>
         {meta_menu.component == "ProjectView" &&
-          <ProjectView object_type="nwn_project" project_id={filter_id?filter_id:meta_menu.project_id}
+          <ProjectView object_type="nwn_project" project_id={this.context.context_id}
           />
         } 
         {meta_menu.component == "DrillDown" &&
@@ -85,7 +86,7 @@ class Body extends Component {
   }
 }
 
-
-export default Body;
+Body.contextType = AuthContext;
+export default Body
 //export default withStyles(styles, { withTheme: true })(Body);
 
