@@ -78,8 +78,9 @@ const metadata_fields = {
     // id of a row from the context object_type
     // general use case / application code will have 1-to-1 object to subsite
     // however, the data model gives flexibity to support mony-to-1
-    {name:"core_context", pretty_name:"Context", data_type:"integer", index:true, pretty_key:true},
-    {name:"core_subsite", pretty_name:"Subsite", references:"core_subsite", index:true}
+    {name:"core_subsite", pretty_name:"Subsite", references:"core_subsite", index:true, pretty_key:true},
+    {name:"core_context", pretty_name:"Context Id", data_type:"integer", index:true},
+
   ],
 
 }
