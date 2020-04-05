@@ -8,7 +8,7 @@ const metadata_fields = {
     {name:"creation_user", pretty_name:"Creation User", data_type:"integer", references:"core_user", system_controlled:true},
   ],
   core_subsite_field: [
-    {name:"core_subsite", pretty_name:"Core Subsite", data_type:"integer", references:"core_subsite", system_controlled:true}
+    {name:"core_subsite", pretty_name:"Core Subsite FROM CORE", data_type:"integer", references:"core_subsite", system_controlled:true}
   ],
   // subsites are within a tenant. Tables are striped with the subsite_id
   // Roles will be linked to subsite
@@ -67,8 +67,8 @@ const metadata_fields = {
   ],
   core_subsite_role: [
     {name:"id", pretty_name: "Id", data_type: "integer", required:true, key:true},
-    {name:"core_user", pretty_name:"Subsite Administrator Name", references:"core_user", index:true, pretty_key:true},
-    {name:"core_subsite", pretty_name:"Subsite", references:"core_subsite", index:true},
+    {name:"core_user", pretty_name:"Name", references:"core_user", index:true, pretty_key:true},
+    {name:"core_subsite", pretty_name:"Subsite", data_type:"integer", references:"core_subsite",  index:true},
     {name:"core_role", pretty_name:"Role",data_type:"string", references:"core_role", index:true}
   ],
   // one object type will be designated as context (and used to drive the user interface)
