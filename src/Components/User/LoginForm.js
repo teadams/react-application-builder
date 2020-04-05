@@ -29,7 +29,7 @@ class LoginForm extends React.Component {
   }
 
   handleCreateSubmit(event) {
-      if (this.state.formValues.password != this.state.formValues.password_confirm) {
+      if (this.state.formValues.credential != this.state.formValues.credential_confirm) {
           alert ("password and password confirm do not match")
       } else {
         data.postData("core_user", this.state.formValues, {}, (result, error) => { 
@@ -48,17 +48,19 @@ class LoginForm extends React.Component {
   }
 
   handleLoginSubmit(event) {
-    data.getData ("core_user", {filter_id:this.state.formValues["email"], filter_field:"email"}, (user_data, error) => {
-        if (user_data.length == 0) {
-            alert ('user not found')
+    let data_object = {}
+    data_object.email = this.state.formValues["email"]
+    data_object.credential = this.state.formValues["credential"]
+    data.login (data_object, (user_data, error) => {
+        if (!user_data.email_match) {
+            alert ('email not found')
+        } else if (!user_data.password_match) {
+            alert ("password is not correct")
         } else {
-          //  alert ('user infor is ' + JSON.stringify(user_data[0]["id"]))
-          this.context.login(user_data[0])  
+          this.context.login(user_data)  
         }
     })
     // update context
-    //close form
-    // call the handle close from the props
 
   }
 
@@ -67,7 +69,7 @@ class LoginForm extends React.Component {
   }
 
   handleChange (field_name, value)  {
-    //  alert ("process change " + field_name + " "  + value)
+
       this.setState({ formTouched:true, formValues: update(this.state.formValues,{
                   [field_name]: {$set: value}
                   }) });
@@ -105,13 +107,13 @@ class LoginForm extends React.Component {
             </Grid>
             <Grid container>
               <Grid item style={{padding:10}} sm={12}>
-                  <Field object_type = "core_user"
-                  field_name = "password"  
+                  <Field object_type = "core_credential"
+                  field_name = "credential"  
                   mode="form_element"  
                   data_object= {this.state.formValues}
                   disableUnderline={false}
                   onChange={this.handleChange}
-                  id = "password"
+                  id = "credential"
                   /> 
                 </Grid>
               </Grid>
@@ -170,7 +172,7 @@ class LoginForm extends React.Component {
               <Grid container>
                 <Grid item style={{padding:10}} sm={6}>
                  <Field object_type = "core_user"
-                    field_name = "password"  
+                    field_name = "credential"  
                     mode="form_element"
                     data_object={this.state.formValues}
                     disableUnderline={false}
@@ -180,7 +182,7 @@ class LoginForm extends React.Component {
                 </Grid>
                 <Grid item style={{padding:10}} sm={6}>
                   <Field object_type = "core_user"
-                  field_name = "password_confirm"  
+                  field_name = "credential_confirm"  
                   mode="form_element"
                   data_object={this.state.formValues}
                   disableUnderline={false}

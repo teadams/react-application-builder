@@ -18,8 +18,6 @@ const metadata_fields = {
     {name:"id", pretty_name: "Id", data_type: "integer", required:true, key:true},
     {name:"first_name", section:"basic", grid_col:6,pretty_name: "First Name",required:true, data_type: "string"},
     {name:"last_name", section:"basic",grid_col:6, pretty_name: "Last Name", required:true, data_type: "string"},
-    {name:"password", section:"basic",grid_col:6, pretty_name: "Password", required:true, data_type: "string", input_type:"password"},
-    {name:"password_confirm", section:"basic",grid_col:6, pretty_name: "Confirm Password", required:true, data_type: "string", input_type:"password"},
     {name:"full_name", pretty_key:true, derived:"{first_name}  {last_name}",  section:"basic", pretty_name: "Full Name", data_type: "string"},
     {name:"thumbnail", section:"thumbnail", pretty_name: "Thumbnail", data_type: "image", input_type: "image"},
     {name:"email", section:"basic", pretty_name: "Email", required:true, data_type: "string"},
@@ -28,9 +26,14 @@ const metadata_fields = {
     {name:"twitter", section:"additional", pretty_name: "Twitter Handle",  data_type: "string"},
     {name:"phone", section:"additional", pretty_name: "Phone",  data_type: "string"},
   ],
+  core_credential: [
+    {name:"id", pretty_name: "Id", data_type: "integer", required:true, key:true},
+    {name:"core_user", pretty_name:"User", references:"core_user", index:true,  system_controlled:true},
+    {name:"credential", section:"basic",grid_col:6, pretty_name: "Password", required:true, data_type: "string", input_type:"password"},
+  ],
   core_site_admin: [
     {name:"id", pretty_name: "Id", data_type: "integer", required:true, key:true},
-    {name:"name", pretty_name:"Site Administrator Name", references:"core_user", index:true, pretty_key:true, prevent_edit:true}
+    {name:"core_user", pretty_name:"Site Administrator Name", references:"core_user", index:true, pretty_key:true, prevent_edit:true}
   ]
 }
 

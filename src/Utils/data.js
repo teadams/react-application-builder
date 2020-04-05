@@ -45,6 +45,26 @@ export function getData (object_type, options, callback)   {
   })
 }
 
+
+export function login (data_object, callback)   {
+  var urltext = '/api/v1/auth/login';
+  // data object should haev email and credential
+  axios({
+   method: 'post',
+   url: urltext,
+   data: { data_object }
+ }).then(results => {
+      //alert ("login fucntion results is " + JSON.stringify(results.data))
+      callback(results.data,"")
+  }).catch(error => {
+      log.val('in catch error', error )
+      alert ("in catch error")
+//    log.val('in catch error', error.message)
+  //  alert ('error getting data', JSON.stringify(error.message))
+//    callback('', error);
+  })
+}
+
 export function getCount (object_type, options, callback)   {
   var urltext = '/api/v1/count/' + object_type;
 
