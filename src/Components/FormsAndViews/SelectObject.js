@@ -6,6 +6,7 @@ import * as meta from '../../Utils/meta.js';
 import * as log from '../../Utils/log.js'
 import * as data from '../../Utils/data.js';
 
+// Widget to simply select on object from an object type
 
 
 class SelectObject extends React.Component {
@@ -40,7 +41,6 @@ class SelectObject extends React.Component {
     
   handleChange = event => {
       let value = event.target.value
-      
       // Unfortunatly, have to find the pretty prop as
       // I could not get anything but the value to pass 
       // in the event.  So I use the original array of
@@ -80,6 +80,7 @@ class SelectObject extends React.Component {
   render() {
     const name_column_name = meta.keys(this.props.object_type).pretty_key_id;
     const field = meta.field(this.props.object_type, name_column_name)
+    const input_label = this.props.noLabel?false:true
     if (this.props.input_type == "radio") {
       return (<Fragment>
           <FormControl style={this.props.style}>
@@ -96,13 +97,16 @@ class SelectObject extends React.Component {
           </FormControl></Fragment>
         )
     } else {
-      return (<FormControl style={this.props.style}>
-      <FormLabel component="legend">{field.pretty_name}</FormLabel>
+
+      return (<Fragment>
+      {input_label &&
+      <FormLabel style={this.props.style} component="legend">{field.pretty_name}</FormLabel>}
       <Select
       autoFocus={this.props.autoFocus?true:false}
       value={this.props.value}
       id = {field.pretty_name}
       label = {field.pretty_name}
+      style={this.props.style}
       name = {field.pretty_name}
       disabled = {this.props.disabled}  
       disableUnderline  = {this.props.disableUnderline}
@@ -118,8 +122,8 @@ class SelectObject extends React.Component {
       return <MenuItem  key={menu_option[0]} id={menu_option[1]} name={menu_option[1]} label={menu_option[1]} value={option_value}>{menu_option[1]}</MenuItem>
     })}
   </Select>
- <FormHelperText>{field.helper_text}</FormHelperText>
-</FormControl>
+
+  </Fragment>
       )
     }
 

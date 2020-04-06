@@ -44,8 +44,8 @@ class ProjectView extends React.Component {
   
   componentDidUpdate(prevProps, prevState, snapshot) {
   //    alert ("view data update")
-      if (prevProps.id !== this.props.id || 
-          prevProps.object_type !== this.props.object_type) {
+      if (prevProps.project_id !== this.props.project_id || 
+          prevProps.object_type !== this.props.object_type ) {
           this.loadData();
       }
   } 
@@ -63,6 +63,8 @@ class ProjectView extends React.Component {
   }
 
   render () {
+
+    //alert ("render with prop" + this.props.foo)
     var project_data = this.state.item_data
     let hidden = {}
     hidden["from_user"] = true;

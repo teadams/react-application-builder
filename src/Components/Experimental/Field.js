@@ -475,6 +475,7 @@ class Field extends React.Component {
   render()  {
     const { object_type, field_name, data_object, disableUnderline } = this.props;
     let field = meta.field(object_type,field_name);
+
     switch (this.props.mode) {
       case "form":  
         return (<form onSubmit={this.handleSubmit}>

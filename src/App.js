@@ -2,7 +2,8 @@ import React, { Component, Fragment} from 'react';
 import {Grid} from 'material-ui'
 import {CrudTable, Text, GoogleMap} from './Components/Layouts';
 import {NavMenuLink, DrillDown} from './Components/Experimental';
-import {AuthToggleLink, AuthContext, AuthProvider} from './Components/User';
+import {ContextSelect, AuthToggleLink, AuthContext, AuthProvider} from './Components/User';
+import {SelectObject} from './Components/FormsAndViews';
 import {ProjectView, Volunteer, ProjectMessages} from './Components/NowWeAct';
 import Body from "./Body"
 import * as meta from './Utils/meta.js'
@@ -18,6 +19,9 @@ import {  BrowserRouter as Router,  Switch,  Route,  Link,  Redirect, useHistory
 
 //const MyContext = React.createContext("creation");
 const drawerWidth = 150;
+
+
+
 
 const styles = theme => ({
   drawerPaper: {
@@ -48,10 +52,15 @@ class App extends Component {
       log.func(' Menu constructor');
       this.state = {
           drawer_open: false,
-          context: "GGGGGG"
+          context: "GGGGGG",
+          foo:""
       }
+
       this.handleMenuChange = this.handleMenuChange.bind(this);
+
   }
+  
+
 
   handleDrawerOpen = () => {
     this.setState({ drawer_open: true });
@@ -106,11 +115,12 @@ class App extends Component {
           }
 
           this.handleDrawerClose();   
-          this.props.history.push(path);                    
+          this.props.history.push(path);                
       }
   }
     
   render() {    
+    
     let { selected_menu, filter_id, selected_menu_type } = this.props.match.params
     const { classes, theme } = this.props;
     const {drawer_open } = this.state;
@@ -118,7 +128,7 @@ class App extends Component {
     const meta_menu = meta.get_selected_menu(selected_menu,selected_menu_type)
     const filter_field = meta_menu.object_type?meta.field(meta_menu.object_type, meta_menu.filter_field):""
     const filter_object_type = filter_field.references
-
+  
 
     return      <Fragment>  <AuthProvider> 
      <Paper style={{ padding:10, marginTop:10, marginBottom:0, minHeight:600, position:'relative'}}>
@@ -154,16 +164,23 @@ class App extends Component {
     <div  className={classNames( {[classes[`appShift-left`]]: drawer_open})}>
 
      <AppBar position="sticky">
-        <Toolbar>  
+        <Toolbar style={{minHeight:0}}> 
+        <Grid container style={{width:'100%'}}>
+        <Grid item sm="11">
         {hamburger_menu_p &&
-        <IconButton style={{ marginLeft: -12, marginRight: 20}} color="inherit"  onClick={this.handleDrawerOpen}>
+        <IconButton style={{ marginLeft: -12, marginRight: 20, marginBottom:0, paddingBottom:0}} color="inherit"  onClick={this.handleDrawerOpen}>
            <MenuIcon />
         </IconButton> 
         }
-          <Typography variant="headline" color="inherit"> 
-            {meta.get_param('name')} 
+          <Typography variant="headline" color="inherit" style={{display:'inline-block', marginTop:10, marginBottom:0, marginRight:100}}> 
+            {meta.get_param('name')}   
           </Typography>  
-           <AuthToggleLink></AuthToggleLink>
+           <ContextSelect        />
+           </Grid>
+            <Grid item sm="1">
+            <AuthToggleLink></AuthToggleLink>
+          </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
 
@@ -178,11 +195,12 @@ class App extends Component {
           return <Tab key={menu.index} label={menu.label}/>
        })}
         </Tabs>
-        <Body selected_menu={selected_menu} selected_menu_type={selected_menu_type} filter_id={filter_id}/>
+        <Body foo={this.state.foo} 
+        selected_menu={selected_menu} selected_menu_type={selected_menu_type} filter_id={filter_id}/>
         </div>
      </Paper>
      <Tabs
-       value={0}
+       value={0}  
        indicatorColor="primary"
        textColor="primary"
        centered
@@ -194,6 +212,6 @@ class App extends Component {
   }
 }
 
-
+//App.contextType = AuthContext;
 export default withStyles(styles, { withTheme: true })(App);
 //export default App;
