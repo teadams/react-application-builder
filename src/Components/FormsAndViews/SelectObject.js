@@ -27,13 +27,18 @@ class SelectObject extends React.Component {
 
 
   loadData () {
-        data.getData(this.props.object_type, "", (data, error) => { 
+        let options = {}
+        options.context_limit = this.props.context_limit
+        options.user_id = this.props.user_id
+        data.getData(this.props.object_type, options, (data, error) => { 
           const id_column_name =meta.keys(this.props.object_type).key_id;
           const name_column_name = meta.keys(this.props.object_type).pretty_key_id;
           var select_menu_options = data.map (row => {
             return [row[id_column_name], meta.get_display_value(this.props.object_type, name_column_name, row)];
           })
-          select_menu_options.push(["","Any"])
+          if (this.props.add_any) {
+            select_menu_options.push(["","Any"])
+          }
           this.setState({ select_menu_options: select_menu_options})          
         })
   }

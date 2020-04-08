@@ -59,7 +59,7 @@ const metadata_fields = {
   ],
   nwn_project: [
     {name:"id",  section:"basic",  pretty_name: "Id", data_type: "integer", required:true, key:true},
-    {name:"name", section:"basic",grid_col:6, pretty_name: "Project Name", data_type: "string", pretty_key:"true"},
+    {name:"name", section:"basic",grid_col:6, pretty_name: "XXXXXXX Name", data_type: "string", pretty_key:"true"},
     {name:"type", section:"basic",grid_col:6, pretty_name: "Project Type", references:"nwn_project_type", index:true},
     {name:"leader", section:"basic", pretty_name:"Project Leader", references:"core_user", index:true,  use_context:true},
     {name:"summary", section:"basic", grid_col:6, pretty_name: "Short Summary", data_type: "string"},

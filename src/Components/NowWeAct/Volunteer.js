@@ -169,9 +169,9 @@ class Volunteer extends React.Component {
       </Typography>
       <Grid container style={{padding:20}}>
       <Grid item xs={4}>
-        <SelectObject object_type="nwn_project" shrink="false" style={{width:"90%"}} value={this.state.project_id}     onChange={this.handleProjectChange}/>
+        <SelectObject object_type="nwn_project" shrink="false" style={{width:"90%"}} value={this.state.project_id}  add_any={true}   onChange={this.handleProjectChange}/>
       </Grid> <Grid item xs={4}>
-        <SelectObject object_type="nwn_role_type" input_type="radio" shrink="false" style={{width:"90%"}} value={this.state.role_type_id}
+        <SelectObject object_type="nwn_role_type" input_type="radio" shrink="false" style={{width:"90%"}}  add_any={true} value={this.state.role_type_id}
         onChange={this.handleRoleTypeChange}
         />
       </Grid>

@@ -37,17 +37,23 @@ class ContextSelect extends Component {
         this.context.setContextId(value)  
       
     }
-
     render() {
-        return (
-          <SelectObject object_type = "nwn_project"
-            value = {this.context.context_id}
-            style = {context_style}
-            onChange={this.handleContextChange}
-            noLabel= {true}
-            open="true"
-           />
-        );
+      if (this.context.user.id) {
+          let context_limit = this.context.user.site_admin?"":"member"
+          return (
+            <SelectObject object_type = "nwn_project"
+              value = {this.context.context_id}
+              style = {context_style}
+              onChange={this.handleContextChange}
+              noLabel= {true}
+              context_limit={context_limit}
+              user_id = {this.context.user.id}
+              open="true"
+             />
+          );
+        }  else {
+            return (<Fragment/>)
+        }
     }
 }
 

@@ -7,40 +7,33 @@ export function get_url_path_base () {
       return "/api/v1/"
 } 
 
-export function getData (object_type, options, callback)   {
-  var urltext = '/api/v1/' + object_type;
-
-  //alert ('options  ' + JSON.stringify(options))
+export function getData (object_type, options={}, callback)   {
+  var url_base = '/api/v1/'  // later - take from params
+  var url_path = options.path?options.path:object_type
+  var url_text = url_base + url_path
   if (options.id) {
-    urltext += '/'+options.id
-  }
-  var param_clause = []
-  if (options.order_by) {
-    param_clause.push("order_by="+options.order_by)
-  }
-  if (options.order_by_direction) {
-    param_clause.push("order_by_direction="+options.order_by_direction)
+    url_text += '/'+options.id
   }
 
-  if (options.filter_id) {
-    param_clause.push("filter_field="+options.filter_field+"&filter_id="+options.filter_id)
-  }
-  if (options.key_type) {
-    param_clause.push("key_type="+options.key_type)
-  }
-// alert (' param clause is ' + param_clause)
-  urltext += "?"+param_clause.join("&")
-  //alert ('urltext ' + urltext)
-  
+  var param_clause = []
+  const params = ["order_by", "order_by_direction", "filter_field", "filter_id", "key_type", "context_limit", "user_id"]
+
+  params.forEach(param => {
+    if (options[param]) {
+        param_clause.push( param +"="+ encodeURI(options[param]))
+      }
+  });
+
+  url_text += "?"+param_clause.join("&")
+  //al  
   axios({
    method: 'get',
-   url: urltext,
+   url: url_text,
  }).then(results => {
-  //      alert ('got data')
       callback(results.data,"");
   }).catch(error => {
-    log.val('in catch error', error.message)
-    alert ('error getting data', error.message)
+    log.val('catch error for url post', error.message)
+    alert ('error retrieving data', error.message)
     callback('', error);
   })
 }

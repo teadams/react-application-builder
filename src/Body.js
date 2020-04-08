@@ -20,6 +20,42 @@ class Body extends Component {
   }
   
   render() {    
+//   alert ("user object is " + JSON.stringify(this.context.user))
+//    alert ("authorization object is " +JSON.stringify(this.context.user.authorization_object))
+//    alert ("context is "  + this.context.context_id)
+    let debug_message = ""
+    let context_role = ""
+    let authorization_object = this.context.user.authorization_object
+    if (authorization_object) {
+        context_role = authorization_object[this.context.context_id]
+        //alert ("context role is " + JSON.stringify(context_role))
+    }
+    
+    let user_debug_message = ""
+    if (!this.context.user) {
+      user_debug_message = "user is not logged in"
+    } else {
+      user_debug_message = "user is " + this.context.user.first_name + " " + this.context.user.last_name
+    } 
+
+    let site_admin_message = ""
+    if (this.context.user.site_admin) {
+        site_admin_message = "User is a site adminitrator"
+    }
+
+    let context_message = ""
+    if (context_role) {
+//      alert ("context role")
+      if (context_role.Admin) {
+        context_message = "User is a Context Admin"
+      } else {
+        context_message = "User is a Context Volunteer"
+      }
+    }
+//else if (this.context.user.authorization_object[this.context.context_id]) {
+//      let context_role = this.context.user.authorization_object[this.context.context_id]
+//      debug_message = "role is " + context_role
+//    }
     // selected_menu and selected_menu_type will come from the URL
     const { selected_menu, filter_id, selected_menu_type } = this.props
 
@@ -81,7 +117,18 @@ class Body extends Component {
         </Grid>
       }
       
-    </Fragment>)
+      <Fragment>
+      <Typography  variant="headline" >&nbsp; </Typography>
+      <font color="red"  style={{fontSize:"24px"}}>   &nbsp;    &nbsp;    &nbsp;    &nbsp;    &nbsp;  DEBUG - {debug_message}<br/>
+    &nbsp;  {user_debug_message}<br/>
+      {site_admin_message}<br/> 
+      {context_message}
+      
+      </font>
+      </Fragment>
+    </Fragment>
+
+)
   
   }
 }

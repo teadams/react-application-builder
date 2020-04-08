@@ -64,6 +64,7 @@ class ProjectView extends React.Component {
 
   render () {
 
+
     //alert ("render with prop" + this.props.foo)
     var project_data = this.state.item_data
     let hidden = {}
@@ -178,8 +179,9 @@ class ProjectView extends React.Component {
                 </Paper>
               </Paper>
               </Grid>
-          </Grid>               
+          </Grid>    
       </Paper>
+
         </Fragment>)
         } else {
           return ("")
