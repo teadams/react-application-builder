@@ -51,7 +51,7 @@ class LoginForm extends React.Component {
     let data_object = {}
     data_object.email = this.state.formValues["email"]
     data_object.credential = this.state.formValues["credential"]
-    data.login (data_object, (user_data, error) => {
+    data.login ( data_object,  (user_data, error) => {
         if (!user_data.email_match) {
             alert ('email not found')
         } else if (!user_data.password_match) {

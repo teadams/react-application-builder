@@ -2,155 +2,82 @@ import * as log from './log.js';
 import axios from 'axios';
 import * as meta from './meta.js';
 
-export function get_url_path_base () {
+export function getPathBase () {
       // later this will be a config
-      return "/api/v1/"
+      return "/api/v1"
 } 
 
-export function getData (object_type, options={}, callback)   {
-  var url_base = '/api/v1/'  // later - take from params
-  var url_path = options.path?options.path:object_type
-  var url_text = url_base + url_path
-  if (options.id) {
-    url_text += '/'+options.id
-  }
+export function getParamsObject(params=[], options={}) {
+    // prepares parameter object for axios
+    let params_object = {}
+    params.forEach(param => {
+      if (options[param]) {
+          params_object[param] = options[param]
+        }
+    });
+    return (params_object)
+}
 
-  var param_clause = []
+export function callAPI (path="", params={}, data_object={}, method="get", callback)   {
+  var url = getPathBase() + "/"  + path
+  axios({
+   method: method,
+   url: url,
+   data:{ data_object}
+ }).then(results => {
+      callback(results.data,"");
+  }).catch(error => {
+    const error_prompt = 'error connecting to server with url: ' + url + " method: " + method + " params: " + JSON.stringify(params) + " data: " + JSON.stringify(data_object)
+    log.val(error_prompt , error.message)
+    alert (error_prompt, error.message)
+    callback('', error);
+  })
+}
+
+export function getURL (path, params={}, callback)   {
+  callAPI (path, params, "", "get", callback) 
+}
+
+export function getData (object_type, options={}, callback)   {
+  var path = options.path?options.path:object_type
+  if (options.id) {
+    path += '/'+options.id
+  }
   const params = ["order_by", "order_by_direction", "filter_field", "filter_id", "key_type", "context_limit", "user_id"]
 
-  params.forEach(param => {
-    if (options[param]) {
-        param_clause.push( param +"="+ encodeURI(options[param]))
-      }
-  });
-
-  url_text += "?"+param_clause.join("&")
-  //al  
-  axios({
-   method: 'get',
-   url: url_text,
- }).then(results => {
-      callback(results.data,"");
-  }).catch(error => {
-    log.val('catch error for url post', error.message)
-    alert ('error retrieving data', error.message)
-    callback('', error);
-  })
-}
-
-
-export function login (data_object, callback)   {
-  var urltext = '/api/v1/auth/login';
-  // data object should haev email and credential
-  axios({
-   method: 'post',
-   url: urltext,
-   data: { data_object }
- }).then(results => {
-      //alert ("login fucntion results is " + JSON.stringify(results.data))
-      callback(results.data,"")
-  }).catch(error => {
-      log.val('in catch error', error )
-      alert ("in catch error")
-//    log.val('in catch error', error.message)
-  //  alert ('error getting data', JSON.stringify(error.message))
-//    callback('', error);
-  })
-}
-
-export function getCount (object_type, options, callback)   {
-  var urltext = '/api/v1/count/' + object_type;
-
-  //alert ('options  ' + JSON.stringify(options))
-
-  var param_clause = []
-  if (options.filter_id) {
-    param_clause.push("filter_field="+options.filter_field+"&filter_id="+options.filter_id)
-  }
-
-  urltext += "?"+param_clause.join("&")
-  axios({
-   method: 'get',
-   url: urltext,
- }).then(results => {
-  //      alert ('got data')
-      callback(results.data,"");
-  }).catch(error => {
-    log.val('in catch error', error.message)
-    alert ('error getting data', error.message)
-    callback('', error);
-  })
+  callAPI (path, getParamsObject(params), "", "get", callback) 
 }
 
 // INSERTS 
 export function postData (object_type, data_object, options, callback)   {
-  let urltext = '/api/v1/' + object_type;
-  axios({
-   method: 'post',
-   url: urltext,
-   data: { data_object }
- }).then(results => {
-      log.val("post successful")
-      callback(results.data,"");
-  }).catch(error => {
-//    log.val('in catch error', error.message)
-    alert ('error getting data', error.message)
-    callback('', error);
-  })
+  callAPI (object_type, {}, data_object, "post", callback) 
 }
+
+export function login (data_object, callback)   {
+  callAPI ("auth/login", {}, data_object, "post", callback) 
+}
+
+export function getCount (object_type, options, callback)   {
+  const path = 'count/' + object_type;
+  callAPI (path, getParamsObject(["filter_id", "filter_field"], options), {}, "get", callback) 
+}
+
 
 /// UPDATES
 export function putData (object_type, data_object, options, callback)   {
-  let urltext = '/api/v1/' + object_type;
+  let path =  object_type;
   if (data_object.id) {
-    urltext += '/'+data_object.id
+    path +='/'+data_object.id
   } else {
-    urltext += '/'+data_object[meta.keys[object_type].key_id]
+    path +=  '/'+data_object[meta.keys[object_type].key_id]
   } 
-  axios({
-   method: 'put',
-   url: urltext,
-   data: { data_object }
- }).then(results => {
-      callback(results.data,"");
-  }).catch(error => {
-    log.val('in catch error', error.message)
-    //alert ('error getting data', error.message)
-    callback('', error);
-  })
-}
+  callAPI (path, {}, data_object, "put", callback) 
 
+}
 
 export function deleteData (object_type, data_object, options, callback)   {
-  let urltext = '/api/v1/' + object_type;
-  urltext += '/'+data_object[meta.keys(object_type).key_id]
-  axios({
-   method: 'delete',
-   url: urltext,
-   data: { data_object }
- }).then(results => {
-      callback(results.data,"");
-  }).catch(error => {
-    log.val('in db delete catch error', error.message)
-    alert ('error deleting data', error.message)
-    callback('', error);
-  })
+  const path =  object_type  +'/'+data_object[meta.keys(object_type).key_id]
+  callAPI (path, data_object, "delete", callback) 
 }
 
 
-export function getURL (url, params, callback)   {
-  // params is an object containing URL params
-  axios({
-   method: 'get',
-   url: url,
-   params: params
-//   data: {address: "France", key: "AIzaSyB7xya0w0DAsz0kODQ0_MWlApayXELLBGo"}
- }).then(results => {
-  //      alert ('got data')
-      callback(results.data,"");
-  }).catch(error => {
-    log.val('in catch error', error.message)
-    alert ("error getting url " + url + "  "+ error.message)
-    callback('', error);
-  })
-}
