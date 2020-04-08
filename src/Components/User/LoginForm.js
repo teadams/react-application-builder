@@ -32,11 +32,11 @@ class LoginForm extends React.Component {
       if (this.state.formValues.credential != this.state.formValues.credential_confirm) {
           alert ("password and password confirm do not match")
       } else {
-        data.postData("core_user", this.state.formValues, {}, (result, error) => { 
+        data.createAccount( this.state.formValues,  (result, error) => { 
           if (error) {
               alert ("there has been an error")
           } else { 
-            var inserted_id = result.rows[0][meta.keys("core_user").key_id] 
+            var inserted_id = result[meta.keys("core_user").key_id] 
             this.setState({ formValues: update(this.state.formValues,{
                         id: {$set: inserted_id}
                         })},
@@ -171,7 +171,7 @@ class LoginForm extends React.Component {
               </Grid>
               <Grid container>
                 <Grid item style={{padding:10}} sm={6}>
-                 <Field object_type = "core_user"
+                 <Field object_type = "core_credential"
                     field_name = "credential"  
                     mode="form_element"
                     data_object={this.state.formValues}
@@ -181,7 +181,7 @@ class LoginForm extends React.Component {
                   /> 
                 </Grid>
                 <Grid item style={{padding:10}} sm={6}>
-                  <Field object_type = "core_user"
+                  <Field object_type = "core_credential"
                   field_name = "credential_confirm"  
                   mode="form_element"
                   data_object={this.state.formValues}

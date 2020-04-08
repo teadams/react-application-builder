@@ -434,7 +434,7 @@ class Field extends React.Component {
      }
 
       // for now, field in other tables are disabled. may be expanded later!!
-      let  disabled =  (((field.system_controlled  || (field.prevent_edit && (this.props.action != "Create"))) && this.props.mode !== "filter") || field.derived || field.not_in_db ||  (field.field_object_type && !field.edit_p))?true:false
+      let  disabled =  (((field.system_controlled  || (field.prevent_edit && (this.props.action != "Create"))) && this.props.mode !== "filter") || field.derived  ||  (field.field_object_type && !field.edit_p))?true:false
 //      alert ("disabled for " + field.name + " is " + disabled + " plus  " + JSON.stringify(field))
       if (field.dependent_field) {
         if (!this.props.data_object[field.dependent_field]) {

@@ -27,9 +27,9 @@ export function callAPI (path="", params={}, data_object={}, method="get", callb
  }).then(results => {
       callback(results.data,"");
   }).catch(error => {
-    const error_prompt = 'error connecting to server with url: ' + url + " method: " + method + " params: " + JSON.stringify(params) + " data: " + JSON.stringify(data_object)
-    log.val(error_prompt , error.message)
-    alert (error_prompt, error.message)
+    const error_prompt = 'error connecting to server with url: ' + url + " method: " + method + " params: " + JSON.stringify(params) + " data: " + JSON.stringify(data_object) + " "
+    log.val(error_prompt + error.message)
+    alert (error_prompt + error.message)
     callback('', error);
   })
 }
@@ -55,6 +55,10 @@ export function postData (object_type, data_object, options, callback)   {
 
 export function login (data_object, callback)   {
   callAPI ("auth/login", {}, data_object, "post", callback) 
+}
+
+export function createAccount (data_object, callback)   {
+  callAPI ("auth/create-account", {}, data_object, "post", callback) 
 }
 
 export function getCount (object_type, options, callback)   {

@@ -56,6 +56,7 @@ const metadata_fields = {
     {name:"id", pretty_name: "Id", data_type: "integer", required:true, key:true},
     {name:"core_user", pretty_name:"User", references:"core_user", index:true,  system_controlled:true},
     {name:"credential", section:"basic",grid_col:6, pretty_name: "Password", required:true, data_type: "string", input_type:"password"},
+    {name:"credential_confirm", section:"basic",grid_col:6, pretty_name: "Password Confirmation", required:true, data_type: "string", input_type:"password",not_in_db:true},
   ],
   core_site_admin: [
     {name:"id", pretty_name: "Id", data_type: "integer", required:true, key:true},
@@ -63,7 +64,8 @@ const metadata_fields = {
   ], 
   core_role: [
     {name:"id", pretty_name: "Id", data_type: "integer", required:true, key:true},
-    {name:"name", pretty_name:"Role Name", data_type:"string", index:true, pretty_key:true}
+    {name:"name", pretty_name:"Role Name", data_type:"string", index:true, pretty_key:true},
+    {name:"description", section:"basic",grid_col:6, pretty_name: "Role Description", data_type: "string"}
   ],
   core_subsite_role: [
     {name:"id", pretty_name: "Id", data_type: "integer", required:true, key:true},

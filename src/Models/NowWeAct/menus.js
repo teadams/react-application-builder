@@ -14,7 +14,6 @@ const metadata_menus = {
       {index:"2", label: "Countries", object_type: "core_country"},
       {index:"3", label: "States", object_type: "core_state_province"},
       {index:"4", label: "Project Types", object_type: "nwn_project_type", component:"DrillDown"},
-      {index:"5", label: "Role Types", object_type: "nwn_role_type"},
       {index:"6", label: "Needs", object_type: "nwn_project_need"},
       {index:"7", label: "Video", object_type: "nwn_project_video"},
       {index:"8", label: "Documents", object_type:"nwn_project_document"},
