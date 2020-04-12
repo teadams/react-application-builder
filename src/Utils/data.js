@@ -29,8 +29,9 @@ export function callAPI (path="", params={}, data_object={}, method="get", callb
       callback(results.data,"");
   }).catch(error => {
     const error_prompt = 'error connecting to server with url: ' + url + " method: " + method + " params: " + JSON.stringify(params) + " data: " + JSON.stringify(data_object) + " "
-    log.val(error_prompt + error.message)
-    alert (error_prompt + error.message)
+    log.val(error_prompt + error.message + " " + error.stack)
+    alert (error_prompt + error.message + " " + error.stack)
+
     callback('', error);
   })
 }
