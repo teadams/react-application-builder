@@ -43,6 +43,7 @@ const metadata_fields = {
     status: { section:"admin",grid_col:6, pretty_name: "Status", data_type: "string", valid_values:"Recruiting, Filled", default:"Recruiting"},
   },
 nwn_project_volunteer: {
+  name: { section:"basic", pretty_name: "Volunteer"}, 
   leader_notes: { section:"admin", grid_col:6, pretty_name: "Leader Notes", data_type: "string"}
 },
 nwn_project: {

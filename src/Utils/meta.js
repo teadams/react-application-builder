@@ -17,35 +17,46 @@ metadata_fields = Object.assign(metadata_core.metadata_fields, metadata_custom.m
 metadata_object_types= Object.assign(metadata_core.metadata_object_types,metadata_custom.metadata_object_types);
 
 const metadata_object_types_keys = Object.keys(metadata_object_types)
-
-// for each object type, add core reference_fields_shown
-metadata_object_types_keys.forEach(function(key,i) {
-    let object_type_obj = metadata_object_types[key]
-    // added for backward compatability
-    object_type_obj.name = key
-    let object_type_name = key
-    if (object_type_name != "core_fields" && object_type_name != "core_subsite_field" && !object_type_obj.extends_objects) { 
-      metadata_fields[object_type_name] = Object.assign(metadata_fields[object_type_name],metadata_fields["core_fields"])
-      if (!object_type_obj.all_subsites) {
-      
-        metadata_fields[object_type_name] = Object.assign(metadata_fields[object_type_name],(metadata_fields["core_subsite_field"]))  
-      }
-    }
-
-    if (object_type_obj.extends_object) {
-        metadata_fields[object_type_name] = Object.assign(metadata_fields[object_type_name],(metadata_fields[object_type_obj.extends_object]))   
-        //alert ("extending fields for " + object_type_obj.name)
-        //alert ("fields are " + JSON.stringify(metadata_fields[object_type_name]))
-    }
-})
-
-//alert ("metadata object types is " + JSON.stringify(metadata_object_types))
-
 metadata_object_types_keys.forEach(function(object_key,i) {
   metadata_object_types[object_key].name = object_key
-  let object_type_obj = metadata_object_types[object_key]
-  // fields for object types, which is an object 
- // where each field in an object
+  const extends_object = metadata_object_types[object_key].extends_object
+  if (extends_object) {
+      // extension object will override object_attributes
+    log.val ("object, extends", object_key, extends_object)
+
+      Object.keys(metadata_object_types[object_key]).forEach(function(attribute,i) { 
+          const attribute_value = metadata_object_types[object_key][attribute]
+            // extended object taype attributes override base
+            if (attribute != "extends_object" && attribute != "name") {
+                metadata_object_types[extends_object][attribute] = attribute_value
+            }
+      })
+      
+      Object.keys(metadata_fields[extends_object]).forEach(function(field_name,i) {
+          const field_from_extended_object = metadata_fields[extends_object][field_name]
+          const field_from_extending_object = metadata_fields[object_key][field_name]  
+          if (field_from_extending_object) {
+                Object.keys(field_from_extending_object).forEach(function(field_attribute) {
+                    metadata_fields[extends_object][field_name][field_attribute] = field_from_extending_object[field_attribute]
+                })
+
+              // extending object has dubplicate field, override attributes
+          } else {
+              // field is not in the extened object, add it
+              metadata_fields[object_key][field_name] = metadata_fields[extends_object][field_name]
+          }
+      })
+  } else if (object_key != "core_fields" && object_key != "core_subsite_field") {
+      metadata_fields[object_key] = Object.assign(metadata_fields[object_key], metadata_fields["core_fields"])
+      if (!metadata_object_types[object_key].all_subsites) {
+        metadata_fields[object_key] = Object.assign(metadata_fields[object_key], metadata_fields["core_subsite_field"])
+      }
+  }
+})
+
+
+
+metadata_object_types_keys.forEach(function(object_key,i) {
   let metadata_fields_for_object_type = metadata_fields[object_key]
   const metatdata_fields_for_object_type_keys = Object.keys(metadata_fields_for_object_type)
   metatdata_fields_for_object_type_keys.forEach (function(field_key, j) {
@@ -58,10 +69,8 @@ metadata_object_types_keys.forEach(function(object_key,i) {
         metadata_object_types[object_key].pretty_name_column = field_key
       }
   })
-//  alert ("fileds for object " + object_key + " are " + JSON.stringify(metadata_fields[object_key]))
-//  log.val("object_type_name, attributes, fields", object_key, metadata_object_types[object_key], metadata_fields[object_key] )
-})
 
+})
 
 metadata_sections = Object.assign(metadata_sections,metadata_custom.metadata_sections);
 
