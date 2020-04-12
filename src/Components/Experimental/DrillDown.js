@@ -127,7 +127,7 @@ class DrillDown extends React.Component {
   render()  {
   //    alert ("object type is " + this.props.object_type)
       const object_attributes = meta.object(this.props.object_type);
-// TODO - create form should not need object fields as prop
+  //    alert ("object attributes is " + JSON.stringify(object_attributes))    
       const object_fields = meta.fields(this.props.object_type);
       const keys = meta.keys(this.props.object_type);
       const expand_contract = this.props.expand_contract?this.props.expand_contract:false

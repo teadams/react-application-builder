@@ -63,8 +63,12 @@ class Body extends Component {
     //let selected_menu_type = this.props.params["selected_menu_type"]
     const hamburger_menu_p = meta.get_menu("hamburger")?true:false  
     const meta_menu = meta.get_selected_menu(selected_menu,selected_menu_type)
-    const filter_field = meta_menu.object_type?meta.field(meta_menu.object_type, meta_menu.filter_field):""
-    const filter_object_type = filter_field.references
+    let filter_field = {}
+    let filter_object_type = ""
+    if (meta_menu.filter_field) {
+      filter_field = meta_menu.object_type?meta.field(meta_menu.object_type, meta_menu.filter_field):""
+      filter_object_type = filter_field.references
+    } 
 
     return    (<Fragment>
         {meta_menu.component == "ProjectView" &&

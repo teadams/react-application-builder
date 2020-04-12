@@ -44,7 +44,7 @@ const metadata_fields = {
   core_user: {
     id: { pretty_name: "Id", data_type: "integer", required:true, key:true},
     first_name: { section:"basic", grid_col:6,pretty_name: "First Name",required:true, data_type: "string"},
-    last_name: { section:"basic",grid_col:6, pretty_name: "Last Name", required:true, data_type: "string"},
+    last_name: { section:"basic",grid_col:6, pretty_name: "Last Name", required:true, data_type: "string", order_by:true},
     full_name: { pretty_key:true, derived:"{first_name}  {last_name}",  section:"basic" , pretty_name: "Full Name", data_type: "string"},
     thumbnail: { section:"thumbnail" , pretty_name: "Thumbnail", data_type: "image", input_type: "image"},
     email: { section:"basic" , pretty_name: "Email", required:true, data_type: "string"},

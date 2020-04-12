@@ -76,7 +76,7 @@ class Field extends React.Component {
     let { object_type, field_name} = this.props;
     let field = meta.field(object_type,field_name);
     let final_field = field;
-    log.val('mount field name, data oboject ', field.name, this.props.data_object)
+    log.val('mount field name, data oboject ', field_name, this.props.data_object)
   //  alert ('field and data object ' + field.name + ' ' + JSON.stringify(this.props.data_object))
     let prefix = ""
     if (field.field_object_type) {
@@ -187,7 +187,9 @@ class Field extends React.Component {
                 // as file upload is not controlled by React
                 // we have to force a load of the data object 
                 // get the new filepath, height, width
-                this.props.onUploadFile();
+                this.props.onUploadFile
+
+
               }
           }).catch(function (error) {
               console.log(error);
@@ -238,6 +240,8 @@ class Field extends React.Component {
     const { data_object, object_type, field_name } = this.props;
     // meta.get_display_value will take references, dervived, etc. into consideration
     const field = meta.field(object_type, field_name)
+//    alert ("object type and fields is " + object_type + " " + field_name)
+//    alert ("Field is " + JSON.stringify(field))
     if (Object.keys(data_object).length == 0) {
       return null
     } else if (field.input_type) {
@@ -419,6 +423,7 @@ class Field extends React.Component {
   renderField(mode) {
       const {  field_name, data_object, disableUnderline, object_type } = this.props;
       let final_object_type = this.props.object_type;
+      //alert ("field name and object types are " + object_type + " " + field_name)
       let field = meta.field(object_type,field_name);
       let final_field = field;
       let prefix = ""
@@ -475,7 +480,7 @@ class Field extends React.Component {
   render()  {
     const { object_type, field_name, data_object, disableUnderline } = this.props;
     let field = meta.field(object_type,field_name);
-
+  
     switch (this.props.mode) {
       case "form":  
         return (<form onSubmit={this.handleSubmit}>

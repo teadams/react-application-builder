@@ -1,5 +1,49 @@
+const metadata_fields = {
+  nwn_project_message: {
+    id: { section:"basic",  pretty_name: "Id", data_type: "integer", required:true, key:true},
+    from_user: { section:"basic", pretty_name:"Project Leader", references:"core_user", index:true, pretty_key:true},
+    to_user: { section:"basic", pretty_name:"Project Leader", references:"core_user", index:true, pretty_key:true},
+    nwn_project: { section:"basic", pretty_name: "Project", references:"nwn_project", index:true}, 
+    subject: { section:"basic", pretty_name: "Title", index:true, pretty_key:"true"}, 
+    body: { section:"basic",  pretty_name: "Description", data_type: "string"},
+    read_p: { pretty_name: "Read?",  data_type: "boolean", default:true},
+    nwn_project_volunteer: { section:"hidden", pretty_name: "Volunteer", references:"nwn_project_volunteer", index:true}
+  },
+  nwn_project_post: {
+    id: { section:"basic",  pretty_name: "Id", data_type: "integer", required:true, key:true},
+    nwn_project: { section:"basic", pretty_name: "Project", references:"nwn_project", index:true}, 
+    name: { section:"basic", pretty_name: "Title", index:true, pretty_key:"true"}, 
+    body: { section:"basic",  pretty_name: "Description", data_type: "string"},
+    url: { section:"basic",  pretty_name: "You Tube URL", data_type: "string", input_type:'string',  you_tube:true},
+    image: { section:"basic",  pretty_name: "Image", data_type: "image", input_type: "image"},
+    core_role: { section:"basic", pretty_name: "Role Type", references:"core_role", index:true, pretty_key:"true"},
+    status: { section:"admin",grid_col:6, pretty_name: "Status", data_type: "string", valid_values:"Active, Inactive", default:"Active"},
+  },
+  nwn_project_video: {
+    id: { section:"basic",  pretty_name: "Id", data_type: "integer", required:true, key:true},
+    nwn_project: { section:"basic", pretty_name: "Project", references:"nwn_project", index:true}, 
+    name: { section:"basic", pretty_name: "Title", index:true, pretty_key:"true"}, 
+    description: { section:"basic",  pretty_name: "Description", data_type: "string"},
+    url: { section:"basic",  pretty_name: "URL", data_type: "string", you_tube:true},
+    primary_video: { section:"admin",grid_col:6, pretty_name: "Primary", data_type: "boolean", default:true},
+    status: { section:"admin",grid_col:6, pretty_name: "Status", data_type: "string", valid_values:"Active, Inactive", default:"Active"},
+  },
+  nwn_project_document: {
+    id: { section:"basic",  pretty_name: "Id", data_type: "integer", required:true, key:true},
+    nwn_project: { section:"basic", pretty_name: "Project", references:"nwn_project", index:true}, 
+    name: { section:"basic", pretty_name: "Title", index:true, pretty_key:"true"}, 
+    description: { section:"basic",  pretty_name: "Description", data_type: "string"},
+    url: { section:"basic",  pretty_name: "URL", data_type: "string"},
+  },
+  nwn_project_need: {
+    id: { section:"basic",  pretty_name: "Id", data_type: "integer", required:true, key:true},
+    role_name: { section:"basic", pretty_name: "Role Type", references:"core_role", index:true, pretty_key:"true"},
+    nwn_project: { section:"basic", pretty_name: "Project", references:"nwn_project", index:true}, 
+    description: { section:"basic",  pretty_name: "Description", data_type: "string"},
+    status: { section:"admin",grid_col:6, pretty_name: "Status", data_type: "string", valid_values:"Recruiting, Filled", default:"Recruiting"},
+  },
 nwn_project_volunteer: {
-  leader_notes: { section:"admin",grid_col:6, pretty_name: "Leader Notes", data_type: "string"}
+  leader_notes: { section:"admin", grid_col:6, pretty_name: "Leader Notes", data_type: "string"}
 },
 nwn_project: {
   type: { section:"basic",grid_col:6, pretty_name: "Project Type", references:"nwn_project_type", index:true},

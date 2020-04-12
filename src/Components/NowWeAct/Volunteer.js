@@ -102,7 +102,7 @@ class Volunteer extends React.Component {
         options.filter_field = "nwn_project"
       } else {
         options.filter_id = role_type_id
-        options.filter_field = "nwn_role_type"
+        options.filter_field = "core_role"
       }
       // TODO _ FILTER WITH BOTH, But that needs a change to the back end
       data.getData(object_type, options, (data, error) => { 
@@ -171,7 +171,7 @@ class Volunteer extends React.Component {
       <Grid item xs={4}>
         <SelectObject object_type="nwn_project" shrink="false" style={{width:"90%"}} value={this.state.project_id}  add_any={true}   onChange={this.handleProjectChange}/>
       </Grid> <Grid item xs={4}>
-        <SelectObject object_type="nwn_role_type" input_type="radio" shrink="false" style={{width:"90%"}}  add_any={true} value={this.state.role_type_id}
+        <SelectObject object_type="core_role" input_type="radio" shrink="false" style={{width:"90%"}}  add_any={true} value={this.state.role_type_id}
         onChange={this.handleRoleTypeChange}
         />
       </Grid>

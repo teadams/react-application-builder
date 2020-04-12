@@ -103,7 +103,9 @@ class CreateForm extends React.Component {
       let defaultedFormValues = {}
       let contextInitialized = false
       const object_fields = meta.fields(this.props.object_type)
-      object_fields.map(field => {
+      const object_field_keys  = Object.keys(object_fields)
+      object_field_keys.map(key => {
+          const field = object_fields[key]
           if (!field.key ) {
             if (field.name == this.props.filter_field) {
               defaultedFormValues[field.name] = this.props.filter_id
@@ -211,7 +213,8 @@ class CreateForm extends React.Component {
               {sections && sections.map(section => {
                 let section_fields = meta.section_fields(this.props.object_type, section.name, "form")
                 if (section_fields.length > 0) {
-                  var field_render = (section_fields.map(field=>{
+                  var field_render = (section_fields.map(field_name=>{
+                      const field = meta.field(this.props.object_type, field_name)
                         let grid_col = field.grid_col?field.grid_col:4
                         grid_col = grid_col * gridCol_scale
   
@@ -239,7 +242,8 @@ class CreateForm extends React.Component {
                 })}
                 {!sections && 
                   <Grid container>
-                  {meta.section_fields(this.props.object_type, "", "form").map(field => {
+                  {meta.section_fields(this.props.object_type, "", "form").map(field_name => {
+                    const field = meta.field(this.props.object_type, field_name)
                     let grid_col = field.grid_col?field.grid_col:4
                     grid_col = grid_col * gridCol_scale
                     if (!field.key && !field.system_controlled) { 

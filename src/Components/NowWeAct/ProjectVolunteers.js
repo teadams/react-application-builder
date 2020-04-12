@@ -45,28 +45,26 @@ class ProjectVolunteers extends React.Component {
     options.key_type = "key_id";
     data.getData("nwn_project_volunteer", options, (data, error) => { 
         let updated_state = [];
-        updated_state.data = data;
+        updated_state.data = data; 
         this.setState(updated_state)
-
-//            alert ("data is " + JSON.stringify(data))
       })
   }
-
   render () {
+
       return (
       <Fragment>Project Volunteers
       {this.state.data.map(row=>{
-          //alert ('row is ' + JSON.stringify(row))  
+//          alert ('row is ' + JSON.stringify(row))
           return(
               <Grid container>
-                <Grid item>
-                  <Image avatar={true} object_type="nwn_user"
-                    size="small" fix="standard"
-                    image_object={JSON.parse(row.name_thumbnail)} field_name="thumbnail"/> 
-                </Grid>
+              <Grid item>
+                <Image avatar={true} object_type="core_user"
+                  size="small" fix="standard"
+                  image_object={JSON.parse(row.core_user_thumbnail)} field_name="thumbnail"/> 
+              </Grid>
                 <Grid>
                   <Typography>
-                  {row.name_first_name} {row.name_last_name} 
+                  {row.core_user_first_name} {row.core_user_last_name} 
                   </Typography>
                 </Grid>
               </Grid>

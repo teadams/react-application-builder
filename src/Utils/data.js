@@ -25,6 +25,7 @@ export function callAPI (path="", params={}, data_object={}, method="get", callb
    url: url,
    data:{ data_object}
  }).then(results => {
+      //alert ("results is " + JSON.stringify(results.data))
       callback(results.data,"");
   }).catch(error => {
     const error_prompt = 'error connecting to server with url: ' + url + " method: " + method + " params: " + JSON.stringify(params) + " data: " + JSON.stringify(data_object) + " "

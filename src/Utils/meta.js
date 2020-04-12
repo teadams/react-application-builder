@@ -6,7 +6,7 @@ import * as log from './log.js';
 const custom_model="NowWeAct"
 
 let metadata_fields = {}
-let metadata_object_types = []
+let metadata_object_types = {}
 let metadata_sections = {}
 
 let metadata_core = require('../Models/Core')
@@ -14,40 +14,66 @@ let metadata_custom = require('../Models/NowWeAct')
 // load in the core and the custom models
 
 metadata_fields = Object.assign(metadata_core.metadata_fields, metadata_custom.metadata_fields);
-metadata_object_types = metadata_core.metadata_object_types.concat(metadata_custom.metadata_object_types);
+metadata_object_types= Object.assign(metadata_core.metadata_object_types,metadata_custom.metadata_object_types);
+
+const metadata_object_types_keys = Object.keys(metadata_object_types)
 
 // for each object type, add core reference_fields_shown
-metadata_object_types.forEach(function(object_type,i) {
-  
-    let object_type_name = object_type.name
-    if (object_type_name != "core_fields" && object_type_name != "core_subsite_field") {
-      metadata_fields[object_type_name] = metadata_fields[object_type_name].concat( metadata_fields["core_fields"])
-      if (!object_type.all_subsites) {
-        metadata_fields[object_type_name] = metadata_fields[object_type_name].concat(metadata_fields["core_subsite_field"])  
+metadata_object_types_keys.forEach(function(key,i) {
+    let object_type_obj = metadata_object_types[key]
+    // added for backward compatability
+    object_type_obj.name = key
+    let object_type_name = key
+    if (object_type_name != "core_fields" && object_type_name != "core_subsite_field" && !object_type_obj.extends_objects) { 
+      metadata_fields[object_type_name] = Object.assign(metadata_fields[object_type_name],metadata_fields["core_fields"])
+      if (!object_type_obj.all_subsites) {
+      
+        metadata_fields[object_type_name] = Object.assign(metadata_fields[object_type_name],(metadata_fields["core_subsite_field"]))  
       }
     }
-  //  alert ("fields are " + JSON.stringify(metadata_fields[object_type_name]))
 
+    if (object_type_obj.extends_object) {
+        metadata_fields[object_type_name] = Object.assign(metadata_fields[object_type_name],(metadata_fields[object_type_obj.extends_object]))   
+        //alert ("extending fields for " + object_type_obj.name)
+        //alert ("fields are " + JSON.stringify(metadata_fields[object_type_name]))
+    }
 })
+
+//alert ("metadata object types is " + JSON.stringify(metadata_object_types))
+
+metadata_object_types_keys.forEach(function(object_key,i) {
+  metadata_object_types[object_key].name = object_key
+  let object_type_obj = metadata_object_types[object_key]
+  // fields for object types, which is an object 
+ // where each field in an object
+  let metadata_fields_for_object_type = metadata_fields[object_key]
+  const metatdata_fields_for_object_type_keys = Object.keys(metadata_fields_for_object_type)
+  metatdata_fields_for_object_type_keys.forEach (function(field_key, j) {
+      metadata_fields[object_key][field_key].name = field_key
+      let field_obj = metadata_fields_for_object_type[field_key]
+      if (field_obj.order_by) {
+          metadata_object_types[object_key].order_by = field_key
+      }
+      if (field_obj.pretty_key) {
+        metadata_object_types[object_key].pretty_name_column = field_key
+      }
+  })
+//  alert ("fileds for object " + object_key + " are " + JSON.stringify(metadata_fields[object_key]))
+//  log.val("object_type_name, attributes, fields", object_key, metadata_object_types[object_key], metadata_fields[object_key] )
+})
+
 
 metadata_sections = Object.assign(metadata_sections,metadata_custom.metadata_sections);
 
 
-
-
-
 export function object(object_type) {
-  //  alert ("object types are" + JSON.stringify(metadata_object_types))
-  //  log.func('object', 'object type, metadata_object_types', object_type,metadata_object_types);
-    return (metadata_object_types.reduce ((accum, meta_object_type) => {
-  //  log.val('object_type, meta object type accum', object_type, accum);
-    return (meta_object_type.name === object_type)?meta_object_type:accum
-  },{})) 
-
+//    alert ("getting attributes for " + object_type)
+//    alert ("meta data object types is " + JSON.stringify(metadata_object_types))
+    return metadata_object_types[object_type]
 }
+
 export function fields(object_type, restricted_fields = []) {
-//    log.val('meta fields for ', object_type);
-//alert ('fields object type ' + object_type)
+    //alert ("in function fields " + object_type)
     if (restricted_fields.length == 0) {
       return metadata_fields[object_type];
     } else {
@@ -62,72 +88,69 @@ export function fields(object_type, restricted_fields = []) {
 }
 
 export function field(object_type, field_name) {
-  //    log.val('meta fields for ', object_type);
-    //log.func("fucntion field", "object type, field name", object_type, field_name)
-    //log.val("object type fields", fields(object_type))
-    const field =  (fields(object_type).reduce((acc, field) => {
-      //  log.val("acc, field", acc, field);
-        if (field.name == field_name) {
-            return field
-        }
-        return acc
-    },{}))
-    //log.val("FIELD IS", field);
-    return field;
+//    alert ("field for " + object_type + " " +field_name)
+    return fields(object_type)[field_name]
 }
 
 export function keys (object_type) {
-//    log.val('finding key for ', object_type);
+//    alert ("object type is " + object_type)
     const field_meta = fields(object_type);
-//    log.mark('finding keys', ('object_type, field_meta'), object_type, field_meta);
-    return (field_meta.reduce ((ids, field) => {
-    //      log.val('ids, looping field', ids, field)
-          if (field.pretty_key) {
-      //        log.val('pretty key id', field.name)
-              ids.pretty_key_id = field.name
-          } else if (field.key) {
-        //      log.val('key id', field.name)
-              ids.key_id = field.name
+//    alert ("field meta is " + JSON.stringify(field_meta))
+    return (Object.keys(field_meta).reduce((ids, key) => {
+          if (field_meta[key].pretty_key) {
+              ids.pretty_key_id = key
+          } else if (field_meta[key].key) {
+              ids.key_id = key
           }
-//          log.val('ids', ids);
           return ids;
     },{}))
+
   }
   
 export function key_field(object_type) {
   const field_meta = fields(object_type);
   return (
-    field_meta.reduce ((ids, field) => {
-  //    log.val ('ids, field', ids, field)
-      return field.key?field:ids 
+    Object.keys(field_meta).reduce ((ids, key) => {
+      return field_meta[key].key?field_meta[key]:ids 
     },{})
     )
 }
 
 // the database column of the field used as the key
 export function id_column(object_type) {
-  return key_field(object_type)['name'];
+  const field_meta = fields(object_type);
+  return (
+    Object.keys(field_meta).reduce ((ids, key) => {
+      return field_meta[key].key?key:ids 
+    },{})
+    )
 }
 
 export function pretty_key_field(object_type) {
   const field_meta = fields(object_type);
   return (
-    field_meta.reduce ((ids, field) => {
+    Object.keys(field_meta).reduce ((ids, key) => {
   //    log.val ('ids, field', ids, field)
-      return field.pretty_key?field:ids 
+      return field_meta[key].pretty_key?field_meta[key]:ids 
     },{})
     )
 }
 
 // the database column of the field used as the pretty key
 export function pretty_name_column(object_type) {
-  return pretty_key_field(object_type)['name'];
+  const field_meta = fields(object_type);
+  return (
+    Object.keys(field_meta).reduce ((ids, key) => {
+  //    log.val ('ids, field', ids, field)
+      return field_meta[key].pretty_key?key:ids 
+    },{})
+    )
 }
 
 // the pretty name for the field used as the pretty keys
 // this is what would appear on the table header in the UI
 export function pretty_name_field_pretty_name(object_type) {
-  return pretty_key_field(object_type)['pretty_name'];
+  return pretty_key_field(object_type)['pretty_name']
 }
 
 export function get_menu(menu_type) {
@@ -211,12 +234,16 @@ export function section_longest_length(object_type, section_names="", mode="view
       return longest_length
 }
 
-
-
-
 export function section_fields (object_type, section_name="", mode="view") {
-    return fields(object_type).filter (field => {
-      if (field.key) {
+//  alert ("object type is " + object_type)
+//  object_type = "core_user"
+//  const fields = fields(object_type);
+  const fields = metadata_fields[object_type]
+  //alert ("fields is " + JSON.stringify(fields))
+  const field_keys = Object.keys(fields)
+  return field_keys.filter (key => {
+    const field = fields[key]
+    if (field.key) {
         // for now, all key fields are not shown to the user.
         // Their purpose is for the database.  This may evolve over time
         return false
@@ -244,18 +271,20 @@ export function section_fields (object_type, section_name="", mode="view") {
 
 
 export function unmapped_field (mapping_object_type, unmapped_field_name) {
-  //      alert ('meta function mapping ojbect type is ' + mapping_object_type)
-  //      alert ("field is " + JSON.stringify(fields(mapping_object_type)))
-    return fields(mapping_object_type).filter ( field => {
-      if (field.name != unmapped_field_name && field.map_field ) {
+    const fields = fields(mapping_object_type)
+    const keys = Object.keys(fields)
+    return keys.filter ( key => {
+      if (key != unmapped_field_name && fields[key].map_field ) {
           return true
       } 
     })[0]
 }
 
 export function mapping_additional_fields (mapping_object_type) {
-    return fields(mapping_object_type).filter ( field => {
-      if (!field.key && !field.map_field ) {
+    const fields = fields(mapping_object_type)
+    const keys = Object.keys(fields)
+    return keys.filter ( key => {
+      if (!fields[key].key && !fields[key].map_field ) {
           return true
       } 
     })
@@ -395,11 +424,12 @@ export function reference_fields_shown(object_type,reference_table) {
 
 
 export function referencing_field(referencing_object_type, referenced_object_type) {
-    let referencing_object_fields = fields(referencing_object_type)
+    const referencing_object_fields = fields(referencing_object_type)
     // assumes we only have 1 field referencing this table. this may
     // need to expand
-    return ( referencing_object_fields.filter(field=>{
-              if (field.references === referenced_object_type) {
+    const referencing_object_field_keys = Object.keys(referencing_object_fields)
+    return ( referencing_object_field_keys.filter(key=>{
+              if (referencing_object_fields[key].references === referenced_object_type) {
                   return true
               }
     })[0] )
