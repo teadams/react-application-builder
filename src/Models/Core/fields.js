@@ -66,14 +66,15 @@ const metadata_fields = {
   core_role: {
     id: { pretty_name: "Id", data_type: "integer", required:true, key:true},
     name: { pretty_name:"Role Name", data_type:"string", index:true, pretty_key:true},
-    description: { section:"basic",grid_col:6, pretty_name: "Role Description", data_type: "string"}
+    description: { section:"basic",grid_col:6, pretty_name: "Role Description", data_type: "string"}  ,
+    privilege: { section:"basic", pretty_name: "Privilege", data_type: "string", required:true, valid_values:"admin, create, read", default:"read" },
   },
   core_subsite_role: {
     id: { pretty_name: "Id", data_type: "integer", required:true, key:true},
     core_user: { pretty_name:"Subsite Administrator Name", references:"core_user", index:true, pretty_key:true},
     core_subsite: { pretty_name:"Subsite", references:"core_subsite", index:true},
     core_role: { pretty_name:"Role",data_type:"string", references:"core_role", index:true},
-    status: { section:"admin",grid_col:6, pretty_name: "Status", data_type: "string", valid_values:"Applied, Accepted, Denied, Retired", default:"Applied"},
+    status: { section:"admin",grid_col:6, pretty_name: "Status", data_type: "string", valid_values:"Applied, Active, Denied, Retired", default:"Applied"},
   },
   // one object type will be designated as context (and used to drive the user interface)
   // this object my be linked to a context
