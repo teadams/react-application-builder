@@ -40,16 +40,15 @@ class Auth extends React.Component {
          if (object_type) {
             
             const object_attributes = meta.object(object_type)
-            if (object_attributes.all_subsites || object_attributes.extends_object == "core_subsite") {
-              let auth_action_privs = "context"
+            if (!object_attributes.all_subsites || object_attributes.extends_object == "core_subsite") {
+              auth_action_privs = "context"
               auth_scope = "context"
             }         
             auth_action_privs =  object_attributes.auth_action_privs?object_attributes.auth_action_privs:auth_action_privs
           }
         auth_priv = meta.get_param("auth_action_privs")[auth_action_privs][auth_action]
       }
-
-
+  
       let show_children = true
       if (auth_scope && auth_priv && auth_priv != "public") {
           if (!this.context.user) {
@@ -77,7 +76,7 @@ class Auth extends React.Component {
               </Fragment>
             )
           } else if (!authorized && show_children) {
-            alert ("You do not have permission to do this action")
+
             this.props.handleClose()
             return ""
           } else {

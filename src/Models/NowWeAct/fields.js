@@ -77,6 +77,9 @@ nwn_project_type: {
   name: { section:"basic", grid_col:12, pretty_name: "Project Type", data_type: "string", pretty_key:true},
   thumbnail: {  grid_col:12, section:"thumbnail", pretty_name: " ", data_type: "image", input_type: "image"},
 },
+nwn_role: {
+  privilege: { section:"basic", pretty_name: "Abilities", data_type: "string", required:true, valid_values:"admin,manage_project,participate_in_project", default:"read" },
+},
 }
 
 export default metadata_fields

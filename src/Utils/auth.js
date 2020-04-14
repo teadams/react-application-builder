@@ -24,19 +24,15 @@ export function authorized(context, auth_scope, auth_priv) {
           } else {
             return false
           }
-      } else if (auth_priv == "create") {
-          if ( context.user.authorization_object[context.context_id].Privileges.admin ) {
-            return true
-          } else if ( context.user.authorization_object[context.context_id].Privileges.create ) {
+      } else if (auth_priv == "member" || auth_priv == "read") {
+          return true
+      } else {
+          if ( context.user.authorization_object[context.context_id].Privileges[auth_priv] ) {
             return true
           } else {
             return false
           } 
-      } else {
-        // auth_priv is member or read
-        // would not be in this branch if did not have priv
-        return true
-      }
+      } 
   } else {
     // should have covered all cases abost
     return false

@@ -14,7 +14,9 @@ const metadata_object_types = {
   nwn_project_volunteer:
     { pretty_name:"Project Volunteer", pretty_plural:"Project Volunteers", extends_object:"core_subsite_role", auth_action_privs:"users_can_create"},
   nwn_project_post:
-    {pretty_name:"Project Post", pretty_plural:"Project Posts", create_priv:"User"}
+    {pretty_name:"Project Post", pretty_plural:"Project Posts", create_priv:"User"},
+  nwn_role:
+    { pretty_name:"Project Roles", extends_object:"core_role"}  
 }
 
 
