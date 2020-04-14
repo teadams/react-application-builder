@@ -3,6 +3,7 @@ import {Typography, Button} from '@material-ui/core';
 import AuthContext from './AuthContext';
 import LoginForm from './LoginForm'
 import * as auth from '../../Utils/auth.js'
+import * as meta from '../../Utils/meta.js';
 
 
 class Auth extends React.Component {
@@ -29,8 +30,23 @@ class Auth extends React.Component {
 
 
   render() {
-      const auth_scope = "site"
-      const auth_priv = "admin"
+      // the props can override what scope/priv the user must have
+      let {auth_scope, auth_priv, auth_action, object_type} = this.props
+      // otherwise, we look at the action and use app paramters
+      // to determine the default for that action
+      if (!auth_priv) {
+         if (!object_type) {
+            auth_scope = "site"
+            auth_priv = meta.get_param("auth_action_privs").site[auth_action]
+        } else {
+            auth_scope = "context"
+            const object_attributes = meta.object(object_type)
+        //    alert (JSON.stringify(object_attributes))
+            let auth_action_privs =  object_attributes.auth_action_privs?object_attributes.auth_action_privs:"context"
+            auth_priv = meta.get_param("auth_action_privs")[auth_action_privs][auth_action]
+        }
+      }
+
       let show_children = true
       if (auth_scope && auth_priv && auth_priv != "public") {
           if (!this.context.user) {

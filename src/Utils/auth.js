@@ -1,6 +1,6 @@
 export function authorized(context, auth_scope, auth_priv) {
 
-  if (!auth_scope || auth_priv=="public" || ( context.user && context.user.site_admin)) {
+  if (!auth_scope || auth_priv=="public" || ( context.user && context.user.site_admin) || (context.user && auth_priv == "user")) {
       // no auth  check; site admins get into everything
     //  alert ("user is " + JSON.stringify(context.user))
       return true 
@@ -33,7 +33,7 @@ export function authorized(context, auth_scope, auth_priv) {
             return false
           } 
       } else {
-        // auth_priv is  member or read
+        // auth_priv is member or read
         // would not be in this branch if did not have priv
         return true
       }

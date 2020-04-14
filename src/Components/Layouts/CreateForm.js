@@ -194,7 +194,7 @@ class CreateForm extends React.Component {
    const gridCol_scale = (maxWidth == 'sm')?3:1
 
     return (
-    <Auth auth_scope="site" auth_priv="create" handleClose={this.handleClose}>
+    <Auth auth_action="create" object_type={this.props.object_type} handleClose={this.handleClose}>
       <Dialog fullWidth={true} maxWidth={maxWidth} open={this.props.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">{this.state.action} {meta.object(object_type).pretty_name}</DialogTitle>
           <DialogContent>
