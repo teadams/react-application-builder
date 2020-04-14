@@ -1,12 +1,15 @@
 export function authorized(context, auth_scope, auth_priv) {
 
-  if (!auth_scope || ( context.user && context.user.site_admin)) {
+  if (!auth_scope || auth_priv=="public" || ( context.user && context.user.site_admin)) {
       // no auth  check; site admins get into everything
+    //  alert ("user is " + JSON.stringify(context.user))
       return true 
   } else if (auth_scope && !context.user) {
       // needs to be logged in to check an auth
       return false
   } else if (auth_scope == "site")  {
+    //  alert ("auth scope is site")
+    //  alert ("auth prive is " + auth_priv)
       if (context.user.site_admin) {
         return true
       } else if (auth_priv == "member") {

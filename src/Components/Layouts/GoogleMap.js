@@ -34,6 +34,9 @@ class GoogleMap extends React.Component {
     //  are id's and not the text name.   Simplest path forward
     // (unfortunately) is to query back the project infor from
     // the server
+    if (!inserted_id) {
+        return
+    }
     let options = {}
     options.id = inserted_id
     data.getData("nwn_project", options, (project_data, error) => { 
@@ -75,7 +78,7 @@ componentDidMount() {
 
       //alert('object type is ' + this.props.object_type)
       data.getData(this.props.object_type, "", (marker_data, error) => {
-//  alert ('data is '  + JSON.stringify(marker_data))
+  //alert ('data is '  + JSON.stringify(marker_data))
              this.setState({ marker_data:marker_data})
   //alert ('after set set')
             //  alert ('maker data is ' + JSON.stringify(marker_data))

@@ -8,7 +8,7 @@ import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import update from 'immutability-helper';
 import {MappingForm, Field} from "../Experimental/index.js"
-import {AuthContext, LoginForm} from '../index.js';
+import {AuthContext, Auth, LoginForm} from '../index.js';
 
 
 class CreateForm extends React.Component {
@@ -193,18 +193,8 @@ class CreateForm extends React.Component {
    const maxWidth = (section_longest_length > 4 || (sections && sections.length>2))?'md':'sm'
    const gridCol_scale = (maxWidth == 'sm')?3:1
 
-    // Authorization
-    // See if the user is allowed to create this object_type 
-
-    //alert ("object type and context "  + JSON.stringify(meta.object(object_type)) + " " + JSON.stringify(this.context.user))
-    // for now, just User is implemented
-    // Later this will expand to include SiteAdmin priv
-    if (meta.object(object_type).create_priv  && !this.context.user) {
-        return (<Fragment>
-              <LoginForm open="true" />
-              </Fragment>)
-    } else {
-      return (
+    return (
+    <Auth auth_scope="site" auth_priv="create" handleClose={this.handleClose}>
       <Dialog fullWidth={true} maxWidth={maxWidth} open={this.props.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">{this.state.action} {meta.object(object_type).pretty_name}</DialogTitle>
           <DialogContent>
@@ -265,8 +255,9 @@ class CreateForm extends React.Component {
                  </Button>
             </DialogActions>
           </Dialog>
+        </Auth>
    );
-    }
+
   }
 }
 
