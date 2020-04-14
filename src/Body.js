@@ -20,9 +20,6 @@ class Body extends Component {
   }
   
   render() {    
-//   alert ("user object is " + JSON.stringify(this.context.user))
-//    alert ("authorization object is " +JSON.stringify(this.context.user.authorization_object))
-//    alert ("context is "  + this.context.context_id)
     let debug_message = ""
     let context_role = ""
     let authorization_object = this.context.user.authorization_object

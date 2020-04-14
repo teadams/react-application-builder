@@ -2,12 +2,13 @@ import React, { Component, Fragment} from 'react';
 import {Grid} from 'material-ui'
 import {CrudTable, Text, GoogleMap} from './Components/Layouts';
 import {NavMenuLink, DrillDown} from './Components/Experimental';
-import {ContextSelect, AuthToggleLink, AuthContext, AuthProvider} from './Components/User';
+import {ContextSelect, AuthToggleLink, AuthContext} from './Components/User';
 import {SelectObject} from './Components/FormsAndViews';
 import {ProjectView, Volunteer, ProjectMessages} from './Components/NowWeAct';
 import Body from "./Body"
 import * as meta from './Utils/meta.js'
 import * as log from './Utils/log.js'
+import * as auth from './Utils/auth.js'
 import axios from 'axios';
 import {AppBar,Toolbar, Typography, IconButton, Button, Paper, Tabs, Tab, Drawer, Divider,List, Menu, MenuItem, ListItem, ListItemText} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -49,12 +50,14 @@ drawerHeader: {
 class App extends Component {
   constructor(props) {
       super(props);
+      const default_context_id = meta.get_param("context_default_object")
       log.func(' Menu constructor');
       this.state = {
           drawer_open: false,
-          context: "GGGGGG",
-          foo:""
-      }
+          context: {},
+          user: "",
+          context_id: default_context_id
+      };
 
       this.handleMenuChange = this.handleMenuChange.bind(this);
 
@@ -72,10 +75,8 @@ class App extends Component {
 
 
   handleMenuChange(event, selected_menu, link_filter_id, link_filter_field, link_field_object_type, menu_link_reference_field) {
-    //  alert ("handle menu change " + selected_menu
       window.scrollTo(0,0)
-      let menu_type = 'app_menu'
-      //alert ('handle menu change')
+      let menu_type = 'app_menu'     
       // Tabs can only send an integer
       // TODO - file up the huge variable list to be an object with options
       // and option can be the menu type
@@ -89,8 +90,6 @@ class App extends Component {
 
       const meta_menu = meta.get_selected_menu(selected_menu, menu_type)
       let filter_id = link_filter_id
-        //alert ("selected menu and type is " + selected_menu + " " + menu_type)
-  //    alert ('fitler id ' + filter_id  + ' filter field  ' + link_filter_field)
       if (link_filter_field) {
         // this is a more complex case that was used for the interface tracking project
         // consider removing
@@ -124,7 +123,10 @@ class App extends Component {
     let { selected_menu, filter_id, selected_menu_type } = this.props.match.params
     const { classes, theme } = this.props;
     const {drawer_open } = this.state;
-    const hamburger_menu_p = meta.get_menu("hamburger")?true:false  
+    let hamburger_menu_p = meta.get_menu("hamburger")?true:false
+    if (hamburger_menu_p) {
+      hamburger_menu_p = auth.authorized({context_id:this.state.context_id, user:this.state.user}, meta.get_param("hamburger_menu_auth_scope"), meta.get_param("hamburger_menu_auth_priv"))
+    }
     const meta_menu = meta.get_selected_menu(selected_menu,selected_menu_type)
     let filter_field = {}
     let filter_object_type = ""
@@ -134,7 +136,20 @@ class App extends Component {
     }
   
 
-    return      <Fragment>  <AuthProvider> 
+    return      <Fragment>  
+    <AuthContext.Provider
+    value={{
+       user: this.state.user,
+       context_id: this.state.context_id,
+       logout: ()=> {this.setState({user:""})},   
+       login: (user)=> {
+          this.setState({user:user})},    
+        setContextId:  (context_id)=> {
+         this.setState({context_id:context_id})    
+        }
+      }}
+    >      
+
      <Paper style={{ padding:10, marginTop:10, marginBottom:0, minHeight:600, position:'relative'}}>
     
      {drawer_open && hamburger_menu_p && 
@@ -154,10 +169,15 @@ class App extends Component {
        <Divider />
 
        <List  component="nav">
+
           {meta.get_menu("hamburger").map(menu=> {
             var index =  menu.index + '-hamburger'
-          
-          return     <ListItem key={menu.index} style={{padding:0}} dense disableGutters component="div">   <NavMenuLink text={menu.label} index={index} onClick={this.handleMenuChange} /> </ListItem>
+
+              if (auth.authorized({context_id:this.state.context_id, user:this.state.user}, menu.auth_scope, menu.auth_priv)
+   ) {          
+                return     <ListItem key={menu.index} style={{padding:0}} dense disableGutters component="div">   <NavMenuLink text={menu.label} index={index} onClick={this.handleMenuChange} /> </ListItem>
+          }
+
           })}
         
         </List>
@@ -196,10 +216,13 @@ class App extends Component {
           centered
        >
        {meta.get_menu("app_menu").map(menu=> {
-          return <Tab key={menu.index} label={menu.label}/>
+         if (auth.authorized({context_id:this.state.context_id, user:this.state.user}, menu.auth_scope, menu.auth_priv)
+) {
+           return <Tab key={menu.index} label={menu.label}/>
+         } 
        })}
         </Tabs>
-        <Body foo={this.state.foo} 
+        <Body  
         selected_menu={selected_menu} selected_menu_type={selected_menu_type} filter_id={filter_id}/>
         </div>
      </Paper>
@@ -211,11 +234,10 @@ class App extends Component {
      >
        <Tab label={meta.get_param('footer')} />
      </Tabs>
-    </AuthProvider></Fragment>
+    </AuthContext.Provider>
+    </Fragment>
   
   }
 }
 
-//App.contextType = AuthContext;
 export default withStyles(styles, { withTheme: true })(App);
-//export default App;

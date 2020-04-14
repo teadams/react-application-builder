@@ -77,9 +77,9 @@ class SelectField extends React.Component {
                   value = value.split(";")
                   //alert ('value is ' + JSON.stringify(value))
                   if (value.length===1) {
-                    return [value[0], value[0]];
+                    return [value[0].trim(), value[0].trim()];
                   } else {
-                    return [value[0], value[1]]
+                    return [value[0].trim(), value[1].trim()]
                   }
               })
               this.setState({ select_menu_options: select_menu_options})
