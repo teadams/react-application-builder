@@ -35,17 +35,20 @@ class Auth extends React.Component {
       // otherwise, we look at the action and use app paramters
       // to determine the default for that action
       if (!auth_priv) {
-         if (!object_type) {
-            auth_scope = "site"
-            auth_priv = meta.get_param("auth_action_privs").site[auth_action]
-        } else {
-            auth_scope = "context"
+         let auth_action_privs = "site"
+         auth_scope = "site"
+         if (object_type) {
+            
             const object_attributes = meta.object(object_type)
-        //    alert (JSON.stringify(object_attributes))
-            let auth_action_privs =  object_attributes.auth_action_privs?object_attributes.auth_action_privs:"context"
-            auth_priv = meta.get_param("auth_action_privs")[auth_action_privs][auth_action]
-        }
+            if (object_attributes.all_subsites || object_attributes.extends_object == "core_subsite") {
+              let auth_action_privs = "context"
+              auth_scope = "context"
+            }         
+            auth_action_privs =  object_attributes.auth_action_privs?object_attributes.auth_action_privs:auth_action_privs
+          }
+        auth_priv = meta.get_param("auth_action_privs")[auth_action_privs][auth_action]
       }
+
 
       let show_children = true
       if (auth_scope && auth_priv && auth_priv != "public") {
