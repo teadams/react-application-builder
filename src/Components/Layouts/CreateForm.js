@@ -96,7 +96,7 @@ class CreateForm extends React.Component {
       // Will will take care of the folloing cases in this border
       // 1. Field should be defaulted from the meta-databa
       // 2. Filter field is present and should be defaulted
-      // 3. User is logged in and there are fields that reference nwn_user and should be prefilled
+      // 3. User is logged in and there are fields that reference core_user and should be prefilled
       // 4. The value is possed in via a props
       // If the component loads and the user has to log in, this will not execute
       // formINitialized is used to allow ComponentDidUpdate to trigger this once
@@ -104,6 +104,7 @@ class CreateForm extends React.Component {
       let contextInitialized = false
       const object_fields = meta.fields(this.props.object_type)
       const object_field_keys  = Object.keys(object_fields)
+    
       object_field_keys.map(key => {
           const field = object_fields[key]
           if (!field.key ) {
@@ -114,13 +115,21 @@ class CreateForm extends React.Component {
             } else {
               defaultedFormValues[field.name] = ""
             }
+
+      
             // context overrides defaults
-            if (field.references == "core_user"  && this.context.user.id  && field. use_context) {
+            if (field.use_context) {
             // if we are in create mode, the field
             // references a user, and the user is logged in
             // prefill with the current user if the meta data specifies we should use the context
-              defaultedFormValues[field.name] = this.context.user.id
-              contextInitialized = true
+                if (field.references == "core_user"  && this.context.user.id) {   
+                  defaultedFormValues[field.name] = this.context.user.id
+                } else if (field.name == "core_subsite" && this.context.context_id) {
+                  defaultedFormValues[field.name] = this.context.context_id 
+                } else if (field.name == "creation_user" && this.context.user.id) {
+                  defaultedFormValues[field.name] = this.context.user.id
+                }
+                contextInitialized = true
             }
           //  alert ("filed name is " + [field.name])
             // props overrides everything
@@ -179,7 +188,7 @@ class CreateForm extends React.Component {
     const object_fields = meta.fields(object_type)
     if (!this.props.open || !this.state.formValues) {
       // do not render if the form is not open or the formValues have not been initialized
-      return null;
+      return null
     }
   // By default, show all sections
   //  If there are specific sections in the props, show those
@@ -210,6 +219,7 @@ class CreateForm extends React.Component {
   
                         // Bug/Missing - hidden field only work for
                         // forms with section
+                      
                         if (!field.key && !field.system_controlled && (!this.props.hidden || !this.props.hidden[field.name])) { 
                           return (<Grid key={field.name} item style={{padding:10, boxBorder:"border-box"}} sm={grid_col}>
                                     {this.renderField(field)}

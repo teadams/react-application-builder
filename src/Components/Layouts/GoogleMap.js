@@ -39,7 +39,7 @@ class GoogleMap extends React.Component {
         return
     }
     let options = {}
-
+    options.id = inserted_id
     data.getData("nwn_project", options, (project_data, error) => { 
       let params = {}
       params.address= project_data.street_address  + ", " + project_data.city  +", " + project_data["state_name"] +",  " + project_data["country_name"] +", " + project_data.zip_code

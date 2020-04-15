@@ -1,7 +1,7 @@
 const metadata_fields = {
   nwn_project_message: {
     id: { section:"basic",  pretty_name: "Id", data_type: "integer", required:true, key:true},
-    from_user: { section:"basic", pretty_name:"Project Leader", references:"core_user", index:true, pretty_key:true},
+    from_user: { section:"basic", pretty_name:"Project Leader", references:"core_user", index:true, pretty_key:true, use_context:true},
     to_user: { section:"basic", pretty_name:"Project Leader", references:"core_user", index:true, pretty_key:true},
     nwn_project: { section:"basic", pretty_name: "Project", references:"nwn_project", index:true}, 
     subject: { section:"basic", pretty_name: "Title", index:true, pretty_key:"true"}, 
@@ -51,7 +51,7 @@ nwn_project_volunteer: {
 nwn_project: {
   name: { section:"basic", pretty_name: "Project", data_type: "string",  index:true},
   type: { section:"basic",grid_col:6, pretty_name: "Project Type", references:"nwn_project_type", index:true},
-  leader: { section:"basic", pretty_name:"Project Leader", references:"core_user", index:true},
+  leader: { section:"basic", pretty_name:"Project Leader", references:"core_user", index:true, use_context:true},
   summary: { section:"basic", grid_col:6, pretty_name: "Short Summary", data_type: "string"},
   description: { section:"basic", grid_col:12, pretty_name: "Project Description", size:"large", data_type: "string"},
   street_address: { section:"location", grid_col:12, pretty_name: "Street Address",  data_type: "string"},

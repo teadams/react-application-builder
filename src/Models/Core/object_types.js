@@ -4,7 +4,7 @@ const metadata_object_types = {
   core_subsite_field:
       { pretty_name:"Core Subsite Field", pretty_plural:"Core Subsite Fields", all_subsites:true, not_in_db:true},
   core_subsite:  
-      { pretty_name:"Core Subsite", pretty_plural:"Core Subsites", all_subsites:true},
+      { pretty_name:"Core Subsite", pretty_plural:"Core Subsites"},
   core_country: {
         pretty_name:"Country", pretty_plural:"Countries", all_subsites:true},
   core_state_province: 

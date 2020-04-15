@@ -6,10 +6,10 @@ const metadata_fields = {
     last_updated_date:
       { pretty_name:"Last Updated Date", data_type: "timestamp", default:"now()", required:true, index:true, system_controlled:true},
     creation_user: 
-      {pretty_name:"Creation User", data_type:"integer", references:"core_user", system_controlled:true},
+      { pretty_name:"Creation User", data_type:"integer", references:"core_user", system_controlled:true, use_context:true},
   },
   core_subsite_field: {
-    core_subsite: { pretty_name:"Core Subsite", data_type:"integer", references:"core_subsite", system_controlled:true}
+    core_subsite: {  pretty_name:"Core Subsite", data_type:"integer", references:"core_subsite", system_controlled:true, use_context:true }
   },
   // subsites are within a tenant. Tables are striped with the subsite_id
   // Roles will be linked to subsite
