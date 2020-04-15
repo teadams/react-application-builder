@@ -48,7 +48,7 @@ class GoogleMap extends React.Component {
           options.latitude = result.results[0].geometry.location.lat
           options.longitude = result.results[0].geometry.location.lng 
 
-          data.postData("nwn_project", options, {}, (data, error) => { 
+          data.putData("nwn_project", options, {}, (data, error) => { 
             if (error) {
                   alert ('error is ' + error.message)
             } else {
