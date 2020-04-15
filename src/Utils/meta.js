@@ -18,12 +18,13 @@ metadata_object_types= Object.assign(metadata_core.metadata_object_types,metadat
 
 const metadata_object_types_keys = Object.keys(metadata_object_types)
 metadata_object_types_keys.forEach(function(object_key,i) {
+
   metadata_object_types[object_key].name = object_key
   const extends_object = metadata_object_types[object_key].extends_object
   if (extends_object) {
       // extension object will override object_attributes
-    log.val ("object, extends", object_key, extends_object)
-
+      log.val ("object, extends", object_key, extends_object)
+     // overwrite the base with attribute values from the extended table
       Object.keys(metadata_object_types[object_key]).forEach(function(attribute,i) { 
           const attribute_value = metadata_object_types[object_key][attribute]
             // extended object taype attributes override base
@@ -31,21 +32,45 @@ metadata_object_types_keys.forEach(function(object_key,i) {
                 metadata_object_types[extends_object][attribute] = attribute_value
             }
       })
-      
+      // add attributes from the base where they don't exist in the extended table
+      Object.keys(metadata_object_types[extends_object]).forEach(function(attribute,i) { 
+        //    log.val("attribute", attribute)
+            const extended_attribute_value = metadata_object_types[object_key][attribute]
+          //  log.val (".. extedend attribute value", extended_attribute_value)
+            const extending_attribute_value = metadata_object_types[extends_object][attribute]
+          //  log.val (".. exteding attribute value", extending_attribute_value)
+
+            // extended object taype attributes override base
+            if (attribute != "extends_object" && attribute != "name" && !extended_attribute_value) {
+                metadata_object_types[object_key][attribute] = extending_attribute_value
+            }
+      })
+      // Apply changes to the extention to the extended
       Object.keys(metadata_fields[extends_object]).forEach(function(field_name,i) {
           const field_from_extended_object = metadata_fields[extends_object][field_name]
           const field_from_extending_object = metadata_fields[object_key][field_name]  
           if (field_from_extending_object) {
                 Object.keys(field_from_extending_object).forEach(function(field_attribute) {
+                  // extending object has dubplicate field, override attributes in the base
                     metadata_fields[extends_object][field_name][field_attribute] = field_from_extending_object[field_attribute]
                 })
+                // ensures that all the attributes in the base are also in the extension
+                metadata_fields[object_key][field_name] = metadata_fields[extends_object][field_name]
 
-              // extending object has dubplicate field, override attributes
           } else {
               // field is not in the extened object, add it
               metadata_fields[object_key][field_name] = metadata_fields[extends_object][field_name]
           }
       })
+      //Add fields from extendeing to the exteneded
+      Object.keys(metadata_fields[object_key]).forEach(function(field_name,i) {
+          const field_from_extended_object = metadata_fields[extends_object][field_name]
+          const field_from_extending_object = metadata_fields[object_key][field_name]  
+          if (!field_from_extended_object) {
+              metadata_fields[extends_object][field_name] = field_from_extending_object
+          }
+      })
+
   } else if (object_key != "core_fields" && object_key != "core_subsite_field") {
       metadata_fields[object_key] = Object.assign(metadata_fields[object_key], metadata_fields["core_fields"])
       if (!metadata_object_types[object_key].all_subsites) {
@@ -53,7 +78,6 @@ metadata_object_types_keys.forEach(function(object_key,i) {
       }
   }
 })
-
 
 
 metadata_object_types_keys.forEach(function(object_key,i) {

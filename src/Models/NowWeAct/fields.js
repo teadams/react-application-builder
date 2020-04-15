@@ -49,6 +49,7 @@ nwn_project_volunteer: {
 
 },
 nwn_project: {
+  name: { pretty_name: "Project", data_type: "string",  index:true},
   type: { section:"basic",grid_col:6, pretty_name: "Project Type", references:"nwn_project_type", index:true},
   leader: { section:"basic", pretty_name:"Project Leader", references:"core_user", index:true},
   summary: { section:"basic", grid_col:6, pretty_name: "Short Summary", data_type: "string"},
