@@ -34,14 +34,14 @@ class GoogleMap extends React.Component {
     //  are id's and not the text name.   Simplest path forward
     // (unfortunately) is to query back the project infor from
     // the server
+
     if (!inserted_id) {
         return
     }
     let options = {}
-    options.id = inserted_id
+
     data.getData("nwn_project", options, (project_data, error) => { 
       let params = {}
-//      alert ("data is " + JSON.stringify(data))
       params.address= project_data.street_address  + ", " + project_data.city  +", " + project_data["state_name"] +",  " + project_data["country_name"] +", " + project_data.zip_code
       params.key = google_map.get_key() 
       data.getURL("https://maps.googleapis.com/maps/api/geocode/json", params, (result, error) => { 
@@ -55,8 +55,10 @@ class GoogleMap extends React.Component {
             }
           })     
       })
+
     })
-    this.props.onMenuChange("", 5, inserted_id, this.props.menu_link_field, this.props.link_object_type, this.props.menu_link_reference_field)
+
+//    this.props.onMenuChange("", 5, inserted_id, this.props.menu_link_field, this.props.link_object_type, this.props.menu_link_reference_field)
 
   }
 

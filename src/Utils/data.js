@@ -20,12 +20,14 @@ export function getParamsObject(params=[], options={}) {
 
 export function callAPI (path="", params={}, data_object={}, method="get", callback)   {
   var url = getPathBase() + "/"  + path
+  
   axios({
    method: method,
    url: url,
-   data:{ data_object}
+   data:{data_object},  
+   params:params
  }).then(results => {
-      //alert ("results is " + JSON.stringify(results.data))
+    
       callback(results.data,"");
   }).catch(error => {
     const error_prompt = 'error connecting to server with url: ' + url + " method: " + method + " params: " + JSON.stringify(params) + " data: " + JSON.stringify(data_object) + " "
@@ -36,8 +38,22 @@ export function callAPI (path="", params={}, data_object={}, method="get", callb
   })
 }
 
-export function getURL (path, params={}, callback)   {
-  callAPI (path, params, "", "get", callback) 
+export function getURL (url, params, callback)   {
+  // params is an object containing URL params
+
+  axios({
+   method: 'get',
+   url: url,
+   params: params
+//   data: {address: "France", key: "AIzaSyB7xya0w0DAsz0kODQ0_MWlApayXELLBGo"}
+ }).then(results => {
+      
+      callback(results.data,"");
+  }).catch(error => {
+    log.val('in catch error', error.message)
+    alert ("error getting url " + url + "  "+ error.message)
+    callback('', error);
+  })
 }
 
 export function getData (object_type, options={}, callback)   {
@@ -45,6 +61,7 @@ export function getData (object_type, options={}, callback)   {
   if (options.id) {
     path += '/'+options.id
   }
+
   const params = ["order_by", "order_by_direction", "filter_field", "filter_id", "key_type", "context_limit", "user_id"]
 
   callAPI (path, getParamsObject(params), "", "get", callback) 

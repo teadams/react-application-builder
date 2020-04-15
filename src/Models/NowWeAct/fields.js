@@ -49,7 +49,7 @@ nwn_project_volunteer: {
 
 },
 nwn_project: {
-  name: { pretty_name: "Project", data_type: "string",  index:true},
+  name: { section:"basic", pretty_name: "Project", data_type: "string",  index:true},
   type: { section:"basic",grid_col:6, pretty_name: "Project Type", references:"nwn_project_type", index:true},
   leader: { section:"basic", pretty_name:"Project Leader", references:"core_user", index:true},
   summary: { section:"basic", grid_col:6, pretty_name: "Short Summary", data_type: "string"},
@@ -59,8 +59,8 @@ nwn_project: {
   country: { section:"location", pretty_name: "Country", references:"core_country"}, 
   state: { section:"location", pretty_name: "State or Province", references:"core_state_province"},
   zip_code: { section:"location", grid_col:6, pretty_name: "Zip Code",  data_type: "string"},
-  latitude: { section:"location", pretty_name: "Latitude", data_type: "string"},
-  longitude: { section:"location", pretty_name: "Longitude", data_type: "string"},
+  latitude: {  pretty_name: "Latitude", data_type: "string"},
+  longitude: {  pretty_name: "Longitude", data_type: "string"},
 // image field will store an object with height
 // width and alt tag.  Images themselves will
 // be stored in a core images object.
