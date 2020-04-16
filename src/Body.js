@@ -42,12 +42,7 @@ class Body extends Component {
 
     let context_message = ""
     if (context_role) {
-//      alert ("context role")
-      if (context_role.Admin) {
-        context_message = "User is a Context Admin"
-      } else {
-        context_message = "User is a Context Volunteer"
-      }
+        context_message = JSON.stringify(context_role)
     }
 //else if (this.context.user.authorization_object[this.context.context_id]) {
 //      let context_role = this.context.user.authorization_object[this.context.context_id]

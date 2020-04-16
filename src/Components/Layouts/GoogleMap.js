@@ -54,11 +54,16 @@ class GoogleMap extends React.Component {
         user_id: this.context.user.id,
         subsite_id: inserted_id,
         role_name: "Admin",
+        status: "Accepted",
         other_fields: other_fields
       }
 
       data.callAPI("auth/create-subsite-role", {}, role_add_obj, "post", (role_add_result, error ) => {
-          alert ("role add obj is " + JSON.stringify(role_add_result))
+          let new_user_context = this.context.user
+          new_user_context.context_list = role_add_result.context_list
+          new_user_context.authorization_object = role_add_result.authorization_object
+          this.context.login(new_user_context)
+          this.context.setContextId(inserted_id)
           // direct to project page
       })
           // Let this happen in parallel. User will be redirected so we do not have to wait

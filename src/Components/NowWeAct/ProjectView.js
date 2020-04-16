@@ -3,7 +3,7 @@ import React, { Component, Fragment} from 'react';
 import { Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 import {ProjectVolunteers, ProjectVideo, ProjectNeeds, ProjectAnnouncements, ProjectDocuments} from './index.js';
 import { withStyles } from '@material-ui/core/styles';
-
+import {AuthContext} from '../User';
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import * as utils from '../../Utils/utils.js';
@@ -63,9 +63,6 @@ class ProjectView extends React.Component {
   }
 
   render () {
-
-
-    //alert ("render with prop" + this.props.foo)
     var project_data = this.state.item_data
     let hidden = {}
     hidden["from_user"] = true;
@@ -157,7 +154,7 @@ class ProjectView extends React.Component {
               <Paper style={{padding:20, marginBottom:20}} >
               <center>
               {project_data.leader_thumbnail &&
-                <Image avatar={true} object_type="nwn_user"
+                <Image avatar={true} object_type="core_user"
                 size="medium" fix="height"
                 image_object={JSON.parse(project_data.leader_thumbnail)} field_name="thumbnail"/>
               }
@@ -189,5 +186,7 @@ class ProjectView extends React.Component {
   }  
 }
 
+
+ProjectView.contextType = AuthContext;
 export default ProjectView;
 
