@@ -1,6 +1,8 @@
 import React,  {Fragment} from 'react';
 import {Paper,  Typography, Button, Grid} from '@material-ui/core';
 //import * as meta from '../../Utils/meta.js'
+import {AuthContext} from '../User';
+
 import {Field, ObjectView} from "../Experimental"
 import {ProjectHover} from "../NowWeAct"
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
@@ -38,9 +40,28 @@ class GoogleMap extends React.Component {
     if (!inserted_id) {
         return
     }
+
     let options = {}
     options.id = inserted_id
+
     data.getData("nwn_project", options, (project_data, error) => { 
+      const other_fields = {
+        leader_notes: 'Creator',
+        creation_user: this.context.user.id
+      }
+
+      const role_add_obj = {
+        user_id: this.context.user.id,
+        subsite_id: inserted_id,
+        role_name: "Admin",
+        other_fields: other_fields
+      }
+
+      data.callAPI("auth/create-subsite-role", {}, role_add_obj, "post", (role_add_result, error ) => {
+          alert ("role add obj is " + JSON.stringify(role_add_result))
+          // direct to project page
+      })
+          // Let this happen in parallel. User will be redirected so we do not have to wait
       let params = {}
       params.address= project_data.street_address  + ", " + project_data.city  +", " + project_data["state_name"] +",  " + project_data["country_name"] +", " + project_data.zip_code
       params.key = google_map.get_key() 
@@ -49,17 +70,12 @@ class GoogleMap extends React.Component {
           options.longitude = result.results[0].geometry.location.lng 
 
           data.putData("nwn_project", options, {}, (data, error) => { 
-            if (error) {
-                  alert ('error is ' + error.message)
-            } else {
-            }
+              if (error) {
+                    alert ('error is ' + error.message)
+              } 
           })     
-      })
-
+        })
     })
-
-//    this.props.onMenuChange("", 5, inserted_id, this.props.menu_link_field, this.props.link_object_type, this.props.menu_link_reference_field)
-
   }
 
   handleMoreClick = event => {
@@ -189,6 +205,7 @@ componentDidMount() {
 }
 
 
+GoogleMap.contextType = AuthContext;
 export default GoogleApiWrapper({
   apiKey: google_map.get_key()
 })(GoogleMap)
