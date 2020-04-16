@@ -16,6 +16,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import {  BrowserRouter as Router,  Switch,  Route,  Link,  Redirect, useHistory } from "react-router-dom";
+  
 
 
 //const MyContext = React.createContext("creation");
@@ -223,7 +224,9 @@ class App extends Component {
        })}
         </Tabs>
         <Body  
-        selected_menu={selected_menu} selected_menu_type={selected_menu_type} filter_id={filter_id}/>
+        selected_menu={selected_menu} selected_menu_type={selected_menu_type} filter_id={filter_id}
+        onMenuChange = {this.handleMenuChange}
+/>
         </div>
      </Paper>
      <Tabs

@@ -11,6 +11,8 @@ import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import * as data from '../../Utils/data.js';
 import * as google_map from './api.js'
+import {  BrowserRouter as Router,  Switch,  Route,  Link,  Redirect, useHistory } from "react-router-dom";
+
 
 class GoogleMap extends React.Component {
   constructor(props) {
@@ -65,6 +67,9 @@ class GoogleMap extends React.Component {
           this.context.login(new_user_context)
           this.context.setContextId(inserted_id)
           // direct to project page
+        
+          this.props.onMenuChange("",5)
+
       })
           // Let this happen in parallel. User will be redirected so we do not have to wait
       let params = {}
@@ -81,6 +86,8 @@ class GoogleMap extends React.Component {
           })     
         })
     })
+
+
   }
 
   handleMoreClick = event => {

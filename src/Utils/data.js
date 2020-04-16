@@ -9,6 +9,9 @@ export function getPathBase () {
 
 export function getParamsObject(params=[], options={}) {
     // prepares parameter object for axios
+    if (!options) {
+      return
+    }
     let params_object = {}
     params.forEach(param => {
       if (options[param]) {
@@ -20,7 +23,7 @@ export function getParamsObject(params=[], options={}) {
 
 export function callAPI (path="", params={}, data_object={}, method="get", callback)   {
   var url = getPathBase() + "/"  + path
-  
+  //alert ("path and params " + path + " " + JSON.stringify(params))
   axios({
    method: method,
    url: url,
@@ -64,7 +67,7 @@ export function getData (object_type, options={}, callback)   {
 
   const params = ["order_by", "order_by_direction", "filter_field", "filter_id", "key_type", "context_limit", "user_id"]
 
-  callAPI (path, getParamsObject(params), "", "get", callback) 
+  callAPI (path, getParamsObject(params, options), "", "get", callback) 
 }
 
 // INSERTS 

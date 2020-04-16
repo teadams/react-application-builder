@@ -168,11 +168,11 @@ class ProjectView extends React.Component {
     
                 </Paper>
                 <Paper style={{padding:20, marginBottom:20}} >
-                <ProjectVolunteers project_id={this.props.project_id} object_type="nwn_project" />
+                <ProjectVolunteers project_id={this.context.context_id} object_type="nwn_project" />
   
                 </Paper>
                 <Paper style={{padding:20, marginBottom:20}} >
-                <ProjectNeeds project_id={this.props.project_id} object_type="nwn_project" />
+                <ProjectNeeds project_id={this.context.context_id} object_type="nwn_project" />
                 </Paper>
               </Paper>
               </Grid>

@@ -74,7 +74,7 @@ class Body extends Component {
             create_form_sections = {meta_menu.create_form_sections}
             expand_contract = {meta_menu.expand_contract}
             manage_object_types = {meta_menu.manage_object_types}
-            onMenuChange = {this.handleMenuChange}
+            onMenuChange = {this.props.onMenuChange}
             selected_id = {filter_id}
           />
         }  
@@ -83,8 +83,7 @@ class Body extends Component {
           <GoogleMap 
             title = {meta_menu.title}
             text = {meta_menu.text}
-            onMore={this.handleMenuChange}
-            onMenuChange = {this.handleMenuChange}
+            onMenuChange = {this.props.onMenuChange}
             object_type = {meta_menu.object_type}
           />
         }  
