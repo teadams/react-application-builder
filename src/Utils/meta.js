@@ -1,10 +1,8 @@
-import app_params from '../Models/NowWeAct/app'
 import metadata_menus from '../Models/NowWeAct/menus'
 import * as log from './log.js';
 import * as data from './data.js';
-
 const custom_model="NowWeAct"
-
+let app_params = {}
 let metadata_fields = {}
 let metadata_object_types = {}
 let metadata_sections = {}
@@ -12,89 +10,6 @@ let metadata_sections = {}
 let metadata_core = require('../Models/Core')
 let metadata_custom = require('../Models/NowWeAct')
 // load in the core and the custom models
-
-metadata_fields = Object.assign(metadata_core.metadata_fields, metadata_custom.metadata_fields);
-metadata_object_types= Object.assign(metadata_core.metadata_object_types,metadata_custom.metadata_object_types);
-
-const metadata_object_types_keys = Object.keys(metadata_object_types)
-metadata_object_types_keys.forEach(function(object_key,i) {
-
-  metadata_object_types[object_key].name = object_key
-  const extends_object = metadata_object_types[object_key].extends_object
-  if (extends_object) {
-      // extension object will override object_attributes
-      log.val ("object, extends", object_key, extends_object)
-     // overwrite the base with attribute values from the extended table
-      Object.keys(metadata_object_types[object_key]).forEach(function(attribute,i) { 
-          const attribute_value = metadata_object_types[object_key][attribute]
-            // extended object taype attributes override base
-            if (attribute != "extends_object" && attribute != "name") {
-                metadata_object_types[extends_object][attribute] = attribute_value
-            }
-      })
-      // add attributes from the base where they don't exist in the extended table
-      Object.keys(metadata_object_types[extends_object]).forEach(function(attribute,i) { 
-        //    log.val("attribute", attribute)
-            const extended_attribute_value = metadata_object_types[object_key][attribute]
-          //  log.val (".. extedend attribute value", extended_attribute_value)
-            const extending_attribute_value = metadata_object_types[extends_object][attribute]
-          //  log.val (".. exteding attribute value", extending_attribute_value)
-
-            // extended object taype attributes override base
-            if (attribute != "extends_object" && attribute != "name" && !extended_attribute_value) {
-                metadata_object_types[object_key][attribute] = extending_attribute_value
-            }
-      })
-      // Apply changes to the extention to the extended
-      Object.keys(metadata_fields[extends_object]).forEach(function(field_name,i) {
-          const field_from_extended_object = metadata_fields[extends_object][field_name]
-          const field_from_extending_object = metadata_fields[object_key][field_name]  
-          if (field_from_extending_object) {
-                Object.keys(field_from_extending_object).forEach(function(field_attribute) {
-                  // extending object has dubplicate field, override attributes in the base
-                    metadata_fields[extends_object][field_name][field_attribute] = field_from_extending_object[field_attribute]
-                })
-                // ensures that all the attributes in the base are also in the extension
-                metadata_fields[object_key][field_name] = metadata_fields[extends_object][field_name]
-
-          } else {
-              // field is not in the extened object, add it
-              metadata_fields[object_key][field_name] = metadata_fields[extends_object][field_name]
-          }
-      })
-      //Add fields from extendeing to the exteneded
-      Object.keys(metadata_fields[object_key]).forEach(function(field_name,i) {
-          const field_from_extended_object = metadata_fields[extends_object][field_name]
-          const field_from_extending_object = metadata_fields[object_key][field_name]  
-          if (!field_from_extended_object) {
-              metadata_fields[extends_object][field_name] = field_from_extending_object
-          }
-      })
-
-  } else if (object_key != "core_fields" && object_key != "core_subsite_field") {
-      metadata_fields[object_key] = Object.assign(metadata_fields[object_key], metadata_fields["core_fields"])
-      if (!metadata_object_types[object_key].all_subsites) {
-        metadata_fields[object_key] = Object.assign(metadata_fields[object_key], metadata_fields["core_subsite_field"])
-      }
-  }
-})
-
-
-metadata_object_types_keys.forEach(function(object_key,i) {
-  let metadata_fields_for_object_type = metadata_fields[object_key]
-  const metatdata_fields_for_object_type_keys = Object.keys(metadata_fields_for_object_type)
-  metatdata_fields_for_object_type_keys.forEach (function(field_key, j) {
-      metadata_fields[object_key][field_key].name = field_key
-      let field_obj = metadata_fields_for_object_type[field_key]
-      if (field_obj.order_by) {
-          metadata_object_types[object_key].order_by = field_key
-      }
-      if (field_obj.pretty_key) {
-        metadata_object_types[object_key].pretty_name_column = field_key
-      }
-  })
-
-})
 
 metadata_sections = Object.assign(metadata_sections,metadata_custom.metadata_sections);
 
@@ -120,27 +35,23 @@ export function fields(object_type, restricted_fields = []) {
     } 
 }
 
-let loaded_app_params
-let loaded_object_types
-let loaded_fields
+
 export async function load(type) {
   const param_result = await data.callAPI("/meta/model/"+type, {}, {}, "get")  
       switch(type) {
         case "app_params":
-          loaded_app_params = param_result
+          app_params = param_result
           break
         case "object_types":
-          loaded_object_types = param_result
+          metadata_object_types = param_result
           break 
         case "fields":
-          loaded_fields = param_result
+          metadata_fields = param_result
       }
-//  alert ("returning " +JSON.stringify(param_result))
   return param_result
 }
 
 export function field(object_type, field_name) {
-//    alert ("field for " + object_type + " " +field_name)
     return fields(object_type)[field_name]
 }
 
@@ -228,8 +139,8 @@ export function get_selected_menu(selected_menu_index, menu_type) {
 
 export function get_param(param) { 
 //  alert (" looking for param " + param)
-  //alert ("loaded is " + JSON.stringify(loaded_app_params))
-  return loaded_app_params[param];
+  //alert ("loaded is " + JSON.stringify(app_params))
+  return app_params[param];
 }
 
 // get the index in the array where field_name is field_value

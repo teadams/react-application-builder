@@ -1,6 +1,6 @@
 const metadata_sections = {
   nwn_project: [
-      {name:"basic", title:"XXXXX Information"},
+      {name:"basic", title:"Information"},
       {name:"location", title:"Location"},
       {name:"more", title:"More Details"},
       {name:"needs", title:"Project Needs"},
@@ -14,10 +14,6 @@ const metadata_sections = {
     nwn_project_document: [
       {name:"basic", title:""}
     ]
-//      nwn_project_type: [
-  //        {name:"basic", title:"Basic Information"},
-    //      {name:"thumbnail", title:"Thumbnail"},
-      //  ],
 }
 
 export default metadata_sections
