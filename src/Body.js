@@ -118,6 +118,7 @@ class Body extends Component {
     &nbsp;  {user_debug_message}<br/>
       {site_admin_message}<br/> 
       {context_message}
+      CONTEXT ID Is {this.context.context_id}
       
       </font>
       </Fragment>

@@ -16,6 +16,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import {  BrowserRouter as Router,  Switch,  Route,  Link,  Redirect, useHistory } from "react-router-dom";
+var async = require('async');
+
   
 
 
@@ -51,19 +53,27 @@ drawerHeader: {
 class App extends Component {
   constructor(props) {
       super(props);
-      const default_context_id = meta.get_param("context_default_object")
-      log.func(' Menu constructor');
       this.state = {
           drawer_open: false,
           context: {},
           user: "",
-          context_id: default_context_id
+          context_id: "",
+          metadata_loaded:false
       };
-
       this.handleMenuChange = this.handleMenuChange.bind(this);
-
   }
-  
+
+  async componentDidMount() {  
+    let type_list = ["app_params", "object_types", "fields"]
+    let type
+    // async.each did not work, setState in the callback hung
+    for (type of type_list) {
+      const meta_result = await meta.load(type);
+    }
+    let meta_result
+    const default_context_id = meta.get_param("context_default_object")
+    this.setState({metadata_loaded:true, context_id:default_context_id})
+  }
 
 
   handleDrawerOpen = () => {
@@ -120,7 +130,11 @@ class App extends Component {
   }
     
   render() {    
-    
+    if (!this.state.metadata_loaded  ||  !this.state.context_id) {
+        // componentDidMount will not trigger unless something is returned
+        return <Fragment/>
+    }
+
     let { selected_menu, filter_id, selected_menu_type } = this.props.match.params
     const { classes, theme } = this.props;
     const {drawer_open } = this.state;
@@ -136,7 +150,6 @@ class App extends Component {
       filter_object_type = filter_field.references
     }
   
-
     return      <Fragment>  
     <AuthContext.Provider
     value={{

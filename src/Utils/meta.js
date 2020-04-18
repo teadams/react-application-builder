@@ -1,7 +1,7 @@
-
 import app_params from '../Models/NowWeAct/app'
 import metadata_menus from '../Models/NowWeAct/menus'
 import * as log from './log.js';
+import * as data from './data.js';
 
 const custom_model="NowWeAct"
 
@@ -120,6 +120,25 @@ export function fields(object_type, restricted_fields = []) {
     } 
 }
 
+let loaded_app_params
+let loaded_object_types
+let loaded_fields
+export async function load(type) {
+  const param_result = await data.callAPI("/meta/model/"+type, {}, {}, "get")  
+      switch(type) {
+        case "app_params":
+          loaded_app_params = param_result
+          break
+        case "object_types":
+          loaded_object_types = param_result
+          break 
+        case "fields":
+          loaded_fields = param_result
+      }
+//  alert ("returning " +JSON.stringify(param_result))
+  return param_result
+}
+
 export function field(object_type, field_name) {
 //    alert ("field for " + object_type + " " +field_name)
     return fields(object_type)[field_name]
@@ -207,8 +226,10 @@ export function get_selected_menu(selected_menu_index, menu_type) {
   
 }
 
-export function get_param(param) {
-  return app_params[param];
+export function get_param(param) { 
+//  alert (" looking for param " + param)
+  //alert ("loaded is " + JSON.stringify(loaded_app_params))
+  return loaded_app_params[param];
 }
 
 // get the index in the array where field_name is field_value

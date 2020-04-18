@@ -21,24 +21,27 @@ export function getParamsObject(params=[], options={}) {
     return (params_object)
 }
 
-export function callAPI (path="", params={}, data_object={}, method="get", callback)   {
+export async function callAPI (path="", params={}, data_object={}, method="get", callback)   {
   var url = getPathBase() + "/"  + path
   //alert ("path and params " + path + " " + JSON.stringify(params))
-  axios({
-   method: method,
-   url: url,
-   data:{data_object},  
-   params:params
- }).then(results => {
-    
-      callback(results.data,"");
+  const api_result = await axios({
+    method: method,
+    url: url,
+    data:{data_object},  
+    params:params
   }).catch(error => {
     const error_prompt = 'error connecting to server with url: ' + url + " method: " + method + " params: " + JSON.stringify(params) + " data: " + JSON.stringify(data_object) + " "
     log.val(error_prompt + error.message + " " + error.stack)
     alert (error_prompt + error.message + " " + error.stack)
-
-    callback('', error);
+    if (callback) {
+      callback('', error);
+    }
   })
+  if (callback) {
+    callback(api_result.data,"");
+  } else {
+    return api_result.data
+  }
 }
 
 export function getURL (url, params, callback)   {

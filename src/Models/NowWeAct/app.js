@@ -7,7 +7,7 @@ const app_params =    {
   // status as rejected and applied would not typically be considered as members)
   subsite_member_role_statuses: "[Accepted]",
   hamburger_menu_auth_scope:"",
-  hamburger_meny_auth_priv:"",
+  hamburger_menu_auth_priv:"",
   auth_action_privs: {    
       // default for site
       site: { read: "public", admin:"admin", create:"admin", edit:"admin",creation_user_can_edit:true},
