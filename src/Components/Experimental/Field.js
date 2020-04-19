@@ -1,10 +1,20 @@
+import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/stable';
+
 import React, { Component, Fragment} from 'react';
 import {Chip, TextField, Paper, Button, Grid, ListItem, List,  Typography} from '@material-ui/core'
-import DateFnsUtils from 'material-ui-pickers/utils/date-fns-utils';
-import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
-import DatePicker from 'material-ui-pickers/DatePicker';
-import TimePicker from 'material-ui-pickers/TimePicker'
-import DateTimePicker from 'material-ui-pickers/DateTimePicker';
+import DateFnsUtils from '@date-io/date-fns';
+//import DateFnsUtils from 'material-ui/pickers/utils/date-fns';
+//import MuiPickersUtilsProvider from 'material-ui-pickers/MuiPickersUtilsProvider';
+//import KeyboardDatePicker  from '@material-ui/pickers';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+  KeyboardDateTimePicker
+} from '@material-ui/pickers';
+//import TimePicker from '@material-ui/pickers/KeyboardTimePicker'
+//import DateTimePicker from 'material-ui-pickers/DateTimePicker';
 import format  from 'date-fns/format';
 import axios from 'axios';
 
@@ -187,7 +197,7 @@ class Field extends React.Component {
                 // as file upload is not controlled by React
                 // we have to force a load of the data object 
                 // get the new filepath, height, width
-                this.props.onUploadFile
+                this.props.onUploadFile()
 
 
               }
@@ -238,10 +248,7 @@ class Field extends React.Component {
 
   getDisplayView() {
     const { data_object, object_type, field_name } = this.props;
-    // meta.get_display_value will take references, dervived, etc. into consideration
     const field = meta.field(object_type, field_name)
-//    alert ("object type and fields is " + object_type + " " + field_name)
-//    alert ("Field is " + JSON.stringify(field))
     if (Object.keys(data_object).length == 0) {
       return null
     } else if (field.input_type) {
@@ -276,7 +283,7 @@ class Field extends React.Component {
     const { data_object } = this.props;
     const openToYearSelection = field.openToYearSelection?field.openToYearSelection:false
     return  (<MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <DatePicker
+        <KeyboardDatePicker
           value={this.state.value}
           //autoOk={true}
           openToYearSelection={openToYearSelection}

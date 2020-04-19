@@ -1,3 +1,6 @@
+import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/stable';
+
 import React from 'react';
 import { IconButton, Button} from '@material-ui/core';
 import IconExpandLess from "@material-ui/icons/ExpandLess";

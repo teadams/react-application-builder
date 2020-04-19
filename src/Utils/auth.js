@@ -1,3 +1,6 @@
+import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/stable';
+
 export function authorized(context, auth_scope, auth_priv) {
 
   if (!auth_scope || auth_priv=="public" || ( context.user && context.user.site_admin) || (context.user && auth_priv == "user")) {

@@ -1,3 +1,6 @@
+import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/stable';
+
 //import {React, Fragment} from 'react';
 import React, { Component, Fragment} from 'react';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';

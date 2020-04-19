@@ -1,3 +1,6 @@
+import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/stable';
+
 import React from 'react'
 import BigCalendar from 'react-big-calendar'
 import { Typography} from '@material-ui/core'

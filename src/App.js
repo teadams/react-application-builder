@@ -1,3 +1,6 @@
+import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/stable';
+
 import React, { Component, Fragment} from 'react';
 import {Grid} from 'material-ui'
 import {CrudTable, Text, GoogleMap} from './Components/Layouts';

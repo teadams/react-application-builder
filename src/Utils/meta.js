@@ -1,3 +1,6 @@
+import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/stable';
+
 import metadata_menus from '../Models/NowWeAct/menus'
 import * as log from './log.js';
 import * as data from './data.js';
@@ -37,18 +40,18 @@ export function fields(object_type, restricted_fields = []) {
 
 
 export async function load(type) {
-  const param_result = await data.callAPI("/meta/model/"+type, {}, {}, "get")  
+  const meta_result = await data.callAPI("/meta/model/"+type, {}, {}, "get")  
       switch(type) {
         case "app_params":
-          app_params = param_result
+          app_params = meta_result
           break
         case "object_types":
-          metadata_object_types = param_result
+          metadata_object_types = meta_result
           break 
         case "fields":
-          metadata_fields = param_result
+          metadata_fields = meta_result
       }
-  return param_result
+  return meta_result
 }
 
 export function field(object_type, field_name) {
@@ -58,7 +61,6 @@ export function field(object_type, field_name) {
 export function keys (object_type) {
 //    alert ("object type is " + object_type)
     const field_meta = fields(object_type);
-//    alert ("field meta is " + JSON.stringify(field_meta))
     return (Object.keys(field_meta).reduce((ids, key) => {
           if (field_meta[key].pretty_key) {
               ids.pretty_key_id = key

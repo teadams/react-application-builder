@@ -1,3 +1,6 @@
+import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/stable';
+
 import React, {Fragment} from 'react';
 import {Typography, Button} from '@material-ui/core';
 import AuthContext from './AuthContext';

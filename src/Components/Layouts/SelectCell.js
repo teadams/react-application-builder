@@ -1,3 +1,6 @@
+import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/stable';
+
 import React from 'react';
 import { FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
 import axios from 'axios';

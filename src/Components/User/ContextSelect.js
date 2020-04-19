@@ -1,3 +1,6 @@
+import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/stable';
+
 import React, { Component, Fragment} from 'react';
 import AuthContext from './AuthContext';
 import {SelectObject} from '..//FormsAndViews';

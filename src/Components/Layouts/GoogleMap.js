@@ -1,3 +1,6 @@
+import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/stable';
+
 import React,  {Fragment} from 'react';
 import {Paper,  Typography, Button, Grid} from '@material-ui/core';
 //import * as meta from '../../Utils/meta.js'

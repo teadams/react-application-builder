@@ -1,3 +1,6 @@
+import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/stable';
+
 import React, { Component, Fragment} from 'react';
 
 //import React from 'react';
@@ -45,7 +48,7 @@ class DrillDown extends React.Component {
 
       var new_state = {}
       new_state.drill_data =[]
-      new_state.expanded = {},
+      new_state.expanded = {};
       new_state.refresh_drill = true
       new_state.selected_id = nextProps.selected_id    
       new_state.props_object_type = nextProps.object_type
@@ -83,7 +86,6 @@ class DrillDown extends React.Component {
    };
   
   loadDrill()  {
-    log.val('drill down load drill. grouping_field_name', grouping_field_name)
     const grouping_field_name = this.props.grouping_field_name
     var options = {}
   
@@ -170,7 +172,6 @@ class DrillDown extends React.Component {
                   }}
 
                 if (!expand_contract || this.state.expanded[current_grouping]) {
-                //        alert('current row is ' + row[keys.key_id])
                         return(<Fragment>{group_header}
                         <ListItem key={row[keys.key_id]}  dense button onClick={() => this.handleClick(row[keys.key_id], row[keys.pretty_key_id])}> 
                           <Typography color={color} variant={variant}>

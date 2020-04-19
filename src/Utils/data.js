@@ -1,3 +1,6 @@
+import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/stable';
+
 import * as log from './log.js';
 import axios from 'axios';
 import * as meta from './meta.js';
