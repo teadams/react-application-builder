@@ -1,6 +1,7 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import * as data from './Utils/data.js';
+import * as meta from './Utils/meta.js';
 
 import React, { Component, Fragment, useState, useContext, useEffect} from 'react';
 import {AuthContext} from './Components/User';
@@ -11,7 +12,8 @@ const container_style = {
   backgroundColor:"lightGray",
   borderColor:"darkGray",
   borderWidth:"thick",
-  borderStyle:"solid"
+  borderStyle:"solid",
+  display:"block"
 }
 const title_style = {
   color:"red"
@@ -75,8 +77,10 @@ function UserSubsiteAuthPriv () {
 
 function Debug(props) {
   const context = useContext(AuthContext)
-  return (
-      <Container maxWidth="sm" style={container_style}>
+  const show_debug = meta.get_param("client_debug_component")
+  if (show_debug) {
+    return (
+        <Container maxWidth="sm" style={container_style}>
         <Typography variant="h5" style={title_style}>Debug Information</Typography>
         <TableContainer>
           <Table>
@@ -102,8 +106,12 @@ function Debug(props) {
             </TableRow>
           </Table>
         </TableContainer>
-      </Container>
-  )
+        </Container>
+    )
+  } else {
+    alert ('returnign null')
+    return null
+  }
 }
 
 //Body.contextType = AuthContext;

@@ -2,7 +2,6 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
 import React, { Component, Fragment} from 'react';
-import Debug from "./Debug.js"
 import {Grid} from 'material-ui'
 import { CrudTable, Text, GoogleMap} from './Components/Layouts';
 import {NavMenuLink, DrillDown} from './Components/Experimental';
@@ -117,15 +116,7 @@ class Body extends Component {
       }
       
       <Fragment>
-      <Debug/>
-      <Typography  variant="headline" >&nbsp; </Typography>
-      <font color="red"  style={{fontSize:"24px"}}>   &nbsp;    &nbsp;    &nbsp;    &nbsp;    &nbsp;  DEBUG - {debug_message}<br/>
-    &nbsp;  {user_debug_message}<br/>
-      {site_admin_message}<br/> 
-      {context_message}
-      CONTEXT ID Is {this.context.context_id}
-      
-      </font>
+
       </Fragment>
     </Fragment>
 

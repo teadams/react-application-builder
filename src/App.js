@@ -1,6 +1,7 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
+
 import React, { Component, Fragment} from 'react';
 import {Grid} from 'material-ui'
 import {CrudTable, Text, GoogleMap} from './Components/Layouts';
@@ -9,6 +10,7 @@ import {ContextSelect, AuthToggleLink, AuthContext} from './Components/User';
 import {SelectObject} from './Components/FormsAndViews';
 import {ProjectView, Volunteer, ProjectMessages} from './Components/NowWeAct';
 import Body from "./Body"
+import Debug from "./Debug.js"
 import * as meta from './Utils/meta.js'
 import * as log from './Utils/log.js'
 import * as auth from './Utils/auth.js'
@@ -251,8 +253,9 @@ class App extends Component {
        textColor="primary"
        centered
      >
-       <Tab label={meta.get_param('footer')} />
-     </Tabs>
+       <Tab label={meta.get_param('footer')} /> </Tabs>
+       <p/>
+      <Debug/>
     </AuthContext.Provider>
     </Fragment>
   
