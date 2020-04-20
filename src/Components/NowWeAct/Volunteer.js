@@ -201,10 +201,11 @@ function VolunteerNew(props) {
         header = `Volunteer Opportunities for Project ${project_name} Role ${role_name}`
         custom_intro = `The table below lists the volunteer opportunities for ${role_name} in the ${project_name} project.`
     }
-    if (!project_needs || project_needs.length == 0) {
+    if ((!project_needs || project_needs.length == 0)) {
         return  ( <Fragment><Typography variant="body1"  type="subtitle1">{header}</Typography>
-          <Typography> There are no advertised volunteer needs available. However, please use the form below to connect with the project leader about your interest.</Typography>
+          <Typography> There are no advertised volunteer needs available. {project_id && "However, please use the form below to connect with the project leader about your interest."}</Typography>
           </Fragment>
+
         )
     } else {
       return (
@@ -271,9 +272,12 @@ function VolunteerNew(props) {
         </Table>
       </TableContainer>
       </FormGroup>}
+      {((project_needs && project_needs.length > 0) || project_id) &&
+      <Fragment>
       <TextField  id="message" name="message"  onChange={handleFormChange} rows="5" rowsMax="10" value ={formValues.message} label= "Use the area below to  send a message to the project leader." multiline />
       <FormControlLabel name="email_perm" id="email_id" default={true} checked={formValues.email_perm} label="Check here if it is ok to share your email address with the project email. This will allow you to continue your conversation with email directly.  This is highly recommended as you will be able to talk about the project directly." control={<Checkbox onChange={handleFormChange}/>}/>  
-          <Button type="submit" value="Submit">Submit</Button>
+          <Button type="submit" value="Submit">Submit</Button></Fragment>
+      }
       </FormControl>
     </form>
     </Paper> </Fragment>
