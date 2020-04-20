@@ -274,11 +274,12 @@ export function grouping_column_info(object_type, grouping_field_name) {
 }
 
 export function get_contributing_field_names(object_type, field_name) {
-    // returns the array of field names that contribute to the display values
+      // for derived fields -  returns the array of field names that contribute to the display values
       const original_field = field(object_type, field_name)
       if (!original_field || !original_field.derived) {
             return [field_name]
       }
+      alert ("looking for a contributing field is " + object_type + " " + field_name)
       let matched_field_array = []
       let array;
       const regex = /{(.*?)}/ig

@@ -20,10 +20,12 @@ class Auth extends React.Component {
     }
 
   handleLogin(event) {
+    alert ("logged in")
     this.setState({login_form:true})
   }
 
   handleClose(event) {
+    alert ("handle Close")
     this.setState({login_form:false})
     if (!this.context.user) {
         // cancelled
@@ -37,7 +39,10 @@ class Auth extends React.Component {
       let {auth_scope, auth_priv, auth_action, object_type} = this.props
       // otherwise, we look at the action and use app paramters
       // to determine the default for that action
+
+
       if (!auth_priv) {
+        // map that links privleges to actions
          let auth_action_privs = "site"
          auth_scope = "site"
          if (object_type) {

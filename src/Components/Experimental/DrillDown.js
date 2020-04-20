@@ -68,13 +68,22 @@ class DrillDown extends React.Component {
     })
   }
 
+   handleCreateObjectDataChange = (action, inserted_id, formValeues) => {
+      if (inserted_id) {
+             this.setState({ create_object_form: false, 
+                             refresh_drill: true, 
+                             selected_id:inserted_id});
+      } else {
+
+          this.setState({ create_object_form: false});
+      }
+   };
+
    handleDataChange = (value, inserted_id, field_name) => {
-    //  alert ("in drill data change")
       const selected_id = inserted_id?inserted_id:this.state.selected_id;  
       const { object_type, grouping_field_name } = this.props;
       const pretty_field_name = meta.keys(this.props.object_type).pretty_key_id;
-      // Fields who influence the display values of grouping_field_name and 
-      // pretty_field_name (considers  derived)
+      alert ("handle data change " + inserted_id + "  " + JSON.stringify(field_name))
       const contributing_fields = meta.get_contributing_field_names(object_type, pretty_field_name).concat(meta.get_contributing_field_names(object_type, grouping_field_name));
       if (inserted_id || contributing_fields.indexOf(field_name) >=0 || meta.field(this.props.object_type,field_name).field_object_type) {
              this.setState({ create_object_form: false, 
@@ -207,7 +216,7 @@ class DrillDown extends React.Component {
                 object_type={this.props.object_type}
                 open="true"
                 sections={this.props.create_form_sections}
-                onClose={this.handleDataChange}
+                onClose={this.handleCreateObjectDataChange}
              />
             }
             { this.state.selected_id  &&

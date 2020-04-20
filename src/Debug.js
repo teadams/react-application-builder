@@ -58,7 +58,7 @@ function Context () {
 function UserSubsiteAuthRoles () {
     const context = useContext(AuthContext)
     const subsite_id = context.context_id
-    if (context.user && context.user.authorization_object[subsite_id] ) {
+    if (context.user && context.user.authorization_object && context.user.authorization_object[subsite_id] ) {
       return JSON.stringify(context.user.authorization_object[subsite_id].Roles)
     } else {
       return ""
@@ -68,7 +68,7 @@ function UserSubsiteAuthRoles () {
 function UserSubsiteAuthPriv () {
   const context = useContext(AuthContext)
   const subsite_id = context.context_id
-  if (context.user && context.user.authorization_object[subsite_id] ) {
+  if (context.user && context.user.authorization_object && context.user.authorization_object[subsite_id] ) {
     return JSON.stringify(context.user.authorization_object[subsite_id].Privileges)
   } else {
     return ""

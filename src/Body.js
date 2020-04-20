@@ -23,35 +23,8 @@ class Body extends Component {
   }
   
   render() {    
-    let debug_message = ""
-    let context_role = ""
-    let authorization_object = this.context.user.authorization_object
-    if (authorization_object) {
-        context_role = authorization_object[this.context.context_id]
-        //alert ("context role is " + JSON.stringify(context_role))
-    }
-    
-    let user_debug_message = ""
-    if (!this.context.user) {
-      user_debug_message = "user is not logged in"
-    } else {
-      user_debug_message = "user is " + this.context.user.first_name + " " + this.context.user.last_name
-    } 
 
-    let site_admin_message = ""
-    if (this.context.user.site_admin) {
-        site_admin_message = "User is a site adminitrator"
-    }
-
-    let context_message = ""
-    if (context_role) {
-        context_message = JSON.stringify(context_role)
-    }
-//else if (this.context.user.authorization_object[this.context.context_id]) {
-//      let context_role = this.context.user.authorization_object[this.context.context_id]
-//      debug_message = "role is " + context_role
-//    }
-    // selected_menu and selected_menu_type will come from the URL
+  
     const { selected_menu, filter_id, selected_menu_type } = this.props
 
   //  alert ("render in body with context id " + this.context.context_id)
