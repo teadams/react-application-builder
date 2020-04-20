@@ -92,7 +92,7 @@ class Body extends Component {
         }  
 
         {meta_menu.component == "Volunteer" &&
-          <Volunteer          />
+          <Volunteer    />
         }  
         {meta_menu.component == "ProjectMessages" &&
           <ProjectMessages/>

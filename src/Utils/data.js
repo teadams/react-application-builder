@@ -72,7 +72,6 @@ export function getData (object_type, options={}, callback)   {
   }
 
   const params = ["order_by", "order_by_direction", "filter_field", "filter_id", "key_type", "context_limit", "user_id"]
-
   callAPI (path, getParamsObject(params, options), "", "get", callback) 
 }
 
