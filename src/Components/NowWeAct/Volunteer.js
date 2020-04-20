@@ -6,7 +6,6 @@ import * as data from '../../Utils/data.js';
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import AuthContext from '../User/AuthContext';
-import update from 'immutability-helper';
 import useForm from '../../Hooks/useForm';
 import useObjectGet from '../../Hooks/useObjectGet';
 
@@ -81,7 +80,6 @@ function VolunteerNew(props) {
   const [selected_touch, setSelectedTouched] = useState(false);
   const project_field = meta.field("nwn_project", "name")
   const project_data = useObjectGet("nwn_project", project_id);
-  const role_data = useObjectGet("core_role", role_type_id);
   const {formValues, handleFormChange, handleFormSubmit} = useForm({email_perm:true}, handleVolunteerSubmit);
   let show_needs = (project_id ||role_type_id)?true:false
 
@@ -225,10 +223,10 @@ function VolunteerNew(props) {
       </Typography>
       <Grid container style={{padding:20}}>
         <Grid  item xs={4}>
-          <SelectObject object_type="nwn_project" shrink="false" style={{width:"90%"}} value={project_id}  add_any={true}   onChange={handleProjectChange}/>
+          <SelectObject object_type="nwn_project" shrink="false" style={{width:"90%"}} value={project_id}  onChange={handleProjectChange}/>
         </Grid> 
         <Grid   item xs={2}>
-          <SelectObject object_type="core_role" input_type="radio" shrink="false" style={{width:"90%"}}  add_any={true} value={role_type_id} onChange={handleRoleTypeChange}/>
+          <SelectObject object_type="core_role" input_type="radio" shrink="false" style={{width:"90%"}}   filter_id={true} filter_field="accept_signups" add_any={true} value={role_type_id} onChange={handleRoleTypeChange}/>
         </Grid>
       {project_data &&
         <Grid style={box_style} item xs={6}>

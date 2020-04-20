@@ -28,11 +28,16 @@ class SelectObject extends React.Component {
 
   }
 
-
   loadData () {
         let options = {}
         options.context_limit = this.props.context_limit
         options.user_id = this.props.user_id
+        if (this.props.filter_id) {
+          options.filter_id = this.props.filter_id
+        }
+        if (this.props.filter_field) {
+            options.filter_field = this.props.filter_field
+        }
         data.getData(this.props.object_type, options, (data, error) => { 
           const id_column_name =meta.keys(this.props.object_type).key_id;
           const name_column_name = meta.keys(this.props.object_type).pretty_key_id;
