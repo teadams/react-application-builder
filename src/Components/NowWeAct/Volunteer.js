@@ -82,49 +82,69 @@ function VolunteerNew(props) {
   const project_field = meta.field("nwn_project", "name")
   const project_data = useObjectGet("nwn_project", project_id);
   const role_data = useObjectGet("core_role", role_type_id);
-  const {formValues, handleFormChange, handleFormSubmit} = useForm({email_name:true}, handleVolunteerSubmit);
+  const {formValues, handleFormChange, handleFormSubmit} = useForm({email_perm:true}, handleVolunteerSubmit);
   let show_needs = (project_id ||role_type_id)?true:false
 
   function handleVolunteerSubmit() {
-      alert ("submit the form after prevent defaults " + JSON.stringify(formValues) )
-      let data_object = {}
-      data_object.email_perm = formValues.email_perm
-      data_object.message =    formValues.message
+      let volunteer_object = {}
+      volunteer_object.email_perm = formValues.email_perm
+      volunteer_object.message =    formValues.message
       let key=""
+      let num_needs = 0
       for (key of Object.keys(formValues)) {
           if (key.search("need_") == 0) {
+            num_needs += 1
             let need_idx =  key.replace("need_","")
             let need = project_needs[need_idx]
             let project_id = need.nwn_project_id
             let need_id = need.id
-            let user = context.user
             let volunteer_object = {}
-            volunteer_object.nwn_project  = need.nwn_project_id
-            volunteer_object.name = user.id
-            volunteer_object.role_type = need.name
+            volunteer_object.core_subsite  = need.nwn_project
+            volunteer_object.core_user = context.user.id
+            volunteer_object.core_role = need.role_name
+            volunteer_object.creation_user = context.user_id
+            volunteer_object.email_perm = formValues.email_perm
             data.postData("nwn_project_volunteer", volunteer_object, {}, (result, error) => { 
               if (error) {
                 log.val("error is " + error)
               } else { 
                 let volunteer_record = result.rows[0].id;
                 let message_object = {}
-                message_object.from_user = user.id;
+                message_object.from_user = context.user.id;
                 message_object.to_user = need.nwn_project_leader;
                 message_object.nwn_project_volunteer = volunteer_record;
-                message_object.nwn_project = need.nwn_project_id;
-                message_object.subject  = "Volunteer Application for " + need.name_description;
-                message_object.body = this.state.message;
-                message_object.read_p = false;  
+                message_object.nwn_project = need.nwn_project;
+                message_object.subject  = "Volunteer Application for " + need.role_name_name;
+                message_object.body = formValues.message;
+                message_object.creation_user = context.user.id
+                message_object.read_p = false
                 data.postData("nwn_project_message", message_object, {}, (result, error) => {       
                     if (error) {
                         log.val("error is " + error)
-                    } else {
-                        alert ("You volunteer application has been submitted")
-                    }})
+                    } 
+                })
               }
             })
           }
       }
+      if (num_needs == 0 && project_data) {
+        let message_object = {}
+        message_object.from_user = context.user.id;
+        message_object.to_user = project_data.project_leader;
+        message_object.nwn_project = project_data.id;
+        message_object.subject  = "Interest in your project";
+        message_object.body = formValues.message;
+        message_object.creation_user = context.user.id
+        message_object.read_p = false
+        data.postData("nwn_project_message", message_object, {}, (result, error) => {       
+            if (error) {
+                log.val("error is " + error)
+            } 
+        })
+      }
+      alert ("You interest has been submitted to the project leader")
+      setProjectId("")
+      setRoleTypeId("")      
   }
 
   let need_idx = 0
@@ -230,9 +250,9 @@ function VolunteerNew(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-        {project_needs.map(need => {
-          need_idx += 1        
-          let need_field_name = "need_" + need_idx
+        {project_needs.map(need => {     
+          let need_field_name = "need_" + need_idx 
+          need_idx += 1   
             return (<Fragment>              
       
                   <TableRow>
@@ -252,7 +272,7 @@ function VolunteerNew(props) {
       </TableContainer>
       </FormGroup>}
       <TextField  id="message" name="message"  onChange={handleFormChange} rows="5" rowsMax="10" value ={formValues.message} label= "Use the area below to  send a message to the project leader." multiline />
-      <FormControlLabel name="email_name" id="email_id" checked={formValues.email_name} label="Check here if it is ok to share your email address with the project email. This will allow you to continue your conversation with email directly" control={<Checkbox onChange={handleFormChange}/>}/>  
+      <FormControlLabel name="email_perm" id="email_id" default={true} checked={formValues.email_perm} label="Check here if it is ok to share your email address with the project email. This will allow you to continue your conversation with email directly.  This is highly recommended as you will be able to talk about the project directly." control={<Checkbox onChange={handleFormChange}/>}/>  
           <Button type="submit" value="Submit">Submit</Button>
       </FormControl>
     </form>
