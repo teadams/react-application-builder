@@ -204,16 +204,17 @@ function VolunteerNew(props) {
         custom_intro = `The table below lists the volunteer opportunities for ${role_name} in the ${project_name} project.`
     }
     if ((!project_needs || project_needs.length == 0)) {
-        return  ( <Fragment><Typography variant="body1"  type="subtitle1">{header}</Typography>
+        return  ( <Fragment><Typography variant="h6">{header}</Typography>
           <Typography> There are no advertised volunteer needs available. {project_id && "However, please use the form below to connect with the project leader about your interest."}</Typography>
           </Fragment>
-
         )
     } else {
       return (
-        <Fragment><Typography variant="h5">{header}</Typography>
+        <Fragment><Typography variant="h6">{header}</Typography>
+            <p/>
             {custom_intro}
             {standard_text}
+            <p/>
         </Fragment>
         )
     }
