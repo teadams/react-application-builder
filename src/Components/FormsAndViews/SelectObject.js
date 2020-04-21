@@ -29,24 +29,17 @@ class SelectObject extends React.Component {
   }
 
   loadData () {
-        let options = {}
-        options.context_limit = this.props.context_limit
-        options.user_id = this.props.user_id
-        if (this.props.filter_id) {
-          options.filter_id = this.props.filter_id
-        }
-        if (this.props.filter_field) {
-            options.filter_field = this.props.filter_field
-        }
-        data.getData(this.props.object_type, options, (data, error) => { 
+        data.getData(this.props.object_type, this.props, (data, error) => { 
           const id_column_name =meta.keys(this.props.object_type).key_id;
           const name_column_name = meta.keys(this.props.object_type).pretty_key_id;
-          var select_menu_options = data.map (row => {
+          let select_menu_options = data.map (row => {
             return [row[id_column_name], meta.get_display_value(this.props.object_type, name_column_name, row)];
           })
+
           if (this.props.add_any) {
-            select_menu_options.push(["","Any"])
+            select_menu_options.unshift(["","Any"])
           }
+
           this.setState({ select_menu_options: select_menu_options})          
         })
   }

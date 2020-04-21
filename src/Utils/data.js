@@ -10,15 +10,22 @@ export function getPathBase () {
       return "/api/v1"
 } 
 
-export function getParamsObject(params=[], options={}) {
+export function getParamsObject(options={}, params=["order_by", "order_by_direction", "filter_field", "filter_id", "filter_join", "key_type", "context_limit", "user_id"]
+) {
     // prepares parameter object for axios
     if (!options) {
       return
     }
     let params_object = {}
     params.forEach(param => {
-      if (options[param]) {
-          params_object[param] = options[param]
+      const value = options[param]
+      if (value) {
+          if (Array.isArray(value) & 
+              ["filter_id", "filter_field", "filter_join"].includes(param)) {
+              params_object[param] = value.join(",")
+          } else {
+              params_object[param] = options[param]
+          }
         }
     });
     return (params_object)
@@ -70,9 +77,7 @@ export function getData (object_type, options={}, callback)   {
   if (options.id) {
     path += '/'+options.id
   }
-
-  const params = ["order_by", "order_by_direction", "filter_field", "filter_id", "key_type", "context_limit", "user_id"]
-  callAPI (path, getParamsObject(params, options), "", "get", callback) 
+  callAPI (path, getParamsObject(options), "", "get", callback) 
 }
 
 // INSERTS 
@@ -90,7 +95,7 @@ export function createAccount (data_object, callback)   {
 
 export function getCount (object_type, options, callback)   {
   const path = 'count/' + object_type;
-  callAPI (path, getParamsObject(["filter_id", "filter_field"], options), {}, "get", callback) 
+  callAPI (path, getParamsObject(options, ["filter_id", "filter_field", "filter_join"]), {}, "get", callback) 
 }
 
 

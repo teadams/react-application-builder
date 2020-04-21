@@ -170,14 +170,18 @@ function VolunteerNew(props) {
 
   function loadNeedData () {
       const object_type = "nwn_project_need"
-      let options = {}
+    
+      let filter_id = []
+      let filter_field = []
       if (project_id) {
-          options.filter_id = project_id
-          options.filter_field = "nwn_project"
-      } else {
-          options.filter_id = role_type_id
-          options.filter_field = "role_name"
+          filter_id.push(project_id)
+          filter_field.push("nwn_project")
+      } 
+      if (role_type_id) {
+          filter_id.push(role_type_id)
+          filter_field.push("role_name")
       }
+      let options = {filter_id:filter_id, filter_field:filter_field, filter_join:"AND"}
       data.getData(object_type, options, (data, error) => {           
           setProjectNeeds(data)
       })
@@ -223,7 +227,7 @@ function VolunteerNew(props) {
       </Typography>
       <Grid container style={{padding:20}}>
         <Grid  item xs={4}>
-          <SelectObject object_type="nwn_project" shrink="false" style={{width:"90%"}} value={project_id}  onChange={handleProjectChange}/>
+          <SelectObject object_type="nwn_project" shrink="false" style={{width:"90%"}} value={project_id} add_any={true} onChange={handleProjectChange}/>
         </Grid> 
         <Grid   item xs={2}>
           <SelectObject object_type="core_role" input_type="radio" shrink="false" style={{width:"90%"}}   filter_id={true} filter_field="accept_signups" add_any={true} value={role_type_id} onChange={handleRoleTypeChange}/>
@@ -259,7 +263,7 @@ function VolunteerNew(props) {
                         <Checkbox onChange={handleFormChange} name={need_field_name} value={formValues[need_field_name]} id={need_field_name}/>
                       </TableCell>
                       <TableCell>{need.role_name_name}</TableCell>
-                      <TableCell>{need.role_name_descritpion}</TableCell>
+                      <TableCell>{need.description}  {need.role_name_descritpion}</TableCell>
                       <TableCell>{need.nwn_project_name}</TableCell>
                       <TableCell>{need.nwn_project_descrtion}</TableCell>
                   </TableRow>
