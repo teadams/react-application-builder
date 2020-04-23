@@ -6,11 +6,13 @@ import * as log from '../Utils/log.js';
 
 const useObjectListGet = (object_type, db_options) => {
   const [object_list_data, setDbResults] = useState("");
-
-  let trigger_change_array = object_type
+ 
+  let trigger_change_array = [object_type]
   data.validAPIParams().forEach(param => {
     if (db_options && db_options[param]) {
       trigger_change_array.push(db_options[param])
+    } else {
+      trigger_change_array.push("")
     }
   })
   

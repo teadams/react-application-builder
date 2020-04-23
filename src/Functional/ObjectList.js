@@ -20,13 +20,10 @@ function ObjectList(props) {
   return (<Fragment>
   <TreeView
       defaultCollapseIcon={<ExpandMoreIcon />}
-      defaultExpandIcon={<ChevronRightIcon />}
-    >
-      <TreeItem nodeId="1" label="Applications">
-        <TreeItem nodeId="2" label="Calendar" />
-        <TreeItem nodeId="3" label="Chrome" />
-        <TreeItem nodeId="4" label="Webstorm" />
-      </TreeItem>
+      defaultExpandIcon={<ChevronRightIcon />}>
+      {object_list_data && object_list_data.map(object => {  
+          return <TreeItem nodeId={object.id} label={object.name} />
+      })}  
   </TreeView>
   </Fragment>
   );
