@@ -28,6 +28,7 @@ function ObjectList(props) {
   };
 
   const handleSelect = (event, nodeIds) => {
+
     setSelected(nodeIds);
   };
 

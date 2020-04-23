@@ -1,7 +1,10 @@
 import ObjectList  from './ObjectList.js';
+import DrillDown  from './DrillDown.js';
+
 
 const functional_components = {
-        ObjectList:ObjectList
+        ObjectList:ObjectList,
+        FDrillDown:DrillDown
 }
 
 
