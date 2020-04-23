@@ -4,7 +4,7 @@ import * as meta from '../Utils/meta.js';
 import * as log from '../Utils/log.js';
 
 
-const useObjectListGet = (object_type, db_options) => {
+const useGetObjectList = (object_type, db_options) => {
   const [object_list_data, setDbResults] = useState("");
  
   let trigger_change_array = [object_type]
@@ -31,4 +31,4 @@ const useObjectListGet = (object_type, db_options) => {
   return object_list_data;
 }
 
-export default useObjectListGet
+export default useGetObjectList

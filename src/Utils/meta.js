@@ -302,7 +302,10 @@ export function get_contributing_field_names(object_type, field_name) {
       return matched_field_array 
 }
 
-export function get_display_value(object_type, field_name, data) {
+export function get_display_value(object_type, field_name="", data) {
+    if (!field_name) {
+      field_name = keys(object_type).pretty_key_id
+    }
     const initial_field = field(object_type, field_name)
     let final_field = initial_field;
     let final_object_type = object_type;
