@@ -16,7 +16,7 @@ import TreeItem from '@material-ui/lab/TreeItem';
 
 
 function ObjectList(props) {
-  const {object_type, custom_display_field, grouping_field, parent_field, order_by_direction, order_by} = props
+  const {object_type, custom_display_field, grouping_field, parent_field, order_by_direction, order_by, LabelComponent} = props
 
   let object_list_data = useGetObjectList(object_type, props);
   // potential enhancmenet  for performnce, could have a call back to object_list_data
@@ -30,6 +30,7 @@ function ObjectList(props) {
           row._label =  <Label object_data={row}/>
           if (parent_field) {
               data_map[row.id] = i
+              row.children = []
           }
     })
   }
@@ -37,7 +38,12 @@ function ObjectList(props) {
   let tree_data = []
   
   function Label(props) {
-      return meta.get_display_value(object_type,custom_display_field, props.object_data)
+      
+      if (LabelComponent != undefined) {
+        return <LabelComponent data={props.object_data} object_type={object_type}/>
+      } else {
+        return meta.get_display_value(object_type,custom_display_field, props.object_data)
+      }
   }
 
   function prepareGroupingData() {
@@ -76,11 +82,9 @@ function ObjectList(props) {
     object_list_data.forEach((row, i) => {
       const parent = row[parent_field]
       if (!parent) {
-         row.children = []
          tree_data.push(row)
       } else {
           let parent_row = object_list_data[data_map[parent]]
-          row.children = []
           parent_row.children.push(row)
       }
     })

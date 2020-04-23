@@ -41,9 +41,9 @@ class Body extends Component {
   
     let BodyComponent = functional_components[meta_menu.component]
 
-
+    // TODO - For menu attributes that are functional components, call function
+    // to retrieve functional version from string name
     return    (<Fragment>
-
         {functional_components.hasOwnProperty(meta_menu.component) && 
               <Fragment><BodyComponent {...meta_menu}/></Fragment>
         }
