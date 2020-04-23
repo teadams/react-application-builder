@@ -1,17 +1,17 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
-import metadata_menus from '../Models/NowWeAct/menus'
+import metadata_menus from '../Models/HealthMe/menus'
 import * as log from './log.js';
 import * as data from './data.js';
-const custom_model="NowWeAct"
+const custom_model="HealthMe"
 let app_params = {}
 let metadata_fields = {}
 let metadata_object_types = {}
 let metadata_sections = {}
 
 let metadata_core = require('../Models/Core')
-let metadata_custom = require('../Models/NowWeAct')
+let metadata_custom = require('../Models/HealthMe')
 // load in the core and the custom models
 
 metadata_sections = Object.assign(metadata_sections,metadata_custom.metadata_sections);

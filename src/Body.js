@@ -4,6 +4,7 @@ import 'react-app-polyfill/stable';
 import React, { Component, Fragment} from 'react';
 import {Grid} from 'material-ui'
 import { CrudTable, Text, GoogleMap} from './Components/Layouts';
+import {functional_components} from "./Functional"
 import {NavMenuLink, DrillDown} from './Components/Experimental';
 import {AuthToggleLink, AuthContext, AuthProvider} from './Components/User';
 import {ProjectView, Volunteer, ProjectMessages} from './Components/NowWeAct';
@@ -38,7 +39,14 @@ class Body extends Component {
       filter_object_type = filter_field.references
     } 
 
+
+    let BodyComponent = functional_components[meta_menu.component]
+
     return    (<Fragment>
+
+        {meta_menu.component == "ObjectList" && 
+              <Fragment><BodyComponent/></Fragment>
+        }
         {meta_menu.component == "ProjectView" &&
           <ProjectView object_type="nwn_project" project_id={this.context.context_id} foo={this.props.foo}
           />
