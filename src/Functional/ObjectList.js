@@ -16,16 +16,21 @@ import TreeItem from '@material-ui/lab/TreeItem';
 
 
 function ObjectList(props) {
-  let parent_field = "parent_subsite"
-  const {object_type, custom_display_field, grouping_field} = props
-  let object_list_data = useGetObjectList(object_type, props);
-  // for performnce, could have a call back to object_list_data and only calculate new ordering if there 
-  // is a change
+  const {object_type, custom_display_field, grouping_field, parent_field, order_by_direction, order_by} = props
 
+  let object_list_data = useGetObjectList(object_type, props);
+  // potential enhancmenet  for performnce, could have a call back to object_list_data
+  //  and only prepare tree data if there has been a change.  Right now, prepareGroupingData
+  // and prepareHierarchyData will run each render
+
+  let data_map = {}
   if (object_list_data) {
-    object_list_data.forEach(row => { 
+    object_list_data.forEach((row,i) => { 
           row._nodeId = row.id
           row._label =  <Label object_data={row}/>
+          if (parent_field) {
+              data_map[row.id] = i
+          }
     })
   }
 
@@ -64,20 +69,19 @@ function ObjectList(props) {
     if (!object_list_data) {
       return
     }
+ 
 
     let tree_data = []
-    let tree_structure = {}
+  
     object_list_data.forEach((row, i) => {
       const parent = row[parent_field]
       if (!parent) {
          row.children = []
          tree_data.push(row)
-         tree_structure[row.id] = row
       } else {
-          let parent_row = tree_structure[parent]
+          let parent_row = object_list_data[data_map[parent]]
           row.children = []
           parent_row.children.push(row)
-          tree_structure[row.id] = row
       }
     })
     return tree_data
