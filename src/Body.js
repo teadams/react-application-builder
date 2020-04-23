@@ -39,12 +39,13 @@ class Body extends Component {
       filter_object_type = filter_field.references
     } 
 
-
+  
     let BodyComponent = functional_components[meta_menu.component]
+
 
     return    (<Fragment>
 
-        {meta_menu.component == "ObjectList" && 
+        {functional_components.hasOwnProperty(meta_menu.component) && 
               <Fragment><BodyComponent/></Fragment>
         }
         {meta_menu.component == "ProjectView" &&
