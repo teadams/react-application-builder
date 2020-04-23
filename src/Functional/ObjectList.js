@@ -17,20 +17,11 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
 
 
-const useStyles = makeStyles({
-  root: {
-    height: 216,
-    flexGrow: 1,
-    maxWidth: 400,
-  },
-});
-
 function ObjectList(props) {
   const {object_type, custom_display_field, grouping_field, parent_field, order_by_direction, order_by, LabelComponent} = props
   const [tree_data, setTreeData] = useState([]);
   const [expanded, setExpanded] = React.useState([]);
   const [selected, setSelected] = React.useState([]);
-  const classes = useStyles();
 
   const  handleToggle = async (event, nodeIds) => {
     setExpanded(nodeIds)
@@ -144,7 +135,6 @@ function ObjectList(props) {
     return (
     <Fragment>
     <TreeView
-        className={classes.root}
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
 //        expanded={expanded}
