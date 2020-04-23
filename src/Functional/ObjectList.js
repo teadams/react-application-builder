@@ -18,6 +18,29 @@ import TreeItem from '@material-ui/lab/TreeItem';
 function ObjectList(props) {
   const {object_type, custom_display_field, grouping_field, parent_field, order_by_direction, order_by, LabelComponent} = props
   const [tree_data, setTreeData] = useState([]);
+  const [expanded, setExpanded] = React.useState([]);
+  const [selected, setSelected] = React.useState([]);
+
+  const  handleToggle = async (event, nodeIds) => {
+    setExpanded(nodeIds)
+  };
+
+  const handleSelect = (event, nodeIds) => {
+    setSelected(nodeIds);
+  };
+
+  function handleSelectFirstObjectInGroup() {
+    if (selected.length>0) {
+      const parsed_grouping_select = [selected[0].split("-")]
+      if (parsed_grouping_select[1]) {
+        setSelected([parsed_grouping_select[0]])
+      }
+    }
+  }
+  if (grouping_field) {
+  //     handleSelectFirstObjectInGroup()
+  }
+  
 
   useGetObjectList(object_type, props, (object_list_data, error) => {
     let tree_data = []
@@ -26,7 +49,7 @@ function ObjectList(props) {
       object_list_data.forEach((row,i) => { 
             row._nodeId = row.id
             row._label =  <Label object_data={row}/>
-            if (parent_field) {
+            if (parent_field || grouping_field) {
                 data_map[row.id] = i
                 row.children = []
             }
@@ -34,7 +57,7 @@ function ObjectList(props) {
     }
 
     if (grouping_field) {
-        tree_data = prepareGroupingData(object_list_data)
+        tree_data = prepareGroupingData(object_list_data, data_map)
     } else if (parent_field) {
         tree_data = prepareHierarchyData(object_list_data,data_map)
     } else {
@@ -45,29 +68,34 @@ function ObjectList(props) {
 
   function Label(props) {    
       if (LabelComponent != undefined) {
-        return <LabelComponent data={props.object_data} object_type={object_type}/>
+        return <LabelComponent data={props.object_data} object_type={object_type} grouping_field={grouping_field} custom_display_field={custom_display_field}/>
       } else {
-        return meta.get_display_value(object_type,custom_display_field, props.object_data)
+        let label_field = props.label_field?props.label_field:custom_display_field
+        return meta.get_display_value(object_type, label_field, props.object_data)
       }
   }
 
-  function prepareGroupingData(object_list_data) {
-    let current_group_value = ""
-    let current_group_node = {}
+  function prepareGroupingData(object_list_data, data_map) {
     let tree_data = []
-    object_list_data.forEach((row, i) => {
+    let grouping_values_seen = {}
+    let value_group_node_map = new Map()
+    let j = 0 // item in tree view
+    object_list_data.forEach((row, i) => {  
       const row_grouping_value = meta.get_display_value(object_type,grouping_field, row)
-      if (current_group_value != row_grouping_value) {
+      utils.a("group variable for row", row_grouping_value)
+      if (!grouping_values_seen[row_grouping_value]) {
+          grouping_values_seen[row_grouping_value] = true
           let group_node = {}
-          group_node._nodeId = row.id + "-grouping"
-          group_node._label =  <Label object_data={row}/>
+          group_node._nodeId = row.id + "-grouping-"  
+          group_node._label =  <Label object_data={row} label_field={grouping_field}/>
           group_node.children = [row]
           tree_data.push(group_node)
-          current_group_value = row_grouping_value
-          current_group_node = group_node 
+          value_group_node_map[row_grouping_value] = j
+          j +=1
       } else {
-        current_group_node.children.push(row)
+        tree_data[value_group_node_map[row_grouping_value]].children.push(row)
       }
+      j +=1
     })
     return tree_data
   }
@@ -106,7 +134,12 @@ function ObjectList(props) {
     <Fragment>
     <TreeView
         defaultCollapseIcon={<ExpandMoreIcon />}
-        defaultExpandIcon={<ChevronRightIcon />}>
+        defaultExpandIcon={<ChevronRightIcon />}
+        expanded={expanded}
+        selected={selected}
+        onNodeToggle={handleToggle}
+        onNodeSelect={handleSelect}
+        >
         {tree_data && <RenderTree nodes={tree_data}/>}  
     </TreeView>
     </Fragment>
