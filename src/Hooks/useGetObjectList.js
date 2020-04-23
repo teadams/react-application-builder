@@ -4,7 +4,7 @@ import * as meta from '../Utils/meta.js';
 import * as log from '../Utils/log.js';
 
 
-const useGetObjectList = (object_type, db_options) => {
+const useGetObjectList = (object_type, db_options, callback) => {
   const [object_list_data, setDbResults] = useState("");
  
   let trigger_change_array = [object_type]
@@ -18,17 +18,22 @@ const useGetObjectList = (object_type, db_options) => {
   
   useEffect( () => {
       if (object_type) {
-        data.getData (object_type,  db_options, (results, error) => { 
+        data.getData (object_type,  db_options, (api_results, error) => { 
             if (error) {
                 alert ("error retrieving object list " + object_type + ":" + error.message)
             } else {
-              setDbResults(results)
+              setDbResults(api_results)
+              if (callback) {
+                  callback(api_results,"")
+              }
             }
         })
     }
 }, trigger_change_array);
 
-  return object_list_data;
+  if (!callback) {
+    return object_list_data;
+  }
 }
 
 export default useGetObjectList

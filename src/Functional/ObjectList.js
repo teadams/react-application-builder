@@ -17,28 +17,33 @@ import TreeItem from '@material-ui/lab/TreeItem';
 
 function ObjectList(props) {
   const {object_type, custom_display_field, grouping_field, parent_field, order_by_direction, order_by, LabelComponent} = props
+  const [tree_data, setTreeData] = useState([]);
 
-  let object_list_data = useGetObjectList(object_type, props);
-  // potential enhancmenet  for performnce, could have a call back to object_list_data
-  //  and only prepare tree data if there has been a change.  Right now, prepareGroupingData
-  // and prepareHierarchyData will run each render
+  useGetObjectList(object_type, props, (object_list_data, error) => {
+    let tree_data = []
+    let data_map = {}
+    if (object_list_data) {
+      object_list_data.forEach((row,i) => { 
+            row._nodeId = row.id
+            row._label =  <Label object_data={row}/>
+            if (parent_field) {
+                data_map[row.id] = i
+                row.children = []
+            }
+      })
+    }
 
-  let data_map = {}
-  if (object_list_data) {
-    object_list_data.forEach((row,i) => { 
-          row._nodeId = row.id
-          row._label =  <Label object_data={row}/>
-          if (parent_field) {
-              data_map[row.id] = i
-              row.children = []
-          }
-    })
-  }
+    if (grouping_field) {
+        tree_data = prepareGroupingData(object_list_data)
+    } else if (parent_field) {
+        tree_data = prepareHierarchyData(object_list_data,data_map)
+    } else {
+        tree_data = object_list_data
+    }
+    setTreeData(tree_data)
+  });
 
-  let tree_data = []
-  
-  function Label(props) {
-      
+  function Label(props) {    
       if (LabelComponent != undefined) {
         return <LabelComponent data={props.object_data} object_type={object_type}/>
       } else {
@@ -46,11 +51,7 @@ function ObjectList(props) {
       }
   }
 
-  function prepareGroupingData() {
-    if (!object_list_data) {
-      return
-    }
-  
+  function prepareGroupingData(object_list_data) {
     let current_group_value = ""
     let current_group_node = {}
     let tree_data = []
@@ -71,14 +72,8 @@ function ObjectList(props) {
     return tree_data
   }
 
-  function prepareHierarchyData() {
-    if (!object_list_data) {
-      return
-    }
- 
-
-    let tree_data = []
-  
+  function prepareHierarchyData(object_list_data, data_map) {
+    let tree_data = []  
     object_list_data.forEach((row, i) => {
       const parent = row[parent_field]
       if (!parent) {
@@ -90,20 +85,6 @@ function ObjectList(props) {
     })
     return tree_data
   }
-
-
-  // ** Render **
-
-
-  if (grouping_field) {
-      tree_data = prepareGroupingData()
-  } else if (parent_field) {
-      tree_data = prepareHierarchyData()
-  } else {
-      tree_data = object_list_data
-  }
-  
-  
 
   function RenderTree(props) {
       const {nodes} = props
@@ -120,15 +101,19 @@ function ObjectList(props) {
         </Fragment>)
   }
 
-
-  return (<Fragment>
-  <TreeView
-      defaultCollapseIcon={<ExpandMoreIcon />}
-      defaultExpandIcon={<ChevronRightIcon />}>
-      {tree_data && <RenderTree nodes={tree_data}/>}  
-  </TreeView>
-  </Fragment>
-  );
+  if (tree_data) {
+    return (
+    <Fragment>
+    <TreeView
+        defaultCollapseIcon={<ExpandMoreIcon />}
+        defaultExpandIcon={<ChevronRightIcon />}>
+        {tree_data && <RenderTree nodes={tree_data}/>}  
+    </TreeView>
+    </Fragment>
+    );
+    } else {
+        return null
+    }
 }
 
 export default ObjectList;

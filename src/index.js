@@ -9,7 +9,6 @@ import Body from "./Body.js"
 import './index.css';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 
-
 render((
 
   <Router>
