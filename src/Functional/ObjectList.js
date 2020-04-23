@@ -11,8 +11,7 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
 function ObjectList(props) {
-  const object_list_data = useObjectListGet("core_subsite");
-    alert ("core subsite" + JSON.stringify(object_list_data))
+  const object_list_data = useObjectListGet(props.object_type);
   return <Typography>congrats you are in the Object list</Typography>
 }
 

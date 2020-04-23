@@ -11,7 +11,6 @@ import {ProjectView, Volunteer, ProjectMessages} from './Components/NowWeAct';
 import * as meta from './Utils/meta.js'
 import * as log from './Utils/log.js'
 import axios from 'axios';
-import {AppBar,Toolbar, Typography, IconButton, Button, Paper, Tabs, Tab, Drawer, Divider,List, Menu, MenuItem, ListItem, ListItemText} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import classNames from 'classnames';
@@ -46,7 +45,7 @@ class Body extends Component {
     return    (<Fragment>
 
         {functional_components.hasOwnProperty(meta_menu.component) && 
-              <Fragment><BodyComponent/></Fragment>
+              <Fragment><BodyComponent {...meta_menu}/></Fragment>
         }
         {meta_menu.component == "ProjectView" &&
           <ProjectView object_type="nwn_project" project_id={this.context.context_id} foo={this.props.foo}
