@@ -13,6 +13,7 @@ export function getPathBase () {
 export function validAPIParams() {
     return ["order_by", "order_by_direction", "filter_field", "filter_id", "filter_join", "key_type", "context_limit", "user_id"]
 }
+
 export function getParamsObject(options={}, params=validAPIParams()) {
     // prepares parameter object for axios
     if (!options) {

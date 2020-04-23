@@ -67,6 +67,12 @@ export function keys (object_type) {
           } else if (field_meta[key].key) {
               ids.key_id = key
           }
+          if (!ids.key_id) {
+            ids.key_id = "id"
+          }
+          if (!ids.pretty_key_id) {
+            ids.pretty_key_id = ids.key_id
+          }
           return ids;
     },{}))
 
@@ -334,11 +340,9 @@ export function get_display_value(object_type, field_name="", data) {
         const referenced_table = final_field.references;
         const referenced_pretty_id_column = keys(referenced_table).pretty_key_id
         const referenced_field = field(referenced_table, referenced_pretty_id_column)
-        log.val('column ' , initial_field.name +'_'+referenced_pretty_id_column)
-        log.val('referenced_field', referenced_field)
-        log.val('data', data)
+
         function derivedReferencedMatch(match, p1, offset, string) {
-            log.val ("p1", p1)
+  
            return (data[prefix+field_name+"_"+p1])
         }
         //alert ("display field name " + display_field.name)
@@ -347,21 +351,14 @@ export function get_display_value(object_type, field_name="", data) {
         if (referenced_field.derived) {
           return (referenced_field.derived.replace(/{(.*?)}/ig, derivedReferencedMatch));
         } else {
-            log.val("redner value",data[final_field.name +'_'+referenced_pretty_id_column] )
-      //    alert (data[display_field.name +'_'+referenced_pretty_id_column])
             const display_value = data[final_field.name +'_'+referenced_pretty_id_column]
             if (display_value) {
               return display_value
             } else {
               return null
-            }
-  //          return(data[display_field.name +'_'+referenced_pretty_id_column])
+            }  //          return(data[display_field.name +'_'+referenced_pretty_id_column])
         }
     } else if (final_field.derived) {
-      log.func("get display values")
-      log.val ('field',initial_field)
-      log.val('data', data)
-      log.val('display field derived', final_field.derived)
       return (final_field.derived.replace(/{(.*?)}/ig, derivedMatch));
     } else if (final_field.mapping) {
         // mappings do not have a base display value
