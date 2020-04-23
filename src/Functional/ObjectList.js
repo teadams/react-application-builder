@@ -28,20 +28,19 @@ function ObjectList(props) {
   };
 
   const handleSelect = (event, nodeIds) => {
-    utils.a("select", nodeIds)
     setSelected(nodeIds);
   };
 
   function handleSelectFirstObjectInGroup() {
     if (selected.length>0) {
-      const parsed_grouping_select = [selected[0].split("-")]
+      const parsed_grouping_select = selected.split("-")
       if (parsed_grouping_select[1]) {
-        setSelected([parsed_grouping_select[0]])
+        handleSelect("",parsed_grouping_select[0])
       }
     }
   }
   if (grouping_field) {
-  //     handleSelectFirstObjectInGroup()
+     handleSelectFirstObjectInGroup()
   }
   
 
@@ -88,7 +87,7 @@ function ObjectList(props) {
       if (!grouping_values_seen[row_grouping_value]) {
           grouping_values_seen[row_grouping_value] = true
           let group_node = {}
-          group_node._nodeId = row.id + "-grouping-"  
+          group_node._nodeId = row.id + "-grouping"  
           group_node._label =  <Label object_data={row} label_field={grouping_field}/>
           group_node.children = [row]
           tree_data.push(group_node)
@@ -98,7 +97,6 @@ function ObjectList(props) {
         row._nodeId = row.id   
         row._label = <Label object_data={row} />
         row.children=[]
-        tree_data.push(row)
         tree_data[value_group_node_map[row_grouping_value]].children.push(row)
       }
       j +=1
@@ -141,10 +139,10 @@ function ObjectList(props) {
     <TreeView
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
-//        expanded={expanded}
-//        selected={selected}
-//        onNodeToggle={handleToggle}
-//        onNodeSelect={handleSelect}
+        expanded={expanded}
+        selected={selected}
+        onNodeToggle={handleToggle}
+        onNodeSelect={handleSelect}
         >
         {tree_data && <RenderTree nodes={tree_data}/>}  
     </TreeView>
