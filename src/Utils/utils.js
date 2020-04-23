@@ -12,6 +12,9 @@ export function isEmptyObject (object) {
 
 // super quick way to pop up alert with variables
 export function a(var_names, ...params) {
+    if (params.length == 0) {
+        alert(var_names)
+    }
     let {alert_text, i, var_name, var_alert} = {alert_text:[], i:0, var_name:"", var_alert:""}
     var_names = var_names.split(",")
     for (i in params) {

@@ -9,7 +9,7 @@ export function log(text) {
 export function val(names, ...params) {
   if (params.length == 0) {
     log(names);
-  }
+  } 
   names = names.split(',');
   for (var i in params) {
       log( names[i].trim().toLowerCase().split(' ').map(function(word) {      

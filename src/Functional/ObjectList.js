@@ -95,6 +95,10 @@ function ObjectList(props) {
           value_group_node_map[row_grouping_value] = j
           j +=1
       } else {
+        row._nodeId = row.id   
+        row._label = <Label object_data={row} />
+        row.children=[]
+        tree_data.push(row)
         tree_data[value_group_node_map[row_grouping_value]].children.push(row)
       }
       j +=1
