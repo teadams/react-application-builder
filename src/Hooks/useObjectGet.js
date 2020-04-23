@@ -4,7 +4,6 @@ import * as data from '../Utils/data.js';
 import * as meta from '../Utils/meta.js';
 import * as log from '../Utils/log.js';
 
-
 const useObjectGet = (object_type, id) => {
   const [object_data, setDbResults] = useState("");
 
