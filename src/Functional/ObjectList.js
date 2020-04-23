@@ -1,5 +1,6 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
+import { makeStyles } from '@material-ui/core/styles';
 import * as log from '../Utils/log.js'
 import * as meta from '../Utils/meta.js'
 import * as data from '../Utils/data.js';
@@ -15,17 +16,28 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
 
+
+const useStyles = makeStyles({
+  root: {
+    height: 216,
+    flexGrow: 1,
+    maxWidth: 400,
+  },
+});
+
 function ObjectList(props) {
   const {object_type, custom_display_field, grouping_field, parent_field, order_by_direction, order_by, LabelComponent} = props
   const [tree_data, setTreeData] = useState([]);
   const [expanded, setExpanded] = React.useState([]);
   const [selected, setSelected] = React.useState([]);
+  const classes = useStyles();
 
   const  handleToggle = async (event, nodeIds) => {
     setExpanded(nodeIds)
   };
 
   const handleSelect = (event, nodeIds) => {
+    utils.a("select", nodeIds)
     setSelected(nodeIds);
   };
 
@@ -68,7 +80,7 @@ function ObjectList(props) {
 
   function Label(props) {    
       if (LabelComponent != undefined) {
-        return <LabelComponent data={props.object_data} object_type={object_type} grouping_field={grouping_field} custom_display_field={custom_display_field}/>
+        return <LabelComponent data={props.object_data} object_type={object_type} grouping_field={grouping_field} custom_display_field={custom_display_field} label_field={props.label_field}/>
       } else {
         let label_field = props.label_field?props.label_field:custom_display_field
         return meta.get_display_value(object_type, label_field, props.object_data)
@@ -82,7 +94,6 @@ function ObjectList(props) {
     let j = 0 // item in tree view
     object_list_data.forEach((row, i) => {  
       const row_grouping_value = meta.get_display_value(object_type,grouping_field, row)
-      utils.a("group variable for row", row_grouping_value)
       if (!grouping_values_seen[row_grouping_value]) {
           grouping_values_seen[row_grouping_value] = true
           let group_node = {}
@@ -121,7 +132,7 @@ function ObjectList(props) {
           {nodes.map(node => {
               return (<Fragment>
                         <TreeItem key={node._nodeId} nodeId={node._nodeId} label={node._label}>
-                          {Array.isArray(node.children) && <RenderTree nodes={node.children}/>}
+                          {Array.isArray(node.children)&& node.children.length > 0 && <RenderTree nodes={node.children}/>}
                         </TreeItem>
                       </Fragment>
               )
@@ -133,12 +144,13 @@ function ObjectList(props) {
     return (
     <Fragment>
     <TreeView
+        className={classes.root}
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
-        expanded={expanded}
-        selected={selected}
-        onNodeToggle={handleToggle}
-        onNodeSelect={handleSelect}
+//        expanded={expanded}
+//        selected={selected}
+//        onNodeToggle={handleToggle}
+//        onNodeSelect={handleSelect}
         >
         {tree_data && <RenderTree nodes={tree_data}/>}  
     </TreeView>
