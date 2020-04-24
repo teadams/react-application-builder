@@ -23,27 +23,22 @@ function ObjectList(props) {
   const [expanded, setExpanded] = React.useState([]);
   const [selected, setSelected] = React.useState([]);
 
-  const  handleToggle = async (event, nodeIds) => {
+  const  handleToggle = (event, nodeIds) => {
     setExpanded(nodeIds)
   };
 
-  const handleSelect = (event, nodeIds) => {
+  const handleSelect = (event, nodeIDs) => {
+    setSelected(nodeIDs);
 
-    setSelected(nodeIds);
-  };
-
-  function handleSelectFirstObjectInGroup() {
-    if (selected.length>0) {
-      const parsed_grouping_select = selected.split("-")
-      if (parsed_grouping_select[1]) {
-        handleSelect("",parsed_grouping_select[0])
+    if (props.onSelect) {
+      if (grouping_field && nodeIDs.toString().search("grouping") > 1) {
+          props.onSelect("")
+      } else {
+        props.onSelect(nodeIDs)
       }
     }
-  }
-  if (grouping_field) {
-     handleSelectFirstObjectInGroup()
-  }
-  
+  };
+
 
   useGetObjectList(object_type, props, (object_list_data, error) => {
     let tree_data = []

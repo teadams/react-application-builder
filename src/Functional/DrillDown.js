@@ -14,19 +14,42 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
-function DrillDown(props) {
-return (
+function DrillDown(props)  {
+  // initializations
+  // effects
+  const [selected_id, setSelectedId] = useState(props.selected_id);
+  const [object_type, setObjectType] = useState(props.object_type);
+
+  // State control
+  if (object_type != props.object_type) {
+     handleSelect(null)
+     setObjectType(props.object_type)
+  }
+
+
+
+  // functions
+  function handleSelect(new_selected) {
+    setSelectedId(new_selected)
+  }
+
+
+
+  // Render
+  return (
   <Grid container>
     <Grid item>
-        <ObjectList {...props}/>
+        <ObjectList {...props} object_type={object_type}  onSelect={handleSelect}/>
     </Grid><Grid item>
-        <ObjectView
-            object_type = {props.object_type}
-            selected_id = "3"
-//            grouping_field_name = {props.grouping_field}
-//            onDataChange = {this.handleDataChange}
-//            onMenuChange = {this.props.onMenuChange}
-          />
+        {selected_id && object_type == props.object_type &&
+          <ObjectView
+              object_type = {object_type}
+              selected_id = {selected_id}
+              grouping_field_name = {props.grouping_field}
+  //            onDataChange = {this.handleDataChange}    XX Later
+  //          ??  onMenuChange = {this.props.onMenuChange}  XX Later // this may take care of the object type comparison
+            />
+        }
      </Grid>
   </Grid>
 );
