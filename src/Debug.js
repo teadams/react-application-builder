@@ -2,6 +2,7 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import * as data from './Utils/data.js';
 import * as meta from './Utils/meta.js';
+import * as utils from './Utils/utils.js';
 
 import React, { Component, Fragment, useState, useContext, useEffect} from 'react';
 import {AuthContext} from './Components/User';
@@ -36,7 +37,7 @@ function UserSiteAdmin () {
     const context = useContext(AuthContext)
     const user_logged_id = context.user && context.user.id?true:false
     if (user_logged_id)  {
-        return context.site_admin?"True":"False"
+        return context.user.site_admin?"True":"False"
    } else {
       return "Not logged in"
   }
@@ -52,7 +53,8 @@ function Context () {
           }
       })
 }, [context.context_id]);
-  return `${context.context_id}  ${subsite_data.name?` - ${subsite_data.name}`:""}`
+  const message = `${context.context_id}  ${subsite_data.name?` - ${subsite_data.name}`:""}`
+  return <Typography variant="h1">{message}</Typography>
 }
 
 function UserSubsiteAuthRoles () {
@@ -76,6 +78,8 @@ function UserSubsiteAuthPriv () {
 }
 
 function Debug(props) {
+  const context = useContext(AuthContext)
+
   const show_debug = meta.get_param("client_debug_component")
   if (show_debug) {
     return (

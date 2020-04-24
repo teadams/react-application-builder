@@ -60,8 +60,6 @@ class LoginForm extends React.Component {
         } else if (!user_data.password_match) {
             alert ("password is not correct")
         } else {
-          console.log(JSON.stringify(user_data))
-          alert ("user data is "  + JSON.stringify(user_data))
           this.context.login(user_data)
           this.handleClose()
         }

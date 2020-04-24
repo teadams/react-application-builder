@@ -1,7 +1,7 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
-import React, { Component, Fragment} from 'react';
+import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import AuthContext from './AuthContext';
 import {SelectObject} from '..//FormsAndViews';
 
@@ -30,38 +30,33 @@ const context_style = {
 //  linearGradient(to bottom, #ffffff 0%,#e5e5e5 100%)
 }
 
-class ContextSelect extends Component {
-  constructor(props) {
-      super(props);
-      this.handleContextChange = this.handleContextChange.bind(this);
-  } 
+function ContextSelect () {
+  const context = useContext(AuthContext)
+  const subsite_id = context.context_id
+  const user = context.user
   
-    handleContextChange(value) {
-        this.context.setContextId(value)  
-      
-    }
-    render() {
-      alert ("user is is ", JSON.stringify(this.context.context_id))
-      
-      if (this.context.user.id && false ) {
-        alert("rending select")
-          let context_limit = this.context.user.site_admin?"":"member"
+  function handleContextChange(value) {
+        context.setContextId(value)  
+   }
+
+
+    if (context.user.id  ) {        
+          let context_limit = user.site_admin?"":"member"
           return (
             <SelectObject object_type = "core_subsite"
-              value = {this.context.context_id}
+              value = {context.context_id}
               style = {context_style}
-              onChange={this.handleContextChange}
+              onChange={handleContextChange}
               noLabel= {true}
               context_limit={context_limit}
-              user_id = {this.context.user.id}
+              user_id = {user.id}
               open="true"
              />
           );
-        }  else {
+      }  else {
             return (<Fragment/>)
-        }
-    }
+      }
+  
 }
 
-ContextSelect.contextType = AuthContext;
 export default ContextSelect
