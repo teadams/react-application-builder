@@ -80,7 +80,8 @@ function UserSubsiteAuthPriv () {
 function Debug(props) {
   const context = useContext(AuthContext)
 
-  const show_debug = meta.get_param("client_debug_component")
+  const show_debug = props.show_debug?props.show_debug:meta.get_param("client_debug_component")
+
   if (show_debug) {
     return (
         <Container maxWidth="sm" style={container_style}>
