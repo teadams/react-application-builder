@@ -41,10 +41,13 @@ class ContextSelect extends Component {
       
     }
     render() {
-      if (this.context.user.id) {
+      alert ("user is is ", JSON.stringify(this.context.context_id))
+      
+      if (this.context.user.id && false ) {
+        alert("rending select")
           let context_limit = this.context.user.site_admin?"":"member"
           return (
-            <SelectObject object_type = "nwn_project"
+            <SelectObject object_type = "core_subsite"
               value = {this.context.context_id}
               style = {context_style}
               onChange={this.handleContextChange}

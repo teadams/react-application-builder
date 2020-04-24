@@ -26,7 +26,7 @@ function UserInfo () {
     const context = useContext(AuthContext)
     const user_logged_id = context.user && context.user.id?true:false
     if (user_logged_id)  {
-        return context.user.first_name + context.user.last_name
+        return context.user.first_name + " " + context.user.last_name
    } else {
       return "Not logged in"
   }
@@ -36,7 +36,7 @@ function UserSiteAdmin () {
     const context = useContext(AuthContext)
     const user_logged_id = context.user && context.user.id?true:false
     if (user_logged_id)  {
-        return context.user.first_name + context.user.last_name
+        return context.site_admin?"True":"False"
    } else {
       return "Not logged in"
   }
@@ -76,7 +76,6 @@ function UserSubsiteAuthPriv () {
 }
 
 function Debug(props) {
-  const context = useContext(AuthContext)
   const show_debug = meta.get_param("client_debug_component")
   if (show_debug) {
     return (
@@ -104,12 +103,15 @@ function Debug(props) {
               <TableCell>Subsite Privileges</TableCell>
               <TableCell><UserSubsiteAuthPriv/></TableCell>
             </TableRow>
+            <TableRow>
+            <TableCell>All Access </TableCell>
+            <TableCell>{JSON.stringify(context.user.authorization_object)}</TableCell>
+          </TableRow>
           </Table>
         </TableContainer>
         </Container>
     )
   } else {
-    alert ('returnign null')
     return null
   }
 }
