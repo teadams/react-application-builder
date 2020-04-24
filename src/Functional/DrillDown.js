@@ -38,9 +38,9 @@ function DrillDown(props)  {
   // Render
   return (
   <Grid container>
-    <Grid item>
+    <Grid  sm={2} item>
         <ObjectList {...props} object_type={object_type}  onSelect={handleSelect}/>
-    </Grid><Grid item>
+    </Grid><Grid sm={6} item>
         {selected_id && object_type == props.object_type &&
           <ObjectView
               object_type = {object_type}

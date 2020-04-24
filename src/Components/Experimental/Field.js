@@ -501,7 +501,7 @@ class Field extends React.Component {
               </form>
             :  
               field.derived ?
-                <div>sytem
+                <div>
                  {this.getDisplayView()}&nbsp;
                 </div>  
                 :
