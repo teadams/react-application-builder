@@ -1,6 +1,6 @@
 const metadata_menus = {
   app_menu: [
-    {index:"0", label: "RawField", component:"RenderField",
+    {index:"0", label: "RawField", component:"Field", 
                  field_name:"first_name",
                  field_list:["first_name", "last_name"],
                  sections: {first_section: 

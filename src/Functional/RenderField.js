@@ -11,18 +11,13 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
-import {functional_components} from "./index.js"
-
-function Field(props) {
-  const {object_type, field_name, id, db_options} = props
-  const data = useGetObject(object_type, id, {}, props.data); 
-  const RenderField = functional_components[props.field_component?props.field_component:"RenderField"]
-
+function RenderField(props) {
+  const {data, field_name} = props
   if (data) {
-      return (<RenderField data={data} field_name={field_name}/>)
+      return <div>with comp {data[field_name]} </div>
   } else {
       return null
   }
 }
 
-export default Field;
+export default RenderField;
