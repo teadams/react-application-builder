@@ -6,6 +6,8 @@ import RenderField from './RenderField.js'
 import RenderFieldList from './RenderFieldList.js'
 import RenderFieldListList from './RenderFieldListList.js'
 import NewDrillDown from './NewDrillDown.js'
+import AvatarUser from './AvatarUser.js'
+
 
 
 const functional_components = {
@@ -16,7 +18,8 @@ const functional_components = {
         RenderField:RenderField,
         RenderFieldList:RenderFieldList,
         RenderFieldListList:RenderFieldListList,
-        NewDrillDown:NewDrillDown
+        NewDrillDown:NewDrillDown,
+        AvatarUser:AvatarUser
 
 }
 

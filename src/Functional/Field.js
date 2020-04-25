@@ -15,7 +15,16 @@ import {functional_components} from "./index.js"
 
 function Field(props) {
   const {id, db_options} = props
+  const [mode, setMode] = useState("view");
   let {object_type, field_name} = props
+
+  function handleViewClick(event) {
+      setMode("edit")
+  }
+
+  function handleEditSubmit(event) {
+      setMode("view")
+  }
   
   let data = useGetObject(object_type, id, {}, props.data); 
 
@@ -29,14 +38,22 @@ function Field(props) {
       field_meta = meta.fields(object_type)[field_name]
   }
 
-  // XX - Derived Field - perhaps this will come from the server. Changing the one derivced field to a
-  // field provided component
+  let component = "RenderField"
+  if  (field_meta.field_component) {component = field_meta.field_component}
+  if  (props.field_component) { component = props.field_component}
 
-  // XX - Decide
-  const RenderField = functional_components[props.field_component?props.field_component:"RenderField"]
+  const RenderField = functional_components[component]
 
+// state will track a view/edit mode.. when clicked, it will toggle and then
+// render Form (not Form Field) with the data, "no submit button". Form will manage
+// controlled stote. handle Submit should pass back to here which will toggle 
+// mode back
   if (data) {
-      return (<RenderField data={data} field_name={field_name}/>)
+      if (mode=="view") {
+          return (<RenderField data={data} field_name={field_name}/>)
+      ] else {
+          // render FROM with compoent fieldForm, handleSubmit, data, object_type, id
+      }
   } else {
       return null
   }

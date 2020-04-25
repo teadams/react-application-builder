@@ -11,13 +11,13 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
-function RenderField(props) {
+function AvatarUser(props) {
   const {data, field_name} = props
   if (data) {
-      return <Fragment>{data[field_name]}</Fragment>
+      return (<Fragment>PIC {data.first_name} {data.last_name}</Fragment>)
   } else {
       return null
   }
 }
 
-export default RenderField;
+export default AvatarUser;
