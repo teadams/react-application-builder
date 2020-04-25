@@ -1,7 +1,7 @@
 const metadata_menus = {
   app_menu: [
     {index:"0", label: "RawField", component:"Field", 
-                 field_name:"first_name",
+                 field_name:"creation_user",
                  field_list:["first_name", "last_name"],
                  sections: {first_section: 
                  {field_list:["first_name", "last_name",],name:"Section one"},
@@ -10,7 +10,7 @@ const metadata_menus = {
                 }, object_type:"core_user", id:"1",
       data_t:{first_name:"Tracy", last_name:"Adams", mom_first:"Jane", mom_last:"Belmont"}
    },
-   {index:"1", label: "RawField2", component:"RenderField",
+   {index:"1", label: "RawField2", component:"Field",
                 field_name:"first_name",
                 field_list:["first_name", "last_name"],
                 sections: {first_section: 

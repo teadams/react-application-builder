@@ -11,13 +11,13 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
-function RenderField0(props) {
+function RenderField(props) {
   const {data, field_name} = props
   if (data) {
-      return <div>This is the crazy component number 2 {data[field_name]} </div>
+      return <Fragment>{data[field_name]}</Fragment>
   } else {
       return null
   }
 }
 
-export default RenderField0;
+export default RenderField;

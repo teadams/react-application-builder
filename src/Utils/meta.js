@@ -4,6 +4,7 @@ import 'react-app-polyfill/stable';
 import metadata_menus from '../Models/HealthMe/menus'
 import * as log from './log.js';
 import * as data from './data.js';
+import * as utils from './utils.js';
 const custom_model="HealthMe"
 let app_params = {}
 let metadata_fields = {}
@@ -28,7 +29,8 @@ export function fields(object_type, restricted_fields = []) {
     if (restricted_fields.length == 0) {
       return metadata_fields[object_type];
     } else {
-      return metadata_fields[object_type].filter(field=> {        
+      return Object.keys(metadata_fields[object_type]).filter(key=> {
+        field = metadata_fields[object_type][key]
         if (restricted_fields.indexOf(field.name)>=0) {
             return false
           } else {
@@ -59,7 +61,6 @@ export function field(object_type, field_name) {
 }
 
 export function keys (object_type) {
-//    alert ("object type is " + object_type)
     const field_meta = fields(object_type);
     return (Object.keys(field_meta).reduce((ids, key) => {
           if (field_meta[key].pretty_key) {
