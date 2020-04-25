@@ -12,6 +12,7 @@ const useGetObjectList = (object_type, db_options, callback) => {
     if (db_options && db_options[param]) {
       trigger_change_array.push(db_options[param])
     } else {
+      // must must must keep consistent length
       trigger_change_array.push("")
     }
   })

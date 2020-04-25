@@ -14,6 +14,19 @@ export function validAPIParams() {
     return ["order_by", "order_by_direction", "filter_field", "filter_id", "filter_join", "key_type", "context_limit", "user_id"]
 }
 
+
+export function addAPIParams(trigger_change_array, api_options) {
+    validAPIParams().forEach(param => {
+      if (api_options && api_options[param]) {
+        trigger_change_array.push(api_options[param])
+      } else { 
+        // MUST keep consistent array size. (rule of useEffect)
+        trigger_change_array.push("")
+      }
+      })
+      return trigger_change_array
+}
+
 export function getParamsObject(options={}, params=validAPIParams()) {
     // prepares parameter object for axios
     if (!options) {

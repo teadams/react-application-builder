@@ -6,7 +6,7 @@ import * as meta from '../Utils/meta.js'
 import * as data from '../Utils/data.js';
 import * as utils from '../Utils/utils.js';
 import { withStyles } from '@material-ui/core/styles';
-import RenderField from './RenderField.js'
+import Field from './Field.js'
 
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import useGetObjectList from '../Hooks/useGetObjectList';
@@ -21,7 +21,7 @@ function RenderFieldList(props) {
     if (data) {
       return ( <Fragment>
           {field_list.map(field => {
-          return (<div> FL <RenderField field_name={field} data={data}/></div>)
+          return (<div> FL <Field field_name={field} data={data}/></div>)
           })}
         </Fragment>)
     }

@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import AuthContext from '../User/AuthContext';
 import useForm from '../../Hooks/useForm';
-import useObjectGet from '../../Hooks/useObjectGet';
+import useGetObject  from '../../Hooks/useGetObject';
 
 
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
@@ -79,7 +79,7 @@ function VolunteerNew(props) {
   const [project_needs, setProjectNeeds] = useState([]);
   const [selected_touch, setSelectedTouched] = useState(false);
   const project_field = meta.field("nwn_project", "name")
-  const project_data = useObjectGet("nwn_project", project_id);
+  const project_data = useGetObject("nwn_project", project_id);
   const {formValues, handleFormChange, handleFormSubmit} = useForm({email_perm:true}, handleVolunteerSubmit);
   let show_needs = (project_id ||role_type_id)?true:false
 
