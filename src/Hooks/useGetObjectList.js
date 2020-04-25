@@ -23,7 +23,7 @@ const useGetObjectList = (object_type, db_options, callback) => {
             if (error) {
                 alert ("error retrieving object list " + object_type + ":" + error.message)
             } else {
-              setDbResults(api_results)
+                setDbResults(api_results)
               if (callback) {
                   callback(api_results,"")
               }

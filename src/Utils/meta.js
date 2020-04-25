@@ -25,7 +25,7 @@ export function object(object_type) {
 }
 
 export function fields(object_type, restricted_fields = []) {
-    //alert ("in function fields " + object_type)
+    if (!object_type) return {}
     if (restricted_fields.length == 0) {
       return metadata_fields[object_type];
     } else {

@@ -27,7 +27,7 @@ function Field(props) {
   }
   
   let data = useGetObject(object_type, id, {}, props.data); 
-
+  
   // if this field came from another table, modify the data, object_type, field_name
   let field_meta = meta.fields(object_type)[field_name]
   if (field_meta && field_meta.references) {
@@ -39,8 +39,9 @@ function Field(props) {
   }
 
   let component = "RenderField"
-  if  (field_meta.field_component) {component = field_meta.field_component}
-  if  (props.field_component) { component = props.field_component}
+  if  (field_meta && field_meta.field_component) {component = field_meta.field_component}
+  if  (props.field_component) { 
+    component = props.field_component}
 
   const RenderField = functional_components[component]
 
@@ -51,7 +52,7 @@ function Field(props) {
   if (data) {
       if (mode=="view") {
           return (<RenderField data={data} field_name={field_name}/>)
-      ] else {
+      } else {
           // render FROM with compoent fieldForm, handleSubmit, data, object_type, id
       }
   } else {
