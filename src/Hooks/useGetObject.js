@@ -7,7 +7,6 @@ import * as utils from '../Utils/utils.js';
 
 const useGetObject = (object_type, id, api_options, param_data) => {
   const [db_object_data, setDbResults] = useState();
-
   if (!param_data && (!object_type && !id)) {
       alert ("Error in useGetObject. Either data or object_type and id must be provided.")
   }

@@ -14,7 +14,7 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 function RenderField(props) {
   const {data, field_name} = props
   if (data) {
-      return <Fragment><div> {data[field_name]} </div></Fragment>
+      return data[field_name]
   } else {
       return null
   }

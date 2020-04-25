@@ -14,14 +14,11 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
 function RenderFieldList(props) {
-  // if data not in props, useEffect to retrieve it using ojbect_type, etc 
-  // data will be the full results back from the database (object) 
-  // field_list is an array of fields to show (array)
-  const {data, field_list} = props
+  const {object_type, field_list, id, data, api_options} = props
     if (data) {
       return ( <Fragment>
-          {field_list.map(field => {
-          return (<div> FL <Field field_name={field} data={data}/></div>)
+          {field_list.map(field_name => {
+          return <Field object_type={object_type} id={id} field_name={field_name} data={data} api_options={api_options}/>
           })}
         </Fragment>)
     }

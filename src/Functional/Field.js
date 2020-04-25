@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import * as log from '../Utils/log.js'
 import * as meta from '../Utils/meta.js'
 import * as data from '../Utils/data.js';
-import * as utils from '../Utils/utils.js';
+import * as u from '../Utils/utils.js';
 import useGetObject from '../Hooks/useGetObject';
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
@@ -14,9 +14,13 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 import {functional_components} from "./index.js"
 
 function Field(props) {
-  const {id, db_options} = props
+  const {id, api_options} = props
+  let {object_type, field_name} = props // will if the field is a reference to another object_type
+
   const [mode, setMode] = useState("view");
-  let {object_type, field_name} = props
+  let data = useGetObject(object_type, id, {}, props.data); 
+
+// XX ?? look at rest of props and see if there are any other API options... what layer to do this in
 
   function handleViewClick(event) {
       setMode("edit")
@@ -25,10 +29,8 @@ function Field(props) {
   function handleEditSubmit(event) {
       setMode("view")
   }
-  
-  let data = useGetObject(object_type, id, {}, props.data); 
-  
-  // if this field came from another table, modify the data, object_type, field_name
+    
+  // XX if this field came from another table, modify the data, object_type, field_name
   let field_meta = meta.fields(object_type)[field_name]
   if (field_meta && field_meta.references) {
       const references = field_meta.references
@@ -38,6 +40,7 @@ function Field(props) {
       field_meta = meta.fields(object_type)[field_name]
   }
 
+// XX Common layout
   let component = "RenderField"
   if  (field_meta && field_meta.field_component) {component = field_meta.field_component}
   if  (props.field_component) { 
