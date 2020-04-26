@@ -18,6 +18,15 @@ function FieldList(props) {
   if (!field_list) {
     field_list = Object.keys(meta.fields(object_type))
   }
+  // Changes to field list (metadata rules, ext)
+
+  // Choose the write component
+
+  if (!api_options) { 
+    // hack to allow the Field renews below to be memoized
+    // (due to javascript compare to null weirdness)
+    const api_options = {memo_helper:true}
+  }
 
   if (data) {
     return ( <Fragment>

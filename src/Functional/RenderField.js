@@ -15,13 +15,16 @@ function RenderField(props) {
   const {data, field_name} = props
   if (data) {
       if (data[field_name]) {
-        return <Fragment><div border={1}> {data[field_name]}</div></Fragment>
+        return <Fragment>
+    <div style={{borderWidth:1, borderStyle:"solid", borderColor:"lightGray"}}>
+      {data[field_name]}</div>
+    </Fragment>
       } else {
-        return <Fragment><div border={1}>&nbsp;</div></Fragment>
+        return <Fragment><div style={{borderWidth:1, borderStyle:"solid", borderColor:"lightGray"}}>&nbsp;</div></Fragment>
       }
   } else {
       return null
   }
 }
 
-export default RenderField;
+export default React.memo(RenderField);
