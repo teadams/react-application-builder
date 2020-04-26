@@ -7,14 +7,18 @@ import * as data from '../Utils/data.js';
 import * as utils from '../Utils/utils.js';
 import useGetObject from '../Hooks/useGetObject';
 import { withStyles } from '@material-ui/core/styles';
-import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
+import React, { Component, Fragment,  useState, useEffect} from 'react';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
 function RenderField(props) {
   const {data, field_name} = props
   if (data) {
-      return data[field_name]
+      if (data[field_name]) {
+        return <Fragment><div border={1}> {data[field_name]}</div></Fragment>
+      } else {
+        return <Fragment><div border={1}>&nbsp;</div></Fragment>
+      }
   } else {
       return null
   }

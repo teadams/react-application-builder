@@ -7,13 +7,13 @@ const metadata_menus = {
    },
   {index:"1", label: "APIObject", component:"FieldList",
                     object_type:"core_user", id:6
-    },
-  // {index:"2", label: "APIObject", component:"Object",
-  //                    object_type:"core_user", id:2
-  //    },
-  // {index:"3", label: "APIObject", component:"Object",
-  //                     object_type:"core_role", id:1
-  //     },
+  },
+  {index:"2", label: "APIObject2", component:"FieldList",
+                     object_type:"core_user", id:2
+     },
+  {index:"3", label: "APIObject3", component:"FieldList",
+                      object_type:"core_role", id:1
+  },
   //     // expect TracyOne
   // {index:"4", label: "RawField", component:"Field", 
   //                field_name:"first_name",

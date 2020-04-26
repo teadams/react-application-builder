@@ -14,11 +14,10 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 import {functional_components} from "./index.js"
 
 function Field(props) {
-  const {id, api_options} = props
-  let {object_type, field_name} = props // will if the field is a reference to another object_type
-
+  //const {id, api_options} = props
+  //let { field_name} = props // will if the field is a reference to another object_type
   const [mode, setMode] = useState("view");
-  let data = useGetObject(object_type, id, {}, props.data); 
+  let [ready, object_type, id, field_name, api_options, data] = useGetObject(props.object_type, props.id,props.field_name, props.api_options, props.data); 
 
 // XX ?? look at rest of props and see if there are any other API options... what layer to do this in
 
@@ -30,7 +29,11 @@ function Field(props) {
       setMode("view")
   }
     
-  // XX if this field came from another table, modify the data, object_type, field_name
+  // Use case - this field has been tagged with "references"
+  // which indicates the field is from another object type.
+  // Need to modify that the  object_type, field_name to 
+  // represent the meta model from the other model and
+  // provide the correct data.
   let field_meta = meta.fields(object_type)[field_name]
   if (field_meta && field_meta.references) {
       const references = field_meta.references
@@ -40,7 +43,7 @@ function Field(props) {
       field_meta = meta.fields(object_type)[field_name]
   }
 
-// XX Common layout
+// XX make function - common design concept
   let component = "RenderField"
   if  (field_meta && field_meta.field_component) {component = field_meta.field_component}
   if  (props.field_component) { 
@@ -48,15 +51,19 @@ function Field(props) {
 
   const RenderField = functional_components[component]
 
-// state will track a view/edit mode.. when clicked, it will toggle and then
-// render Form (not Form Field) with the data, "no submit button". Form will manage
-// controlled stote. handle Submit should pass back to here which will toggle 
-// mode back
-  if (data) {
+// state will track a view/edit mode
+// Use case
+// When user clicks on a field in view mode, it will
+// render a one-input form. When use mouse leaves the
+// form, the form is submitted and the page returns
+// to view mode.  
+
+  if (data && ready) {
       if (mode=="view") {
           return (<RenderField data={data} field_name={field_name}/>)
       } else {
-          // render FROM with compoent fieldForm, handleSubmit, data, object_type, id
+          return (<div>edit form</div>)
+          // Later - FROM with compoent fieldForm, handleSubmit, data, object_type,
       }
   } else {
       return null
