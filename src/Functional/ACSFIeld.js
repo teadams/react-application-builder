@@ -13,7 +13,7 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 
 import {functional_components} from "./index.js"
 
-function Field(props) {
+function ACSField(props) {
   //const {id, api_options} = props
   //let { field_name} = props // will if the field is a reference to another object_type
   const [mode, setMode] = useState("view");
@@ -70,4 +70,4 @@ function Field(props) {
   }
 }
 
-export default Field;
+export default ACSField;

@@ -8,8 +8,8 @@ import * as utils from '../Utils/utils.js';
 import { withStyles } from '@material-ui/core/styles';
 import ObjectList from "./ObjectList.js"
 import {ObjectView} from "../Components/Experimental/index.js"
-import RenderFieldList from './RenderFieldList.js'
-import RenderFieldListList from './RenderFieldListList.js'
+import RenderACSFieldSet from './RenderACSFieldSet.js'
+//import RenderFieldSetList from './RenderFieldSetList.js'
 
 
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
@@ -36,10 +36,7 @@ function NewDrillDown(props)  {
   // Render
   return (
   <Grid container>
-    <Grid  sm={2} item><div>NewDD
-        <RenderFieldListList sections={sections} data={data} object_type={object_type}  onSelect={handleSelect}/>
-        </div>
-    </Grid><Grid sm={6} item>
+    <Grid sm={6} item>
         {selected_id && object_type == props.object_type &&
           <ObjectView
               object_type = {object_type}

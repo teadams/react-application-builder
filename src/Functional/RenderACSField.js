@@ -11,7 +11,7 @@ import React, { Component, Fragment,  useState, useEffect} from 'react';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
-function RenderField(props) {
+function RenderACSField(props) {
   const {data, field_name} = props
   if (data) {
       if (data[field_name]) {
@@ -27,4 +27,4 @@ function RenderField(props) {
   }
 }
 
-export default React.memo(RenderField);
+export default React.memo(RenderACSField);

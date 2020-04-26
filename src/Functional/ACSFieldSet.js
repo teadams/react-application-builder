@@ -4,11 +4,11 @@ import * as log from '../Utils/log.js'
 import * as meta from '../Utils/meta.js'
 import * as data from '../Utils/data.js';
 import * as u from '../Utils/utils.js';
-import RenderFieldList from './RenderFieldList.js'
+import RenderACSFieldSet from './RenderACSFieldSet.js'
 import useGetObject from '../Hooks/useGetObject';
 import React, {Fragment, useState, useEffect} from 'react';
 
-function FieldList(props) {
+function ACSFieldSet(props) {
 //  const { id, api_options} = props
 //  let {field_list} = props // will use object meta if not provided
   const [mode, setMode] = useState("view");
@@ -23,18 +23,18 @@ function FieldList(props) {
   // Choose the write component
 
   if (!api_options) { 
-    // hack to allow the Field renews below to be memoized
+    // hack to allow the ACSField renews below to be memoized
     // (due to javascript compare to null weirdness)
     const api_options = {memo_helper:true}
   }
 
   if (data) {
     return ( <Fragment>
-            <RenderFieldList object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options}/>
+            <RenderACSFieldSet object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options}/>
             </Fragment>)
     } else {  
         return <div></div>
     }
 }
 
-export default FieldList;
+export default ACSFieldSet;
