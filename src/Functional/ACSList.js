@@ -8,14 +8,14 @@ import useGetObjectList from '../Hooks/useGetObjectList';
 import React, {Fragment, useState, useEffect} from 'react';
 
 function ACSList(props) {
-  const {field_tag} = props
-  let props_api_options = props.api_options?props.api_options:{}
+
+  const {field_tag, object_type:props_object_type, api_options:props_api_options={}, list_component, ...params } = props
+
   props_api_options.field_tag = field_tag
 
   const [mode, setMode] = useState("view");
 
   let [object_type, api_options, data] = useGetObjectList(props.object_type, props_api_options, props.data); 
-
 
   // Changes to data (manpulate for drill down?)
   // Choose the right component
@@ -23,7 +23,7 @@ function ACSList(props) {
   //const field_list = Object.keys(data[0])  // for now
   const field_list = ""
   if (data) {
-    return   <RenderACSList object_type={object_type} field_list={field_list} data={data} api_options={api_options}/>
+    return   <RenderACSList object_type={object_type} field_list={field_list} list_component={list_component} data={data} api_options={api_options} {...params}/>
         
     } else {
         // prevents dom changes

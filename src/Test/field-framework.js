@@ -1,7 +1,7 @@
 let framework_menus = {}
 
 framework_menus.app_menu = [
-    {index:"0", label: "List 1", component:"ACSList", test_case:"props supplied data",
+    {index:"0", label: "List 1", component:"ACSList", test_case:"props supplied data", list_component:"ACSViewMenu",
               data:[{first_name:"Tracy", last_name:"Adams"},
               {first_name:"Jane", last_name:"Belmonht"},
               {first_name:"Laurel", last_name:"Hyche"}],

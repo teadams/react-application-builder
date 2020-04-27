@@ -16,8 +16,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
 
+// object_type={props.object_type} id={data.id} field_list={props.field_list} data={row} api_options={props.api_options}
 
-function ObjectList(props) {
+function ACSViewListMenu(props) {
   const {object_type, custom_display_field, grouping_field, parent_field, order_by_direction, order_by, LabelComponent} = props
   const [tree_data, setTreeData] = useState([]);
   const [expanded, setExpanded] = React.useState([]);
@@ -149,4 +150,4 @@ function ObjectList(props) {
     }
 }
 
-export default ObjectList;
+export default ACSViewListMenu;
