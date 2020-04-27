@@ -9,8 +9,7 @@ import * as u from '../Utils/utils.js';
 import useGetObject from '../Hooks/useGetObject';
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
-import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
-, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
+import { TableCell } from '@material-ui/core';
 
 import {functional_components} from "./index.js"
 
@@ -60,7 +59,8 @@ function ACSField(props) {
 // to view mode.  
   if (data && ready) {
       if (mode=="view") {
-          return (<RenderField data={data} field_name={field_name}/>)
+  // field_wrapper_component, field_component
+          return (<TableCell><RenderField data={data} field_name={field_name}/></TableCell>)
       } else {
           return (<div>edit form</div>)
           // Later - FROM with compoent fieldForm, handleSubmit, data, object_type,

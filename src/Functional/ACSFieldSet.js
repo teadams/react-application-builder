@@ -7,6 +7,8 @@ import * as u from '../Utils/utils.js';
 import RenderACSFieldSet from './RenderACSFieldSet.js'
 import useGetObject from '../Hooks/useGetObject';
 import React, {Fragment, useState, useEffect} from 'react';
+import { TableRow } from '@material-ui/core';
+
 
 function ACSFieldSet(props) {
 //  const { id, api_options} = props
@@ -33,9 +35,9 @@ function ACSFieldSet(props) {
   }
 
   if (data) {
-    return ( <Fragment>
+    return ( <TableRow>
             <RenderACSFieldSet object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options}/>
-            </Fragment>)
+            </TableRow>)
     } else {  
         return <div></div>
     }
