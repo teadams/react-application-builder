@@ -10,6 +10,7 @@ import {AuthToggleLink, AuthContext, AuthProvider} from './Components/User';
 import {ProjectView, Volunteer, ProjectMessages} from './Components/NowWeAct';
 import * as meta from './Utils/meta.js'
 import * as log from './Utils/log.js'
+import * as a from './Utils/utils.js'
 import axios from 'axios';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -37,8 +38,7 @@ class Body extends Component {
       filter_field = meta_menu.object_type?meta.field(meta_menu.object_type, meta_menu.filter_field):""
       filter_object_type = filter_field.references
     } 
-
-  
+    a.a(meta_menu)
     let BodyComponent = functional_components[meta_menu.component]
 
     // TODO - For menu attributes that are functional components, call function

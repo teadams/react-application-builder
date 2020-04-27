@@ -1,7 +1,16 @@
-//import test_menus from "../Test/test-menus"
+let framework_menus = {}
 
-const framework_menus = {
-  app_menu: [
+framework_menus.app_menu = [
+    {index:"0", label: "List", component:"ACSField",
+              data:[{first_name:"Tracy", last_name:"Adams"},
+              {first_name:"Jane", last_name:"Belmonht"},
+              {first_name:"Laurel", last_name:"Hyche"}],
+    }
+]
+ 
+
+
+framework_menus.field_and_set_menu = [
   {index:"0", label: "Change", component:"ACSFieldSet",
                  field_name:"first_name",
                  field_list:["first_name", "last_name"],
@@ -53,21 +62,7 @@ const framework_menus = {
                field_name:"name",
                object_type:"core_role", id:"2",
   },
- //  {index:"9", label: "RawListListList", component:"RenderFieldListList",
- //               field_name:"first_name",
- //               field_list:["first_name", "last_name"],
- //               sections: {first_section: 
- //               {field_list:["first_name", "last_name",],name:"Section one"},
- //               sectond_section: 
- //               {field_list:["mom_first", "mom_last"],name:"Section one"}
- //               }, 
- //    data:{first_name:"Tracy", last_name:"Adams", mom_first:"Jane", mom_last:"Belmont"}
- // }
-],
-  hamburger: [
-    {index:"1", label: "Roles by Privilege", object_type: "core_role", component:"FDrillDown", grouping_field:"privilege"},
-    {index:"2", label: "Site Administrators", object_type: "core_subsite", component:"DrillDown"}
-  ]
-} 
+]
+
 
 export default framework_menus;
