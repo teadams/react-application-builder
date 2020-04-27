@@ -18,12 +18,12 @@ function ACSList(props) {
 
   // Changes to data (manpulate for drill down?)
   // Choose the right component
-
+  // convert field_tag into field_list
+  //const field_list = Object.keys(data[0])  // for now
+  const field_list = ""
   if (data) {
-    return ( 
-            <div>{JSON.stringify(data)}</div>
-            // <RenderACSList object_type={object_type} field_tag={field_tag} data={data} api_options={api_options}/>
-            )
+    return   <RenderACSList object_type={object_type} field_list={field_list} data={data} api_options={api_options}/>
+        
     } else {
         // prevents dom changes
         return <div></div>

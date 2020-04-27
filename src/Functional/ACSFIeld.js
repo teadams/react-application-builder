@@ -22,7 +22,6 @@ function ACSField(props) {
   let [ready, object_type, id, field_name, api_options, data] = useGetObject(props.object_type, props.id,props.field_name, props.api_options, props.data); 
 
 // XX ?? look at rest of props and see if there are any other API options... what layer to do this in
-
   function handleViewClick(event) {
       setMode("edit")
   }
@@ -45,6 +44,7 @@ function ACSField(props) {
       field_meta = meta.fields(object_type)[field_name]
   }
 
+
 // XX make function - common design concept
   let component = "RenderACSField"
   if  (field_meta && field_meta.field_component) {component = field_meta.field_component}
@@ -59,7 +59,6 @@ function ACSField(props) {
 // render a one-input form. When use mouse leaves the
 // form, the form is submitted and the page returns
 // to view mode.  
-
   if (data && ready) {
       if (mode=="view") {
           return (<RenderField data={data} field_name={field_name}/>)

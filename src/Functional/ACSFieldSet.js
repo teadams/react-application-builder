@@ -16,7 +16,11 @@ function ACSFieldSet(props) {
   let [ready, object_type, id, field_list, api_options, data] = useGetObject(props.object_type, props.id, props.field_list, props.api_options, props.data); 
 
   if (!field_list) {
-    field_list = Object.keys(meta.fields(object_type))
+      if (object_type) {
+        field_list = Object.keys(meta.fields(object_type))
+      } else {
+        field_list = Object.keys(data)
+      }
   }
   // Changes to field list (metadata rules, ext)
 

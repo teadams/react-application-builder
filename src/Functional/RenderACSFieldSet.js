@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import * as log from '../Utils/log.js'
 import * as meta from '../Utils/meta.js'
 import * as data from '../Utils/data.js';
-import * as utils from '../Utils/utils.js';
+import * as u from '../Utils/utils.js';
 import { withStyles } from '@material-ui/core/styles';
 import ACSField from './ACSField.js'
 //import {functional_components} from "./Functional"
@@ -15,7 +15,6 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 
 function RenderACSFieldSet(props) {
   const ACSFieldMemo = React.memo(ACSField)
- 
   const {object_type, field_list, id, data, api_options} = props
     if (data) {
       return ( <Fragment>

@@ -5,7 +5,13 @@ framework_menus.app_menu = [
               data:[{first_name:"Tracy", last_name:"Adams"},
               {first_name:"Jane", last_name:"Belmonht"},
               {first_name:"Laurel", last_name:"Hyche"}],
+    },
+    {index:"1", label: "D-List 2", component:"ACSList", test_case:"props supplied data, changing from D-List 1",
+              data:[{first_name:"John", last_name:"Robinson"},
+              {first_name:"Dawn", last_name:"Hunter"},
+              {first_name:"00", last_name:"Adams"}],
     }
+
 ]
  
 
