@@ -20,7 +20,6 @@ function ACSField(props) {
 
   const [mode, setMode] = useState("view");
   let [ready, object_type, id, field_name, api_options, data] = useGetObject(props.object_type, props.id,props.field_name, props.api_options, props.data); 
-
 // XX ?? look at rest of props and see if there are any other API options... what layer to do this in
   function handleViewClick(event) {
       setMode("edit")

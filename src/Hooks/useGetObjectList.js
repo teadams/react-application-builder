@@ -2,6 +2,7 @@ import React, {useState, useLayoutEffect} from 'react';
 import * as api from '../Utils/data.js';
 import * as meta from '../Utils/meta.js';
 import * as log from '../Utils/log.js';
+import * as u from '../Utils/utils.js';
 
 // Cleanup
 //Make variable names and approach consistent with out file
@@ -35,7 +36,7 @@ const useGetObjectList = (object_type, api_options, param_data, callback) => {
             if (error) {
                 alert ("error retrieving object list " + object_type + ":" + error.message)
             } else {
-                markStateReady([object_type,  api_options, api_results])
+                markStateReady(object_type,  api_options, api_results)
             }
             if (callback) {
                 callback(api_results, error)

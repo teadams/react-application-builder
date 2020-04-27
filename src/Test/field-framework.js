@@ -1,21 +1,23 @@
 let framework_menus = {}
 
 framework_menus.app_menu = [
-    {index:"0", label: "D-List 1", component:"ACSList", test_case:"props supplied data",
+    {index:"0", label: "List 1", component:"ACSList", test_case:"props supplied data",
               data:[{first_name:"Tracy", last_name:"Adams"},
               {first_name:"Jane", last_name:"Belmonht"},
               {first_name:"Laurel", last_name:"Hyche"}],
     },
-    {index:"1", label: "D-List 2", component:"ACSList", test_case:"props supplied data, changing from D-List 1",
+    {index:"1", label: "List 2", component:"ACSList", test_case:"props supplied data, changing from D-List 1",
               data:[{first_name:"John", last_name:"Robinson"},
               {first_name:"Dawn", last_name:"Hunter"},
               {first_name:"00", last_name:"Adams"}],
+    },
+    {index:"2", label: "API-List 2", component:"ACSList", object_type:"core_role", test_case:"From API"
+    },
+    {index:"3", label: "API-List 2", component:"ACSList", object_type:"core_user", test_case:"Switching Object Type"
     }
 
 ]
  
-
-
 framework_menus.field_and_set_menu = [
   {index:"0", label: "Change", component:"ACSFieldSet",
                  field_name:"first_name",
