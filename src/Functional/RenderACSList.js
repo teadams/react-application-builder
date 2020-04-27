@@ -18,7 +18,7 @@ function RenderACSList(props) {
       return (<Table> 
           <TableBody>
           {data.map(row => {
-          return <ACSFieldSet  object_type={props.object_type} id={data.id} field_list={props.field_list} data={row} api_options={props.api_options} {...params}/>
+          return <ACSFieldSet {...params}  object_type={props.object_type} id={data.id} field_list={props.field_list} data={row} api_options={props.api_options} />
           })}
         </TableBody>
         </Table>)

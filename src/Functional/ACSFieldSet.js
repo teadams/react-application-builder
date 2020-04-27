@@ -11,11 +11,10 @@ import { TableRow } from '@material-ui/core';
 
 
 function ACSFieldSet(props) {
-//  const { id, api_options} = props
-//  let {field_list} = props // will use object meta if not provided
+  const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options, data:props_data, ...params} = props
   const [mode, setMode] = useState("view");
 
-  let [ready, object_type, id, field_list, api_options, data] = useGetObject(props.object_type, props.id, props.field_list, props.api_options, props.data); 
+  let [ready, object_type, id, field_list, api_options, data] = useGetObject(props_object_type, props_id, props_field_list, props_api_options, props_data); 
 
   if (!field_list) {
       if (object_type) {
@@ -36,7 +35,7 @@ function ACSFieldSet(props) {
 
   if (data) {
     return ( <TableRow>
-            <RenderACSFieldSet object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options}/>
+            <RenderACSFieldSet {...params} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options}/>
             </TableRow>)
     } else {  
         return <div></div>

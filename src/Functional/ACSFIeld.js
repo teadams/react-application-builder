@@ -14,11 +14,10 @@ import { TableCell } from '@material-ui/core';
 import {functional_components} from "./index.js"
 
 function ACSField(props) {
-  //const {id, api_options} = props
-  //let { field_name} = props // will if the field is a reference to another object_type
+  const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, data:props_data, ...params} = props
 
   const [mode, setMode] = useState("view");
-  let [ready, object_type, id, field_name, api_options, data] = useGetObject(props.object_type, props.id,props.field_name, props.api_options, props.data); 
+  let [ready, object_type, id, field_name, api_options, data] = useGetObject(props_object_type, props_id,props_field_name, props_api_options, props_data); 
 // XX ?? look at rest of props and see if there are any other API options... what layer to do this in
   function handleViewClick(event) {
       setMode("edit")
@@ -60,7 +59,7 @@ function ACSField(props) {
   if (data && ready) {
       if (mode=="view") {
   // field_wrapper_component, field_component
-          return (<TableCell><RenderField data={data} field_name={field_name}/></TableCell>)
+          return (<TableCell><RenderField {...params} data={data} field_name={field_name}/></TableCell>)
       } else {
           return (<div>edit form</div>)
           // Later - FROM with compoent fieldForm, handleSubmit, data, object_type,

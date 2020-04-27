@@ -14,12 +14,13 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
 function RenderACSFieldSet(props) {
+
   const ACSFieldMemo = React.memo(ACSField)
-  const {object_type, field_list, id, data, api_options} = props
+  const {object_type, field_list, id, data, api_options, ...params} = props
     if (data) {
       return ( <Fragment>
           {field_list.map(field_name => {
-          return <ACSFieldMemo  object_type={object_type} id={id} field_name={field_name} data={data} api_options={api_options}/>
+          return <ACSFieldMemo  {...params} object_type={object_type} id={id} field_name={field_name} data={data} api_options={api_options}/>
           })}
         </Fragment>)
     }

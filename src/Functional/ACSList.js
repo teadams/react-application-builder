@@ -23,7 +23,7 @@ function ACSList(props) {
   //const field_list = Object.keys(data[0])  // for now
   const field_list = ""
   if (data) {
-    return   <RenderACSList object_type={object_type} field_list={field_list} list_component={list_component} data={data} api_options={api_options} {...params}/>
+    return   <RenderACSList {...params} object_type={object_type} field_list={field_list} list_component={list_component} data={data} api_options={api_options} />
         
     } else {
         // prevents dom changes
