@@ -38,13 +38,12 @@ class Body extends Component {
       filter_field = meta_menu.object_type?meta.field(meta_menu.object_type, meta_menu.filter_field):""
       filter_object_type = filter_field.references
     } 
-    a.a(meta_menu)
     let BodyComponent = functional_components[meta_menu.component]
 
     // TODO - For menu attributes that are functional components, call function
     // to retrieve functional version from string name
     return    (<Fragment>
-        {functional_components.hasOwnProperty(meta_menu.component) && 
+        {functional_components.hasOwnProperty(meta_menu.component) &&
               <Fragment><BodyComponent {...meta_menu}/></Fragment>
         }
         {meta_menu.component == "ProjectView" &&

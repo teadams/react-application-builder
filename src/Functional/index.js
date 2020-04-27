@@ -4,7 +4,7 @@ import ObjectList  from './ObjectList.js';
 import DrillDown  from './DrillDown.js';
 import ACSField from './ACSField.js'
 import ACSFieldSet from './ACSFieldSet.js'
-
+import ACSList from './ACSList.js'
 import RenderACSField from './RenderACSField.js'
 import RenderACSFieldSet from './RenderACSFieldSet.js'
 //import RenderACSFieldSetList from './RenderACSFieldSetList.js'
@@ -20,6 +20,7 @@ const functional_components = {
         ACSField:ACSField,
         ACSFieldMemo:ACSFieldMemo,
         ACSFieldSet:ACSFieldSet,
+        ACSList:ACSList,
         RenderACSField:RenderACSField,
         RenderACSFieldSet:RenderACSFieldSet,
     //    RenderACSFieldSetList:RenderACSFieldSetList,
