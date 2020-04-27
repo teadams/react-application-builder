@@ -16,6 +16,7 @@ import {functional_components} from "./index.js"
 function ACSField(props) {
   //const {id, api_options} = props
   //let { field_name} = props // will if the field is a reference to another object_type
+
   const [mode, setMode] = useState("view");
   let [ready, object_type, id, field_name, api_options, data] = useGetObject(props.object_type, props.id,props.field_name, props.api_options, props.data); 
 
@@ -44,7 +45,7 @@ function ACSField(props) {
   }
 
 // XX make function - common design concept
-  let component = "RenderField"
+  let component = "RenderACSField"
   if  (field_meta && field_meta.field_component) {component = field_meta.field_component}
   if  (props.field_component) { 
     component = props.field_component}
