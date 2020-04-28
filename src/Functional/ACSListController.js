@@ -10,8 +10,7 @@ import React, {Fragment, useState, useEffect} from 'react';
 import {functional_components} from "./index.js"
 
 function ACSListController(props) {
-
-  const {field_tag, object_type:props_object_type, api_options:props_api_options={},  ...params } = props
+  const {field_tag, object_type:props_object_type, api_options:props_api_options={}, field_list="", ...params } = props
 
   props_api_options.field_tag = field_tag
 
@@ -42,7 +41,6 @@ function ACSListController(props) {
   // Choose the right component
   // convert field_tag into field_list
   //const field_list = Object.keys(data[0])  // for now
-  const field_list = ""
   if (data) {
     return  (<ACSList><ACSListBody> <RenderACSList {...params} object_type={object_type} field_list={field_list}  data={data} api_options={api_options} />
         </ACSListBody></ACSList>)
