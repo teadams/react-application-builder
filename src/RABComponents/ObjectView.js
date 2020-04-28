@@ -6,12 +6,13 @@ import * as meta from '../Utils/meta.js'
 import * as data from '../Utils/data.js';
 import * as u from '../Utils/utils.js';
 import ACSRowController from '../Functional/ACSRowController.js'
+import ACSListController from '../Functional/ACSRowController.js'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 
 function ObjectView(props)  {
   const {object_type,id,layout="list"} = props
-    
-  const list_wrap = {field:"ListItem", field_set:"List"}
+  
+  const list_wrap = {field:"ListItem", field_set:"List", list_body:"Fragment", list:"Fragment", header:"Fragment", header_row:"Fragment"}
 
   return <ACSRowController object_type={props.object_type} id={props.id} wrap={list_wrap}/>
 }

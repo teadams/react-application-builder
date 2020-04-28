@@ -9,7 +9,6 @@ import * as u from '../Utils/utils.js';
 import useGetObject from '../Hooks/useGetObject';
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
-import { TableCell } from '@material-ui/core';
 
 import {functional_components} from "./index.js"
 
@@ -56,6 +55,7 @@ function ACSField(props) {
 // render a one-input form. When use mouse leaves the
 // form, the form is submitted and the page returns
 // to view mode.  
+
   if (data && ready) {
       if (mode=="view") {
   // field_wrapper_component, field_component
