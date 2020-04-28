@@ -17,7 +17,7 @@ function ACSFieldSet(props) {
 
   let [ready, object_type, id, field_list, api_options, data] = useGetObject(props_object_type, props_id, props_field_list, props_api_options, props_data); 
 
-  let field_meta = meta.object[object_type]
+  let object_meta = meta.object[object_type]
 
   if (!field_list) {
       if (object_type) {
@@ -30,10 +30,10 @@ function ACSFieldSet(props) {
 
   // Choose the write component
 
-  const field_set_component = meta.getPrecedence ("RenderACSFieldSet", field_meta?field_meta.field_set_component:"",  props.field_set_component?props.field_set_component:"" )
+  const field_set_component = meta.getPrecedence ("RenderACSFieldSet", object_meta?object_meta.field_set_component:"",  props.field_set_component?props.field_set_component:"" )
   
-  const field_set_wrap = meta.getPrecedence ("TableCell",  field_meta?
-      field_meta.wrap?field_meta.wrap.field_set:""
+  const field_set_wrap = meta.getPrecedence ("TableRow",  object_meta?
+      object_meta.wrap?object_meta.wrap.field_set:""
       :"", 
   props.wrap?props.wrap.field_set:"")
 

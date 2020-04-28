@@ -28,6 +28,7 @@ const functional_components = {
         ACSList:ACSList,
         RenderACSField:RenderACSField,
         RenderACSFieldSet:RenderACSFieldSet,
+        RenderACSList:RenderACSList,
         NewDrillDown:NewDrillDown,
         AvatarUser:AvatarUser,
         Tab:Tab,
