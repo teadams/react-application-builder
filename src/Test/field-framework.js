@@ -1,14 +1,19 @@
 
 let framework_menus = {}
 
+framework_menus.test_drilldown = [
+    {index:"0", label: "ObjectList", component:"ObjectView", test_case:"View one object", object_type:"core_subsite", layout:"list"
+    }
+]
+
 const table_wrap = {field:"TableCell", field_set:"TableRow", list_body:"TableBody", list:"Table", header:"TableHeader", header_row:"TableRow"}
 const fragment_wrap = {field:"Fragment", field_set:"Fragment", list_body:"Fragment", list:"Fragment", header:"Fragment", header_row:"Fragment"}
-
 const list_wrap = {field:"ListItemText", field_set:"ListItem", list_body:"Fragment", list:"List", header:"Fragment", header_row:"Fragment"}
+ 
 
 
-framework_menus.app_menu = [
-    {index:"0", wrap:list_wrap ,label: "List", component:"ACSListController", test_layers:"WOW", test_case:"props supplied data",
+framework_menus.test_list_framework = [
+    {index:"0", wrap:list_wrap ,label: "List", component:"ACSListController", test_case:"props supplied data",
               data:[{first_name:"Tracy", last_name:"Adams"},
               {first_name:"Jane", last_name:"Belmonht"},
               {first_name:"Laurel", last_name:"Hyche"}],
@@ -78,6 +83,7 @@ framework_menus.field_and_set_menu = [
                object_type:"core_role", id:"2",
   },
 ]
+
 
 
 export default framework_menus;

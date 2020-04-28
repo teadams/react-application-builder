@@ -1,10 +1,13 @@
 import React, {Fragment} from 'react';
-import {functional_components} from "../Functional/index.js"
+import ObjectView from "./ObjectView.js"
+//import {Menu} from "./Menu.js"
+//import {DrillDown} from "./DrillDown.js"
 
-import {Tab, Tabs, Menu, MenuItem, MenuList,List,ListItem,ListItemAvatar,ListItemIcon,ListItemSecondaryAction,ListItemText,ListSubheader,Table,TableBody,TableCell,TableContainer,TableFooter,TableHead,TablePagination,TableRow,} from '@material-ui/core';
 
 const rab_components = { 
-          TESTRAB:Tab,
+          ObjectView:ObjectView,
+  //        Menu:Menu,
+    //      DrillDown:DrillDown
 }
 
 export {
