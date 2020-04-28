@@ -17,6 +17,8 @@ function ACSFieldSet(props) {
 
   let [ready, object_type, id, field_list, api_options, data] = useGetObject(props_object_type, props_id, props_field_list, props_api_options, props_data); 
 
+  let field_meta = meta.object[object_type]
+
   if (!field_list) {
       if (object_type) {
         field_list = Object.keys(meta.fields(object_type))
@@ -27,8 +29,16 @@ function ACSFieldSet(props) {
   // Changes to field list (metadata rules, ext)
 
   // Choose the write component
-  const ACSFieldSet = functional_components["TableRow"]
 
+  const field_set_component = meta.getPrecedence ("RenderACSFieldSet", field_meta?field_meta.field_set_component:"",  props.field_set_component?props.field_set_component:"" )
+  
+  const field_set_wrap = meta.getPrecedence ("TableCell",  field_meta?
+      field_meta.wrap?field_meta.wrap.field_set:""
+      :"", 
+  props.wrap?props.wrap.field_set:"")
+
+  const RenderACSFieldSet = functional_components[field_set_component]
+  const ACSFieldSet = functional_components[field_set_wrap]
 
   if (!api_options) { 
     // hack to allow the ACSField renews below to be memoized
