@@ -2,7 +2,7 @@
 let framework_menus = {}
 
 framework_menus.test_drilldown = [
-    {index:"0", label: "ObjectList", component:"ObjectView", test_case:"View one object", object_type:"core_subsite", layout:"list"
+    {index:"0", label: "ObjectList", component:"ObjectView", test_case:"View one object", object_type:"core_user", layout:"list", id:1
     }
 ]
 
