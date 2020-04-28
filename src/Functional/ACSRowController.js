@@ -1,17 +1,17 @@
-import 'react-app-polyfill/ie9';
+ 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import * as log from '../Utils/log.js'
 import * as meta from '../Utils/meta.js'
 import * as data from '../Utils/data.js';
 import * as u from '../Utils/utils.js';
-import RenderACSFieldSet from './RenderACSFieldSet.js'
+import RenderACSRow from './RenderACSRow.js'
 import useGetObject from '../Hooks/useGetObject';
 import React, {Fragment, useState, useEffect} from 'react';
 import { TableRow } from '@material-ui/core';
 
 import {functional_components} from "./index.js"
 
-function ACSFieldSet(props) {
+function ACSRowController(props) {
   const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options, data:props_data, ...params} = props
   const [mode, setMode] = useState("view");
 
@@ -30,15 +30,15 @@ function ACSFieldSet(props) {
 
   // Choose the write component
 
-  const field_set_component = meta.getPrecedence ("RenderACSFieldSet", object_meta?object_meta.field_set_component:"",  props.field_set_component?props.field_set_component:"" )
+  const field_set_component = meta.getPrecedence ("RenderACSRow", object_meta?object_meta.field_set_component:"",  props.field_set_component?props.field_set_component:"" )
   
   const field_set_wrap = meta.getPrecedence ("TableRow",  object_meta?
       object_meta.wrap?object_meta.wrap.field_set:""
       :"", 
   props.wrap?props.wrap.field_set:"")
 
-  const RenderACSFieldSet = functional_components[field_set_component]
-  const ACSFieldSet = functional_components[field_set_wrap]
+  const RenderACSRow = functional_components[field_set_component]
+  const ACSRow = functional_components[field_set_wrap]
 
   if (!api_options) { 
     // hack to allow the ACSField renews below to be memoized
@@ -47,12 +47,12 @@ function ACSFieldSet(props) {
   }
 
   if (data) {
-    return ( <ACSFieldSet>
-            <RenderACSFieldSet {...params} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options}/>
-            </ACSFieldSet>)
+    return ( <ACSRow>
+            <RenderACSRow {...params} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options}/>
+            </ACSRow>)
     } else {  
         return <div></div>
     }
 }
 
-export default ACSFieldSet;
+export default ACSRowController;

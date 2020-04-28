@@ -13,7 +13,7 @@ import useGetObjectList from '../Hooks/useGetObjectList';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
-function RenderACSFieldSet(props) {
+function RenderACSRow(props) {
 
   const ACSFieldMemo = React.memo(ACSField)
   const {object_type, field_list, id, data, api_options, ...params} = props
@@ -26,4 +26,4 @@ function RenderACSFieldSet(props) {
     }
 }
 
-export default RenderACSFieldSet;
+export default RenderACSRow;

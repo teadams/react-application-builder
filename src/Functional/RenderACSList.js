@@ -6,7 +6,7 @@ import * as meta from '../Utils/meta.js'
 import * as data from '../Utils/data.js';
 import * as a from '../Utils/utils.js';
 import { withStyles } from '@material-ui/core/styles';
-import ACSFieldSet from './ACSFieldSet.js'
+import ACSRowController from './ACSRowController.js'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Chseckbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableBody, Table } from '@material-ui/core';
@@ -18,7 +18,7 @@ function RenderACSList(props) {
       return ( 
           <Fragment>
           {data.map(row => {
-          return <ACSFieldSet {...params}  object_type={props.object_type} id={data.id} field_list={props.field_list} data={row} api_options={props.api_options} />
+          return <ACSRowController {...params}  object_type={props.object_type} id={data.id} field_list={props.field_list} data={row} api_options={props.api_options} />
           })}
         </Fragment>)
     } else {
