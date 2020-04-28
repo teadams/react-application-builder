@@ -1,10 +1,10 @@
 {
-  "name": "Now-We-Act",
+  "name": "react-application-builder",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "proxy": "http://localhost:3000",
   "dependencies": {
-    "@date-io/date-fns": "^2.6.1",
+  "@date-io/date-fns": "^2.6.1",
     "@material-ui/core": "^4.9.11",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.50",
@@ -46,5 +46,20 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "React Application Builder",
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "react-application-builder"
+  },
+  "keywords": [
+    "react",
+    "ACS",
+    "OpenACS",
+    "application"
+  ],
+  "author": "Tracy Adams",
+  "license": "Apache-2.0"
 }
