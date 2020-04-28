@@ -4,7 +4,7 @@ import 'react-app-polyfill/stable';
 import React, { Component, Fragment} from 'react';
 import {Grid} from 'material-ui'
 import { CrudTable, Text, GoogleMap} from './Components/Layouts';
-import {functional_components} from "./Functional"
+import {dynamic_components} from "./dynamic-components"
 import {NavMenuLink, DrillDown} from './Components/Experimental';
 import {AuthToggleLink, AuthContext, AuthProvider} from './Components/User';
 import {ProjectView, Volunteer, ProjectMessages} from './Components/NowWeAct';
@@ -38,12 +38,12 @@ class Body extends Component {
       filter_field = meta_menu.object_type?meta.field(meta_menu.object_type, meta_menu.filter_field):""
       filter_object_type = filter_field.references
     } 
-    let BodyComponent = functional_components[meta_menu.component]
+    let BodyComponent = dynamic_components[meta_menu.component]
 
-    // TODO - For menu attributes that are functional components, call function
+    // TODO - For menu attributes that are dynamic components, call function
     // to retrieve functional version from string name
     return    (<Fragment>
-        {functional_components.hasOwnProperty(meta_menu.component) &&
+        {dynamic_components.hasOwnProperty(meta_menu.component) &&
               <Fragment><BodyComponent {...meta_menu}/></Fragment>
         }
         {meta_menu.component == "ProjectView" &&
