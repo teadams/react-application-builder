@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import Debug from '../Debug.js'
 import ObjectList  from './ObjectList.js';
 import DrillDown  from './DrillDown.js';
@@ -8,7 +8,7 @@ import ACSList from './ACSList.js'
 import RenderACSField from './RenderACSField.js'
 import RenderACSFieldSet from './RenderACSFieldSet.js'
 import RenderACSList from './RenderACSList.js'
-import {Tab, Tabs, Menu, MenuItem, MenuList,List,ListItem,ListItemAvatar,ListItemIcon,ListItemSecondaryAction,ListItemText,ListSubheader,Table,TableBody,TableCell,TableContainer,TableFooter,TableHead,TablePagination,TableRow} from '@material-ui/core';
+import {Tab, Tabs, Menu, MenuItem, MenuList,List,ListItem,ListItemAvatar,ListItemIcon,ListItemSecondaryAction,ListItemText,ListSubheader,Table,TableBody,TableCell,TableContainer,TableFooter,TableHead,TablePagination,TableRow,} from '@material-ui/core';
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
 
@@ -51,7 +51,8 @@ const functional_components = {
         TablePagination:TablePagination, 
         TableRow:TableRow, 
         TreeItem:TreeItem, 
-        TreeView:TreeView 
+        TreeView:TreeView,
+        Fragment:Fragment
 }
 
 

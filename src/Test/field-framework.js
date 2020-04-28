@@ -1,19 +1,24 @@
 let framework_menus = {}
 
-const table_wrap = {wrap:{field:"TableCell", field_set:"TableRow", list_body:"TableBody", list:"Table", header:"TableHeader", header_row:"TableRow"}}
+const table_wrap = {field:"TableCell", field_set:"TableRow", list_body:"TableBody", list:"Table", header:"TableHeader", header_row:"TableRow"}
+
+const fragment_wrap = {field:"Fragment", field_set:"Fragment", list_body:"Fragment", list:"Fragment", header:"Fragment", header_row:"Fragment"}
+
+const list_wrap = {field:"ListItemText", field_set:"ListItem", list_body:"Fragment", list:"List", header:"Fragment", header_row:"Fragment"}
+
 
 framework_menus.app_menu = [
-    {index:"0", wrap:"table_wrap" ,label: "List 1", component:"ACSList", test_layers:"WOW", test_case:"props supplied data", list_component:"ACSViewMenu",
+    {index:"0", wrap:list_wrap ,label: "List 1", component:"ACSList", test_layers:"WOW", test_case:"props supplied data", list_component:"ACSViewMenu",
               data:[{first_name:"Tracy", last_name:"Adams"},
               {first_name:"Jane", last_name:"Belmonht"},
               {first_name:"Laurel", last_name:"Hyche"}],
     },
-    {index:"1", label: "List 2", component:"ACSList", test_case:"props supplied data, changing from D-List 1",
+    {index:"1", wrap:table_wrap, label: "List 2", component:"ACSList", test_case:"props supplied data, changing from D-List 1",
               data:[{first_name:"John", last_name:"Robinson"},
               {first_name:"Dawn", last_name:"Hunter"},
               {first_name:"00", last_name:"Adams"}],
     },
-    {index:"2", label: "API-List 2", component:"ACSList", object_type:"core_role", test_case:"From API"
+    {index:"2", wrap:fragment_wrap, label: "API-List 2", component:"ACSList", object_type:"core_role", test_case:"From API"
     },
     {index:"3", label: "API-List 2", component:"ACSList", object_type:"core_user", test_case:"Switching Object Type"
     }

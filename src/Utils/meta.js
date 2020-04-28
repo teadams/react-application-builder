@@ -56,6 +56,16 @@ export async function load(type) {
   return meta_result
 }
 
+export function getPrecedence(...params) {
+  let value
+  params.forEach( param => {
+      if (param) {
+        value = param
+      }
+  }) 
+  return value
+}
+
 export function field(object_type, field_name) {
     return fields(object_type)[field_name]
 }
@@ -391,7 +401,6 @@ export function reference_fields_shown(object_type,reference_table) {
           });
       return results
 }
-
 
 export function referencing_field(referencing_object_type, referenced_object_type) {
     const referencing_object_fields = fields(referencing_object_type)

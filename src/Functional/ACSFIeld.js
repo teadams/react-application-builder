@@ -40,17 +40,16 @@ function ACSField(props) {
       field_name = field_meta.referenced_field?field_meta.referenced_field:meta.keys(object_type).key_id
       field_meta = meta.fields(object_type)[field_name]
   }
+  // props, meta, default
+  const field_component = meta.getPrecedence ("RenderACSField", field_meta?field_meta.field_component:"",  props.field_component?props.field_component:"" )
+  
+  const field_wrap = meta.getPrecedence ("TableCell",  field_meta?
+      field_meta.wrap?field_meta.wrap.field:""
+      :"", 
+  props.wrap?props.wrap.field:"")
 
-
-// XX make function - common design concept
-  let component = "RenderACSField"
-  if  (field_meta && field_meta.field_component) {component = field_meta.field_component}
-  if  (props.field_component) { 
-    component = props.field_component}
-
-  const RenderField = functional_components[component]
-
-  const ACSCell = functional_components["TableCell"]
+  const RenderField = functional_components[field_component]
+  const ACSCell = functional_components[field_wrap]
 // state will track a view/edit mode
 // Use case
 // When user clicks on a field in view mode, it will
