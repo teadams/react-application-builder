@@ -9,7 +9,7 @@ import React, {Fragment, useState, useEffect} from 'react';
 
 import {functional_components} from "./index.js"
 
-function ACSList(props) {
+function ACSListController(props) {
 
   const {field_tag, object_type:props_object_type, api_options:props_api_options={},  ...params } = props
 
@@ -53,4 +53,4 @@ function ACSList(props) {
   
 }
 
-export default ACSList;
+export default ACSListController;
