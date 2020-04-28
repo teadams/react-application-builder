@@ -9,6 +9,7 @@ import useGetObject from '../Hooks/useGetObject';
 import React, {Fragment, useState, useEffect} from 'react';
 import { TableRow } from '@material-ui/core';
 
+import {functional_components} from "./index.js"
 
 function ACSFieldSet(props) {
   const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options, data:props_data, ...params} = props
@@ -26,6 +27,8 @@ function ACSFieldSet(props) {
   // Changes to field list (metadata rules, ext)
 
   // Choose the write component
+  const ACSFieldSet = functional_components["TableRow"]
+
 
   if (!api_options) { 
     // hack to allow the ACSField renews below to be memoized
@@ -34,9 +37,9 @@ function ACSFieldSet(props) {
   }
 
   if (data) {
-    return ( <TableRow>
+    return ( <ACSFieldSet>
             <RenderACSFieldSet {...params} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options}/>
-            </TableRow>)
+            </ACSFieldSet>)
     } else {  
         return <div></div>
     }

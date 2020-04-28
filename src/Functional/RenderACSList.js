@@ -15,13 +15,12 @@ function RenderACSList(props) {
 
   const {object_type, field_list, data, api_options, list_component, ...params} = props
     if (data) {
-      return (<Table> 
-          <TableBody>
+      return ( 
+          <Fragment>
           {data.map(row => {
           return <ACSFieldSet {...params}  object_type={props.object_type} id={data.id} field_list={props.field_list} data={row} api_options={props.api_options} />
           })}
-        </TableBody>
-        </Table>)
+        </Fragment>)
     } else {
         return <div/>
     }

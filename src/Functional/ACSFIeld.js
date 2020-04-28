@@ -50,6 +50,7 @@ function ACSField(props) {
 
   const RenderField = functional_components[component]
 
+  const ACSCell = functional_components["TableCell"]
 // state will track a view/edit mode
 // Use case
 // When user clicks on a field in view mode, it will
@@ -59,7 +60,7 @@ function ACSField(props) {
   if (data && ready) {
       if (mode=="view") {
   // field_wrapper_component, field_component
-          return (<TableCell><RenderField {...params} data={data} field_name={field_name}/></TableCell>)
+          return (<ACSCell><RenderField {...params} data={data} field_name={field_name}/></ACSCell>)
       } else {
           return (<div>edit form</div>)
           // Later - FROM with compoent fieldForm, handleSubmit, data, object_type,
