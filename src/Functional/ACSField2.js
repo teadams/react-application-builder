@@ -58,7 +58,11 @@ function ACSField(props) {
     ACSCell = functional_components[wrap_name]
   }
 
-  const onClick = meta.getValueByPrecedence("onClick.field","",field_meta,props)
+  const onWrapClick = meta.getValueByPrecedence("onClick.field_wrap","",field_meta,props)
+
+  function onClick(event) {
+    onWrapClick(data.id, object_type)
+  }
 // state will track a view/edit mode
 // Use case
 // When user clicks on a field in view mode, it will

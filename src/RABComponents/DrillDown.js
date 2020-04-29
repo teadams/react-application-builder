@@ -17,23 +17,23 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 function DrillDown(props)  {
   const {object_type} = props
   const [selected_id, setSelectedId] = useState(props.selected_id);
-// think about changing object_type.. should object_type be in stsate. or should it be place in tre
-//  function handleClick = ((event) => {
-//      alert ("clicked")
-//  })
-  const handleSelect = (event) => {
-      alert ("HI")
+// think about changing object_type.. should object_type be in stsate. or should it be place in tree. "Protect state"
+
+  const handleSelect = (id, object_type) => {
+        setSelectedId(id)
   }
+
   return (
   <Grid container>
     <Grid sm={2} item>
       <NavMenu object_type={object_type}
-       onClick={{field:handleSelect}}
+       onClick={{field_wrap:handleSelect}}
 //      onClick={{field:handleClick}}
  />
     </Grid>
     <Grid sm={6} item>
-      <ObjectView object_type={object_type} id={2}/>
+      <ObjectView object_type={object_type} 
+      id={selected_id}/>
     </Grid>
   </Grid>
 );
