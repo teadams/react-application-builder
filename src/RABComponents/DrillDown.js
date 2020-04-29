@@ -6,8 +6,9 @@ import * as meta from '../Utils/meta.js'
 import * as data from '../Utils/data.js';
 import * as utils from '../Utils/utils.js';
 import { withStyles } from '@material-ui/core/styles';
+import ObjectView from './ObjectView.js'
+import NavMenu from './NavMenu.js'
 //import RenderFieldSetList from './RenderFieldSetList.js'
-
 
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
@@ -15,35 +16,17 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 
 function DrillDown(props)  {
   // initializations
-  const {data, sections} = props
-  // effects
+  const {object_type} = props
   const [selected_id, setSelectedId] = useState(props.selected_id);
-  const [object_type, setObjectType] = useState(props.object_type);
-
-  // State control
-  if (object_type != props.object_type) {
-     handleSelect(null)
-     setObjectType(props.object_type)
-  }
-  // functions
-  function handleSelect(new_selected) {
-    setSelectedId(new_selected)
-  }
-
-  // Render
+// think about changing object_type.. should object_type be in stsate. or should it be place in tree
   return (
   <Grid container>
+    <Grid sm={2} item>
+      <NavMenu object_type={object_type}/>
+    </Grid>
     <Grid sm={6} item>
-        {selected_id && object_type == props.object_type &&
-          <ObjectView
-              object_type = {object_type}
-              selected_id = {selected_id}
-              grouping_field_name = {props.grouping_field}
-  //            onDataChange = {this.handleDataChange}    XX Later
-  //          ??  onMenuChange = {this.props.onMenuChange}  XX Later // this may take care of the object type comparison
-            />
-        }
-     </Grid>
+      <ObjectView object_type={object_type} id={2}/>
+    </Grid>
   </Grid>
 );
     

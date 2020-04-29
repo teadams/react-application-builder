@@ -5,6 +5,8 @@ framework_menus.test_drilldown = [
     {index:"0", label: "ObjectList", component_name:{menu:"ObjectView"}, test_case:"View one object", object_type:"core_user", layout:"list", id:1
     },
     {index:"1", label: "Menu", component_name:{menu:"NavMenu"}, test_case:"Menu of items", object_type:"core_user"
+    },
+    {index:"2", label: "DrillDown", component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_user"
     }
 ]
 
