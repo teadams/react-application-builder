@@ -11,12 +11,8 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
 
 function NavMenu(props)  {
   const {object_type} = props
-  const component_name = ""
-  // const component_name = {field_wrap:"", field_set_wrap:"TableRow", list_body_wrap:"TableBody", list_wrap:"Table"}
-
-  // Make the field list pretty key
-  const field_list=["full_name"]
-  return <ACSListController object_type={props.object_type} component_name={component_name} field_list={field_list}/>
+  const field_list = [meta.keys(object_type).pretty_key_id]
+  return <ACSListController object_type={props.object_type}  field_list={field_list}/>
 }
 
 export default NavMenu;
