@@ -58,17 +58,18 @@ function ACSField(props) {
     ACSCell = functional_components[wrap_name]
   }
 
+  const onClick = meta.getValueByPrecedence("onClick.field","",field_meta,props)
 // state will track a view/edit mode
 // Use case
 // When user clicks on a field in view mode, it will
 // render a one-input form. When use mouse leaves the
 // form, the form is submitted and the page returns
 // to view mode.  
-
+//  u.a(on_click)
   if (data && ready) {
       if (mode=="view") {
   // field_wrapper_component, field_component
-          return (<ACSCell><RenderField {...params} data={data} field_name={field_name}/></ACSCell>)
+          return (<ACSCell onClick={onClick}><RenderField  {...params} onClick={onClick} data={data} field_name={field_name}/></ACSCell>)
       } else {
           return (<div>edit form</div>)
           // Later - FROM with compoent fieldForm, handleSubmit, data, object_type,

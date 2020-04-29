@@ -42,8 +42,10 @@ function ACSListController(props) {
     ACSListBody = functional_components[wrap_name_body]
   }
 
+  const onClick = meta.getValueByPrecedence("onClick.list",object_meta,props)
+
   if (data) {
-    return  (<ACSList><ACSListBody> <RenderACSList {...params} object_type={object_type} field_list={field_list}  data={data} api_options={api_options} />
+    return  (<ACSList><ACSListBody onClick={onClick}> <RenderACSList {...params} object_type={object_type} field_list={field_list}  data={data} api_options={api_options} />
         </ACSListBody></ACSList>)
     } else {
         // prevents dom changes

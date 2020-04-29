@@ -18,7 +18,11 @@ export function a(...params) {
   }
   let {alert_text, i, var_name, var_alert} = {alert_text:[], i:0, var_name:"", var_alert:""}
   for (i in params) {
-    var_alert  = stringify(params[i]) + "; "
+    if (typeof(params[i])  != "function") {
+      params[i] = stringify(params[i])
+    } 
+    var_alert  = params[i]+ "; "
+    
     alert_text.push(var_alert)
   }
   alert (alert_text.join ("\n"))
@@ -26,20 +30,24 @@ export function a(...params) {
 
 
 // super quick way to pop up alert with variables
-export function aa(var_names, ...params) {
-    if (params.length == 0) {
-        alert(var_names)
-    }
+export function aa(...params) {
+    let var_names= params.length>1?params[0]:""
+    if (params.length>1) {
+        params = params.slice(1)
+    }  
     let {alert_text, i, var_name, var_alert} = {alert_text:[], i:0, var_name:"", var_alert:""}
     var_names = var_names.split(",")
     for (i in params) {
       var_name = var_names[i]
-      var_alert = var_name + ": " + stringify(params[i])
-  //    var_alert = var_name
-  //    alert ("Var alert is " + var_alert)
-      alert_text.push(var_alert)
+      let var_value = params[i]
+      if (typeof(var_value) != "function") {
+        var_value = stringify(params[i])
+      } 
+      var_alert = var_name + ": " + var_value
+          alert_text.push(var_alert)
     }
     alert (alert_text.join ("\n"))
+
 }
 
 

@@ -12,7 +12,7 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell } from '@material-ui/core';
 
 function RenderACSField(props) {
-  const {data, field_name, ...params} = props
+  const {data, field_name, onClick, ...params} = props
   if (data) {
       if (data[field_name]) {
         return  <Fragment>{data[field_name]}</Fragment>

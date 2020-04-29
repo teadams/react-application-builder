@@ -46,6 +46,9 @@ function ACSRowController(props) {
     ACSRow = functional_components[wrap_name]
   }
 
+  const onClick = meta.getValueByPrecedence("onClick.row",object_meta,props)
+
+
   if (!api_options) { 
     // hack to allow the ACSField renews below to be memoized
     // (due to javascript compare to null weirdness)
@@ -53,7 +56,7 @@ function ACSRowController(props) {
   }
 
   if (data) {
-    return ( <ACSRow>
+    return ( <ACSRow onClick={onClick}>
             <RenderACSRow {...params} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options}/>
             </ACSRow>)
     } else {  
