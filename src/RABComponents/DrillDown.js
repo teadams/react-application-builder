@@ -15,12 +15,17 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
 function DrillDown(props)  {
-  const {object_type} = props
-  const [selected_id, setSelectedId] = useState(props.selected_id);
-// think about changing object_type.. should object_type be in stsate. or should it be place in tree. "Protect state"
+  const {object_type:props_object_type, selected_id:props_selected_id} = props
+  // ensure everything changes together so data and meta_model match
+  const [state, setState] = useState([props_selected_id, props_object_type])
+  const [selected_id,object_type] = state
+
+  if (object_type != props_object_type) {
+      setState(["", props_object_type])
+  }
 
   const handleSelect = (id, object_type) => {
-        setSelectedId(id)
+      setState([id, object_type])
   }
 
   return (
@@ -28,7 +33,6 @@ function DrillDown(props)  {
     <Grid sm={2} item>
       <NavMenu object_type={object_type}
        onClick={{field_wrap:handleSelect}}
-//      onClick={{field:handleClick}}
  />
     </Grid>
     <Grid sm={6} item>

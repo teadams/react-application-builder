@@ -14,8 +14,9 @@ import {functional_components} from "./index.js"
 function ACSRowController(props) {
   const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options, data:props_data, ...params} = props
   const [mode, setMode] = useState("view");
-
-  let [ready, object_type, id, field_list, api_options, data] = useGetObject(props_object_type, props_id, props_field_list, props_api_options, props_data); 
+  
+  let [ready, object_type, id, field_list, api_options, data] = 
+  useGetObject(props_object_type, props_id, props_field_list, props_api_options, props_data); 
 
   let object_meta = meta.object[object_type]
 

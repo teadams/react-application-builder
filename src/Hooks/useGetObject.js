@@ -27,7 +27,9 @@ const useGetObject = (object_type, id, field_list, api_options, param_data) => {
               setState([true, object_type, id, field_list, api_options, results])
             }
         })
-    } 
+    } else if (!param_data && object_type) {
+        setState([true, object_type, id, field_list, api_options, ""])
+    }
 }, trigger_change_array);
 //https://reactjs.org/docs/hooks-faq.html#is-there-something-like-instance-variables - Should I use one or more States
 // WE NEED TO USE ONE because we want the data and the metadata
