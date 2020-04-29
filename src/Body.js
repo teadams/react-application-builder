@@ -38,12 +38,14 @@ class Body extends Component {
       filter_field = meta_menu.object_type?meta.field(meta_menu.object_type, meta_menu.filter_field):""
       filter_object_type = filter_field.references
     } 
-    let BodyComponent = dynamic_components[meta_menu.component]
+    const menu_component_name = meta_menu.component_name?meta_menu.component_name.menu:"ACSField"
+    alert (menu_component_name)
+    let BodyComponent = dynamic_components[menu_component_name]
 
     // TODO - For menu attributes that are dynamic components, call function
     // to retrieve functional version from string name
     return    (<Fragment>
-        {dynamic_components.hasOwnProperty(meta_menu.component) &&
+        {dynamic_components.hasOwnProperty(menu_component_name) &&
               <Fragment><BodyComponent {...meta_menu}/></Fragment>
         }
         {meta_menu.component == "ProjectView" &&
