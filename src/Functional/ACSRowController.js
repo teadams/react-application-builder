@@ -28,17 +28,23 @@ function ACSRowController(props) {
   }
   // Changes to field list (metadata rules, ext)
 
-  // Choose the write component
 
-  const field_set_component = meta.getPrecedence ("RenderACSRow", object_meta?object_meta.field_set_component:"",  props.field_set_component?props.field_set_component:"" )
-  
-  const field_set_wrap = meta.getPrecedence ("TableRow",  object_meta?
-      object_meta.wrap?object_meta.wrap.field_set:""
-      :"", 
-  props.wrap?props.wrap.field_set:"")
+  let RenderACSRow  =  meta.getValueByPrecedence("component.field_set","",object_meta, props)
 
-  const RenderACSRow = functional_components[field_set_component]
-  const ACSRow = functional_components[field_set_wrap]
+  let ACSRow = meta.getValueByPrecedence("component.field_set_wrap","",object_meta, props)
+
+//pattern, default value, args
+  let component_name = ""
+  if (!RenderACSRow) {
+    component_name = meta.getValueByPrecedence("component_name.field_set","RenderACSRow",object_meta, props)
+     RenderACSRow = functional_components[component_name]
+  }
+  let wrap_name =""
+  if (!ACSRow) {
+    wrap_name =meta.getValueByPrecedence("component_name.field_set_wrap","TableRow",object_meta, props)
+
+    ACSRow = functional_components[wrap_name]
+  }
 
   if (!api_options) { 
     // hack to allow the ACSField renews below to be memoized

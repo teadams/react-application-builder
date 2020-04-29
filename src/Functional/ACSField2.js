@@ -46,16 +46,16 @@ function ACSField(props) {
 
 
 //pattern, default value, args
-  let field_component_name = ""
+  let component_name = ""
   if (!RenderField) {
-    field_component_name = meta.getValueByPrecedence("component_name.field","RenderACSField",field_meta, props)
-     RenderField = functional_components[field_component_name]
+    component_name = meta.getValueByPrecedence("component_name.field","RenderACSField",field_meta, props)
+     RenderField = functional_components[component_name]
   }
-  let field_wrap_name =""
+  let wrap_name =""
   if (!ACSCell) {
-    field_wrap_name =meta.getValueByPrecedence("component_name.field_wrap","TableCell",field_meta, props)
+    wrap_name =meta.getValueByPrecedence("component_name.field_wrap","TableCell",field_meta, props)
 
-    ACSCell = functional_components[field_wrap_name]
+    ACSCell = functional_components[wrap_name]
   }
 
 // state will track a view/edit mode

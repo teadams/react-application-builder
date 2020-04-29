@@ -20,34 +20,36 @@ function ACSListController(props) {
 
   let object_meta = meta.object[object_type]
 
-  const list_component = meta.getPrecedence ("RenderACSList", object_meta?object_meta.list_component:"",  props.list_component?props.list_component:"" )
+  let RenderACSList  =  meta.getValueByPrecedence("component.list","",object_meta, props)
+  let ACSList = meta.getValueByPrecedence("component.list_wrap","",object_meta, props)
+  let ACSListBody = meta.getValueByPrecedence("component.list_wrap_body","",object_meta, props)
 
-  const list_wrap_body = meta.getPrecedence ("TableBody",  object_meta?
-      object_meta.wrap?object_meta.wrap.list_body:""
-      :"", 
-  props.wrap?props.wrap.list_body:"")
+  let component_name = ""
+  if (!RenderACSList) {
+    component_name = meta.getValueByPrecedence("component_name.list","RenderACSList",object_meta, props)
+     RenderACSList = functional_components[component_name]
+  }
 
-  const list_wrap = meta.getPrecedence ("Table", object_meta?
-      object_meta.wrap?object_meta.wrap.list:""
-      :"", 
-  props.wrap?props.wrap.list:"")
-  
-  const ACSListBody = functional_components[list_wrap_body]
-  const ACSList = functional_components[list_wrap]
+  let wrap_name =""
+  if (!ACSList) {
+    wrap_name =meta.getValueByPrecedence("component_name.list_wrap","Table",object_meta, props)
+    ACSList = functional_components[wrap_name]
+  }
 
-  const RenderACSList = functional_components["RenderACSList"]
+  let wrap_name_body =""
+  if (!ACSListBody) {
+    wrap_name_body =meta.getValueByPrecedence("component_name.list_wrap_body","TableBody",object_meta, props)
+    ACSListBody = functional_components[wrap_name_body]
+  }
 
-  // Changes to data (manpulate for drill down?)
-  // Choose the right component
-  // convert field_tag into field_list
-  //const field_list = Object.keys(data[0])  // for now
   if (data) {
     return  (<ACSList><ACSListBody> <RenderACSList {...params} object_type={object_type} field_list={field_list}  data={data} api_options={api_options} />
         </ACSListBody></ACSList>)
     } else {
         // prevents dom changes
         return <div></div>
-    }
+    
+  }
   
 }
 

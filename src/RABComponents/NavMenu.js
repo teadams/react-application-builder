@@ -9,14 +9,14 @@ import ACSRowController from '../Functional/ACSRowController.js'
 import ACSListController from '../Functional/ACSListController.js'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 
-function Menu(props)  {
+function NavMenu(props)  {
   const {object_type} = props
-
-  const wrap = {field:"", field_set:"TableRow", list_body:"TableBody", list:"Table"}
+  const component_name = ""
+  // const component_name = {field_wrap:"", field_set_wrap:"TableRow", list_body_wrap:"TableBody", list_wrap:"Table"}
 
   // Make the field list pretty key
   const field_list=["full_name"]
-  return <ACSListController object_type={props.object_type} wrap={wrap} field_list={field_list}/>
+  return <ACSListController object_type={props.object_type} component_name={component_name} field_list={field_list}/>
 }
 
-export default Menu;
+export default NavMenu;
