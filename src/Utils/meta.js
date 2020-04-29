@@ -56,6 +56,19 @@ export async function load(type) {
   return meta_result
 }
 
+
+export function getValueByPrecedence(attribute, default_value, ...models) {
+    let value = default_value
+    models.forEach (model => {
+      if (model) {
+          const deep_value = deepValue(attribute, model)
+          value = deep_value?deep_value:value
+      }
+    })
+    return value
+}
+
+// XX - not used?
 export function getPrecedence(...params) {
   let value
   params.forEach( param => {

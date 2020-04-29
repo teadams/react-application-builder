@@ -40,18 +40,20 @@ function ACSField(props) {
   }
   // props, meta, default
   
-  let RenderField  = meta.getPrecedence(field_meta?meta.deepValue("component.field",field_meta):"",meta.deepValue("component.field", props))
+  let RenderField  =  meta.getValueByPrecedence("component.field","",field_meta, props)
 
-  let ACSCell = meta.getPrecedence(field_meta?meta.deepValue("component.field_wrap"):"", meta.deepValue("component.field_wrap", props))
+  let ACSCell = meta.getValueByPrecedence("component.field_wrap","",field_meta, props)
 
+
+//pattern, default value, args
   let field_component_name = ""
   if (!RenderField) {
-    field_component_name = meta.getPrecedence("RenderACSField",field_meta?meta.deepValue("component_name.field", field_meta):"", meta.deepValue("component_name.field", props) )
+    field_component_name = meta.getValueByPrecedence("component_name.field","RenderACSField",field_meta, props)
      RenderField = functional_components[field_component_name]
   }
   let field_wrap_name =""
   if (!ACSCell) {
-    field_wrap_name = meta.getPrecedence("TableCell",field_meta?meta.deepValue("component_name.field_wrap", field_meta):"",meta.deepValue("component_name.field_wrap",props), )
+    field_wrap_name =meta.getValueByPrecedence("component_name.field_wrap","TableCell",field_meta, props)
 
     ACSCell = functional_components[field_wrap_name]
   }
