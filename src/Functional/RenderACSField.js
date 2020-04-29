@@ -24,4 +24,4 @@ function RenderACSField(props) {
   }
 }
 
-export default React.memo(RenderACSField);
+export default RenderACSField;

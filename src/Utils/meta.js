@@ -66,6 +66,23 @@ export function getPrecedence(...params) {
   return value
 }
 
+export function deepValue(key_string, object) {
+      if (!object) {
+        return ""
+      }
+      const key_segments = key_string.split(".")
+      let deep_object=object
+      
+      for (let key of key_segments) {
+        if (!deep_object[key]) {
+            return ""
+        } else {
+            deep_object = deep_object[key]
+        }
+      }
+      return deep_object
+}
+
 export function field(object_type, field_name) {
     return fields(object_type)[field_name]
 }

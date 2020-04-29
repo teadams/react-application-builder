@@ -3,7 +3,6 @@ import 'react-app-polyfill/stable';
 import { makeStyles } from '@material-ui/core/styles';
 import * as log from '../Utils/log.js'
 import * as meta from '../Utils/meta.js'
-
 import * as data from '../Utils/data.js';
 import * as u from '../Utils/utils.js';
 import useGetObject from '../Hooks/useGetObject';
@@ -40,15 +39,23 @@ function ACSField(props) {
       field_meta = meta.fields(object_type)[field_name]
   }
   // props, meta, default
-  const field_component = meta.getPrecedence ("RenderACSField", field_meta?field_meta.field_component:"",  props.field_component?props.field_component:"" )
   
-  const field_wrap = meta.getPrecedence ("TableCell",  field_meta?
-      field_meta.wrap?field_meta.wrap.field:""
-      :"", 
-  props.wrap?props.wrap.field:"")
+  let RenderField  = meta.getPrecedence(field_meta?meta.deepValue("component.field",field_meta):"",meta.deepValue("component.field", props))
 
-  const RenderField = functional_components[field_component]
-  const ACSCell = functional_components[field_wrap]
+  let ACSCell = meta.getPrecedence(field_meta?meta.deepValue("component.field_wrap"):"", meta.deepValue("component.field_wrap", props))
+
+  let field_component_name = ""
+  if (!RenderField) {
+    field_component_name = meta.getPrecedence("RenderACSField",field_meta?meta.deepValue("component_name.field", field_meta):"", meta.deepValue("component_name.field", props) )
+     RenderField = functional_components[field_component_name]
+  }
+  let field_wrap_name =""
+  if (!ACSCell) {
+    field_wrap_name = meta.getPrecedence("TableCell",field_meta?meta.deepValue("component_name.field_wrap", field_meta):"",meta.deepValue("component_name.field_wrap",props), )
+
+    ACSCell = functional_components[field_wrap_name]
+  }
+
 // state will track a view/edit mode
 // Use case
 // When user clicks on a field in view mode, it will
