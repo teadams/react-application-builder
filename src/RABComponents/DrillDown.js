@@ -29,17 +29,17 @@ function DrillDown(props)  {
   }
 
   return (
-  <Grid container>
-    <Grid sm={2} item>
+  <Grid spacing={4} container>
+    <Grid  sm={4} item>
       <NavMenu object_type={object_type}
-       onClick={{field_wrap:handleSelect}}
- />
+       onClick={{field_wrap:handleSelect}}/>
     </Grid>
-    <Grid sm={6} item>
+    <Grid  sm={8} item>
       <ObjectView object_type={object_type} 
       id={selected_id}/>
     </Grid>
   </Grid>
+
 );
     
 }

@@ -24,6 +24,7 @@ function ACSListController(props) {
   let ACSList = meta.getValueByPrecedence("component.list_wrap","",object_meta, props)
   let ACSListBody = meta.getValueByPrecedence("component.list_wrap_body","",object_meta, props)
 
+
   let component_name = ""
   if (!RenderACSList) {
     component_name = meta.getValueByPrecedence("component_name.list","RenderACSList",object_meta, props)

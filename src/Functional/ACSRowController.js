@@ -29,20 +29,19 @@ function ACSRowController(props) {
   }
   // Changes to field list (metadata rules, ext)
 
+  let RenderACSRow  =  meta.getValueByPrecedence("component.row","",object_meta, props)
 
-  let RenderACSRow  =  meta.getValueByPrecedence("component.field_set","",object_meta, props)
-
-  let ACSRow = meta.getValueByPrecedence("component.field_set_wrap","",object_meta, props)
+  let ACSRow = meta.getValueByPrecedence("component.row_wrap","",object_meta, props)
 
 //pattern, default value, args
   let component_name = ""
   if (!RenderACSRow) {
-    component_name = meta.getValueByPrecedence("component_name.field_set","RenderACSRow",object_meta, props)
+    component_name = meta.getValueByPrecedence("component_name.row","RenderACSRow",object_meta, props)
      RenderACSRow = functional_components[component_name]
   }
   let wrap_name =""
   if (!ACSRow) {
-    wrap_name =meta.getValueByPrecedence("component_name.field_set_wrap","TableRow",object_meta, props)
+    wrap_name =meta.getValueByPrecedence("component_name.row_wrap","TableRow",object_meta, props)
 
     ACSRow = functional_components[wrap_name]
   }
@@ -57,7 +56,7 @@ function ACSRowController(props) {
   }
 
   if (data) {
-    return ( <ACSRow onClick={onClick}>
+    return ( <ACSRow onClick={onClick} data={data} object_type={object_type} id={id}>
             <RenderACSRow {...params} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options}/>
             </ACSRow>)
     } else {  

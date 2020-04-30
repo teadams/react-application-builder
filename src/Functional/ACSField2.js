@@ -73,7 +73,7 @@ function ACSField(props) {
   if (data && ready) {
       if (mode=="view") {
   // field_wrapper_component, field_component
-          return (<ACSCell onClick={onClick}><RenderField  {...params} onClick={onClick} data={data} field_name={field_name}/></ACSCell>)
+          return (<ACSCell onClick={onClick}><RenderField  {...params} onClick={onClick} data={data} object_type={object_type} field_name={field_name} field_meta={field_meta}/></ACSCell>)
       } else {
           return (<div>edit form</div>)
           // Later - FROM with compoent fieldForm, handleSubmit, data, object_type,
