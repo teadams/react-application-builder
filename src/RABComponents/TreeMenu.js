@@ -33,11 +33,28 @@ function TreeMenu(props)  {
   const {object_type, ...params} = props
   const field_list = [meta.keys(object_type).pretty_key_id]
 
+  const [selected, setSelected] = React.useState([]);
+  
+  // const  handleToggle = (event, nodeIds) => {
+    // setExpanded(nodeIds)
+  // };
+  
+  const handleSelect = (event, nodeIds) => {
+    setSelected(nodeIds);
+    if (props.onSelect) {
+      props.onSelect(nodeIds, event)
+    }
+  }
+
+
+
   //                  {Array.isArray(node.children)&& node.children.length > 0 && <RenderTree nodes={node.children}/>}
 
   function RenderTreeItem(props) {
     const {data} = props
-    let label = FieldView({object_type:props.object_type, data:props.data, field_name:"full_name", display:"text"})
+    const {object_type} = props
+    const field_name = meta.keys(object_type).pretty_key_id
+    let label = FieldView({object_type:props.object_type, data:props.data, field_name:field_name, display:"text"})
     return (
       <TreeItem key={data.id} nodeId={data.id} label={label}/>
     )
@@ -49,10 +66,10 @@ function TreeMenu(props)  {
      <TreeView
           defaultCollapseIcon={<ExpandMoreIcon />}
           defaultExpandIcon={<ChevronRightIcon />}
-  //         expanded={expanded}
-  //         selected={selected}
-  //         onNodeToggle={handleToggle}
-  //         onNodeSelect={handleSelect}
+          // expanded={expanded}
+          selected={selected}
+          // onNodeToggle={handleToggle}
+          onNodeSelect={handleSelect}
           >
           <ACSListController {...params}  component={component} object_type={props.object_type}  field_list={field_list}/>
     </TreeView>)

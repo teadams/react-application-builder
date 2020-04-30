@@ -8,6 +8,8 @@ import * as u from '../Utils/utils.js';
 import { withStyles } from '@material-ui/core/styles';
 import ObjectView from './ObjectView.js'
 import NavMenu from './NavMenu.js'
+import TreeMenu from './TreeMenu.js'
+
 //import RenderFieldSetList from './RenderFieldSetList.js'
 
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
@@ -23,15 +25,15 @@ function DrillDown(props)  {
       setState(["", props_object_type])
   }
 
-  const handleSelect = (id, object_type) => {
+  const handleSelect = (id) => {
       setState([id, object_type])
   }
 
   return (
   <Grid spacing={4} container>
     <Grid  sm={4} item>
-      <NavMenu object_type={object_type}
-       onClick={{field_wrap:handleSelect}}/>
+      <TreeMenu object_type={object_type}
+       onSelect={handleSelect}/>
     </Grid>
     <Grid  sm={8} item>
       <ObjectView object_type={object_type} 
