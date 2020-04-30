@@ -11,13 +11,13 @@ import RenderACSField from '../Functional/RenderACSField.js'
 import ACSRowController from '../Functional/ACSRowController.js'
 import ACSListController from '../Functional/ACSRowController.js'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
-import {Tab, Tabs, Menu, MenuItem, Paper, MenuList,List,ListItem,ListItemAvatar,ListItemIcon,ListItemSecondaryAction,ListItemText,ListSubheader,Table,TableBody,TableCell,TableContainer,TableFooter,TableHead,TablePagination,TableRow,} from '@material-ui/core';
+import {Tab, Tabs, Menu, MenuItem, Paper, MenuList,List,ListItem,ListItemAvatar,ListItemIcon,ListItemSecondaryAction,ListItemText,ListSubheader,Table,TableBody,TableCell,TableContainer,TableFooter,TableHead,TablePagination,TableRow,Typography} from '@material-ui/core';
 
 function ObjectView(props)  {
   const {object_type,id,layout="list"} = props
 
   function TablePaper(props) {
-      return <Paper variant="outlined">{props.children}</Paper>
+      return <Paper style={{display:"inline"}} variant="outlined">{props.children}</Paper>
   }
   
   function field_comp (props) {
@@ -36,8 +36,8 @@ function ObjectView(props)  {
       const field_meta = meta.fields(object_type)[field_name]
       const pretty_field_component = meta.getValueByPrecedence("component_name.field","RenderACSField",field_meta)
       const RenderField = functional_components[pretty_field_component]
-      return <Fragment>
-              <RenderField {...params} field_name={field_name}/>
+      return <Fragment><Typography variant="title" style={{display:"block", padding:10}}><b>
+              <RenderField {...params} field_name={field_name}/></b></Typography>
               {props.children}
             </Fragment>
   }
@@ -46,9 +46,9 @@ function ObjectView(props)  {
   const component_name = {field_wrap:"Fragment",  field_set_wrap:"TableBody", list_body:"", list:""}
 
 
-  return (<TableContainer component={TablePaper}><Table style={{width:"80%", align:"left"}} size="small">
+  return (<Table style={{display:"inline", align:"left"}} size="small">
           <ACSRowController object_type={props.object_type} id={props.id} component={component} component_name={component_name}/>
-          </Table></TableContainer>
+          </Table>
           )
 }
 export default ObjectView;

@@ -35,8 +35,10 @@ function ACSField(props) {
       const references = field_meta.references
       data = data[field_name]
       object_type = field_meta.references
-      field_name = field_meta.referenced_field?field_meta.referenced_field:meta.keys(object_type).key_id
-      field_meta = meta.fields(object_type)[field_name]
+      field_name = field_meta.referenced_field?field_meta.referenced_field:meta.keys(object_type).pretty_key_id
+      let referenced_field_meta = meta.fields(object_type)[field_name]
+      referenced_field_meta.pretty_name = field_meta.pretty_name // take name from base object
+      field_meta = referenced_field_meta
   }
   // props, meta, default
   
