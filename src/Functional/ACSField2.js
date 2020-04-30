@@ -60,10 +60,12 @@ function ACSField(props) {
     ACSCell = functional_components[wrap_name]
   }
 
-  const onWrapClick = meta.getValueByPrecedence("onClick.field_wrap","",field_meta,props)
+  const onWrapClickProp = meta.getValueByPrecedence("onClick.field_wrap","",field_meta,props)
 
-  function onClick(event) {
-    onWrapClick(data.id, object_type)
+  function onWrapClick(event) {
+    if (onWrapClickProp) {
+      onWrapClickProp(data.id, event, object_type)
+    }
   }
 // state will track a view/edit mode
 // Use case
@@ -75,8 +77,8 @@ function ACSField(props) {
   if (data && ready) {
       if (mode=="view") {
           return (
-            <ACSCell {...params} onClick={onClick} data={data} object_type={object_type} field_name={field_name} field_meta={field_meta}>
-              <RenderField  {...params} onClick={onClick} data={data} object_type={object_type} field_name={field_name} field_meta={field_meta}/>
+            <ACSCell {...params} onClick={onWrapClick} data={data} object_type={object_type} field_name={field_name} field_meta={field_meta}>
+              <RenderField  {...params} data={data} object_type={object_type} field_name={field_name} field_meta={field_meta}/>
             </ACSCell>
           )
       } else {

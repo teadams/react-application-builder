@@ -25,7 +25,7 @@ function DrillDown(props)  {
       setState(["", props_object_type])
   }
 
-  const handleSelect = (id) => {
+  const handleSelect = (id, event) => {
       setState([id, object_type])
   }
 
@@ -33,7 +33,7 @@ function DrillDown(props)  {
   <Grid spacing={4} container>
     <Grid  sm={4} item>
       <TreeMenu object_type={object_type}
-       onSelect={handleSelect}/>
+       onClick={handleSelect}/>
     </Grid>
     <Grid  sm={8} item>
       <ObjectView object_type={object_type} 

@@ -30,19 +30,19 @@ import TreeItem from '@material-ui/lab/TreeItem';
 //     </Fragment>
 
 function TreeMenu(props)  {
-  const {object_type, ...params} = props
+  const {object_type, onClick, ...params} = props
   const field_list = [meta.keys(object_type).pretty_key_id]
 
   const [selected, setSelected] = React.useState([]);
   
-  // const  handleToggle = (event, nodeIds) => {
+  // consthhandleToggle = (event, nodeIds) => {
     // setExpanded(nodeIds)
   // };
   
   const handleSelect = (event, nodeIds) => {
     setSelected(nodeIds);
-    if (props.onSelect) {
-      props.onSelect(nodeIds, event)
+    if (onClick) {
+      onClick(nodeIds, event)
     }
   }
 
