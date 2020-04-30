@@ -12,9 +12,13 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
 function AvatarUser(props) {
-  const {data, field_name, ...params} = props
+  const {data, field_name, display, ...params} = props
   if (data) {
+    if (display == "text") {
+      return (data.first_name + " " + data.last_name)
+    } else {
       return (<Fragment>PIC {data.first_name} {data.last_name}</Fragment>)
+    }
   } else {
       return null
   }

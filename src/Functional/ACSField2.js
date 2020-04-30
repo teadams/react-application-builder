@@ -12,7 +12,7 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
 import {functional_components} from "./index.js"
 
 function ACSField(props) {
-  const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, data:props_data, ...params} = props
+  const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, data:props_data, component, ...params} = props
 
   const [mode, setMode] = useState("view");
   let [ready, object_type, id, field_name, api_options, data] = useGetObject(props_object_type, props_id,props_field_name, props_api_options, props_data); 
@@ -74,8 +74,11 @@ function ACSField(props) {
 //  u.a(on_click)
   if (data && ready) {
       if (mode=="view") {
-  // field_wrapper_component, field_component
-          return (<ACSCell onClick={onClick}><RenderField  {...params} onClick={onClick} data={data} object_type={object_type} field_name={field_name} field_meta={field_meta}/></ACSCell>)
+          return (
+            <ACSCell {...params} onClick={onClick} data={data} object_type={object_type} field_name={field_name} field_meta={field_meta}>
+              <RenderField  {...params} onClick={onClick} data={data} object_type={object_type} field_name={field_name} field_meta={field_meta}/>
+            </ACSCell>
+          )
       } else {
           return (<div>edit form</div>)
           // Later - FROM with compoent fieldForm, handleSubmit, data, object_type,
