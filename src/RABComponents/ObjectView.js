@@ -5,6 +5,7 @@ import * as log from '../Utils/log.js'
 import * as meta from '../Utils/meta.js'
 import * as data from '../Utils/data.js';
 import * as u from '../Utils/utils.js';
+import FieldView from './FieldView.js'
 import {functional_components} from "../Functional/index.js"
 import ACSField from '../Functional/ACSField2.js'
 import RenderACSField from '../Functional/RenderACSField.js'
@@ -14,7 +15,7 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
 import {Tab, Tabs, Menu, MenuItem, Paper, MenuList,List,ListItem,ListItemAvatar,ListItemIcon,ListItemSecondaryAction,ListItemText,ListSubheader,Table,TableBody,TableCell,TableContainer,TableFooter,TableHead,TablePagination,TableRow,Typography} from '@material-ui/core';
 
 function ObjectView(props)  {
-  const {object_type,id,layout="list"} = props
+  const {object_type,id} = props
 
   function TablePaper(props) {
       return <Paper style={{display:"inline"}} variant="outlined">{props.children}</Paper>
@@ -22,22 +23,16 @@ function ObjectView(props)  {
   
   function field_comp (props) {
       const {...params} = props
-      const field_meta = meta.fields(props.object_type)[props.field_name]
-      const field_comp_component = meta.getValueByPrecedence("component_name.field","RenderACSField",field_meta)
-      const RenderField = functional_components[field_comp_component]
       return <Fragment><TableRow>
-            <TableCell align="right"><b>{props.field_meta.pretty_name}:</b></TableCell><TableCell align="left"><RenderField {...params}/></TableCell></TableRow></Fragment> 
+            <TableCell align="right"><b>{props.field_meta.pretty_name}:</b></TableCell><TableCell align="left"><FieldView {...params}/></TableCell></TableRow></Fragment> 
   }
 
   function row_wrap_comp(props) {
       const {...params} = props   
       const {object_type} = props
       const field_name = meta.keys(object_type).pretty_key_id
-      const field_meta = meta.fields(object_type)[field_name]
-      const pretty_field_component = meta.getValueByPrecedence("component_name.field","RenderACSField",field_meta)
-      const RenderField = functional_components[pretty_field_component]
       return <Fragment><Typography variant="title" style={{display:"block", padding:10}}><b>
-              <RenderField {...params} field_name={field_name}/></b></Typography>
+              <FieldView {...params} field_name={field_name}/></b></Typography>
               {props.children}
             </Fragment>
   }
