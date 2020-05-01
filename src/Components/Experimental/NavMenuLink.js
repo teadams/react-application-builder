@@ -14,7 +14,6 @@ const styles = theme => ({
 });
 
 class NavMenuLink extends React.Component {
-
   constructor(props) {
         super(props);  
         this.handleClick = this.handleClick.bind(this);
