@@ -16,7 +16,7 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
 function DrillDown(props)  {
-  const {object_type:props_object_type, selected_id:props_selected_id} = props
+  const {object_type:props_object_type, api_options, selected_id:props_selected_id, ...params} = props
   // ensure everything changes together so data and meta_model match
   const [state, setState] = useState([props_selected_id, props_object_type])
   const [selected_id,object_type] = state
@@ -32,11 +32,11 @@ function DrillDown(props)  {
   return (
   <Grid spacing={4} container>
     <Grid  sm={4} item>
-      <TreeMenu object_type={object_type}
+      <TreeMenu {...params} api_options={api_options} object_type={object_type}
        onClick={handleSelect}/>
     </Grid>
     <Grid  sm={8} item>
-      <ObjectView object_type={object_type} 
+      <ObjectView  {...params} api_options={api_options} object_type={object_type} 
       id={selected_id}/>
     </Grid>
   </Grid>
