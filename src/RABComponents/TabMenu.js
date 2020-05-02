@@ -8,6 +8,8 @@ import * as u from '../Utils/utils.js';
 import ACSRowController from '../Functional/ACSRowController.js'
 import ACSListController from '../Functional/ACSListController.js'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
+import {AppBar,Toolbar, Typography, IconButton, Button, Paper, Tabs, Tab, Drawer, Divider,List, Menu, MenuItem, ListItem, ListItemText} from '@material-ui/core';
+
 // <Tabs 
 //     value={(selected_menu_type=="app_menu")?selected_menu:""}
 //     onChange={this.handleMenuChange}
@@ -25,9 +27,31 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
 
 //const component_name = ""
 function TabMenu(props)  {
-  const {data=[], field_name="name", onClick, ...params} = props
-  u.a(data)
-  return <ACSListController {...params} onClick={{field_wrap:onClick}} data={data}  field_list={field_name}/>
+  const {data=[], field_name="label", onClick, ...params} = props
+  
+  //     value={(selected_menu_type=="app_menu")?selected_menu:""}
+  //     onChange={this.handleMenuChange}
+
+  const TabsComponent = ((props) => {
+      return (<Tabs 
+       value={1}
+       indicatorColor="primary"
+       textColor="primary"
+       centered
+      > 
+      {props.children}
+    </Tabs>)
+  })
+
+  const TabComponent = ((props) => {
+    const {data} = props
+    return (
+      <Tab key={data.index} label={data.label}/>
+    )
+  })
+  const component_name = {list_wrap_body:"Fragment"}
+  const component={list_wrap:TabsComponent, row:TabComponent}
+  return <ACSListController {...params} component={component} component_name={component_name} data={data}  field_list={field_name}/>
 }
 
 export default TabMenu;
