@@ -11,7 +11,7 @@ export function getPathBase () {
 } 
 
 export function validAPIParams() {
-    return ["order_by", "order_by_direction", "filter_field", "filter_id", "filter_join", "key_type", "context_limit", "user_id"]
+    return ["order_by", "order_by_direction", "filter_field", "filter_id", "filter_join", "key_type", "context_limit", "user_id", "parent_field", "grouping_field"]
 }
 
 

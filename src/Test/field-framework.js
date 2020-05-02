@@ -10,7 +10,7 @@ framework_menus.test_drilldown = [
     },
     {index:"3", label: "DrillRole", component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_role", selected_id:2
     },
-    {index:"4", label: "Tree", component_name:{menu:"TreeMenu"}, test_case:"Tree Menu", object_type:"core_user"}
+    {index:"4", label: "Tree", component_name:{menu:"TreeMenu"}, test_case:"Tree Menu", object_type:"core_subsite", parent_field:"parent_subsite"}
 ]
 
 const table_wrap = {field:"TableCell", field_set:"TableRow", list_body:"TableBody", list:"Table", header:"TableHeader", header_row:"TableRow"}

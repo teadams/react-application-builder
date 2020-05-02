@@ -36,8 +36,12 @@ class Body extends Component {
     } 
     const menu_component_name = meta_menu.component_name?meta_menu.component_name.menu:"ACSField"
     let BodyComponent = dynamic_components[menu_component_name]
-
-    return (<Fragment><BodyComponent {...meta_menu}/></Fragment>)
+    // later, run off parm list
+    const {parent_field, grouping_field, api_options={}, ...rest} = meta_menu
+    api_options.parent_field=parent_field
+    api_options.grouping_field=grouping_field
+        
+    return (<Fragment><BodyComponent api_options={api_options} {...rest}/></Fragment>)
   }      
 }
 export default Body

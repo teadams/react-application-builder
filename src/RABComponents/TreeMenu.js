@@ -32,9 +32,7 @@ import TreeItem from '@material-ui/lab/TreeItem';
 function TreeMenu(props)  {
   const {object_type, onClick, ...params} = props
   const field_list = [meta.keys(object_type).pretty_key_id]
-
   const [selected, setSelected] = React.useState([]);
-  
   // consthhandleToggle = (event, nodeIds) => {
     // setExpanded(nodeIds)
   // };
