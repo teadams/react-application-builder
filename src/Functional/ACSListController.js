@@ -11,7 +11,6 @@ import {functional_components} from "./index.js"
 
 function ACSListController(props) {
   const {field_tag, object_type:props_object_type, api_options:props_api_options={}, field_list="", ...params } = props
-
   props_api_options.field_tag = field_tag
 
   const [mode, setMode] = useState("view");
@@ -29,8 +28,8 @@ function ACSListController(props) {
   if (!RenderACSList) {
     component_name = meta.getValueByPrecedence("component_name.list","RenderACSList",object_meta, props)
      RenderACSList = functional_components[component_name]
-  }
 
+  }
   let wrap_name =""
   if (!ACSList) {
     wrap_name =meta.getValueByPrecedence("component_name.list_wrap","Table",object_meta, props)

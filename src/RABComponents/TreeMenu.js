@@ -44,13 +44,13 @@ function TreeMenu(props)  {
     }
   }
 
-
-
-  //                  {Array.isArray(node.children)&& node.children.length > 0 && <RenderTree nodes={node.children}/>}
-
   function RenderTreeItem(props) {
-    const {data, object_type} = props
-    const field_name = meta.keys(object_type).pretty_key_id
+    const {data, object_type, api_options={}} = props
+    const {grouping_field=""} = api_options
+    let field_name = meta.keys(object_type).pretty_key_id
+    if (grouping_field && data.group_row) {
+        field_name = grouping_field
+    } 
     let label = FieldView({object_type:props.object_type, data:props.data, field_name:field_name, display:"text"})
     return (
       <TreeItem key={data.id} nodeId={data.id} label={label}>{props.children[1]}</TreeItem>

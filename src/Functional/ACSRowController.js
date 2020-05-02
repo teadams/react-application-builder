@@ -15,9 +15,11 @@ import {functional_components} from "./index.js"
 function ACSRowController(props) {
   const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options, data:props_data, ...params} = props
   const [mode, setMode] = useState("view");
-  
+
+
   let [ready, object_type, id, field_list, api_options, data] = 
   useGetObject(props_object_type, props_id, props_field_list, props_api_options, props_data); 
+
 
   let object_meta = meta.object[object_type]
 
@@ -59,11 +61,11 @@ function ACSRowController(props) {
 
   if (data) {
     return ( <Fragment>
-        <ACSRow onClick={onClick} data={data} object_type={object_type} id={id}>
+        <ACSRow onClick={onClick} data={data} field_list={field_list} api_options={api_options} object_type={object_type} id={id}>
             <RenderACSRow {...params} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options}>
             </RenderACSRow>
             {data.children && data.children.length >0 &&
-              <ACSListController {...params}  object_type={object_type} api_options={api_options} data={data.children}  field_list={field_list}/>}
+              <ACSListController {...params} object_type={object_type} api_options={api_options} data={data.children}  field_list={field_list}/>}
         </ACSRow> 
         </Fragment>)
     } else {  
