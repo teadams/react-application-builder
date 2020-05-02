@@ -8,7 +8,7 @@ import * as u from '../Utils/utils.js';
 import ACSRowController from '../Functional/ACSRowController.js'
 import ACSListController from '../Functional/ACSListController.js'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
-
+//const component_name = ""
 function NavMenu(props)  {
   const {object_type, onClick, ...params} = props
   const field_list = [meta.keys(object_type).pretty_key_id]

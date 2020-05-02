@@ -8,9 +8,11 @@ framework_menus.test_drilldown = [
     },
     {index:"2", label: "DrillSubsite", component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_subsite", selected_id:2, parent_field:"parent_subsite"
     },
-    {index:"3", label: "DrillRole", component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_role",  grouping_field:"privilege"
+    {index:"3", label: "RoleGroup", component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_role",  grouping_field:"privilege"
     },
-    {index:"4", label: "Tree", component_name:{menu:"TreeMenu"}, test_case:"Tree Menu", object_type:"core_subsite", parent_field:"parent_subsite"}
+    {index:"4", label: "RoleNoGroup", component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_role"
+    },
+    {index:"5", label: "Tree", component_name:{menu:"TreeMenu"}, test_case:"Tree Menu", object_type:"core_subsite", parent_field:"parent_subsite"}
 ]
 
 const table_wrap = {field:"TableCell", field_set:"TableRow", list_body:"TableBody", list:"Table", header:"TableHeader", header_row:"TableRow"}
