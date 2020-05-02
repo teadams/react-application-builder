@@ -16,7 +16,7 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
 function DrillDown(props)  {
-  const {object_type:props_object_type, api_options, selected_id:props_selected_id, ...params} = props
+  const {object_type:props_object_type, api_options={}, selected_id:props_selected_id, ...params} = props
   const {grouping_field} = api_options
   // ensure everything changes together so data and meta_model match
   const [state, setState] = useState([props_selected_id, props_object_type])

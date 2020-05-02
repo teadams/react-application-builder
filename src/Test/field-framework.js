@@ -6,9 +6,9 @@ framework_menus.test_drilldown = [
     },
     {index:"1", label: "Menu", component_name:{menu:"NavMenu"}, test_case:"Menu of items", object_type:"core_user"
     },
-    {index:"2", label: "DrillSubsite", component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_subsite", selected_id:2, parent_field:"parent_subsite"
+    {index:"2", label: "DrillSubsite", component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_subsite", selected_id:2, api_options:{parent_field:"parent_subsite"} 
     },
-    {index:"3", label: "RoleGroup", component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_role",  grouping_field:"privilege"
+    {index:"3", label: "RoleGroup", component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_role", api_options:{grouping_field:"privilege"}
     },
     {index:"4", label: "RoleNoGroup", component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_role"
     },
