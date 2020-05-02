@@ -2,12 +2,12 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
 import React, { Component, Fragment} from 'react';
+import TabMenu from './RABComponents/TabMenu';
 import {Grid} from 'material-ui'
 import {CrudTable, Text, GoogleMap} from './Components/Layouts';
-import {NavMenuLink, DrillDown} from './Components/Experimental';
+import {NavMenuLink} from './Components/Experimental';
 import {ContextSelect, AuthToggleLink, AuthContext} from './Components/User';
 import {SelectObject} from './Components/FormsAndViews';
-import {ProjectView, Volunteer, ProjectMessages} from './Components/NowWeAct';
 import Body from "./Body"
 import Debug from "./Debug.js"
 import * as meta from './Utils/meta.js'
@@ -140,12 +140,6 @@ class App extends Component {
       hamburger_menu_p = auth.authorized({context_id:this.state.context_id, user:this.state.user}, meta.get_param("hamburger_menu_auth_scope"), meta.get_param("hamburger_menu_auth_priv"))
     }
     const meta_menu = meta.get_selected_menu(selected_menu,selected_menu_type)
-    let filter_field = {}
-    let filter_object_type = ""
-    if (meta_menu.filter_field) {
-      filter_field = meta_menu.object_type?meta.field(meta_menu.object_type, meta_menu.filter_field):""
-      filter_object_type = filter_field.references
-    }
   
     return      <Fragment>  
     <AuthContext.Provider
@@ -180,15 +174,12 @@ class App extends Component {
        <Divider />
 
        <List  component="nav">
-
           {meta.get_menu("hamburger").map(menu=> {
             var index =  menu.index + '-hamburger'
-
               if (auth.authorized({context_id:this.state.context_id, user:this.state.user}, menu.auth_scope, menu.auth_priv)
    ) {          
                 return     <ListItem key={menu.index} style={{padding:0}} dense disableGutters component="div">   <NavMenuLink text={menu.label} index={index} onClick={this.handleMenuChange} /> </ListItem>
           }
-
           })}
         
         </List>
@@ -210,7 +201,7 @@ class App extends Component {
           <Typography variant="headline" color="inherit" style={{display:'inline-block', marginTop:10, marginBottom:0, marginRight:100}}> 
             {meta.get_param('name')}   
           </Typography>  
-           <ContextSelect        />
+           <ContextSelect />
            </Grid>
             <Grid item sm="1">
             <AuthToggleLink></AuthToggleLink>
@@ -218,21 +209,7 @@ class App extends Component {
           </Grid>
         </Toolbar>
       </AppBar>
-
-      <Tabs 
-          value={(selected_menu_type=="app_menu")?selected_menu:""}
-          onChange={this.handleMenuChange}
-          indicatorColor="primary"
-          textColor="primary"
-          centered
-       >
-       {meta.get_menu("app_menu").map(menu=> {
-         if (auth.authorized({context_id:this.state.context_id, user:this.state.user}, menu.auth_scope, menu.auth_priv)
-) {
-           return <Tab key={menu.index} label={menu.label}/>
-         } 
-       })}
-        </Tabs>
+      <TabMenu data={meta.get_menu("app_menu")} />
         <Body  
         selected_menu={selected_menu} selected_menu_type={selected_menu_type} filter_id={filter_id}
         onMenuChange = {this.handleMenuChange}
