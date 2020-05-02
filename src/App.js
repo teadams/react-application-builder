@@ -22,14 +22,7 @@ import { withStyles } from '@material-ui/core/styles';
 import {  BrowserRouter as Router,  Switch,  Route,  Link,  Redirect, useHistory } from "react-router-dom";
 var async = require('async');
 
-  
-
-
-//const MyContext = React.createContext("creation");
 const drawerWidth = 150;
-
-
-
 
 const styles = theme => ({
   drawerPaper: {
