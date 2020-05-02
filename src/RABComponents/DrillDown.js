@@ -17,6 +17,7 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 
 function DrillDown(props)  {
   const {object_type:props_object_type, api_options, selected_id:props_selected_id, ...params} = props
+  const {grouping_field} = api_options
   // ensure everything changes together so data and meta_model match
   const [state, setState] = useState([props_selected_id, props_object_type])
   const [selected_id,object_type] = state
@@ -26,6 +27,9 @@ function DrillDown(props)  {
   }
 
   const handleSelect = (id, event) => {
+      if (grouping_field && id.toString().split("-").length >1) {
+          id = ""
+      }
       setState([id, object_type])
   }
 
