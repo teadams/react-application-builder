@@ -49,16 +49,15 @@ function TreeMenu(props)  {
   //                  {Array.isArray(node.children)&& node.children.length > 0 && <RenderTree nodes={node.children}/>}
 
   function RenderTreeItem(props) {
-    const {data} = props
-    const {object_type} = props
+    const {data, object_type} = props
     const field_name = meta.keys(object_type).pretty_key_id
     let label = FieldView({object_type:props.object_type, data:props.data, field_name:field_name, display:"text"})
     return (
-      <TreeItem key={data.id} nodeId={data.id} label={label}/>
+      <TreeItem key={data.id} nodeId={data.id} label={label}>{props.children[1]}</TreeItem>
     )
   }
 
-  const component = {field_wrap:RenderTreeItem}
+  const component = {row_wrap:RenderTreeItem, field:Fragment, field_wrap:Fragment, row:Fragment}
 
   return (
      <TreeView

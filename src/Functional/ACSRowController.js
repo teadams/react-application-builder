@@ -5,6 +5,7 @@ import * as meta from '../Utils/meta.js'
 import * as data from '../Utils/data.js';
 import * as u from '../Utils/utils.js';
 import RenderACSRow from './RenderACSRow.js'
+import ACSListController from './ACSListController.js'
 import useGetObject from '../Hooks/useGetObject';
 import React, {Fragment, useState, useEffect} from 'react';
 import { TableRow } from '@material-ui/core';
@@ -52,13 +53,19 @@ function ACSRowController(props) {
   if (!api_options) { 
     // hack to allow the ACSField renews below to be memoized
     // (due to javascript compare to null weirdness)
+
     const api_options = {memo_helper:true}
   }
 
   if (data) {
-    return ( <ACSRow onClick={onClick} data={data} object_type={object_type} id={id}>
-            <RenderACSRow {...params} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options}/>
-            </ACSRow>)
+    return ( <Fragment>
+        <ACSRow onClick={onClick} data={data} object_type={object_type} id={id}>
+            <RenderACSRow {...params} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options}>
+            </RenderACSRow>
+            {data.children && data.children.length >0 &&
+              <ACSListController {...params}  object_type={object_type} api_options={api_options} data={data.children}  field_list={field_list}/>}
+        </ACSRow> 
+        </Fragment>)
     } else {  
         return <div></div>
     }
