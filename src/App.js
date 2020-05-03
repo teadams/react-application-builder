@@ -84,6 +84,9 @@ class App extends Component {
   </AppBar>
   <TabMenu menu_type="app_menu" selected_menu={selected_menu} selected_menu_type={selected_menu_type} />
 
+  <Body selected_menu_type={selected_menu_type} selected_menu={selected_menu} />
+
+
 </Paper>
 <Debug/>
   </AuthContextProvider>)
@@ -91,10 +94,8 @@ class App extends Component {
   }
 }
 
-//  <Body selected_menu_type={selected_menu_type} selected_menu={selected_menu} />
 
 export default withStyles(styles, { withTheme: true })(App);
-
 
 
 

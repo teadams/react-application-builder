@@ -8,7 +8,7 @@ framework_menus.test_hamburger = {
 }
 
 framework_menus.test_drilldown = {
-    "HOlist":{label: "ObjectList", rab_component_name:{menu:"ObjectView"}, test_case:"View one object", object_type:"core_user", layout:"list", id:1
+    "HOlist":{label: "ObjectList", rab_component_name:{menu:"ObjectView"}, test_case:"View one object", object_type:"core_user", id:1
     },
     "HMenu": {label: "Menu", rab_component_name:{menu:"NavMenu"}, test_case:"Menu of items", object_type:"core_user"
     },
