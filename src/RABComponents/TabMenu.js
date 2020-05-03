@@ -49,9 +49,9 @@ function TabMenu(props)  {
       <Tab key={data.index} label={data.label}/>
     )
   })
-  const component_name = {list_wrap_body:"Fragment"}
-  const component={list_wrap:TabsComponent, row:TabComponent}
-  return <ACSListController {...params} component={component} component_name={component_name} data={data}  field_list={field_name}/>
+  const rab_component_name = {list_wrap_body:"Fragment"}
+  const rab_component={list_wrap:TabsComponent, row:TabComponent}
+  return <ACSListController {...params} rab_component={rab_component} rab_component_name={rab_component_name} data={data}  field_list={[field_name]}/>
 }
 
 export default TabMenu;

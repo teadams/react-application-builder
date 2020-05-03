@@ -41,7 +41,7 @@ function TreeMenu(props)  {
     )
   }
 
-  const component = {row_wrap:RenderTreeItem, field:Fragment, field_wrap:Fragment, row:Fragment}
+  const rab_component = {row_wrap:RenderTreeItem, field:Fragment, field_wrap:Fragment, row:Fragment}
 
   return (
      <TreeView
@@ -52,7 +52,7 @@ function TreeMenu(props)  {
           // onNodeToggle={handleToggle}
           onNodeSelect={handleSelect}
           >
-          <ACSListController {...params}  component={component} object_type={props.object_type}  field_list={field_list}/>
+          <ACSListController {...params}  rab_component={rab_component} object_type={props.object_type}  field_list={field_list}/>
     </TreeView>)
 }
 

@@ -13,7 +13,7 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Chseckbox, Typogra
 
 function RenderACSList(props) {
 
-  const {object_type, field_list, data, api_options, list_component, ...params} = props
+  const {object_type, field_list, data, api_options,  ...params} = props
 
     if (data) {
       return ( 

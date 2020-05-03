@@ -2,17 +2,17 @@
 let framework_menus = {}
 
 framework_menus.test_drilldown = [
-    {index:"0", label: "ObjectList", component_name:{menu:"ObjectView"}, test_case:"View one object", object_type:"core_user", layout:"list", id:1
+    {index:"0", label: "ObjectList", rab_component_name:{menu:"ObjectView"}, test_case:"View one object", object_type:"core_user", layout:"list", id:1
     },
-    {index:"1", label: "Menu", component_name:{menu:"NavMenu"}, test_case:"Menu of items", object_type:"core_user"
+    {index:"1", label: "Menu", rab_component_name:{menu:"NavMenu"}, test_case:"Menu of items", object_type:"core_user"
     },
-    {index:"2", label: "DrillSubsite", component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_subsite", selected_id:2, api_options:{parent_field:"parent_subsite"} 
+    {index:"2", label: "DrillSubsite", rab_component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_subsite", selected_id:2, api_options:{parent_field:"parent_subsite"} 
     },
-    {index:"3", label: "RoleGroup", component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_role", api_options:{grouping_field:"privilege"}
+    {index:"3", label: "RoleGroup", rab_component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_role", api_options:{grouping_field:"privilege"}
     },
-    {index:"4", label: "RoleNoGroup", component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_role"
+    {index:"4", label: "RoleNoGroup", rab_component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_role"
     },
-    {index:"5", label: "Tree", component_name:{menu:"TreeMenu"}, test_case:"Tree Menu", object_type:"core_subsite", parent_field:"parent_subsite"}
+    {index:"5", label: "Tree", rab_component_name:{menu:"TreeMenu"}, test_case:"Tree Menu", object_type:"core_subsite", api_options:{parent_field:"parent_subsite"}}
 ]
 
 const table_wrap = {field:"TableCell", field_set:"TableRow", list_body:"TableBody", list:"Table", header:"TableHeader", header_row:"TableRow"}

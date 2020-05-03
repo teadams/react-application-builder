@@ -37,12 +37,11 @@ function ObjectView(props)  {
             </Fragment>
   }
 
-  const component = {field:field_comp, row_wrap:row_wrap_comp}
-  const component_name = {field_wrap:"Fragment",  field_set_wrap:"TableBody", list_body:"", list:""}
-
+  const rab_component = {field:field_comp, row_wrap:row_wrap_comp}
+  const rab_component_name = {field_wrap:"Fragment",  field_set_wrap:"Fragment", list_body:"Fragment", list:"Fragment"}
 
   return (<Table style={{display:"inline", align:"left"}} size="small">
-          <ACSRowController object_type={props.object_type} id={props.id} component={component} component_name={component_name}/>
+          <ACSRowController object_type={props.object_type} id={props.id} rab_component={rab_component} rab_component_name={rab_component_name}/>
           </Table>
           )
 }

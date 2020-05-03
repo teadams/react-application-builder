@@ -19,25 +19,25 @@ function ACSListController(props) {
 
   let object_meta = meta.object[object_type]
 
-  let RenderACSList  =  meta.getValueByPrecedence("component.list","",object_meta, props)
-  let ACSList = meta.getValueByPrecedence("component.list_wrap","",object_meta, props)
-  let ACSListBody = meta.getValueByPrecedence("component.list_wrap_body","",object_meta, props)
+  let RenderACSList  =  meta.getValueByPrecedence("rab_component.list","",object_meta, props)
+  let ACSList = meta.getValueByPrecedence("rab_component.list_wrap","",object_meta, props)
+  let ACSListBody = meta.getValueByPrecedence("rab_component.list_wrap_body","",object_meta, props)
 
   let component_name = ""
   if (!RenderACSList) {
-    component_name = meta.getValueByPrecedence("component_name.list","RenderACSList",object_meta, props)
+    component_name = meta.getValueByPrecedence("rab_component_name.list","RenderACSList",object_meta, props)
      RenderACSList = functional_components[component_name]
 
   }
   let wrap_name =""
   if (!ACSList) {
-    wrap_name =meta.getValueByPrecedence("component_name.list_wrap","Table",object_meta, props)
+    wrap_name =meta.getValueByPrecedence("rab_component_name.list_wrap","Table",object_meta, props)
     ACSList = functional_components[wrap_name]
   }
 
   let wrap_name_body =""
   if (!ACSListBody) {
-    wrap_name_body =meta.getValueByPrecedence("component_name.list_wrap_body","TableBody",object_meta, props)
+    wrap_name_body =meta.getValueByPrecedence("rab_component_name.list_wrap_body","TableBody",object_meta, props)
     ACSListBody = functional_components[wrap_name_body]
   }
 

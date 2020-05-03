@@ -14,7 +14,6 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
 function RenderACSRow(props) {
-
   //const ACSFieldMemo = React.memo(ACSField)
   const {object_type, field_list, id, data, api_options, ...params} = props
     if (data) {

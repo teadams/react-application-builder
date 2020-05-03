@@ -24,7 +24,8 @@ function Body(props) {
   const hamburger_menu_p = meta.get_menu("hamburger") ? true : false
   const meta_menu = meta.get_selected_menu(selected_menu, selected_menu_type)
 
-  const menu_component_name = meta.getValueByPrecedence("component_name.menu", "ACSField", meta_menu)
+
+  const menu_component_name = meta.getValueByPrecedence("rab_component_name.menu", "ACSField", meta_menu)
   let BodyComponent = dynamic_components[menu_component_name]
   if (typeof(BodyComponent) != "function") {
     alert("Menu Model Issues - no component for " + menu_component_name)
