@@ -86,7 +86,6 @@ class App extends Component {
 
   <Body selected_menu_type={selected_menu_type} selected_menu={selected_menu} />
 
-
 </Paper>
 <Debug/>
   </AuthContextProvider>)

@@ -1,6 +1,6 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
-
+import * as u from '../../Utils/utils.js'
 import React, {Fragment} from 'react';
 import {Typography, Button} from '@material-ui/core';
 import AuthContext from './AuthContext';
@@ -15,7 +15,6 @@ class AuthToggleLink extends React.Component {
       this.handleLogin = this.handleLogin.bind(this);
       this.handleClose = this.handleClose.bind(this);
     }
-
   handleLogin(event) {
     this.setState({login_form:true})
   }

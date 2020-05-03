@@ -11,9 +11,9 @@ function AuthContextProvider(props) {
       value={{
       user: user,
       context_id: context_id,
-      logout: ()=> {setUser({user:""})},   
+      logout: ()=> {setUser("")},   
       login: (user)=> {
-      setUser({user:user})},    
+      setUser(user)},    
       setContextId:  (context_id)=> {
       setContextId(context_id)    
       }}}>
