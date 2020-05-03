@@ -40,8 +40,18 @@ export function fields(object_type, restricted_fields = []) {
     } 
 }
 
+export function model(type) {
+  switch(type) {
+    case "menu":
+      return metadata_menus
+      break
+}}
 
-export async function load(type) {
+export async function load(type, callback) {
+  if (type=="menu") {
+    callback(metadata_menus);  
+    return metadata_menus
+  }
   const meta_result = await data.callAPI("/meta/model/"+type, {}, {}, "get")  
       switch(type) {
         case "app_params":
@@ -52,8 +62,9 @@ export async function load(type) {
           break 
         case "fields":
           metadata_fields = meta_result
+          
       }
-  return meta_result
+    callback(meta_result)
 }
 
 

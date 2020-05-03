@@ -1,26 +1,25 @@
 
 let framework_menus = {}
 
-framework_menus.test_hamburger = [
-    {key:"Olist", label: "ObjectList", rab_component_name:{menu:"ObjectView"}, test_case:"View one object", object_type:"core_user", layout:"list", id:1
-    },
-    {key:"Menu", label: "Menu", rab_component_name:{menu:"NavMenu"}, test_case:"Menu of items", object_type:"core_user"
-    },
-]
+framework_menus.test_hamburger = {
+     "Olist": {label: "ObjectList", rab_component_name:{menu:"ObjectView"}, test_case:"View one object", object_type:"core_user", layout:"list", id:1},
+     "Menu": { label: "Menu", rab_component_name:{menu:"NavMenu"}, test_case:"Menu of items", object_type:"core_user"
+      }
+}
 
-framework_menus.test_drilldown = [
-    {key:"HOlist", label: "ObjectList", rab_component_name:{menu:"ObjectView"}, test_case:"View one object", object_type:"core_user", layout:"list", id:1
+framework_menus.test_drilldown = {
+    "HOlist":{label: "ObjectList", rab_component_name:{menu:"ObjectView"}, test_case:"View one object", object_type:"core_user", layout:"list", id:1
     },
-    {key:"HMenu", label: "Menu", rab_component_name:{menu:"NavMenu"}, test_case:"Menu of items", object_type:"core_user"
+    "HMenu": {label: "Menu", rab_component_name:{menu:"NavMenu"}, test_case:"Menu of items", object_type:"core_user"
     },
-    {label: "DrillSubsite", rab_component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_subsite", selected_id:2, api_options:{parent_field:"parent_subsite"} 
+    "DrillSubsite": {label: "DrillSubsite", rab_component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_subsite", selected_id:2, api_options:{parent_field:"parent_subsite"} 
     },
-    { label: "Role Group", rab_component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_role", api_options:{grouping_field:"privilege"}
+    "RoleGroup": { label: "Role Group", rab_component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_role", api_options:{grouping_field:"privilege"}
     },
-    {label: "RoleNoGroup", rab_component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_role"
+    "RoleNoGroup": {label: "RoleNoGroup", rab_component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_role"
     },
-    {index:"5", label: "Tree", rab_component_name:{menu:"TreeMenu"}, test_case:"Tree Menu", object_type:"core_subsite", api_options:{parent_field:"parent_subsite"}}
-]
+    "Tree": { label: "Tree", rab_component_name:{menu:"TreeMenu"}, test_case:"Tree Menu", object_type:"core_subsite", api_options:{parent_field:"parent_subsite"}}
+}
 
 const table_wrap = {field:"TableCell", field_set:"TableRow", list_body:"TableBody", list:"Table", header:"TableHeader", header_row:"TableRow"}
 const fragment_wrap = {field:"Fragment", field_set:"Fragment", list_body:"Fragment", list:"Fragment", header:"Fragment", header_row:"Fragment"}

@@ -13,7 +13,7 @@ import * as u from '../Utils/utils.js';
 const useGetObjectList = (object_type, api_options, param_data, callback) => {
 
   const [prev_state, setState] = useState([false, object_type, api_options, param_data]);
- 
+
   if (!param_data && !object_type) {
       alert ("Error in useGetObjectList. Either data or object_type must be provided.")
   }
