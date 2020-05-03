@@ -6,9 +6,9 @@ import * as log from './log.js';
 import * as data from './data.js';
 import * as u from './utils.js';
 const custom_model="HealthMe"
-let app_params = {}
-let metadata_fields = {}
-let metadata_object_types = {}
+let app_params = ""
+let metadata_fields = ""
+let metadata_object_types = ""
 let metadata_sections = {}
 
 let metadata_core = require('../Models/Core')
@@ -45,6 +45,14 @@ export function model(type) {
     case "menu":
       return metadata_menus
       break
+    case "app_params":
+        return app_params
+      break
+    case "object_types":
+        return metadata_object_types
+        break 
+    case "fields":
+        return metadata_fields
 }}
 
 export async function load(type, callback) {

@@ -7,7 +7,7 @@ import * as u from '../Utils/utils.js';
 
 const useGetModel = (type) => {
   const [model, setModel] = useState(meta.model(type));
-  if (!model) {
+  if (!model || Object.keys(model).length==0) {
     meta.load(type, model_results => {
           setModel(model_results)
     })
