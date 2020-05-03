@@ -1,10 +1,17 @@
 
 let framework_menus = {}
 
-framework_menus.test_drilldown = [
+framework_menus.test_hamburger = [
     {key:"Olist", label: "ObjectList", rab_component_name:{menu:"ObjectView"}, test_case:"View one object", object_type:"core_user", layout:"list", id:1
     },
     {key:"Menu", label: "Menu", rab_component_name:{menu:"NavMenu"}, test_case:"Menu of items", object_type:"core_user"
+    },
+]
+
+framework_menus.test_drilldown = [
+    {key:"HOlist", label: "ObjectList", rab_component_name:{menu:"ObjectView"}, test_case:"View one object", object_type:"core_user", layout:"list", id:1
+    },
+    {key:"HMenu", label: "Menu", rab_component_name:{menu:"NavMenu"}, test_case:"Menu of items", object_type:"core_user"
     },
     {label: "DrillSubsite", rab_component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_subsite", selected_id:2, api_options:{parent_field:"parent_subsite"} 
     },

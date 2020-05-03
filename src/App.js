@@ -99,10 +99,8 @@ class App extends Component {
     
     const { classes, theme } = this.props;
     const {drawer_open } = this.state;
-    let hamburger_menu_p = meta.get_menu("hamburger")?true:false
-    if (hamburger_menu_p) {
-      hamburger_menu_p = auth.authorized({context_id:this.state.context_id, user:this.state.user}, meta.get_param("hamburger_menu_auth_scope"), meta.get_param("hamburger_menu_auth_priv"))
-    }
+
+    const hamburger_menu_p = meta.get_menu("hamburger")?true:false
     const meta_menu = meta.get_selected_menu(selected_menu,selected_menu_type)
   
     return      <Fragment>  
@@ -123,31 +121,15 @@ class App extends Component {
     
      {drawer_open && hamburger_menu_p && 
      <div style={{ position:"absolute"}}>
-     <Drawer 
-      variant="permanent"
-      anchor="left" 
-      open={true}
-      classes={{
-       paper: classes.drawerPaper,
-     }}>
+     <Drawer  variant="permanent" anchor="left" open={true} classes={{paper: classes.drawerPaper}}>
+
      <div className={classes.drawerHeader}>
          <IconButton onClick={this.handleDrawerClose}>
             <ChevronLeftIcon />
          </IconButton>
-       </div>
-       <Divider />
-
-       <List  component="nav">
-          {meta.get_menu("hamburger").map(menu=> {
-            var index =  menu.index + '-hamburger'
-              if (auth.authorized({context_id:this.state.context_id, user:this.state.user}, menu.auth_scope, menu.auth_priv)
-   ) {          
-                return     <ListItem key={menu.index} style={{padding:0}} dense disableGutters component="div">   <NavMenuLink text={menu.label} index={index} onClick={this.handleMenuChange} /> </ListItem>
-          }
-          })}
-        
-        </List>
-  
+     </div>
+      <Divider />  
+      <TabMenu onChange={this.handleMenuChange} menu_type="hamburger"  orientation="vertical" value={selected_menu} data={meta.get_menu("hamburger")} />
     </Drawer> 
     </div>
     }

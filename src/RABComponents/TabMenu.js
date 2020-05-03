@@ -10,27 +10,8 @@ import ACSListController from '../Functional/ACSListController.js'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import {AppBar,Toolbar, Typography, IconButton, Button, Paper, Tabs, Tab, Drawer, Divider,List, Menu, MenuItem, ListItem, ListItemText} from '@material-ui/core';
 
-// <Tabs 
-//     value={(selected_menu_type=="app_menu")?selected_menu:""}
-//     onChange={this.handleMenuChange}
-//     indicatorColor="primary"
-//     textColor="primary"
-//     centered
-//  >
-//  {meta.get_menu("app_menu").map(menu=> {
-//    if (auth.authorized({context_id:this.state.context_id, user:this.state.user}, menu.auth_scope, menu.auth_priv)
-// ) {
-//      return <Tab key={menu.index} label={menu.label}/>
-//    } 
-//  })}
-//   </Tabs>
-
-//const component_name = ""
 function TabMenu(props)  {
-  const {data=[], field_name="label", onClick, value=props.data[0].key, menu_type,...params} = props
-  
-  //     value={(selected_menu_type=="app_menu")?selected_menu:""}
-  //     onChange={this.handleMenuChange}
+  const {data=[], field_name="label", onClick, value=props.data[0].key, menu_type, orientation, ...params} = props
 
   const TabsComponent = ((props) => {
     const [value, setValue] = React.useState(props.value);
@@ -43,6 +24,7 @@ function TabMenu(props)  {
       }
       return (<Tabs 
        value={value}
+       orientation={orientation}
        onChange={handleOnChange}
        indicatorColor="primary"
        textColor="primary"
