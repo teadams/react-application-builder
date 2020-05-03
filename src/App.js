@@ -95,7 +95,7 @@ class App extends Component {
         return <Fragment/>
     }
 
-    let { selected_menu, filter_id, selected_menu_type } = this.props.match.params
+    let { selected_menu, selected_menu_type } = this.props.match.params
     
     const { classes, theme } = this.props;
     const {drawer_open } = this.state;
@@ -139,15 +139,13 @@ class App extends Component {
         <Toolbar style={{minHeight:0}}> 
         <Grid container style={{width:'100%'}}>
         <Grid item sm="11">
-        {hamburger_menu_p &&
-        <IconButton style={{ marginLeft: -12, marginRight: 20, marginBottom:0, paddingBottom:0}} color="inherit"  onClick={this.handleDrawerOpen}>
-           <MenuIcon />
-        </IconButton> 
+        {hamburger_menu_p && 
+            <IconButton style={{ marginLeft: -12, marginRight: 20, marginBottom:0, paddingBottom:0}} color="inherit"  onClick={this.handleDrawerOpen}><MenuIcon /></IconButton> 
         }
-          <Typography variant="headline" color="inherit" style={{display:'inline-block', marginTop:10, marginBottom:0, marginRight:100}}> 
+        <Typography variant="headline" color="inherit" style={{display:'inline-block', marginTop:10, marginBottom:0, marginRight:100}}> 
             {meta.get_param('name')}   
-          </Typography>  
-           <ContextSelect />
+        </Typography>  
+        <ContextSelect />
            </Grid>
             <Grid item sm="1">
             <AuthToggleLink></AuthToggleLink>
@@ -156,23 +154,13 @@ class App extends Component {
         </Toolbar>
       </AppBar>
       <TabMenu onChange={this.handleMenuChange} menu_type="app_menu" value={selected_menu} data={meta.get_menu("app_menu")} />
-        <Body  
-        selected_menu={selected_menu} selected_menu_type={selected_menu_type} filter_id={filter_id}
-        onMenuChange = {this.handleMenuChange}
-/>
-        </div>
+        <Body  selected_menu={selected_menu} selected_menu_type={selected_menu_type} filter_id={filter_id}
+        onMenuChange = {this.handleMenuChange}/>
+      </div>
      </Paper>
-     <Tabs
-       value={0}  
-       indicatorColor="primary"
-       textColor="primary"
-       centered
-     >
-       <Tab label={meta.get_param('footer')} /> </Tabs>
-       <p/>
-      <Debug/>
+    <Debug/>
     </AuthContext.Provider>
-    </Fragment>
+  </Fragment>
   
   }
 }
