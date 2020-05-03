@@ -1,6 +1,15 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import 'typeface-roboto';
+// HACK to work around timing.. components that needed ACSField.
+// did not make it into the functional components array.  Will
+// move array to function 
+import ACSFieldController from './Functional/ACSField2.js'
+import ACSRowController from './Functional/ACSRowController.js'
+import ACSListController from './Functional/ACSListController.js'
+import RenderACSField from './Functional/RenderACSField.js'
+import RenderACSRow from './Functional/RenderACSRow.js'
+import RenderACSList from './Functional/RenderACSList.js'
 import React, { Component, Fragment} from 'react';
 import {render}  from 'react-dom';
 import App from "./App.js";
