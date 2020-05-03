@@ -6,6 +6,7 @@ import * as u from '../Utils/utils.js';
 
 import useGetObjectList from '../Hooks/useGetObjectList';
 import React, {Fragment, useState, useEffect} from 'react';
+import {AppBar,Toolbar, Typography, IconButton, Button, Paper, Tabs, Tab, Drawer, Divider,List, Menu, MenuItem, ListItem, ListItemText} from '@material-ui/core';
 
 import {functional_components} from "./index.js"
 
@@ -21,7 +22,7 @@ function ACSListController(props) {
 
   let RenderACSList  =  meta.getValueByPrecedence("rab_component.list","",object_meta, props)
   let ACSList = meta.getValueByPrecedence("rab_component.list_wrap","",object_meta, props)
-  let ACSListBody = meta.getValueByPrecedence("rab_component.list_wrap_body","",object_meta, props)
+  let ACSListBody = meta.getValueByPrecedence("rab_component.list_body_wrap","",object_meta, props)
 
   let component_name = ""
   if (!RenderACSList) {
@@ -31,21 +32,24 @@ function ACSListController(props) {
   }
   let wrap_name =""
   if (!ACSList) {
-    wrap_name =meta.getValueByPrecedence("rab_component_name.list_wrap","Table",object_meta, props)
+    wrap_name =meta.getValueByPrecedence("rab_component_name.list_wrap","Fragment",object_meta, props)
     ACSList = functional_components[wrap_name]
   }
 
   let wrap_name_body =""
   if (!ACSListBody) {
-    wrap_name_body =meta.getValueByPrecedence("rab_component_name.list_wrap_body","TableBody",object_meta, props)
+    wrap_name_body =meta.getValueByPrecedence("rab_component_name.list_body_wrap","Fragment",object_meta, props)
     ACSListBody = functional_components[wrap_name_body]
   }
 
   const onClick = meta.getValueByPrecedence("onClick.list",object_meta,props)
 
   if (data) {
-    return  (<ACSList><ACSListBody onClick={onClick}> <RenderACSList {...params} object_type={object_type} field_list={field_list}  data={data} api_options={api_options} />
-        </ACSListBody></ACSList>)
+    return  (<ACSList>
+              <ACSListBody {...params}  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} onClick={onClick}>
+                <RenderACSList {...params} object_type={object_type} field_list={field_list}  data={data} api_options={api_options} />
+              </ACSListBody>
+            </ACSList>)
     } else {
         // prevents dom changes
         return <div></div>

@@ -4,7 +4,7 @@ import 'react-app-polyfill/stable';
 import metadata_menus from '../Models/HealthMe/menus'
 import * as log from './log.js';
 import * as data from './data.js';
-import * as utils from './utils.js';
+import * as u from './utils.js';
 const custom_model="HealthMe"
 let app_params = {}
 let metadata_fields = {}
@@ -169,21 +169,16 @@ export function get_menu(menu_type) {
     return metadata_menus[menu_type];
 }
 
-export function get_selected_menu(selected_menu_index, menu_type) {
-  if (!menu_type) {
-    menu_type = "app_menu"
-  }
-  
-  log.func('get selected menu', 'selected_index, metadata_menus, app_menu', 
-    selected_menu_index, metadata_menus, metadata_menus.app_menu);
-  
-  return (get_menu(menu_type).reduce ((accum,menu_item) => {
-      log.val('menu item', menu_item)
-      if (selected_menu_index == menu_item.index) {
+export function get_selected_menu(selected, menu_type="app_menu") {
+    return (get_menu(menu_type).reduce ((accum,menu_item) => {
+      if (menu_item.key && selected == menu_item.key.replace(/\s+/g, '')) {
           return (menu_item);
-      } else { return accum}
-  },""));
-  
+      } else if (selected == menu_item.label.replace(/\s+/g, '')) {
+          return (menu_item);
+      } else { 
+        return accum
+      }
+  },""));  
 }
 
 export function get_param(param) { 

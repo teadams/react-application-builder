@@ -82,48 +82,11 @@ class App extends Component {
   };
 
 
-  handleMenuChange(event, selected_menu, link_filter_id, link_filter_field, link_field_object_type, menu_link_reference_field) {
+  handleMenuChange(selected_menu, menu_type) {
       window.scrollTo(0,0)
-      let menu_type = 'app_menu'     
-      // Tabs can only send an integer
-      // TODO - file up the huge variable list to be an object with options
-      // and option can be the menu type
-      //alert ("selectced menu is " + JSON.stringify(selected_menu))
-      if ((typeof selected_menu) == "string") {
-        //alert ("type is string")
-        const split_menu = selected_menu.split('-');
-        menu_type = split_menu[1]?split_menu[1]:'app_menu'
-        selected_menu = split_menu[0]
-      } 
-
       const meta_menu = meta.get_selected_menu(selected_menu, menu_type)
-      let filter_id = link_filter_id
-      if (link_filter_field) {
-        // this is a more complex case that was used for the interface tracking project
-        // consider removing
-         // link_filter_id is the id field.  Based on this, retrieve another field
-            //let urltext ='api/v1/system_groups'
-            let urltext = '/api/v1/' + link_field_object_type + '/'+ link_filter_id;
-          axios({
-           method: 'get',
-           url: urltext,
-         }).then(results => {
-           filter_id = results.data[link_filter_field]
-            let path = `/${menu_type}/${selected_menu}/${filter_id}`
-           //alert ("filter id  after query is " + filter_id)
-            this.handleDrawerClose();
-            this.props.history.push(path);  
-         })
-
-      } else {
-          let path = `/${menu_type}/${selected_menu}`
-          if (filter_id) {
-              path = path + '/${filter_id}'
-          }
-
-          this.handleDrawerClose();   
-          this.props.history.push(path);                
-      }
+      let path = `/${menu_type}/${selected_menu}`
+      this.props.history.push(path);
   }
     
   render() {    
@@ -133,6 +96,7 @@ class App extends Component {
     }
 
     let { selected_menu, filter_id, selected_menu_type } = this.props.match.params
+    
     const { classes, theme } = this.props;
     const {drawer_open } = this.state;
     let hamburger_menu_p = meta.get_menu("hamburger")?true:false
@@ -209,7 +173,7 @@ class App extends Component {
           </Grid>
         </Toolbar>
       </AppBar>
-      <TabMenu data={meta.get_menu("app_menu")} />
+      <TabMenu onChange={this.handleMenuChange} menu_type="app_menu" value={selected_menu} data={meta.get_menu("app_menu")} />
         <Body  
         selected_menu={selected_menu} selected_menu_type={selected_menu_type} filter_id={filter_id}
         onMenuChange = {this.handleMenuChange}

@@ -27,31 +27,40 @@ import {AppBar,Toolbar, Typography, IconButton, Button, Paper, Tabs, Tab, Drawer
 
 //const component_name = ""
 function TabMenu(props)  {
-  const {data=[], field_name="label", onClick, ...params} = props
+  const {data=[], field_name="label", onClick, value=props.data[0].key, menu_type,...params} = props
   
   //     value={(selected_menu_type=="app_menu")?selected_menu:""}
   //     onChange={this.handleMenuChange}
 
   const TabsComponent = ((props) => {
+    const [value, setValue] = React.useState(props.value);
+  
+      function handleOnChange(event,new_value) {
+        setValue(new_value)
+        if (props.onChange) {
+            props.onChange(new_value, menu_type)
+        }
+      }
       return (<Tabs 
-       value={1}
+       value={value}
+       onChange={handleOnChange}
        indicatorColor="primary"
        textColor="primary"
+       variant="scrollable"
+       scrollButtons="auto"
        centered
       > 
-      {props.children}
+      {data.map(row => {
+        const value=row.key?row.key:row.label.replace(/\s+/g, '')
+        return (<Tab value={value} label={row.label}/>)
+      })}
     </Tabs>)
   })
 
-  const TabComponent = ((props) => {
-    const {data} = props
-    return (
-      <Tab key={data.index} label={data.label}/>
-    )
-  })
-  const rab_component_name = {list_wrap_body:"Fragment"}
-  const rab_component={list_wrap:TabsComponent, row:TabComponent}
-  return <ACSListController {...params} rab_component={rab_component} rab_component_name={rab_component_name} data={data}  field_list={[field_name]}/>
+  const rab_component_name = {row_wrap:"Fragment", list_wrap:"Fragment", field_wrap:"Fragment", field:"Fragment", row:"Fragment"}
+  const rab_component={list_body_wrap:TabsComponent}
+
+  return <ACSListController {...params} rab_component={rab_component} rab_component_name={rab_component_name} data={data} value={value}  field_list={[field_name]}/>
 }
 
 export default TabMenu;

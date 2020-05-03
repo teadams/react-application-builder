@@ -33,7 +33,7 @@ function ACSRowController(props) {
   // Changes to field list (metadata rules, ext)
 
   let RenderACSRow  =  meta.getValueByPrecedence("rab_component.row","",object_meta, props)
-
+  
   let ACSRow = meta.getValueByPrecedence("rab_component.row_wrap","",object_meta, props)
 
 //pattern, default value, args
@@ -44,27 +44,19 @@ function ACSRowController(props) {
   }
   let wrap_name =""
   if (!ACSRow) {
-    wrap_name =meta.getValueByPrecedence("rab_component_name.row_wrap","TableRow",object_meta, props)
-
+    wrap_name =meta.getValueByPrecedence("rab_component_name.row_wrap","Fragment",object_meta, props)
     ACSRow = functional_components[wrap_name]
   }
 
   const onClick = meta.getValueByPrecedence("onClick.row",object_meta,props)
 
 
-  if (!api_options) { 
-    // hack to allow the ACSField renews below to be memoized
-    // (due to javascript compare to null weirdness)
-
-    const api_options = {memo_helper:true}
-  }
-
   if (data) {
     return ( <Fragment>
         <ACSRow onClick={onClick} data={data} field_list={field_list} api_options={api_options} object_type={object_type} id={id}>
-            <RenderACSRow {...params} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options}>
-            </RenderACSRow>
-            {data.children && data.children.length >0 &&
+          <RenderACSRow {...params} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options}>
+          </RenderACSRow>
+          {data.children && data.children.length >0 &&
               <ACSListController {...params} object_type={object_type} api_options={api_options} data={data.children}  field_list={field_list}/>}
         </ACSRow> 
         </Fragment>)
