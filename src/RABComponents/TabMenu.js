@@ -19,8 +19,7 @@ function TabMenu(props)  {
   const value = (menu_type==selected_menu_type)?selected_menu:""
   let menu_model =  useGetModel("menu")
   if (!menu_model) {return null}
-  menu_model = menu_model[selected_menu_type]
-
+  menu_model = menu_model[menu_type]
   const TabsComponent = ((props) => {
     const {data} = props
     const [value, setValue] = React.useState(props.value);

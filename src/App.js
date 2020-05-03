@@ -3,6 +3,7 @@ import 'react-app-polyfill/stable';
 
 import React, { Component, Fragment} from 'react';
 import TabMenu from './RABComponents/TabMenu';
+import DrawerMenu from './RABComponents/DrawerMenu';
 import {Grid} from 'material-ui'
 import {CrudTable, Text, GoogleMap} from './Components/Layouts';
 import {NavMenuLink} from './Components/Experimental';
@@ -58,14 +59,6 @@ class App extends Component {
       };
   }
 
-  handleDrawerOpen = () => {
-    this.setState({ drawer_open: true });
-  };
-
-  handleDrawerClose = () => {
-    this.setState({ drawer_open: false });
-  };
-
     
   render() {    
     let { selected_menu, selected_menu_type } = this.props.match.params
@@ -79,9 +72,7 @@ class App extends Component {
     <Toolbar style={{minHeight:0}}> 
       <Grid container style={{width:'100%'}}>
         <Grid item sm="11"> 
-          {hamburger_menu_p && 
-            <IconButton style={{ marginLeft: -12, marginRight: 20, marginBottom:0, paddingBottom:0}} color="inherit"  onClick={this.handleDrawerOpen}><MenuIcon /></IconButton> 
-          }
+          <DrawerMenu menu_type="hamburger" selected_menu={selected_menu} selected_menu_type={selected_menu_type} />
           <Typography variant="headline" color="inherit" style={{display:'inline-block', marginTop:10, marginBottom:0, marginRight:100}}>  {meta.get_param('name')} </Typography>  
           <ContextSelect />
         </Grid>
@@ -104,22 +95,6 @@ class App extends Component {
 
 export default withStyles(styles, { withTheme: true })(App);
 
-// {drawer_open && hamburger_menu_p && 
-// <div style={{ position:"absolute"}}>
-// <Drawer  variant="permanent" anchor="left" open={true} classes={{paper: classes.drawerPaper}}>
-// 
-// <div className={classes.drawerHeader}>
-//     <IconButton onClick={this.handleDrawerClose}>
-//        <ChevronLeftIcon />
-//     </IconButton>
-// </div>
-//  <Divider />  
-//  <TabMenu onChange={this.handleMenuChange} menu_type="hamburger"  orientation="vertical" value={selected_menu} data={meta.get_menu("hamburger")} />
-// </Drawer> 
-// </div>
-// }
-// <div  className={classNames( {[classes[`appShift-left`]]: drawer_open})}>
-//</div>
 
 
 
