@@ -50,6 +50,7 @@ function ContextSelect () {
               noLabel= {true}
               context_limit={context_limit}
               user_id = {user.id}
+              parent_field  = "parent_subsite"
               open="true"
              />
           );

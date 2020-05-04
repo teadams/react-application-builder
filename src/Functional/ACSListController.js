@@ -3,20 +3,34 @@ import 'react-app-polyfill/stable';
 import * as log from '../Utils/log.js'
 import * as meta from '../Utils/meta.js'
 import * as u from '../Utils/utils.js';
-
+import useGetModel from "../Hooks/useGetModel.js"
 import useGetObjectList from '../Hooks/useGetObjectList';
-import React, {Fragment, useState, useEffect} from 'react';
+import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
+import AuthContext from '../Components/User/AuthContext';
 import {AppBar,Toolbar, Typography, IconButton, Button, Paper, Tabs, Tab, Drawer, Divider,List, Menu, MenuItem, ListItem, ListItemText} from '@material-ui/core';
 
 import {functional_components} from "./index.js"
 
 function ACSListController(props) {
   const {field_tag, object_type:props_object_type, api_options:props_api_options={}, field_list="", ...params } = props
-  props_api_options.field_tag = field_tag
-
+  const context = useContext(AuthContext)
+  const object_types =  useGetModel("object_types")
+  let prepared_api_options = {}
+  Object.assign(prepared_api_options, props_api_options);
+  prepared_api_options.field_tag = field_tag
   const [mode, setMode] = useState("view");
 
-  let [object_type, api_options, data] = useGetObjectList(props.object_type, props_api_options, props.data); 
+  // Check the rules on the object_type - what do they need to read
+  // this all belongs on the server
+  if (props_object_type && !object_types[props_object_type].all_subsites) {
+    let context_limit = context.user.site_admin?"":"member"
+    if (context_limit) {
+        prepared_api_options.context_limit = context_limit
+        prepared_api_options.user_id = context.user.id
+    }
+  }
+
+  let [object_type, api_options, data] = useGetObjectList(props.object_type, prepared_api_options, props.data); 
 
   let object_meta = meta.object[object_type]
 
