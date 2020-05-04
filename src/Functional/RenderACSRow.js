@@ -16,10 +16,11 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 function RenderACSRow(props) {
   //const ACSFieldMemo = React.memo(ACSField)
   const {object_type, field_list, id, data, api_options, ...params} = props
+
     if (data) {
       return ( <Fragment>
-          {field_list.map(field_name => {
-          return <ACSField  {...params} object_type={object_type} id={id} field_name={field_name} data={data} api_options={api_options}/>
+          {field_list.map((field_name, field_index) => {
+            return <ACSField  {...params} field_index={field_index} object_type={object_type} id={id} field_name={field_name} data={data} api_options={api_options}/>
           })}
         </Fragment>)
     }

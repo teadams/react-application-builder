@@ -33,13 +33,67 @@ function ObjectView(props)  {
       const {object_type} = props
       const field_name = meta.keys(object_type).pretty_key_id
       return <Fragment><Typography variant="title" style={{display:"block", padding:10}}><b>
-              <FieldView {...params} field_name={field_name}/></b></Typography>
-              {props.children}
+              <FieldView {...params} field_name={field_name}/></b></Typography><TableRow>
+              {props.children}</TableRow>
             </Fragment>
   }
 
-  const rab_component = {field:field_comp, row_wrap:row_wrap_comp}
-  const rab_component_name = {field_wrap:"Fragment",  field_set_wrap:"Fragment", list_body:"Fragment", list:"Fragment"}
+  function row_comp(props) {
+    const {field_list, num_columns=2, ...params} = props
+    let row_data = []
+
+      if (data) {
+        return (<Fragment>
+          {field_list.map((field_name, field_index) => {
+              const field_meta = meta.fields(object_type)[field_name]
+              // default col_span to 1.  Add col_span to number_running_columns. Add 1 to num_running_fields
+              // if number_running_columns = num_columns - loop with start to start+ num_running_fields
+                    // number_running_columns = 0, start is start + num_running_fields +1, num_running_fields = 0
+              // if number_columns > max, loop with start to num_running_fields -1, start = Start plus num_running_fields, num_running_fields 0
+              // PROBLEM - last row may have more- do it twice
+
+              // First loop - splits up the field sett
+              // [a,b,c, d, e, f, g]
+              //[[a,b,c], [d,e],[f,g]]
+              // running_row = 0
+              // if col_span+running_column_span < limit - push to sub
+              // else - create a new onMenuChange
+              // running_row = running_row+1
+              // fields_new.push([]) 
+              //fields_new[running_row].push(field_name)
+
+              row_data.push([field_meta.pretty_name, field_name]) 
+              if ((field_index !=0 || num_columns===1) && (field_index+1) % num_columns === 0 ) {
+                  const local_data = row_data.slice();
+                  row_data = []
+                  // instead of making a copy, make a range (start to start + num fields) num columns
+                  return (<TableRow>
+                            {local_data.map( (field, field_index) => {
+                              return (<Fragment>
+                                      <TableCell align="right"><b>{local_data[field_index][0]}:</b></TableCell><TableCell align="left"><FieldView {...params} field_name={local_data[field_index][1]}/></TableCell>
+                                    </Fragment>)
+                            })}
+                          </TableRow>)
+              } else {  return null }
+          })}
+          {row_data.length > 0 && 
+                <TableRow>
+                      {row_data.map( (field, field_index) => {
+                        return (<Fragment>
+                                <TableCell align="right"><b>{row_data[field_index][0]}:</b></TableCell><TableCell align="left"><FieldView {...params} field_name = {row_data[field_index][1]}/></TableCell>
+                              </Fragment>)
+                      })}
+                </TableRow> 
+          }
+          </Fragment>)
+      }
+  }
+
+
+  
+
+  const rab_component = {field:field_comp, row_wrap:row_wrap_comp, row:row_comp}
+  const rab_component_name = {field_wrap:"Fragment",   list_body:"Fragment", list:"Fragment"}
 
   return (<Table style={{display:"inline", align:"left"}} size="small">
           <ACSRowController object_type={props.object_type} id={props.id} rab_component={rab_component} rab_component_name={rab_component_name}/>

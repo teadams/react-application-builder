@@ -35,11 +35,11 @@ function DrillDown(props)  {
 
   return (
   <Grid spacing={4} container>
-    <Grid  sm={4} item>
+    <Grid  sm={2} item>
       <TreeMenu {...params} api_options={api_options} object_type={object_type}
        onClick={handleSelect}/>
     </Grid>
-    <Grid  sm={8} item>
+    <Grid  sm={10} item>
       <ObjectView  {...params} api_options={api_options} object_type={object_type} 
       id={selected_id}/>
     </Grid>
