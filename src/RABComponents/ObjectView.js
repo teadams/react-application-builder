@@ -33,13 +33,13 @@ function ObjectView(props)  {
       const {object_type} = props
       const field_name = meta.keys(object_type).pretty_key_id
       return <Fragment><Typography variant="title" style={{display:"block", padding:10}}><b>
-              <FieldView {...params} field_name={field_name}/></b></Typography><TableRow>
-              {props.children}</TableRow>
+              <FieldView {...params} field_name={field_name}/></b></Typography><Table style={{borderSpacing:30, borderCollapse:"separate"}}>
+              {props.children}</Table>
             </Fragment>
   }
 
   function row_comp(props) {
-    const {field_list, num_columns=2, ...params} = props
+    const {field_list, num_columns=3, ...params} = props
     let row_data = []
 
       if (data) {
@@ -61,8 +61,8 @@ function ObjectView(props)  {
               // running_row = running_row+1
               // fields_new.push([]) 
               //fields_new[running_row].push(field_name)
-
-              row_data.push([field_meta.pretty_name, field_name]) 
+              const field_pretty_name = field_meta.pretty_name?field_meta.pretty_name:field_meta.field_name
+              row_data.push([field_pretty_name, field_name]) 
               if ((field_index !=0 || num_columns===1) && (field_index+1) % num_columns === 0 ) {
                   const local_data = row_data.slice();
                   row_data = []
@@ -70,7 +70,7 @@ function ObjectView(props)  {
                   return (<TableRow>
                             {local_data.map( (field, field_index) => {
                               return (<Fragment>
-                                      <TableCell align="right"><b>{local_data[field_index][0]}:</b></TableCell><TableCell align="left"><FieldView {...params} field_name={local_data[field_index][1]}/></TableCell>
+                                      <TableCell style={{ margin:0, padding:0}} align="right"><b>{local_data[field_index][0]}:</b></TableCell><TableCell style={{margin:0, padding:0}} align="left"><FieldView {...params} field_name={local_data[field_index][1]}/></TableCell>
                                     </Fragment>)
                             })}
                           </TableRow>)
@@ -80,7 +80,7 @@ function ObjectView(props)  {
                 <TableRow>
                       {row_data.map( (field, field_index) => {
                         return (<Fragment>
-                                <TableCell align="right"><b>{row_data[field_index][0]}:</b></TableCell><TableCell align="left"><FieldView {...params} field_name = {row_data[field_index][1]}/></TableCell>
+                                <TableCell  style={{ margin:0, padding:0}} align="right"><b>{row_data[field_index][0]}:</b></TableCell><TableCell style={{margin:0,padding:0}} align="left"><FieldView {...params} field_name = {row_data[field_index][1]}/></TableCell>
                               </Fragment>)
                       })}
                 </TableRow> 
@@ -95,7 +95,7 @@ function ObjectView(props)  {
   const rab_component = {field:field_comp, row_wrap:row_wrap_comp, row:row_comp}
   const rab_component_name = {field_wrap:"Fragment",   list_body:"Fragment", list:"Fragment"}
 
-  return (<Table style={{display:"inline", align:"left"}} size="small">
+  return (<Table style={{display:"inline", align:"left",borderSpacing:30, borderCollapse:"separate"}} size="small">
           <ACSRowController object_type={props.object_type} id={props.id} rab_component={rab_component} rab_component_name={rab_component_name}/>
           </Table>
           )
