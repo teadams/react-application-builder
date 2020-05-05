@@ -18,7 +18,7 @@ function ObjectView(props)  {
   const menu_model =  useGetModel("menu")
   if (!menu_model) {return null}
   const model = meta.getByPrecedence({filter_field:"id"}, props, menu_model.menu_items[props.menu_name])
-  const {object_type, filter_field} = model
+  const {object_type, filter_field, ...params} = model
 
   let api_options = {}
   api_options.filter_id = props[filter_field]
@@ -47,7 +47,6 @@ function ObjectView(props)  {
   function row_comp(props) {
     const {field_list, object_type, num_columns=3,  ...params} = props
     const data=props.data[0]
-
     let row_data = []
     if (!data) {return null}
   
@@ -111,7 +110,7 @@ function ObjectView(props)  {
   const rab_component_name = {field_wrap:"Fragment",   list_body:"Fragment", list:"Fragment"}
 
   return (<Table style={{display:"inline", align:"left",borderSpacing:30, borderCollapse:"separate"}} size="small">
-          <ACSRowController object_type={object_type}  api_options={api_options}  rab_component={rab_component} rab_component_name={rab_component_name}/>
+          <ACSRowController {...params} object_type={object_type}  api_options={api_options}  rab_component={rab_component} rab_component_name={rab_component_name}/>
           </Table>
           )
 }

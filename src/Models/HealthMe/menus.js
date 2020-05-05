@@ -14,7 +14,7 @@ const rab_menu_model = {
     "DrillSubsiteSale": {label: "DrillSubsiteSale", rab_component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_subsite",  api_options:{parent_field:"parent_subsite"}, target_menu_name:"DrillSale", target_filter_field:"core_subsite"}, 
     "DrillSubsite": {label: "DrillSubsite", rab_component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_subsite",  api_options:{parent_field:"parent_subsite"}
     },
-    "DrillSale": {label: "Sales", rab_component_name:{menu:"ObjectTypeView"}, test_case:"Context Viewing", object_type:"test_sale", filter_field:"core_subsite" 
+    "DrillSale": {label: "Sales", rab_component_name:{menu:"ObjectTypeView"}, test_case:"Context Viewing", object_type:"test_sale", filter_field:"core_subsite", num_columns:1 
     },
     "RoleGroup": { label: "Role Group", rab_component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_role", api_options:{grouping_field:"privilege"}
     },
