@@ -39,14 +39,13 @@ function DrillDown(props)  {
   const {...filter_params} = selected_filter
 
   return (
-  <Grid spacing={4} conta
-iner>
+  <Grid spacing={4} container>
     <Grid  sm={2} item>
       <TreeMenu {...params} api_options={api_options} object_type={object_type}
        onClick={handleSelect}/>
     </Grid>
-    <Grid  sm={10} item>
-      <ObjectView  {...params} {...filter_params} api_options={api_options} object_type={object_type} menu_name={target_menu_name}/>
+    <Grid  sm={9} item>
+      <ObjectView  num_columns={1} {...params} {...filter_params} api_options={api_options} object_type={object_type} menu_name={target_menu_name}/>
     </Grid>
   </Grid>
 
