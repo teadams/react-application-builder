@@ -15,21 +15,23 @@ import {functional_components} from "./index.js"
 function ACSRowController(props) {
   const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options, data:props_data, ...params} = props
   const [mode, setMode] = useState("view");
+  let prepared_field_list = props_field_list
+  
+  if (!props_field_list) {
+      if (props_object_type) {
+        prepared_field_list = Object.keys(meta.fields(props_object_type))
+      } else {
+        prepared_field_list = Object.keys(props_data)
+      }
+  }
 
 
   let [ready, object_type, id, field_list, api_options, data] = 
-  useGetObject(props_object_type, props_id, props_field_list, props_api_options, props_data); 
+  useGetObject(props_object_type, props_id, prepared_field_list, props_api_options, props_data); 
 
 
   let object_meta = meta.object[object_type]
 
-  if (!field_list) {
-      if (object_type) {
-        field_list = Object.keys(meta.fields(object_type))
-      } else {
-        field_list = Object.keys(data)
-      }
-  }
   // Changes to field list (metadata rules, ext)
 
   let RenderACSRow  =  meta.getValueByPrecedence("rab_component.row","",object_meta, props)

@@ -28,7 +28,7 @@ function App(props) {
           <Toolbar style={{minHeight:0}}> 
           <Grid container style={{width:'100%'}}>
             <Grid item sm="11"> 
-              <DrawerMenu menu_type="hamburger" selected_menu={selected_menu} selected_menu_type={selected_menu_type} />
+              <DrawerMenu menu_type="hamburger" selected_menu={selected_menu} />
               <Typography variant="headline" color="inherit" style={{display:'inline-block', marginTop:10, marginBottom:0, marginRight:100}}> {app_params.name} </Typography>  
               <ContextSelect />
             </Grid>
@@ -38,7 +38,7 @@ function App(props) {
           </Grid>
         </Toolbar>
       </AppBar>
-      <TabMenu menu_type="app_menu" selected_menu={selected_menu} selected_menu_type={selected_menu_type} />
+      <TabMenu menu_type="app_menu" selected_menu={selected_menu}  />
       <Body selected_menu_type={selected_menu_type} selected_menu={selected_menu} />
     </Paper>
     <Debug/>

@@ -11,9 +11,9 @@ const rab_menu_model = {
     },
     "HMenu": {label: "Menu", rab_component_name:{menu:"NavMenu"}, test_case:"Menu of items", object_type:"core_user"
     },
-    "DrillSubsite": {label: "DrillSubsite", rab_component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_subsite", selected_id:2, api_options:{parent_field:"parent_subsite"} 
+    "DrillSubsite": {label: "DrillSubsite", rab_component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_subsite",  api_options:{parent_field:"parent_subsite"}, target_menu_name:"DrillSale", target_filter_field:"core_subsite" 
     },
-    "DrillSale": {label: "Sales", rab_component_name:{menu:"ObjectTypeView"}, test_case:"Context Viewing", object_type:"test_sale" 
+    "DrillSale": {label: "Sales", rab_component_name:{menu:"ObjectTypeView"}, test_case:"Context Viewing", object_type:"test_sale", filter_field:"core_subsite" 
     },
     "RoleGroup": { label: "Role Group", rab_component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_role", api_options:{grouping_field:"privilege"}
     },

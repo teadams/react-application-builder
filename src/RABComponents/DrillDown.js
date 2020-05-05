@@ -16,7 +16,8 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
 function DrillDown(props)  {
-  const {object_type:props_object_type, api_options={}, selected_id:props_selected_id, ...params} = props
+  const {object_type:props_object_type, api_options={}, selected_id:props_selected_id, target_menu_name, target_filter_field="id", ...params} = props
+
   const {grouping_field} = api_options
   // ensure everything changes together so data and meta_model match
   const [state, setState] = useState([props_selected_id, props_object_type])
@@ -33,15 +34,19 @@ function DrillDown(props)  {
       setState([id, object_type])
   }
 
+  let selected_filter = {}
+  selected_filter[target_filter_field] = selected_id
+  const {...filter_params} = selected_filter
+
   return (
-  <Grid spacing={4} container>
+  <Grid spacing={4} conta
+iner>
     <Grid  sm={2} item>
       <TreeMenu {...params} api_options={api_options} object_type={object_type}
        onClick={handleSelect}/>
     </Grid>
     <Grid  sm={10} item>
-      <ObjectView  {...params} api_options={api_options} object_type={object_type} 
-      id={selected_id}/>
+      <ObjectView  {...params} {...filter_params} api_options={api_options} object_type={object_type} menu_name={target_menu_name}/>
     </Grid>
   </Grid>
 

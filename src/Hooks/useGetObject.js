@@ -3,24 +3,29 @@ import React, {useState, useLayoutEffect, useEffect} from 'react';
 import * as api from '../Utils/data.js';
 import * as meta from '../Utils/meta.js';
 import * as log from '../Utils/log.js';
-import * as utils from '../Utils/utils.js';
+import * as u from '../Utils/utils.js';
 
 //  const [db_object_data, setDbResults] = useState();
 const useGetObject = (object_type, id, field_list, api_options, param_data) => {
-  // XX - think not needed
+  // XX - think not neeed
   const [ready, setReady] = useState(false);
   const [prev_state, setState] = useState([false, object_type, id, field_list, api_options, param_data]);
 
-  if (!param_data && (!object_type && !id)) {
-      alert ("Error in useGetObject. Either data or object_type and id must be provided.")
+  if (!param_data) {
+    u.aa("get object with object_type, field_list, prev_state object, prev_state_field_list",object_type, field_list, prev_state[1], prev_state[3])
   }
+
+//// NEEDS FIXED..plus it shoudl just return
+//  if (!param_data && !(object_type && (id || api_options.filter_field))) {
+//      alert ("Error in useGetObject. Either data or object_type and id must be provided.")
+//  }
 
   let trigger_change_array = [object_type, id, param_data]
   trigger_change_array = api.addAPIParams(trigger_change_array, api_options)
 
   useLayoutEffect( () => {
-      if (!param_data && (object_type && id)) {
-        api.getData (object_type, {id:id}, (results, error) => { 
+      if (!param_data && (object_type && (id||api_options.filter_id))) {
+        api.getData (object_type, Object.assign({id:id},api_options), (results, error) => { 
             if (error) {
                 alert ("error retrieving object " + object_type + " " + id + ":" + error.message)
             } else {

@@ -75,7 +75,15 @@ export async function load(type, callback) {
     callback(meta_result)
 }
 
+export function getByPrecedence(default_object={},...override_objects) {
+    let final_object = default_object
+    override_objects.forEach ((override_object) => {
+      final_object = Object.assign(final_object,override_object)
+    })
+    return final_object
+}
 
+// will be depreceted
 export function getValueByPrecedence(attribute, default_value, ...models) {
     let value = default_value
     models.forEach (model => {

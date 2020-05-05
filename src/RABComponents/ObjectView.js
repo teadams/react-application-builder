@@ -3,7 +3,6 @@ import 'react-app-polyfill/stable';
 import { makeStyles } from '@material-ui/core/styles';
 import * as log from '../Utils/log.js'
 import * as meta from '../Utils/meta.js'
-import * as data from '../Utils/data.js';
 import * as u from '../Utils/utils.js';
 import FieldView from './FieldView.js'
 import {functional_components} from "../Functional/index.js"
@@ -14,9 +13,16 @@ import ACSListController from '../Functional/ACSRowController.js'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import {Tab, Tabs, Menu, MenuItem, Paper, MenuList,List,ListItem,ListItemAvatar,ListItemIcon,ListItemSecondaryAction,ListItemText,ListSubheader,Table,TableBody,TableCell,TableContainer,TableFooter,TableHead,TablePagination,TableRow,Typography} from '@material-ui/core';
 import useGetModel from "../Hooks/useGetModel.js"
-
+ 
 function ObjectView(props)  {
-  const {object_type,id} = props
+  const menu_model =  useGetModel("menu")
+  if (!menu_model) {return null}
+  const model = meta.getByPrecedence({filter_field:"id"}, props, menu_model.menu_items[props.menu_name])
+  const {object_type, filter_field} = model
+
+  let api_options = {}
+  api_options.filter_id = props[filter_field]
+  api_options.filter_field = filter_field
 
   function TablePaper(props) {
       return <Paper style={{display:"inline"}} variant="outlined">{props.children}</Paper>
@@ -39,13 +45,19 @@ function ObjectView(props)  {
   }
 
   function row_comp(props) {
-    const {field_list, num_columns=3, ...params} = props
+    const {field_list, object_type, num_columns=3, ...params} = props
     let row_data = []
+    const data=props.data[0]
+    if (!data) {return null}
+  
+    // XXX Cases where there is no data
 
       if (data) {
         return (<Fragment>
           {field_list.map((field_name, field_index) => {
               const field_meta = meta.fields(object_type)[field_name]
+//              u.aa("object_type,field_name,field_meta", object_type, field_name,field_meta)
+
               // default col_span to 1.  Add col_span to number_running_columns. Add 1 to num_running_fields
               // if number_running_columns = num_columns - loop with start to start+ num_running_fields
                     // number_running_columns = 0, start is start + num_running_fields +1, num_running_fields = 0
@@ -65,12 +77,14 @@ function ObjectView(props)  {
               row_data.push([field_pretty_name, field_name]) 
               if ((field_index !=0 || num_columns===1) && (field_index+1) % num_columns === 0 ) {
                   const local_data = row_data.slice();
+
                   row_data = []
+
                   // instead of making a copy, make a range (start to start + num fields) num columns
                   return (<TableRow>
                             {local_data.map( (field, field_index) => {
                               return (<Fragment>
-                                      <TableCell style={{ margin:0, padding:0}} align="right"><b>{local_data[field_index][0]}:</b></TableCell><TableCell style={{margin:0, padding:0}} align="left"><FieldView {...params} field_name={local_data[field_index][1]}/></TableCell>
+                                      <TableCell style={{ margin:0, padding:0}} align="right"><b>{local_data[field_index][0]}:</b></TableCell><TableCell style={{margin:0, padding:0}} align="left"> {data[row_data[field_index[1]]]}<FieldView {...params} data={data} field_name={local_data[field_index][1]}/></TableCell>
                                     </Fragment>)
                             })}
                           </TableRow>)
@@ -80,7 +94,7 @@ function ObjectView(props)  {
                 <TableRow>
                       {row_data.map( (field, field_index) => {
                         return (<Fragment>
-                                <TableCell  style={{ margin:0, padding:0}} align="right"><b>{row_data[field_index][0]}:</b></TableCell><TableCell style={{margin:0,padding:0}} align="left"><FieldView {...params} field_name = {row_data[field_index][1]}/></TableCell>
+                                <TableCell  style={{ margin:0, padding:0}} align="right"><b>{row_data[field_index][0]}:</b></TableCell><TableCell style={{margin:0,padding:0}} align="left">aa{data[row_data[field_index[1]]]}aa<FieldView {...params} field_name = {row_data[field_index][1]} data={data}/></TableCell>
                               </Fragment>)
                       })}
                 </TableRow> 
@@ -96,7 +110,7 @@ function ObjectView(props)  {
   const rab_component_name = {field_wrap:"Fragment",   list_body:"Fragment", list:"Fragment"}
 
   return (<Table style={{display:"inline", align:"left",borderSpacing:30, borderCollapse:"separate"}} size="small">
-          <ACSRowController object_type={props.object_type} id={props.id} rab_component={rab_component} rab_component_name={rab_component_name}/>
+          <ACSRowController object_type={object_type}  api_options={api_options}  rab_component={rab_component} rab_component_name={rab_component_name}/>
           </Table>
           )
 }
