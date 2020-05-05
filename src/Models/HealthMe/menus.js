@@ -2,7 +2,7 @@
 const rab_menu_model = {
   menus:{
     hamburger: ["Olist", "Menu","DrillSubsite"],
-    app_menu: ["HOlist","HMenu", "DrillSubsite", "DrillSale", "RoleGroup", "RoleNoGroup"]
+    app_menu: ["HOlist","HMenu", "DrillSubsite", "DrillSubsiteSale", "DrillSale", "RoleGroup", "RoleNoGroup"]
   },
   menu_items:{
     "Olist": {label: "OtList", rab_component_name:{menu:"ObjectView"}, test_case:"View one object", object_type:"core_user", layout:"list", id:1},
@@ -11,7 +11,8 @@ const rab_menu_model = {
     },
     "HMenu": {label: "Menu", rab_component_name:{menu:"NavMenu"}, test_case:"Menu of items", object_type:"core_user"
     },
-    "DrillSubsite": {label: "DrillSubsite", rab_component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_subsite",  api_options:{parent_field:"parent_subsite"}, target_menu_name:"DrillSale", target_filter_field:"core_subsite" 
+    "DrillSubsiteSale": {label: "DrillSubsiteSale", rab_component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_subsite",  api_options:{parent_field:"parent_subsite"}, target_menu_name:"DrillSale", target_filter_field:"core_subsite"}, 
+    "DrillSubsite": {label: "DrillSubsite", rab_component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_subsite",  api_options:{parent_field:"parent_subsite"}
     },
     "DrillSale": {label: "Sales", rab_component_name:{menu:"ObjectTypeView"}, test_case:"Context Viewing", object_type:"test_sale", filter_field:"core_subsite" 
     },

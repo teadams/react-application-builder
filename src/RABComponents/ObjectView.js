@@ -45,9 +45,10 @@ function ObjectView(props)  {
   }
 
   function row_comp(props) {
-    const {field_list, object_type, num_columns=3, ...params} = props
-    let row_data = []
+    const {field_list, object_type, num_columns=3,  ...params} = props
     const data=props.data[0]
+
+    let row_data = []
     if (!data) {return null}
   
     // XXX Cases where there is no data
