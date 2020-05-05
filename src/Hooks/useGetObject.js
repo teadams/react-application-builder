@@ -21,10 +21,11 @@ const useGetObject = (object_type, id, field_list, api_options, param_data) => {
 
   useLayoutEffect( () => {
       if (!param_data && (object_type && (id||api_options.filter_id))) {
-        api.getData (object_type, Object.assign({id:id},api_options), (results, error) => { 
+        api.getData (object_type, Object.assign({id:id},api_options), (results, error) => {         
             if (error) {
                 alert ("error retrieving object " + object_type + " " + id + ":" + error.message)
             } else {
+              results = results[0]
               setState([true, object_type, id, field_list, api_options, results])
             }
         })

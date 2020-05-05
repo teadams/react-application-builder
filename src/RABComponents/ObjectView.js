@@ -35,18 +35,16 @@ function ObjectView(props)  {
   }
 
   function row_wrap_comp(props) {
-      const {...params} = props   
-      const {object_type} = props
+      const {object_type, ...params} = props   
       const field_name = meta.keys(object_type).pretty_key_id
       return <Fragment><Typography variant="title" style={{display:"block", padding:10}}><b>
-              <FieldView {...params} field_name={field_name}/></b></Typography><Table style={{borderSpacing:30, borderCollapse:"separate"}}>
+              <FieldView {...params} data={props.data} object_type={object_type} field_name={field_name}/></b></Typography><Table style={{borderSpacing:30, borderCollapse:"separate"}}>
               {props.children}</Table>
             </Fragment>
   }
 
   function row_comp(props) {
-    const {field_list, object_type, num_columns=3,  ...params} = props
-    const data=props.data[0]
+    const {data,field_list, object_type, num_columns=3,  ...params} = props
     let row_data = []
     if (!data) {return null}
   
