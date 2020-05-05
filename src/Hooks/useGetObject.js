@@ -11,10 +11,6 @@ const useGetObject = (object_type, id, field_list, api_options, param_data) => {
   const [ready, setReady] = useState(false);
   const [prev_state, setState] = useState([false, object_type, id, field_list, api_options, param_data]);
 
-  if (!param_data) {
-    u.aa("get object with object_type, field_list, prev_state object, prev_state_field_list",object_type, field_list, prev_state[1], prev_state[3])
-  }
-
 //// NEEDS FIXED..plus it shoudl just return
 //  if (!param_data && !(object_type && (id || api_options.filter_field))) {
 //      alert ("Error in useGetObject. Either data or object_type and id must be provided.")
