@@ -19,20 +19,20 @@ import {  BrowserRouter as Router,  Switch,  Route,  Link,  useParams } from "re
 function Body(props) {
   const {selected_menu} = props
 
-  let menu_model =  useGetModel("menu")
+  const menu_model =  useGetModel("menu")
   const app_params =  useGetModel("app_params")
   const object_types =  useGetModel("object_types")
   const fields =  useGetModel("fields")
   if (!app_params || !object_types || !fields ){ return null}
   if (!menu_model || !selected_menu  ) {return null}
-  menu_model = menu_model.menu_items[selected_menu]
+  let selected_menu_model = menu_model.menu_items[selected_menu]
 
-  const menu_component_name = meta.getValueByPrecedence("rab_component_name.menu", "ACSField", menu_model)
+  const menu_component_name = meta.getValueByPrecedence("rab_component_name.menu", "ACSField", selected_menu_model)
   let BodyComponent = dynamic_components[menu_component_name]
   if (typeof(BodyComponent) != "function") {
     alert("Menu Model Issues - no component for " + menu_component_name)
   }
-  const { ...rest} = menu_model
+  const { ...rest} = selected_menu_model
   return ( < BodyComponent {...rest}/>)  
 }
 
