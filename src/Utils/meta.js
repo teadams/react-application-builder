@@ -1,7 +1,7 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
-import metadata_menus from '../Models/HealthMe/menus'
+import rab_menu_model from '../Models/HealthMe/menus'
 import * as log from './log.js';
 import * as data from './data.js';
 import * as u from './utils.js';
@@ -43,7 +43,7 @@ export function fields(object_type, restricted_fields = []) {
 export function model(type) {
   switch(type) {
     case "menu":
-      return metadata_menus
+      return rab_menu_model
       break
     case "app_params":
         return app_params
@@ -57,8 +57,8 @@ export function model(type) {
 
 export async function load(type, callback) {
   if (type=="menu") {
-    callback(metadata_menus);  
-    return metadata_menus
+    callback(rab_menu_model);  
+    return rab_menu_model
   }
   const meta_result = await data.callAPI("/meta/model/"+type, {}, {}, "get")  
       switch(type) {
@@ -185,19 +185,11 @@ export function pretty_name_field_pretty_name(object_type) {
 }
 
 export function get_menu(menu_type) {
-    return metadata_menus[menu_type];
+    return rab_menu_model.menus[menu_type];
 }
 
-export function get_selected_menu(selected, menu_type="app_menu") {
-    return (get_menu(menu_type).reduce ((accum,menu_item) => {
-      if (menu_item.key && selected == menu_item.key.replace(/\s+/g, '')) {
-          return (menu_item);
-      } else if (selected == menu_item.label.replace(/\s+/g, '')) {
-          return (menu_item);
-      } else { 
-        return accum
-      }
-  },""));  
+export function get_selected_menu(selected) {
+    return rab_menu_model.menu_items[selected]
 }
 
 export function get_param(param) { 

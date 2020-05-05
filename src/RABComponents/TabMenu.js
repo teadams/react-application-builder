@@ -14,23 +14,27 @@ import {  BrowserRouter as Router,  Switch,  Route,  Link,  Redirect, useHistory
 import {AppBar,Toolbar, Typography, IconButton, Button, Paper, Tabs, Tab, Drawer, Divider,List, Menu, MenuItem, ListItem, ListItemText} from '@material-ui/core';
 
 function TabMenu(props)  {
-  const {selected_menu, selected_menu_type, menu_type, orientation, ...params} = props
+  const {selected_menu, menu_type, orientation, ...params} = props
   const history = useHistory({});
-  const value = (menu_type==selected_menu_type)?selected_menu:""
+  const value = selected_menu
   let menu_model =  useGetModel("menu")
   if (!menu_model) {return null}
-  menu_model = menu_model[menu_type]
+
+  const field_list=
+      menu_model.menus[menu_type]?menu_model.menus[menu_type]:
+                                  Object.keys(menu_model.menu_items)
+
   const TabsComponent = ((props) => {
-    const {data} = props
+    const {data, field_list} = props
     const [value, setValue] = React.useState(props.value);
 
     function handleOnChange(event,new_value) {
       window.scrollTo(0,0)
       setValue(new_value)
-      let path = `/${menu_type}/${new_value}`
+      let path = `/foo/${new_value}`
       history.push(path);
       if (props.onChange) {
-          props.onChange(new_value, menu_type)
+          props.onChange(new_value)
       }
     }
     return (<Tabs 
@@ -43,8 +47,9 @@ function TabMenu(props)  {
        scrollButtons="auto"
        centered
       > 
-      {Object.keys(data).map(key => {
+      {field_list.map(key => {
         const menu_item=data[key]
+        if (!menu_item) { alert ("no menu for " +key)}
         return (<Tab value={key} label={menu_item.label}/>)
       })}
     </Tabs>)
@@ -53,8 +58,9 @@ function TabMenu(props)  {
 
   const rab_component_name = {row_wrap:"Fragment", list_wrap:"Fragment", field_wrap:"Fragment", field:"Fragment", row:"Fragment"}
   const rab_component={list_body_wrap:TabsComponent}
-  
-  return <ACSListController  rab_component={rab_component} rab_component_name={rab_component_name} data={menu_model} value={value}/>
+
+
+  return <ACSListController  rab_component={rab_component} rab_component_name={rab_component_name} field_list={field_list} data={menu_model.menu_items} value={value}/>
 }
 
 export default TabMenu;

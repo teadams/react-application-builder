@@ -4,6 +4,8 @@ import NavMenu from "./NavMenu.js"
 import DrillDown from "./DrillDown.js"
 import FieldView from "./FieldView.js"
 import TreeMenu from "./TreeMenu.js"
+import ObjectTypeView from "./ObjectTypeView.js"
+
 
 
 const rab_components = { 
@@ -11,7 +13,8 @@ const rab_components = {
           NavMenu:NavMenu,
           DrillDown:DrillDown,
           FieldView:FieldView,
-          TreeMenu:TreeMenu
+          TreeMenu:TreeMenu,
+          ObjectTypeView:ObjectTypeView
 }
 
 export {

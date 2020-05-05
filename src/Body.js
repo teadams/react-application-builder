@@ -17,15 +17,15 @@ import { withStyles } from '@material-ui/core/styles';
 import {  BrowserRouter as Router,  Switch,  Route,  Link,  useParams } from "react-router-dom";
 
 function Body(props) {
-  const {  selected_menu,selected_menu_type} = props
+  const {selected_menu} = props
 
   let menu_model =  useGetModel("menu")
   const app_params =  useGetModel("app_params")
   const object_types =  useGetModel("object_types")
   const fields =  useGetModel("fields")
   if (!app_params || !object_types || !fields ){ return null}
-  if (!menu_model || !selected_menu || !selected_menu_type) {return null}
-  menu_model = menu_model[selected_menu_type][selected_menu]
+  if (!menu_model || !selected_menu  ) {return null}
+  menu_model = menu_model.menu_items[selected_menu]
 
   const menu_component_name = meta.getValueByPrecedence("rab_component_name.menu", "ACSField", menu_model)
   let BodyComponent = dynamic_components[menu_component_name]

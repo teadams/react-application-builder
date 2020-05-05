@@ -14,6 +14,8 @@ framework_menus.test_drilldown = {
     },
     "DrillSubsite": {label: "DrillSubsite", rab_component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_subsite", selected_id:2, api_options:{parent_field:"parent_subsite"} 
     },
+    "DrillSale": {label: "Sales", rab_component_name:{menu:"ObjectTypeView"}, test_case:"Context Viewing", object_type:"test_sale" 
+    },
     "RoleGroup": { label: "Role Group", rab_component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_role", api_options:{grouping_field:"privilege"}
     },
     "RoleNoGroup": {label: "RoleNoGroup", rab_component_name:{menu:"DrillDown"}, test_case:"DrillDown", object_type:"core_role"
