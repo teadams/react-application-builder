@@ -1,4 +1,6 @@
-import {Fragment} from 'react';
+import * as u from './utils.js'
+
+import React, {Fragment} from 'react';
 import ObjectView from "../RABComponents/ObjectView.js"
 import NavMenu from "../RABComponents/NavMenu.js"
 import DrillDown from "../RABComponents/DrillDown.js"
@@ -23,8 +25,15 @@ export function getFinalModel(level, {...component_models}) {
 }
 
 export function componentByName(name) {
+  const component = componentPicker(name)
+  return component
+  
+}
+
+function componentPicker(name) {
+  if (!name) {alert (name);return Fragment}
   switch (name) {
-    case "ObjectView": return ObjectView;
+    case "ObjectView": return ObjectView
     case "Text": return Text;
     case "NavMenu": return NavMenu;
     case "DrillDown": return DrillDown;
@@ -61,7 +70,10 @@ export function componentByName(name) {
     case "TreeItem": return TreeItem; 
     case "TreeView": return TreeView;
     case "Fragment": return Fragment;
-    default:  return Text;
+    default:  { 
+      alert("Menu Model Issues - no component for " + name) 
+      return Fragment;
+    }
   }
 }
 
