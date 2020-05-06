@@ -51,7 +51,8 @@ export function getParamsObject(options={}, params=validAPIParams()) {
 }
 
 export async function callAPI (path="", params={}, data_object={}, method="get", callback)   {
-  var url = getPathBase() + "/"  + path
+  let url = getPathBase() + "/"  + path
+  let data = ""
   //alert ("path and params " + path + " " + JSON.stringify(params))
   const api_result = await axios({
     method: method,
@@ -60,16 +61,22 @@ export async function callAPI (path="", params={}, data_object={}, method="get",
     params:params
   }).catch(error => {
     const error_prompt = 'error connecting to server with url: ' + url + " method: " + method + " params: " + JSON.stringify(params) + " data: " + JSON.stringify(data_object) + " "
-    log.val(error_prompt + error.message + " " + error.stack)
     alert (error_prompt + error.message + " " + error.stack)
     if (callback) {
       callback('', error);
     }
   })
-  if (callback) {
-    callback(api_result.data,"");
+
+  if (!api_result || !api_result.data) {
+    alert ("No data from server", JSON.stringify(api_result))
+    data = "No results from server"
   } else {
-    return api_result.data
+    data = api_result.data
+  }
+  if (callback) {
+    callback(data,"");
+  } else {
+    return data
   }
 }
 
