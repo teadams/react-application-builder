@@ -8,16 +8,15 @@ import useGetObjectList from '../Hooks/useGetObjectList';
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import AuthContext from '../Components/User/AuthContext';
 import {AppBar,Toolbar, Typography, IconButton, Button, Paper, Tabs, Tab, Drawer, Divider,List, Menu, MenuItem, ListItem, ListItemText} from '@material-ui/core';
-
+import _ from 'lodash/object';
 import {functional_components} from "./index.js"
 
 function ACSListController(props) {
-
   const {field_tag, object_type:props_object_type, api_options:props_api_options={}, field_list="", ...params } = props
   const context = useContext(AuthContext)
   const object_types =  useGetModel("object_types")
 
-  let prepared_api_options = Object.assign({field_tag:field_tag}, props_api_options);
+  let prepared_api_options = _.merge({field_tag:field_tag}, props_api_options);
 
   let [object_type, api_options, data] = useGetObjectList(props.object_type, prepared_api_options, props.data); 
 
