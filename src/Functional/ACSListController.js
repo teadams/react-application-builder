@@ -13,7 +13,9 @@ import _ from 'lodash/object';
 import {functional_components} from "./index.js"
 
 function ACSListController(props) {
+ 
   const final_model = control.getFinalModel("list")
+  u.a(final_model)
   const {field_tag, object_type:props_object_type, api_options:props_api_options={}, field_list="", ...params } = props
   const context = useContext(AuthContext)
   const object_types =  useGetModel("object_types")

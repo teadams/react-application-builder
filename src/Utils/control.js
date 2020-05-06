@@ -1,5 +1,6 @@
 import * as u from './utils.js'
-
+import rab_component_model from '../Models/HealthMe/component.js'
+// building the library of dynamic componetns
 import React, {Fragment} from 'react';
 import ObjectView from "../RABComponents/ObjectView.js"
 import NavMenu from "../RABComponents/NavMenu.js"
@@ -19,8 +20,10 @@ import {Tab, Tabs, Menu, MenuItem, MenuList,List,ListItem,ListItemAvatar,ListIte
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
 
-export function getFinalModel(level, {...component_models}) {
 
+export function getFinalModel(level, {...component_models}) {
+  let final_model = rab_component_model.shell
+  return final_model[level]
 
 }
 
