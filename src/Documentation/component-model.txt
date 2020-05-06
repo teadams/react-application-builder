@@ -24,6 +24,8 @@ Component Models: Object containing all the component_models
             click_to_edit forces a view/edit on the ones below depending 
     
 
+Notes
+- really decide what to name things
 Other sections
 - The RAB hierarhy
 - api_parameters
@@ -31,3 +33,7 @@ Other sections
 - Subsite rules
 - Roles and privileges
 - Coding standards
+- object model 
+- field Model
+- app api_parameter
+-sections
