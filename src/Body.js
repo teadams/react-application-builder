@@ -7,6 +7,7 @@ import {AuthToggleLink, AuthContext, AuthProvider} from './Components/User';
 import * as meta from './Utils/meta.js'
 import * as log from './Utils/log.js'
 import * as u from './Utils/utils.js'
+import * as control from './Utils/control.js'
 import useGetModel from "./Hooks/useGetModel.js"
 
 import axios from 'axios';
@@ -28,7 +29,7 @@ function Body(props) {
   let selected_menu_model = menu_model.menu_items[selected_menu]
 
   const menu_component_name = meta.getValueByPrecedence("rab_component_name.menu", "Text", selected_menu_model)
-  let BodyComponent = dynamic_components[menu_component_name]
+  let BodyComponent = control.componentByName(menu_component_name)
   if (typeof(BodyComponent) != "function") {
     alert("Menu Model Issues - no component for " + menu_component_name)
   }
