@@ -3,6 +3,7 @@ import 'react-app-polyfill/stable';
 import * as log from '../Utils/log.js'
 import * as meta from '../Utils/meta.js'
 import * as u from '../Utils/utils.js';
+import * as control from "../Utils/control.js"
 import useGetModel from "../Hooks/useGetModel.js"
 import useGetObjectList from '../Hooks/useGetObjectList';
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
@@ -12,6 +13,7 @@ import _ from 'lodash/object';
 import {functional_components} from "./index.js"
 
 function ACSListController(props) {
+  const final_model = control.getFinalModel("list")
   const {field_tag, object_type:props_object_type, api_options:props_api_options={}, field_list="", ...params } = props
   const context = useContext(AuthContext)
   const object_types =  useGetModel("object_types")

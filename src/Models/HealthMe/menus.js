@@ -1,6 +1,7 @@
 
 const rab_menu_model = {
   menus:{
+    // thing about implications with merging with lodash.  Perhaps we want this to be a comma separated value
     hamburger: ["Olist", "Menu","DrillSubsite"],
     app_menu: ["Text", "HOlist","HMenu", "DrillSubsite", "DrillSubsiteSale", "Sales", "RoleGroup", "RoleNoGroup"]
   },

@@ -4,7 +4,7 @@
   "private": false,
   "proxy": "http://localhost:3000",
   "dependencies": {
-  "@date-io/date-fns": "^2.6.1",
+    "@date-io/date-fns": "^2.6.1",
     "@material-ui/core": "^4.9.11",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.50",
@@ -16,6 +16,7 @@
     "google-maps-react": "^2.0.2",
     "image-size": "^0.8.3",
     "immutability-helper": "^3.0.2",
+    "lodash": "^4.17.15",
     "material-ui": "^1.0.0-beta.47",
     "material-ui-pickers": "^2.2.4",
     "moment": "^2.24.0",
