@@ -75,6 +75,7 @@ export async function load(type, callback) {
     callback(meta_result)
 }
 
+//XX Does not do deep copy!
 export function getByPrecedence(default_object={},...override_objects) {
     let final_object = default_object
     override_objects.forEach ((override_object) => {
