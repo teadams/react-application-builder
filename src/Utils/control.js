@@ -21,15 +21,19 @@ import {Tab, Tabs, Menu, MenuItem, MenuList,List,ListItem,ListItemAvatar,ListIte
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
 
+// shell, default_component_for_layer, default_component_name, default_component, props_component_name, props_component, props
+export function getFinalModel(level, props, {...component_models}) {
 
-export function getFinalModel(level, {...component_models}) {
-  let final_model = _.merge({},rab_component_model.shell)
-  return final_model[level]
+  let final_model = _.merge({},
+                            rab_component_model.shell,
+                            rab_component_model[level])
+  return final_model
 
 }
 
 export function componentByName(name) {
   const component = componentPicker(name)
+    
   return component
   
 }

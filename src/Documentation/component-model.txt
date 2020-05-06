@@ -6,7 +6,9 @@ Component Models: Object containing all the component_models
     component_model prop 
     component_model_name prop - component specified by the name
     default_component_model for the component
-    default_component_model for the layer
+    default_component_model_name for the component - passed from component
+    default_component_model for the layer 
+    shell - default for everyone
     Overrides are applied per property. So a higher level only has to provide the property that will be overridden
   component_key (many):
     list, field, row: Object that contains the component_model input to use at that level
