@@ -2,7 +2,7 @@ const rab_component_models = {
   test: {
     list: {
       component_names:{
-        body_wrap:"Test"
+        body_wrap:"Text"
       },
       components:{},
       defaut_mode:"view",  
@@ -24,7 +24,7 @@ const rab_component_models = {
   shell: {
     list: {
       component_names:{
-        body_wrap:"Shell"
+        body_wrap:"Text"
     },
       components:{},
       defaut_mode:"view",  

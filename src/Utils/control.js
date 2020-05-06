@@ -25,20 +25,31 @@ import TreeItem from '@material-ui/lab/TreeItem';
 // shell, default_component_for_layer (handled in getFinal Model)
 // component_nodel_name (many), compoent_model (many) (Passed as component model, final step will be the model to name override)
 // input_props_component_name input_props_component (passed as input_props, model to name is done before mereg)
-// props (for that level) - done as a second merge just at that level
+// props (for that level) - done as a second merge just at that level's props
 export function getFinalModel(level, input_props, ...component_models) {
-const input_props_component_model = input_props.rab_component_model?
-                                        input_props.rab_component_model:
-                                        rab_component_models[input_props.rab_component_model_name]
 
-  u.aa("input props model, model name in control", input_props_component_model, input_props.rab_component_model_name)
   let final_model = _.merge({},
                             rab_component_models.shell,
-                            rab_component_models[level],  ...component_models, input_props_component_model)
+                            rab_component_models[level],  
+                            ...component_models,
+                            rab_component_models[input_props.rab_component_model_name],
+                            input_props.rab_component_model)
+
+  final_model[level].props = _.merge(final_model[level].props, input_props)
+  // XX ? should we do all levels or just this one, performance?
+  determineModelComponents(level,final_model)
   return final_model
 
 }
 
+function determineModelComponents(level, model) {
+  Object.keys(model[level].component_names).forEach(name =>{
+    if (!model[level].components[name]) {
+      model[level].components[name] = componentByName(model[level].component_names[name])
+    }
+    model[level].component_names[name] = ""  
+  })
+}
 export function componentByName(name) {
   const component = componentPicker(name)
     

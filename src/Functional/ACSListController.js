@@ -17,9 +17,9 @@ function ACSListController(props) {
   // level, props, default mode
   const final_model = control.getFinalModel("list", props, rab_component_models.list )
   const list_model = final_model.list
-  const {body_wrap} = list_model.component_names
+  const massaged_props = final_model.list.props
+  const {body_wrap} = list_model.components
 
-  u.aa("body, list, final", body_wrap, list_model, final_model)
   const {field_tag, object_type:props_object_type, api_options:props_api_options={}, field_list="", ...params } = props
   const context = useContext(AuthContext)
   const object_types =  useGetModel("object_types")

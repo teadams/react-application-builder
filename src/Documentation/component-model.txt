@@ -2,14 +2,16 @@ Component Models: Object containing all the component_models
   definition: Specifies the list/row/field properties
   data type: object
   precedence: (highest to lowest)
-    props to component: unless specified in menu_model, will only be used at the input level. 
+    props to component: unless specified in menu_model, will only be used at the input level object of the component model. So the component props are transferred to the compoent_model.level.props object.  Theses are the massaged props than can then be used in the component 
+
     component_model prop 
     component_model_name prop - component specified by the name
     default_component_model for the component
     default_component_model_name for the component - passed from component
     default_component_model for the layer 
     shell - default for everyone
-    Overrides are applied per property. So a higher level only has to provide the property that will be overridden
+    Overrides are applied per property. So a higher level only has to provide the property that will be overridden.
+    "", Null, undefiend will override lower levals. (Leave the attribute out!)
   component_key (many):
     list, field, row: Object that contains the component_model input to use at that level
     names: (object)
