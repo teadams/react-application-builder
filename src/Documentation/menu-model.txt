@@ -5,6 +5,7 @@ menu_model
   menu_items (many)
     definition: Provides inputs to a component. Individual keys store values that may change based on the user experience.  For example, clicking on a tab in a menu would invoke a component with a given object_type.  As the same component can be used for different tabs/different object types, object_type is a key at the menu level. 
     data_type: Object
+    data: (array, inherited) Data input (not dynamic)
     menu_item_key(many):
         label: The pretty name to show when references
         object_type (inherited):
