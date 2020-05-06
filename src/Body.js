@@ -18,12 +18,8 @@ function Body(props) {
   if (!app_params || !object_types || !fields ){ return null}
   if (!menu_model || !selected_menu  ) {return null}
   let selected_menu_model = menu_model.menu_items[selected_menu]
+  let BodyComponent = control.componentByName(selected_menu_model.menu_component_name)
 
-  const menu_component_name = meta.getValueByPrecedence("rab_component_name.menu", "Text", selected_menu_model)
-  let BodyComponent = control.componentByName(menu_component_name)
-  if (typeof(BodyComponent) != "function") {
-    alert("Menu Model Issues - no component for " + menu_component_name)
-  }
   const { ...rest} = selected_menu_model
   return ( < BodyComponent {...rest}/>)  
 }
