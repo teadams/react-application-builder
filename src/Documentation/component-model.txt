@@ -21,6 +21,7 @@ Component Models: Object containing all the component_models
         (input props to the component will override depending on the level)
     default_mode: view, click_to_edit, edit, text  
         mode prop will override
+        mode a) is used by field to control which type of display to use b)used to include form or not c)used to control onClick  (csv is not a mode, it is a layout and the default mode is text, row_wrap will change)
         Higher layer may impact the ones below
             Edit/text bubbles down and overrides the layers below. 
             click_to_edit forces a view/edit on the ones below depending 
@@ -39,3 +40,4 @@ Other sections
 - field Model
 - app api_parameter
 -sections
+- data object (including children)
