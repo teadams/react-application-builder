@@ -17,9 +17,10 @@ import {Tab, Tabs, Menu, MenuItem, MenuList,List,ListItem,ListItemAvatar,ListIte
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
 
+export function getFinalModel(level, {...component_models}) {
 
 
-
+}
 
 export function componentByName(name) {
   switch (name) {
@@ -64,7 +65,3 @@ export function componentByName(name) {
   }
 }
 
-export function getFinalModel(level, {...component_models}) {
-
-
-}
