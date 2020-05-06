@@ -61,10 +61,10 @@ export async function callAPI (path="", params={}, data_object={}, method="get",
     params:params
   }).catch(error => {
     const error_prompt = 'error connecting to server with url: ' + url + " method: " + method + " params: " + JSON.stringify(params) + " data: " + JSON.stringify(data_object) + " "
-   alert (error_prompt + error.message + " " + error.stack)
-   if (callback) {
-      callback('', error);
-    }
+    alert (error_prompt + error.message + " " + error.stack)
+    if (callback) {
+        callback('', error);
+      }
   })
   if (api_result) {
       data = api_result.data
