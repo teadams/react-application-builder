@@ -29,9 +29,7 @@ class SelectObject extends React.Component {
   }
 
   loadData () {
-      u.a("loading data", this.props.object_type)
         data.getData(this.props.object_type, this.props, (data, error) => { 
-          u.a("data", data)
           const id_column_name =meta.keys(this.props.object_type).key_id;
           const name_column_name = meta.keys(this.props.object_type).pretty_key_id;
           let select_menu_options = data.map (row => {
