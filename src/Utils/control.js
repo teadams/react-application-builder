@@ -1,5 +1,6 @@
 import * as u from './utils.js'
 import rab_component_model from '../Models/HealthMe/component.js'
+import _ from 'lodash/object'
 // building the library of dynamic componetns
 import React, {Fragment} from 'react';
 import ObjectView from "../RABComponents/ObjectView.js"
@@ -22,7 +23,7 @@ import TreeItem from '@material-ui/lab/TreeItem';
 
 
 export function getFinalModel(level, {...component_models}) {
-  let final_model = rab_component_model.shell
+  let final_model = _.merge({},rab_component_model.shell)
   return final_model[level]
 
 }
