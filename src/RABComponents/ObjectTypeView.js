@@ -18,12 +18,7 @@ import AuthContext from '../Components/User/AuthContext';
 
 
 function ObjectTypeView(props)  {
-  const {object_type, ...params} = props
-  const context = useContext(AuthContext)
-  const id = context.context_id?context.context_id:""
-  const api_options = {filter_field:"core_subsite", filter_id:id}
-  ///XXX will use context by default - fix for later.
-  // have to drill down
+  const {object_type, api_options, ...params} = props
   const rab_component_name = {list_wrap_body:"Table", row_wrap:"TableRow", field_wrap:"TableCell"}
   return (<ACSListController {...params} rab_component_name={rab_component_name} object_type={object_type} api_options={api_options}/> )
 }

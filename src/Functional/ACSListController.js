@@ -19,20 +19,7 @@ function ACSListController(props) {
   const context = useContext(AuthContext)
   const object_types =  useGetModel("object_types")
 
-  let prepared_api_options = {}
-  Object.assign(prepared_api_options, props_api_options);
-  prepared_api_options.field_tag = field_tag
-
-  const [mode, setMode] = useState("view");
-  // Check the rules on the object_type - what do they need to read
-  // this all belongs on the server
-  if (props_object_type && !object_types[props_object_type].all_subsites) {
-    let context_limit = context.user.site_admin?"":"member"
-    if (context_limit) {
-        prepared_api_options.context_limit = context_limit
-        prepared_api_options.user_id = context.user.id
-    }
-  }
+  let prepared_api_options = Object.assign({field_tag:field_tag}, props_api_options);
 
   let [object_type, api_options, data] = useGetObjectList(props.object_type, prepared_api_options, props.data); 
 

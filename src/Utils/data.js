@@ -5,6 +5,8 @@ import * as u from './utils.js';
 import * as log from './log.js';
 import axios from 'axios';
 import * as meta from './meta.js';
+import AuthContext from '../Components/User/AuthContext';
+
 
 export function getPathBase () {
       // later this will be a config
@@ -12,7 +14,7 @@ export function getPathBase () {
 } 
 
 export function validAPIParams() {
-    return ["order_by", "order_by_direction", "filter_field", "filter_id", "filter_join", "key_type", "context_limit", "user_id", "parent_field", "grouping_field"]
+    return ["order_by", "order_by_direction", "filter_field", "filter_id", "filter_join", "key_type", "context_limit", "user_id", "subsite_id" ,"parent_field", "grouping_field", "expand_hierarchy"]
 }
 
 
@@ -95,6 +97,9 @@ export function getData (object_type, options={}, callback)   {
   if (options.id) {
     path += '/'+options.id
   }
+  if (object_type=="core_subsite") {
+    u.a("optiosn",options)
+}
   callAPI (path, getParamsObject(options), "", "get", callback) 
 }
 

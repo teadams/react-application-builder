@@ -6,7 +6,7 @@ import React, { Component, Fragment} from 'react';
 import {FormControl, FormLabel,  MenuItem, InputLabel, Select, FormHelperText, RadioGroup, FormControlLabel, Radio}  from '@material-ui/core';
 import axios from 'axios';
 import * as meta from '../../Utils/meta.js';
-import * as log from '../../Utils/log.js'
+import * as u from '../../Utils/utils.js'
 import * as data from '../../Utils/data.js';
 
 // Widget to simply select on object from an object type
@@ -29,7 +29,9 @@ class SelectObject extends React.Component {
   }
 
   loadData () {
+      u.a("loading data", this.props.object_type)
         data.getData(this.props.object_type, this.props, (data, error) => { 
+          u.a("data", data)
           const id_column_name =meta.keys(this.props.object_type).key_id;
           const name_column_name = meta.keys(this.props.object_type).pretty_key_id;
           let select_menu_options = data.map (row => {

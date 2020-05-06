@@ -1,9 +1,12 @@
 
-import React, {useState, useLayoutEffect, useEffect} from 'react';
+import React, {useState, useLayoutEffect, useContext, useEffect} from 'react';
+import AuthContext from '../Components/User/AuthContext';
+
 import * as api from '../Utils/data.js';
 import * as meta from '../Utils/meta.js';
 import * as log from '../Utils/log.js';
 import * as u from '../Utils/utils.js';
+
 
 //  const [db_object_data, setDbResults] = useState();
 const useGetObject = (object_type, id, field_list, api_options, param_data) => {
@@ -11,10 +14,12 @@ const useGetObject = (object_type, id, field_list, api_options, param_data) => {
   const [ready, setReady] = useState(false);
   const [prev_state, setState] = useState([false, object_type, id, field_list, api_options, param_data]);
 
-//// NEEDS FIXED..plus it shoudl just return
-//  if (!param_data && !(object_type && (id || api_options.filter_field))) {
-//      alert ("Error in useGetObject. Either data or object_type and id must be provided.")
-//  }
+  const context = useContext(AuthContext)
+  // XX This will move to the session cookie
+  api_options.user_id = context.user.id
+  api_options.subsite_id = context.context_id
+
+
 
   let trigger_change_array = [object_type, id, param_data]
   trigger_change_array = api.addAPIParams(trigger_change_array, api_options)
