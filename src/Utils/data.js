@@ -61,18 +61,14 @@ export async function callAPI (path="", params={}, data_object={}, method="get",
     params:params
   }).catch(error => {
     const error_prompt = 'error connecting to server with url: ' + url + " method: " + method + " params: " + JSON.stringify(params) + " data: " + JSON.stringify(data_object) + " "
-    alert (error_prompt + error.message + " " + error.stack)
-    if (callback) {
+   alert (error_prompt + error.message + " " + error.stack)
+   if (callback) {
       callback('', error);
     }
   })
-
-  if (!api_result || !api_result.data) {
-    alert ("No data from server", JSON.stringify(api_result))
-    data = "No results from server"
-  } else {
-    data = api_result.data
-  }
+  if (api_result) {
+      data = api_result.data
+    }
   if (callback) {
     callback(data,"");
   } else {
