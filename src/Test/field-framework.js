@@ -8,6 +8,7 @@ framework_menus.test_hamburger = {
 }
 
 
+testing keybinding
 framework_menus.test_drilldown = {
     "HOlist":{label: "ObjectList", rab_component_name:{menu:"ObjectView"}, test_case:"View one object", object_type:"core_user", id:1
     },
