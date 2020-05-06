@@ -1,8 +1,8 @@
-const rab_component_model = {
-  row: {
+const rab_component_models = {
+  test: {
     list: {
       component_names:{
-        body_wrap:"Text"
+        body_wrap:"Test"
       },
       components:{},
       defaut_mode:"view",  
@@ -23,7 +23,9 @@ const rab_component_model = {
   },
   shell: {
     list: {
-      component_names:{},
+      component_names:{
+        body_wrap:"Shell"
+    },
       components:{},
       defaut_mode:"view",  
       props:{}
@@ -111,4 +113,4 @@ const rab_component_model = {
   }
 }
 
-export default rab_component_model
+export default rab_component_models

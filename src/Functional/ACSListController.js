@@ -11,15 +11,15 @@ import AuthContext from '../Components/User/AuthContext';
 import {AppBar,Toolbar, Typography, IconButton, Button, Paper, Tabs, Tab, Drawer, Divider,List, Menu, MenuItem, ListItem, ListItemText} from '@material-ui/core';
 import _ from 'lodash/object';
 import {functional_components} from "./index.js"
-import rab_component_model from '../Models/HealthMe/component.js'
+import rab_component_models from '../Models/HealthMe/component.js'
 
 function ACSListController(props) {
- 
-  const final_model = control.getFinalModel("list", props, rab_component_model.text )
+  // level, props, default mode
+  const final_model = control.getFinalModel("list", props, rab_component_models.list )
   const list_model = final_model.list
   const {body_wrap} = list_model.component_names
 
-  u.a(body_wrap, list_model, final_model)
+  u.aa("body, list, final", body_wrap, list_model, final_model)
   const {field_tag, object_type:props_object_type, api_options:props_api_options={}, field_list="", ...params } = props
   const context = useContext(AuthContext)
   const object_types =  useGetModel("object_types")

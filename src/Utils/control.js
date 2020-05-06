@@ -1,5 +1,5 @@
 import * as u from './utils.js'
-import rab_component_model from '../Models/HealthMe/component.js'
+import rab_component_models from '../Models/HealthMe/component.js'
 import _ from 'lodash/object'
 // building the library of dynamic componetns
 import React, {Fragment} from 'react';
@@ -21,12 +21,20 @@ import {Tab, Tabs, Menu, MenuItem, MenuList,List,ListItem,ListItemAvatar,ListIte
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
 
-// shell, default_component_for_layer, default_component_name, default_component, props_component_name, props_component, props
-export function getFinalModel(level, props, {...component_models}) {
+// precedence: low to high
+// shell, default_component_for_layer (handled in getFinal Model)
+// component_nodel_name (many), compoent_model (many) (Passed as component model, final step will be the model to name override)
+// input_props_component_name input_props_component (passed as input_props, model to name is done before mereg)
+// props (for that level) - done as a second merge just at that level
+export function getFinalModel(level, input_props, ...component_models) {
+const input_props_component_model = input_props.rab_component_model?
+                                        input_props.rab_component_model:
+                                        rab_component_models[input_props.rab_component_model_name]
 
+  u.aa("input props model, model name in control", input_props_component_model, input_props.rab_component_model_name)
   let final_model = _.merge({},
-                            rab_component_model.shell,
-                            rab_component_model[level])
+                            rab_component_models.shell,
+                            rab_component_models[level],  ...component_models, input_props_component_model)
   return final_model
 
 }
