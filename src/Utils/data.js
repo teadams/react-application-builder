@@ -98,7 +98,6 @@ export function getData (object_type, options={}, callback)   {
     path += '/'+options.id
   }
   if (object_type=="core_subsite") {
-    u.a("optiosn",options)
 }
   callAPI (path, getParamsObject(options), "", "get", callback) 
 }
