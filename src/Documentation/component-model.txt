@@ -1,10 +1,12 @@
 Component Models: Object containing all the component_models
   definition: Specifies the list/row/field properties
   data type: object
-  precedence:
-    component_model prop
-    component_model as provided by the component_model_name prop
+  precedence: (highest to lowest)
+    props to component: unless specified in menu_model, will only be used at the input level. 
+    component_model prop 
+    component_model_name prop - component specified by the name
     default_component_model for the component
+    default_component_model for the layer
     Overrides are applied per property. So a higher level only has to provide the property that will be overridden
   component_key (many):
     list, field, row: Object that contains the component_model input to use at that level
@@ -22,7 +24,7 @@ Component Models: Object containing all the component_models
         Higher layer may impact the ones below
             Edit/text bubbles down and overrides the layers below. 
             click_to_edit forces a view/edit on the ones below depending 
-    
+            View does not bubble down.
 
 Notes
 - really decide what to name things

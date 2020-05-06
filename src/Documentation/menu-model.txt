@@ -11,7 +11,7 @@ menu_model
         menu_component: Name of the component to use for the menu
         id (inherited):
         api_objects (inherited unless overridden): parameters that will ultimately get passed to the api for data retrieval
-        others_props (many,not inherited):  other menu keys will be passed to the first layer of the component (but not to the list/row/field framework - see component_model)
+        others_props (many,not inherited):  other menu keys will be passed to the first layer of the component (but not to the list/row/field framework - see component_model). If you want inherited, then put it in the component_model
         component_model - specification for the list / row / field level of the component. (See component model)
         target_menu_name: When a component contains more than 1 component (drill down), target_menu_name will specify the menu for the target component (enhancement - allow more than 2 components)  TODO - change name to remove (name)
   menu_key (many) 
