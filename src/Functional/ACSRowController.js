@@ -1,7 +1,6 @@
 // base libraries, React, MaterialUI, Hooks, Models 
 import  'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
-import * as data from '../Utils/data.js';
 import * as u from '../Utils/utils.js';
 
 import React, {useState} from 'react';
@@ -54,7 +53,7 @@ function ACSRowController(input_props) {
 
   // do not merge expensive, known unnecessary things
   const {data:input_props_data, ...merging_props} = input_props
-  const rab_component_model = control.getFinalModel("row", {...merging_props}, rab_component_models.list )
+  const rab_component_model = control.getFinalModel("row", {...merging_props}, rab_component_models.row )
   const row_model = rab_component_model.row
   const row_components = row_model.components
   const massaged_props = row_model.props
