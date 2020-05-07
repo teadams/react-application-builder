@@ -3,20 +3,21 @@ menu_model
   definition:
   data_type:object
   menu_items (many)
-    definition: Provides inputs to a component. Individual keys store values that may change based on the user experience.  For example, clicking on a tab in a menu would invoke a component with a given object_type.  As the same component can be used for different tabs/different object types, object_type is a key at the menu level. 
+    definition: Provides inputs to a component. Individual keys store values that may change based on the user experience.  For example, clicking on a tab in a menu would invoke a component with a given object_type.  As the same component can be used for different tabs/different object types, object_type is a key at the menu level.. 
     data_type: Object
     data: (array, inherited) Data input (not dynamic)
     menu_item_key(many):
-        label: The pretty name to show when references
-        object_type (inherited):
-        menu_component: Name of the component to use for the menu
-        id (inherited):
-        api_objects (inherited unless overridden): parameters that will ultimately get passed to the api for data retrieval
-        others_props (many,not inherited):  other menu keys will be passed to the first layer of the component (but not to the list/row/field framework - see component_model). If you want inherited, then put it in the component_model
-        component_model - specification for the list / row / field level of the component. (See component model)
-        target_menu_name: When a component contains more than 1 component (drill down), target_menu_name will specify the menu for the target component (enhancement - allow more than 2 components)  TODO - change name to remove (name)
+        *label: The pretty name to show when references
+        *object_type (inherited):
+        *menu_component: Name of the component to use for the menu
+        *id (inherited):
+        *api_objects (inherited unless overridden): parameters that will ultimately get passed to the api for data retrieval
+        *others_props (many,not inherited):  other menu keys will be passed to the first layer of the component (but not to the list/row/field framework - see component_model). If you want inherited, then put it in the component_model
+        *rab_component_model_name: name of the component model to use
+        *rab_component_model - specification for the list / row / field level of the component. (See component model)
+        *target_menu_name: When a component contains more than 1 component (drill down), target_menu_name will specify the menu for the target component (enhancement - allow more than 2 components)  TODO - change name to remove (name)
   menu_key (many) 
     definition: List of menu_items keys   
     data_type: array of menu_item_keys //XX think about deep compy implications with lodah. Perhaps we want this to be a csv
     notes: Application will use the app_menu and hamburger menu for the main page top tabs and hamburger. (later enhancement might be to have this driven by application parameters).  The concep is that menus can be used in other parts of the application (panels) but this has not been tested yet
-    menu_items_names: array of menu_item_names
+    menu_items_names: array of menu_item_names.  If no menu_key is app_key, all menu_items will be used instead.

@@ -25,7 +25,6 @@ function TabMenu(props)  {
   const field_list=
       menu_model.menus[menu_type]?menu_model.menus[menu_type]:
                                   Object.keys(menu_model.menu_items)
-
   const TabsComponent = ((props) => {
     const {data, field_list} = props
     const [value, setValue] = React.useState(props.value);
@@ -57,13 +56,17 @@ function TabMenu(props)  {
     </Tabs>)
   })
 
-
-
-  const rab_component_model=""
   const rab_component_model_name=""
-//  const rab_component_name = {row_wrap:"Fragment", list_wrap:"Fragment", field_wrap:"Fragment", field:"Fragment", row:"Fragment"}
-//  const rab_component={list_body_wrap:TabsComponent}
-  return <ACSListController  rab_component_model={rab_component_model} rab_component_model_name={rab_component_model_name} field_list={field_list} data={menu_model.menu_items} value={value}/>
+  const rab_component_model = {
+          list:{component_names:{list_wrap:"Fragment", body_wrap:"Fragment"},
+                components:{list_body_wrap:TabsComponent}
+              },
+          row:{component_names:{row_wrap:"Fragment", row:"Fragment"}},
+          field:{component_names:{field_wrap:"Fragment", field:"Fragment"}},
+    }
+  const api_options = {foo:1, bar:2}
+
+  return <ACSListController  rab_component_model={rab_component_model} rab_component_model_name={rab_component_model_name} field_list={field_list} data={menu_model.menu_items} value={value} api_options={api_options}/>
 }
 
 export default TabMenu;
