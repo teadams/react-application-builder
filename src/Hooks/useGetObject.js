@@ -9,7 +9,7 @@ import * as u from '../Utils/utils.js';
 
 
 //  const [db_object_data, setDbResults] = useState();
-const useGetObject = (object_type, id, field_list, api_options, param_data) => {
+const useGetObject = (object_type, id, field_list, api_options={}, param_data) => {
   // XX - think not neeed
   const [ready, setReady] = useState(false);
   const [prev_state, setState] = useState([false, object_type, id, field_list, api_options, param_data]);

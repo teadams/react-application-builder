@@ -11,7 +11,7 @@ import * as u from '../Utils/utils.js';
 // Lay out test cases nicely
 // Later - extend to work with changes of values in api_options (object issues)
 
-const useGetObjectList = (object_type, api_options, param_data, callback) => {
+const useGetObjectList = (object_type, api_options={}, param_data, callback) => {
 
   const [prev_state, setState] = useState([false, object_type, api_options, param_data]);
 
