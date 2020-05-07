@@ -22,7 +22,6 @@ render((
 
   <Router>
     <Switch>
-      <Redirect exact from="/" to="/app_menu/0" />
       <Route path="/:selected_menu" component={App}/>
       <Route path="/" component={App}></Route>
     </Switch>
