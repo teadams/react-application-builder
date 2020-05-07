@@ -15,7 +15,6 @@ import * as meta from './Utils/meta.js'
 import {AppBar,Toolbar, Typography, Paper} from '@material-ui/core';
 import useGetModel from "./Hooks/useGetModel.js"
 
-
 function App(props) {
   const app_params =  useGetModel("app_params")
   if (!app_params) return(null)
