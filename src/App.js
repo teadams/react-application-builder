@@ -19,7 +19,7 @@ function App(props) {
   const app_params =  useGetModel("app_params")
   if (!app_params) return(null)
 
-  let { selected_menu, selected_menu_type } = props.match.params
+  let { selected_menu} = props.match.params
   return      (
     <AuthContextProvider>  
       <Paper style={{ padding:10, marginTop:10, marginBottom:0, minHeight:600, position:'relative'}}>     
@@ -38,7 +38,7 @@ function App(props) {
         </Toolbar>
       </AppBar>
       <TabMenu menu_type="app_menu" selected_menu={selected_menu}  />
-      <Body selected_menu_type={selected_menu_type} selected_menu={selected_menu} />
+      <Body  selected_menu={selected_menu} />
     </Paper>
     <Debug/>
   </AuthContextProvider>
