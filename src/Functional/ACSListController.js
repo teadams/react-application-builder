@@ -41,8 +41,8 @@ function ACSListController(input_props) {
 
   if (data) {
     return  (<ACSList>
-              <ACSListBody object_type={object_type} field_list={field_list}  data={data} api_options={api_options}  rab_component_model={rab_component_model}>
-                <RenderACSList  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} rab_component_model={rab_component_model} />
+              <ACSListBody object_type={object_type} field_list={field_list}  data={data} api_options={api_options}  rab_component_model={rab_component_model} {...list_model.props}>
+                <RenderACSList  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} rab_component_model={rab_component_model} {...list_model.props}/>
               </ACSListBody>
             </ACSList>)
     } else {
