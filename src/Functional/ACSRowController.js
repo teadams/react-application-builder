@@ -1,65 +1,102 @@
- 'react-app-polyfill/ie9';
+// base libraries, React, MaterialUI, Hooks, Models 
+import  'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
-import * as log from '../Utils/log.js'
-import * as meta from '../Utils/meta.js'
 import * as data from '../Utils/data.js';
 import * as u from '../Utils/utils.js';
-import RenderACSRow from './RenderACSRow.js'
+
+import React, {useState} from 'react';
+
 import ACSListController from './ACSListController.js'
+
 import useGetObject from '../Hooks/useGetObject';
-import React, {Fragment, useState, useEffect} from 'react';
-import { TableRow } from '@material-ui/core';
+import useGetModel from '../Hooks/useGetModel';
 
-import {functional_components} from "./index.js"
+import * as control from "../Utils/control.js"
+import rab_component_models from '../Models/HealthMe/component.js'
 
-function ACSRowController(props) {
-  const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options, data:props_data, ...params} = props
+// Will use the current inputs (object_type, data, id) until the 
+//    data is returned  (maybe upcoping React concurrently will help)
+//    It is important that any parameters that can change with User
+//    input and the data that results are changed at the same time.
+//    Otherwise, we are rendering with data that does not match the model.
+//    For example, we could be rendeirng "core_user" data with and object_type
+//    model from "core_roles", which would result in not only excess computation
+//    but a mess of subtile and hard to find bugs.
+
+// Conventions
+// a) input props - raw input props
+//     -- those that are used are immediated casted to input_props_xxx
+// b) massaged props - props that have been merged according to 
+//        precedence with the rab_component_model. Potentailly expensive
+//        merges like data are not merged. This allows for props to override
+//        the default values of the component_model. "Massages" may be 2
+//        things.
+//          1. The result of getFinalModel, which takes all the components
+//               models, other inputs and uses precedence rules to 
+//               determine the final compoent model to use for the 
+//               rest of the function.
+//          2. Individual manipulations
+//  
+// c) The result of a and b are used to protect the state.  Anything that
+//       can change with user input (object_type, id) is saved in a
+//       state until the data is returned.  Data and the appropriate 
+//       inputs all change at the same time and returned by useGetObject.
+//       
+//       "normal" varaable names are used with the results of useGetObject, 
+//        as these have now been massaged/state protected and ready for
+//        normal use in the rest of the execution.
+
+// Essentially, think of the function starting immediate after useGetObject! 
+//   The rest is just prep
+
+function ACSRowController(input_props) {
   const [mode, setMode] = useState("view");
 
+  // do not merge expensive, known unnecessary things
+  const {data:input_props_data, ...merging_props} = input_props
+  const rab_component_model = control.getFinalModel("row", {...merging_props}, rab_component_models.list )
+  const row_model = rab_component_model.row
+  const row_components = row_model.components
+  const massaged_props = row_model.props
+
+  const {body_wrap} = row_model.components
+  
+  const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options,  ...params} = massaged_props
+
   let [ready, object_type, id, field_list, api_options, data] = 
-  useGetObject(props_object_type, props_id, props_field_list, props_api_options, props_data); 
+  useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data); 
+
+  const field_models =  useGetModel("fields")
+  if (!field_models) {return null}
+  const field_model = field_models[object_type]
 
   if (!field_list) {
       if (object_type) {
-        field_list = Object.keys(meta.fields(object_type))
+        field_list = Object.keys(field_model)
       } else {
         field_list = Object.keys(data)
       }
   }
 
-
-  let object_meta = meta.object[object_type]
-
   // Changes to field list (metadata rules, ext)
+  // Calculate sections
+  // calculate row break
+  // field, row, section
+  // [  [field, field, field ].[ field, field  ] ]
 
-  let RenderACSRow  =  meta.getValueByPrecedence("rab_component.row","",object_meta, props)
-  
-  let ACSRow = meta.getValueByPrecedence("rab_component.row_wrap","",object_meta, props)
-
-//pattern, default value, args
-  let component_name = ""
-  if (!RenderACSRow) {
-    component_name = meta.getValueByPrecedence("rab_component_name.row","RenderACSRow",object_meta, props)
-     RenderACSRow = functional_components[component_name]
-  }
-  let wrap_name =""
-  if (!ACSRow) {
-    wrap_name =meta.getValueByPrecedence("rab_component_name.row_wrap","Fragment",object_meta, props)
-    ACSRow = functional_components[wrap_name]
-  }
-
-  const onClick = meta.getValueByPrecedence("onClick.row",object_meta,props)
-
+  let RenderACSRow  =  row_components.row
+  let ACSRow = row_components.row_wrap
 
   if (data) {
-    return ( <Fragment>
-        <ACSRow onClick={onClick} data={data} field_list={field_list} api_options={api_options} object_type={object_type} id={id}>
-          <RenderACSRow {...params} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options}>
+    return ( 
+        <ACSRow object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options} rab_component_model={rab_component_model} {...row_model.props}>
+
+          <RenderACSRow object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options} rab_component_model={rab_component_model} {...row_model.props}>
           </RenderACSRow>
+
           {data.children && data.children.length >0 &&
-              <ACSListController {...params} object_type={object_type} api_options={api_options} data={data.children}  field_list={field_list}/>}
-        </ACSRow> 
-        </Fragment>)
+              <ACSListController object_type={object_type} parent_id={id} field_list={field_list} data={data.children} api_options={api_options} rab_component_model={rab_component_model} {...rab_component_model.list.props}/>}
+        </ACSRow> )
     } else {  
         return <div></div>
     }
