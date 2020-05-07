@@ -19,6 +19,7 @@ function TreeMenu(props)  {
   const field_list = [meta.keys(object_type).pretty_key_id]
   const [selected, setSelected] = React.useState([]);
 
+
   const handleSelect = (event, nodeIds) => {
     setSelected(nodeIds);
     if (onClick) {
@@ -41,6 +42,11 @@ function TreeMenu(props)  {
     )
   }
 
+  const rab_component_model = {
+          row:{components:{row_wrap:RenderTreeItem}},
+          field:{component_names:{field_wrap:"Fragment", field:"Fragment"}},
+    }
+
   const rab_component = {row_wrap:RenderTreeItem, field:Fragment, field_wrap:Fragment, row:Fragment}
 
   return (
@@ -52,7 +58,7 @@ function TreeMenu(props)  {
           // onNodeToggle={handleToggle}
           onNodeSelect={handleSelect}
           >
-          <ACSListController {...params}  rab_component={rab_component} object_type={props.object_type}  field_list={field_list}/>
+          <ACSListController {...params}  rab_component_model={rab_component_model} object_type={props.object_type}  field_list={field_list}/>
     </TreeView>)
 }
 
