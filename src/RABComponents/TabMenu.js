@@ -32,7 +32,7 @@ function TabMenu(props)  {
     function handleOnChange(event,new_value) {
       window.scrollTo(0,0)
       setValue(new_value)
-      let path = `/foo/${new_value}`
+      let path = `/${new_value}`
       history.push(path);
       if (props.onChange) {
           props.onChange(new_value)
