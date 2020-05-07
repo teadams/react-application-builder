@@ -9,10 +9,9 @@ import useGetObjectList from '../Hooks/useGetObjectList';
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import AuthContext from '../Components/User/AuthContext';
 import {AppBar,Toolbar, Typography, IconButton, Button, Paper, Tabs, Tab, Drawer, Divider,List, Menu, MenuItem, ListItem, ListItemText} from '@material-ui/core';
-import _ from 'lodash/object';
-import {functional_components} from "./index.js"
 import rab_component_models from '../Models/HealthMe/component.js'
 
+// Documentation - see comments in ACSRowController
 function ACSListController(input_props) {
   const context = useContext(AuthContext)
   const object_types =  useGetModel("object_types")
@@ -25,8 +24,9 @@ function ACSListController(input_props) {
   const massaged_props = list_model.props
 
   const {body_wrap} = list_model.components
-  // .. params will not be passed down
-  const {object_type:props_object_type, api_options:props_api_options={}, field_list="", field_tag} = massaged_props
+
+    // XX thinking about the role of field list/field tags in lazy loading, lazy reference loading
+  const {object_type:props_object_type, api_options:props_api_options={}, field_list="", field_tags} = massaged_props
 
   // important to use input_props.data as it is an array and useGetObjectList
   // see changes to an array's reference as a change
@@ -41,7 +41,7 @@ function ACSListController(input_props) {
 
   if (data) {
     return  (<ACSList>
-              <ACSListBody object_type={object_type} field_list={field_list}  data={data} api_options={api_options}  rab_component_model={rab_component_model} {...list_model.props}>
+              <ACSListBody object_type={object_type} field_list={field_list} field_tags={field_tags}  data={data} api_options={api_options}  rab_component_model={rab_component_model} {...list_model.props}>
                 <RenderACSList  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} rab_component_model={rab_component_model} {...list_model.props}/>
               </ACSListBody>
             </ACSList>)
