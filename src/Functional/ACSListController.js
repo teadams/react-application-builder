@@ -1,20 +1,14 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
-import * as log from '../Utils/log.js'
-import * as meta from '../Utils/meta.js'
 import * as u from '../Utils/utils.js';
 import * as control from "../Utils/control.js"
+import React from 'react';
 import useGetModel from "../Hooks/useGetModel.js"
 import useGetObjectList from '../Hooks/useGetObjectList';
-import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
-import AuthContext from '../Components/User/AuthContext';
-import {AppBar,Toolbar, Typography, IconButton, Button, Paper, Tabs, Tab, Drawer, Divider,List, Menu, MenuItem, ListItem, ListItemText} from '@material-ui/core';
 import rab_component_models from '../Models/HealthMe/component.js'
 
 // Documentation - see comments in ACSRowController
 function ACSListController(input_props) {
-  const context = useContext(AuthContext)
-  const object_types =  useGetModel("object_types")
   // do not merge expensive, known unnecessary things
   const {data:input_props_data, target_menu_name, ...merging_props} = input_props
 
@@ -31,9 +25,6 @@ function ACSListController(input_props) {
   // important to use input_props.data as it is an array and useGetObjectList
   // see changes to an array's reference as a change
   let [object_type, api_options, data] = useGetObjectList(massaged_props.object_type, massaged_props.api_options, input_props.data); 
-
-
-  const object_meta = meta.object[object_type]
 
   const RenderACSList  =  list_components.list
   const ACSList = list_components.list_wrap
