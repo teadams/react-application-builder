@@ -34,8 +34,10 @@ export function getFinalModel(level, input_props, ...component_models) {
                             ...component_models,
                             rab_component_models[input_props.rab_component_model_name],
                             input_props.rab_component_model)
-  // might be expensive with data
-  final_model[level].props = _.merge(final_model[level].props, input_props)
+  // only want a shallow merge! 
+  // state managment is dependent on the references of api_options, field_list, 
+  // and other arrays/objects not changing
+  final_model[level].props = Object.assign(final_model[level].props, input_props)
   // XX ? should we do all levels or just this one, performance?
   determineModelComponents(level,final_model)
   return final_model
