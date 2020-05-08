@@ -18,13 +18,14 @@
     -- other Props  
         -- data
         -- object_type
+        -- api_options
   
 
 --- row
-    title_wrap (&&&,Fragment)
-      title  (prop:row_title, row_description)
-    section_wrap (&&&, Fragment)
-      title (prop:section_title, section_description)
+  (Controller)  title_wrap (&&&,Fragment)
+       title  (prop:row_title, row_description)
+  (Renderer)  section_wrap (&&&, Fragment)
+      section_title (prop:section_title, section_description)
          row_wrap
               field_chunk_wrap (&&&, Fragment) (prop:fields_per_chunk (2,1))
                 row (RenderACSRow)
@@ -33,6 +34,7 @@
             -- object_type
             -- field_list, sections?
             -- id
+            -- api_options
   
 --    field: field_wrap
         field (field_component/field_component_name)
@@ -43,4 +45,5 @@
             -- field_model 
             -- default_mode
             -- valid_values (specified by model or from select_list)
+            -- api_options
             -- Input widget?? - Should we have separate for text, date, etc or just one

@@ -2,7 +2,7 @@ import * as u from './utils.js'
 import rab_component_models from '../Models/HealthMe/component.js'
 import _ from 'lodash/object'
 // building the library of dynamic componetns
-import React, {Fragment} from 'react';
+import React, {Component,Fragment} from 'react';
 import ObjectView from "../RABComponents/ObjectView.js"
 import NavMenu from "../RABComponents/NavMenu.js"
 import DrillDown from "../RABComponents/DrillDown.js"
@@ -110,6 +110,7 @@ function componentPicker(name) {
     case "TreeItem": return TreeItem; 
     case "TreeView": return TreeView;
     case "Fragment": return Fragment;
+    case "Component": return Component;
     default:  { 
       alert("Menu Model Issues - no component for " + name) 
       return Fragment;
