@@ -1,23 +1,21 @@
 const rab_component_models = {
-  test: {
+  empty: {
     list: {
-      component_names:{
-        body_wrap:"Text"
-      },
+      component_names:{},
       components:{},
-      defaut_mode:"view",  
+      defaut_mode:"",  
       props:{}
     },
     row: {
       component_names:{},
       components:{},
-      default_mode:"view",
+      default_mode:"",
       props:{}
     },
     field:{
       component_names:{},
       components:{},
-      default_mode:"click_to_edit",
+      default_mode:"",
       props:{}
     }
   },
@@ -44,7 +42,7 @@ const rab_component_models = {
     field:{
       component_names:{
         field_wrap:"Fragment",
-        field:"RenderField"
+        field:"RenderACSField"
       },
       components:{},
       default_mode:"click_to_edit",

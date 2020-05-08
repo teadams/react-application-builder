@@ -31,7 +31,7 @@ export function getFinalModel(level, input_props, ...component_models) {
   let final_model = _.merge({},
                             rab_component_models.shell,
                             rab_component_models[level],  
-                            ...component_models,
+                //            ...component_models,
                             rab_component_models[input_props.rab_component_model_name],
                             input_props.rab_component_model)
   // only want a shallow merge! 
@@ -40,6 +40,7 @@ export function getFinalModel(level, input_props, ...component_models) {
   final_model[level].props = Object.assign(final_model[level].props, input_props)
   // XX ? should we do all levels or just this one, performance?
   determineModelComponents(level,final_model)
+
   return final_model
 
 }

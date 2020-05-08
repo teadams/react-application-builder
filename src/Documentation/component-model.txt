@@ -4,10 +4,9 @@ Component Models: Object containing all the component_models
   precedence: (highest to lowest)
     props to component: unless specified in menu_model, will only be used at the input level object of the component model. So the component props are transferred to the compoent_model.level.props object.  Theses are the massaged props than can then be used in the component 
 
-    component_model prop 
-    component_model_name prop - component specified by the name
-    default_component_model for the component
-    default_component_model_name for the component - passed from component
+    component_model prop /component_model_name prop - component specified by the name
+    component_model from layer's model (field=field, row=object_type, list=object_type)
+    default_component_model for the component/ default_component_model_name for the component - passed from component
     default_component_model for the layer 
     shell - default for everyone
     Overrides are applied per property. So a higher level only has to provide the property that will be overridden.
