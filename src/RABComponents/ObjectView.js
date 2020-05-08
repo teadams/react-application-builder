@@ -1,6 +1,6 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
-import _ from 'lodash/core'
+import _ from 'lodash'
 import rab_component_models from '../Models/HealthMe/component.js'
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -52,50 +52,24 @@ function ObjectView(props)  {
     let row_data = []
     if (!data) {return null}
   
-    // XXX Cases where there is no data
-
+// section, row, field
       if (data) {
         return (<Fragment>
-          {field_list.map((field_name, field_index) => {
-              const field_model = field_models[field_name]
-//              u.aa("object_type,field_name,field_meta", object_type, field_name,field_meta)
-
-              // default col_span to 1.  Add col_span to number_running_columns. Add 1 to num_running_fields
-              // if number_running_columns = num_columns - loop with start to start+ num_running_fields
-                    // number_running_columns = 0, start is start + num_running_fields +1, num_running_fields = 0
-              // if number_columns > max, loop with start to num_running_fields -1, start = Start plus num_running_fields, num_running_fields 0
-              // PROBLEM - last row may have more- do it twice
-
-              // First loop - splits up the field sett
-              // [a,b,c, d, e, f, g]
-              //[[a,b,c], [d,e],[f,g]]
-              // running_row = 0
-              // if col_span+running_column_span < limit - push to sub
-              // else - create a new onMenuChange
-              // running_row = running_row+1
-              // fields_new.push([]) 
-              //fields_new[running_row].push(field_name)
-              const field_pretty_name = field_model.pretty_name?field_model.pretty_name:field_model.field_name
-              row_data.push([field_pretty_name, field_name]) 
-              if ((field_index !=0 || num_columns===1) && (field_index+1) % num_columns === 0 ) {
-                  const local_data = row_data.slice();
-
-                  row_data = []
-
-                  // instead of making a copy, make a range (start to start + num fields) num columns
-                  return (<TableRow>
-                            {local_data.map( (field, field_index) => {
-                              return (<Fragment>
-                                      <TableCell style={{ margin:0, padding:0}} align="right"><b>{local_data[field_index][0]}:</b></TableCell><TableCell style={{margin:0, padding:0}} align="left"> {data[row_data[field_index[1]]]}<FieldView {...params} data={data} field_name={local_data[field_index][1]} field_model={field_model}/></TableCell>
-                                    </Fragment>)
-                            })}
-                          </TableRow>)
-              } else {  return null }
+          {field_list.map((section_list, section_index) => {
+              section_list.map((row_list) => {
+                      row_list.map((field_name) =>  {
+                        const field_model = field_models[field_name]
+                        const field_pretty_name = field_model.pretty_name?field_model.pretty_name:field_model.field_name
+                        return (<FieldView {...params} data={data} field_name={field_name} field_model={field_model}/>)
+                      })
+              })
           })}
-          }
           </Fragment>)
-      }
+    }
   }
+
+  //                                      <TableCell style={{ margin:0, padding:0}} align="right"><b>{local_data[field_index][0]}:</b></TableCell><TableCell style={{margin:0, padding:0}} align="left"> {data[row_data[field_index[1]]]}<FieldView {...params} data={data} field_name={local_data[field_index][1]} field_model={field_model}/></TableCell>
+
 
 
   let rab_component_model = _.merge({}, rab_component_models.shell)
@@ -103,9 +77,8 @@ function ObjectView(props)  {
   rab_component_model.field.name = {field_wrap:"Fragment",   list_body:"Fragment", list:"Fragment"}
 
   return (<Table style={{display:"inline", align:"left",borderSpacing:30, borderCollapse:"separate"}} size="small">
-          <ACSRowController {...params} object_type={object_type}  api_options={api_options}  rab_component_model={rab_component_model} />}
+          <ACSRowController {...params} object_type={object_type}  api_options={api_options}  rab_component_model={rab_component_model} />
           </Table>
           )
 }
 export default ObjectView;
-
