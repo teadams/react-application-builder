@@ -1,5 +1,8 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
+import _ from 'lodash/object'
+import rab_component_models from '../Models/HealthMe/component.js'
+
 import { makeStyles } from '@material-ui/core/styles';
 import * as log from '../Utils/log.js'
 import * as meta from '../Utils/meta.js'
@@ -16,7 +19,8 @@ import useGetModel from "../Hooks/useGetModel.js"
  
 function ObjectView(props)  {
   const menu_model =  useGetModel("menu")
-  if (!menu_model) {return null}
+  const field_models = useGetModel("fields")
+  if (!menu_model || !field_models) {return null}
   const model = meta.getByPrecedence({filter_field:"id"}, props, menu_model.menu_items[props.menu_name])
   const {object_type, filter_field, ...params} = model
 
@@ -29,9 +33,9 @@ function ObjectView(props)  {
   }
   
   function field_comp (props) {
-      const {...params} = props
+      const {field_model, ...params} = props
       return <Fragment><TableRow>
-            <TableCell align="right"><b>{props.field_meta.pretty_name}:</b></TableCell><TableCell align="left"><FieldView {...params}/></TableCell></TableRow></Fragment> 
+            <TableCell align="right"><b>{field_model.pretty_name}:</b></TableCell><TableCell align="left"><FieldView {...params}/></TableCell></TableRow></Fragment> 
   }
 
   function row_wrap_comp(props) {
@@ -53,7 +57,7 @@ function ObjectView(props)  {
       if (data) {
         return (<Fragment>
           {field_list.map((field_name, field_index) => {
-              const field_meta = meta.fields(object_type)[field_name]
+              const field_model = field_models[field_name]
 //              u.aa("object_type,field_name,field_meta", object_type, field_name,field_meta)
 
               // default col_span to 1.  Add col_span to number_running_columns. Add 1 to num_running_fields
@@ -71,7 +75,7 @@ function ObjectView(props)  {
               // running_row = running_row+1
               // fields_new.push([]) 
               //fields_new[running_row].push(field_name)
-              const field_pretty_name = field_meta.pretty_name?field_meta.pretty_name:field_meta.field_name
+              const field_pretty_name = field_model.pretty_name?field_model.pretty_name:field_model.field_name
               row_data.push([field_pretty_name, field_name]) 
               if ((field_index !=0 || num_columns===1) && (field_index+1) % num_columns === 0 ) {
                   const local_data = row_data.slice();
@@ -82,34 +86,24 @@ function ObjectView(props)  {
                   return (<TableRow>
                             {local_data.map( (field, field_index) => {
                               return (<Fragment>
-                                      <TableCell style={{ margin:0, padding:0}} align="right"><b>{local_data[field_index][0]}:</b></TableCell><TableCell style={{margin:0, padding:0}} align="left"> {data[row_data[field_index[1]]]}<FieldView {...params} data={data} field_name={local_data[field_index][1]}/></TableCell>
+                                      <TableCell style={{ margin:0, padding:0}} align="right"><b>{local_data[field_index][0]}:</b></TableCell><TableCell style={{margin:0, padding:0}} align="left"> {data[row_data[field_index[1]]]}<FieldView {...params} data={data} field_name={local_data[field_index][1]} field_model={field_model}/></TableCell>
                                     </Fragment>)
                             })}
                           </TableRow>)
               } else {  return null }
           })}
-          {row_data.length > 0 && 
-                <TableRow>
-                      {row_data.map( (field, field_index) => {
-                        return (<Fragment>
-                                <TableCell  style={{ margin:0, padding:0}} align="right"><b>{row_data[field_index][0]}:</b></TableCell><TableCell style={{margin:0,padding:0}} align="left">aa{data[row_data[field_index[1]]]}aa<FieldView {...params} field_name = {row_data[field_index][1]} data={data}/></TableCell>
-                              </Fragment>)
-                      })}
-                </TableRow> 
           }
           </Fragment>)
       }
   }
 
 
-  const rab_model_field_names_field_wrap = "Fragment"
-
-
-  const rab_component = {field:field_comp, row_wrap:row_wrap_comp, row:row_comp}
-  const rab_component_name = {field_wrap:"Fragment",   list_body:"Fragment", list:"Fragment"}
+  let rab_component_model = _.merge({}, rab_component_models.shell)
+  rab_component_model.field.components =  {field:field_comp, row_wrap:row_wrap_comp, row:row_comp}
+  rab_component_model.field.name = {field_wrap:"Fragment",   list_body:"Fragment", list:"Fragment"}
 
   return (<Table style={{display:"inline", align:"left",borderSpacing:30, borderCollapse:"separate"}} size="small">
-          <ACSRowController {...params} object_type={object_type}  api_options={api_options}  rab_component={rab_component} rab_component_name={rab_component_name}/>
+          <ACSRowController {...params} object_type={object_type}  api_options={api_options}  rab_component_model={rab_component_model} />}
           </Table>
           )
 }
