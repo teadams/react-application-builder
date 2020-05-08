@@ -69,7 +69,7 @@ function ACSRowController(input_props) {
   const field_models =  useGetModel("fields")
   if (!field_models) {return null}
   const field_model = field_models[object_type]
-  if ((object_type && !object_model) || (object_type && !field_model)) return null
+  if (!data || (object_type && !object_model) || (object_type && !field_model)) return null
 
 
   if (!field_list) {
@@ -87,19 +87,16 @@ function ACSRowController(input_props) {
 
   let RenderACSRow  =  row_components.row
   let ACSRow = row_components.row_wrap
-  if (data && field_list) {
-    return ( 
-        <ACSRow {...row_model.props} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options} rab_component_model={rab_component_model} >
+  return ( 
+    <ACSRow {...row_model.props} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options} rab_component_model={rab_component_model} >
 
-          <RenderACSRow {...row_model.props} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options} rab_component_model={rab_component_model} >
-          </RenderACSRow>
+      <RenderACSRow {...row_model.props} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options} rab_component_model={rab_component_model} >
+      </RenderACSRow>
 
-          {data.children && data.children.length >0 &&
-              <ACSListController object_type={object_type} parent_id={id} field_list={field_list} data={data.children} api_options={api_options} rab_component_model={rab_component_model} {...rab_component_model.list.props}/>}
-        </ACSRow> )
-    } else {  
-        return <div></div>
-    }
+      {data.children && data.children.length >0 &&
+          <ACSListController object_type={object_type} parent_id={id} field_list={field_list} data={data.children} api_options={api_options} rab_component_model={rab_component_model} {...rab_component_model.list.props}/>}
+      </ACSRow> )
+
 }
 
 export default ACSRowController;

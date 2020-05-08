@@ -28,7 +28,7 @@ function ACSField(input_props) {
   const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, data:props_data, component, ...params} = massaged_props
 
   let [ready, object_type, id, field_name, api_options, data] = useGetObject(props_object_type, props_id,props_field_name, props_api_options, props_data); 
-  if (object_type && !field_model) return null
+  if (!data || (object_type && !field_model)) return null
 
 // XX ?? look at rest of props and see if there are any other API options... what layer to do this in
   function handleViewClick(event) {
@@ -65,20 +65,12 @@ function ACSField(input_props) {
 // form, the form is submitted and the page returns
 // to view mode.  
 
-  if (data && ready) {
-      if (mode=="view") {
-          return (
-            <ACSCell {...component_field_model.props}  data={data} object_type={object_type} field_name={field_name} field_model={field_model}  rab_component_model={rab_component_model}>
-              <RenderACSField {...component_field_model.props}  data={data} object_type={object_type} field_name={field_name} field_model={field_model} rab_component_model={rab_component_model}/>
-            </ACSCell>
-          )
-      } else {
-          return (<div>edit form</div>)
-          // Later - FROM with compoent fieldForm, handleSubmit, data, object_type,
-      }
-  } else {
-      return null
-  }
+// I think the field will be responsible for the mode
+return (
+  <ACSCell {...component_field_model.props}  data={data} object_type={object_type} field_name={field_name} field_model={field_model}  rab_component_model={rab_component_model}>
+    <RenderACSField {...component_field_model.props}  data={data} object_type={object_type} field_name={field_name} field_model={field_model} rab_component_model={rab_component_model}/>
+  </ACSCell>
+  )
 }
 
 export default ACSField;

@@ -30,23 +30,18 @@ function ACSListController(input_props) {
   // important to use input_props.data as it is an array and useGetObjectList
   // see changes to an array's reference as a change
   let [object_type, api_options, data] = useGetObjectList(massaged_props.object_type, massaged_props.api_options, input_props.data); 
-  if (object_type && !object_model) return null
+  if (!data || (object_type && !object_model)) return null
 
   const RenderACSList  =  list_components.list
   const ACSList = list_components.list_wrap
   const ACSListBody = list_components.list_body_wrap
 
-  if (data) {
-    return  (<ACSList>
-              <ACSListBody {...list_model.props} object_type={object_type} field_list={field_list} field_tags={field_tags}  data={data} api_options={api_options}  rab_component_model={rab_component_model}>
-                <RenderACSList {...list_model.props}  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} rab_component_model={rab_component_model} />
-              </ACSListBody>
-            </ACSList>)
-    } else {
-        // prevents dom changes
-        return <div></div>
-    
-  }
+  return  (
+  <ACSList>
+    <ACSListBody {...list_model.props} object_type={object_type} field_list={field_list} field_tags={field_tags}  data={data} api_options={api_options}  rab_component_model={rab_component_model}>
+        <RenderACSList {...list_model.props}  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} rab_component_model={rab_component_model} />
+    </ACSListBody>
+  </ACSList>)
   
 }
 
