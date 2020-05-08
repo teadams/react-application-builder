@@ -35,7 +35,7 @@ export function getFinalModel(level, input_props={}, level_model={}, ...componen
                             ...component_models,
                             buildComponentModel(input_props))
   // only want a shallow merge! 
-  // state managment is dependent on the references of api_options, field_list, 
+  // state managment is dependent on the references of api_options, field_list, f
   // and other arrays/objects not changing
   final_model[level].props = Object.assign(final_model[level].props, input_props)
   // XX ? should we do all levels or just this one, performance?
