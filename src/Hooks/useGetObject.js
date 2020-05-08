@@ -20,14 +20,12 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data) =
   api_options.user_id = context.user.id 
   api_options.subsite_id = context.context_id
 
-  if (object_type == "core_subsite" && !param_data) {u.aa("one",api_options)}
 
   let trigger_change_array = [object_type, id, param_data]
   trigger_change_array = api.addAPIParams(trigger_change_array, api_options)
 
   useLayoutEffect( () => {
       if (!param_data && (object_type && (id||api_options.filter_id))) {
-        if (object_type == "core_role") {u.aa("two",api_options)}
 
         api.getData (object_type, Object.assign({id:id},api_options), (results, error) => {         
             if (error) {
