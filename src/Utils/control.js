@@ -28,12 +28,11 @@ import TreeItem from '@material-ui/lab/TreeItem';
 // props (for that level) - done as a second merge just at that level's props
 export function getFinalModel(level, input_props={}, level_model={}, ...component_models) {
 
-  const level_component_model = {field:{names:{field:level_model.field_component}}}
   let final_model = _.merge({},
                             rab_component_models.shell,
                             rab_component_models[level],  
-                            level_component_model,
-                //            ...component_models,
+                            buildComponentModel(level_model),
+                            ...component_models,
                             rab_component_models[input_props.rab_component_model_name],
                             input_props.rab_component_model)
   // only want a shallow merge! 
@@ -45,6 +44,16 @@ export function getFinalModel(level, input_props={}, level_model={}, ...componen
 
   return final_model
 
+}
+
+function buildComponentModel(params) {
+    // precedence low to high - component by name, component itself, named parameters
+  return   _.merge({}, rab_component_models[params.rab_component_model_name],
+                    params.rab_component_model,
+                    { list:{names:{list:params.list_component}},
+                      row:{},
+                      field:{names:{field:params.field_component}}}
+              )
 }
 
 function determineModelComponents(level, model) {

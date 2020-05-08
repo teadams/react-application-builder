@@ -38,7 +38,9 @@ function ObjectView(props)  {
 /// Thinkn out names of everything (row wrap, section_wrap,)
 // Different field dispalys value, name_colin:value, name_values_cells, name_above_value, form_layout
 // later, handle column span, 
+// buildComponetModel - start with small field, then big field, then everything
 // text out sections (wrap about be Grid container, GridItem) - need theses are base row_component
+// change nuame of num_columns
 
 //  function field_comp (props) {
 //      const {field_model, ...params} = props
