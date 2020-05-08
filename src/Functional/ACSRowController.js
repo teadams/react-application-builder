@@ -1,6 +1,9 @@
 // base libraries, React, MaterialUI, Hooks, Models 
 import  'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
+import _ from 'lodash'
+
+
 import * as u from '../Utils/utils.js';
 
 import React, {useState} from 'react';
@@ -62,7 +65,7 @@ function ACSRowController(input_props) {
 
   const {body_wrap} = row_model.components
   
-  const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options,  ...params} = massaged_props
+  const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options, num_columns=1,  ...params} = massaged_props
 
   let [ready, object_type, id, field_list, api_options, data] = 
   useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data); 
