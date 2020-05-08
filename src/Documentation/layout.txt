@@ -1,0 +1,46 @@
+-- app
+-- body
+
+
+-- menu - 
+  -- menu_title  &&& (props:menu_title, menu_description)
+  
+--- list
+      title_wrap 
+           title (&&&) (prop:list_title, prop:list_description, defaults to pretty name of object)
+      list_wrap (Table)
+        header_wrap 
+            header (&& the pretty names of the forms)
+        body_wrap (TableRow)
+            list  (RenderACSList)
+        footer_wrap (Fragment)
+            footer
+    -- other Props  
+        -- data
+        -- object_type
+  
+
+--- row
+    title_wrap (&&&,Fragment)
+      title  (prop:row_title, row_description)
+    section_wrap (&&&, Fragment)
+      title (prop:section_title, section_description)
+         row_wrap
+              field_chunk_wrap (&&&, Fragment) (prop:fields_per_chunk (2,1))
+                row (RenderACSRow)
+      -- other Props  
+            -- data
+            -- object_type
+            -- field_list, sections?
+            -- id
+  
+--    field: field_wrap
+        field (field_component/field_component_name)
+          Props:
+            -- display (value, name_colon_value, name_value_cells)
+            -- mode (click_to_edit, view, text, edit)
+            -- data
+            -- field_model 
+            -- default_mode
+            -- valid_values (specified by model or from select_list)
+            -- Input widget?? - Should we have separate for text, date, etc or just one
