@@ -1,19 +1,19 @@
 const rab_component_models = {
   empty: {
     list: {
-      component_names:{},
+      names:{},
       components:{},
       defaut_mode:"",  
       props:{}
     },
     row: {
-      component_names:{},
+      names:{},
       components:{},
       default_mode:"",
       props:{}
     },
     field:{
-      component_names:{},
+      names:{},
       components:{},
       default_mode:"",
       props:{}
@@ -21,7 +21,7 @@ const rab_component_models = {
   },
   shell: {
     list: {
-      component_names:{
+      names:{
         body_wrap:"Fragment",
         list_body_wrap:"Fragment",
         list: "RenderACSList"
@@ -31,7 +31,7 @@ const rab_component_models = {
       props:{}
     },
     row: {
-      component_names:{
+      names:{
         row_wrap:"Fragment",
         row:"RenderACSRow"
       },
@@ -40,7 +40,7 @@ const rab_component_models = {
       props:{}
     },
     field:{
-      component_names:{
+      names:{
         field_wrap:"Fragment",
         field:"RenderACSField"
       },
@@ -51,7 +51,7 @@ const rab_component_models = {
   },
   list: {
     list: {
-      component_names:{
+      names:{
         list_wrap:"Table",
         body_wrap:"Fragment",
       },
@@ -60,7 +60,7 @@ const rab_component_models = {
       props:{}
     },
     row: {
-      component_names:{
+      names:{
         row_wrap:"TableRow",
     },
 
@@ -69,7 +69,7 @@ const rab_component_models = {
       props:{}
     },
     field:{
-      component_names:{
+      names:{
         field_wrap:"TableCell"
     },
       components:{},
@@ -79,19 +79,19 @@ const rab_component_models = {
   },
   field: {
     list: {
-      component_names:{},
+      names:{},
       components:{},
       defaut_mode:"view",  
       props:{}
     },
     row: {
-      component_names:{},
+      names:{},
       components:{},
       default_mode:"view",
       props:{}
     },
     field:{
-      component_names:{},
+      names:{},
       components:{},
       default_mode:"click_to_edit",
       props:{}
@@ -99,19 +99,19 @@ const rab_component_models = {
   },
   row: {
     list: {
-      component_names:{},
+      names:{},
       components:{},
       defaut_mode:"view",  
       props:{}
     },
     row: {
-      component_names:{},
+      names:{},
       components:{},
       default_mode:"view",
       props:{}
     },
     field:{
-      component_names:{},
+      names:{},
       components:{},
       default_mode:"click_to_edit",
       props:{}

@@ -46,11 +46,11 @@ export function getFinalModel(level, input_props, ...component_models) {
 }
 
 function determineModelComponents(level, model) {
-  Object.keys(model[level].component_names).forEach(name =>{
+  Object.keys(model[level].names).forEach(name =>{
     if (!model[level].components[name]) {
-      model[level].components[name] = componentByName(model[level].component_names[name])
+      model[level].components[name] = componentByName(model[level].names[name])
     }
-    model[level].component_names[name] = ""  
+    model[level].names[name] = ""  
   })
 }
 export function componentByName(name) {
