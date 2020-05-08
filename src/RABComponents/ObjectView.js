@@ -1,6 +1,6 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
-import _ from 'lodash/object'
+import _ from 'lodash/core'
 import rab_component_models from '../Models/HealthMe/component.js'
 
 import { makeStyles } from '@material-ui/core/styles';
