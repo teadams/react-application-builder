@@ -3,7 +3,7 @@ const rab_menu_model = {
   menus:{
     // thing about implications with merging with lodash.  Perhaps we want this to be a comma separated value
     hamburger: ["Olist", "Menu","DrillSubsite"],
-    app_menu: ["Text", "HOlist","HMenu", "DrillSubsite", "DrillSubsiteSale", "Sales", "RoleGroup", "RoleNoGroup"]
+    app_menu: ["Users", "Text", "HOlist","HMenu", "DrillSubsite", "DrillSubsiteSale", "Sales", "RoleGroup", "RoleNoGroup"]
   },
   menu_items:{
     "Text": {label: "Text", menu_component_name:"Text", rab_component_model_name:"test"},
@@ -18,7 +18,8 @@ const rab_menu_model = {
     },
     "DrillSale": {label: "DrillSales", menu_component_name:"ObjectTypeView", test_case:"Context Viewing", object_type:"test_sale", filter_field:"core_subsite"
     },
-    "Sales": {label: "SalesAN", menu_component_name:"ObjectTypeView", test_case:"Context Viewing", object_type:"test_sale",  api_options:{num_rows:1, expand_hierarchy:"true"}
+    "Users": {label: "AllUsers", menu_component_name:"ObjectTypeView", test_case:"View an Object", object_type:"core_user"},        
+    "Sales": {label: "Sales", menu_component_name:"ObjectTypeView", test_case:"Context Viewing", object_type:"test_sale",  api_options:{num_rows:1, expand_hierarchy:"true"}
     },        
     "RoleGroup": { label: "Role Group", menu_component_name:"DrillDown", test_case:"DrillDown", object_type:"core_role", api_options:{grouping_field:"privilege"}
     },

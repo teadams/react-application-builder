@@ -67,8 +67,8 @@ function ACSField(input_props) {
   if (data && ready) {
       if (mode=="view") {
           return (
-            <ACSCell  data={data} object_type={object_type} field_name={field_name} field_model={field_model}  rab_component_model={rab_component_model}>
-              <RenderACSField  data={data} object_type={object_type} field_name={field_name} field_model={field_model} rab_component_model={rab_component_model}/>
+            <ACSCell {...component_field_model.props}  data={data} object_type={object_type} field_name={field_name} field_model={field_model}  rab_component_model={rab_component_model}>
+              <RenderACSField {...component_field_model.props}  data={data} object_type={object_type} field_name={field_name} field_model={field_model} rab_component_model={rab_component_model}/>
             </ACSCell>
           )
       } else {

@@ -76,7 +76,6 @@ function ACSRowController(input_props) {
         field_list = Object.keys(data)
       }
   }
-
   // Changes to field list (metadata rules, ext)
   // Calculate sections
   // calculate row break
@@ -85,12 +84,11 @@ function ACSRowController(input_props) {
 
   let RenderACSRow  =  row_components.row
   let ACSRow = row_components.row_wrap
-
-  if (data) {
+  if (data && field_list) {
     return ( 
-        <ACSRow object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options} rab_component_model={rab_component_model} {...row_model.props}>
+        <ACSRow {...row_model.props} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options} rab_component_model={rab_component_model} >
 
-          <RenderACSRow object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options} rab_component_model={rab_component_model} {...row_model.props}>
+          <RenderACSRow {...row_model.props} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options} rab_component_model={rab_component_model} >
           </RenderACSRow>
 
           {data.children && data.children.length >0 &&
