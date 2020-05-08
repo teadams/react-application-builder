@@ -33,8 +33,7 @@ export function getFinalModel(level, input_props={}, level_model={}, ...componen
                             rab_component_models[level],  
                             buildComponentModel(level_model),
                             ...component_models,
-                            rab_component_models[input_props.rab_component_model_name],
-                            input_props.rab_component_model)
+                            buildComponentModel(input_props))
   // only want a shallow merge! 
   // state managment is dependent on the references of api_options, field_list, 
   // and other arrays/objects not changing
