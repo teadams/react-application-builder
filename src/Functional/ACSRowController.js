@@ -73,7 +73,7 @@ function ACSRowController(input_props) {
   const field_model = field_models[object_type]
   if (!data || (object_type && !object_model) || (object_type && !field_model)) return null
 
-
+  /// XX Will be expanded to deal with sections
   if (!field_list) {
       if (object_type) {
         field_list = Object.keys(field_model)
@@ -82,15 +82,16 @@ function ACSRowController(input_props) {
       }
   }
 
-  
+  // XX will be expanded to deal with col_spans
   if (num_columns != 1) {
     field_list = [_.chunk(field_list, num_columns)]
+  } else {
+    field_list = [field_list]
   }
-  // Changes to field list (metadata rules, ext)
-  // Calculate sections
-  // calculate row break
-  // field, row, section
-  // [  [field, field, field ].[ field, field  ] ]
+  // Final structure
+  // [[section], [section]]
+  // where each section contains one or more fields 
+  // (according to field_chunk and colspan rules examples: [field, field, field ]
 
   let RenderACSRow  =  row_components.row
   let ACSRow = row_components.row_wrap
