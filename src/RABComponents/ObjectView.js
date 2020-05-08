@@ -102,7 +102,8 @@ function ObjectView(props)  {
   }
 
 
-  
+  const rab_model_field_names_field_wrap = "Fragment"
+
 
   const rab_component = {field:field_comp, row_wrap:row_wrap_comp, row:row_comp}
   const rab_component_name = {field_wrap:"Fragment",   list_body:"Fragment", list:"Fragment"}

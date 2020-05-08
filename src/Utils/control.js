@@ -26,11 +26,13 @@ import TreeItem from '@material-ui/lab/TreeItem';
 // component_nodel_name (many), compoent_model (many) (Passed as component model, final step will be the model to name override)
 // input_props_component_name input_props_component (passed as input_props, model to name is done before mereg)
 // props (for that level) - done as a second merge just at that level's props
-export function getFinalModel(level, input_props, ...component_models) {
+export function getFinalModel(level, input_props={}, level_model={}, ...component_models) {
 
+  const level_component_model = {field:{names:{field:level_model.field_component}}}
   let final_model = _.merge({},
                             rab_component_models.shell,
                             rab_component_models[level],  
+                            level_component_model,
                 //            ...component_models,
                             rab_component_models[input_props.rab_component_model_name],
                             input_props.rab_component_model)

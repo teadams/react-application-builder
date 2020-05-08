@@ -5,6 +5,8 @@ import * as u from '../Utils/utils.js';
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 
 import useGetObjectList from '../Hooks/useGetObjectList';
+import useGetModel from '../Hooks/useGetModel';
+
 
 import * as control from "../Utils/control.js"
 import rab_component_models from '../Models/HealthMe/component.js'
@@ -13,8 +15,9 @@ import rab_component_models from '../Models/HealthMe/component.js'
 function ACSListController(input_props) {
   // do not merge expensive, known unnecessary things
   const {data:input_props_data, target_menu_name, ...merging_props} = input_props
-
-  const rab_component_model = control.getFinalModel("list", {...merging_props}, rab_component_models.list )
+  const object_models =  useGetModel("object")
+  const object_model = object_models?[input_props.object_type]:{}
+  const rab_component_model = control.getFinalModel("list", {...merging_props}, object_model, rab_component_models.list )
   const list_model = rab_component_model.list
   const list_components = list_model.components
   const massaged_props = list_model.props
@@ -27,7 +30,7 @@ function ACSListController(input_props) {
   // important to use input_props.data as it is an array and useGetObjectList
   // see changes to an array's reference as a change
   let [object_type, api_options, data] = useGetObjectList(massaged_props.object_type, massaged_props.api_options, input_props.data); 
-
+  if (object_type && !object_model) return null
 
   const RenderACSList  =  list_components.list
   const ACSList = list_components.list_wrap

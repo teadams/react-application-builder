@@ -13,15 +13,14 @@ import rab_component_models from '../Models/HealthMe/component.js'
 
 function ACSField(input_props) {
   const [mode, setMode] = useState("view");
-
   const field_models =  useGetModel("fields")
+  let field_model = field_models?field_models[input_props.object_type][input_props.field_name]:{}
 //  if (!field_models) {return null} *** Breaks our rule, which depended on all the models being loaded.
 // not a priority now as we know the model is here. Will impact lazy loading of models.
-  let field_model = field_models[input_props.object_type][input_props.field_name]
 
   // take care of fields that do not need to be merged
   const {...merging_props} = input_props
-  const rab_component_model = control.getFinalModel("field", {...merging_props}, rab_component_models.field, field_model.rab_component_mode)
+  const rab_component_model = control.getFinalModel("field", {...merging_props}, field_model, field_model.rab_component_model)
   const component_field_model = rab_component_model.field
   const component_field_components = component_field_model.components
   const massaged_props = component_field_model.props
@@ -29,6 +28,8 @@ function ACSField(input_props) {
   const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, data:props_data, component, ...params} = massaged_props
 
   let [ready, object_type, id, field_name, api_options, data] = useGetObject(props_object_type, props_id,props_field_name, props_api_options, props_data); 
+  if (object_type && !field_model) return null
+
 // XX ?? look at rest of props and see if there are any other API options... what layer to do this in
   function handleViewClick(event) {
       setMode("edit")
@@ -63,7 +64,7 @@ function ACSField(input_props) {
 // render a one-input form. When use mouse leaves the
 // form, the form is submitted and the page returns
 // to view mode.  
-//  u.a(on_click)
+
   if (data && ready) {
       if (mode=="view") {
           return (

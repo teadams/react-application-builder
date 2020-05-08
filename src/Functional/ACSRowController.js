@@ -50,10 +50,12 @@ import rab_component_models from '../Models/HealthMe/component.js'
 
 function ACSRowController(input_props) {
   const [mode, setMode] = useState("view");
+  const object_models =  useGetModel("object")
+  const object_model = object_models?[input_props.object_type]:{}
 
   // do not merge expensive, known unnecessary things
   const {data:input_props_data, ...merging_props} = input_props
-  const rab_component_model = control.getFinalModel("row", {...merging_props}, rab_component_models.row )
+  const rab_component_model = control.getFinalModel("row", {...merging_props}, object_model, rab_component_models.row )
   const row_model = rab_component_model.row
   const row_components = row_model.components
   const massaged_props = row_model.props
@@ -64,10 +66,11 @@ function ACSRowController(input_props) {
 
   let [ready, object_type, id, field_list, api_options, data] = 
   useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data); 
-
   const field_models =  useGetModel("fields")
   if (!field_models) {return null}
   const field_model = field_models[object_type]
+  if ((object_type && !object_model) || (object_type && !field_model)) return null
+
 
   if (!field_list) {
       if (object_type) {
