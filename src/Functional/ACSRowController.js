@@ -50,7 +50,7 @@ import rab_component_models from '../Models/HealthMe/component.js'
 
 function ACSRowController(input_props) {
   const [mode, setMode] = useState("view");
-  const object_models =  useGetModel("object")
+  const object_models =  useGetModel("object_types")
   const object_model = object_models?[input_props.object_type]:{}
 
   // do not merge expensive, known unnecessary things

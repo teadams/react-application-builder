@@ -15,7 +15,7 @@ import rab_component_models from '../Models/HealthMe/component.js'
 function ACSListController(input_props) {
   // do not merge expensive, known unnecessary things
   const {data:input_props_data, target_menu_name, ...merging_props} = input_props
-  const object_models =  useGetModel("object")
+  const object_models =  useGetModel("object_types")
   const object_model = object_models?[input_props.object_type]:{}
   const rab_component_model = control.getFinalModel("list", {...merging_props}, object_model, rab_component_models.list )
   const list_model = rab_component_model.list
