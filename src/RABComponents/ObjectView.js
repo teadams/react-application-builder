@@ -23,7 +23,7 @@ function ObjectView(props)  {
   const field_models = useGetModel("fields")
   if (!menu_model || !field_models) {return null}
   const model = meta.getByPrecedence({filter_field:"id"}, props, menu_model.menu_items[props.menu_name])
-  const {object_type, filter_field, num_columns, ...params} = model
+  const {object_type, filter_field, num_columns=8, ...params} = model
 
   let api_options = {}
   api_options.filter_id = props[filter_field]
@@ -33,36 +33,51 @@ function ObjectView(props)  {
       return <Paper style={{display:"inline"}} variant="outlined">{props.children}</Paper>
   }
   
-  function field_comp (props) {
-      const {field_model, ...params} = props
-      return <Fragment><TableRow>
-            <TableCell align="right"><b>{field_model.pretty_name}:</b></TableCell><TableCell align="left"><FieldView {...params}/></TableCell></TableRow></Fragment> 
-  }
+// Next stpes
+// move this down into RenderRow 
+/// Thinkn out names of everything (row wrap, section_wrap,)
+// Different field dispalys value, name_colin:value, name_values_cells, name_above_value, form_layout
+// later, handle column span, 
+// text out sections (wrap about be Grid container, GridItem) - need theses are base row_component
+
+//  function field_comp (props) {
+//      const {field_model, ...params} = props
+//      return ("text")
+      // return <Fragment><TableRow>
+      //       <TableCell align="right"><b>{field_model.pretty_name}:</b></TableCell><TableCell align="left"><FieldView {...params}/></TableCell></TableRow></Fragment> 
+  //}
 
   function row_wrap_comp(props) {
       const {object_type, ...params} = props   
       const field_name = meta.keys(object_type).pretty_key_id
-      return <Fragment><Typography variant="title" style={{display:"block", padding:10}}><b>
-              <FieldView {...params} data={props.data} object_type={object_type} field_name={field_name}/></b></Typography><Table style={{borderSpacing:30, borderCollapse:"separate"}}>
-              {props.children}</Table>
-            </Fragment>
+      return (<Table>{props.children}</Table>)
+      // return <Fragment><Typography variant="title" style={{display:"block", padding:10}}><b>
+      //         <FieldView {...params} data={props.data} object_type={object_type} field_name={field_name}/></b></Typography><Table style={{borderSpacing:30, borderCollapse:"separate"}}>
+      //         {props.children}</Table>
+      //       </Fragment>
   }
 
   function row_comp(props) {
-    const {data,field_list, object_type, num_columns=3,  ...params} = props
+    const {data,field_list, object_type,   ...params} = props
+  //  u.a(field_list)
+
     let row_data = []
-    if (!data) {return null}
-  
 // section, row, field
+    if (!data) {return null}
       if (data) {
         return (<Fragment>
           {field_list.map((section_list, section_index) => {
-              section_list.map((row_list) => {
-                      row_list.map((field_name) =>  {
-                        const field_model = field_models[field_name]
-                        const field_pretty_name = field_model.pretty_name?field_model.pretty_name:field_model.field_name
-                        return (<FieldView {...params} data={data} field_name={field_name} field_model={field_model}/>)
-                      })
+            u.aa ("section_list", section_list) 
+              return section_list.map((row_list) => {
+            //      u.aa("row_list", row_list)
+                    return (
+                    <TableRow>
+                        {row_list.map((field_name) =>  {
+                            return (<Fragment>XXX
+                                <ACSField {...params} object_type={object_type} data={data} field_name={field_name} /><br/>
+                                  </Fragment>)
+                        })}
+                    </TableRow>)
               })
           })}
           </Fragment>)
@@ -71,9 +86,9 @@ function ObjectView(props)  {
 
   //                                      <TableCell style={{ margin:0, padding:0}} align="right"><b>{local_data[field_index][0]}:</b></TableCell><TableCell style={{margin:0, padding:0}} align="left"> {data[row_data[field_index[1]]]}<FieldView {...params} data={data} field_name={local_data[field_index][1]} field_model={field_model}/></TableCell>
 
-  let rab_component_model = _.merge({}, rab_component_models.shell)
-  rab_component_model.field.components =  {field:field_comp, row_wrap:row_wrap_comp, row:row_comp}
-  rab_component_model.field.name = {field_wrap:"Fragment",   list_body:"Fragment", list:"Fragment"}
+  let rab_component_model = _.merge({}, rab_component_models.empty)
+  rab_component_model.row.components =  {row_wrap:row_wrap_comp, row:row_comp}
+  rab_component_model.field.names = {field_wrap:"TableCell"}
 
   return (<Table style={{display:"inline", align:"left",borderSpacing:30, borderCollapse:"separate"}} size="small">
           <ACSRowController {...params} object_type={object_type}  api_options={api_options} num_columns={num_columns} rab_component_model={rab_component_model} />

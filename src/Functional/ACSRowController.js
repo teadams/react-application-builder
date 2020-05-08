@@ -57,7 +57,7 @@ function ACSRowController(input_props) {
 
   // do not merge expensive, known unnecessary things
   const {data:input_props_data, ...merging_props} = input_props
-  const rab_component_model = control.getFinalModel("row", {...merging_props}, object_model, rab_component_models.row )
+  const rab_component_model = control.getFinalModel("row", {...merging_props}, object_model, rab_component_models.row)
   const row_model = rab_component_model.row
   const row_components = row_model.components
   const massaged_props = row_model.props
@@ -81,6 +81,11 @@ function ACSRowController(input_props) {
         field_list = Object.keys(data)
       }
   }
+
+  
+  if (num_columns != 1) {
+    field_list = [_.chunk(field_list, num_columns)]
+  }
   // Changes to field list (metadata rules, ext)
   // Calculate sections
   // calculate row break
@@ -89,16 +94,17 @@ function ACSRowController(input_props) {
 
   let RenderACSRow  =  row_components.row
   let ACSRow = row_components.row_wrap
-  return ( 
-    <ACSRow {...row_model.props} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options} rab_component_model={rab_component_model} >
 
-      <RenderACSRow {...row_model.props} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options} rab_component_model={rab_component_model} >
+  return ( 
+    <ACSRow {...row_model.props} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options} num_columnns={num_columns} rab_component_model={rab_component_model} >
+
+      <RenderACSRow {...row_model.props} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options} num_columns={num_columns} rab_component_model={rab_component_model} >TESTING
       </RenderACSRow>
 
       {data.children && data.children.length >0 &&
-          <ACSListController object_type={object_type} parent_id={id} field_list={field_list} data={data.children} api_options={api_options} rab_component_model={rab_component_model} {...rab_component_model.list.props}/>}
+          <ACSListController object_type={object_type} parent_id={id} field_list={field_list} data={data.children} api_options={api_options} num_columns={num_columns} rab_component_model={rab_component_model} {...rab_component_model.list.props}/>}
       </ACSRow> )
 
 }
 
-export default ACSRowController;
+export default ACSRowController; 
