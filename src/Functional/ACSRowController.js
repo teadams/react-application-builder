@@ -62,7 +62,7 @@ function ACSRowController(input_props) {
   const row_components = row_model.components
   const massaged_props = row_model.props
 
-  const {body_wrap} = row_model.components
+  const {title_wrap, title, section_wrap, section_title, row_wrap, field_chunk_wrap, row} = row_model.components
   
   const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options, num_columns=1,  ...params} = massaged_props
 
@@ -99,7 +99,7 @@ function ACSRowController(input_props) {
   return ( 
     <ACSRow {...row_model.props} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options} num_columnns={num_columns} rab_component_model={rab_component_model} >
 
-      <RenderACSRow {...row_model.props} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options} num_columns={num_columns} rab_component_model={rab_component_model} >TESTING
+      <RenderACSRow {...row_model.props} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options} num_columns={num_columns} rab_component_model={rab_component_model} >
       </RenderACSRow>
 
       {data.children && data.children.length >0 &&
