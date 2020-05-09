@@ -34,6 +34,7 @@ export function getFinalModel(level, input_props={}, level_model={}, ...componen
                             determineModelComponents(level, buildComponentModel(input_props))
                             )
   
+
   // only want a shallow merge! 
   // state managment is dependent on the references of api_options, field_list, f
   // and other arrays/objects not changing
@@ -45,19 +46,18 @@ export function getFinalModel(level, input_props={}, level_model={}, ...componen
 
 }
 
-function buildComponentModel(params) {
+function buildComponentModel(params, show) {
 /// XXBIG - items need completed
     // precedence low to high - component by name, component itself, named parameters
-  return   _.merge({}, rab_component_models[params.rab_component_model_name],
-                    params.rab_component_model,
-                    { list:{names:{list:params.list_component},
-                            components:{},
-                            props:{}},
-                      row:{names:{}, components:{},props:{}},
-                      field:{names:{field:params.field_component},
-                             components:{}, props:{}
-                            }}
-              )
+  return   _.merge({},     
+      rab_component_models[params.rab_component_model_namme], params.rab_component_model,
+      { list:{names:{list:params.list_component},
+              components:{},
+              props:{}},
+        row:{names:{}, components:{},props:{}},
+        field:{names:{field:params.field_component},
+              components:{}, props:{}}
+      })
 }
 
 function determineModelComponents(level, model) {
