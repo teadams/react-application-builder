@@ -30,24 +30,20 @@ function TreeMenu(props)  {
   function RenderTreeItem(props) {
     const {data, object_type, api_options={}} = props
     const {grouping_field=""} = api_options
-
+    
     let field_name = meta.keys(object_type).pretty_key_id
     if (grouping_field && data.group_row) {
         field_name = grouping_field
     } 
-
     let label = ACSField({object_type:props.object_type, data:props.data, field_name:field_name, display:"text"})
-    return (
-      <TreeItem key={data.id} nodeId={data.id} label={label}>{props.children[1]}</TreeItem>
-    )
-  }
+    return (<TreeItem key={data.id} nodeId={data.id} label={label}/>)
+  } 
 
   const rab_component_model = {
+          list:{names:{header_wrap:"Fragment", header:"Fragment", body_wrap:"Fragment"}},
           row:{components:{row_wrap:RenderTreeItem}},
           field:{component_names:{field_wrap:"Fragment", field:"Fragment"}},
     }
-
-  const rab_component = {row_wrap:RenderTreeItem, field:Fragment, field_wrap:Fragment, row:Fragment}
 
   return (
      <TreeView
