@@ -100,11 +100,7 @@ function ACSRowController(input_props) {
   }
 
   // XX will be expanded to deal with col_spans
-  if (num_columns != 1) {
-    field_list = [_.chunk(field_list, num_columns)]
-  } else {
-    field_list = [field_list]
-  }
+  field_list = [_.chunk(field_list, num_columns)]
   // Final structure
   // [[section], [section]]
   // where each section contains one or more fields 
