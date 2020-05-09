@@ -66,7 +66,8 @@ function ACSRowController(input_props) {
     return (
       <FieldChunk {...row_params}>
         {field_chunk.map( field_name => {
-              return <ACSField field_name={field_name} {...row_params}/>
+            return (data[field_name])
+//              return <ACSField field_name={field_name} {...row_params}/>
         })}
       </FieldChunk>
     )
@@ -78,7 +79,6 @@ function ACSRowController(input_props) {
 
   const rab_component_model = control.getFinalModel("row", {...merging_props}, object_model, row_component_model)
   const row_model = rab_component_model.row
-  const row_components = row_model.components
   const massaged_props = row_model.props
   
   const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options, num_columns=1,  ...params} = massaged_props
