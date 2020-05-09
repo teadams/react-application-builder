@@ -7,7 +7,8 @@ import * as u from '../Utils/utils.js';
 
 import React, {useState} from 'react';
 
-import ACSListController from './ACSListController.js'
+import RenderACSRow from './RenderACSRow.js'
+import ACSField from '../Functional/ACSField2.js'
 
 import useGetObject from '../Hooks/useGetObject';
 import useGetModel from '../Hooks/useGetModel';
@@ -57,12 +58,24 @@ function ACSRowController(input_props) {
 
   // do not merge expensive, known unnecessary things
   const {data:input_props_data, ...merging_props} = input_props
-  const rab_component_model = control.getFinalModel("row", {...merging_props}, object_model, rab_component_models.row)
+
+  function RABRow(row_props) {
+    const {field_list:field_chunk, data, field} = row_props
+    const {...row_params} = row_props
+    /// need to add field chunk wrap
+    return (field_chunk[0][0].map( field_name => {
+          return <ACSField field_name={field_name} {...row_params}/>
+    }))
+  }
+
+
+  let row_component_model = rab_component_models.row
+  row_component_model.row.components.row = RABRow
+
+  const rab_component_model = control.getFinalModel("row", {...merging_props}, object_model, row_component_model)
   const row_model = rab_component_model.row
   const row_components = row_model.components
   const massaged_props = row_model.props
-
-  const {title_wrap, title, section_wrap, section_title, row_wrap, field_chunk_wrap, row} = row_model.components
   
   const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options, num_columns=1,  ...params} = massaged_props
 
@@ -93,18 +106,7 @@ function ACSRowController(input_props) {
   // where each section contains one or more fields 
   // (according to field_chunk and colspan rules examples: [field, field, field ]
 
-  let RenderACSRow  =  row_components.row
-  let ACSRow = row_components.row_wrap
-
-  return ( 
-    <ACSRow {...row_model.props} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options} num_columnns={num_columns} rab_component_model={rab_component_model} >
-
-      <RenderACSRow {...row_model.props} object_type={object_type} id={id} field_list={field_list} data={data} api_options={api_options} num_columns={num_columns} rab_component_model={rab_component_model} >
-      </RenderACSRow>
-
-      {data.children && data.children.length >0 &&
-          <ACSListController object_type={object_type} parent_id={id} field_list={field_list} data={data.children} api_options={api_options} num_columns={num_columns} rab_component_model={rab_component_model} {...rab_component_model.list.props}/>}
-      </ACSRow> )
+  return  (<RenderACSRow {...row_model.props} object_type={object_type}  id={id}field_list={field_list} data={data} api_options={api_options} num_columns={num_columns} rab_component_model={rab_component_model} />)
 
 }
 
