@@ -53,7 +53,11 @@ export function aa(...params) {
 
 function stringify(str) {
   try {
+    if (typeof(str) === "object" && str.displayName) {
+        return str.displayName
+    } else {
       return (JSON.stringify(str));
+    }
   } catch (e) {
       return "!! CAN NOT DISPLAY VALUE !! ";
   }
