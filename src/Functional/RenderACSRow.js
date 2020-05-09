@@ -23,23 +23,20 @@ function RenderACSRow(props) {
   const {header_wrap:HeaderWrap, header:Header, section_wrap:SectionWrap, section_header:SectionHeader, row_wrap:RowWrap,  row:RABRow} = rab_component_model.row.components 
   if (data) {
       return (
+        <Fragment>
+          <HeaderWrap {...params}>
+            <Header {...params}/>
+          </HeaderWrap>
+        <SectionWrap {...params}>
+           <SectionHeader {...params}/>
+        </SectionWrap>
         <RowWrap {...params}>
           <RABRow {...params}/>
         </RowWrap>
+        {data.children && data.children.length >0 &&
+            <ACSListController {...params} {...rab_component_model.list.props}/>}
+        </Fragment>
       )
-//    return(
-//    <Fragment>
- //      <HeaderWrap {...params}>
-//        <Header {...params}/>
-//      </HeaderWrap>
-//      <SectionWrap {...params}>
-//          <SectionHeader {...params}/>
-//          <RowWrap {...params}>
-//          </RowWrap>
-//      </SectionWrap>
-//      {data.children && data.children.length >0 &&
-//          <ACSListController {...params} {...rab_component_model.list.props}/>}
-//    </Fragment>)
   }
 }
 
