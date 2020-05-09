@@ -14,9 +14,6 @@ import Debug from '../Debug.js'
 import ACSField from '../Functional/ACSField2.js'
 import ACSRowController from '../Functional/ACSRowController.js'
 import ACSListController from '../Functional/ACSListController.js'
-import RenderACSField from '../Functional/RenderACSField.js'
-import RenderACSRow from '../Functional/RenderACSRow.js'
-import RenderACSList from '../Functional/RenderACSList.js'
 import {Tab, Tabs, Menu, MenuItem, MenuList,List,ListItem,ListItemAvatar,ListItemIcon,ListItemSecondaryAction,ListItemText,ListSubheader,Table,TableBody,TableCell,TableContainer,TableFooter,TableHead,TablePagination,TableRow,} from '@material-ui/core';
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
@@ -95,9 +92,6 @@ function componentPicker(name) {
     case "ACSField": return ACSField;
     case "ACSRowController": return ACSRowController;
     case "ACSListController": return ACSListController;
-    case "RenderACSField": return RenderACSField;
-    case "RenderACSRow":  return RenderACSRow;
-    case "RenderACSList": return RenderACSList;
     case "Tab": return Tab;
     case "Tabs": return Tabs;
     case "Menu": return Menu;
@@ -121,7 +115,7 @@ function componentPicker(name) {
     case "TreeItem": return TreeItem; 
     case "TreeView": return TreeView;
     case "Fragment": return Fragment;
-    case "Component": return Component;
+    case "AvatarUser":  return Text;
     default:  { 
       alert("Menu Model Issues - no component for " + name) 
       return Fragment;
