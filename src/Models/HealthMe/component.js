@@ -135,7 +135,42 @@ const rab_component_models = {
       props:{}
     }
   },
-
+  tab: {
+      list: {
+        names:{
+          header_wrap:"Fragment",
+          header:"Fragment",
+          list_wrap:"Fragment",
+          list_header_wrap:"Fragment",
+          list_header:"Fragment",
+          body_wrap:"Fragment",
+          footer_wrap:"Fragment",
+          footer:"Fragment"
+        },
+        components:{},
+        defaut_mode:"view",  
+        props:{}
+      },
+      row: {
+        names:{
+          row_wrap:"Fragment",
+          row:"Fragment"
+      },
+  
+        components:{},
+        default_mode:"view",
+        props:{}
+      },
+      field:{
+        names:{
+          field_wrap:"Fragment",
+          field:"Fragment"
+      },
+        components:{},
+        default_mode:"click_to_edit",
+        props:{}
+      }
+    },
 
 }
 
