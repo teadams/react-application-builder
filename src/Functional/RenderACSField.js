@@ -1,10 +1,7 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import { makeStyles } from '@material-ui/core/styles';
-import * as log from '../Utils/log.js'
-import * as meta from '../Utils/meta.js'
-import * as data from '../Utils/data.js';
-import * as utils from '../Utils/utils.js';
+import * as u from '../Utils/utils.js';
 import useGetObject from '../Hooks/useGetObject';
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useEffect} from 'react';
@@ -16,7 +13,6 @@ function RenderACSField(props) {
   const {data, rab_component_model, field_name} = props
 
   const {field_wrap:FieldWrap, field:Field} = rab_component_model.field.components 
-
   if (data) {
     return (<FieldWrap>
       {data[field_name] && 
