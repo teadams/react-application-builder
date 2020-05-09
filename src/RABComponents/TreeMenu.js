@@ -8,7 +8,7 @@ import * as u from '../Utils/utils.js';
 import ACSRowController from '../Functional/ACSRowController.js'
 import ACSListController from '../Functional/ACSListController.js'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react'
-import FieldView from './FieldView.js'
+import ACSField from '../Functional/ACSField2.js'
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -36,7 +36,7 @@ function TreeMenu(props)  {
         field_name = grouping_field
     } 
 
-    let label = FieldView({object_type:props.object_type, data:props.data, field_name:field_name, display:"text"})
+    let label = ACSField({object_type:props.object_type, data:props.data, field_name:field_name, display:"text"})
     return (
       <TreeItem key={data.id} nodeId={data.id} label={label}>{props.children[1]}</TreeItem>
     )
