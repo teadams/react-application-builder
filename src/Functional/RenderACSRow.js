@@ -21,6 +21,7 @@ function RenderACSRow(props) {
   const {data, rab_component_model, field_list} = props
 
   const {header_wrap:HeaderWrap, header:Header, section_wrap:SectionWrap, section_header:SectionHeader, row_wrap:RowWrap,  row:RABRow} = rab_component_model.row.components 
+//  u.aa("chilren,data", data.children, data)
   if (data) {
       return (
         <Fragment>
@@ -36,10 +37,11 @@ function RenderACSRow(props) {
                             <RABRow {...params} field_chunk={field_chunk}/>
                           </RowWrap>)
                 })}
-                </SectionWrap>)
+              </SectionWrap>)
             })}
-          {data.children && data.children.length >0 &&
-              <ACSListController {...params} {...rab_component_model.list.props}/>}
+            {data.children && data.children.length >0 &&
+                <ACSListController {...params} {...rab_component_model.list.props} data={data.children}/>}
+
         </Fragment>
       )
   }
