@@ -32,7 +32,7 @@ function RenderACSRow(props) {
               <SectionWrap {...params}>
                 <SectionHeader {...params}/>
                 {section_fields.map(field_chunk => {
-                  return (<RowWrap {...params}>
+                  return (<RowWrap {...params}>{RowWrap.displayName}
                             <RABRow {...params} field_chunk={field_chunk}/>
                           </RowWrap>)
                 })}

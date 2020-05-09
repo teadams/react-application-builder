@@ -81,7 +81,7 @@ function ACSRowController(input_props) {
   const row_model = rab_component_model.row
   const massaged_props = row_model.props
   
-  const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options, num_columns=1,  ...params} = massaged_props
+  const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options, num_columns="",  ...params} = massaged_props
 
   let [ready, object_type, id, field_list, api_options, data] = 
   useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data); 
@@ -100,7 +100,11 @@ function ACSRowController(input_props) {
   }
 
   // XX will be expanded to deal with col_spans
-  field_list = [_.chunk(field_list, num_columns)]
+  if (num_columns) {
+    field_list = [_.chunk(field_list, num_columns)]
+  } else {
+    field_list = [[field_list]]
+  }
   // Final structure
   // [[section], [section]]
   // where each section contains one or more fields 
