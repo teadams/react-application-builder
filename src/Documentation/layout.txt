@@ -6,11 +6,11 @@
   -- menu_title  &&& (props:menu_title, menu_description)
   
 --- list
-      title_wrap 
-           title (&&&) (prop:list_title, prop:list_description, defaults to pretty name of object)
+      header_wrap 
+           header (&&&) (prop:list_title, prop:list_description, defaults to pretty name of object)
       list_wrap (Table)
-        header_wrap 
-            header (&& the pretty names of the forms)
+        list_header_wrap 
+            list_header (&& the pretty names of the forms)
         body_wrap (TableRow)
             list  (RenderACSList)
         footer_wrap (Fragment)

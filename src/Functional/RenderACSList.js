@@ -13,15 +13,25 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Chseckbox, Typogra
 
 function RenderACSList(props) {
 
-  const {object_type, field_list, data, api_options,  ...params} = props
+  const {rab_component_model} = props
+  const {...params} = props
 
+  const {header_wrap:HeaderWrap, header:Header, list_wrap:ListWrap, list_header_wrap:ListHeaderWrap, list_header:ListHeader, body_wrap:BodyWrap, list:RABList, footer_wrap:FooterWrap, footer:Footer } = rab_component_model.row.components 
 
     if (data) {
       return ( 
-          <Fragment>
-          {data.map(row => {
-          return <ACSRowController {...params}  object_type={object_type} id={data.id} field_list={field_list} data={row} api_options={api_options} />
-          })}
+        <Fragment>
+          <HeaderWrap {...params}>
+            <Header {...params}/>
+          </HeaderWrap>
+          <ListWrap{...params} >
+            <ListHeaderWrap{...params}>
+              <ListHeader{...params}/>
+            </ListHeaderWrap>
+            <BodyWrap{...params}>
+                <RABList{...params}/>
+            </BodyWrap>
+          </ListWrap>
         </Fragment>)
     } else {
         return <div/>

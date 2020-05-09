@@ -52,8 +52,14 @@ const rab_component_models = {
   list: {
     list: {
       names:{
+        header_wrap:"Fragment",
+        header:"Fragment",
         list_wrap:"Table",
-        body_wrap:"Fragment",
+        list_header_wrap:"Fragment",
+        list_header:"Fragment",
+        body_wrap:"TableBody",
+        footer_wrap:"Fragment",
+        footer:"Fragment"
       },
       components:{},
       defaut_mode:"view",  
