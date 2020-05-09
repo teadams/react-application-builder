@@ -60,13 +60,12 @@ function ACSRowController(input_props) {
   const {data:input_props_data, ...merging_props} = input_props
 
   function RABRow(row_props) {
-    const {field_list:field_chunk, data, field, rab_component_model} = row_props
+    const {field_chunk, data, field, rab_component_model} = row_props
     const {...row_params} = row_props
     const {field_chunk_wrap:FieldChunk} = rab_component_model.row.components
-    /// need to add field chunk wrap
     return (
       <FieldChunk {...row_params}>
-        {field_chunk[0][0].map( field_name => {
+        {field_chunk.map( field_name => {
               return <ACSField field_name={field_name} {...row_params}/>
         })}
       </FieldChunk>

@@ -18,7 +18,7 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 function RenderACSRow(props) {
   //const ACSFieldMemo = React.memo(ACSField)
   const {...params} = props
-  const {data, rab_component_model} = props
+  const {data, rab_component_model, field_list} = props
 
   const {header_wrap:HeaderWrap, header:Header, section_wrap:SectionWrap, section_header:SectionHeader, row_wrap:RowWrap,  row:RABRow} = rab_component_model.row.components 
   if (data) {
@@ -27,14 +27,19 @@ function RenderACSRow(props) {
           <HeaderWrap {...params}>
             <Header {...params}/>
           </HeaderWrap>
-        <SectionWrap {...params}>
-           <SectionHeader {...params}/>
-        </SectionWrap>
-        <RowWrap {...params}>
-          <RABRow {...params}/>
-        </RowWrap>
-        {data.children && data.children.length >0 &&
-            <ACSListController {...params} {...rab_component_model.list.props}/>}
+          {field_list.map(section_fields => {
+            return (
+              <SectionWrap {...params}>
+                <SectionHeader {...params}/>
+                {section_fields.map(field_chunk => {
+                  return (<RowWrap {...params}>
+                            <RABRow {...params} field_chunk={field_chunk}/>
+                          </RowWrap>)
+                })}
+                </SectionWrap>)
+            })}
+          {data.children && data.children.length >0 &&
+              <ACSListController {...params} {...rab_component_model.list.props}/>}
         </Fragment>
       )
   }
