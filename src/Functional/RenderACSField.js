@@ -12,13 +12,18 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell } from '@material-ui/core';
 
 function RenderACSField(props) {
-  const {data, field_name, onClick, ...params} = props
+  const {...params} = props
+  const {data, rab_component_model, field_name} = props
+
+  const {field_wrap:FieldWrap, field:Field} = rab_component_model.field.components 
+
   if (data) {
-      if (data[field_name]) {
-        return  <Fragment>{data[field_name]}</Fragment>
-      } else {
-        return <Fragment>&nbsp;</Fragment>
-      }
+    return (<FieldWrap>
+      {data[field_name] && 
+       <Fragment>{data[field_name]}</Fragment>
+      } 
+      </FieldWrap>)
+
   } else {
       return null
   }
