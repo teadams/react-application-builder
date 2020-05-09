@@ -69,6 +69,12 @@ function ACSField(input_props) {
   function handleEditSubmit(event) {
       setMode("view")
   }
+
+  function handleFieldClick(event, id, type, field_name, field_data) {
+      if (rab_component_model.field.props.onFieldClick) {
+          rab_component_model.field.props.onFieldClick(event,id,type,field_name,field_data)
+      }
+  }
     
 // Determine the mode
 // state will track a view/edit mode
@@ -80,6 +86,7 @@ function ACSField(input_props) {
 
 return (
     <RenderACSField {...field_component_model.props}  data={data} 
+    onFieldClick ={handleFieldClick}
     object_type={object_type} field_name={field_name} field_model={field_model} rab_component_model={rab_component_model}/>
   )
 }

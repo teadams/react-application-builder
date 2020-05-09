@@ -19,8 +19,10 @@ import AuthContext from '../Components/User/AuthContext';
 
 function ObjectTypeView(props)  {
   const {object_type, api_options, ...params} = props
-  const rab_component_name = {list_wrap_body:"Table", row_wrap:"TableRow", field_wrap:"TableCell"}
-  return (<ACSListController {...params} rab_component_name={rab_component_name} object_type={object_type} api_options={api_options}/> )
+  function handleFieldClick(event,id,type,field_name) {
+      u.aa("you got all the way down, whoopie!", field_name)
+  }
+  return (<ACSListController {...params} onFieldClick={handleFieldClick} object_type={object_type} api_options={api_options}/> )
 }
 export default ObjectTypeView;
 

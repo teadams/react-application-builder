@@ -56,7 +56,7 @@ function buildComponentModel(params, show) {
               props:{}},
         row:{names:{}, components:{},props:{}},
         field:{names:{field:params.field_component},
-              components:{}, props:{}}
+              components:{}, props:{onFieldClick:params.onFieldClick}}
       })
 }
 

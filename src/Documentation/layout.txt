@@ -7,7 +7,7 @@
 --- list
       header_wrap 
            header (&&&) (prop:list_title, prop:list_description, defaults to pretty name of object)
-      list_wrap (Table)
+      list_wrap (Table) (onClick)
         list_header_wrap 
             list_header (&& the pretty names of the forms)
         body_wrap (TableRow)
@@ -25,7 +25,7 @@
        header  (prop:row_title, row_description)
   (Renderer)  section_wrap (&&&, Fragment)
       section_header (prop:section_title, section_description)
-         row_wrap
+         row_wrap (onClick)
               field_chunk_wrap (&&&, Fragment) (prop:fields_per_chunk (2,1))
                 row (&&)
       -- other Props  
@@ -35,7 +35,7 @@
             -- id
             -- api_options
   
---    field: field_wrap
+--    field: field_wrap (onFieldClick)
         field (field_component/field_component_name)
           Props:
             -- display (value, name_colon_value, name_value_cells) (Renderer)

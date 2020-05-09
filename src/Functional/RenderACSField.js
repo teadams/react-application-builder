@@ -11,10 +11,18 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 function RenderACSField(props) {
   const {...params} = props
   const {data, rab_component_model, field_name} = props
+  // Responsible for the layouts
+// Storing the state?
+// Deciding the mode?
+  function handleFieldClick(event) {
+    if (props.onFieldClick) {
+        props.onFieldClick(event, data.id, "field", field_name, data)
+    }
+  }
 
   const {field_wrap:FieldWrap, field:Field} = rab_component_model.field.components 
   if (data) {
-    return (<FieldWrap>
+  return (<FieldWrap onClick={handleFieldClick}>
       {data[field_name] && 
        <Fragment>{data[field_name]}</Fragment>
       } 
