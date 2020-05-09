@@ -7,23 +7,40 @@ import * as data from '../Utils/data.js';
 import * as u from '../Utils/utils.js';
 import { withStyles } from '@material-ui/core/styles';
 import ACSField from './ACSField2.js'
+import ACSListController from './ACSListController.js'
 //import {functional_components} from "./Functional"
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import useGetObjectList from '../Hooks/useGetObjectList';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
+
 function RenderACSRow(props) {
   //const ACSFieldMemo = React.memo(ACSField)
-  const {object_type, field_list, id, data, api_options, ...params} = props
+  const {...params} = props
+  const {data, rab_component_model} = props
 
-    if (data) {
-      return ( <Fragment>
-          {field_list.map((field_name, field_index) => {
-            return <ACSField  {...params} field_index={field_index} object_type={object_type} id={id} field_name={field_name} data={data} api_options={api_options}/>
-          })}
-        </Fragment>)
-    }
+  const {header_wrap:HeaderWrap, header:Header, section_wrap:SectionWrap, section_header:SectionHeader, row_wrap:RowWrap,  row:RABRow} = rab_component_model.row.components 
+  if (data) {
+      return (
+        <RowWrap {...params}>
+          <RABRow {...params}/>
+        </RowWrap>
+      )
+//    return(
+//    <Fragment>
+ //      <HeaderWrap {...params}>
+//        <Header {...params}/>
+//      </HeaderWrap>
+//      <SectionWrap {...params}>
+//          <SectionHeader {...params}/>
+//          <RowWrap {...params}>
+//          </RowWrap>
+//      </SectionWrap>
+//      {data.children && data.children.length >0 &&
+//          <ACSListController {...params} {...rab_component_model.list.props}/>}
+//    </Fragment>)
+  }
 }
 
 export default RenderACSRow;

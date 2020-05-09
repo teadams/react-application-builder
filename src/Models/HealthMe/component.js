@@ -77,6 +77,36 @@ const rab_component_models = {
       props:{}
     }
   },
+  row: {
+    list: {
+      names:{},
+      components:{},
+      defaut_mode:"view",  
+      props:{}
+    },
+    row: {
+      names:{
+        header_wrap:"Fragment",
+        header:"Fragment",
+        section_wrap:"Fragment",
+        section_header:"Fragment",
+        row_wrap:"Table",
+        field_chunk_wrap:"TableRow"
+      },
+      components:{},
+      default_mode:"view",
+      props:{}
+    },
+    field:{
+      names:{
+        field_wrap:"TableCell"
+      },
+      components:{
+      },
+      default_mode:"click_to_edit",
+      props:{}
+    }
+  },
   field: {
     list: {
       names:{},
@@ -97,26 +127,8 @@ const rab_component_models = {
       props:{}
     }
   },
-  row: {
-    list: {
-      names:{},
-      components:{},
-      defaut_mode:"view",  
-      props:{}
-    },
-    row: {
-      names:{},
-      components:{},
-      default_mode:"view",
-      props:{}
-    },
-    field:{
-      names:{},
-      components:{},
-      default_mode:"click_to_edit",
-      props:{}
-    }
-  }
+
+
 }
 
 export default rab_component_models

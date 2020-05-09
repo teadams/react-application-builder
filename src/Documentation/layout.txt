@@ -21,14 +21,14 @@
         -- api_options
   
 
---- row
-  (Controller)  title_wrap (&&&,Fragment)
-       title  (prop:row_title, row_description)
+--- row (RenderACSRow)
+  (Controller)  header_wrap (&&&,Fragment)
+       header  (prop:row_title, row_description)
   (Renderer)  section_wrap (&&&, Fragment)
-      section_title (prop:section_title, section_description)
+      section_header (prop:section_title, section_description)
          row_wrap
               field_chunk_wrap (&&&, Fragment) (prop:fields_per_chunk (2,1))
-                row (RenderACSRow)
+                row (&&)
       -- other Props  
             -- data
             -- object_type

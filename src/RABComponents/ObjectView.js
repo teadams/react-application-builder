@@ -23,7 +23,7 @@ function ObjectView(props)  {
   const field_models = useGetModel("fields")
   if (!menu_model || !field_models) {return null}
   const model = meta.getByPrecedence({filter_field:"id"}, props, menu_model.menu_items[props.menu_name])
-  const {object_type, filter_field, num_columns=8, ...params} = model
+  const {object_type, filter_field, num_columns=3, ...params} = model
 
   let api_options = {}
   api_options.filter_id = props[filter_field]
@@ -88,12 +88,12 @@ function ObjectView(props)  {
 
   //                                      <TableCell style={{ margin:0, padding:0}} align="right"><b>{local_data[field_index][0]}:</b></TableCell><TableCell style={{margin:0, padding:0}} align="left"> {data[row_data[field_index[1]]]}<FieldView {...params} data={data} field_name={local_data[field_index][1]} field_model={field_model}/></TableCell>
 
-  let rab_component_model = _.merge({}, rab_component_models.empty)
-  rab_component_model.row.components =  {row_wrap:row_wrap_comp, row:row_comp}
-  rab_component_model.field.names = {field_wrap:"TableCell"}
+  //let rab_component_model = _.merge({}, rab_component_models.empty)
+  //rab_component_model.row.components =  {row_wrap:row_wrap_comp, row:row_comp}
+  //rab_component_model.field.names = {field_wrap:"TableCell"}
 
   return (<Table style={{display:"inline", align:"left",borderSpacing:30, borderCollapse:"separate"}} size="small">
-          <ACSRowController {...params} object_type={object_type}  api_options={api_options} num_columns={num_columns} rab_component_model={rab_component_model} />
+          <ACSRowController {...params} object_type={object_type}  api_options={api_options} num_columns={num_columns}  />
           </Table>
           )
 }
