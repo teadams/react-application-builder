@@ -24,7 +24,6 @@ const rab_component_models = {
       names:{
         body_wrap:"Fragment",
         list_body_wrap:"Fragment",
-        list: "RenderACSList"
     },
       components:{},
       defaut_mode:"view",  
@@ -33,7 +32,6 @@ const rab_component_models = {
     row: {
       names:{
         row_wrap:"Fragment",
-        row:"RenderACSRow"
       },
       components:{},
       default_mode:"view",
@@ -42,7 +40,6 @@ const rab_component_models = {
     field:{
       names:{
         field_wrap:"Fragment",
-        field:"RenderACSField"
       },
       components:{},
       default_mode:"click_to_edit",
@@ -67,9 +64,13 @@ const rab_component_models = {
     },
     row: {
       names:{
+        header_wrap:"Fragment",
+        header:"Fragment",
+        section_wrap:"Fragment",
+        section_header:"Fragment",
         row_wrap:"TableRow",
+        field_chunk_wrap:"Fragment"
     },
-
       components:{},
       default_mode:"view",
       props:{}
