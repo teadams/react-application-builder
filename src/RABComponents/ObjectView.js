@@ -69,7 +69,6 @@ function ObjectView(props)  {
       if (data) {
         return (<Fragment>
           {field_list.map((section_list, section_index) => {
-            u.aa ("section_list", section_list) 
               return section_list.map((row_list) => {
             //      u.aa("row_list", row_list)
                     return (

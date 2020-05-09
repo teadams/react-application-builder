@@ -57,7 +57,6 @@ function ACSField(input_props) {
   
   const RenderACSField = component_field_components.field
   const ACSCell = component_field_components.field_wrap
-  
 // state will track a view/edit mode
 // Use case
 // When user clicks on a field in view mode, it will

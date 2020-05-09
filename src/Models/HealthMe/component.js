@@ -88,14 +88,16 @@ const rab_component_models = {
       names:{
         header_wrap:"Fragment",
         header:"Fragment",
-        section_wrap:"Fragment",
+        section_wrap:"Table",
         section_header:"Fragment",
-        row_wrap:"Table",
+        row_wrap:"TableBody",
         field_chunk_wrap:"TableRow"
       },
       components:{},
       default_mode:"view",
-      props:{}
+      props:{
+        align:"left"
+      }
     },
     field:{
       names:{
