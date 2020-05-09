@@ -66,8 +66,8 @@ function ACSRowController(input_props) {
     return (
       <FieldChunk {...row_params}>
         {field_chunk.map( field_name => {
-            return (data[field_name])
-//              return <ACSField field_name={field_name} {...row_params}/>
+//            return (data[field_name])
+             return <ACSField field_name={field_name} {...row_params}/>
         })}
       </FieldChunk>
     )
