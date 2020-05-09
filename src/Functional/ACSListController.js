@@ -3,7 +3,10 @@ import 'react-app-polyfill/stable';
 import * as u from '../Utils/utils.js';
 
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
-
+// Responsible 
+// chosing model, component
+// storing state of forms?
+// Decided the mode?
 import useGetObjectList from '../Hooks/useGetObjectList';
 import useGetModel from '../Hooks/useGetModel';
 import RenderACSList from './RenderACSList.js'

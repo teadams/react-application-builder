@@ -16,8 +16,6 @@ function RenderACSList(props) {
   const {rab_component_model} = props
   const {...params} = props
   const {header_wrap:HeaderWrap, header:Header, list_wrap:ListWrap, list_header_wrap:ListHeaderWrap, list_header:ListHeader, body_wrap:BodyWrap, list:RABList, footer_wrap:FooterWrap, footer:Footer } = rab_component_model.list.components 
-//  u.aa("object_Type, list wrap, list_body, list", props.object_type, ListWrap, BodyWrap, RABList)
-
 
     if (data) {
       return ( 

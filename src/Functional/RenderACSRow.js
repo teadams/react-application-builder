@@ -8,7 +8,6 @@ import * as u from '../Utils/utils.js';
 import { withStyles } from '@material-ui/core/styles';
 import ACSField from './ACSField2.js'
 import ACSListController from './ACSListController.js'
-//import {functional_components} from "./Functional"
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import useGetObjectList from '../Hooks/useGetObjectList';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
@@ -21,7 +20,6 @@ function RenderACSRow(props) {
   const {data, rab_component_model, field_list} = props
 
   const {header_wrap:HeaderWrap, header:Header, section_wrap:SectionWrap, section_header:SectionHeader, row_wrap:RowWrap,  row:RABRow} = rab_component_model.row.components 
-//  u.aa("chilren,data", data.children, data)
   if (data) {
       return (
         <Fragment>
