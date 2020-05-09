@@ -46,13 +46,6 @@ function ACSField(input_props) {
   let [ready, object_type, id, field_name, api_options, data] = useGetObject(props_object_type, props_id,props_field_name, props_api_options, props_data); 
   if (!data || (object_type && !field_model)) return null
 
-// Determine value
-// maybe have to get the select list values
-
-// Determine the final field component 
-// to used (if already defined, based)
-// on rules from the mdoel, Text)
-
 
 // XX ?? look at rest of props and see if there are any other API options... what layer to do this in
   function handleViewClick(event) {
