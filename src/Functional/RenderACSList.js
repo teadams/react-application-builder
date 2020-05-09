@@ -16,20 +16,19 @@ function RenderACSList(props) {
   const {rab_component_model} = props
   const {...params} = props
 
-  const {header_wrap:HeaderWrap, header:Header, list_wrap:ListWrap, list_header_wrap:ListHeaderWrap, list_header:ListHeader, body_wrap:BodyWrap, list:RABList, footer_wrap:FooterWrap, footer:Footer } = rab_component_model.row.components 
-
+  const {header_wrap:HeaderWrap, header:Header, list_wrap:ListWrap, list_header_wrap:ListHeaderWrap, list_header:ListHeader, body_wrap:BodyWrap, list:RABList, footer_wrap:FooterWrap, footer:Footer } = rab_component_model.list.components 
     if (data) {
       return ( 
         <Fragment>
           <HeaderWrap {...params}>
             <Header {...params}/>
           </HeaderWrap>
-          <ListWrap{...params} >
-            <ListHeaderWrap{...params}>
-              <ListHeader{...params}/>
+          <ListWrap {...params} >
+            <ListHeaderWrap {...params}>
+              <ListHeader {...params}/>
             </ListHeaderWrap>
-            <BodyWrap{...params}>
-                <RABList{...params}/>
+            <BodyWrap {...params}>
+                <RABList {...params}/>
             </BodyWrap>
           </ListWrap>
         </Fragment>)

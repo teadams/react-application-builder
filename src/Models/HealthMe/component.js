@@ -145,7 +145,8 @@ const rab_component_models = {
           list_header:"Fragment",
           body_wrap:"Fragment",
           footer_wrap:"Fragment",
-          footer:"Fragment"
+          footer:"Fragment",
+          list:"Fragment"
         },
         components:{},
         defaut_mode:"view",  
@@ -156,7 +157,6 @@ const rab_component_models = {
           row_wrap:"Fragment",
           row:"Fragment"
       },
-  
         components:{},
         default_mode:"view",
         props:{}

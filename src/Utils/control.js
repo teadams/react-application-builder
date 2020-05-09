@@ -27,13 +27,16 @@ import TreeItem from '@material-ui/lab/TreeItem';
 // input_props_component_name input_props_component (passed as input_props, model to name is done before mereg)
 // props (for that level) - done as a second merge just at that level's props
 export function getFinalModel(level, input_props={}, level_model={}, ...component_models) {
-
+  // XXBIG - component model names should take precedence over 
+  // level models, etc.  needs determinModelComponents applied
   let final_model = _.merge({},
                             rab_component_models.shell,
                             rab_component_models[level],  
-                            buildComponentModel(level_model),
+                            determineModelComponents(level, buildComponentModel(level_model)),
                             ...component_models,
-                            buildComponentModel(input_props))
+                            determineModelComponents(level, buildComponentModel(input_props))
+                            )
+  
   // only want a shallow merge! 
   // state managment is dependent on the references of api_options, field_list, f
   // and other arrays/objects not changing
@@ -46,23 +49,31 @@ export function getFinalModel(level, input_props={}, level_model={}, ...componen
 }
 
 function buildComponentModel(params) {
+/// XXBIG - items need completed
     // precedence low to high - component by name, component itself, named parameters
   return   _.merge({}, rab_component_models[params.rab_component_model_name],
                     params.rab_component_model,
-                    { list:{names:{list:params.list_component}},
-                      row:{},
-                      field:{names:{field:params.field_component}}}
+                    { list:{names:{list:params.list_component},
+                            components:{},
+                            props:{}},
+                      row:{names:{}, components:{},props:{}},
+                      field:{names:{field:params.field_component},
+                             components:{}, props:{}
+                            }}
               )
 }
 
 function determineModelComponents(level, model) {
+  if (!model) {return null}
   Object.keys(model[level].names).forEach(name =>{
-    if (!model[level].components[name]) {
+    if (model[level].names[name] && !model[level].components[name]) {
       model[level].components[name] = componentByName(model[level].names[name])
     }
-    model[level].names[name] = ""  
+    model[level].names[name] = undefined  
   })
+  return model
 }
+
 export function componentByName(name) {
   const component = componentPicker(name)
     
