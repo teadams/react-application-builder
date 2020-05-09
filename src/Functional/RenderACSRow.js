@@ -13,9 +13,7 @@ import useGetObjectList from '../Hooks/useGetObjectList';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
-
 function RenderACSRow(props) {
-  //const ACSFieldMemo = React.memo(ACSField)
   const {...params} = props
   const {data, rab_component_model, field_list} = props
 
