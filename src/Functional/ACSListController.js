@@ -21,7 +21,6 @@ function ACSListController(input_props) {
 
   function RABList(list_props) {
     const {data, rab_component_model, ...list_params} = list_props
-
     return (
       data.map(row => {
           return (<ACSRowController {...list_params} data={row} rab_component_model={rab_component_model}/>)

@@ -36,7 +36,7 @@ function TreeMenu(props)  {
         field_name = grouping_field
     } 
     let label = ACSField({object_type:props.object_type, data:props.data, field_name:field_name, display:"text"})
-    return (<TreeItem key={data.id} nodeId={data.id} label={label}/>)
+    return (<TreeItem key={data.id} nodeId={data.id} label={label}>{props.children[1]}</TreeItem>)
   } 
 
   const rab_component_model = {

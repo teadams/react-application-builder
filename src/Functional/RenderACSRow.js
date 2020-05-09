@@ -33,15 +33,13 @@ function RenderACSRow(props) {
               <SectionWrap {...params}>
                 <SectionHeader {...params}/>
                 {section_fields.map(field_chunk => {
-                  return (<RowWrap {...params}>{RowWrap.displayName}
-                            <RABRow {...params} field_chunk={field_chunk}/>
+                  return (<RowWrap {...params}>
+                             <RABRow {...params} field_chunk={field_chunk}/>
+                             {data.children && data.children.length >0 && <ACSListController {...params} {...rab_component_model.list.props} data={data.children}/>}
                           </RowWrap>)
                 })}
               </SectionWrap>)
             })}
-            {data.children && data.children.length >0 &&
-                <ACSListController {...params} {...rab_component_model.list.props} data={data.children}/>}
-
         </Fragment>
       )
   }

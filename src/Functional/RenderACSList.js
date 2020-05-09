@@ -28,7 +28,7 @@ function RenderACSList(props) {
           <ListWrap {...params} >
             <ListHeaderWrap {...params}>
               <ListHeader {...params}/>
-            </ListHeaderWrap>
+            </ListHeaderWrap> 
             <BodyWrap {...params}>
                 <RABList {...params}/>
             </BodyWrap>
