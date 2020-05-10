@@ -40,10 +40,12 @@
           Props:
             -- display (value, name_colon_value, name_value_cells) (Renderer)
             - click_to_edit (used in controller)
-            -- mode (view, text, edit) (passed through Renderer to View) - initial value is always passed to controller, then state is managed in the controller
-            -- data
-            -- field_model 
-            -- default_mode
-            -- valid_values (specified by model or from select_list)
-            -- api_options
-            -- view_component = Text, Select, 
+            - mouse_over_to_edit 
+            - editable
+            - form - (form can be at field or row level)
+            - mode (view, text, edit) (passed through Renderer to View) - initial value is always passed to controller, then state is managed in the controller
+            - data
+            - field_model 
+            - valid_values (specified by model or from select_list)
+            - api_options
+            - view_component = Text, Select

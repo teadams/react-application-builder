@@ -18,7 +18,7 @@ const rab_menu_model = {
     },
     "DrillSale": {label: "DrillSales", menu_component_name:"ObjectTypeView", test_case:"Context Viewing", object_type:"test_sale", filter_field:"core_subsite"
     },
-    "Users": {label: "AllUsers", menu_component_name:"ObjectTypeView", test_case:"View an Object", object_type:"core_user", field_click_to_edit:true},        
+    "Users": {label: "AllUsers", menu_component_name:"ObjectTypeView", test_case:"View an Object", object_type:"core_user", field_mouseover_to_edit:true,},        
     "Sales": {label: "Sales", menu_component_name:"ObjectTypeView", test_case:"Context Viewing", object_type:"test_sale",  api_options:{num_rows:1, expand_hierarchy:"true"}
     },        
     "RoleGroup": { label: "Role Group", menu_component_name:"DrillDown", test_case:"DrillDown", object_type:"core_role", api_options:{grouping_field:"privilege"}

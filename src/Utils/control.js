@@ -57,7 +57,7 @@ function buildComponentModel(params, show) {
         row:{names:{}, components:{},props:{}},
         field:{names:{field:params.field_component},
               components:{}, props:{onFieldClick:params.onFieldClick,
-                     click_to_edit:params.field_click_to_edit}}
+                     click_to_edit:params.field_click_to_edit,mouseover_to_edit:params.field_mouseover_to_edit}}
       })
 }
 

@@ -51,7 +51,7 @@ function ACSField(input_props) {
   const field_component_model = rab_component_model.field
   const massaged_props = field_component_model.props
 
-  const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, data:props_data, component, click_to_edit, ...params} = massaged_props
+  const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, data:props_data, component, click_to_edit=true, mouseover_to_edit=false, ...params} = massaged_props
 
   let [ready, object_type, id, field_name, api_options, data] = useGetObject(props_object_type, props_id,props_field_name, props_api_options, props_data); 
 
@@ -69,7 +69,7 @@ function ACSField(input_props) {
       setMode("view")
   }
 
-  function handleFieldClick(event, id, type, field_name, field_data) {  
+  function toggleEditMode(event, id, type, field_name, field_data) {  
       if (click_to_edit) {
           setMode("edit")
       }
@@ -89,10 +89,10 @@ function ACSField(input_props) {
 function handleOnFieldBlur() {
   setMode("view")
 }
-
 return (
     <RenderACSField {...field_component_model.props}  data={data} 
-    onFieldClick ={(mode==="view"&&click_to_edit)?handleFieldClick:""}
+    onMouseOver={(mode==="view"&&mouseover_to_edit)?toggleEditMode:""}
+    onFieldClick ={(mode==="view"&&click_to_edit)?toggleEditMode:""}
     onFieldBlur = {(mode==="edit"&&click_to_edit)?handleOnFieldBlur:""}
     object_type={object_type} field_name={field_name} field_model={field_model}
     mode = {mode}

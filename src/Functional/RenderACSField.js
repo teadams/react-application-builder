@@ -37,6 +37,12 @@ function RenderACSField(props) {
     }
   }
 
+  function handleMouseOver(event) {
+    if (props.onMouseOver) {
+        props.onMouseOver(event, data.id, "field", field_name, data)
+    }
+  }
+
   function handleFieldBlur(event) {
     if (props.onFieldBlur) {
         props.onFieldBlur(event, data.id, "field", field_name, data)
@@ -47,7 +53,7 @@ function RenderACSField(props) {
   
   if (data) {
   return (
-      <FieldWrap onClick={handleFieldClick} onMouseOut={handleFieldBlur}> 
+      <FieldWrap onClick={handleFieldClick} onMouseOut={handleFieldBlur} onMouseOver={handleMouseOver}>
        <Fragment><RABTextField data={data[field_name]} mode={mode} /></Fragment>       
       </FieldWrap>)
 
