@@ -23,15 +23,26 @@ import TreeItem from '@material-ui/lab/TreeItem';
 // component_nodel_name (many), compoent_model (many) (Passed as component model, final step will be the model to name override)
 // input_props_component_name input_props_component (passed as input_props, model to name is done before mereg)
 // props (for that level) - done as a second merge just at that level's props
-export function getFinalModel(level, input_props={}, level_model={}, ...component_models) {
-  // XXBIG - component model names should take precedence over 
-  // level models, etc.  needs determinModelComponents applied
+export function getFinalModel(level, input_props={}, metadata_model={}, component_model) {
+
+  // XX could potentially determin metadata_model from 
+  // object_type and field. then caller would not have to.
+  // This would require getFinalModel to change to a React Function
+  // (return string, one input object) and receive an object 
+  // that would be mutated.
+  // a little unconventional.  it would allow us encapsulate
+  // the logic to get the proper model for things like refererence
+  // field in this level below.
   let final_model = _.merge({},
                             rab_component_models.shell,
                             rab_component_models[level],  
-                            determineModelComponents(level, buildComponentModel(level_model)),
-                            ...component_models,
-                            determineModelComponents(level, buildComponentModel(input_props))
+
+                            determineModelComponents(level, buildRABModel(metadata_model)),
+                            
+                            component_model,
+//                            determineModelComponents(level, buildRABModel(component_model)),
+
+                            determineModelComponents(level, buildRABModel(input_props))
                             )
   
 
@@ -46,22 +57,36 @@ export function getFinalModel(level, input_props={}, level_model={}, ...componen
 
 }
 
-function buildComponentModel(params) {
+function buildRABModel(params) {
 /// XXBIG - items need completed
     // precedence low to high - component by name, component itself, named parameters
+
+  // this is where we can do logic such as something
+  // define in the fields meta to the actual values.
+  // unless we want server to build it. seems to 
+  // be combinding static data (defined in the metadat)
+  // with instance specific (overrides)
+  // For props, we'd always have to do this in real time.
+  // For the metadata and level component, 
+  // a possible performance enhancement
+  // is to do this only once (by server or on load)
   return   _.merge({},     
-      rab_component_models[params.rab_component_model_namme], params.rab_component_model,
+      rab_component_models[params.rab_component_model_name], params.rab_component_model,
       { list:{names:{list:params.list_component},
               components:{},
               props:{}},
         row:{names:{}, components:{},props:{}},
         field:{names:{field:params.field_component},
-              components:{}, props:{onFieldClick:params.onFieldClick,
-                     click_to_edit:params.field_click_to_edit,mouseover_to_edit:params.field_mouseover_to_edit}}
+              components:{}, 
+              props:{onFieldClick:params.onFieldClick,
+                     click_to_edit:params.field_click_to_edit,
+                     mouseover_to_edit:params.field_mouseover_to_edit}}
       })
 }
 
 function determineModelComponents(level, model) {
+  // similar to buildRABModel, this could be precalculate
+  // on load of the metadata.  
   if (!model) {return null}
   Object.keys(model[level].names).forEach(name =>{
     if (model[level].names[name] && !model[level].components[name]) {
