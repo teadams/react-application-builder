@@ -97,6 +97,10 @@ export function componentByName(name) {
   
 }
 
+function RABFragment(props) {
+  return <Fragment/>
+}
+
 function componentPicker(name) {
   if (!name) {alert (name);return Fragment}
   switch (name) {
@@ -133,7 +137,7 @@ function componentPicker(name) {
     case "TableRow": return TableRow; 
     case "TreeItem": return TreeItem; 
     case "TreeView": return TreeView;
-    case "Fragment": return Fragment;
+    case "Fragment": return RABFragment;
     case "AvatarUser":  return Text;
     default:  { 
       alert("Menu Model Issues - no component for " + name) 
