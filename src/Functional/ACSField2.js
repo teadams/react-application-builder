@@ -10,6 +10,7 @@ import RenderACSField from './RenderACSField.js'
 
 import useGetObject from '../Hooks/useGetObject';
 import useGetModel from '../Hooks/useGetModel';
+import useForm from '../Hooks/useForm';
 
 import * as control from "../Utils/control.js"
 import rab_component_models from '../Models/HealthMe/component.js'
@@ -17,6 +18,9 @@ import rab_component_models from '../Models/HealthMe/component.js'
 
 function ACSField(input_props) {
   const [mode, setMode] = useState(input_props.mode?input_props.mode:"view");
+
+  const {formValues, handleFormChange, handleFormSubmit} = useForm({value:input_props.data[input_props.field_name]}, handleSubmit);
+
   const field_models =  useGetModel("fields")
   let field_model = field_models?field_models[input_props.object_type][input_props.field_name]:{}
 
@@ -61,12 +65,9 @@ function ACSField(input_props) {
   data = final_data_target?data[final_data_target]:data
 
   // XX ?? look at rest of props and see if there are any other API options... what layer to do this in
-  function handleViewClick(event) {
-      setMode("edit")
-  }
-
-  function handleEditSubmit(event) {
-      setMode("view")
+  function handleSubmit(event) {
+      alert ("form is submitted")
+      
   }
 
   function toggleEditMode(event, id, type, field_name, field_data) {  
@@ -91,6 +92,8 @@ function handleOnFieldBlur() {
 }
 return (
     <RenderACSField {...field_component_model.props}  data={data} 
+    onChange={handleFormChange}
+    onSubmit={handleFormSubmit}
     onMouseOver={(mode==="view"&&mouseover_to_edit)?toggleEditMode:""}
     onFieldClick ={(mode==="view"&&click_to_edit)?toggleEditMode:""}
     onFieldBlur = {(mode==="edit"&&click_to_edit)?handleOnFieldBlur:""}

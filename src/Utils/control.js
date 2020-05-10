@@ -46,7 +46,7 @@ export function getFinalModel(level, input_props={}, level_model={}, ...componen
 
 }
 
-function buildComponentModel(params, show) {
+function buildComponentModel(params) {
 /// XXBIG - items need completed
     // precedence low to high - component by name, component itself, named parameters
   return   _.merge({},     
