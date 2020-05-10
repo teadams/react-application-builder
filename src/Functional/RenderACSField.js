@@ -8,9 +8,26 @@ import React, { Component, Fragment,  useState, useEffect} from 'react';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell } from '@material-ui/core';
 
+function RABTextField(props) {
+  const {mode, data} = props
+  if (!data) {return ""}
+
+  switch (mode) {
+    case "text", "view":
+      return data
+      break 
+    case "edit":
+      return "EDIT FIELD data"
+    case "csv":
+      return '"'+data+'""'
+    default:
+      return data
+  }
+}
+
 function RenderACSField(props) {
   const {...params} = props
-  const {data, rab_component_model, field_name} = props
+  const {data, rab_component_model, field_name, mode="view"} = props
   // Responsible for the layouts
 // Storing the state?
 // Deciding the mode?
@@ -21,11 +38,11 @@ function RenderACSField(props) {
   }
 
   const {field_wrap:FieldWrap, field:Field} = rab_component_model.field.components 
+  
   if (data) {
-  return (<FieldWrap onClick={handleFieldClick}>
-      {data[field_name] && 
-       <Fragment>{data[field_name]}</Fragment>
-      } 
+  return (
+      <FieldWrap onClick={handleFieldClick}>
+       <Fragment><RABTextField data={data[field_name]} mode={mode} /></Fragment>       
       </FieldWrap>)
 
   } else {
