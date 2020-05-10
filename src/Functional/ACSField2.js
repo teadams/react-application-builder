@@ -19,7 +19,7 @@ import rab_component_models from '../Models/HealthMe/component.js'
 function ACSField(input_props) {
   const [mode, setMode] = useState(input_props.mode?input_props.mode:"view");
 
-  const {formValues, handleFormChange, handleFormSubmit} = useForm({value:input_props.data[input_props.field_name]}, handleSubmit);
+  const {formValues, handleFormChange, handleFormSubmit} = useForm({[input_props.field_name]:input_props.data[input_props.field_name]}, handleSubmit);
   // XX could be encapulated below if we use and unconvential approach
   // and that convolve it
   const field_models =  useGetModel("fields")
@@ -95,8 +95,10 @@ function ACSField(input_props) {
 function handleOnFieldBlur() {
   setMode("view")
 }
+
 return (
     <RenderACSField {...field_component_model.props}  data={data} 
+    formValues = {formValues}
     onChange={handleFormChange}
     onSubmit={handleFormSubmit}
     onMouseOver={(mode==="view"&&mouseover_to_edit)?toggleEditMode:""}

@@ -19,10 +19,11 @@ import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
 
 // precedence: low to high
-// shell, default_component_for_layer (handled in getFinal Model)
-// component_nodel_name (many), compoent_model (many) (Passed as component model, final step will be the model to name override)
-// input_props_component_name input_props_component (passed as input_props, model to name is done before mereg)
-// props (for that level) - done as a second merge just at that level's props
+// shell - defines structure and defaults for all
+// default_component_for_layer - current list, row, field
+// component_model - current component_running
+// metadata_model - current object_type/field/etc (name?)
+// input_props - current user input/result of upper layer
 export function getFinalModel(level, input_props={}, metadata_model={}, component_model) {
 
   // XX could potentially determin metadata_model from 
@@ -37,16 +38,15 @@ export function getFinalModel(level, input_props={}, metadata_model={}, componen
                             rab_component_models.shell,
                             determineModelComponents(level,
                             rab_component_models[level]),  
-
-                            determineModelComponents(level, buildRABModel(metadata_model)),
                             
                             determineModelComponents(level,
                             buildRABModel(component_model)),
 
+                            determineModelComponents(level, buildRABModel(metadata_model)),
+ 
                             determineModelComponents(level, buildRABModel(input_props))
                             )
   
-
   // only want a shallow merge! 
   // state managment is dependent on the references of api_options, field_list, f
   // and other arrays/objects not changing
@@ -59,19 +59,10 @@ export function getFinalModel(level, input_props={}, metadata_model={}, componen
 }
 
 function buildRABModel(params) {
-  if (!params) {return}
-   /// XXBIG - items need completed
-    // precedence low to high - component by name, component itself, named parameters
+  /// XXBIG - items need completed
+  /// but may have a better strategy to do this.
 
-  // this is where we can do logic such as something
-  // define in the fields meta to the actual values.
-  // unless we want server to build it. seems to 
-  // be combinding static data (defined in the metadat)
-  // with instance specific (overrides)
-  // For props, we'd always have to do this in real time.
-  // For the metadata and level component, 
-  // a possible performance enhancement
-  // is to do this only once (by server or on load)
+  if (!params) {return}
   return   _.merge({},     
       rab_component_models[params.rab_component_model_name], params.rab_component_model,
       { list:{names:{list:params.list_component},

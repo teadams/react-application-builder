@@ -8,8 +8,19 @@ import React, { Component, Fragment,  useState, useEffect} from 'react';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell } from '@material-ui/core';
 
+// <TextField    
+//   InputLabelProps={{shrink:true}}
+//   name={field.name}
+//   label={field.pretty_name}
+//   disabled={options.disabled?options.disabled:true}
+//   type="text"
+//   helperText={field.helper_text}
+//   value=  {this.getDisplayView(object_type,field,prefix)}
+//  style={{width:"90%"}}
+
+
 function RABTextField(props) {
-  const {mode, data} = props
+  const {mode, data, field_name, formdata, formValues, onSubmit, onChange} = props
   if (!data) {return ""}
 
   switch (mode) {
@@ -17,7 +28,13 @@ function RABTextField(props) {
       return data
       break 
     case "edit":
-      return "EDIT FIELD data"
+      return (
+        <form onSubmit={onSubmit}>
+          <TextField 
+            name={field_name} 
+            value={formValues[props.field_name]}
+            onChange={onChange}/>
+        </form> )
     case "csv":
       return '"'+data+'""'
     default:
@@ -54,8 +71,15 @@ function RenderACSField(props) {
   if (data) {
   return (
     
-      <FieldWrap onClick={handleFieldClick} onMouseOut={handleFieldBlur} onMouseOver={handleMouseOver}>
-       <Fragment><RABTextField data={data[field_name]} mode={mode} /></Fragment>       
+      <FieldWrap 
+          onClick={handleFieldClick} onMouseOut={handleFieldBlur} onMouseOver={handleMouseOver}>
+       <RABTextField 
+          data={data[field_name]} 
+          formValues={props.formValues}
+          mode={mode}
+          field_name={field_name}
+          onSubmit={props.onSubmit}
+          onChange={props.onChange}/>
       </FieldWrap>)
 
   } else {
