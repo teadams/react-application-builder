@@ -16,7 +16,7 @@ import rab_component_models from '../Models/HealthMe/component.js'
 
 
 function ACSField(input_props) {
-  const [mode, setMode] = useState("view");
+  const [mode, setMode] = useState(input_props.mode?input_props.mode:"view");
   const field_models =  useGetModel("fields")
   let field_model = field_models?field_models[input_props.object_type][input_props.field_name]:{}
 
@@ -51,7 +51,8 @@ function ACSField(input_props) {
   const field_component_model = rab_component_model.field
   const massaged_props = field_component_model.props
 
-  const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, data:props_data, component, ...params} = massaged_props
+  const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, data:props_data, component, click_to_edit, ...params} = massaged_props
+
   let [ready, object_type, id, field_name, api_options, data] = useGetObject(props_object_type, props_id,props_field_name, props_api_options, props_data); 
 
   if (!data || (object_type && !field_model)) return null
@@ -59,9 +60,7 @@ function ACSField(input_props) {
 
   data = final_data_target?data[final_data_target]:data
 
-
-
-// XX ?? look at rest of props and see if there are any other API options... what layer to do this in
+  // XX ?? look at rest of props and see if there are any other API options... what layer to do this in
   function handleViewClick(event) {
       setMode("edit")
   }
@@ -70,7 +69,11 @@ function ACSField(input_props) {
       setMode("view")
   }
 
-  function handleFieldClick(event, id, type, field_name, field_data) {
+  function handleFieldClick(event, id, type, field_name, field_data) {  
+      alert ("clickable")
+      if (click_to_edit) {
+          setMode("edit")
+      }
       if (rab_component_model.field.props.onFieldClick) {
           rab_component_model.field.props.onFieldClick(event,id,type,field_name,field_data)
       }
@@ -86,8 +89,10 @@ function ACSField(input_props) {
 
 return (
     <RenderACSField {...field_component_model.props}  data={data} 
-    onFieldClick ={handleFieldClick}
-    object_type={object_type} field_name={field_name} field_model={field_model} rab_component_model={rab_component_model}/>
+    onFieldClick ={(mode==="view")?handleFieldClick:""}
+    object_type={object_type} field_name={field_name} field_model={field_model}
+    mode = {mode}
+    rab_component_model={rab_component_model}/>
   )
 }
 
