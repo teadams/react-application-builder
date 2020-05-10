@@ -30,10 +30,13 @@ function ACSListController(input_props) {
       })
     )
   }
-
+  // XX BUG. will change the original 
+  // Fix is to make RABList in the library and 
+  // put it in the base. (which is actually the )
+  // same effect so it's not "really" a a bug
   let list_component_model = rab_component_models.list
   list_component_model.list.components.list = RABList
-  
+   
   const rab_component_model = control.getFinalModel("list", {...merging_props}, object_model, rab_component_models.list )
   const list_model = rab_component_model.list
   const list_components = list_model.components

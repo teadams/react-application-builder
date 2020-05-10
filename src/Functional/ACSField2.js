@@ -50,6 +50,8 @@ function ACSField(input_props) {
 
   merging_props.object_type = final_model_object_type
   merging_props.field_name = final_field_name
+  // XX performance optimization, use state merging props (and only)
+  // change those if props change
   const rab_component_model = control.getFinalModel("field", {...merging_props}, field_model, rab_component_models.field)
 
   const field_component_model = rab_component_model.field
