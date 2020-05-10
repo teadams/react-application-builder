@@ -20,7 +20,8 @@ function ACSField(input_props) {
   const [mode, setMode] = useState(input_props.mode?input_props.mode:"view");
 
   const {formValues, handleFormChange, handleFormSubmit} = useForm({value:input_props.data[input_props.field_name]}, handleSubmit);
-
+  // XX could be encapulated below if we use and unconvential approach
+  // and that convolve it
   const field_models =  useGetModel("fields")
   let field_model = field_models?field_models[input_props.object_type][input_props.field_name]:{}
 
@@ -34,6 +35,8 @@ function ACSField(input_props) {
   let final_data_target = ""
   let final_model_object_type = input_object_type
   let final_field_name = input_field_name
+  // XX this could be encapsulated in getFinalModel if we do a 
+  // unconvential approach
   if (field_model && field_model.references) {
       // manipulate field_model and object_type to be from references
       const references = field_model.references
@@ -52,7 +55,7 @@ function ACSField(input_props) {
   merging_props.field_name = final_field_name
   // XX performance optimization, use state merging props (and only)
   // change those if props change
-  const rab_component_model = control.getFinalModel("field", {...merging_props}, field_model, rab_component_models.field)
+  const rab_component_model = control.getFinalModel("field", {...merging_props}, field_model)
 
   const field_component_model = rab_component_model.field
   const massaged_props = field_component_model.props

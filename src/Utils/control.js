@@ -35,12 +35,13 @@ export function getFinalModel(level, input_props={}, metadata_model={}, componen
   // field in this level below.
   let final_model = _.merge({},
                             rab_component_models.shell,
-                            rab_component_models[level],  
+                            determineModelComponents(level,
+                            rab_component_models[level]),  
 
                             determineModelComponents(level, buildRABModel(metadata_model)),
                             
-                            component_model,
-//                            determineModelComponents(level, buildRABModel(component_model)),
+                            determineModelComponents(level,
+                            buildRABModel(component_model)),
 
                             determineModelComponents(level, buildRABModel(input_props))
                             )
@@ -58,7 +59,8 @@ export function getFinalModel(level, input_props={}, metadata_model={}, componen
 }
 
 function buildRABModel(params) {
-/// XXBIG - items need completed
+  if (!params) {return}
+   /// XXBIG - items need completed
     // precedence low to high - component by name, component itself, named parameters
 
   // this is where we can do logic such as something
