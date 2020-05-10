@@ -40,7 +40,7 @@
           Props:
             -- display (value, name_colon_value, name_value_cells) (Renderer)
             - click_to_edit (used in controller)
-            -- mode (view, text, edit) (passed through Renderer to View)
+            -- mode (view, text, edit) (passed through Renderer to View) - initial value is always passed to controller, then state is managed in the controller
             -- data
             -- field_model 
             -- default_mode

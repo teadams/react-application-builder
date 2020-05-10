@@ -56,7 +56,8 @@ function buildComponentModel(params, show) {
               props:{}},
         row:{names:{}, components:{},props:{}},
         field:{names:{field:params.field_component},
-              components:{}, props:{onFieldClick:params.onFieldClick}}
+              components:{}, props:{onFieldClick:params.onFieldClick,
+                     click_to_edit:params.field_click_to_edit}}
       })
 }
 

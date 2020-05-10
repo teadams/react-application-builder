@@ -19,10 +19,7 @@ import AuthContext from '../Components/User/AuthContext';
 
 function ObjectTypeView(props)  {
   const {object_type, api_options, ...params} = props
-  function handleFieldClick(event,id,type,field_name) {
-      u.aa("you got all the way down, whoopie!", field_name)
-  }
-  return (<ACSListController {...params} onFieldClick={handleFieldClick} object_type={object_type} api_options={api_options}/> )
+  return (<ACSListController {...params} object_type={object_type} api_options={api_options}/> )
 }
 export default ObjectTypeView;
 

@@ -70,7 +70,6 @@ function ACSField(input_props) {
   }
 
   function handleFieldClick(event, id, type, field_name, field_data) {  
-      alert ("clickable")
       if (click_to_edit) {
           setMode("edit")
       }
@@ -87,9 +86,14 @@ function ACSField(input_props) {
 // form, the form is submitted and the page returns
 // to view mode.  
 
+function handleOnFieldBlur() {
+  setMode("view")
+}
+
 return (
     <RenderACSField {...field_component_model.props}  data={data} 
-    onFieldClick ={(mode==="view")?handleFieldClick:""}
+    onFieldClick ={(mode==="view"&&click_to_edit)?handleFieldClick:""}
+    onFieldBlur = {(mode==="edit"&&click_to_edit)?handleOnFieldBlur:""}
     object_type={object_type} field_name={field_name} field_model={field_model}
     mode = {mode}
     rab_component_model={rab_component_model}/>

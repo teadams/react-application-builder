@@ -37,11 +37,17 @@ function RenderACSField(props) {
     }
   }
 
+  function handleFieldBlur(event) {
+    if (props.onFieldBlur) {
+        props.onFieldBlur(event, data.id, "field", field_name, data)
+    }
+  }
+  
   const {field_wrap:FieldWrap, field:Field} = rab_component_model.field.components 
   
   if (data) {
   return (
-      <FieldWrap onClick={handleFieldClick}>
+      <FieldWrap onClick={handleFieldClick} onMouseOut={handleFieldBlur}> 
        <Fragment><RABTextField data={data[field_name]} mode={mode} /></Fragment>       
       </FieldWrap>)
 
