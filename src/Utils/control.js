@@ -50,9 +50,10 @@ export function getFinalModel(level, input_props={}, metadata_model={}, componen
   // only want a shallow merge! (state management in getObject/list)
   // XX  Want to do this in a clean way,
   // perhaps with a prefix and not blindly pass 
-  // down everything
-  final_model[level].props = Object.assign(final_model[level].props, input_props)
-  // XX should merge only this level bug
+  // down everything. do want some flexibility
+  // in being able to expand. (teporary fix uses
+  // build RAB model but it is not generic.
+
   determineModelComponents(level,final_model)
 
   return final_model
@@ -68,13 +69,24 @@ function buildRABModel(params) {
       rab_component_models[params.rab_component_model_name], params.rab_component_model,
       { list:{names:{list:params.list_component},
               components:{},
-              props:{}},
-        row:{names:{}, components:{},props:{}},
+              props:{object_type:params.object_type,
+                     api_options:params.api_options,
+                     field_list:params.field_list  }},
+        row:{names:{}, components:{},props:{
+              object_type:params.object_type,
+              api_options:params.api_options,
+              field_list:params.field_list
+        }},
         field:{names:{field:params.field_component},
               components:{}, 
-              props:{onFieldClick:params.onFieldClick,
-                     click_to_edit:params.field_click_to_edit,
-                     mouseover_to_edit:params.field_mouseover_to_edit}}
+              props:{
+                object_type:params.object_type,
+                api_options:params.api_options,
+                field_list:params.field_list,
+                field_name:params.field_name,
+                onFieldClick:params.onFieldClick,
+                click_to_edit:params.field_click_to_edit,
+                mouseover_to_edit:params.field_mouseover_to_edit}}
       })
 }
 
