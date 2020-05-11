@@ -17,6 +17,7 @@ import rab_component_models from '../Models/HealthMe/component.js'
 
 
 function ACSField(input_props) {
+
   const [mode, setMode] = useState(input_props.mode?input_props.mode:"view");
 
   const {formValues, handleFormChange, handleFormSubmit} = useForm({[input_props.field_name]:input_props.data[input_props.field_name]}, handleSubmit);
@@ -25,7 +26,7 @@ function ACSField(input_props) {
   const field_models =  useGetModel("fields")
   let field_model = field_models?field_models[input_props.object_type][input_props.field_name]:{}
 
-  const {object_type:input_object_type, field_name:input_field_name,...merging_props} = input_props
+  const {data:props_data, object_type:input_object_type, field_name:input_field_name,...merging_props} = input_props
 
   // Use case - this field has been tagged with "references"
   // which indicates the field is from another object type.
@@ -60,7 +61,7 @@ function ACSField(input_props) {
   const field_component_model = rab_component_model.field
   const massaged_props = field_component_model.props
 
-  const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, data:props_data, component, click_to_edit=true, mouseover_to_edit=false, ...params} = massaged_props
+  const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, component, click_to_edit=true, mouseover_to_edit=false, ...params} = massaged_props
 
   let [ready, object_type, id, field_name, api_options, data] = useGetObject(props_object_type, props_id,props_field_name, props_api_options, props_data); 
 
