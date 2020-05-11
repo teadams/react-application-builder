@@ -31,6 +31,7 @@ function RABTextField(props) {
       return (
         <form onSubmit={onSubmit}>
           <TextField 
+            autoFocus={true}
             name={field_name} 
             value={formValues[props.field_name]}
             onChange={onChange}/>
@@ -67,20 +68,22 @@ function RenderACSField(props) {
   }
   
   const {field_wrap:FieldWrap, field:Field} = rab_component_model.field.components 
-  
+  console.log("RERENDER")
   if (data) {
   return (
-    
       <FieldWrap 
-          onClick={handleFieldClick} onMouseOut={handleFieldBlur} onMouseOver={handleMouseOver}>
-       <RABTextField 
-          data={data[field_name]} 
-          formValues={props.formValues}
-          mode={mode}
-          field_name={field_name}
-          onSubmit={props.onSubmit}
-          onChange={props.onChange}/>
-      </FieldWrap>)
+        onClick={handleFieldClick} onMouseOut={handleFieldBlur} onMouseOver={handleMouseOver}>
+        <form onSubmit={props.onSubmit}>
+          <RABTextField 
+            data={data[field_name]} 
+            formValues={props.formValues}
+            mode={mode}
+            field_name={field_name}
+            onSubmit={props.onSubmit}
+            onChange={props.onChange}/>
+        </form>
+      </FieldWrap>
+   )
 
   } else {
       return null
