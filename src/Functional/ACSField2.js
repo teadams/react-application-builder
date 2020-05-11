@@ -72,8 +72,10 @@ function ACSField(input_props) {
 
   // XX ?? look at rest of props and see if there are any other API options... what layer to do this in
   function handleSubmit(event) {
-      alert ("form is submitted")
-      
+      if (data[field_name] != formValues[field_name]) {
+        data[field_name] = formValues[field_name]
+      }
+      setMode("view")      
   }
 
   function toggleEditMode(event, id, type, field_name, field_data) {  
@@ -95,6 +97,7 @@ function ACSField(input_props) {
 
 function handleOnFieldBlur() {
   setMode("view")
+  handleSubmit()
 }
 
 return (
