@@ -47,11 +47,13 @@ export function getFinalModel(level, input_props={}, metadata_model={}, componen
                             determineModelComponents(level, buildRABModel(input_props))
                             )
   
-  // only want a shallow merge! 
-  // state managment is dependent on the references of api_options, field_list, f
-  // and other arrays/objects not changing
-  final_model[level].props = Object.assign(final_model[level].props, input_props)
-  // XX ? should we do all levels or just this one, performance?
+  // only want a shallow merge! (state management in getObject/list)
+  // Commenting out for now as it was getting in the 
+  // way of debugging.  Want to do this in a clean way,
+  // perhaps with a prefix and not blindly pass 
+  // down everything
+  //final_model[level].props = Object.assign(final_model[level].props, input_props)
+  // XX should merge only this level bug
   determineModelComponents(level,final_model)
 
   return final_model
