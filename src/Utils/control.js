@@ -111,7 +111,7 @@ export function componentByName(name) {
 }
 
 function RABFragment(props) {
-  return <Fragment/>
+  return <Fragment>{props.children}</Fragment>
 }
 
 function componentPicker(name) {
