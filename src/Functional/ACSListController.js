@@ -20,7 +20,7 @@ function ACSListController(input_props) {
   // do not merge expensive, known unnecessary things
   const {data:input_props_data, target_menu_name, ...merging_props} = input_props
   const object_models =  useGetModel("object_types")
-  const object_model = object_models?[input_props.object_type]:{}
+  const object_model = object_models?object_models[input_props.object_type]:{}
 
   function RABList(list_props) {
     const {data, rab_component_model, ...list_params} = list_props
@@ -44,7 +44,7 @@ function ACSListController(input_props) {
   const {list_wrap, body_wrap, list} = list_components
   //u.aa("l-w, b-w,l", list_wrap, body_wrap, list)
     // XX thinking about the role of field list/field tags in lazy loading, lazy reference loading
-  const {object_type:props_object_type, api_options:props_api_options={}, field_list="", field_tags} = massaged_props
+  const {object_type:props_object_type, api_options:props_api_options={}, field_list=""} = massaged_props
 
   // important to use input_props.data as it is an array and useGetObjectList
   // see changes to an array's reference as a change
