@@ -21,11 +21,10 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 
 function RABTextField(props) {
   const {mode, data, field_name, formdata, formValues, onSubmit, onChange} = props
-  if (!data) {return ""}
 
   switch (mode) {
     case "text", "view":
-      return data
+      return data?data:" "
       break 
     case "edit":
       return (
