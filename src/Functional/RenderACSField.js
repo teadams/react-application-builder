@@ -29,18 +29,23 @@ function RABTextField(props) {
       break 
     case "edit":
       return (
-        <form onSubmit={onSubmit}>
           <TextField 
             autoFocus={true}
             name={field_name} 
             value={formValues[props.field_name]}
             onChange={onChange}/>
-        </form> )
+        )
     case "csv":
       return '"'+data+'""'
     default:
       return data
   }
+}
+
+function form(props) {
+  return (<form onSubmit={props.onSubmit}>
+    {props.children}
+  </form>)
 }
 
 function RenderACSField(props) {
@@ -67,13 +72,15 @@ function RenderACSField(props) {
     }
   }
   
+  const Form = (mode==="edit")?form:Fragment
+
   const {field_wrap:FieldWrap, field:Field} = rab_component_model.field.components 
-  console.log("RERENDER")
+
   if (data) {
   return (
       <FieldWrap 
         onClick={handleFieldClick} onMouseOut={handleFieldBlur} onMouseOver={handleMouseOver}>
-        <form onSubmit={props.onSubmit}>
+         <Form onSubmit={props.onSubmit}>
           <RABTextField 
             data={data[field_name]} 
             formValues={props.formValues}
@@ -81,7 +88,7 @@ function RenderACSField(props) {
             field_name={field_name}
             onSubmit={props.onSubmit}
             onChange={props.onChange}/>
-        </form>
+        </Form>
       </FieldWrap>
    )
 
