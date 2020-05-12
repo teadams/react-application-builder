@@ -65,12 +65,6 @@ function RenderACSField(props) {
         props.onMouseOver(event, data.id, "field", field_name, data)
     }
   }
-
-  function handleFieldBlur(event) {
-    if (props.onFieldBlur) {
-        props.onFieldBlur(event, data.id, "field", field_name, data)
-    }
-  }
   
   const Form = (mode==="edit")?form:Fragment
 
@@ -79,7 +73,7 @@ function RenderACSField(props) {
   if (data) {
   return (
       <FieldWrap 
-        onClick={handleFieldClick} onMouseOut={handleFieldBlur} onMouseOver={handleMouseOver}>
+        onClick={handleFieldClick}  onMouseOver={handleMouseOver}>
          <Form onSubmit={props.onSubmit}>
           <RABTextField 
             data={data[field_name]} 

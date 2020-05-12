@@ -36,7 +36,7 @@ function ACSField(input_props) {
   let final_model_object_type = input_object_type
   let final_field_name = input_field_name
   // XX this could be encapsulated in getFinalModel if we do a 
-  // unconvential approach
+  // unconential approach
   if (field_model && field_model.references) {
       // manipulate field_model and object_type to be from references
       const references = field_model.references
@@ -64,18 +64,19 @@ function ACSField(input_props) {
 
   let [ready, object_type, id, field_name, api_options, data] = useGetObject(props_object_type, props_id,props_field_name, props_api_options, props_data); 
 
-  data = final_data_target?data[final_data_target]:data
-  const {formValues, handleFormChange, handleFormSubmit} = useForm({[field_name]:data[field_name]}, handleSubmit);
+  const {formValues, handleFormChange, handleFormSubmit} = useForm(object_type, field_name, data, handleSubmit);
 
   if (!data || (object_type && !field_model)) return null
   // if data is in a referenced field
 
 
   // XX ?? look at rest of props and see if there are any other API options... what layer to do this in
-  function handleSubmit(event) {
+  function handleSubmit(event, result, form_values_object) {
       if (data[field_name] != formValues[field_name]) {
         data[field_name] = formValues[field_name]
       }
+      u.aa("form", result)
+  
       setMode("view")      
   }
 
@@ -98,7 +99,6 @@ function ACSField(input_props) {
 
 function handleOnFieldBlur() {
   setMode("view")
-  handleSubmit()
 }
 
 return (
