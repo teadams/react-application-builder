@@ -20,7 +20,6 @@ function ACSField(input_props) {
 
   const [mode, setMode] = useState(input_props.mode?input_props.mode:"view");
 
-  const {formValues, handleFormChange, handleFormSubmit} = useForm({[input_props.field_name]:input_props.data[input_props.field_name]}, handleSubmit);
   // XX could be encapulated below if we use and unconvential approach
   // and that convolve it
   const field_models =  useGetModel("fields")
@@ -65,10 +64,12 @@ function ACSField(input_props) {
 
   let [ready, object_type, id, field_name, api_options, data] = useGetObject(props_object_type, props_id,props_field_name, props_api_options, props_data); 
 
+  data = final_data_target?data[final_data_target]:data
+  const {formValues, handleFormChange, handleFormSubmit} = useForm({[field_name]:data[field_name]}, handleSubmit);
+
   if (!data || (object_type && !field_model)) return null
   // if data is in a referenced field
 
-  data = final_data_target?data[final_data_target]:data
 
   // XX ?? look at rest of props and see if there are any other API options... what layer to do this in
   function handleSubmit(event) {
