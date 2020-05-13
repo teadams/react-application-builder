@@ -96,11 +96,9 @@ function ACSRowController(input_props) {
         field_list = Object.keys(data)
       }
   }
-u.a(num_columns)
   // XX will be expanded to deal with col_spans
   if (num_columns) {
     field_list = [_.chunk(field_list, num_columns)]
-u.a(field_list)
   } else {
     field_list = [[field_list]]
   }
