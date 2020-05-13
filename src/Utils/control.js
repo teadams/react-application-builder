@@ -75,7 +75,8 @@ function buildRABModel(params) {
         row:{names:{}, components:{},props:{
               object_type:params.object_type,
               api_options:params.api_options,
-              field_list:params.field_list
+              field_list:params.field_list,
+              num_columns:params.num_columns
         }},
         field:{names:{field:params.field_component},
               components:{}, 

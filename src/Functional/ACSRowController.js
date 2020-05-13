@@ -58,7 +58,6 @@ function ACSRowController(input_props) {
 
   // do not merge expensive, known unnecessary things
   const {data:input_props_data, ...merging_props} = input_props
-
   function RABRow(row_props) {
     const {field_chunk, data, field, rab_component_model} = row_props
     const {...row_params} = row_props
@@ -79,7 +78,7 @@ function ACSRowController(input_props) {
   const rab_component_model = control.getFinalModel("row", {...merging_props}, object_model, row_component_model)
   const row_model = rab_component_model.row
   const massaged_props = row_model.props
-  
+
   const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options, num_columns="",  ...params} = massaged_props
 
   let [ready, object_type, id, field_list, api_options, data] = 
@@ -97,10 +96,11 @@ function ACSRowController(input_props) {
         field_list = Object.keys(data)
       }
   }
-
+u.a(num_columns)
   // XX will be expanded to deal with col_spans
   if (num_columns) {
     field_list = [_.chunk(field_list, num_columns)]
+u.a(field_list)
   } else {
     field_list = [[field_list]]
   }
@@ -108,7 +108,6 @@ function ACSRowController(input_props) {
   // [[section], [section]]
   // where each section contains one or more fields 
   // (according to field_chunk and colspan rules examples: [field, field, field ]
-
   return  (<RenderACSRow {...row_model.props} object_type={object_type}  id={id}field_list={field_list} data={data} api_options={api_options} num_columns={num_columns} rab_component_model={rab_component_model} />)
 
 }
