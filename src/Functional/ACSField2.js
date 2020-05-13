@@ -18,8 +18,6 @@ import rab_component_models from '../Models/HealthMe/component.js'
 
 function ACSField(input_props) {
 
-  const [mode, setMode] = useState(input_props.mode?input_props.mode:"view");
-
   // XX could be encapulated below if we use and unconvential approach
   // and that convolve it
   const field_models =  useGetModel("fields")
@@ -60,7 +58,9 @@ function ACSField(input_props) {
   const field_component_model = rab_component_model.field
   const massaged_props = field_component_model.props
 
-  const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, component, click_to_edit=true, mouseover_to_edit=false, ...params} = massaged_props
+  const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form, ...params} = massaged_props
+
+  const [mode, setMode] = useState(initial_mode);
 
   let [ready, object_type, id, field_name, api_options, data] = useGetObject(props_object_type, props_id,props_field_name, props_api_options, props_data); 
 
@@ -110,7 +110,8 @@ return (
     onFieldClick ={(mode==="view"&&click_to_edit)?toggleEditMode:""}
     onFieldBlur = {(mode==="edit"&&click_to_edit)?handleOnFieldBlur:""}
     object_type={object_type} field_name={field_name} field_model={field_model}
-    mode = {mode}
+    mode={mode}
+    form={form}
     rab_component_model={rab_component_model}/>
   )
 }

@@ -76,7 +76,9 @@ function buildRABModel(params) {
               object_type:params.object_type,
               api_options:params.api_options,
               field_list:params.field_list,
-              num_columns:params.num_columns
+              num_columns:params.num_columns,
+              mode:params.row_mode,
+              form:params.row_form
         }},
         field:{names:{field:params.field_component},
               components:{}, 
@@ -87,7 +89,9 @@ function buildRABModel(params) {
                 field_name:params.field_name,
                 onFieldClick:params.onFieldClick,
                 click_to_edit:params.field_click_to_edit,
-                mouseover_to_edit:params.field_mouseover_to_edit}}
+                mouseover_to_edit:params.field_mouseover_to_edit,
+                mode:params.field_mode,
+                form:params.field_form}}
       })
 }
 

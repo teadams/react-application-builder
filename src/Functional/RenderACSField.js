@@ -41,7 +41,7 @@ function RABTextField(props) {
   }
 }
 
-function form(props) {
+function form_wrap(props) {
   return (<form onSubmit={props.onSubmit}>
     {props.children}
   </form>)
@@ -49,7 +49,7 @@ function form(props) {
 
 function RenderACSField(props) {
   const {...params} = props
-  const {data, rab_component_model, field_name, mode="view"} = props
+  const {data, rab_component_model, field_name, mode="view", form="true"} = props
   // Responsible for the layouts
 // Storing the state?
 // Deciding the mode?
@@ -64,8 +64,8 @@ function RenderACSField(props) {
         props.onMouseOver(event, data.id, "field", field_name, data)
     }
   }
-  
-  const Form = (mode==="edit")?form:Fragment
+
+  const Form = (mode==="edit"&& form)?form_wrap:Fragment
 
   const {field_wrap:FieldWrap, field:Field} = rab_component_model.field.components 
 

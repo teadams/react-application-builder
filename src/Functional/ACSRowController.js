@@ -52,7 +52,6 @@ import rab_component_models from '../Models/HealthMe/component.js'
 //   The rest is just prep
 
 function ACSRowController(input_props) {
-  const [mode, setMode] = useState("view");
   const object_models =  useGetModel("object_types")
   const object_model = object_models?[input_props.object_type]:{}
 
@@ -65,7 +64,7 @@ function ACSRowController(input_props) {
     return (
       <FieldChunk {...row_params}>
         {field_chunk.map( field_name => {
-             return <ACSField field_name={field_name} {...row_params}/>
+             return <ACSField field_mode={mode} field_form={!form} field_name={field_name} {...row_params}/>
         })}
       </FieldChunk>
     )
@@ -79,7 +78,7 @@ function ACSRowController(input_props) {
   const row_model = rab_component_model.row
   const massaged_props = row_model.props
 
-  const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options, num_columns="",  ...params} = massaged_props
+  const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options, num_columns="", mode="edit", form=true,  ...params} = massaged_props
 
   let [ready, object_type, id, field_list, api_options, data] = 
   useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data); 
@@ -102,11 +101,10 @@ function ACSRowController(input_props) {
   } else {
     field_list = [[field_list]]
   }
-  // Final structure
-  // [[section], [section]]
+  // Final structure[[section], [section]]
   // where each section contains one or more fields 
   // (according to field_chunk and colspan rules examples: [field, field, field ]
-  return  (<RenderACSRow {...row_model.props} object_type={object_type}  id={id}field_list={field_list} data={data} api_options={api_options} num_columns={num_columns} rab_component_model={rab_component_model} />)
+  return  (<RenderACSRow {...row_model.props} mode={mode} form={form} object_type={object_type}  id={id}field_list={field_list} data={data} api_options={api_options} num_columns={num_columns} rab_component_model={rab_component_model} />)
 
 }
 
