@@ -29,13 +29,8 @@ function ObjectView(props)  {
   api_options.filter_id = props[filter_field]
   api_options.filter_field = filter_field
 
-  function TablePaper(props) {
-      return <Paper style={{display:"inline"}} variant="outlined">{props.children}</Paper>
-  }
   
-  return (<Table style={{display:"inline", align:"left",borderSpacing:30, borderCollapse:"separate"}} size="small">
-          <ACSRowController {...params} object_type={object_type}  api_options={api_options} num_columns={num_columns}  />
-          </Table>
+  return ( <ACSRowController {...params} object_type={object_type}  api_options={api_options} num_columns={num_columns}  />
           )
 }
 export default ObjectView;
