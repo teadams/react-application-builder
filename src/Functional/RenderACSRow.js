@@ -13,9 +13,22 @@ import useGetObjectList from '../Hooks/useGetObjectList';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
+function form_wrap(props) {
+  if (props.form && props.mode === "edit") {
+    return (<form onSubmit={props.onSubmit}>
+      {props.children}
+      <input type="submit"/>
+    </form>)
+  } else {
+    return (<Fragment>{props.children}</Fragment>)
+  }
+}
+
 function RenderACSRow(props) {
-  const {...params} = props
-  const {data, rab_component_model, field_list} = props
+  const {form, ...params} = props
+  const {mode, data, rab_component_model, field_list} = props
+
+  const FormWrap = form_wrap
 
   const {header_wrap:HeaderWrap, header:Header, section_wrap:SectionWrap, section_header:SectionHeader, row_wrap:RowWrap,  row:RABRow} = rab_component_model.row.components 
   if (data) {
@@ -26,15 +39,20 @@ function RenderACSRow(props) {
           </HeaderWrap>
           {field_list.map(section_fields => {
             return (
+              <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
               <SectionWrap {...params}>
                 <SectionHeader {...params}/>
                 {section_fields.map(field_chunk => {
-                  return (<RowWrap {...params}>
-                             <RABRow {...params} field_chunk={field_chunk}/>
+                  return ( 
+                          <RowWrap {...params}>
+                              <RABRow {...params} field_chunk={field_chunk}/>
                              {data.children && data.children.length >0 && <ACSListController {...params} {...rab_component_model.list.props} data={data.children}/>}
-                          </RowWrap>)
+                          </RowWrap>
+          )
                 })}
-              </SectionWrap>)
+              </SectionWrap>
+              </FormWrap>
+)
             })}
         </Fragment>
       )

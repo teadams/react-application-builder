@@ -78,7 +78,7 @@ function ACSRowController(input_props) {
   const row_model = rab_component_model.row
   const massaged_props = row_model.props
 
-  const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options, num_columns="", mode="edit", form=true,  ...params} = massaged_props
+  const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options, num_columns="", mode="view", form=false,  ...params} = massaged_props
 
   let [ready, object_type, id, field_list, api_options, data] = 
   useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data); 

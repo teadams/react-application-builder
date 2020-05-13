@@ -9,7 +9,7 @@ const rab_menu_model = {
     "Text": {label: "Text", menu_component_name:"Text", rab_component_model_name:"test"},
     "Olist": {label: "OtList", menu_component_name:"ObjectView", test_case:"View one object", object_type:"core_user", layout:"list", id:1},
     "Menu": { label: "Menu", menu_component_name:"NavMenu", test_case:"Menu of items", object_type:"core_user"},
-    "HOlist":{label: "HList", menu_component_name:"ObjectView", test_case:"View one object", object_type:"core_user", id:1
+    "HOlist":{label: "HList", menu_component_name:"ObjectView", test_case:"View one object", object_type:"core_user", id:1, row_mode:"edit", row_form:true
     },
     "HMenu": {label: "Menu", menu_component_name:"NavMenu", test_case:"Menu of items", object_type:"core_user"
     },
