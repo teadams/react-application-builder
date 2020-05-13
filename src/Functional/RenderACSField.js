@@ -42,9 +42,13 @@ function RABTextField(props) {
 }
 
 function form_wrap(props) {
-  return (<form onSubmit={props.onSubmit}>
-    {props.children}
-  </form>)
+  if (props.form && props.mode === "edit") {
+    return (<form onSubmit={props.onSubmit}>
+      {props.children}
+    </form>)
+  } else {
+    return (<Fragment>{props.children}</Fragment>)
+  }
 }
 
 function RenderACSField(props) {
@@ -65,7 +69,7 @@ function RenderACSField(props) {
     }
   }
 
-  const Form = (mode==="edit"&& form)?form_wrap:Fragment
+  const FormWrap = form_wrap
 
   const {field_wrap:FieldWrap, field:Field} = rab_component_model.field.components 
 
@@ -73,7 +77,7 @@ function RenderACSField(props) {
   return (
       <FieldWrap 
         onClick={handleFieldClick}  onMouseOver={handleMouseOver}>
-         <Form onSubmit={props.onSubmit}>
+         <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
           <RABTextField 
             data={data[field_name]} 
             formValues={props.formValues}
@@ -81,7 +85,7 @@ function RenderACSField(props) {
             field_name={field_name}
             onSubmit={props.onSubmit}
             onChange={props.onChange}/>
-        </Form>
+        </FormWrap>
       </FieldWrap>
    )
 
