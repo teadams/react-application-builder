@@ -10,31 +10,36 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode) => {
   const [formTouched,setFormTouched] = useState(false)
   const object_models =  useGetModel("object_types")
   const field_models =  useGetModel("fields")
-  if (mode === "view" || (mode === "edit" && !data) || 
-    !object_models || !field_models) {
-      u.aa("retruning mode, data, object_models, field_models", mode, data, object_models, field_models)
-        return {undefined, undefined, undefined}
+
+  // form not needed or inputs not ready
+  if (mode === "view" || 
+      (mode === "edit" && !data) || 
+      !object_models || !field_models) {
+          return {undefined, undefined, undefined}
     }
 
   // XX replace from model
   const id_field = meta.keys(object_type).key_id
-  // Create/Edit
-  //  - create - field_name "", data {}
-  //       - default field 
-  //  - edit - field_name "", data 
   var field_list = [id_field, field_name]
-  // if not field, calculate the list of fields 
+
   if (!field_name) {
     field_list = Object.keys(field_models[object_type])
     // run some rules to determin which should
     //  show, be part of the form values (hidden)
   }
-  var defaults = {}
 
-  if (data) {
+  var defaults = {}
+  if (data && mode === "edit") {
     field_list.forEach(field =>{
         defaults[field] = data[field]
-      // run some rules on the model to determine defaults
+    })
+  } else if (mode === "create") {
+    field_list.forEach(field =>{
+        if (field != id_field) {
+  
+          // XX rules/ use model to figure out the defaults
+          defaults[field] = data[field]
+        }
     })
   }
   
