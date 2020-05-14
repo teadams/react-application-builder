@@ -78,9 +78,6 @@ function ACSRowController(input_props) {
   // do not merge expensive, known unnecessary things
   const {data:input_props_data, ...merging_props} = input_props
 
-
-
-
   let row_component_model = rab_component_models.row
   row_component_model.row.components.row = RABRow
 
@@ -91,9 +88,10 @@ function ACSRowController(input_props) {
   const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options, num_columns="", mode="view", form=false,  ...params} = massaged_props
 
   let [ready, object_type, id, field_list, api_options, data] = 
-  useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data); 
 
-  const {formValues, handleFormChange, handleFormSubmit} = useForm(object_type, "", data, handleSubmit, "create");
+  useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data); 
+  
+  const {formValues, handleFormChange, handleFormSubmit} = useForm(object_type, "", data, handleSubmit, form?mode:"view");
 
   //// wall /////
   const field_models =  useGetModel("fields")

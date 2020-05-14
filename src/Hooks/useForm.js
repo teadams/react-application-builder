@@ -5,17 +5,42 @@ import * as meta from '../Utils/meta.js';
 import useGetModel from '../Hooks/useGetModel';
 
 
-const useForm = (object_type, field_name="", data={}, handleSubmit) => {
+const useForm = (object_type, field_name="", data, handleSubmit, mode) => {
+  const [formValues, setFormValues] = useState({});
+  const [formTouched,setFormTouched] = useState(false)
   const object_models =  useGetModel("object_types")
   const field_models =  useGetModel("fields")
-  // calculate the defaults
- // only work for field - expand to row
+  if (mode === "view" || (mode === "edit" && !data) || 
+    !object_models || !field_models) {
+      u.aa("retruning mode, data, object_models, field_models", mode, data, object_models, field_models)
+        return {undefined, undefined, undefined}
+    }
 
+  // XX replace from model
   const id_field = meta.keys(object_type).key_id
-  const defaults = {[id_field]:data[id_field], [field_name]:data[field_name]}
+  // Create/Edit
+  //  - create - field_name "", data {}
+  //       - default field 
+  //  - edit - field_name "", data 
+  var field_list = [id_field, field_name]
+  // if not field, calculate the list of fields 
+  if (!field_name) {
+    field_list = Object.keys(field_models[object_type])
+    // run some rules to determin which should
+    //  show, be part of the form values (hidden)
+  }
+  var defaults = {}
 
-  const [formValues, setFormValues] = useState(defaults);
-  const [formTouched,setFormTouched] = useState(false)
+  if (data) {
+    field_list.forEach(field =>{
+        defaults[field] = data[field]
+      // run some rules on the model to determine defaults
+    })
+  }
+  
+  if (Object.keys(defaults).length > 0 && Object.keys(formValues).length === 0) {
+      setFormValues(defaults)
+  }
   
   const handleFormSubmit = (event => {
     if (!formTouched) {
