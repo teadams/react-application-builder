@@ -12,6 +12,7 @@ import ACSField from '../Functional/ACSField2.js'
 
 import useGetObject from '../Hooks/useGetObject';
 import useGetModel from '../Hooks/useGetModel';
+import useForm from '../Hooks/useForm';
 
 import * as control from "../Utils/control.js"
 import rab_component_models from '../Models/HealthMe/component.js'
@@ -52,6 +53,12 @@ import rab_component_models from '../Models/HealthMe/component.js'
 //   The rest is just prep
 
 function ACSRowController(input_props) {
+
+  function handleSubmit(event, result, form_values_object) {
+      u.aa("row  form", result)
+      // XX parent action
+  }
+
   const object_models =  useGetModel("object_types")
   const object_model = object_models?[input_props.object_type]:{}
 
@@ -82,9 +89,13 @@ function ACSRowController(input_props) {
 
   let [ready, object_type, id, field_list, api_options, data] = 
   useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data); 
+
+  const {formValues, handleFormChange, handleFormSubmit} = useForm(object_type, "", data, handleSubmit);
+
   const field_models =  useGetModel("fields")
   if (!field_models) {return null}
   const field_model = field_models[object_type]
+
   if (!data || (object_type && !object_model) || (object_type && !field_model)) return null
 
   /// XX Will be expanded to deal with sections
