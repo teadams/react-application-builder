@@ -52,6 +52,19 @@ import rab_component_models from '../Models/HealthMe/component.js'
 // Essentially, think of the function starting immediate after useGetObject! 
 //   The rest is just prep
 
+function RABRow(row_props) {
+  const {mode, form, field_chunk, data, field, rab_component_model} = row_props
+  const {...row_params} = row_props
+  const {field_chunk_wrap:FieldChunk} = rab_component_model.row.components
+  return (
+    <FieldChunk {...row_params}>
+      {field_chunk.map( field_name => {
+           return <ACSField field_mode={mode} field_form={!form} field_name={field_name} {...row_params}/>
+      })}
+    </FieldChunk>
+  )
+}
+
 function ACSRowController(input_props) {
 
   function handleSubmit(event, result, form_values_object) {
@@ -64,18 +77,8 @@ function ACSRowController(input_props) {
 
   // do not merge expensive, known unnecessary things
   const {data:input_props_data, ...merging_props} = input_props
-  function RABRow(row_props) {
-    const {field_chunk, data, field, rab_component_model} = row_props
-    const {...row_params} = row_props
-    const {field_chunk_wrap:FieldChunk} = rab_component_model.row.components
-    return (
-      <FieldChunk {...row_params}>
-        {field_chunk.map( field_name => {
-             return <ACSField field_mode={mode} field_form={!form} field_name={field_name} {...row_params}/>
-        })}
-      </FieldChunk>
-    )
-  }
+
+
 
 
   let row_component_model = rab_component_models.row
@@ -90,8 +93,9 @@ function ACSRowController(input_props) {
   let [ready, object_type, id, field_list, api_options, data] = 
   useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data); 
 
-  const {formValues, handleFormChange, handleFormSubmit} = useForm(object_type, "", data, handleSubmit);
+  const {formValues, handleFormChange, handleFormSubmit} = useForm(object_type, "", data, handleSubmit, "create");
 
+  //// wall /////
   const field_models =  useGetModel("fields")
   if (!field_models) {return null}
   const field_model = field_models[object_type]

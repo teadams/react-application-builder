@@ -5,11 +5,12 @@ import * as meta from '../Utils/meta.js';
 import useGetModel from '../Hooks/useGetModel';
 
 
-const useForm = (object_type, field_name, data, handleSubmit) => {
+const useForm = (object_type, field_name="", data={}, handleSubmit) => {
   const object_models =  useGetModel("object_types")
   const field_models =  useGetModel("fields")
   // calculate the defaults
-// only work for field - expand to row
+ // only work for field - expand to row
+
   const id_field = meta.keys(object_type).key_id
   const defaults = {[id_field]:data[id_field], [field_name]:data[field_name]}
 
