@@ -36,9 +36,8 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode) => {
   } else if (mode === "create") {
     field_list.forEach(field =>{
         if (field != id_field) {
-  
           // XX rules/ use model to figure out the defaults
-          defaults[field] = data[field]
+          defaults[field] = ""
         }
     })
   }
