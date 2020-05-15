@@ -5,19 +5,18 @@ import * as meta from '../Utils/meta.js';
 import useGetModel from '../Hooks/useGetModel';
 
 
-const useForm = (object_type, field_name="", data, handleSubmit, mode) => {
+const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true) => {
   const [formValues, setFormValues] = useState({});
-  const [formTouched,setFormTouched] = useState(false)
+  const [lastTouched,setLastTouched] = useState(false)
+
   const object_models =  useGetModel("object_types")
   const field_models =  useGetModel("fields")
-
   // form not needed or inputs not ready
   if (mode === "view" || 
       (mode === "edit" && !data) || 
       !object_models || !field_models) {
-          return {undefined, undefined, undefined}
+          return {undefined, undefined, undefined, undefined}
     }
-
   // XX replace from model
   const id_field = meta.keys(object_type).key_id
   var field_list = [id_field, field_name]
@@ -29,9 +28,16 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode) => {
   }
 
   var defaults = {}
+  const field_model = field_models[object_type]
   if (data && mode === "edit") {
     field_list.forEach(field =>{
-        defaults[field] = data[field]
+        const references = field_model[field].references
+        if (references) {
+            defaults[field] = data[field][field_models[references].key_id]
+        } else {
+           defaults[field] = data[field]
+        }
+        
     })
   } else if (mode === "create") {
     field_list.forEach(field =>{
@@ -47,7 +53,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode) => {
   }
   
   const handleFormSubmit = (event => {
-    if (!formTouched) {
+    if (!lastTouched) {
        handleSubmit(event, "no_change")
        return
     } 
@@ -64,6 +70,8 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode) => {
         }
       })     
     } else {
+      u.a("object_type, updating", object_type,formValues)
+
       api.putData(object_type, formValues, {}, (result, error) => { 
         if (error) {
           alert ('error is ' + error.message)
@@ -74,14 +82,14 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode) => {
     }
   })
 
-  const handleFormChange = (event) => {
+  const handleFormChange = ((event) => {
     event.persist();
     let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
-    setFormTouched(true)
+    setLastTouched(event.target.name)
     setFormValues(formValues => ({...formValues, [event.target.name]:value}));
-  }
+  })
 
-  return {handleFormSubmit, handleFormChange, formValues};
+  return {formValues, lastTouched, handleFormSubmit, handleFormChange};
 
 }
 
