@@ -20,7 +20,7 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 
 
 function RABTextField(props) {
-  const {mode, data, field_name, formdata, formValues, onSubmit, onChange} = props
+  const {mode, data, field_name, formdata, formValues,  onChange, autoFocus} = props
 
   switch (mode) {
     case "text", "view":
@@ -29,7 +29,7 @@ function RABTextField(props) {
     case "edit":
       return (
           <TextField 
-            autoFocus={true}
+            autoFocus={autoFocus}
             name={field_name} 
             value={formValues[props.field_name]}
             onChange={onChange}/>
@@ -70,7 +70,6 @@ function RenderACSField(props) {
   }
 
   const FormWrap = form_wrap
-
   const {field_wrap:FieldWrap, field:Field} = rab_component_model.field.components 
 
   if (data) {
@@ -79,11 +78,11 @@ function RenderACSField(props) {
         onClick={handleFieldClick}  onMouseOver={handleMouseOver}>
          <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
           <RABTextField 
-            data={data[field_name]} 
+            data={data[field_name]}
+            autoFocus={props.autoFocus}
             formValues={props.formValues}
             mode={mode}
             field_name={field_name}
-            onSubmit={props.onSubmit}
             onChange={props.onChange}/>
         </FormWrap>
       </FieldWrap>

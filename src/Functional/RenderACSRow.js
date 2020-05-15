@@ -25,8 +25,8 @@ function form_wrap(props) {
 }
 
 function RenderACSRow(props) {
-  const {form, ...params} = props
-  const {mode, data, rab_component_model, field_list} = props
+  const { ...params} = props
+  const {form, mode, data, rab_component_model, field_list, handleFormChange, handleFormSubmit, formValues} = props
 
   const FormWrap = form_wrap
 
@@ -39,7 +39,7 @@ function RenderACSRow(props) {
           </HeaderWrap>
           {field_list.map(section_fields => {
             return (
-              <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
+              <FormWrap mode={mode} form={form} onSubmit={handleFormSubmit}>
               <SectionWrap {...params}>
                 <SectionHeader {...params}/>
                 {section_fields.map(field_chunk => {

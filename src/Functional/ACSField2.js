@@ -23,7 +23,7 @@ function ACSField(input_props) {
   const field_models =  useGetModel("fields")
   let field_model = field_models?field_models[input_props.object_type][input_props.field_name]:{}
 
-  const {data:props_data, object_type:input_object_type, field_name:input_field_name,...merging_props} = input_props
+  const {data:props_data, object_type:input_object_type, field_name:input_field_name, handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, ...merging_props} = input_props
 
   // Use case - this field has been tagged with "references"
   // which indicates the field is from another object type.
@@ -64,11 +64,12 @@ function ACSField(input_props) {
 
   let [ready, object_type, id, field_name, api_options, data] = useGetObject(props_object_type, props_id,props_field_name, props_api_options, props_data); 
 
-  const {formValues, handleFormChange, handleFormSubmit} = useForm(object_type, field_name, data, handleSubmit);
+  // hook rules. always has to run
+const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(object_type, field_name, data, handleSubmit, form?mode:"view");
+
 
   if (!data || (object_type && !field_model)) return null
   // if data is in a referenced field
-
 
   // XX ?? look at rest of props and see if there are any other API options... what layer to do this in
   function handleSubmit(event, result, form_values_object) {
@@ -106,6 +107,7 @@ return (
     formValues = {formValues}
     onChange={handleFormChange}
     onSubmit={handleFormSubmit}
+    autoFocus ={(field_name === lastTouched || form)?true:false}
     onMouseOver={(mode==="view"&&mouseover_to_edit)?toggleEditMode:""}
     onFieldClick ={(mode==="view"&&click_to_edit)?toggleEditMode:""}
     onFieldBlur = {(mode==="edit"&&click_to_edit)?handleOnFieldBlur:""}

@@ -53,13 +53,14 @@ import rab_component_models from '../Models/HealthMe/component.js'
 //   The rest is just prep
 
 function RABRow(row_props) {
-  const {mode, form, field_chunk, data, field, rab_component_model} = row_props
+  const {mode, form, field_chunk, data, field, rab_component_model, handleFormChange, handleFormSubmit, formValues} = row_props
   const {...row_params} = row_props
   const {field_chunk_wrap:FieldChunk} = rab_component_model.row.components
+ 
   return (
     <FieldChunk {...row_params}>
       {field_chunk.map( field_name => {
-           return <ACSField field_mode={mode} field_form={!form} field_name={field_name} {...row_params}/>
+           return <ACSField field_mode={mode} field_form={!form} field_name={field_name} handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} formValues={formValues} {...row_params}/>
       })}
     </FieldChunk>
   )
@@ -91,14 +92,14 @@ function ACSRowController(input_props) {
 
   useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data); 
   
-  const {formValues, handleFormChange, handleFormSubmit} = useForm(object_type, "", data, handleSubmit, form?mode:"view");
+  const {formValues, lastTouched, handleFormChange, handleFormSubmit} = useForm(object_type, "", data, handleSubmit, form?mode:"view");
 
   //// wall /////
   const field_models =  useGetModel("fields")
   if (!field_models) {return null}
   const field_model = field_models[object_type]
 
-  if (!data || (object_type && !object_model) || (object_type && !field_model)) return null
+  if ((mode != "create" && !data) || (object_type && !object_model) || (object_type && !field_model)) return null
 
   /// XX Will be expanded to deal with sections
   if (!field_list) {
@@ -117,7 +118,8 @@ function ACSRowController(input_props) {
   // Final structure[[section], [section]]
   // where each section contains one or more fields 
   // (according to field_chunk and colspan rules examples: [field, field, field ]
-  return  (<RenderACSRow {...row_model.props} mode={mode} form={form} object_type={object_type}  id={id}field_list={field_list} data={data} api_options={api_options} num_columns={num_columns} rab_component_model={rab_component_model} />)
+  return  (<RenderACSRow {...row_model.props} mode={mode} form={form} object_type={object_type}  id={id}field_list={field_list} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} 
+  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} />)
 
 }
 
