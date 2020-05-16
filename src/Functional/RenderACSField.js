@@ -22,10 +22,10 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 
 function RABTextField(props) {
   const {mode, data, field_name, formdata, formValues,  onChange, autoFocus} = props
-
+  const field_value = data[field_name]
   switch (mode) {
     case "text", "view":
-      return data?data:" "
+      return field_value?field_value:" "
       break 
     case "edit":
     case "create":
@@ -38,10 +38,10 @@ function RABTextField(props) {
         )
       break
     case "csv":
-      return '"'+data+'""'
+      return '"'+field_value+'""'
       break
     default:
-      return data
+      return field_value
   }
 }
 
@@ -77,12 +77,13 @@ function RenderACSField(props) {
   const {field_wrap:FieldWrap, field:Field=RABTextField} = rab_component_model.field.components 
 
   if (data) {
+
   return (
       <FieldWrap 
         onClick={handleFieldClick}  onMouseOver={handleMouseOver} onBlur={props.onFieldBlur}>
          <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
           <Field 
-            data={data[field_name]}
+            data={data}
             autoFocus={props.autoFocus}
             formValues={props.formValues}
             mode={mode}

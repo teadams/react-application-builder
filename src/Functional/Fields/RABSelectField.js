@@ -19,9 +19,10 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 
 function RABSelectField(props) {
   const {mode, data, field_name, formdata, formValues,  onChange, autoFocus} = props
+  const field_display_value = data[field_name]
   switch (mode) {
     case "text", "view":
-      return data?data:" SELECST "
+      return field_display_value?field_display_value:" "
       break 
     case "edit":
     case "create":
@@ -34,10 +35,10 @@ function RABSelectField(props) {
         )
       break
     case "csv":
-      return '"'+data+'""'
+      return '"'+field_display_value+'""'
       break
     default:
-      return data
+      return field_display_value
   }
 }
 

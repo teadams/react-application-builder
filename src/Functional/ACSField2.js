@@ -64,7 +64,10 @@ function ACSField(input_props) {
   const [mode, setMode] = useState(initial_mode);
 
   let [ready, object_type, id, field_name, api_options, data] = useGetObject(props_object_type, props_id,props_field_name, props_api_options, props_data); 
-
+  // references data
+  if (final_data_target) {
+      data = data[final_data_target]
+  }
   // hook rules. always has to run
 const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(object_type, field_name, data, handleSubmit, form?mode:"view");
 
