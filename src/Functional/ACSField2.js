@@ -73,7 +73,6 @@ const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormCha
 
   // XX ?? look at rest of props and see if there are any other API options... what layer to do this in
   function handleSubmit(event, result, form_values_object) {
-      u.aa("field form", result)  
       setMode("view")      
   }
 

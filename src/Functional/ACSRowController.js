@@ -67,18 +67,16 @@ function RABRow(row_props) {
 }
 
 function ACSRowController(input_props) {
-  const [form_open, setFormOpen] = useState(true);
 
   function handleSubmit(event, result, form_values_object) {
-      u.aa("row  form", result)
-      setFormOpen(false)
+      handleFormClose()
   }
 
   const object_models =  useGetModel("object_types")
   const object_model = object_models?[input_props.object_type]:{}
 
   // do not merge expensive, known unnecessary things
-  const {data:input_props_data, ...merging_props} = input_props
+  const {data:input_props_data, form_open, ...merging_props} = input_props
 
   let row_component_model = rab_component_models.row
   row_component_model.row.components.row = RABRow
@@ -88,6 +86,11 @@ function ACSRowController(input_props) {
   const massaged_props = row_model.props
 
   const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options, num_columns="", mode="view", form=false,  ...params} = massaged_props
+  function handleFormClose() {
+      if (input_props.onClose) {
+        input_props.onClose()
+      } 
+  }
 
   let [ready, object_type, id, field_list, api_options, data] = 
 
@@ -119,7 +122,7 @@ function ACSRowController(input_props) {
   // Final structure[[section], [section]]
   // where each section contains one or more fields 
   // (according to field_chunk and colspan rules examples: [field, field, field ]
-  return  (<RenderACSRow {...row_model.props} mode={mode} form={form} object_type={object_type}  id={id}field_list={field_list} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} form_open={form_open}
+  return  (<RenderACSRow {...row_model.props} mode={mode} form={form} object_type={object_type}  id={id}field_list={field_list} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} form_open={form_open} onClose={handleFormClose}
   handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} />)
 
 }

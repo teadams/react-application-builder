@@ -14,18 +14,17 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
 function RABFormWrap(props) {
-  const [open, setOpen] = useState(props.open);
   function handleOnClose() {
-    setOpen(false)
     if (props.onClose) {
         props.onClose()
     }
   }
+
   // trying experiment. Dialog can close either
   // via props open or internal.  
   if (props.form && props.mode === "edit") {    
     return (
-      <Dialog fullWidth={true} open={props.open && open} onClose={handleOnClose} aria-labelledby="form-dialog-title">
+      <Dialog fullWidth={true} open={props.open} onClose={handleOnClose} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">{props.mode} OBJECT TYPE</DialogTitle>
         <DialogContent>
           <DialogContentText>FORM MESSAGE</DialogContentText>
@@ -49,7 +48,7 @@ function RABFormWrap(props) {
 
 function RenderACSRow(props) {
   const { ...params} = props
-  const {form, mode, form_open, data, rab_component_model, field_list, handleFormChange, handleFormSubmit, formValues} = props
+  const {form, mode, form_open, data, rab_component_model, field_list, handleFormChange, handleFormSubmit, formValues, onClose} = props
 
   const FormWrap = RABFormWrap
 
@@ -62,7 +61,7 @@ function RenderACSRow(props) {
           </HeaderWrap>
           {field_list.map(section_fields => {
             return (
-              <FormWrap mode={mode} form={form} open={form_open} onSubmit={handleFormSubmit}>
+              <FormWrap mode={mode} form={form} open={form_open} onSubmit={handleFormSubmit} onClose={onClose}>
               <SectionWrap {...params}>
                 <SectionHeader {...params}/>
                 {section_fields.map(field_chunk => {

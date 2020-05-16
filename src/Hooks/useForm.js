@@ -70,7 +70,6 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
         }
       })     
     } else {
-      u.a("object_type, updating", object_type,formValues)
 
       api.putData(object_type, formValues, {}, (result, error) => { 
         if (error) {
