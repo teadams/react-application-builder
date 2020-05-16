@@ -105,6 +105,8 @@ function ACSRowController(input_props) {
 
   if ((mode != "create" && !data) || (object_type && !object_model) || (object_type && !field_model)) return null
 
+  //XX TODO - have to restructure references defaults
+  if (mode==="create") {data = formValues}
   /// XX Will be expanded to deal with sections
   if (!field_list) {
       if (object_type) {
@@ -113,6 +115,10 @@ function ACSRowController(input_props) {
         field_list = Object.keys(data)
       }
   }
+  if (mode ==="create") {
+    field_list.splice(field_list.indexOf("id"),1)      
+  }
+
   // XX will be expanded to deal with col_spans
   if (num_columns) {
     field_list = [_.chunk(field_list, num_columns)]

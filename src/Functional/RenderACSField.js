@@ -27,6 +27,7 @@ function RABTextField(props) {
       return data?data:" "
       break 
     case "edit":
+    case "create":
       return (
           <TextField 
             autoFocus={autoFocus}
@@ -34,8 +35,10 @@ function RABTextField(props) {
             value={formValues[props.field_name]}
             onChange={onChange}/>
         )
+      break
     case "csv":
       return '"'+data+'""'
+      break
     default:
       return data
   }
