@@ -45,6 +45,7 @@ function ACSField(input_props) {
       let referenced_field_model = field_models?field_models[final_model_object_type][referenced_field_name]:{}
       referenced_field_model = _.merge({},referenced_field_model)
       referenced_field_model.pretty_name = field_model.pretty_name // take name from original field
+      referenced_field_model.field_component = "RABSelectField"
       field_model = referenced_field_model
       final_field_name = referenced_field_name
   }

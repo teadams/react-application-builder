@@ -129,7 +129,6 @@ function ACSRowController(input_props) {
   field_list.splice(field_list.indexOf("state"),1)      
   field_list.splice(field_list.indexOf("thumbnail"),1)      
 
-
   // XX will be expanded to deal with col_spans
   if (num_columns) {
     field_list = [_.chunk(field_list, num_columns)]
