@@ -18,8 +18,8 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 //  style={{width:"90%"}}
 
 function RABSelectField(props) {
-  const {mode, data, field_name, formdata, formValues,  onChange, autoFocus, object_type} = props
-
+  const {mode, data, field_name, formdata, formValues,  onChange, autoFocus, object_type, field_model} = props
+  const field_value = data[field_model.filter_field]
   const field_display_value = data[field_name]
   switch (mode) {
     case "text", "view":

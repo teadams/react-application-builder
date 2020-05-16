@@ -41,13 +41,14 @@ function ACSField(input_props) {
       final_data_target = input_props.field_name
       final_model_object_type = field_model.references
       // XX server side
-      const referenced_field_name = field_model.referenced_field?field_model.referenced_field:meta.keys(final_model_object_type).pretty_key_id 
+      const referenced_field_name = field_model.references_field?field_model.references_field:meta.keys(final_model_object_type).key_id 
       let referenced_field_model = field_models?field_models[final_model_object_type][referenced_field_name]:{}
       referenced_field_model = _.merge({},referenced_field_model)
       referenced_field_model.pretty_name = field_model.pretty_name // take name from original field
       referenced_field_model.field_component = "RABSelectField"
+      referenced_field_model.filter_field = referenced_field_name
       field_model = referenced_field_model
-      final_field_name = referenced_field_name
+      final_field_name = meta.keys(final_model_object_type).pretty_key_id 
   }
 
   merging_props.object_type = final_model_object_type
@@ -100,7 +101,6 @@ const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormCha
 function handleOnFieldBlur() {
   setMode("view")
 }
-
 return (
     <RenderACSField {...field_component_model.props}  data={data} 
     formValues = {formValues}
