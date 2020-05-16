@@ -14,6 +14,8 @@ import Debug from '../Debug.js'
 import ACSField from '../Functional/ACSField2.js'
 import ACSRowController from '../Functional/ACSRowController.js'
 import ACSListController from '../Functional/ACSListController.js'
+import RABSelectField from '../Functional/Fields/RABSelectField.js'
+
 import {Tab, Tabs, Menu, MenuItem, MenuList,List,ListItem,ListItemAvatar,ListItemIcon,ListItemSecondaryAction,ListItemText,ListSubheader,Table,TableBody,TableCell,TableContainer,TableFooter,TableHead,TablePagination,TableRow,} from '@material-ui/core';
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
@@ -157,6 +159,7 @@ function componentPicker(name) {
     case "TreeView": return TreeView;
     case "Fragment": return RABFragment;
     case "AvatarUser":  return Text;
+    case "RABSelectField":  return RABSelectField;
     default:  { 
       alert("Menu Model Issues - no component for " + name) 
       return Fragment;

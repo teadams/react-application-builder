@@ -18,32 +18,6 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 //   value=  {this.getDisplayView(object_type,field,prefix)}
 //  style={{width:"90%"}}
 
-function RABSelectField(props) {
-  const {mode, data, field_name, formdata, formValues,  onChange, autoFocus} = props
-  switch (mode) {
-    case "text", "view":
-      return data?data:" SELECST "
-      break 
-    case "edit":
-    case "create":
-      return (
-          <TextField 
-            autoFocus={autoFocus}
-            name={field_name} 
-            value={formValues[props.field_name]}
-            onChange={onChange}/>
-        )
-      break
-    case "csv":
-      return '"'+data+'""'
-      break
-    default:
-      return data
-  }
-}
-
-
-
 
 
 function RABTextField(props) {
