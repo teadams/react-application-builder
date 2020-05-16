@@ -82,7 +82,7 @@ function RenderACSField(props) {
       <FieldWrap 
         onClick={handleFieldClick}  onMouseOver={handleMouseOver} onBlur={props.onFieldBlur}>
          <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
-          <Field 
+          <Field {...params}
             data={data}
             autoFocus={props.autoFocus}
             formValues={props.formValues}

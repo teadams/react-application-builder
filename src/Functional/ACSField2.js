@@ -104,6 +104,7 @@ function handleOnFieldBlur() {
 return (
     <RenderACSField {...field_component_model.props}  data={data} 
     formValues = {formValues}
+    object_type = {object_type}
     onChange={handleFormChange}
     onSubmit={handleFormSubmit}
     autoFocus ={(field_name === lastTouched || form)?true:false}
