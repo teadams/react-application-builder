@@ -33,7 +33,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
   field_list.splice(field_list.indexOf("core_subsite"),1)      
   field_list.splice(field_list.indexOf("full_name"),1)      
   // XX references
-field_list.splice(field_list.indexOf("country"),1)      
+//field_list.splice(field_list.indexOf("country"),1)      
 field_list.splice(field_list.indexOf("state"),1)      
 field_list.splice(field_list.indexOf("thumbnail"),1)      
 

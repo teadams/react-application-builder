@@ -125,7 +125,7 @@ function ACSRowController(input_props) {
   field_list.splice(field_list.indexOf("last_updated_date"),1)      
   field_list.splice(field_list.indexOf("core_subsite"),1) 
     // XX references
-  field_list.splice(field_list.indexOf("country"),1)      
+//  field_list.splice(field_list.indexOf("country"),1)      
   field_list.splice(field_list.indexOf("state"),1)      
   field_list.splice(field_list.indexOf("thumbnail"),1)      
 

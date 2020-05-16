@@ -18,6 +18,33 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 //   value=  {this.getDisplayView(object_type,field,prefix)}
 //  style={{width:"90%"}}
 
+function RABSelectField(props) {
+  const {mode, data, field_name, formdata, formValues,  onChange, autoFocus} = props
+  switch (mode) {
+    case "text", "view":
+      return data?data:" SELECST "
+      break 
+    case "edit":
+    case "create":
+      return (
+          <TextField 
+            autoFocus={autoFocus}
+            name={field_name} 
+            value={formValues[props.field_name]}
+            onChange={onChange}/>
+        )
+      break
+    case "csv":
+      return '"'+data+'""'
+      break
+    default:
+      return data
+  }
+}
+
+
+
+
 
 function RABTextField(props) {
   const {mode, data, field_name, formdata, formValues,  onChange, autoFocus} = props
@@ -73,14 +100,14 @@ function RenderACSField(props) {
   }
 
   const FormWrap = form_wrap
-  const {field_wrap:FieldWrap, field:Field} = rab_component_model.field.components 
+  const {field_wrap:FieldWrap, field:Field=RABTextField} = rab_component_model.field.components 
 
   if (data) {
   return (
       <FieldWrap 
         onClick={handleFieldClick}  onMouseOver={handleMouseOver} onBlur={props.onFieldBlur}>
          <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
-          <RABTextField 
+          <Field 
             data={data[field_name]}
             autoFocus={props.autoFocus}
             formValues={props.formValues}
