@@ -13,10 +13,19 @@ import useGetObjectList from '../Hooks/useGetObjectList';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
-function form_wrap(props) {
-  if (props.form && props.mode === "edit") {
+function RABFormWrap(props) {
+  const [open, setOpen] = useState(props.open);
+  function handleOnClose() {
+    setOpen(false)
+    if (props.onClose) {
+        props.onClose()
+    }
+  }
+  // trying experiment. Dialog can close either
+  // via props open or internal.  
+  if (props.form && props.mode === "edit") {    
     return (
-      <Dialog fullWidth={true} open={true} onClose={props.onClose} aria-labelledby="form-dialog-title">
+      <Dialog fullWidth={true} open={props.open && open} onClose={handleOnClose} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">{props.mode} OBJECT TYPE</DialogTitle>
         <DialogContent>
           <DialogContentText>FORM MESSAGE</DialogContentText>
@@ -26,7 +35,7 @@ function form_wrap(props) {
            <Button onClick={props.onSubmit} color="primary">
              {props.mode}
            </Button>
-            <Button onClick={props.onClose} color="primary">
+            <Button onClick={handleOnClose} color="primary">
              Cancel
            </Button>
         </DialogActions>  
@@ -40,9 +49,9 @@ function form_wrap(props) {
 
 function RenderACSRow(props) {
   const { ...params} = props
-  const {form, mode, data, rab_component_model, field_list, handleFormChange, handleFormSubmit, formValues} = props
+  const {form, mode, form_open, data, rab_component_model, field_list, handleFormChange, handleFormSubmit, formValues} = props
 
-  const FormWrap = form_wrap
+  const FormWrap = RABFormWrap
 
   const {header_wrap:HeaderWrap, header:Header, section_wrap:SectionWrap, section_header:SectionHeader, row_wrap:RowWrap,  row:RABRow} = rab_component_model.row.components 
   if (data) {
@@ -53,7 +62,7 @@ function RenderACSRow(props) {
           </HeaderWrap>
           {field_list.map(section_fields => {
             return (
-              <FormWrap mode={mode} form={form} onSubmit={handleFormSubmit}>
+              <FormWrap mode={mode} form={form} open={form_open} onSubmit={handleFormSubmit}>
               <SectionWrap {...params}>
                 <SectionHeader {...params}/>
                 {section_fields.map(field_chunk => {

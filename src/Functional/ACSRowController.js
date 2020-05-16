@@ -67,11 +67,11 @@ function RABRow(row_props) {
 }
 
 function ACSRowController(input_props) {
+  const [form_open, setFormOpen] = useState(true);
 
   function handleSubmit(event, result, form_values_object) {
       u.aa("row  form", result)
-      // XX parent action
-      data = form_values_object
+      setFormOpen(false)
   }
 
   const object_models =  useGetModel("object_types")
@@ -119,7 +119,7 @@ function ACSRowController(input_props) {
   // Final structure[[section], [section]]
   // where each section contains one or more fields 
   // (according to field_chunk and colspan rules examples: [field, field, field ]
-  return  (<RenderACSRow {...row_model.props} mode={mode} form={form} object_type={object_type}  id={id}field_list={field_list} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} 
+  return  (<RenderACSRow {...row_model.props} mode={mode} form={form} object_type={object_type}  id={id}field_list={field_list} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} form_open={form_open}
   handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} />)
 
 }
