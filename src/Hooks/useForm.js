@@ -26,6 +26,17 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
     // run some rules to determin which should
     //  show, be part of the form values (hidden)
   }
+  // XX meta (consolidate with row controller?)
+  field_list.splice(field_list.indexOf("creation_user"),1)      
+  field_list.splice(field_list.indexOf("creation_date"),1)      
+  field_list.splice(field_list.indexOf("last_updated_date"),1)      
+  field_list.splice(field_list.indexOf("core_subsite"),1)      
+  field_list.splice(field_list.indexOf("full_name"),1)      
+  // XX references
+field_list.splice(field_list.indexOf("country"),1)      
+field_list.splice(field_list.indexOf("state"),1)      
+field_list.splice(field_list.indexOf("thumbnail"),1)      
+
 
   var defaults = {}
   const field_model = field_models[object_type]
