@@ -22,7 +22,7 @@ function RABFormWrap(props) {
 
   // trying experiment. Dialog can close either
   // via props open or internal.  
-  if (props.form && props.mode === "edit") {    
+  if (props.form && (props.mode === "edit" || props.mode === "create")) {    
     return (
       <Dialog fullWidth={true} open={props.open} onClose={handleOnClose} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">{props.mode} OBJECT TYPE</DialogTitle>
