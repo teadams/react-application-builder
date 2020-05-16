@@ -45,6 +45,7 @@ function ACSField(input_props) {
       let referenced_field_model = field_models?field_models[final_model_object_type][referenced_field_name]:{}
       referenced_field_model = _.merge({},referenced_field_model)
       referenced_field_model.pretty_name = field_model.pretty_name // take name from original field
+      referenced_field_model.formValues_name = input_props.field_name
       referenced_field_model.field_component = "RABSelectField"
       referenced_field_model.filter_field = referenced_field_name
       field_model = referenced_field_model
@@ -70,8 +71,7 @@ function ACSField(input_props) {
       data = data[final_data_target]
   }
   // hook rules. always has to run
-const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(object_type, field_name, data, handleSubmit, form?mode:"view");
-
+const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(object_type, field_name, data, handleSubmit, form?"edit":"view");
 
   if (!data || (object_type && !field_model)) return null
   // if data is in a referenced field
