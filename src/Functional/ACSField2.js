@@ -33,8 +33,14 @@ function ACSField(input_props) {
   let final_data_target = ""
   let final_model_object_type = input_object_type
   let final_field_name = input_field_name
+  // The REFERENCES field model 
+  // has to have input into the component ,etc. But
+  // some things like the label we want to take after the.
+  // referring table.  Straight precedence? (I think)
   // XX this could be encapsulated in getFinalModel if we do a 
-  // unconential approach
+  // unconential approach. That would be much better as
+  // this causes a lot of confusion about which object_type
+  // and model we are actually using (see call to useForm)
   if (field_model && field_model.references) {
       // manipulate field_model and object_type to be from references
       const references = field_model.references
@@ -71,7 +77,10 @@ function ACSField(input_props) {
       data = data[final_data_target]
   }
   // hook rules. always has to run
-const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(object_type, field_name, data, handleSubmit, form?"edit":"view");
+  // care with inputs.  Form is based of the original object_type
+  // and the original field_name (not the change for the references)
+const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(input_object_type, input_props.field_name, data, handleSubmit, form?"edit":"view");
+
 
   if (!data || (object_type && !field_model)) return null
   // if data is in a referenced field

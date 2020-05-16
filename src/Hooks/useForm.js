@@ -26,25 +26,28 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
     // run some rules to determin which should
     //  show, be part of the form values (hidden)
   }
-  // XX meta (consolidate with row controller?)
-  field_list.splice(field_list.indexOf("creation_user"),1)      
-  field_list.splice(field_list.indexOf("creation_date"),1)      
-  field_list.splice(field_list.indexOf("last_updated_date"),1)      
-  field_list.splice(field_list.indexOf("core_subsite"),1)      
-  field_list.splice(field_list.indexOf("full_name"),1)      
-  // XX references
-//field_list.splice(field_list.indexOf("country"),1)      
-field_list.splice(field_list.indexOf("state"),1)      
-field_list.splice(field_list.indexOf("thumbnail"),1)      
+
+  const fields_to_splice = ["creation_user", "creation_date", "last_updated_date", "core_subsite", "full_name", "thumbnail"]
+  fields_to_splice.forEach(field => {
+    if (field_list.indexOf(field)>0) {
+      field_list.splice(field_list.indexOf(field),1)
+    }
+  })
 
 
   var defaults = {}
   const field_model = field_models[object_type]
   if (data && mode === "edit") {
     field_list.forEach(field =>{
-        const references = field_model[field].references
+        const f_model = field_model[field]
+        const references = f_model.references
+        // Naming of the formValues key is after the
+        // original field_model. Data is for the references
+        // model
         if (references) {
-            defaults[field] = data[field][field_models[references].key_id]
+            // XX fix to have id work off object meta data 
+            const references_field = f_model.referenced_field?f_model.references_field:"id"        
+            defaults[field] = data[references_field]
         } else {
            defaults[field] = data[field]
         }
@@ -58,7 +61,7 @@ field_list.splice(field_list.indexOf("thumbnail"),1)
         }
     })
   }
-  
+
   if (Object.keys(defaults).length > 0 && Object.keys(formValues).length === 0) {
       setFormValues(defaults)
   }

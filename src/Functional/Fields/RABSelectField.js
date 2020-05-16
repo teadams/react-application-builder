@@ -19,19 +19,25 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 
 function RABSelectField(props) {
   const {mode, data, field_name, formdata, formValues,  onChange, autoFocus, object_type, field_model} = props
-  const field_value = data[field_model.filter_field]
+//  u.aa("in select, field_name", field_name, formValues)
+  const formValues_name = field_model.formValues_name
+//  const field_value = "foo"
+  const field_value = formValues[formValues_name]
   const field_display_value = data[field_name]
+  //u.a(formValues_name, field_value) // original name... reference field name
   switch (mode) {
     case "text", "view":
       return field_display_value?field_display_value:" "
       break 
     case "edit":
     case "create":
+      let api_options = {filter_field:field_model.filter_field, 
+                         filter_id: field_value}
       return (
           <TextField 
             autoFocus={autoFocus}
             name={field_name} 
-            value={formValues[props.field_name]}
+            value={field_value}
             onChange={onChange}/>
         )
       break
