@@ -71,6 +71,7 @@ function ACSRowController(input_props) {
   function handleSubmit(event, result, form_values_object) {
       u.aa("row  form", result)
       // XX parent action
+      data = form_values_object
   }
 
   const object_models =  useGetModel("object_types")

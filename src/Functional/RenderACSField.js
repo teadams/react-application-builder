@@ -10,7 +10,7 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 
 // <TextField    
 //   InputLabelProps={{shrink:true}}
-//   name={field.name}
+//   name={.name}
 //   label={field.pretty_name}
 //   disabled={options.disabled?options.disabled:true}
 //   type="text"
@@ -75,7 +75,7 @@ function RenderACSField(props) {
   if (data) {
   return (
       <FieldWrap 
-        onClick={handleFieldClick}  onMouseOver={handleMouseOver}>
+        onClick={handleFieldClick}  onMouseOver={handleMouseOver} onBlur={props.onFieldBlur}>
          <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
           <RABTextField 
             data={data[field_name]}

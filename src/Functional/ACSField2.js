@@ -73,11 +73,7 @@ const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormCha
 
   // XX ?? look at rest of props and see if there are any other API options... what layer to do this in
   function handleSubmit(event, result, form_values_object) {
-      if (data[field_name] != formValues[field_name]) {
-        data[field_name] = formValues[field_name]
-      }
-      u.aa("field form", result)
-  
+      u.aa("field form", result)  
       setMode("view")      
   }
 
@@ -108,9 +104,9 @@ return (
     onChange={handleFormChange}
     onSubmit={handleFormSubmit}
     autoFocus ={(field_name === lastTouched || form)?true:false}
-    onMouseOver={(mode==="view"&&mouseover_to_edit)?toggleEditMode:""}
-    onFieldClick ={(mode==="view"&&click_to_edit)?toggleEditMode:""}
-    onFieldBlur = {(mode==="edit"&&click_to_edit)?handleOnFieldBlur:""}
+    onMouseOver={(form&&(mode==="view"&&mouseover_to_edit))?toggleEditMode:""}
+    onFieldClick ={(form&&(mode==="view"&&click_to_edit))?toggleEditMode:""}
+    onFieldBlur = {(form&&(mode==="edit"&&click_to_edit))?handleOnFieldBlur:""}
     object_type={object_type} field_name={field_name} field_model={field_model}
     mode={mode}
     form={form}

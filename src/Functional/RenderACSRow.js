@@ -15,10 +15,24 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 
 function form_wrap(props) {
   if (props.form && props.mode === "edit") {
-    return (<form onSubmit={props.onSubmit}>
-      {props.children}
-      <input type="submit"/>
-    </form>)
+    return (
+      <Dialog fullWidth={true} open={true} onClose={props.onClose} aria-labelledby="form-dialog-title">
+      <DialogTitle id="form-dialog-title">{props.mode} OBJECT TYPE</DialogTitle>
+        <DialogContent>
+          <DialogContentText>FORM MESSAGE</DialogContentText>
+          <form onSubmit={props.onSubmit}>
+          {props.children}
+          <DialogActions>
+           <Button onClick={props.onSubmit} color="primary">
+             {props.mode}
+           </Button>
+            <Button onClick={props.onClose} color="primary">
+             Cancel
+           </Button>
+        </DialogActions>  
+        </form>
+        </DialogContent>
+      </Dialog>)
   } else {
     return (<Fragment>{props.children}</Fragment>)
   }
