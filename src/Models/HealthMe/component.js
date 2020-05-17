@@ -62,7 +62,9 @@ const rab_component_models = {
       },
       components:{},
       defaut_mode:"view",  
-      props:{}
+      props:{
+          num_columns:"all"
+      }
     },
     row: {
       names:{
@@ -75,15 +77,19 @@ const rab_component_models = {
     },
       components:{},
       default_mode:"view",
-      props:{}
+      props:{
+          num_columns:"all"
+      }
     },
     field:{
       names:{
-        field_wrap:"TableCell"
+        field_wrap:"TableCell",
     },
       components:{},
       default_mode:"click_to_edit",
-      props:{}
+      props:{
+        field_display:"field"
+      }
     }
   },
   row: {

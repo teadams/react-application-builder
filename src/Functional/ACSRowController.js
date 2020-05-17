@@ -86,6 +86,7 @@ function ACSRowController(input_props) {
   const massaged_props = row_model.props
 
   const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options, num_columns="", mode="view", form=false,  ...params} = massaged_props
+
   function handleFormClose() {
       if (input_props.onClose) {
         input_props.onClose()
@@ -128,7 +129,7 @@ function ACSRowController(input_props) {
   })
 
   // XX will be expanded to deal with col_spans
-  if (num_columns) {
+  if (num_columns && num_columns !="all")  {
     field_list = [_.chunk(field_list, num_columns)]
   } else {
     field_list = [[field_list]]
