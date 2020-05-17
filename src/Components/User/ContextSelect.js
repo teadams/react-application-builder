@@ -1,5 +1,7 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
+import * as u from '../../Utils/utils.js';
+
 
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import AuthContext from './AuthContext';
@@ -36,8 +38,8 @@ function ContextSelect () {
   const subsite_id = context.context_id
   const user = context.user
   
-  function handleContextChange(value) {
-        context.setContextId(value)  
+  function handleContextChange(event) {
+        context.setContextId(event.target.value)  
    }
 
 

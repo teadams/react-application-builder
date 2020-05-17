@@ -48,7 +48,6 @@ function padding(num) {
 }
 
 function selectItems(data, select_key_field, select_display_field) {
-    data = formTreeData(data)
     return (
       data.map (row => {
         return(
