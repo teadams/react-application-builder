@@ -51,8 +51,7 @@ function ContextSelect () {
               style = {context_style}
               onChange={handleContextChange}
               noLabel= {true}
-              user_id = {user.id}
-            //  parent_field  = "parent_subsite"
+              api_options={{parent_field:"parent_subsite"}}
              />
           );
       }  else {

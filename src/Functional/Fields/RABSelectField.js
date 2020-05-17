@@ -30,9 +30,9 @@ function formTreeData(data, tree_depth=0) {
   data.map(row => {
       row.tree_depth = tree_depth
       tree_data.push(row)
-      if (data.children && data.children.length >0) {
+      if (row.children && row.children.length >0) {
           tree_depth +=1
-          tree_data = tree_data.concat(formTreeData(data.children, tree_depth))
+          tree_data = tree_data.concat(formTreeData(row.children, tree_depth))
       }
   })
   return tree_data
@@ -42,12 +42,13 @@ function padding(num) {
   let i;  
   let padding = ""
   for (i = 0; i < num; i++) {
-    padding = padding + "&npsp;&nbsp;"
-  }
-  return padding
+    padding = padding + ".."
+  }  
+  return <Fragment>{padding}</Fragment>
 }
 
 function selectItems(data, select_key_field, select_display_field) {
+    data=formTreeData(data)
     return (
       data.map (row => {
         return(
@@ -57,7 +58,7 @@ function selectItems(data, select_key_field, select_display_field) {
     )
 }
 
-function RABSelectObject(props) {
+function RABSelectRow(props) {
 
   return (<Fragment>
     <Select
@@ -75,7 +76,7 @@ function RABSelectObject(props) {
 }
 
 function RABSelectField(props) {
-  const {mode, data, field_name, formdata, formValues, onSubmit, onFieldBlur,  onChange, autoFocus, object_type, field_model, value, style} = props
+  const {mode, data, field_name, formdata, formValues, onSubmit, onFieldBlur,  onChange, autoFocus, object_type, field_model, value, style, api_options} = props
   //data and field name specific the selected value for View mode
   // field_model specificy the select and dispaly fileds
   // formValues holds the controlled data
@@ -85,14 +86,14 @@ function RABSelectField(props) {
   const select_key_field = field_model?field_model.select_key_field:meta.keys(object_type).key_id;
   const select_display_field = field_model? field_model.select_display_field:meta.keys(object_type).pretty_key_id;
   let rab_component_model = rab_component_models.shell
-  rab_component_model.list.components.list_wrap = RABSelectObject
+  rab_component_model.list.components.list_wrap = RABSelectRow
   switch (mode) {
     case "text", "view":
       return field_display_value?field_display_value:" "
       break   
     case "edit":
     case "create":
-      return (<ACSListController object_type={object_type}  rab_component_model={rab_component_model} list_select_form_name={formValues_name} list_onSubmit={onSubmit} list_field_value={field_value} list_onChange={onChange} list_select_key_field={select_key_field} list_style={style} list_select_display_field={select_display_field} list_autoFocus={autoFocus} />)
+      return (<ACSListController object_type={object_type} api_options={api_options} rab_component_model={rab_component_model} list_select_form_name={formValues_name} list_onSubmit={onSubmit} list_field_value={field_value} list_onChange={onChange} list_select_key_field={select_key_field} list_style={style} list_select_display_field={select_display_field} list_autoFocus={autoFocus} />)
       break
     case "csv":
       return '"'+field_display_value+'""'
