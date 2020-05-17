@@ -88,6 +88,7 @@ function RenderACSField(props) {
             autoFocus={props.autoFocus}
             formValues={props.formValues}
             mode={mode}
+            onSubmit={props.onSubmit}
             onBlur={props.onFieldBlur}
             field_name={field_name}
             onChange={props.onChange}/>

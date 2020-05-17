@@ -53,7 +53,8 @@ function ACSField(input_props) {
       referenced_field_model.pretty_name = field_model.pretty_name // take name from original field
       referenced_field_model.formValues_name = input_props.field_name
       referenced_field_model.field_component = "RABSelectField"
-      referenced_field_model.filter_field = referenced_field_name
+      referenced_field_model.select_key_field = referenced_field_name
+      referenced_field_model.select_display_field = meta.keys(final_model_object_type).pretty_key_id 
       field_model = referenced_field_model
       final_field_name = meta.keys(final_model_object_type).pretty_key_id 
   }
