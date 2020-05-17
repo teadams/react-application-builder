@@ -87,6 +87,7 @@ function RABSelectField(props) {
   const select_display_field = field_model? field_model.select_display_field:meta.keys(object_type).pretty_key_id;
   let rab_component_model = rab_component_models.shell
   rab_component_model.list.components.list_wrap = RABSelectRow
+  rab_component_model.list.names.header = "RABVoid"
   switch (mode) {
     case "text", "view":
       return field_display_value?field_display_value:" "
