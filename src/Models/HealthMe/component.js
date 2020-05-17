@@ -24,6 +24,7 @@ const rab_component_models = {
       names:{
         body_wrap:"Fragment",
         list_body_wrap:"Fragment",
+        list_container:"Fragment"
     },
       components:{},
       defaut_mode:"view",  
@@ -51,6 +52,7 @@ const rab_component_models = {
       names:{
         header_wrap:"Fragment",
         header:"Fragment",
+        list_container:"TableContainer",
         list_wrap:"Table",
         list_header_wrap:"Fragment",
         list_header:"Fragment",

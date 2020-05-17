@@ -3,6 +3,8 @@ import 'react-app-polyfill/stable';
 import * as u from '../Utils/utils.js';
 
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
+import {Tab, Tabs, Menu, MenuItem, MenuList,List,ListItem,ListItemAvatar,ListItemIcon,ListItemSecondaryAction,ListItemText,ListSubheader,Table,TableBody,TableCell,TableContainer,TableFooter,TableHead,TablePagination,TableRow,} from '@material-ui/core';
+
 // Responsible 
 // chosing model, component
 // storing state of forms?
@@ -15,6 +17,31 @@ import ACSRowController from './ACSRowController.js'
 import * as control from "../Utils/control.js"
 import rab_component_models from '../Models/HealthMe/component.js'
 
+function RABTableHeaders(props) {
+   const {object_type, data, rab_component_model, ...list_params} = props
+    let {field_list} = props
+   const field_models =  useGetModel("fields")
+   if (!field_models) {return null}
+   const field_model = field_models[object_type]
+
+  // XX 3 places
+   if (!props.field_list) {
+       if (object_type) {
+         field_list = Object.keys(field_model)
+       } else {
+         field_list = Object.keys(data)
+       }
+   }
+   const fields_to_splice = ["creation_user", "creation_date", "last_updated_date", "core_subsite", "full_name", "thumbnail"]
+   fields_to_splice.forEach(field => {
+     if (field_list.indexOf(field)>0) {
+       field_list.splice(field_list.indexOf(field),1)
+     }
+   })
+  return (field_list.map(field=>{
+        return(<TableCell>{field_model[field].pretty_name}</TableCell>)
+    }))
+}
 // Documentation - see comments in ACSRowController
 function ACSListController(input_props) {
   // do not merge expensive, known unnecessary things
@@ -35,7 +62,9 @@ function ACSListController(input_props) {
   // same effect so it's not "really" a a bug
   let list_component_model = rab_component_models.list
   list_component_model.list.components.list = RABList
-   
+  list_component_model.list.components.list_header = RABTableHeaders
+  list_component_model.list.names.list_header_wrap = "TableHead" 
+
   const rab_component_model = control.getFinalModel("list", {...merging_props}, object_model, rab_component_models.list )
   const list_model = rab_component_model.list
   const list_components = list_model.components

@@ -7,31 +7,36 @@ import * as u from '../Utils/utils.js';
 import { withStyles } from '@material-ui/core/styles';
 import ACSRowController from './ACSRowController.js'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
-import { FormControl, FormLabel, FormGroup, FormControlLabel, Chseckbox, Typography, Chip, Grid, MenuItem, TextField
-, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableBody, Table } from '@material-ui/core';
+import { FormControl, FormLabel, FormGroup, FormControlLabel, Chseckbox, Typography, Chip, Grid, MenuItem, TextField, TableContainer, TableHead, TableCell, TableRow, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableBody, Table } from '@material-ui/core';
 
 function RenderACSList(props) {
 
   const {data,rab_component_model} = props
   const {...params} = props
-  const {header_wrap:HeaderWrap, header:Header, list_wrap:ListWrap, list_header_wrap:ListHeaderWrap, list_header:ListHeader, body_wrap:BodyWrap, list:RABList, footer_wrap:FooterWrap, footer:Footer } = rab_component_model.list.components 
+  const {header_wrap:HeaderWrap, header:Header, list_wrap:ListWrap, list_header_wrap:ListHeaderWrap, list_header:ListHeader, body_wrap:BodyWrap, list:RABList, footer_wrap:FooterWrap, footer:Footer,
+  list_container:ListContainer} = rab_component_model.list.components 
 
     if (data) {
 
       return ( 
         <Fragment>
+
           <HeaderWrap {...params}>
             <Header {...params}/>
           </HeaderWrap>
-          <ListWrap {...params} >
-            <ListHeaderWrap {...params}>
-              <ListHeader {...params}/>
-            </ListHeaderWrap> 
-            <BodyWrap {...params}>
-                <RABList {...params}/>
-            </BodyWrap>
-          </ListWrap>
-        </Fragment>)
+
+          <ListContainer component={Paper} {...params}>
+            <ListWrap size="small" {...params} >
+              <ListHeaderWrap {...params}>
+                <ListHeader {...params}/>
+              </ListHeaderWrap> 
+              <BodyWrap {...params}>
+                  <RABList {...params}/>
+              </BodyWrap>
+             </ListWrap>
+          </ListContainer>
+        </Fragment>
+)
     } else {
         return <div/>
     }
