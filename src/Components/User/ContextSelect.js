@@ -4,6 +4,7 @@ import 'react-app-polyfill/stable';
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import AuthContext from './AuthContext';
 import {SelectObject} from '..//FormsAndViews';
+import RABSelectField from '../../Functional/Fields/RABSelectField.js'
 
 import * as meta from '../../Utils/meta.js';
 
@@ -42,14 +43,14 @@ function ContextSelect () {
 
     if (context.user.id  ) {        
           return (
-            <SelectObject object_type = "core_subsite"
+            <RABSelectField object_type = "core_subsite"
+              mode="edit" form="true"
               value = {context.context_id}
               style = {context_style}
               onChange={handleContextChange}
               noLabel= {true}
               user_id = {user.id}
             //  parent_field  = "parent_subsite"
-              open="true"
              />
           );
       }  else {

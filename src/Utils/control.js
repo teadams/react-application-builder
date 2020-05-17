@@ -78,6 +78,7 @@ function buildRABModel(params) {
                      autoFocus:params.list_autoFocus,
                      onSubmit:params.list_onSubmit,
                      onChange:params.list_onChange,
+                     style:params.list_style,
                      select_form_name:params.list_select_form_name,
                      select_key_field:params.list_select_key_field,
                      select_display_field:params.list_select_display_field}},
