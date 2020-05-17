@@ -119,15 +119,13 @@ function ACSRowController(input_props) {
     field_list.splice(field_list.indexOf("id"),1)      
   }
 
-// XX work off meta
-  field_list.splice(field_list.indexOf("creation_user"),1)      
-  field_list.splice(field_list.indexOf("creation_date"),1)      
-  field_list.splice(field_list.indexOf("last_updated_date"),1)      
-  field_list.splice(field_list.indexOf("core_subsite"),1) 
-    // XX references
-//  field_list.splice(field_list.indexOf("country"),1)      
-  field_list.splice(field_list.indexOf("state"),1)      
-  field_list.splice(field_list.indexOf("thumbnail"),1)      
+  // XX work off meta
+  const fields_to_splice = ["creation_user", "creation_date", "last_updated_date", "core_subsite", "full_name", "thumbnail"]
+  fields_to_splice.forEach(field => {
+    if (field_list.indexOf(field)>0) {
+      field_list.splice(field_list.indexOf(field),1)
+    }
+  })
 
   // XX will be expanded to deal with col_spans
   if (num_columns) {
