@@ -170,7 +170,7 @@ const rab_component_models = {
           field:"Fragment"
       },
         components:{},
-        default_mode:"click_to_edit",
+        default_mode:"view",
         props:{}
       }
     },

@@ -78,7 +78,6 @@ function RenderACSField(props) {
   const {field_wrap:FieldWrap, field:Field=RABTextField} = rab_component_model.field.components 
 
   if (data) {
-
   return (
       <FieldWrap 
         onClick={handleFieldClick}  onMouseOver={handleMouseOver} >
