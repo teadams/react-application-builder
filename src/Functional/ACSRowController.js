@@ -120,7 +120,7 @@ function ACSRowController(input_props) {
   }
 
   // XX work off meta
-  const fields_to_splice = ["creation_user", "creation_date", "last_updated_date", "core_subsite", "full_name", "thumbnail"]
+  const fields_to_splice = ["creation_user", "creation_date", "state", "last_updated_date", "core_subsite", "full_name", "thumbnail"]
   fields_to_splice.forEach(field => {
     if (field_list.indexOf(field)>0) {
       field_list.splice(field_list.indexOf(field),1)
