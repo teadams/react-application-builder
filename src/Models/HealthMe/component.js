@@ -116,7 +116,9 @@ const rab_component_models = {
       components:{
       },
       default_mode:"click_to_edit",
-      props:{}
+      props:{
+        field_display:"name_value_wrapped"
+      }
     }
   },
   field: {

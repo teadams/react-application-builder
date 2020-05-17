@@ -7,6 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useEffect} from 'react';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell } from '@material-ui/core';
+import useGetModel from '../Hooks/useGetModel';
 
 // <TextField    
 //   InputLabelProps={{shrink:true}}
@@ -57,8 +58,12 @@ function form_wrap(props) {
 }
 
 function RenderACSField(props) {
+  const field_models =  useGetModel("fields")
+  if (!field_models) {return null}
   const {...params} = props
-  const {data, rab_component_model, field_name, mode="view", form="true"} = props
+  const {data, object_type, field_display="field", rab_component_model, field_name, mode="view", form="true"} = props
+  const field_model = field_models[object_type]
+
   // Responsible for the layouts
 // Storing the state?
 // Deciding the mode?
@@ -76,15 +81,38 @@ function RenderACSField(props) {
 
   const FormWrap = form_wrap
   const {field_wrap:FieldWrap, field:Field=RABTextField} = rab_component_model.field.components 
+  if (!data) {return null}
 
-  if (data) {
-  return (
+  switch (field_display) {
+    case "name_value_wrapped":
+    return (
+    <Fragment>
+      <FieldWrap align="right"><b>{field_model[field_name].pretty_name}:</b></FieldWrap>
+      <FieldWrap 
+        onClick={handleFieldClick}  onMouseOver={handleMouseOver} >
+       <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
+        <Field {...params}
+          data={data}
+        autoFocus={props.autoFocus}
+          formValues={props.formValues}
+          mode={mode}
+          onSubmit={props.onSubmit}
+          onBlur={props.onFieldBlur}
+          field_name={field_name}
+          onChange={props.onChange}/>
+      </FormWrap>
+      </FieldWrap>
+    </Fragment>
+    )
+    break;
+  default:
+      return (
       <FieldWrap 
         onClick={handleFieldClick}  onMouseOver={handleMouseOver} >
          <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
           <Field {...params}
             data={data}
-            autoFocus={props.autoFocus}
+          autoFocus={props.autoFocus}
             formValues={props.formValues}
             mode={mode}
             onSubmit={props.onSubmit}
@@ -92,12 +120,8 @@ function RenderACSField(props) {
             field_name={field_name}
             onChange={props.onChange}/>
         </FormWrap>
-      </FieldWrap>
-   )
-
-  } else {
-      return null
-  }
+      </FieldWrap>)
+ }
 }
 
 export default RenderACSField;
