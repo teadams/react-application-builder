@@ -110,6 +110,7 @@ const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormCha
 function handleOnFieldBlur() {
   setMode("view")
 }
+
 return (
     <RenderACSField {...field_component_model.props}  data={data} 
     formValues = {formValues}
@@ -119,7 +120,7 @@ return (
     autoFocus ={(field_name === lastTouched || form)?true:false}
     onMouseOver={(form&&(mode==="view"&&mouseover_to_edit))?toggleEditMode:""}
     onFieldClick ={(form&&(mode==="view"&&click_to_edit))?toggleEditMode:""}
-    onFieldBlur = {(form&&(mode==="edit"&&click_to_edit))?handleOnFieldBlur:""}
+    onFieldBlur = {handleOnFieldBlur} 
     object_type={object_type} field_name={field_name} field_model={field_model}
     mode={mode}
     form={form}

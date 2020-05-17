@@ -33,6 +33,7 @@ function RABTextField(props) {
           <TextField 
             autoFocus={autoFocus}
             name={field_name} 
+            onBlur={props.onFieldBlur}
             value={formValues[props.field_name]}
             onChange={onChange}/>
         )
@@ -80,13 +81,14 @@ function RenderACSField(props) {
 
   return (
       <FieldWrap 
-        onClick={handleFieldClick}  onMouseOver={handleMouseOver} onBlur={props.onFieldBlur}>
+        onClick={handleFieldClick}  onMouseOver={handleMouseOver} >
          <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
           <Field {...params}
             data={data}
             autoFocus={props.autoFocus}
             formValues={props.formValues}
             mode={mode}
+            onBlur={props.onFieldBlur}
             field_name={field_name}
             onChange={props.onChange}/>
         </FormWrap>
