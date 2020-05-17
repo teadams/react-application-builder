@@ -105,6 +105,48 @@ function RenderACSField(props) {
     </Fragment>
     )
     break;
+    case "name_above_value":
+    return (
+    <Fragment>
+      <FieldWrap 
+        onClick={handleFieldClick}  onMouseOver={handleMouseOver} >
+        <b>{field_model[field_name].pretty_name}:</b><br/>&nbsp;&nbsp;
+       <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
+        <Field {...params}
+          data={data}
+          autoFocus={props.autoFocus}
+          formValues={props.formValues}
+          mode={mode}
+          onSubmit={props.onSubmit}
+          onBlur={props.onFieldBlur}
+          field_name={field_name}
+          onChange={props.onChange}/>
+      </FormWrap>
+      </FieldWrap>
+    </Fragment>
+    )
+    break;
+    case "name_value":
+    return (
+    <Fragment>
+      <FieldWrap 
+        onClick={handleFieldClick}  onMouseOver={handleMouseOver} >
+        <b>{field_model[field_name].pretty_name}:</b>&nbsp;&nbsp;
+       <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
+        <Field {...params}
+          data={data}
+          autoFocus={props.autoFocus}
+          formValues={props.formValues}
+          mode={mode}
+          onSubmit={props.onSubmit}
+          onBlur={props.onFieldBlur}
+          field_name={field_name}
+          onChange={props.onChange}/>
+      </FormWrap>
+      </FieldWrap>
+    </Fragment>
+    )
+    break;
   default:
       return (
       <FieldWrap 

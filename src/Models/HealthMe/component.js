@@ -124,6 +124,8 @@ const rab_component_models = {
       default_mode:"click_to_edit",
       props:{
         field_display:"name_value_wrapped"
+        //field_display:"name_above_value"
+        //field_display:"name_value"
       }
     }
   },

@@ -100,6 +100,7 @@ function buildRABModel(params) {
                 onFieldClick:params.onFieldClick,
                 click_to_edit:params.field_click_to_edit,
                 mouseover_to_edit:params.field_mouseover_to_edit,
+                field_display:params.field_display,
                 mode:params.field_mode,
                 form:params.field_form}}
       })
