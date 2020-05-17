@@ -8,11 +8,13 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 import ACSListController from '../ACSListController.js'
 import rab_component_models from '../../Models/HealthMe/component.js'
 import * as meta from '../../Utils/meta.js';
+import useGetModel from '../../Hooks/useGetModel';
 
 
-function RABObjectPrettyName(props) {
-  const {data, object_type} = props
-  const pretty_field_name = meta.keys(object_type).pretty_key_id
-  return (<Fragment><br/><Typography variant="h5">{data[pretty_field_name]}</Typography></Fragment>)
+function RABObjectTypePrettyPlural(props) {
+  const {object_type} = props
+  const object_model = useGetModel("object_types")
+  if (!object_model) {return null}
+  return (<Fragment><br/><Typography variant="h5">{object_model[object_type].pretty_plural}</Typography></Fragment>)
 }
-export default RABObjectPrettyName
+export default RABObjectTypePrettyPlural

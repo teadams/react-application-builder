@@ -51,7 +51,7 @@ const rab_component_models = {
     list: {
       names:{
         header_wrap:"Fragment",
-        header:"Fragment",
+        header:"RABObjectTypePrettyPlural",
         list_container:"TableContainer",
         list_wrap:"Table",
         list_header_wrap:"Fragment",
