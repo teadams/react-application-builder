@@ -45,7 +45,7 @@ function DrillDown(props)  {
        onClick={handleSelect}/>
     </Grid>
     <Grid  sm={9} item>
-      <ObjectView  num_columns={1} {...params} {...filter_params} api_options={api_options} object_type={object_type} menu_name={target_menu_name}/>
+      <ObjectView  {...params} {...filter_params} api_options={api_options} object_type={object_type} menu_name={target_menu_name}/>
     </Grid>
   </Grid>
 

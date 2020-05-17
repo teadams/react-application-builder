@@ -2,9 +2,11 @@
 const rab_menu_model = {
   menus:{
     // thing about implications with merging with lodash.  Perhaps we want this to be a comma separated value
-    hamburger: ["Olist", "Menu","DrillSubsite"],
-    app_menu: ["Users", "Text", "EOlist", "COlist", "HMenu", "DrillSubsite", "DrillSubsiteSale", "Sales", "RoleGroup", "RoleNoGroup"]
+    hamburger: ["Olist", "DrillSubsite"],
+    app_menu: ["Text", "Users", "RoleNoGroup", "RoleGroup", "DrillSubsite", "DrillSubsiteSale", "Sales" ]
   },
+  // Think of this like a "component imputs" library
+  // dynamic overrides of model
   menu_items:{
     "Text": {label: "Text", menu_component_name:"Text", rab_component_model_name:"test"},
     "Olist": {label: "OtList", menu_component_name:"ObjectView", test_case:"View one object", object_type:"core_user", layout:"list", id:1},
@@ -25,7 +27,7 @@ const rab_menu_model = {
     },        
     "RoleGroup": { label: "Role Group", menu_component_name:"DrillDown", test_case:"DrillDown", object_type:"core_role", api_options:{grouping_field:"privilege"}
     },
-    "RoleNoGroup": {label: "RoleNoGroup", menu_component_name:"DrillDown", test_case:"DrillDown", object_type:"core_role"
+    "RoleNoGroup": {label: "RoleNoGroup", menu_component_name:"DrillDown",  test_case:"DrillDown", object_type:"core_role"
     }
   }
 }

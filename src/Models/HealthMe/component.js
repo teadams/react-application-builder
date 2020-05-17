@@ -105,7 +105,8 @@ const rab_component_models = {
       components:{},
       default_mode:"view",
       props:{
-        align:"left"
+        align:"left",
+        num_columns:2,
       }
     },
     field:{

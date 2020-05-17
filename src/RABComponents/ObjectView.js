@@ -22,8 +22,9 @@ function ObjectView(props)  {
   const menu_model =  useGetModel("menu")
   const field_models = useGetModel("fields")
   if (!menu_model || !field_models) {return null}
+
   const model = meta.getByPrecedence({filter_field:"id"}, props, menu_model.menu_items[props.menu_name])
-  const {object_type, filter_field, num_columns=3, form_open=props.row_form, ...params} = model
+  const {object_type, filter_field, num_columns, form_open=props.row_form, ...params} = model
   let api_options = {}
   api_options.filter_id = props[filter_field]
   api_options.filter_field = filter_field
@@ -33,7 +34,6 @@ function ObjectView(props)  {
       props.onClose()
     }
   }
-
   return ( <ACSRowController {...params} form_open={form_open} onClose={handleFormClose} object_type={object_type}  api_options={api_options} num_columns={num_columns}  />
           )
 }
