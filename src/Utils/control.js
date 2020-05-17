@@ -36,6 +36,15 @@ export function getFinalModel(level, input_props={}, metadata_model={}, componen
   // a little unconventional.  it would allow us encapsulate
   // the logic to get the proper model for things like refererence
   // field in this level below.
+
+  // To think about... if it is a list, definitely want the
+  // row and field from the list to override the row/field default.
+  // so I think we only want to apply the level model if it is the 
+  // first one (when we move the timing to only do the current level).
+  // Right now, it works because we calculate the highest level and then
+  // it get threaded through input_props. The input props from the Menu 
+  // and model_props are the same way.  We want them all to override
+  // models from a lower level
   let final_model = _.merge({},
                             rab_component_models.shell,
                             determineModelComponents(level,
