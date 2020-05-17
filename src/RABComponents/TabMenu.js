@@ -10,21 +10,26 @@ import ACSRowController from '../Functional/ACSRowController.js'
 import ACSListController from '../Functional/ACSListController.js'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import {  BrowserRouter as Router,  Switch,  Route,  Link,  Redirect, useHistory } from "react-router-dom";
-
+import * as auth from '../Utils/auth.js'
 import {AppBar,Toolbar, Typography, IconButton, Button, Paper, Tabs, Tab, Drawer, Divider,List, Menu, MenuItem, ListItem, ListItemText} from '@material-ui/core';
 import rab_component_models from '../Models/HealthMe/component.js'
 import * as control from '../Utils/control.js'
+import AuthContext from '../Components/User/AuthContext';
 
 function TabMenu(props)  {
   const {selected_menu, menu_type, orientation, ...params} = props
   const history = useHistory({});
   const value = selected_menu
-  let menu_model =  useGetModel("menu")
+  const context = useContext(AuthContext)
+  // XX This will move to the session cookie
+   
+  const menu_model =  useGetModel("menu")
   if (!menu_model) {return null}
-
   const field_list=
       menu_model.menus[menu_type]?menu_model.menus[menu_type]:
                                   Object.keys(menu_model.menu_items)
+
+//  const selected_menu_model = menu_model.menu_items[selected_menu]
 
   const TabsComponent = ((props) => {
     const {data, field_list} = props
@@ -51,7 +56,13 @@ function TabMenu(props)  {
       {field_list.map(key => {
         const menu_item=data[key]
         if (!menu_item) { alert ("no menu for " +key)}
-        return (<Tab value={key} label={menu_item.label}/>)
+        const auth_scope = menu_item.auth_scope
+        const auth_priv = menu_item.auth_priv
+        const authorized = auth.authorized({context_id:context.context_id, user:context.user}, auth_scope, auth_priv)
+    //    u.a(authorized,menu_item.label)
+        if (authorized) {
+          return (<Tab value={key} label={menu_item.label}/>)
+        }
       })}
     </Tabs>)
   })

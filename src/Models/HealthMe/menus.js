@@ -3,7 +3,7 @@ const rab_menu_model = {
   menus:{
     // thing about implications with merging with lodash.  Perhaps we want this to be a comma separated value
     hamburger: ["Olist", "DrillSubsite"],
-    app_menu: ["Text", "Users", "RoleNoGroup", "RoleGroup", "DrillSubsite", "DrillSubsiteSale", "Sales" ]
+    app_menu: ["Text", "Users", "RoleNoGroup",  "DrillSubsite", "DrillSubsiteSale", "Sales" ]
   },
   // Think of this like a "component imputs" library
   // dynamic overrides of model
@@ -17,17 +17,17 @@ const rab_menu_model = {
     },
     "HMenu": {label: "Menu", menu_component_name:"NavMenu", test_case:"Menu of items", object_type:"core_user"
     },
-    "DrillSubsiteSale": {label: "DrillSubsiteSale", menu_component_name:"DrillDown", test_case:"DrillDown", object_type:"core_subsite",  api_options:{parent_field:"parent_subsite"}, target_menu_name:"DrillSale", target_filter_field:"core_subsite"}, 
-    "DrillSubsite": {label: "DrillSubsite", menu_component_name:"DrillDown", test_case:"DrillDown", object_type:"core_subsite",  api_options:{parent_field:"parent_subsite"}
+    "DrillSubsiteSale": {label: "DrillSubsiteSale", menu_component_name:"DrillDown", test_case:"DrillDown", object_type:"core_subsite",  api_options:{parent_field:"parent_subsite"}, target_menu_name:"DrillSale", target_filter_field:"core_subsite", auth_scope:"site", auth_priv:"member"}, 
+    "DrillSubsite": {label: "DrillSubsite", menu_component_name:"DrillDown", test_case:"DrillDown", object_type:"core_subsite",  api_options:{parent_field:"parent_subsite"}, auth_scope:"site", auth_priv:"member"
     },
-    "DrillSale": {label: "DrillSales", menu_component_name:"ObjectTypeView", test_case:"Context Viewing", object_type:"test_sale", filter_field:"core_subsite"
+    "DrillSale": {label: "DrillSales", menu_component_name:"ObjectTypeView", test_case:"Context Viewing", object_type:"test_sale", filter_field:"core_subsite", auth_scope:"site", auth_priv:"admin"
     },
     "Users": {label: "AllUsers", menu_component_name:"ObjectTypeView", test_case:"View an Object", object_type:"core_user", field_mouseover_to_edit:false, click_to_edit:true},        
     "Sales": {label: "Sales", menu_component_name:"ObjectTypeView", test_case:"Context Viewing", object_type:"test_sale",  api_options:{num_rows:1, expand_hierarchy:"true"}
     },        
     "RoleGroup": { label: "Role Group", menu_component_name:"DrillDown", test_case:"DrillDown", object_type:"core_role", api_options:{grouping_field:"privilege"}
     },
-    "RoleNoGroup": {label: "RoleNoGroup", menu_component_name:"DrillDown",  test_case:"DrillDown", object_type:"core_role"
+    "RoleNoGroup": {label: "Roles", menu_component_name:"DrillDown",  test_case:"DrillDown", object_type:"core_role"
     }
   }
 }
