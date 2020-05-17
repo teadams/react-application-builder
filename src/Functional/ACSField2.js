@@ -73,14 +73,15 @@ function ACSField(input_props) {
   const [mode, setMode] = useState(initial_mode);
 
   let [ready, object_type, id, field_name, api_options, data] = useGetObject(props_object_type, props_id,props_field_name, props_api_options, props_data); 
-  // references data
-  if (final_data_target) {
-      data = data[final_data_target]
-  }
   // hook rules. always has to run
   // care with inputs.  Form is based of the original object_type
   // and the original field_name (not the change for the references)
 const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(input_object_type, input_props.field_name, data, handleSubmit, form?"edit":"view");
+
+// references data
+if (final_data_target) {
+    data = data[final_data_target]
+}
 
 
   if (!data || (object_type && !field_model)) return null

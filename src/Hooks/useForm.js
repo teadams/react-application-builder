@@ -19,6 +19,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
     }
   // XX replace from model
   const id_field = meta.keys(object_type).key_id
+
   var field_list = [id_field, field_name]
 
   if (!field_name) {
@@ -47,7 +48,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
         if (references) {
             // XX fix to have id work off object meta data 
             const references_field = f_model.references_field?f_model.references_field:"id"        
-            defaults[field] = data[references_field]
+            defaults[field] = data[field_name][references_field]
         } else {
            defaults[field] = data[field]
         }
@@ -71,7 +72,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
        handleSubmit(event, "no_change")
        return
     } 
-u.a("submit")
+
     if (event) {
       event.preventDefault();
     }
