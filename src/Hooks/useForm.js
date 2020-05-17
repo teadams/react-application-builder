@@ -48,7 +48,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
         if (references) {
             // XX fix to have id work off object meta data 
             const references_field = f_model.references_field?f_model.references_field:"id"        
-            defaults[field] = data[field_name][references_field]
+            defaults[field] = data[field_name]?data[field_name][references_field]:""
         } else {
            defaults[field] = data[field]
         }
