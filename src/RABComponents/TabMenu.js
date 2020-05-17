@@ -59,7 +59,6 @@ function TabMenu(props)  {
         const auth_scope = menu_item.auth_scope
         const auth_priv = menu_item.auth_priv
         const authorized = auth.authorized({context_id:context.context_id, user:context.user}, auth_scope, auth_priv)
-    //    u.a(authorized,menu_item.label)
         if (authorized) {
           return (<Tab value={key} label={menu_item.label}/>)
         }

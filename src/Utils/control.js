@@ -9,6 +9,7 @@ import DrillDown from "../RABComponents/DrillDown.js"
 import FieldView from "../RABComponents/FieldView.js"
 import TreeMenu from "../RABComponents/TreeMenu.js"
 import Text from "../RABComponents/Text.js"
+import Message from "../RABComponents/Message.js"
 import ObjectTypeView from "../RABComponents/ObjectTypeView.js"
 import Debug from '../Debug.js'
 import ACSField from '../Functional/ACSField2.js'
@@ -112,7 +113,8 @@ function buildRABModel(params) {
                 mouseover_to_edit:params.field_mouseover_to_edit,
                 field_display:params.field_display,
                 mode:params.field_mode,
-                form:params.field_form}}
+                form:params.field_form,
+                message:params.field_message}}
       })
 }
 
@@ -149,6 +151,7 @@ function componentPicker(name) {
   switch (name) {
     case "ObjectView": return ObjectView
     case "Text": return Text;
+    case "Message": return Message;
     case "NavMenu": return NavMenu;
     case "DrillDown": return DrillDown;
     case "FieldView": return FieldView;

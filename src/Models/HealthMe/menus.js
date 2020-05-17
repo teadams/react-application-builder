@@ -3,12 +3,18 @@ const rab_menu_model = {
   menus:{
     // thing about implications with merging with lodash.  Perhaps we want this to be a comma separated value
     hamburger: ["Olist", "DrillSubsite"],
-    app_menu: ["Text", "Users", "RoleNoGroup",  "DrillSubsite", "DrillSubsiteSale", "Sales" ]
+    app_menu: ["Text", "Users", "RoleNoGroup",  "DrillSubsite",  "Sales" ]
   },
   // Think of this like a "component imputs" library
   // dynamic overrides of model
   menu_items:{
-    "Text": {label: "Text", menu_component_name:"Text", rab_component_model_name:"test"},
+    "Text": {label: "Welcome", title:"The beginning", text:"Hello World", menu_component_name:"Text"}, //title_variant:"h5"
+
+    "Users": {label: "AllUsers", menu_component_name:"ObjectTypeView", test_case:"View an Object", object_type:"core_user", field_mouseover_to_edit:false, click_to_edit:true},        
+
+    "RoleNoGroup": {label: "Roles", menu_component_name:"DrillDown",  test_case:"DrillDown", object_type:"core_role", 
+    },
+
     "Olist": {label: "OtList", menu_component_name:"ObjectView", test_case:"View one object", object_type:"core_user", layout:"list", id:1},
     "Menu": { label: "Menu", menu_component_name:"NavMenu", test_case:"Menu of items", object_type:"core_user"},
     "COlist":{label: "CreateF", menu_component_name:"ObjectView", test_case:"View one object", object_type:"core_user",   row_mode:"create", row_form:true, 
@@ -22,13 +28,11 @@ const rab_menu_model = {
     },
     "DrillSale": {label: "DrillSales", menu_component_name:"ObjectTypeView", test_case:"Context Viewing", object_type:"test_sale", filter_field:"core_subsite", auth_scope:"site", auth_priv:"admin"
     },
-    "Users": {label: "AllUsers", menu_component_name:"ObjectTypeView", test_case:"View an Object", object_type:"core_user", field_mouseover_to_edit:false, click_to_edit:true},        
-    "Sales": {label: "Sales", menu_component_name:"ObjectTypeView", test_case:"Context Viewing", object_type:"test_sale",  api_options:{num_rows:1, expand_hierarchy:"true"}
+    "Sales": {label: "Sales", menu_component_name:"ObjectTypeView", test_case:"Context Viewing", object_type:"test_sale", auth_scope:"site", auth_priv:"admin", api_options:{ expand_hierarchy:"true"}
     },        
     "RoleGroup": { label: "Role Group", menu_component_name:"DrillDown", test_case:"DrillDown", object_type:"core_role", api_options:{grouping_field:"privilege"}
     },
-    "RoleNoGroup": {label: "Roles", menu_component_name:"DrillDown",  test_case:"DrillDown", object_type:"core_role"
-    }
+
   }
 }
 
