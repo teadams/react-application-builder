@@ -89,7 +89,6 @@ function RABSelectField(props) {
 
   const field_value = formValues?formValues[form_field_name]:value
   const field_display_value = data?data[field_name]:display_value
-u.a(form_field_name, field_value)
   // precedence: props, field_model, keys
   let {select_key_field = field_model.select_key_field, select_display_field = field_model.select_display_field} = props 
   
