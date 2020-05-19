@@ -9,7 +9,9 @@ import DrillDown from "../RABComponents/DrillDown.js"
 import FieldView from "../RABComponents/FieldView.js"
 import TreeMenu from "../RABComponents/TreeMenu.js"
 //import Text from "../Functional/Text/Text.js"
-import Text from '../Functional/Text/Text.js'
+import RABHeaderAndBodyText from '../Functional/Text/RABHeaderAndBodyText.js'
+import RABText from '../Functional/Text/RABText.js'
+
 import Message from "../RABComponents/Message.js"
 import ObjectTypeView from "../RABComponents/ObjectTypeView.js"
 import Debug from '../Debug.js'
@@ -151,7 +153,8 @@ function componentPicker(name) {
   if (!name) {alert (name);return Fragment}
   switch (name) {
     case "ObjectView": return ObjectView
-    case "Text": return Text;
+    case "RABHeaderAndBodyText": return RABHeaderAndBodyText;
+    case "RABText": return RABText;
     case "Message": return Message;
     case "NavMenu": return NavMenu;
     case "DrillDown": return DrillDown;

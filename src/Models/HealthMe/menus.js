@@ -8,7 +8,7 @@ const rab_menu_model = {
   // Think of this like a "component imputs" library
   // dynamic overrides of model
   menu_items:{
-    "Text": {label: "Welcome", title:"The beginning", text:"Hello World", menu_component_name:"Text"}, //title_variant:"h5"
+    "Text": {label: "Welcome", header_text:"The beginning", body_text:"Hello World", menu_component_name:"RABHeaderAndBodyText"}, //title_variant:"h5"
 
     "Users": {label: "AllUsers", menu_component_name:"ObjectTypeView", test_case:"View an Object", object_type:"core_user", field_mouseover_to_edit:false, click_to_edit:true},        
 
