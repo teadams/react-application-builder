@@ -21,7 +21,7 @@ function Body(props) {
   let BodyComponent = control.componentByName(selected_menu_model.menu_component_name)
 
   const { ...rest} = selected_menu_model
-  return ( < BodyComponent {...rest}/>)  
+  return (<div style={{margin:10}}> < BodyComponent {...rest}/></div>)  
 }
 
 export default Body
