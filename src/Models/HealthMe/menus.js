@@ -3,7 +3,7 @@ const rab_menu_model = {
   menus:{
     // thing about implications with merging with lodash.  Perhaps we want this to be a comma separated value
     hamburger: ["Olist", "DrillSubsite"],
-    app_menu: ["Text", "Users", "RoleNoGroup",  "DrillSubsite",  "Sales" ]
+    app_menu: ["Text","EOlist","COlist", "Users", "RoleNoGroup",  "DrillSubsite",  "Sales" ]
   },
   // Think of this like a "component imputs" library
   // dynamic overrides of model

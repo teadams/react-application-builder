@@ -28,6 +28,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
     //  show, be part of the form values (hidden)
   }
 
+// XX off tags
   const fields_to_splice = ["creation_user", "creation_date", "state", "last_updated_date", "core_subsite", "full_name", "thumbnail"]
   fields_to_splice.forEach(field => {
     if (field_list.indexOf(field)>0) {
@@ -38,30 +39,34 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
 
   var defaults = {}
   const field_model = field_models[object_type]
-  if (data && mode === "edit") {
-    field_list.forEach(field =>{
-        const f_model = field_model[field]
-        const references = f_model.references
+//  if (data && mode === "edit") {
+  field_list.forEach(field =>{
+    const f_model = field_model[field]
+    const references = f_model.references
         // Naming of the formValues key is after the
         // original field_model. Data is for the references
         // model
-        if (references) {
-            // XX fix to have id work off object meta data 
-            const references_field = f_model.references_field?f_model.references_field:"id"        
-            defaults[field] = data[field_name]?data[field_name][references_field]:""
-        } else {
-           defaults[field] = data[field]
-        }
-        
-    })
-  } else if (mode === "create") {
-    field_list.forEach(field =>{
+    //XX  fix to get the value or default value
+    if (references) {
+      // XX fix to have id work off object meta data 
+      const references_field = f_model.references_field?f_model.references_field:"id";
+      defaults[field]={} 
+      if (data && mode === "edit") {
+          defaults[field][references_field]= data[field_name]?data[field_name][references_field]:""
+      } else if (mode === "create") {
+        defaults[field][references_field] = ""
+      }
+    } else {
+      if (data && mode === "edit") {
+        defaults[field] = data[field]
+      } else if (mode === "create") {
         if (field != id_field) {
           // XX rules/ use model to figure out the defaults
-          defaults[field] = field
+          defaults[field] = ""
         }
-    })
-  }
+      }
+    }        
+  })
 
   if (Object.keys(defaults).length > 0 && Object.keys(formValues).length === 0) {
       setFormValues(defaults)

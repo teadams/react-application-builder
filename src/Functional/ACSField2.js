@@ -87,6 +87,7 @@ if (final_data_target) {
   if (!data || (object_type && !field_model)) return null
   // if data is in a referenced field
 
+
   // XX ?? look at rest of props and see if there are any other API options... what layer to do this in
   function handleSubmit(event, result, form_values_object) {
       setMode("view")      
