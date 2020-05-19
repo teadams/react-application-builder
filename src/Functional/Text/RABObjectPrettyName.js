@@ -8,13 +8,12 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 import ACSListController from '../ACSListController.js'
 import rab_component_models from '../../Models/HealthMe/component.js'
 import * as meta from '../../Utils/meta.js';
-import RABComponentHeader from './RABComponentHeader.js';
-
+import RABText from './RABText.js';
 
 function RABObjectPrettyName(props) {
-  const {data, object_type, variant} = props
+  const {data, object_type, variant, header=true} = props
   const pretty_field_name = meta.keys(object_type).pretty_key_id
-  return (<RABComponentHeader text={data[pretty_field_name]} variant={variant}/>)
+  return (<RABText header={header} text={data[pretty_field_name]} variant={variant}/>)
 
 }
 export default RABObjectPrettyName
