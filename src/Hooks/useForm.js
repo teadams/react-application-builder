@@ -49,12 +49,11 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
     //XX  fix to get the value or default value
     if (references) {
       // XX fix to have id work off object meta data 
-      const references_field = f_model.references_field?f_model.references_field:"id";
-      defaults[field]={} 
+      const references_field = f_model.references_field?f_model.references_field:"id"; 
       if (data && mode === "edit") {
-          defaults[field][references_field]= data[field_name]?data[field_name][references_field]:""
+          defaults[field]= data[field]?data[field][references_field]:""
       } else if (mode === "create") {
-        defaults[field][references_field] = ""
+        defaults[field] = ""
       }
     } else {
       if (data && mode === "edit") {

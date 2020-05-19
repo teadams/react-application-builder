@@ -78,14 +78,14 @@ function ACSField(input_props) {
   // and the original field_name (not the change for the references)
 const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(input_object_type, input_props.field_name, data, handleSubmit, form?"edit":"view");
 
+if (!data || (object_type && !field_model)) return null
+
 // references data
-if (final_data_target) {
+// create form uses formValues as data, 
+// which is flat
+if (final_data_target && mode !="create") {
     data = data[final_data_target]
 }
-
-
-  if (!data || (object_type && !field_model)) return null
-  // if data is in a referenced field
 
 
   // XX ?? look at rest of props and see if there are any other API options... what layer to do this in
