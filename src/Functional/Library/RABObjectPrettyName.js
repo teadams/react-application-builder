@@ -12,8 +12,9 @@ import RABComponentHeader from './RABComponentHeader.js';
 
 
 function RABObjectPrettyName(props) {
-  const {data, object_type} = props
+  const {data, object_type, variant} = props
   const pretty_field_name = meta.keys(object_type).pretty_key_id
-  return (<RABComponentHeader text={pretty_field_name} variant="h5"/>)
+  return (<RABComponentHeader text={data[pretty_field_name]} variant={variant}/>)
+
 }
 export default RABObjectPrettyName

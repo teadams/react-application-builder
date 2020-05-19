@@ -7,11 +7,10 @@ import {  Typography } from '@material-ui/core';
 import useGetModel from '../../Hooks/useGetModel';
 import RABComponentHeader from './RABComponentHeader.js';
 
-
 function RABObjectTypePrettyPlural(props) {
-  const {object_type} = props
+  const {object_type, variant} = props
   const object_model = useGetModel("object_types")
   if (!object_model) {return null}
-  return (<RABComponentHeader text={object_model[object_type].pretty_plural} variant="h5"/>)
+  return (<RABComponentHeader text={object_model[object_type].pretty_plural} variant={variant}/>)
 }
 export default RABObjectTypePrettyPlural
