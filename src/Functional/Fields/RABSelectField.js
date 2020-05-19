@@ -58,8 +58,7 @@ function selectItems(data, select_key_field, select_display_field) {
     )
 }
 
-function RABSelectRow(props) {
-
+function RABSelectList(props) {
   return (<Fragment>
     <Select
       labelId="demo-simple-select-label"
@@ -97,9 +96,8 @@ function RABSelectField(props) {
 
   // XX - make a "select" in the library
   let rab_component_model = rab_component_models.shell
-  rab_component_model.list.components.list_wrap = RABSelectRow
+  rab_component_model.list.components.list_wrap = RABSelectList
   rab_component_model.list.names.header = "RABVoid"
-
   switch (mode) {
     case "text", "view":
       return field_display_value?field_display_value:" "
