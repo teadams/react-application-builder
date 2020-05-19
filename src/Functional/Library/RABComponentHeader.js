@@ -9,7 +9,6 @@ import ACSListController from '../ACSListController.js'
 import rab_component_models from '../../Models/HealthMe/component.js'
 import * as meta from '../../Utils/meta.js';
 
-
 function RABComponentHeader(props) {
   const {data, object_type} = props
   const pretty_field_name = meta.keys(object_type).pretty_key_id
