@@ -8,7 +8,8 @@ import NavMenu from "../RABComponents/NavMenu.js"
 import DrillDown from "../RABComponents/DrillDown.js"
 import FieldView from "../RABComponents/FieldView.js"
 import TreeMenu from "../RABComponents/TreeMenu.js"
-import Text from "../RABComponents/Text.js"
+//import Text from "../Functional/Text/Text.js"
+import Text from '../Functional/Text/Text.js'
 import Message from "../RABComponents/Message.js"
 import ObjectTypeView from "../RABComponents/ObjectTypeView.js"
 import Debug from '../Debug.js'
@@ -16,8 +17,8 @@ import ACSField from '../Functional/ACSField2.js'
 import ACSRowController from '../Functional/ACSRowController.js'
 import ACSListController from '../Functional/ACSListController.js'
 import RABSelectField from '../Functional/Fields/RABSelectField.js'
-import RABObjectPrettyName from '../Functional/Library/RABObjectPrettyName.js'
-import RABObjectTypePrettyPlural from '../Functional/Library/RABObjectTypePrettyPlural.js'
+import RABObjectPrettyName from '../Functional/Text/RABObjectPrettyName.js'
+import RABObjectTypePrettyPlural from '../Functional/Text/RABObjectTypePrettyPlural.js'
 import {Tab, Tabs, Menu, MenuItem, MenuList,List,ListItem,ListItemAvatar,ListItemIcon,ListItemSecondaryAction,ListItemText,ListSubheader,Table,TableBody,TableCell,TableContainer,TableFooter,TableHead,TablePagination,TableRow,} from '@material-ui/core';
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';

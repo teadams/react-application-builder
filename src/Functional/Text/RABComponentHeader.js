@@ -10,7 +10,7 @@ import rab_component_models from '../../Models/HealthMe/component.js'
 import * as meta from '../../Utils/meta.js';
 
 function RABComponentHeader(props) {
-  const {variant="h5", text} = props
-  return (<Fragment><br/><Typography variant={variant}>{text}</Typography></Fragment>)
+  const {variant="h5", text, style} = props
+  return (<Fragment><br/><Typography variant={variant} style={style}>{text}</Typography></Fragment>)
 }
 export default RABComponentHeader
