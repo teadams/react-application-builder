@@ -39,7 +39,7 @@ function RABTableHeaders(props) {
      }
    })
   return (field_list.map(field=>{
-        return(<TableCell>{field_model[field].pretty_name}</TableCell>)
+        return(<TableCell key={field+"header"}>{field_model[field].pretty_name}</TableCell>)
     }))
 }
 // Documentation - see comments in ACSRowController
