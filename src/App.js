@@ -28,7 +28,7 @@ function App(props) {
           <Grid container style={{width:'100%'}}>
             <Grid item sm={11}> 
               <DrawerMenu menu_type="hamburger" selected_menu={selected_menu} />
-              <Typography variant="headline" color="inherit" style={{display:'inline-block', marginTop:10, marginBottom:0, marginRight:100}}> {app_params.name} </Typography>  
+              <Typography variant="subtitle1" color="inherit" style={{display:'inline-block', marginTop:10, marginBottom:0, marginRight:100}}> {app_params.name} </Typography>  
               <ContextSelect />
             </Grid>
             <Grid item sm={1}>
