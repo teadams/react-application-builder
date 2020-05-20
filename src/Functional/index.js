@@ -13,13 +13,11 @@ import TreeItem from '@material-ui/lab/TreeItem';
 
 import AvatarUser from './AvatarUser.js'
 
-const ACSFieldMemo = React.memo(ACSField)
 
 
 const functional_components = {
         Debug:Debug,
         ACSField:ACSField,
-        ACSFieldMemo:ACSFieldMemo,
         ACSRowController:ACSRowController,
         ACSListController:ACSListController,
         RenderACSField:RenderACSField,
