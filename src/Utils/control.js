@@ -11,13 +11,13 @@ import TreeMenu from "../RABComponents/TreeMenu.js"
 //import Text from "../Functional/Text/Text.js"
 import RABHeaderAndBodyText from '../Functional/Text/RABHeaderAndBodyText.js'
 import RABText from '../Functional/Text/RABText.js'
-
 import Message from "../RABComponents/Message.js"
 import ObjectTypeView from "../RABComponents/ObjectTypeView.js"
 import Debug from '../Debug.js'
 import ACSField from '../Functional/ACSField2.js'
 import ACSRowController from '../Functional/ACSRowController.js'
 import ACSListController from '../Functional/ACSListController.js'
+import RABTextField from '../Functional/Fields/RABTextField.js'
 import RABSelectField from '../Functional/Fields/RABSelectField.js'
 import RABObjectPrettyName from '../Functional/Text/RABObjectPrettyName.js'
 import RABObjectTypePrettyPlural from '../Functional/Text/RABObjectTypePrettyPlural.js'
@@ -208,6 +208,7 @@ function componentPicker(name) {
     case "TreeView": return TreeView;
     case "Fragment": return RABFragment;
     case "AvatarUser":  return Text;
+    case "RABTextField":  return RABTextField;
     case "RABSelectField":  return RABSelectField;
     case "RABVoid": return RABVoid;
     case "RABObjectPrettyName": return RABObjectPrettyName;
