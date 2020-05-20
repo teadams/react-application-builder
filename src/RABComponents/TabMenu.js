@@ -51,7 +51,6 @@ function TabMenu(props)  {
        textColor="primary"
        variant="scrollable"
        scrollButtons="auto"
-       centered
       > 
       {field_list.map(key => {
         const menu_item=data[key]
