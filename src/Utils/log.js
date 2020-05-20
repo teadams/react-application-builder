@@ -7,7 +7,7 @@ export function log(text) {
 }
 
 export function val(names, ...params) {
-  if (params.length == 0) {
+  if (params.length === 0) {
     log(names);
   } 
   names = names.split(',');
