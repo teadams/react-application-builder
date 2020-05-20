@@ -23,7 +23,7 @@ function ACSField(input_props) {
   const field_models =  useGetModel("fields")
   let field_model = field_models?field_models[input_props.object_type][input_props.field_name]:{}
 
-  const {data:props_data, object_type:input_object_type, field_name:input_field_name, handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, key_id, ...merging_props} = input_props
+  const {data:props_data, object_type:input_object_type, field_name:input_field_name, handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, key_id, autoFocus=false, ...merging_props} = input_props
 
   // Use case - this field has been tagged with "references"
   // which indicates the field is from another object type.
@@ -122,7 +122,7 @@ return (
     object_type = {object_type}
     onChange={handleFormChange}
     onSubmit={handleFormSubmit}
-    autoFocus ={(field_name === lastTouched || form)?true:false}
+    autoFocus ={(field_name === lastTouched || (autoFocus && !lastTouched) || form)?true:false}
     onMouseOver={(form&&(mode==="view"&&mouseover_to_edit))?toggleEditMode:""}
     onFieldClick ={(form&&(mode==="view"&&click_to_edit))?toggleEditMode:""}
     onFieldBlur = {handleOnFieldBlur} 
