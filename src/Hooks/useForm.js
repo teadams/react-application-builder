@@ -57,7 +57,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
       }
     } else {
       if (data && mode === "edit") {
-        defaults[field] = data[field]
+        defaults[field] = data[field]?data[field]:""
       } else if (mode === "create") {
         if (field != id_field) {
           // XX rules/ use model to figure out the defaults
