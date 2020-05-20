@@ -75,7 +75,7 @@ function RABSelectList(props) {
 }
 
 function RABSelectField(props) {
-  const {mode, data, field_name, formValues, onSubmit, onFieldBlur,  onChange, autoFocus, object_type, field_model, value="", display_value=" ", style, api_options} = props
+  const {mode, data, field_name, formValues, onSubmit, onFieldBlur,  onChange, autoFocus, object_type, field_model={}, value="", display_value=" ", style, api_options} = props
   // 2 use cases:
   // 1. Called from a create/edit form (formValues is present)
   //   View will show field_display_value takend from data object.
