@@ -141,6 +141,25 @@ export function componentByName(name) {
   
 }
 
+function RABTableContainer(props) {
+  return(<TableContainer key={props.key_id}>{props.children}</TableContainer>)
+}
+function RABTable(props) {
+  return(<Table key={props.key_id}>{props.children}</Table>)
+}
+
+function RABTableBody(props) {
+  return(<TableBody key={props.key_id}>{props.children}</TableBody>)
+}
+
+function RABTableRow(props) {
+  return(<TableRow key={props.key_id}>{props.children}</TableRow>)
+}
+
+function RABTableCell(props) {
+  return(<TableCell key={props.key_id}>{props.children}</TableCell>)
+}
+
 function RABFragment(props) {
   return <Fragment>{props.children}</Fragment>
 }
@@ -177,14 +196,14 @@ function componentPicker(name) {
     case "ListItemSecondaryAction": return ListItemSecondaryAction; 
     case "ListItemText": return ListItemText;
     case "ListSubheader": return ListSubheader; 
-    case "Table": return Table; 
-    case "TableBody": return TableBody; 
-    case "TableCell": return TableCell; 
-    case "TableContainer": return TableContainer;
+    case "Table": return RABTable; 
+    case "TableBody": return RABTableBody; 
+    case "TableCell": return RABTableCell; 
+    case "TableContainer": return RABTableContainer;
     case "TableFooter": return TableFooter; 
     case "TableHead": return TableHead;
     case "TablePagination": return TablePagination; 
-    case "TableRow": return TableRow; 
+    case "TableRow": return RABTableRow; 
     case "TreeItem": return TreeItem; 
     case "TreeView": return TreeView;
     case "Fragment": return RABFragment;
