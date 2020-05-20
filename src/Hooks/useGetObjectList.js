@@ -12,20 +12,21 @@ import * as u from '../Utils/utils.js';
 // Later - extend to work with changes of values in api_options (object issues)
 
 const useGetObjectList = (object_type, api_options={}, param_data, callback) => {
-
   const [prev_state, setState] = useState([false, object_type, api_options, param_data]);
 
   if (!param_data && !object_type) {
       alert ("Error in useGetObjectList. Either data or object_type must be provided.")
   }
   const context = useContext(AuthContext)
+  const dirty_stamp = context.dirty_stamp;
+
   // XX This will move to the session cookie
   api_options.user_id = context.user.id
   api_options.subsite_id = context.context_id
 
 
   let return_state = prev_state.slice(1)
-  const trigger_change_array = api.addAPIParams([object_type], api_options)
+  const trigger_change_array = api.addAPIParams([object_type, dirty_stamp], api_options)
   
   function markStateReady(object_type, api_options, api_results) {
     setState([true, object_type,  api_options, api_results])

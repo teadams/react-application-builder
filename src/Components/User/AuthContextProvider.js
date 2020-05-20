@@ -5,7 +5,7 @@ import AuthContext from './AuthContext.js'
 function AuthContextProvider(props) {
   const [user, setUser] = useState("");
   const [context_id, setContextId] = useState("");
-  const [dirty_data, setDirtyData] = useState(false);
+  const [dirty_stamp, setDirtyData] = useState(Date.now());
 
 
   return (
@@ -13,9 +13,8 @@ function AuthContextProvider(props) {
       value={{
       user: user,
       context_id: context_id,
-      dirty_data: dirty_data,
-      setDirty: () => {setDirtyData(true)},
-      setClean: () => {setDirtyData(false)},
+      dirty_stamp: dirty_stamp,
+      setDirty: () => {setDirtyData(Date.now())},
       logout: ()=> {setUser("")},   
       login: (user)=> {
       setUser(user)},    
