@@ -77,7 +77,7 @@ function ACSListController(input_props) {
   let [object_type, api_options, data] = useGetObjectList(massaged_props.object_type, massaged_props.api_options, input_props.data); 
   if (!data || (object_type && !object_model)) return null
   return  (
-    <RenderACSList {...list_model.props}  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} rab_component_model={rab_component_model} />
+    <RenderACSList {...list_model.props} key={object_type+"list"}  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} rab_component_model={rab_component_model} />
   )
   
 }
