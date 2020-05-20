@@ -53,14 +53,14 @@ import rab_component_models from '../Models/HealthMe/component.js'
 //   The rest is just prep
 
 function RABRow(row_props) {
-  const {mode, form, field_chunk, data, field, rab_component_model, handleFormChange, handleFormSubmit, formValues} = row_props
+  const {mode, form, field_chunk, data, field, rab_component_model, handleFormChange, handleFormSubmit, formValues, key_id} = row_props
   const {...row_params} = row_props
   const {field_chunk_wrap:FieldChunk} = rab_component_model.row.components
  
   return (
-    <FieldChunk {...row_params}>
-      {field_chunk.map( field_name => {
-           return <ACSField field_mode={mode} field_form={!form} field_name={field_name} handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} formValues={formValues} {...row_params}/>
+    <FieldChunk {...row_params} key={key_id+"chunk"}>
+      {field_chunk.map( (field_name, ch_index) => {
+           return <ACSField field_mode={mode} field_form={!form} field_name={field_name} handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} formValues={formValues} {...row_params} key={ch_index+"field_name"} key_id={ch_index}/>
       })}
     </FieldChunk>
   )
@@ -76,7 +76,7 @@ function ACSRowController(input_props) {
   const object_model = object_models?[input_props.object_type]:{}
 
   // do not merge expensive, known unnecessary things
-  const {data:input_props_data, form_open, ...merging_props} = input_props
+  const {data:input_props_data, form_open, key_id, ...merging_props} = input_props
 
   let row_component_model = rab_component_models.row
   row_component_model.row.components.row = RABRow
@@ -138,7 +138,7 @@ function ACSRowController(input_props) {
   // where each section contains one or more fields 
   // (according to field_chunk and colspan rules examples: [field, field, field ]
   return  (<RenderACSRow {...row_model.props} mode={mode} form={form} object_type={object_type}  id={id}field_list={field_list} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} form_open={form_open} onClose={handleFormClose}
-  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} />)
+  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} key={key_id+"Render"} key_id={key_id}/>)
 
 }
 

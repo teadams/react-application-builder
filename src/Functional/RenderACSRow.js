@@ -67,7 +67,7 @@ function RenderACSRow(props) {
                 {section_fields.map((field_chunk, f_index) => {
                   return ( 
                           <RowWrap {...params} key={f_index+"wrap"}>
-                              <RABRow {...params} field_chunk={field_chunk} key={f_index+"row"}/>
+                              <RABRow {...params} field_chunk={field_chunk} key={f_index+"row"} key_id={f_index}/>
                              {data.children && data.children.length >0 && <ACSListController {...params} {...rab_component_model.list.props} data={data.children} key={f_index+"list"}/>}
                           </RowWrap>
           )
