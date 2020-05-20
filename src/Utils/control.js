@@ -145,19 +145,19 @@ function RABTableContainer(props) {
   return(<TableContainer key={props.key_id}>{props.children}</TableContainer>)
 }
 function RABTable(props) {
-  return(<Table key={props.key_id}>{props.children}</Table>)
+  return(<Table onClick={props.onClick}  onMouseOver={props.onMouseOver} key={props.key_id}>{props.children}</Table>)
 }
 
 function RABTableBody(props) {
-  return(<TableBody key={props.key_id}>{props.children}</TableBody>)
+  return(<TableBody onClick={props.onClick}  onMouseOver={props.onMouseOver} key={props.key_id}>{props.children}</TableBody>)
 }
 
 function RABTableRow(props) {
-  return(<TableRow key={props.key_id}>{props.children}</TableRow>)
+  return(<TableRow onClick={props.onClick}  onMouseOver={props.onMouseOver} key={props.key_id}>{props.children}</TableRow>)
 }
 
 function RABTableCell(props) {
-  return(<TableCell key={props.key_id}>{props.children}</TableCell>)
+  return(<TableCell  onClick={props.onClick}  onMouseOver={props.onMouseOver} key={props.key_id}>{props.children}</TableCell>)
 }
 
 function RABFragment(props) {
