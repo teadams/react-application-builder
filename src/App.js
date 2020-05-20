@@ -26,12 +26,12 @@ function App(props) {
         <AppBar position="sticky">
           <Toolbar style={{minHeight:0}}> 
           <Grid container style={{width:'100%'}}>
-            <Grid item sm="11"> 
+            <Grid item sm={11}> 
               <DrawerMenu menu_type="hamburger" selected_menu={selected_menu} />
               <Typography variant="headline" color="inherit" style={{display:'inline-block', marginTop:10, marginBottom:0, marginRight:100}}> {app_params.name} </Typography>  
               <ContextSelect />
             </Grid>
-            <Grid item sm="1">
+            <Grid item sm={1}>
               <AuthToggleLink></AuthToggleLink>
             </Grid>
           </Grid>
