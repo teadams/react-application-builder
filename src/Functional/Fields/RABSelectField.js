@@ -50,9 +50,9 @@ function padding(num) {
 function selectItems(data, select_key_field, select_display_field) {
     data=formTreeData(data)
     return (
-      data.map (row => {
+      data.map ((row, index) => {
         return(
-          <MenuItem value={row[select_key_field]}>{padding(row.tree_depth)}{row[select_display_field]}</MenuItem>
+          <MenuItem key={index} value={row[select_key_field]}>{padding(row.tree_depth)}{row[select_display_field]}</MenuItem>
           )
         })
     )
