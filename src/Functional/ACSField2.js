@@ -111,7 +111,9 @@ if (final_data_target && mode !="create") {
 // to view mode.  
 
 function handleOnFieldBlur() {
-  setMode("view")
+  if (form) {
+    setMode("view")
+  }
 }
 
 return (
