@@ -1,6 +1,9 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
+export function capitalize(string) {
+ return string.charAt(0).toUpperCase() + string.slice(1);
+}
 export function isEmptyObject (object) {
   if (object) {
     for (var key in object) {
