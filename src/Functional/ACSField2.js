@@ -23,7 +23,7 @@ function ACSField(input_props) {
   const field_models =  useGetModel("fields")
   let field_model = field_models?field_models[input_props.object_type][input_props.field_name]:{}
 
-  const {data:props_data, object_type:input_object_type, field_name:input_field_name, handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, ...merging_props} = input_props
+  const {data:props_data, object_type:input_object_type, field_name:input_field_name, handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, key_id, ...merging_props} = input_props
 
   // Use case - this field has been tagged with "references"
   // which indicates the field is from another object type.
@@ -129,7 +129,8 @@ return (
     object_type={object_type} field_name={field_name} field_model={field_model}
     mode={mode}
     form={form}
-    rab_component_model={rab_component_model}/>
+    rab_component_model={rab_component_model}
+    key={key_id+"_render_"+field_name}/>
   )
 }
 

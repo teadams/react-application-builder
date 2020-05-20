@@ -34,6 +34,7 @@ function RABTextField(props) {
           <TextField 
             autoFocus={autoFocus}
             name={field_name} 
+            key={field_name}
             onBlur={props.onFieldBlur}
             value={formValues[props.field_name]}
             onChange={onChange}/>
@@ -98,12 +99,12 @@ function RenderACSField(props) {
     case "name_value_wrapped":
     return (
     <Fragment>
-      <FieldWrap align="right"><b>{field_model[field_name].pretty_name}:</b></FieldWrap>
-      <FieldWrap 
+      <FieldWrap key={field_name+"_wrap1"} align="right"><b>{field_model[field_name].pretty_name}:</b></FieldWrap>
+      <FieldWrap key={field_name+"_wrap1"}
         onClick={handleFieldClick}  onMouseOver={handleMouseOver} >
        <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
         <Field {...params}
-          data={data}/>
+          data={data} key={field_name+"_field"}/>
       </FormWrap>
       </FieldWrap>
     </Fragment>
@@ -112,11 +113,11 @@ function RenderACSField(props) {
     case "name_above_value":
     return (
     <Fragment>
-      <FieldWrap 
+      <FieldWrap key={field_name+"_wrap1"}
         onClick={handleFieldClick}  onMouseOver={handleMouseOver} >
         <b>{field_model[field_name].pretty_name}:</b><br/>&nbsp;&nbsp;
        <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
-        <Field {...params}/>
+        <Field {...params} key={field_name+"_field"}/>
       </FormWrap>
       </FieldWrap>
     </Fragment>
@@ -125,11 +126,11 @@ function RenderACSField(props) {
     case "name_value":
     return (
     <Fragment>
-      <FieldWrap 
+      <FieldWrap key={field_name+"_wrap1"}
         onClick={handleFieldClick}  onMouseOver={handleMouseOver} >
         <b>{field_model[field_name].pretty_name}:</b>&nbsp;&nbsp;
        <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
-        <Field {...params}/>
+        <Field {...params} key={field_name+"_field"}/>
       </FormWrap>
       </FieldWrap>
     </Fragment>
@@ -137,13 +138,13 @@ function RenderACSField(props) {
     break;
   default:
       return (
-      <FieldWrap 
+      <FieldWrap key={field_name+"_wrap1"}
         onClick={handleFieldClick}  onMouseOver={handleMouseOver} >
          <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
-          <Field {...params}/>
+          <Field {...params} key={field_name+"field"}/>
         </FormWrap>
       </FieldWrap>)
- }
+  }
 }
 
 export default RenderACSField;
