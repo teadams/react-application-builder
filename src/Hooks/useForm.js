@@ -1,13 +1,15 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import * as api from '../Utils/data.js';
 import * as u from '../Utils/utils.js';
 import * as meta from '../Utils/meta.js';
 import useGetModel from '../Hooks/useGetModel';
+import {AuthContext} from '../Components/User';
 
 
 const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true) => {
   const [formValues, setFormValues] = useState({});
   const [lastTouched,setLastTouched] = useState(false)
+  const context = useContext(AuthContext)
 
   const object_models =  useGetModel("object_types")
   const field_models =  useGetModel("fields")
@@ -85,7 +87,8 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
         if (error) {
           alert ('error is ' + error.message)
         } else {
-          var inserted_id = insert_result.rows[0][id_field]  
+          var inserted_id = insert_result.rows[0][id_field] 
+          context.setDirty();
           handleSubmit(event,'created', inserted_id);
         }
       })     
@@ -95,6 +98,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
         if (error) {
           alert ('error is ' + error.message)
         } else { 
+          context.setDirty();
           handleSubmit(event,'updated', formValues);
         }
       })
