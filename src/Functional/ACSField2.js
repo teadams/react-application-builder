@@ -72,6 +72,8 @@ function ACSField(input_props) {
 
   const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form, ...params} = massaged_props
 
+  //u.a(initial_mode,input_props.field_name, field_model.hidden_on_form, field_model)
+
   const [mode, setMode] = useState(initial_mode);
 
   let [ready, object_type, id, field_name, api_options, data] = useGetObject(props_object_type, props_id,props_field_name, props_api_options, props_data); 
@@ -80,7 +82,7 @@ function ACSField(input_props) {
   // and the original field_name (not the change for the references)
 const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(input_object_type, input_props.field_name, data, handleSubmit, mode, form);
 
-if (!data || (object_type && !field_model)) return null
+if (!data || (object_type && !field_model) || mode === "hidden" || field_model.hidden_on_form && initial_mode ==="edit" || field_model.hidden_on_form && initial_mode==="create") return null
 
 // references data
 // create form uses formValues as data, 
