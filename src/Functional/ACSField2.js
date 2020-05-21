@@ -98,7 +98,7 @@ if (final_data_target && mode !="create") {
   }
 
   function toggleEditMode(event, id, type, field_name, field_data) {  
-      if (click_to_edit) {
+      if (click_to_edit && !field_model.prevent_edit) {
           setMode("edit")
       }
       if (rab_component_model.field.props.onFieldClick) {
