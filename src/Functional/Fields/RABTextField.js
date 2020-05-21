@@ -26,6 +26,7 @@ function RABTextField(props) {
             autoFocus={autoFocus}
             name={field_name} 
             key={field_name}
+            disabled={field_model.prevent_edit}
             type={field_model.input_type}
             onBlur={props.onFieldBlur}
             value={formValues[props.field_name]}

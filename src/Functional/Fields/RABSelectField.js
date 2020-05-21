@@ -64,9 +64,12 @@ function selectItems(data, select_key_field, select_display_field, field_compone
 function RABSelectList(props) {
   const field_models = useGetModel("fields")
   if (!field_models) {return null}
-  const field_component_name = field_models[props.object_type][props.select_display_field].field_component 
+  const {prevent_edit=false} = props
+  const select_field_model=field_models[props.object_type][props.select_display_field]
+  const field_component_name = select_field_model.field_component 
   // plain function on purpose, will just get text
   const field_component = control.componentByName(field_component_name?field_component_name:"RABTextField")
+
   return (<Fragment>
     <Select
       labelId="demo-simple-select-label"
@@ -76,6 +79,7 @@ function RABSelectList(props) {
       autoFocus={props.autoFocus}
       onBlur={props.onSubmit}
       style={props.style}
+      disabled={prevent_edit}
       onChange={props.onChange}>
       {props.data && selectItems(props.data,props.select_key_field,props.select_display_field, field_component)}
     </Select>
@@ -98,7 +102,7 @@ function RABSelectField(props) {
   const data_field_value = data[field_model.final_field_name?field_model.final_field_name:field_name]
   const field_display_value = data?data_field_value:display_value
   // precedence: props, field_model, keys
-  let {select_key_field = field_model.select_key_field, select_display_field = field_model.select_display_field} = props 
+  let {select_key_field = field_model.select_key_field, select_display_field = field_model.select_display_field, prevent_edit=field_model.prevent_edit} = props 
   
   select_key_field = select_key_field?select_key_field:meta.keys(object_type).key_id
   select_display_field = select_display_field?select_display_field:meta.keys(object_type).pretty_key_id
@@ -113,7 +117,8 @@ function RABSelectField(props) {
       break   
     case "edit":
     case "create":
-      return (<ACSListController object_type={object_type} api_options={api_options} rab_component_model={rab_component_model} list_select_form_name={form_field_name} list_onSubmit={onSubmit} list_field_value={field_value} list_onChange={onChange} list_select_key_field={select_key_field} list_style={style} list_select_display_field={select_display_field} list_autoFocus={autoFocus} />)
+      return (<ACSListController object_type={object_type} api_options={api_options} rab_component_model={rab_component_model} list_select_form_name={form_field_name} list_onSubmit={onSubmit} list_field_value={field_value} list_onChange={onChange} list_select_key_field={select_key_field} list_style={style} list_select_display_field={select_display_field} list_prevent_edit={prevent_edit}
+      list_autoFocus={autoFocus} />)
       break
     case "csv":
       return '"'+field_display_value+'""'
