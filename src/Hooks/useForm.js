@@ -6,7 +6,7 @@ import useGetModel from '../Hooks/useGetModel';
 import {AuthContext} from '../Components/User';
 
 
-const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true) => {
+const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true, form_props={}) => {
   const [formValues, setFormValues] = useState({});
   const [lastTouched,setLastTouched] = useState(false)
   const context = useContext(AuthContext)
@@ -21,7 +21,6 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
     }
   // XX replace from model
   const id_field = meta.keys(object_type).key_id
-
   var field_list = [id_field, field_name]
 
   if (!field_name) {
@@ -38,35 +37,34 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
     }
   })
 
-
   var defaults = {}
   const field_model = field_models[object_type]
 //  if (data && mode === "edit") {
   field_list.forEach(field =>{
     const f_model = field_model[field]
     const references = f_model.references
-        // Naming of the formValues key is after the
-        // original field_model. Data is for the references
-        // model
-    //XX  fix to get the value or default value
-    if (references) {
+    if (references && mode==="edit" && data) {
       // XX fix to have id work off object meta data 
       const references_field = f_model.references_field?f_model.references_field:"id"; 
-      if (data && mode === "edit") {
-          defaults[field]= data[field]?data[field][references_field]:""
-      } else if (mode === "create") {
-        defaults[field] = ""
-      }
-    } else {
-      if (data && mode === "edit") {
+      // data has been restructured
+      defaults[field]= data[field]?data[field][references_field]:""
+    } else if (data && mode === "edit") {
         defaults[field] = data[field]?data[field]:""
-      } else if (mode === "create") {
+    } else if (mode === "create") {
         if (field != id_field) {
-          // XX rules/ use model to figure out the defaults
-          defaults[field] = ""
+          // take from field_models
+          let default_value = field_model.default?field_model.default:""
+          // take from context
+          if (context.user_id && references === "core_user" && field_model.use_context) {
+              default_value = context.user.id
+          }
+          // take from props
+          default_value=form_props[field]?form_props[field]:default_value
+          
+          defaults[field] = default_value
         }
-      }
-    }        
+    }
+            
   })
 
   if (Object.keys(defaults).length > 0 && Object.keys(formValues).length === 0) {

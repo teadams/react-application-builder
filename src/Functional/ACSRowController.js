@@ -70,7 +70,6 @@ function RABRow(row_props) {
 }
 
 function ACSRowController(input_props) {
-
   function handleSubmit(event, result, form_values_object) {
       handleFormClose()
   }
@@ -99,8 +98,8 @@ function ACSRowController(input_props) {
   let [ready, object_type, id, field_list, api_options, data] = 
 
   useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data); 
-  
-  const {formValues, lastTouched, handleFormChange, handleFormSubmit} = useForm(object_type, "", data, handleSubmit, form?mode:"view");
+
+  const {formValues, lastTouched, handleFormChange, handleFormSubmit} = useForm(object_type, "", data, handleSubmit, form?mode:"view", true, merging_props);
 
   //// wall /////
   const field_models =  useGetModel("fields")
