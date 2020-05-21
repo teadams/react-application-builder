@@ -49,7 +49,6 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
     } else if (data && mode === "edit") {
         defaults[field] = data[field]?data[field]:""
     } else if (mode === "create") {
-        if (field != id_field) {
           // take from field_models
           let default_value = field_model.default?field_model.default:""
           // take from context
@@ -57,10 +56,8 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
               default_value = context.user.id
           }
           // take from props
-          default_value=form_props[field]?form_props[field]:default_value
-          
+          default_value=form_props[field]?form_props[field]:default_value  
           defaults[field] = default_value
-        }
     }
             
   })
