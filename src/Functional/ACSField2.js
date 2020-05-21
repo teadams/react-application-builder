@@ -42,25 +42,27 @@ function ACSField(input_props) {
   // this causes a lot of confusion about which object_type
   // and model we are actually using (see call to useForm)
   if (field_model && field_model.references) {
+
       // manipulate field_model and object_type to be from references
       const references = field_model.references
       final_data_target = input_props.field_name
       final_model_object_type = field_model.references
       // XX server side
-      const referenced_field_name = field_model.references_field?field_model.references_field:meta.keys(final_model_object_type).key_id 
-      let referenced_field_model = field_models?field_models[final_model_object_type][referenced_field_name]:{}
-      referenced_field_model = _.merge({},referenced_field_model)
-      referenced_field_model.pretty_name = field_model.pretty_name // take name from original field
-      referenced_field_model.formValues_name = input_props.field_name
-      referenced_field_model.field_component = "RABSelectField"
-      referenced_field_model.select_key_field = referenced_field_name
-      referenced_field_model.select_display_field = meta.keys(final_model_object_type).pretty_key_id 
-      field_model = referenced_field_model
-      final_field_name = meta.keys(final_model_object_type).pretty_key_id 
+      const references_field_name = field_model.references_field?field_model.references_field:meta.keys(final_model_object_type).key_id 
+      let references_field_model = field_models?field_models[final_model_object_type][references_field_name]:{}
+      // XX done on server
+      field_model.formValues_name = input_props.field_name
+      field_model.field_component = field_model.field_component?field_model.field_component:"RABSelectField"
+      // XX done on server
+      field_model.references_field = references_field_name
+      field_model.select_key_field = references_field_name
+
+      field_model.select_display_field = meta.keys(final_model_object_type).pretty_key_id 
+      field_model.final_object_type = final_model_object_type
   }
 
   merging_props.object_type = final_model_object_type
-  merging_props.field_name = final_field_name
+  merging_props.field_name = input_props.field_name
   // XX performance optimization, use state merging props (and only)
   // change those if props change
   const rab_component_model = control.getFinalModel("field", {...merging_props}, field_model)

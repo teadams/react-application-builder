@@ -32,14 +32,17 @@ function form_wrap(props) {
 }
 
 function RenderACSField(props) {
-  const field_models =  useGetModel("fields")
-  if (!field_models) {return null}
-  // api_options not passed further (they were used)
-  // to get the data set
-  const {api_options,...params} = props
-  const {data, object_type, field_display="field", rab_component_model, field_name, mode="view", form="true"} = props
-  const field_model = field_models[object_type]
+  // XX field model passed from controller as controller makes 
+  // modification due to reference fields.  May change if we 
+  // can do all modifications server side
+  // const field_models =  useGetModel("fields")
+ //  if (!field_models) {return null} 
 
+  // api_options not passed further (they were used)
+  // to get the data set. Different API options will be 
+  // needed for select lists, referenced, mapping
+  const {api_options,...params} = props
+  const {data, object_type, field_display="field", rab_component_model, field_name, field_model, mode="view", form="true"} = props
   // Responsible for the layouts
 // Storing the state?
 // Deciding the mode?
@@ -70,9 +73,10 @@ function RenderACSField(props) {
 
   switch (field_display) {
     case "name_value_wrapped":
+
     return (
     <Fragment>
-      <FieldWrap key={field_name+"_wrap1"} align="right"><b>{field_model[field_name].pretty_name}:</b></FieldWrap>
+      <FieldWrap key={field_name+"_wrap1"} align="right"><b>{field_model.pretty_name}:</b></FieldWrap>
       <FieldWrap key={field_name+"_wrap2"}
         onClick={handleFieldClick}  onMouseOver={handleMouseOver} >
        <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
@@ -88,7 +92,7 @@ function RenderACSField(props) {
     <Fragment>
       <FieldWrap key={field_name+"_wrap1"}
         onClick={handleFieldClick}  onMouseOver={handleMouseOver} >
-        <b>{field_model[field_name].pretty_name}:</b><br/>&nbsp;&nbsp;
+        <b>{field_model.pretty_name}:</b><br/>&nbsp;&nbsp;
        <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
         <Field {...params} key={field_name+"_field"}/>
       </FormWrap>
@@ -101,7 +105,7 @@ function RenderACSField(props) {
     <Fragment>
       <FieldWrap key={field_name+"_wrap1"}
         onClick={handleFieldClick}  onMouseOver={handleMouseOver} >
-        <b>{field_model[field_name].pretty_name}:</b>&nbsp;&nbsp;
+        <b>{field_model.pretty_name}:</b>&nbsp;&nbsp;
        <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
         <Field {...params} key={field_name+"_field"}/>
       </FormWrap>
