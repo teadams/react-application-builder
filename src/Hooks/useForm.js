@@ -82,8 +82,13 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
     if (event) {
       event.preventDefault();
     }
+
+    formValues.subsite_id = context.context_id
+    formValues.user_id = context.user.id 
+
     if (!formValues[id_field]) {
       api.postData(object_type, formValues, {}, (insert_result, error) => { 
+        // XX user_id, subsite
         if (error) {
           alert ('error is ' + error.message)
         } else {
