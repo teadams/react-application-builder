@@ -30,7 +30,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
   }
 
 // XX off tags
-  const fields_to_splice = ["creation_user", "creation_date", "state", "last_updated_date", "core_subsite", "full_name", "thumbnail"]
+  const fields_to_splice = [ "creation_date", "state", "last_updated_date", "core_subsite", "full_name", "thumbnail"]
   fields_to_splice.forEach(field => {
     if (field_list.indexOf(field)>0) {
       field_list.splice(field_list.indexOf(field),1)
@@ -38,14 +38,12 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
   })
 
   var defaults = {}
-  const field_model = field_models[object_type]
-//  if (data && mode === "edit") {
   field_list.forEach(field =>{
-    const f_model = field_model[field]
-    const references = f_model.references
+    const field_model = field_models[object_type][field]
+    const references = field_model.references
     if (references && mode==="edit" && data) {
       // XX fix to have id work off object meta data 
-      const references_field = f_model.references_field?f_model.references_field:"id"; 
+      const references_field = field_model.references_field?field_model.references_field:"id"; 
       // data has been restructured
       defaults[field]= data[field]?data[field][references_field]:""
     } else if (data && mode === "edit") {
@@ -55,7 +53,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
           // take from field_models
           let default_value = field_model.default?field_model.default:""
           // take from context
-          if (context.user_id && references === "core_user" && field_model.use_context) {
+          if (context.user.id && references === "core_user" && field_model.use_context) {
               default_value = context.user.id
           }
           // take from props
