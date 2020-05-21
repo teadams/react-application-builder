@@ -2,12 +2,14 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import { makeStyles } from '@material-ui/core/styles';
 import * as u from '../../Utils/utils.js';
+import * as control from '../../Utils/control.js';
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useEffect} from 'react';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Select, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell,InputLabel } from '@material-ui/core';
 import ACSListController from '../ACSListController.js'
 import rab_component_models from '../../Models/HealthMe/component.js'
 import * as meta from '../../Utils/meta.js';
+import useGetModel from '../../Hooks/useGetModel';
 
 
 // <TextField    
@@ -47,18 +49,24 @@ function padding(num) {
   return <Fragment>{padding}</Fragment>
 }
 
-function selectItems(data, select_key_field, select_display_field) {
+function selectItems(data, select_key_field, select_display_field, field_component) {
     data=formTreeData(data)
     return (
       data.map ((row, index) => {
+
         return(
-          <MenuItem key={index} value={row[select_key_field]}>{padding(row.tree_depth)}{row[select_display_field]}</MenuItem>
+          <MenuItem key={index} value={row[select_key_field]}>{padding(row.tree_depth)}{field_component({data:row, field_name:select_display_field, mode:"text"})}</MenuItem>
           )
         })
     )
 }
 
 function RABSelectList(props) {
+  const field_models = useGetModel("fields")
+  if (!field_models) {return null}
+  const field_component_name = field_models[props.object_type][props.select_display_field].field_component 
+  // plain function on purpose, will just get text
+  const field_component = control.componentByName(field_component_name?field_component_name:"RABTextField")
   return (<Fragment>
     <Select
       labelId="demo-simple-select-label"
@@ -68,8 +76,8 @@ function RABSelectList(props) {
       autoFocus={props.autoFocus}
       onBlur={props.onSubmit}
       style={props.style}
-      onChange={props.onChange}>  
-      {props.data && selectItems(props.data,props.select_key_field,props.select_display_field)}
+      onChange={props.onChange}>
+      {props.data && selectItems(props.data,props.select_key_field,props.select_display_field, field_component)}
     </Select>
     </Fragment>)
 }
