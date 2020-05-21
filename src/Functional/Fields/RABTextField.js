@@ -11,8 +11,10 @@ import * as meta from '../../Utils/meta.js';
 
 
 function RABTextField(props) {
-  const {mode, data, field_name, formdata, formValues,  onChange, autoFocus} = props
-  const field_value = data[field_name]
+  const {mode, data, field_name, field_model, formdata, formValues,  onChange, autoFocus} = props
+  // XX field model passed due to referenced change. May 
+  // be done server side later
+  const field_value = data[field_model.final_field_name?field_model.final_field_name:field_name]
   switch (mode) {
     case "text", "view":
       return field_value?field_value:" "

@@ -56,7 +56,7 @@ function ACSField(input_props) {
       // XX done on server
       field_model.references_field = references_field_name
       field_model.select_key_field = references_field_name
-
+      field_model.final_field_name = references_field_name
       field_model.select_display_field = meta.keys(final_model_object_type).pretty_key_id 
       field_model.final_object_type = final_model_object_type
   }
