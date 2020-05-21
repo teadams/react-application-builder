@@ -119,9 +119,6 @@ function ACSRowController(input_props) {
         field_list = Object.keys(data)
       }
   }
-  if (mode ==="create") {
-    field_list.splice(field_list.indexOf("id"),1)      
-  }
 
   // XX work off meta
   const fields_to_splice = [ "creation_date", "state", "last_updated_date", "core_subsite", "full_name", "thumbnail"]
