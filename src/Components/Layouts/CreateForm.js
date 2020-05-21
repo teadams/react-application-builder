@@ -108,12 +108,14 @@ class CreateForm extends React.Component {
       const object_fields = meta.fields(this.props.object_type)
       const object_field_keys  = Object.keys(object_fields)
     
+
       object_field_keys.map(key => {
           const field = object_fields[key]
           if (!field.key ) {
             if (field.name == this.props.filter_field) {
               defaultedFormValues[field.name] = this.props.filter_id
             } else if (field.default) {
+// XX add
               defaultedFormValues[field.name] = field.default
             } else {
               defaultedFormValues[field.name] = ""
@@ -126,9 +128,12 @@ class CreateForm extends React.Component {
             // references a user, and the user is logged in
             // prefill with the current user if the meta data specifies we should use the context
                 if (field.references == "core_user"  && this.context.user.id) {   
+
                   defaultedFormValues[field.name] = this.context.user.id
+//NA
                 } else if (field.name == "core_subsite" && this.context.context_id) {
                   defaultedFormValues[field.name] = this.context.context_id 
+// NA
                 } else if (field.name == "creation_user" && this.context.user.id) {
                   defaultedFormValues[field.name] = this.context.user.id
                 }
