@@ -14,7 +14,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
   const object_models =  useGetModel("object_types")
   const field_models =  useGetModel("fields")
   // form not needed or inputs not ready
-  if (mode === "view" || 
+  if (mode === "view" || !form ||
       (mode === "edit" && !data) || 
       !object_models || !field_models) {
           return {undefined, undefined, undefined, undefined}
