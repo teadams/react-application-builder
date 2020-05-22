@@ -6,7 +6,8 @@ import useGetModel from '../Hooks/useGetModel';
 import {AuthContext} from '../Components/User';
 
 
-const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true, form_props={}) => {
+const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true, form_props={}, field_list=[]) => {
+
   const [formValues, setFormValues] = useState({});
   const [lastTouched,setLastTouched] = useState(false)
   const context = useContext(AuthContext)
@@ -14,28 +15,37 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
   const object_models =  useGetModel("object_types")
   const field_models =  useGetModel("fields")
   // form not needed or inputs not ready
+
+  const id_field = meta.keys(object_type).key_id
+  if (!field_list || field_list.length === 0) {
+    if (field_name) {
+      field_list = [id_field, field_name]
+    } else {
+      if (object_type) {
+        field_list = Object.keys(field_models[object_type])
+      } else {
+        field_list = Object.keys(data)
+      }
+    }
+  }
+
+  let scrubbed_field_list = []
+    
+  field_list.forEach(field => {
+    const f_model = field_models[object_type][field]
+    if (!f_model.prevent_view 
+            && !(form && f_model.not_on_row_form)
+            && !(form && mode==="create" && f_model.not_on_create_form)) {
+          scrubbed_field_list.push(field)
+      }
+  })
+
+  field_list = scrubbed_field_list
   if (mode === "view" || !form ||
       (mode === "edit" && !data) || 
       !object_models || !field_models) {
-          return {undefined, undefined, undefined, undefined}
+          return {undefined, undefined, undefined, undefined, field_list}
     }
-  // XX replace from model
-  const id_field = meta.keys(object_type).key_id
-  var field_list = [id_field, field_name]
-
-  if (!field_name) {
-    field_list = Object.keys(field_models[object_type])
-    // run some rules to determin which should
-    //  show, be part of the form values (hidden)
-  }
-
-// XX off tags
-  const fields_to_splice = [ "creation_date", "state", "last_updated_date", "core_subsite", "full_name", "thumbnail"]
-  fields_to_splice.forEach(field => {
-    if (field_list.indexOf(field)>0) {
-      field_list.splice(field_list.indexOf(field),1)
-    }
-  })
 
   var defaults = {}
   field_list.forEach(field =>{
@@ -110,7 +120,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
     setFormValues(formValues => ({...formValues, [event.target.name]:value}));
   })
 
-  return {formValues, lastTouched, handleFormSubmit, handleFormChange};
+  return {formValues, lastTouched, handleFormSubmit, handleFormChange, field_list};
 
 }
 

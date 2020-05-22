@@ -96,46 +96,28 @@ function ACSRowController(input_props) {
       } 
   }
 
-  let [ready, object_type, id, field_list, api_options, data] = 
+  let [ready, object_type, id, pre_scrubbed_field_list, api_options, data] =  useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data); 
 
-  useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data); 
+  // field list will come back scrubbed
+  let {formValues, lastTouched, handleFormChange, handleFormSubmit, field_list} = useForm(object_type, "", data, handleSubmit, mode, form, merging_props, pre_scrubbed_field_list);
 
-  const {formValues, lastTouched, handleFormChange, handleFormSubmit} = useForm(object_type, "", data, handleSubmit, mode, form, merging_props);
 
   //// wall /////
   const field_models =  useGetModel("fields")
   if (!field_models) {return null}
   const field_model = field_models[object_type]
 
-  if ((mode != "create" && !data) || (object_type && !object_model) || (object_type && !field_model)) return null
+  if ((mode != "create" && !data) || (object_type && !object_model) || (object_type && !field_model) || field_list.length === 0) return null
 
   //XX TODO - have to restructure references defaults
   if (mode==="create") {data = formValues}
   /// XX Will be expanded to deal with sections
-  if (!field_list) {
-      if (object_type) {
-        field_list = Object.keys(field_model)
-      } else {
-        field_list = Object.keys(data)
-      }
-  }
-
-  let scrubbed_field_list = []
-  
-  field_list.forEach(field => {
-    const f_model = field_model[field]
-    if (!f_model.prevent_view 
-          && !(form && f_model.not_on_row_form)
-          && !(form && mode==="create" && f_model.not_on_create_form)) {
-        scrubbed_field_list.push(field)
-    }
-  })
-
   // XX will be expanded to deal with col_spans
+
   if (num_columns && num_columns !="all")  {
-    field_list = [_.chunk(scrubbed_field_list, num_columns)]
+    field_list = [_.chunk(field_list, num_columns)]
   } else {
-    field_list = [[scrubbed_field_list]]
+    field_list = [[field_list]]
   }
   // Final structure[[section], [section]]
   // where each section contains one or more fields 
