@@ -10,20 +10,30 @@ const useGenerateFieldList = (object_type, field_name="", data, mode, form=true,
   // form not needed or inputs not ready
 
   const id_field = meta.keys(object_type).key_id
-  if (!field_list || field_list.length === 0) {
-    if (field_name) {
-      field_list = [id_field, field_name]
+
+  if (field_list && field_list.length >0 && !object_type) {
+      return field_list
+  }
+
+  if (field_name) {
+    field_list = [id_field, field_name]
+  } else {
+    if (object_type) {
+      field_list = Object.keys(field_models[object_type])
     } else {
-      if (object_type) {
-        field_list = Object.keys(field_models[object_type])
+      if (data) {
+        field_list = Object.keys(data[0])
       } else {
-        field_list = Object.keys(data)
+        return []
       }
     }
   }
-
+  
+  if (!object_type) {
+    return field_list
+  }
+ 
   let scrubbed_field_list = []
-    
   field_list.forEach(field => {
     const f_model = field_models[object_type][field]
     if (!f_model.prevent_view 

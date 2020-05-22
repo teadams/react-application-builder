@@ -11,6 +11,8 @@ import {Tab, Tabs, Menu, MenuItem, MenuList,List,ListItem,ListItemAvatar,ListIte
 // Decided the mode?
 import useGetObjectList from '../Hooks/useGetObjectList';
 import useGetModel from '../Hooks/useGetModel';
+import useGenerateFieldList from '../Hooks/useGenerateFieldList';
+
 import RenderACSList from './RenderACSList.js'
 import ACSRowController from './ACSRowController.js'
 
@@ -42,20 +44,23 @@ function RABTableHeaders(props) {
         return(<TableCell key={field+"header"}>{field_model[field].pretty_name}</TableCell>)
     }))
 }
+
+function RABList(list_props) {
+  const {data, rab_component_model, ...list_params} = list_props
+  return (
+    data.map((row, index) => {
+        return (<ACSRowController {...list_params} data={row} rab_component_model={rab_component_model} key={index+"Controller"} key_id={index}/>)
+    })
+  )
+}
+
 // Documentation - see comments in ACSRowController
 function ACSListController(input_props) {
   // do not merge expensive, known unnecessary things
   const {data:input_props_data, target_menu_name, ...merging_props} = input_props
   const object_models =  useGetModel("object_types")
   const object_model = object_models?object_models[input_props.object_type]:{}
-  function RABList(list_props) {
-    const {data, rab_component_model, ...list_params} = list_props
-    return (
-      data.map((row, index) => {
-          return (<ACSRowController {...list_params} data={row} rab_component_model={rab_component_model} key={index+"Controller"} key_id={index}/>)
-      })
-    )
-  }
+
   // XX BUG. will change the original 
   // Fix is to make RABList in the library and 
   // put it in the base. (which is actually the )
@@ -71,10 +76,15 @@ function ACSListController(input_props) {
   const massaged_props = list_model.props
   const {list_wrap, body_wrap, list} = list_components
     // XX thinking about the role of field list/field tags in lazy loading, lazy reference loading
-  const {object_type:props_object_type, api_options:props_api_options={}, field_list=""} = massaged_props
+  let {object_type:props_object_type, api_options:props_api_options={}, field_list=""} = massaged_props
+
+
   // important to use input_props.data as it is an array and useGetObjectList
   // see changes to an array's reference as a change
   let [object_type, api_options, data] = useGetObjectList(massaged_props.object_type, massaged_props.api_options, input_props.data); 
+
+  field_list = useGenerateFieldList(object_type, "", data, "view", false, field_list)
+
   if (!data || (object_type && !object_model)) return null
   return  (
     <RenderACSList {...list_model.props} key={object_type+"list"}  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} rab_component_model={rab_component_model} />
