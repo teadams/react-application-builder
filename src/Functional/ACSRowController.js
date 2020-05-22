@@ -120,19 +120,22 @@ function ACSRowController(input_props) {
       }
   }
 
-  // XX work off meta
-  const fields_to_splice = [ "creation_date", "state", "last_updated_date", "core_subsite", "full_name", "thumbnail"]
-  fields_to_splice.forEach(field => {
-    if (field_list.indexOf(field)>0) {
-      field_list.splice(field_list.indexOf(field),1)
+  let scrubbed_field_list = []
+  
+  field_list.forEach(field => {
+    const f_model = field_model[field]
+    if (!f_model.prevent_view 
+          && !(form && f_model.not_on_row_form)
+          && !(form && mode==="create" && f_model.not_on_create_form)) {
+        scrubbed_field_list.push(field)
     }
   })
 
   // XX will be expanded to deal with col_spans
   if (num_columns && num_columns !="all")  {
-    field_list = [_.chunk(field_list, num_columns)]
+    field_list = [_.chunk(scrubbed_field_list, num_columns)]
   } else {
-    field_list = [[field_list]]
+    field_list = [[scrubbed_field_list]]
   }
   // Final structure[[section], [section]]
   // where each section contains one or more fields 
