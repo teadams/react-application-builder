@@ -13,6 +13,7 @@ import ACSField from '../Functional/ACSField2.js'
 import useGetObject from '../Hooks/useGetObject';
 import useGetModel from '../Hooks/useGetModel';
 import useForm from '../Hooks/useForm';
+import useGenerateFieldList from '../Hooks/useGenerateFieldList';
 
 import * as control from "../Utils/control.js"
 import rab_component_models from '../Models/HealthMe/component.js'
@@ -96,10 +97,12 @@ function ACSRowController(input_props) {
       } 
   }
 
-  let [ready, object_type, id, pre_scrubbed_field_list, api_options, data] =  useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data); 
+  let [ready, object_type, id, prescrubbed_field_list, api_options, data] =  useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data); 
+
+  let field_list = useGenerateFieldList(object_type, "", data, mode, form, prescrubbed_field_list)
 
   // field list will come back scrubbed
-  let {formValues, lastTouched, handleFormChange, handleFormSubmit, field_list} = useForm(object_type, "", data, handleSubmit, mode, form, merging_props, pre_scrubbed_field_list);
+  let {formValues, lastTouched, handleFormChange, handleFormSubmit,} = useForm(object_type, "", data, handleSubmit, mode, form, merging_props,field_list);
 
 
   //// wall /////
