@@ -39,7 +39,7 @@ function Template(props) {
       <TabMenu menu_type="app_menu" selected_menu={selected_menu}  />
       <Body  selected_menu={selected_menu} />
     </Paper>
-    <Debug/></Fragment>
+    <Debug/> </Fragment>
   )
 }
 
