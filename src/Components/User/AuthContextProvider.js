@@ -7,7 +7,6 @@ function AuthContextProvider(props) {
   const [context_id, setContextId] = useState("");
   const [dirty_stamp, setDirtyData] = useState(Date.now());
 
-
   return (
     <AuthContext.Provider
       value={{
