@@ -12,21 +12,21 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true
   const [lastTouched,setLastTouched] = useState(false)
   const context = useContext(AuthContext)
 
-  const object_models =  useGetModel("object_types")
-  const field_models =  useGetModel("fields")
+  const object_model =  useGetModel("object_types", object_type)
+  const field_models =  useGetModel("fields", object_type)
   // form not needed or inputs not ready
 
-  const id_field = meta.keys(object_type).key_id
+  const id_field = object_model.key_id
 
   if (mode === "view" || !form ||
       (mode === "edit" && !data) || 
-      !object_models || !field_models) {
+      !object_model || !field_models) {
           return {undefined, undefined, undefined, undefined}
     }
 
   var defaults = {}
   field_list.forEach(field =>{
-    const field_model = field_models[object_type][field]
+    const field_model = field_models[field]
     const references = field_model.references
     if (references && mode==="edit" && data) {
       // XX fix to have id work off object meta data 
