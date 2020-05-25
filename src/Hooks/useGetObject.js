@@ -45,7 +45,7 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data) =
 // model to match. Otherwise, we will have a lot of weird debuggs
 // and flickering
   if (param_data || !prev_state) {
-    if ((object_type != prev_state[1]) || (param_data != prev_state[5])  || (field_list != prev_state[3])) {
+    if ((object_type != prev_state[1]) || (param_data != prev_state[5])  || (JSON.stringify(field_list) != JSON.stringify(prev_state[3]))) {
         setState([true, object_type, id, field_list, api_options, param_data])
     }
     return [true, object_type, id, field_list, api_options, param_data]
