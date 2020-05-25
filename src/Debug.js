@@ -3,6 +3,7 @@ import 'react-app-polyfill/stable';
 import * as data from './Utils/data.js';
 import * as meta from './Utils/meta.js';
 import * as utils from './Utils/utils.js';
+import useGetModel from './Hooks/useGetModel';
 
 import React, { Component, Fragment, useState, useContext, useEffect} from 'react';
 import {AuthContext} from './Components/User';
@@ -79,8 +80,8 @@ function UserSubsiteAuthPriv () {
 
 function Debug(props) {
   const context = useContext(AuthContext)
-
-  const show_debug = props.show_debug?props.show_debug:meta.get_param("client_debug_component")
+  const app_params = useGetModel("app_params")
+  const show_debug = props.show_debug?props.show_debug:app_params.show_debug
 
   if (show_debug) {
     return (
