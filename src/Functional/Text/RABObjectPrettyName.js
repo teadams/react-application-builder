@@ -9,10 +9,13 @@ import ACSListController from '../ACSListController.js'
 import rab_component_models from '../../Models/HealthMe/component.js'
 import * as meta from '../../Utils/meta.js';
 import RABText from './RABText.js';
+import useGetModel from "../../Hooks/useGetModel.js"
+
 
 function RABObjectPrettyName(props) {
   const {data, object_type, variant, header=true} = props
-  const pretty_field_name = meta.keys(object_type).pretty_key_id
+  const object_type_model = useGetModel("object_types", object_type)
+  const pretty_field_name = object_type_model.pretty_key_id
   return (<RABText header={header} text={data[pretty_field_name]} variant={variant}/>)
 
 }
