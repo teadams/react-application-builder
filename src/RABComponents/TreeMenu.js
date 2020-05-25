@@ -13,10 +13,13 @@ import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
+import useGetModel from '../Hooks/useGetModel';
+
 
 function TreeMenu(props)  {
   const {object_type, onClick, ...params} = props
-  const field_list = [meta.keys(object_type).pretty_key_id]
+  const object_type_model = useGetModel("object_types", object_type)
+  const field_list = object_type_model.pretty_key_id
   const [selected, setSelected] = React.useState([]);
 
 
@@ -30,8 +33,8 @@ function TreeMenu(props)  {
   function RenderTreeItem(props) {
     const {data, object_type, api_options={}} = props
     const {grouping_field=""} = api_options
-    
-    let field_name = meta.keys(object_type).pretty_key_id
+    const object_type_model = useGetModel("object_types", object_type)
+    let field_name = object_type_model.pretty_key_id
     if (grouping_field && data.group_row) {
         field_name = grouping_field
     } 

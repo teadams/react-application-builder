@@ -95,7 +95,8 @@ function RABSelectField(props) {
   
   // 2. Called directly 
   //     dispaly_value is display_value, value is value
-  const form_field_name = formValues?field_model.formValues_name:meta.keys(object_type).key_id
+  const object_type_model = useGetModel("object_types". object_type)
+  const form_field_name = formValues?field_model.formValues_name:object_type_model.key_id
 
   const field_value = formValues?formValues[form_field_name]:value
   // convert to final field
@@ -104,8 +105,8 @@ function RABSelectField(props) {
   // precedence: props, field_model, keys
   let {select_key_field = field_model.select_key_field, select_display_field = field_model.select_display_field, prevent_edit=field_model.prevent_edit} = props 
   
-  select_key_field = select_key_field?select_key_field:meta.keys(object_type).key_id
-  select_display_field = select_display_field?select_display_field:meta.keys(object_type).pretty_key_id
+  select_key_field = select_key_field?select_key_field:object_type_model.key_id
+  select_display_field = select_display_field?select_display_field:object_type_model.pretty_key_id
 
   // XX - make a "select" in the library
   let rab_component_model = rab_component_models.shell
