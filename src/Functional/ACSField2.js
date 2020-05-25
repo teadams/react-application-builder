@@ -20,6 +20,7 @@ function ACSField(input_props) {
 
   // XX could be encapulated below if we use and unconvential approach
   // and that convolve it
+  const object_types = useGetModel("object_types")
   const field_models =  useGetModel("fields")
   let field_model = field_models?field_models[input_props.object_type][input_props.field_name]:{}
 
@@ -42,13 +43,12 @@ function ACSField(input_props) {
   // this causes a lot of confusion about which object_type
   // and model we are actually using (see call to useForm)
   if (field_model && field_model.references) {
-
       // manipulate field_model and object_type to be from references
       const references = field_model.references
       final_data_target = input_props.field_name
       final_model_object_type = field_model.references
       // XX server side
-      const references_field_name = field_model.references_field?field_model.references_field:meta.keys(final_model_object_type).key_id 
+      const references_field_name = field_model.references_field?field_model.references_field:object_types[final_model_object_type].key_id 
       let references_field_model = field_models?field_models[final_model_object_type][references_field_name]:{}
       // XX done on server
       field_model.formValues_name = input_props.field_name
@@ -57,7 +57,7 @@ function ACSField(input_props) {
       field_model.references_field = references_field_name
       field_model.select_key_field = references_field_name
       field_model.final_field_name = references_field_name
-      field_model.select_display_field = meta.keys(final_model_object_type).pretty_key_id 
+      field_model.select_display_field = object_types[final_model_object_type].pretty_key_id 
       field_model.final_object_type = final_model_object_type
   }
 
