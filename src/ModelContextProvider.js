@@ -20,7 +20,9 @@ function ModelContextProvider(props) {
         value={{
         app_params: meta_model.app_params,
         object_types: meta_model.object_types,
-        fields: meta_model.fields
+        fields: meta_model.fields,
+        menus: meta_model.menus,
+        sections: meta_model.sections
         }}>
         {props.children}
       </ModelContext.Provider>)
