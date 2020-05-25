@@ -14,7 +14,7 @@ import useForm from '../Hooks/useForm';
 
 import * as control from "../Utils/control.js"
 import rab_component_models from '../Models/HealthMe/component.js'
-
+import useGenerateFieldList from '../Hooks/useGenerateFieldList';
 
 function ACSField(input_props) {
 
@@ -77,10 +77,12 @@ function ACSField(input_props) {
   const [mode, setMode] = useState(initial_mode);
 
   let [ready, object_type, id, field_name, api_options, data] = useGetObject(props_object_type, props_id,props_field_name, props_api_options, props_data); 
+
+  const field_list = useGenerateFieldList(object_type, field_name, data, mode, form, "")
   // hook rules. always has to run
   // care with inputs.  Form is based of the original object_type
-  // and the original field_name (not the change for the references)
-const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(input_object_type, input_props.field_name, data, handleSubmit, mode, form);
+  // and the original field_name (not the change for the references
+const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(input_object_type, input_props.field_name, data, handleSubmit, mode, form, "", field_list);
 
 if (!data || (object_type && !field_model) || mode === "hidden" || field_model.hidden_on_form && initial_mode ==="edit" || field_model.hidden_on_form && initial_mode==="create") return null
 

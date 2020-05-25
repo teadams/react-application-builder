@@ -7,7 +7,6 @@ import {AuthContext} from '../Components/User';
 
 
 const useForm = (object_type, field_name="", data, handleSubmit, mode, form=true, form_props={}, field_list) => {
-
   const [formValues, setFormValues] = useState({});
   const [lastTouched,setLastTouched] = useState(false)
   const context = useContext(AuthContext)
