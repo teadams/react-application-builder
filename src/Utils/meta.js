@@ -56,10 +56,6 @@ export function model(type) {
 }}
 
 export async function load(type, callback) {
-  if (type=="menu") {
-    callback(rab_menu_model);  
-    return rab_menu_model
-  }
   const meta_result = await data.callAPI("/meta/model/"+type, {}, {}, "get")
     callback(meta_result)
 }
@@ -114,86 +110,51 @@ export function deepValue(key_string, object) {
 }
 
 export function field(object_type, field_name) {
-    return fields(object_type)[field_name]
+  alert ('deprecated function field')
 }
 
 export function keys (object_type) {
-    const field_meta = fields(object_type);
-    return (Object.keys(field_meta).reduce((ids, key) => {
-          if (field_meta[key].pretty_key) {
-              ids.pretty_key_id = key
-          } else if (field_meta[key].key) {
-              ids.key_id = key
-          }
-          if (!ids.key_id) {
-            ids.key_id = "id"
-          }
-          if (!ids.pretty_key_id) {
-            ids.pretty_key_id = ids.key_id
-          }
-          return ids;
-    },{}))
-
-  }
+  alert ('depreceated function keys')
+}
   
 export function key_field(object_type) {
-  const field_meta = fields(object_type);
-  return (
-    Object.keys(field_meta).reduce ((ids, key) => {
-      return field_meta[key].key?field_meta[key]:ids 
-    },{})
-    )
+  alert ('deprecated function object_type')
 }
 
 // the database column of the field used as the key
 export function id_column(object_type) {
-  const field_meta = fields(object_type);
-  return (
-    Object.keys(field_meta).reduce ((ids, key) => {
-      return field_meta[key].key?key:ids 
-    },{})
-    )
+  alert ("deprecated function id_column")
 }
 
 export function pretty_key_field(object_type) {
-  const field_meta = fields(object_type);
-  return (
-    Object.keys(field_meta).reduce ((ids, key) => {
-  //    log.val ('ids, field', ids, field)
-      return field_meta[key].pretty_key?field_meta[key]:ids 
-    },{})
-    )
+  alert ('deprcated fucntion pretty key field')
 }
 
 // the database column of the field used as the pretty key
 export function pretty_name_column(object_type) {
-  const field_meta = fields(object_type);
-  return (
-    Object.keys(field_meta).reduce ((ids, key) => {
-  //    log.val ('ids, field', ids, field)
-      return field_meta[key].pretty_key?key:ids 
-    },{})
-    )
+  alert ("deprecatedion function pretty name column")
 }
 
 // the pretty name for the field used as the pretty keys
 // this is what would appear on the table header in the UI
 export function pretty_name_field_pretty_name(object_type) {
-  return pretty_key_field(object_type)['pretty_name']
+  alert ("deprecated fucntion pretty name feild pretty name")
 }
 
 export function get_menu(menu_type) {
-    return rab_menu_model.menus[menu_type];
+  alert ('deprecated function get menu')
 }
 
 export function get_selected_menu(selected) {
-    return rab_menu_model.menu_items[selected]
+    alert ("deprecated function get selected menu")
+//    return rab_menu_model.menu_items[selected]
 }
 
 export function get_param(param) { 
 //  alert (" looking for param " + param)
   //alert ("loaded is " + JSON.stringify(app_params))
-  return app_params[param];
+//  return app_params[param];
+  alert ('depreated fucntion get param')
 }
 
 // get the index in the array where field_name is field_value

@@ -10,14 +10,14 @@ import useGetModel from "./Hooks/useGetModel.js"
 
 function Body(props) {
   const {selected_menu} = props
-
   const menu_model =  useGetModel("menus")
   const app_params =  useGetModel("app_params")
   if (!selected_menu  ) {return null}
   let selected_menu_model = menu_model.menu_items[selected_menu]
-  let BodyComponent = control.componentByName(selected_menu_model.menu_component_name)
 
+  let BodyComponent = control.componentByName(selected_menu_model.menu_component_name)
   const { ...rest} = selected_menu_model
+
   return (<div style={{margin:10}}> < BodyComponent {...rest}/></div>)  
 }
 

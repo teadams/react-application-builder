@@ -75,7 +75,6 @@ function ACSRowController(input_props) {
   function handleSubmit(event, result, form_values_object) {
       handleFormClose()
   }
-
   const object_models =  useGetModel("object_types")
   const object_model = object_models?[input_props.object_type]:{}
 
