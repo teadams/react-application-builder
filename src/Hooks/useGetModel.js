@@ -9,9 +9,8 @@ import ModelContext from '../ModelContext.js';
 
 const useGetModel = (type, object_type="") => {
   const model = useContext(ModelContext)
-  
   if (object_type) {
-      return model[type, object_type]
+      return model[type][object_type]
   } else {
     return model[type]
   }
