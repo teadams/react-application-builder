@@ -4,24 +4,24 @@ import * as u from "./Utils/utils.js"
 import * as meta from "./Utils/meta.js"
 
 function ModelContextProvider(props) {
-  const [app_params, setAppParams] = useState("");
+  const [meta_model, setMetaModel] = useState("");
 
-  if (!app_params) {
-    meta.load("app_params", model_results => {
-          setAppParams(model_results)
+  if (!meta_model) {
+    meta.load("all", model_results => {
+          setMetaModel(model_results)
     })
   }
 
-  if (!app_params) {
+  if (!meta_model) {
     return null
   } else {
     return (
       <ModelContext.Provider
         value={{
-        app_params: app_params,
-        setAppParams:  (app_params)=> {
-            setAppParams(app_params)    
-        }}}>
+        app_params: meta_model.app_params,
+        object_types: meta_model.object_types,
+        fields: meta_model.fields
+        }}>
         {props.children}
       </ModelContext.Provider>)
   }
