@@ -1,18 +1,16 @@
 
-import React, {useState, useLayoutEffect, useEffect} from 'react';
+import React, {useState, useLayoutEffect, useContext} from 'react';
 import * as api from '../Utils/data.js';
 import * as meta from '../Utils/meta.js';
 import * as log from '../Utils/log.js';
 import * as u from '../Utils/utils.js';
+import ModelContext from '../ModelContext.js';
+
 
 const useGetModel = (type) => {
-  const [model, setModel] = useState(meta.model(type));
-  if (!model || Object.keys(model).length==0) {
-    meta.load(type, model_results => {
-          setModel(model_results)
-    })
-  }
-  return model
+  const model = useContext(ModelContext)
+  
+  return model[type]
 }
 
 export default useGetModel;

@@ -8,7 +8,7 @@ function ModelContextProvider(props) {
 
   if (!meta_model) {
     meta.load("all", model_results => {
-          setMetaModel(model_results)
+        setMetaModel(model_results)
     })
   }
 

@@ -12,15 +12,16 @@ import {SelectObject} from './Components/FormsAndViews';
 import Body from "./Body"
 import Debug from "./Debug.js"
 import * as meta from './Utils/meta.js'
+import * as u from './Utils/utils.js'
+
 import {AppBar,Toolbar, Typography, Paper} from '@material-ui/core';
 import useGetModel from "./Hooks/useGetModel.js"
 
 function Template(props) {
   const app_params =  useGetModel("app_params")
-  if (!app_params) return(null)
-
   let { selected_menu} = props.match.params
-  return    ( <Fragment>
+  return    ( 
+    <Fragment>
       <Paper style={{ padding:10, marginTop:10, marginBottom:0, minHeight:600, position:'relative'}}>     
         <AppBar position="sticky">
           <Toolbar style={{minHeight:0}}> 

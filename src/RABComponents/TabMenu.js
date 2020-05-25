@@ -23,8 +23,7 @@ function TabMenu(props)  {
   const context = useContext(AuthContext)
   // XX This will move to the session cookie
    
-  const menu_model =  useGetModel("menu")
-  if (!menu_model) {return null}
+  const menu_model =  useGetModel("menus")
   const field_list=
       menu_model.menus[menu_type]?menu_model.menus[menu_type]:
                                   Object.keys(menu_model.menu_items)

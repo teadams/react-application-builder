@@ -60,18 +60,7 @@ export async function load(type, callback) {
     callback(rab_menu_model);  
     return rab_menu_model
   }
-  const meta_result = await data.callAPI("/meta/model/"+type, {}, {}, "get")  
-      switch(type) {
-        case "app_params":
-          app_params = meta_result
-          break
-        case "object_types":
-          metadata_object_types = meta_result
-          break 
-        case "fields":
-          metadata_fields = meta_result
-          
-      }
+  const meta_result = await data.callAPI("/meta/model/"+type, {}, {}, "get")
     callback(meta_result)
 }
 
