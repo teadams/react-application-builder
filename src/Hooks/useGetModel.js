@@ -7,10 +7,14 @@ import * as u from '../Utils/utils.js';
 import ModelContext from '../ModelContext.js';
 
 
-const useGetModel = (type) => {
+const useGetModel = (type, object_type="") => {
   const model = useContext(ModelContext)
   
-  return model[type]
+  if (object_type) {
+      return model[type, object_type]
+  } else {
+    return model[type]
+  }
 }
 
 export default useGetModel;
