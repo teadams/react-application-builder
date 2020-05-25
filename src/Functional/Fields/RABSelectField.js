@@ -63,7 +63,6 @@ function selectItems(data, select_key_field, select_display_field, field_compone
 
 function RABSelectList(props) {
   const field_models = useGetModel("fields")
-  if (!field_models) {return null}
   const {prevent_edit=false} = props
   const select_field_model=field_models[props.object_type][props.select_display_field]
   const field_component_name = select_field_model.field_component 
@@ -95,7 +94,7 @@ function RABSelectField(props) {
   
   // 2. Called directly 
   //     dispaly_value is display_value, value is value
-  const object_type_model = useGetModel("object_types". object_type)
+  const object_type_model = useGetModel("object_types", object_type)
   const form_field_name = formValues?field_model.formValues_name:object_type_model.key_id
 
   const field_value = formValues?formValues[form_field_name]:value
