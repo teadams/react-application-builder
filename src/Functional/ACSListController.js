@@ -21,7 +21,7 @@ import rab_component_models from '../Models/HealthMe/component.js'
 
 function RABTableHeaders(props) {
    const {object_type, data, rab_component_model, ...list_params} = props
-    let {field_list} = props
+  let {field_list} = props
    const field_models =  useGetModel("fields")
    if (!field_models) {return null}
    const field_model = field_models[object_type]
@@ -34,12 +34,6 @@ function RABTableHeaders(props) {
          field_list = Object.keys(data)
        }
    }
-   const fields_to_splice = ["creation_user", "creation_date", "state", "last_updated_date", "core_subsite", "full_name", "thumbnail"]
-   fields_to_splice.forEach(field => {
-     if (field_list.indexOf(field)>0) {
-       field_list.splice(field_list.indexOf(field),1)
-     }
-   })
   return (field_list.map(field=>{
         return(<TableCell key={field+"header"}>{field_model[field].pretty_name}</TableCell>)
     }))
