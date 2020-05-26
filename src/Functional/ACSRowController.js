@@ -106,7 +106,7 @@ function ACSRowController(input_props) {
   if (!field_models) {return null}
   const field_model = field_models[object_type]
 
-  if ((mode != "create" && !data) || (object_type && !object_model) || (object_type && !field_model) || field_list.length === 0) return null
+  if ((mode !== "create" && !data) || (object_type && !object_model) || (object_type && !field_model) || field_list.length === 0) return null
 
   //XX TODO - have to restructure references defaults
   if (mode==="create") {data = formValues}
@@ -114,7 +114,7 @@ function ACSRowController(input_props) {
   // XX will be expanded to deal with col_spans
 
   
-  if (num_columns && num_columns !="all")  {
+  if (num_columns && num_columns !="all" && mode !== "list" )  {
     let chunked_field_list = [[]]
     let index = 0
     let col_count = 0
@@ -131,15 +131,15 @@ function ACSRowController(input_props) {
       }
     })
     field_list = chunked_field_list
-  } else {
     field_list = [field_list]
+  } else {
+    field_list = [[field_list]]
   }
   // Sectiions
-  field_list = [field_list]
   // Final structure[[section], [section]]
   // where each section contains one or more fields 
   // (according to field_chunk and colspan rules examples: [field, field, field ]
-  return  (<RenderACSRow {...row_model.props} mode={mode} form={form} object_type={object_type}  id={id}field_list={field_list} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} form_open={form_open} onClose={handleFormClose}
+  return  (<RenderACSRow {...row_model.props} mode={mode} form={form} object_type={object_type}  id={id} field_list={field_list} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} form_open={form_open} onClose={handleFormClose}
   handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} key={key_id+"Render"} key_id={key_id}/>)
 
 }
