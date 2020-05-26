@@ -31,8 +31,10 @@ function ACSField(input_props) {
   // represent the meta model from the other model and
   // provide the correct data.
   let final_data_target = ""
-  let final_model_object_type = input_object_type
+//  let final_model_object_type = input_object_type
   let final_field_name = input_field_name
+  field_model.formValues_name = input_props.field_name
+
   // The REFERENCES field model 
   // has to have input into the component ,etc. But
   // some things like the label we want to take after the.
@@ -43,24 +45,22 @@ function ACSField(input_props) {
   // and model we are actually using (see call to useForm)
   if (field_model && field_model.references) {
       // manipulate field_model and object_type to be from references
-      const references = field_model.references
-      final_data_target = input_props.field_name
-      final_model_object_type = field_model.references
+//      const references = field_model.references
+    //  final_data_target = input_props.field_name
+  //    final_model_object_type = field_model.references
       // XX server side
-      const references_field_name = field_model.references_field?field_model.references_field:object_type_models[final_model_object_type].key_id 
-      let references_field_model = field_models?field_models[final_model_object_type][references_field_name]:{}
+  //    const references_field_name = field_model.references_field?field_model.references_field:object_type_models[final_model_object_type].key_id 
+
+    //  let references_field_model = field_models?field_models[final_model_object_type][references_field_name]:{}
       // XX done on server
-      field_model.formValues_name = input_props.field_name
-      field_model.field_component = field_model.field_component?field_model.field_component:"RABSelectField"
+//      field_model.formValues_name = input_props.field_name
+      //field_model.field_component = field_model.field_component?field_model.field_component:"RABSelectField"
       // XX done on server
-      field_model.references_field = references_field_name
-      field_model.select_key_field = references_field_name
-      field_model.final_field_name = references_field_name
-      field_model.select_display_field = object_type_models[final_model_object_type].pretty_key_id 
-      field_model.final_object_type = final_model_object_type
+    //  field_model.select_display_field = object_type_models[final_model_object_type].pretty_key_id 
+    //  field_model.final_object_type = final_model_object_type
   }
 
-  merging_props.object_type = final_model_object_type
+  merging_props.object_type = field_model.final_object_type
   merging_props.field_name = input_props.field_name
   // XX performance optimization, use state merging props (and only)
   // change those if props change
@@ -90,8 +90,8 @@ if (!data || (object_type && !field_model) || mode === "hidden" || field_model.h
 // references data
 // create form uses formValues as data, 
 // which is flat
-if (final_data_target && mode !="create") {
-    data = data[final_data_target]
+if (field_model.references && mode !="create") {
+    data = data[input_props.field_name]
 }
 
 
