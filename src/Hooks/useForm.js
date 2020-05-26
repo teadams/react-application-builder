@@ -17,7 +17,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
 
   const id_field = object_model.key_id
 
-  if (mode === "view" || !form ||
+  if ((mode !== "edit" && mode !=="create") || !form ||
       (mode === "edit" && !data) || 
       !object_model || !field_models) {
           return {undefined, undefined, undefined, undefined}

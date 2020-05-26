@@ -112,10 +112,7 @@ function RABSelectField(props) {
   let rab_component_model = rab_component_models.shell
   rab_component_model.list.components.list_wrap = RABSelectList
   rab_component_model.list.names.header = "RABVoid"
-  switch (mode) {
-    case "text", "view":
-      return field_display_value?field_display_value:" "
-      break   
+  switch (mode) {   
     case "edit":
     case "create":
       return (<ACSListController object_type={object_type} api_options={api_options} rab_component_model={rab_component_model} list_select_form_name={form_field_name} list_onSubmit={onSubmit} list_field_value={field_value} list_onChange={onChange} list_select_key_field={select_key_field} list_style={style} list_select_display_field={select_display_field} list_prevent_edit={prevent_edit}
@@ -125,7 +122,8 @@ function RABSelectField(props) {
       return '"'+field_display_value+'""'
       break
     default:
-      return field_display_value
+      // text, view, list
+      return field_display_value?field_display_value:" "
   }
 }
 

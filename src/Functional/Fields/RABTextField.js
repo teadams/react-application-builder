@@ -16,9 +16,6 @@ function RABTextField(props) {
   // be done server side later
   const field_value = data[field_model.final_field_name?field_model.final_field_name:field_name]
   switch (mode) {
-    case "text", "view":
-      return field_value?field_value:" "
-      break 
     case "edit":
     case "create":
       return (
@@ -37,7 +34,8 @@ function RABTextField(props) {
       return '"'+field_value+'""'
       break
     default:
-      return field_value
+      // text, view, list
+      return field_value?field_value:" "
   }
 }
 

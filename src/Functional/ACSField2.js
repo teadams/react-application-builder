@@ -23,7 +23,6 @@ function ACSField(input_props) {
   const object_type_models = useGetModel("object_types")
   const field_models =  useGetModel("fields")
   let field_model = field_models?field_models[input_props.object_type][input_props.field_name]:{}
-
   const {data:props_data, object_type:input_object_type, field_name:input_field_name, handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, key_id, autoFocus=false, ...merging_props} = input_props
 
   // Use case - this field has been tagged with "references"
@@ -98,7 +97,7 @@ if (final_data_target && mode !="create") {
 
   // XX ?? look at rest of props and see if there are any other API options... what layer to do this in
   function handleSubmit(event, result, form_values_object) {
-      setMode("view")      
+      setMode(initial_mode)      
   }
 
   function toggleEditMode(event, id, type, field_name, field_data) {  
@@ -111,16 +110,16 @@ if (final_data_target && mode !="create") {
   }
     
 // Determine the mode
-// state will track a view/edit mode
+// state will track a current mode (edit or initial_mode)
 // Use case
-// When user clicks on a field in view mode, it will
+// When user clicks on a field that is not in edit/create mode, it will
 // render a one-input form. When use mouse leaves the
 // form, the form is submitted and the page returns
-// to view mode.  
+// to initial_mode (typically view or list)
 
 function handleOnFieldBlur() {
   if (form) {
-    setMode("view")
+    setMode(initial_mode)
   }
 }
 
@@ -131,8 +130,8 @@ return (
     onChange={handleFormChange}
     onSubmit={handleFormSubmit}
     autoFocus ={(field_name === lastTouched || (autoFocus && !lastTouched) || form)?true:false}
-    onMouseOver={(form&&(mode==="view"&&mouseover_to_edit))?toggleEditMode:""}
-    onFieldClick ={(form&&(mode==="view"&&click_to_edit))?toggleEditMode:""}
+    onMouseOver={(form&&((mode!=="create"&&mode!=="edit")&&mouseover_to_edit))?toggleEditMode:""}
+    onFieldClick ={(form&&((mode!=="create"&&mode!=="edit")&&click_to_edit))?toggleEditMode:""}
     onFieldBlur = {handleOnFieldBlur} 
     object_type={object_type} field_name={field_name} field_model={field_model}
     mode={mode}

@@ -60,10 +60,10 @@ const rab_component_models = {
         footer_wrap:"Fragment",
         footer:"Fragment"
       },
-      components:{},
-      defaut_mode:"view",  
+      components:{}, 
       props:{
-          num_columns:"all"
+          num_columns:"all",
+          mode:"list"
       }
     },
     row: {

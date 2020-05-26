@@ -14,13 +14,14 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 function AvatarUser(props) {
   const {data, field_name, mode, ...params} = props
   if (data) {
-    if (mode === "text") {
-      return (data.first_name + " " + data.last_name)
-    } else {
-      return (<Fragment>PIC {data.first_name} {data.last_name}</Fragment>)
+    switch (mode) {
+      case "view":
+        return (<Fragment>PIC {data.first_name} {data.last_name}</Fragment>)
+        break;
+      default:
+        
+        return (data.first_name?data.first_name:"" + " " + data.last_name?data.last_name:"")
     }
-  } else {
-      return null
   }
 }
 
