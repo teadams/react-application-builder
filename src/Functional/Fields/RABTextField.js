@@ -23,6 +23,7 @@ function RABTextField(props) {
             autoFocus={autoFocus}
             name={field_name} 
             key={field_name}
+            fullWidth={true}
             disabled={field_model.prevent_edit}
             type={field_model.input_type}
             onBlur={props.onFieldBlur}
