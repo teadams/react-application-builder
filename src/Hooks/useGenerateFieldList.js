@@ -36,7 +36,8 @@ const useGenerateFieldList = (object_type, field_name="", data, mode, form=true,
   let scrubbed_field_list = []
   field_list.forEach(field => {
     const field_model = field_models[field]
-    if (!field_model.prevent_view 
+    if (!field_model.prevent_view &&
+            !(field_model.not_on_list && mode==="list")
             && !(form && field_model.not_on_row_form)
             && !(form && mode==="create" && field_model.not_on_create_form)) {
           scrubbed_field_list.push(field)
