@@ -32,7 +32,6 @@ function form_wrap(props) {
 }
 
 function RenderACSField(props) {
-
   // XX field model passed from controller as controller makes 
   // modification due to reference fields.  May change if we 
   // can do all modifications server side
@@ -74,11 +73,11 @@ function RenderACSField(props) {
 
   switch (field_display) {
     case "name_value_wrapped":
-
+    let col_span = props.col_span*2 -1
     return (
     <Fragment>
-      <FieldWrap key={field_name+"_wrap1"} align="right"><b>{field_model.pretty_name}:</b></FieldWrap>
-      <FieldWrap key={field_name+"_wrap2"}
+      <FieldWrap key={field_name+"_wrap1"} col_span={1} align="right"><b>{field_model.pretty_name}:</b></FieldWrap>
+      <FieldWrap key={field_name+"_wrap2"} field_name={field_name}   col_span={col_span}
         onClick={handleFieldClick}  onMouseOver={handleMouseOver} >
        <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
         <Field {...params}
@@ -92,7 +91,7 @@ function RenderACSField(props) {
     return (
     <Fragment>
       <FieldWrap key={field_name+"_wrap1"}
-        onClick={handleFieldClick}  onMouseOver={handleMouseOver} >
+        onClick={handleFieldClick}  onMouseOver={handleMouseOver} cols_span={props.col_span}>
         <b>{field_model.pretty_name}:</b><br/>&nbsp;&nbsp;
        <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
         <Field {...params} key={field_name+"_field"}/>

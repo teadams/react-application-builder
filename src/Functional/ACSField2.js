@@ -69,7 +69,7 @@ function ACSField(input_props) {
   const field_component_model = rab_component_model.field
   const massaged_props = field_component_model.props
 
-  const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form, ...params} = massaged_props
+  const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form,  ...params} = massaged_props
 
   //u.a(initial_mode,input_props.field_name, field_model.hidden_on_form, field_model)
 
@@ -129,6 +129,7 @@ return (
     object_type = {object_type}
     onChange={handleFormChange}
     onSubmit={handleFormSubmit}
+    col_span={field_model.col_span}
     autoFocus ={(field_name === lastTouched || (autoFocus && !lastTouched) || form)?true:false}
     onMouseOver={(form&&((mode!=="create"&&mode!=="edit")&&mouseover_to_edit))?toggleEditMode:""}
     onFieldClick ={(form&&((mode!=="create"&&mode!=="edit")&&click_to_edit))?toggleEditMode:""}

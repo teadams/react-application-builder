@@ -155,11 +155,11 @@ function RABTableBody(props) {
 }
 
 function RABTableRow(props) {
-  return(<TableRow onClick={props.onClick}  onMouseOver={props.onMouseOver} key={props.key_id}>{props.children}</TableRow>)
+  return(<TableRow onClick={props.onClick}  onMouseOver={props.onMouseOver}  key={props.key_id}>{props.children}</TableRow>)
 }
 
 function RABTableCell(props) {
-  return(<TableCell  onClick={props.onClick}  onMouseOver={props.onMouseOver} key={props.key_id}>{props.children}</TableCell>)
+  return(<TableCell  onClick={props.onClick}  onMouseOver={props.onMouseOver} colSpan={props.col_span} key={props.key_id}>{props.children}</TableCell>)
 }
 
 function RABFragment(props) {
