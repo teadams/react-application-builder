@@ -11,7 +11,7 @@ const useGenerateFieldList = (object_type, field_name="", data, mode, form=true,
 
   const id_field = object_model.key_id
 
-  if (field_list && field_list.length >0 && !object_type) {
+  if ((field_list && field_list.length >0)) {
       return field_list
   }
 
