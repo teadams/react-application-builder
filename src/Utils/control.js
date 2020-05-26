@@ -14,7 +14,7 @@ import RABText from '../Functional/Text/RABText.js'
 import Message from "../RABComponents/Message.js"
 import ObjectTypeView from "../RABComponents/ObjectTypeView.js"
 import Debug from '../Debug.js'
-import AvatarUser from '../Functional/AvatarUser.js'
+import User from '../Functional/Fields/User.js'
 import ACSField from '../Functional/ACSField2.js'
 import ACSRowController from '../Functional/ACSRowController.js'
 import ACSListController from '../Functional/ACSListController.js'
@@ -209,7 +209,7 @@ function componentPicker(name) {
     case "TreeItem": return TreeItem; 
     case "TreeView": return TreeView;
     case "Fragment": return RABFragment;
-    case "AvatarUser":  return AvatarUser;
+    case "User":  return User;
     case "RABTextField":  return RABTextField;
     case "RABSelectField":  return RABSelectField;
     case "RABVoid": return RABVoid;

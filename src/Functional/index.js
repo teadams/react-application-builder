@@ -11,7 +11,6 @@ import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
 
 
-import AvatarUser from './AvatarUser.js'
 
 
 
@@ -23,7 +22,6 @@ const functional_components = {
         RenderACSField:RenderACSField,
         RenderACSRow:RenderACSRow,
         RenderACSList:RenderACSList,
-        AvatarUser:AvatarUser,
         Tab:Tab,
         Tabs:Tabs,
         Menu:Menu,
