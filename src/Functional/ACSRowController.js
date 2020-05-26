@@ -113,11 +113,29 @@ function ACSRowController(input_props) {
   /// XX Will be expanded to deal with sections
   // XX will be expanded to deal with col_spans
 
+  
   if (num_columns && num_columns !="all")  {
-    field_list = [_.chunk(field_list, num_columns)]
+    let chunked_field_list = [[]]
+    let index = 0
+    let col_count = 0
+    field_list.forEach(field => {
+      const col_span = field_model[field].col_span
+      if (col_count + col_span <= num_columns) {
+          chunked_field_list[index].push(field)
+          col_count += col_span
+      } else {
+          index += 1
+          col_count = col_span
+          chunked_field_list[index] = [field]
+
+      }
+    })
+    field_list = chunked_field_list
   } else {
-    field_list = [[field_list]]
+    field_list = [field_list]
   }
+  // Sectiions
+  field_list = [field_list]
   // Final structure[[section], [section]]
   // where each section contains one or more fields 
   // (according to field_chunk and colspan rules examples: [field, field, field ]
