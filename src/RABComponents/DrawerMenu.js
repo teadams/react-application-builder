@@ -57,7 +57,8 @@ function DrawerMenu(props)  {
             <IconButton onClick={toggleDrawer}><ChevronLeftIcon/></IconButton>
           </div>
           <Divider />  
-          <TabMenu menu_type="hamburger"  orientation="vertical" selected_menu={selected_menu} selected_menu_type={selected_menu_type} />
+          <TabMenu menu_type="hamburger"  orientation="vertical" selected_menu={selected_menu} selected_menu_type={selected_menu_type} 
+          onChange={toggleDrawer}/>
         </Drawer> 
       </div>
     }

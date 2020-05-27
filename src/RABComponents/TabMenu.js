@@ -67,7 +67,7 @@ function TabMenu(props)  {
   let rab_component_model = rab_component_models.tab 
   rab_component_model.list.components.body_wrap = TabsComponent
   rab_component_model.list.props.value = selected_menu
-  return <ACSListController  rab_component_model={rab_component_model} field_list={field_list} data={menu_model.menu_items} />
+  return <ACSListController  rab_component_model={rab_component_model} list_onChange={props.onChange} field_list={field_list} data={menu_model.menu_items} />
 
 }
 export default TabMenu;
