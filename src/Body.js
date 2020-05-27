@@ -16,6 +16,7 @@ function Body(props) {
   let selected_menu_model = menu_model.menu_items[selected_menu]
 
   let BodyComponent = control.componentByName(selected_menu_model.menu_component_name)
+//u.a("bdoy comp", BodyComponent)
   const { ...rest} = selected_menu_model
 
   return (<div style={{margin:10}}> < BodyComponent {...rest}/></div>)  
