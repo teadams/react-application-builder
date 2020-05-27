@@ -11,12 +11,6 @@ let metadata_fields = ""
 let metadata_object_types = ""
 let metadata_sections = {}
 
-let metadata_core = require('../Models/Core')
-let metadata_custom = require('../Models/HealthMe')
-// load in the core and the custom models
-
-metadata_sections = Object.assign(metadata_sections,metadata_custom.metadata_sections);
-
 
 export function object(object_type) {
 //    alert ("getting attributes for " + object_type)
