@@ -1,7 +1,6 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
-import rab_menu_model from '../Models/HealthMe/menus'
 import * as log from './log.js';
 import * as data from './data.js';
 import * as u from './utils.js';
@@ -35,19 +34,8 @@ export function fields(object_type, restricted_fields = []) {
 }
 
 export function model(type) {
-  switch(type) {
-    case "menu":
-      return rab_menu_model
-      break
-    case "app_params":
-        return app_params
-      break
-    case "object_types":
-        return metadata_object_types
-        break 
-    case "fields":
-        return metadata_fields
-}}
+  alert ("deprecated model function")
+}
 
 export async function load(type, callback) {
   const meta_result = await data.callAPI("/meta/model/"+type, {}, {}, "get")
