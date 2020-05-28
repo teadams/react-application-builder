@@ -11,7 +11,7 @@ import * as meta from '../../Utils/meta.js';
 import ACSCreateButton from '../Buttons/ACSCreateButton.js'
 
 function RABText(props) {
-  const {object_type, action="create"} = props
+  const {object_type, action=""} = props
   let ActionButton = ""
   
   switch (action) {
