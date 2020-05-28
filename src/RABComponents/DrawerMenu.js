@@ -18,7 +18,7 @@ import {AppBar,Toolbar, Typography, IconButton, Button, Paper, Tabs, Tab, Drawer
 
 const drawerWidth = 150;
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     drawerPaper: {
     position: 'relative',
@@ -27,6 +27,9 @@ const useStyles = makeStyles({
     alignItems: 'left',
     height:600
   },
+  menuButton: {
+     marginRight: theme.spacing(2),
+   },
   'appShift-left': {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
@@ -39,7 +42,7 @@ const useStyles = makeStyles({
     padding: '0 8px'
   },
 }
-});
+}));
 
 function DrawerMenu(props)  {
   const {selected_menu, selected_menu_type, menu_type, ...params} = props
@@ -64,7 +67,10 @@ function DrawerMenu(props)  {
       </div>
     }
     {hamburger_menu_p && 
-      <IconButton style={{ marginLeft: -12, marginRight: 20, marginBottom:0, paddingBottom:0}} color="inherit"  onClick={toggleDrawer}><MenuIcon /></IconButton> 
+      <IconButton  edge="start"
+           className={classes.menuButton}
+           color="inherit"
+           aria-label="open drawer" color="inherit"  onClick={toggleDrawer}><MenuIcon /></IconButton> 
     } </Fragment>)
 }
 export default DrawerMenu;
