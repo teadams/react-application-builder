@@ -58,7 +58,8 @@ function DrawerMenu(props)  {
           </div>
           <Divider />  
           <TabMenu menu_type="hamburger"  orientation="vertical" selected_menu={selected_menu} selected_menu_type={selected_menu_type} 
-          onChange={toggleDrawer}/>
+          onChange={toggleDrawer}
+          type="drawer"/>
         </Drawer> 
       </div>
     }
