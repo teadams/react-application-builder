@@ -3,7 +3,7 @@ const rab_component_models = {
     list: {
       names:{},
       components:{},
-      defaut_mode:"",  
+      default_mode:"",  
       props:{}
     },
     row: {
@@ -101,7 +101,7 @@ const rab_component_models = {
     list: {
       names:{},
       components:{},
-      defaut_mode:"view",  
+      default_mode:"view",  
       props:{}
     },
     row: {

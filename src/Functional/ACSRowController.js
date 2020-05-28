@@ -79,12 +79,21 @@ function ACSRowController(input_props) {
 
   // do not merge expensive, known unnecessary things
   const {data:input_props_data, form_open, key_id, ...merging_props} = input_props
-  let row_component_model = rab_component_models.row
+  // do not change base component
+  let row_component_model = Object.assign({},rab_component_models.row)
   row_component_model.row.components.row = RABRow
+//  row_component_model.row.names.header_wrap = "RABVoid"
+
+  if (form_open) {
+  // XX somthing is changing the base row_component_models
+    row_component_model.row.components.header_wrap=""
+    row_component_model.row.names.header_wrap = "RABVoid"
+    row_component_model.row.names.header = "RABVoid"
+
+  }
   const rab_component_model = control.getFinalModel("row", {...merging_props}, object_model, row_component_model)
   const row_model = rab_component_model.row
   const massaged_props = row_model.props
-
   const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options, num_columns="", mode="view", form=false,  ...params} = massaged_props
 
   function handleFormClose() {
