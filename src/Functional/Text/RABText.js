@@ -8,14 +8,25 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 import ACSListController from '../ACSListController.js'
 import rab_component_models from '../../Models/HealthMe/component.js'
 import * as meta from '../../Utils/meta.js';
+import ACSCreateButton from '../Buttons/ACSCreateButton.js'
 
 function RABText(props) {
+  const {object_type, action="create"} = props
+  let ActionButton = ""
+  
+  switch (action) {
+    case "create":
+      ActionButton = ACSCreateButton 
+      break
+  }
+
   const {header=false, variant=header?"h5":"body1", text} = props
   let {style} = props
   if (!header) {
     style = Object.assign({display:"inline"}, style)
   }
-  return (<Typography variant={variant} style={style}>{text}</Typography>)
+  return (<Typography variant={variant} style={style}>{text}
+{action && <ActionButton object_type={object_type}/>}</Typography>)
 }
 
 export default RABText
