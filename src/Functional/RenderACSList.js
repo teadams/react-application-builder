@@ -26,10 +26,12 @@ function RenderACSList(props) {
      setPage(0);
   };
 
-    if (data && data.length>0) {
+    if (data ) {
       const count = data.length
-      const paginated_data =  data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) 
-      params.data=paginated_data
+      if (data.length > 0) {
+        const paginated_data =  data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) 
+        params.data=paginated_data
+      }
       return ( 
         <Fragment>
           <HeaderWrap {...params}>
