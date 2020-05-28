@@ -21,14 +21,16 @@ import * as control from "../Utils/control.js"
 import rab_component_models from '../Models/HealthMe/component.js'
 
 
-const useStyles = makeStyles({
-  head: {
-    backgroundColor:"#636DAF",
-    color:"white"
-  }
-});
+
 
 function RABTableHeaders(props) {
+  const app_params = useGetModel("app_params")
+  const useStyles = makeStyles({
+    head: {
+      backgroundColor:app_params.colors.table_header_background,
+      color:app_params.colors.table_header_text
+    }
+  });
   const classes = useStyles();
   const {object_type, data, rab_component_model, ...list_params} = props
 
