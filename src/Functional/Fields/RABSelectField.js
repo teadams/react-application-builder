@@ -33,8 +33,7 @@ function formTreeData(data, tree_depth=0) {
       row.tree_depth = tree_depth
       tree_data.push(row)
       if (row.children && row.children.length >0) {
-          tree_depth +=1
-          tree_data = tree_data.concat(formTreeData(row.children, tree_depth))
+          tree_data = tree_data.concat(formTreeData(row.children, tree_depth+1))
       }
   })
   return tree_data
