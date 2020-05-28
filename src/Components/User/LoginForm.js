@@ -61,6 +61,7 @@ class LoginForm extends React.Component {
     let data_object = {}
     data_object.email = this.state.formValues["email"]
     data_object.credential = this.state.formValues["credential"]
+
     data.login ( data_object,  (user_data, error) => {
         if (!user_data.email_match) {
             alert ('email not found')
@@ -79,11 +80,13 @@ class LoginForm extends React.Component {
       this.props.handleClose(event)
   }
 
-  handleChange (field_name, value)  {
-
-      this.setState({ formTouched:true, formValues: update(this.state.formValues,{
-                  [field_name]: {$set: value}
-                  }) });
+  handleChange (event)  {
+    event.persist();
+    let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+    this.setState({ formTouched:true, formValues: update(this.state.formValues,{
+          [event.target.name]: {$set: value}
+      }) 
+    });
   }
 
   render() {
@@ -112,6 +115,7 @@ class LoginForm extends React.Component {
                   field_mode="edit"
                   field_display="name_value"
                   field_form={false}
+                  value={this.state.formValues["email"]}
                   data={this.state.formValues}
                   formValues={this.state.formValues}
                   disableUnderline={false}
@@ -134,8 +138,8 @@ class LoginForm extends React.Component {
                 formValues={this.state.formValues}
                 disableUnderline={false}
                 handleFormChange={this.handleChange}
-                id = "email"
-                autoFocus={false}
+                id = "credential"
+                autoFocus={false}            
                 key="credential" key_id="credential"
               /> 
                 </Grid>
