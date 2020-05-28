@@ -43,7 +43,9 @@ function TreeMenu(props)  {
   } 
 
   const rab_component_model = {
-          list:{names:{header_wrap:"Fragment",list_container:"Fragment", header:"RABVoid",list_header_wrap:"RABVoid", body_wrap:"Fragment"}},
+          list:{names:{header_wrap:"Fragment",list_container:"Fragment", header:"RABVoid",list_header_wrap:"RABVoid", body_wrap:"Fragment", list_pagination:"Fragment"},
+          props:{pagination:false}
+          },
           row:{components:{row_wrap:RenderTreeItem},
               names:{header:"RABVoid"}},
           field:{component_names:{field_wrap:"Fragment", field:"Fragment"}},
