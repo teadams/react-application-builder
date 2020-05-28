@@ -61,8 +61,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     if (event) {
       event.preventDefault();
     }
-
-    formValues.subsite_id = context.context_id
+    formValues.core_subsite = context.context_id
     formValues.user_id = context.user.id 
 
     if (!formValues[id_field]) {
