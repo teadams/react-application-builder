@@ -26,6 +26,7 @@ const useStyles = makeStyles({
     backgroundColor:"#C0C0C0" 
   }
 });
+
 function RABTableHeaders(props) {
   const classes = useStyles();
    const {object_type, data, rab_component_model, ...list_params} = props
