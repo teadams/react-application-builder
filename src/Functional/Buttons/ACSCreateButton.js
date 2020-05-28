@@ -16,6 +16,12 @@ function ACSCreateButton(props) {
       props.onClick(event);
     }
   }
+  const handleOnClose= event => {
+    setCreateDialog(false)
+    if (props.onClose) {
+      props.onClose(event)
+    }
+  }
 
   const float=props.float?props.float:'none'
 
@@ -25,7 +31,7 @@ function ACSCreateButton(props) {
       <IconCreate style={{height:15, width:15}}/>
       </IconButton>
       {create_dialog  &&
-      <ObjectView object_type={object_type} row_mode="create" row_form="true" /> }
+      <ObjectView object_type={object_type} row_mode="create" row_form="true" onClose={handleOnClose} /> }
       </Fragment>
       )
 }
