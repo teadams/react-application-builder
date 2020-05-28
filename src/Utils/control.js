@@ -3,6 +3,8 @@ import rab_component_models from '../Models/HealthMe/component.js'
 import _ from 'lodash/object'
 // building the library of dynamic componetns
 import React, {Component,Fragment} from 'react';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+
 import ObjectView from "../RABComponents/ObjectView.js"
 import NavMenu from "../RABComponents/NavMenu.js"
 import DrillDown from "../RABComponents/DrillDown.js"
@@ -155,7 +157,16 @@ function RABTableBody(props) {
 }
 
 function RABTableRow(props) {
-  return(<TableRow onClick={props.onClick}  onMouseOver={props.onMouseOver}  key={props.key_id}>{props.children}</TableRow>)
+  const useStyles = makeStyles({
+    root: {
+      '&:nth-of-type(even)':{backgroundColor:"#D4D5DC"}
+    }
+  });
+
+  const classes = useStyles();
+
+
+  return(<TableRow onClick={props.onClick}  onMouseOver={props.onMouseOver} className={classes.root} key={props.key_id}>{props.children}</TableRow>)
 }
 
 function RABTableCell(props) {
