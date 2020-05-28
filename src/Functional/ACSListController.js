@@ -23,13 +23,14 @@ import rab_component_models from '../Models/HealthMe/component.js'
 
 const useStyles = makeStyles({
   head: {
-    backgroundColor:"#C0C0C0" 
+    backgroundColor:"#636DAF",
+    color:"white"
   }
 });
 
 function RABTableHeaders(props) {
   const classes = useStyles();
-   const {object_type, data, rab_component_model, ...list_params} = props
+  const {object_type, data, rab_component_model, ...list_params} = props
 
   let {field_list} = props
    const field_models =  useGetModel("fields")
@@ -44,11 +45,6 @@ function RABTableHeaders(props) {
          field_list = Object.keys(data)
        }
    }
-   const HeaderTableCell = withStyles({
-     head: {
-       backgroundColor:"#C0C0C0" 
-     }
-   })(TableCell);
 
   return (field_list.map(field=>{
         return(<TableCell className={classes.head} key={field+"header"}>{field_model[field].pretty_name}</TableCell>)
