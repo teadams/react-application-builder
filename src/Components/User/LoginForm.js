@@ -3,7 +3,10 @@ import 'react-app-polyfill/stable';
 
 import React, {Fragment} from 'react';
 import {Grid, Paper, Typography, Divider, MenuItem, TextField, Dialog, DialogTitle, DialogContent ,DialogContentText, DialogActions, Button, Tabs, Tab } from '@material-ui/core';
-import {MappingForm, Field} from "../Experimental/index.js"
+import {MappingForm} from "../Experimental/index.js"
+import ACSField from "../../Functional/ACSField2.js"
+import RABTextField from "../../Functional/Fields/RABTextField.js"
+
 import * as data from '../../Utils/data.js';
 import { withStyles } from '@material-ui/core/styles';
 import * as log from '../../Utils/log.js'
@@ -103,26 +106,38 @@ class LoginForm extends React.Component {
            <form onSubmit={this.handleLoginSubmit}>
             <Grid container>
               <Grid item style={{padding:10}} sm={12}>
-                  <Field object_type = "core_user"
+                  <ACSField
+                  object_type = "core_user"
                   field_name = "email"  
-                  mode="form_element"
-                  data_object={this.state.formValues}
+                  field_mode="edit"
+                  field_display="name_value"
+                  field_form={false}
+                  data={this.state.formValues}
+                  formValues={this.state.formValues}
                   disableUnderline={false}
-                  onChange={this.handleChange}
+                  handleFormChange={this.handleChange}
                   id = "email"
+                  autoFocus={true}
+                  key="email" key_id="email"
                 />
               </Grid>
             </Grid>
             <Grid container>
               <Grid item style={{padding:10}} sm={12}>
-                  <Field object_type = "core_credential"
-                  field_name = "credential"  
-                  mode="form_element"  
-                  data_object= {this.state.formValues}
-                  disableUnderline={false}
-                  onChange={this.handleChange}
-                  id = "credential"
-                  /> 
+                <ACSField
+                object_type = "core_credential"
+                field_name = "credential"  
+                field_mode="edit"
+                field_display="name_value"
+                field_form={false} 
+                data={this.state.formValues}
+                formValues={this.state.formValues}
+                disableUnderline={false}
+                handleFormChange={this.handleChange}
+                id = "email"
+                autoFocus={false}
+                key="credential" key_id="credential"
+              /> 
                 </Grid>
               </Grid>
             </form>
@@ -145,9 +160,9 @@ class LoginForm extends React.Component {
               <form onSubmit={this.handleCreateSubmit}>
               <Grid container>
                 <Grid item style={{padding:10}} sm={6}>
-                    <Field object_type = "core_user"
+                    <ACSField object_type = "core_user"
                       field_name = "first_name"  
-                      mode="form_element"
+                      mode="create"
                       data_object={this.state.formValues}
                       disableUnderline={false}
                       onChange={this.handleChange}
@@ -155,9 +170,9 @@ class LoginForm extends React.Component {
                     /> 
                 </Grid>
                 <Grid item style={{padding:10}} sm={6}>
-                    <Field object_type = "core_user"
+                    <ACSField object_type = "core_user"
                       field_name = "last_name"  
-                      mode="form_element"
+                      mode="create"
                       data_object={this.state.formValues}
                       disableUnderline={false}
                       onChange={this.handleChange}
@@ -167,9 +182,9 @@ class LoginForm extends React.Component {
               </Grid>
               <Grid container>
                 <Grid item style={{padding:10}} sm={12}>
-                  <Field object_type = "core_user"
+                  <ACSField object_type = "core_user"
                     field_name = "email"  
-                    mode="form_element"
+                    mode="create"
                     data_object={this.state.formValues}
                     disableUnderline={false}
                     onChange={this.handleChange}
@@ -179,9 +194,9 @@ class LoginForm extends React.Component {
               </Grid>
               <Grid container>
                 <Grid item style={{padding:10}} sm={6}>
-                 <Field object_type = "core_credential"
+                 <ACSField object_type = "core_credential"
                     field_name = "credential"  
-                    mode="form_element"
+                    mode="create"
                     data_object={this.state.formValues}
                     disableUnderline={false}
                     onChange={this.handleChange}
@@ -189,9 +204,9 @@ class LoginForm extends React.Component {
                   /> 
                 </Grid>
                 <Grid item style={{padding:10}} sm={6}>
-                  <Field object_type = "core_credential"
+                  <ACSField object_type = "core_credential"
                   field_name = "credential_confirm"  
-                  mode="form_element"
+                  mode="create"
                   data_object={this.state.formValues}
                   disableUnderline={false}
                   onChange={this.handleChange}
