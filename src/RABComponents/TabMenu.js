@@ -15,6 +15,7 @@ import {AppBar,Toolbar, Typography, IconButton, Button, Paper, Tabs, Tab, Drawer
 import rab_component_models from '../Models/HealthMe/component.js'
 import * as control from '../Utils/control.js'
 import AuthContext from '../Components/User/AuthContext';
+import { withStyles } from '@material-ui/core/styles';
 
 function TabMenu(props)  {
   const {selected_menu, menu_type, orientation, ...params} = props
@@ -27,8 +28,12 @@ function TabMenu(props)  {
   const field_list=
       menu_model.menus[menu_type]?menu_model.menus[menu_type]:
                                   Object.keys(menu_model.menu_items)
-
-//  const selected_menu_model = menu_model.menu_items[selected_menu]
+  let StyledTab = Tab
+  let tabs_style={}
+  if (props.type==="drawer") {
+      tabs_style={paddingTop:15}
+      StyledTab = withStyles({  wrapper: {alignItems:"flex-start" }, root:{paddingTop:0, paddingBottom:0, minHeight:0}})(Tab)
+  }
 
   const TabsComponent = ((props) => {
     const {data, field_list} = props
@@ -50,6 +55,7 @@ function TabMenu(props)  {
        textColor="primary"
        variant="scrollable"
        scrollButtons="auto"
+       style={tabs_style}
       > 
       {field_list.map(key => {
         const menu_item=data[key]
@@ -58,7 +64,7 @@ function TabMenu(props)  {
         const auth_priv = menu_item.auth_priv
         const authorized = auth.authorized({context_id:context.context_id, user:context.user}, auth_scope, auth_priv)
         if (authorized) {
-          return (<Tab value={key} key={key} label={menu_item.label}/>)
+          return (<StyledTab value={key} key={key}  label={menu_item.label}/>)
         }
       })}
     </Tabs>)
