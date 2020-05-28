@@ -55,7 +55,7 @@ function DrawerMenu(props)  {
   return (<Fragment>
     {drawer_open && hamburger_menu_p && 
       <div style={{ position:"absolute"}}>
-        <Drawer  variant="permanent" anchor="left" open={true} classes={{paper: classes.root.drawerPaper}}>
+        <Drawer  variant="temporary" anchor="left" open={true} classes={{paper: classes.root.drawerPaper}}>
            <div className={classes.root.drawerHeader}>
             <IconButton onClick={toggleDrawer}><ChevronLeftIcon/></IconButton>
           </div>

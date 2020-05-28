@@ -54,13 +54,12 @@ function Template(props) {
 
   let { selected_menu} = props.match.params
   return    ( 
-    <Fragment>
     <div className={classes.grow}>
       <AppBar position="static">
       <Toolbar className={classes.root}>
           <DrawerMenu menu_type="hamburger" selected_menu={selected_menu} />
           <Typography className={classes.title} variant="h6" noWrap>{app_params.name}</Typography>
-          <ContextSelect />
+          <ContextSelect/>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
               <IconButton aria-label="show 4 new mails" color="inherit">
@@ -75,30 +74,16 @@ function Template(props) {
                   onClick=""
                   color="inherit"
                 >
-                  xxx
+                <AuthToggleLink></AuthToggleLink>
                 </IconButton>
               </div>
       </Toolbar>
       </AppBar>
-    </div>
-      <Paper style={{ padding:10, marginTop:10, marginBottom:0, minHeight:600, position:'relative'}}>     
-        <AppBar position="sticky">
-          <Toolbar style={{minHeight:0}}> 
-          <Grid container style={{width:'100%'}}>
-            <Grid item sm={11}> 
-              <DrawerMenu menu_type="hamburger" selected_menu={selected_menu} />
-              <Typography variant="subtitle1" color="inherit" style={{display:'inline-block', marginTop:10, marginBottom:0, marginRight:100}}> {app_params.name} </Typography>  
-            </Grid>
-            <Grid item sm={1}>
-              <AuthToggleLink></AuthToggleLink>
-            </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
       <TabMenu menu_type="app_menu" selected_menu={selected_menu}  />
       <Body  selected_menu={selected_menu} />
-    </Paper>
-    <Debug/> </Fragment>
+    <Debug/> 
+    </div>
+
   )
 }
 
