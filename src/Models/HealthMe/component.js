@@ -29,7 +29,9 @@ const rab_component_models = {
     },
       components:{},
       defaut_mode:"view",  
-      props:{}
+      props:{
+        pagination:false
+      }
     },
     row: {
       names:{
@@ -65,7 +67,8 @@ const rab_component_models = {
       components:{}, 
       props:{
           num_columns:"all",
-          mode:"list"
+          mode:"list",
+          pagination:true
       }
     },
     row: {
