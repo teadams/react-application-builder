@@ -7,8 +7,9 @@ import {MappingForm, Field} from "../Experimental/index.js"
 import * as data from '../../Utils/data.js';
 import { withStyles } from '@material-ui/core/styles';
 import * as log from '../../Utils/log.js'
-import * as meta from '../../Utils/meta.js';
 import * as u from '../../Utils/utils.js';
+
+import useGetModel from "../../Hooks/useGetModel.js"
 
 import update from 'immutability-helper';
 import AuthContext from './AuthContext';
@@ -34,6 +35,7 @@ class LoginForm extends React.Component {
   }
 
   handleCreateSubmit(event) {
+      const core_user_object_meta = useGetModel("object_types","core_user")
       if (this.state.formValues.credential != this.state.formValues.credential_confirm) {
           alert ("password and password confirm do not match")
       } else {
@@ -41,7 +43,7 @@ class LoginForm extends React.Component {
           if (error) {
               alert ("there has been an error")
           } else { 
-            var inserted_id = result[meta.keys("core_user").key_id] 
+            var inserted_id = result[core_user_object_meta.key_id] 
             this.setState({ formValues: update(this.state.formValues,{
                         id: {$set: inserted_id}
                         })},
