@@ -1,13 +1,13 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
-import React, {Fragment} from 'react';
+import React, {Fragment, useState, useContext} from 'react';
 import {Grid, Paper, Typography, Divider, MenuItem, TextField, Dialog, DialogTitle, DialogContent ,DialogContentText, DialogActions, Button, Tabs, Tab } from '@material-ui/core';
 import {MappingForm} from "../Experimental/index.js"
 import ACSField from "../../Functional/ACSField2.js"
 import RABTextField from "../../Functional/Fields/RABTextField.js"
 
-import * as data from '../../Utils/data.js';
+import * as api from '../../Utils/data.js';
 import { withStyles } from '@material-ui/core/styles';
 import * as log from '../../Utils/log.js'
 import * as u from '../../Utils/utils.js';
@@ -18,95 +18,80 @@ import update from 'immutability-helper';
 import AuthContext from './AuthContext';
 import {CreateForm} from "../Layouts/index.js";
 
-
-class LoginForm extends React.Component {
-  constructor(props) {
-    super(props);              
-    this.state = {
-      formValues: {},
-      activeTab: 0
-    }   
-    this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
-    this.handleCreateSubmit = this.handleCreateSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-    this.handleTabChange = this.handleTabChange.bind(this);
+function LoginForm(props) {
+  const [activeTab, setActiveTab] = useState(0)
+  const [formValues, setFormValues] = useState({})
+  const core_user_object_meta = useGetModel("object_types", "core_user")
+  const context = useContext(AuthContext)
+  function handleTabChange(event, index) {
+    setActiveTab(index)
   }
 
-  handleTabChange(event, index) {
-    this.setState({activeTab: index})
-  }
-
-  handleCreateSubmit(event) {
-      const core_user_object_meta = useGetModel("object_types","core_user")
-      if (this.state.formValues.credential != this.state.formValues.credential_confirm) {
+  function handleCreateSubmit(event) {
+      if (!formValues.credential) {
+        alert ("Please type in a password")
+      } else if (formValues.credential != formValues.credential_confirm) {
           alert ("password and password confirm do not match")
       } else {
-        data.createAccount( this.state.formValues,  (result, error) => { 
+        api.createAccount( formValues,  (result, error) => { 
           if (error) {
               alert ("there has been an error")
           } else { 
             var inserted_id = result[core_user_object_meta.key_id] 
-            this.setState({ formValues: update(this.state.formValues,{
-                        id: {$set: inserted_id}
-                        })},
-                        this.context.login(this.state.formValues)
-            )  ;
+            const user_data = Object.assign(formValues, {id:inserted_id})
+            context.login(user_data)
+            handleClose()
           }
-      })
-    }
+          })
+      }
   }
 
-  handleLoginSubmit(event) {
+  function handleLoginSubmit(event) {
     let data_object = {}
-    data_object.email = this.state.formValues["email"]
-    data_object.credential = this.state.formValues["credential"]
+    data_object.email = formValues["email"]
+    data_object.credential = formValues["credential"]
 
-    data.login ( data_object,  (user_data, error) => {
+    api.login ( data_object,  (user_data, error) => {
         if (!user_data.email_match) {
             alert ('email not found')
         } else if (!user_data.password_match) {
             alert ("password is not correct")
         } else {
-          this.context.login(user_data)
-          this.handleClose()
+          context.login(user_data)
+          handleClose()
         }
     })
     // update context
 
   }
 
-  handleClose(event) {
-      this.props.handleClose(event)
+  function handleClose(event) {
+      props.handleClose(event)
   }
 
-  handleChange (event)  {
+  const handleChange = ((event) => {
     event.persist();
     let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
-    this.setState({ formTouched:true, formValues: update(this.state.formValues,{
-          [event.target.name]: {$set: value}
-      }) 
-    });
-  }
+    setFormValues(formValues => ({...formValues, [event.target.name]:value}));
+  })
 
-  render() {
   return   (
-    <Dialog fullWidth={true}  open={this.props.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+    <Dialog fullWidth={true}  open={props.open} onClose={handleClose} aria-labelledby="form-dialog-title">
     <Tabs 
-      onChange={this.handleTabChange} 
-      value={this.state.activeTab} 
+      onChange={handleTabChange} 
+      value={activeTab} 
       indicatorColor="primary"
       textColor="primary"
       >
       <Tab label="Login" />
       <Tab label="Create Account" />
     </Tabs>
-    {this.state.activeTab == 0 &&
+    {activeTab == 0 &&
       <Fragment>
         <DialogTitle id="form-dialog-login">Login</DialogTitle>
         <DialogContent>
           <DialogContentText></DialogContentText>
-           <form onSubmit={this.handleLoginSubmit}>
+           <form onSubmit={handleLoginSubmit}>
             <Grid container>
               <Grid item style={{padding:10}} sm={12}>
                   <ACSField
@@ -115,11 +100,11 @@ class LoginForm extends React.Component {
                   field_mode="edit"
                   field_display="name_value"
                   field_form={false}
-                  value={this.state.formValues["email"]}
-                  data={this.state.formValues}
-                  formValues={this.state.formValues}
+                  value={formValues["email"]}
+                  data={formValues}
+                  formValues={formValues}
                   disableUnderline={false}
-                  handleFormChange={this.handleChange}
+                  handleFormChange={handleChange}
                   id = "email"
                   autoFocus={true}
                   key="email" key_id="email"
@@ -134,10 +119,10 @@ class LoginForm extends React.Component {
                 field_mode="edit"
                 field_display="name_value"
                 field_form={false} 
-                data={this.state.formValues}
-                formValues={this.state.formValues}
+                data={formValues}
+                formValues={formValues}
                 disableUnderline={false}
-                handleFormChange={this.handleChange}
+                handleFormChange={handleChange}
                 id = "credential"
                 autoFocus={false}            
                 key="credential" key_id="credential"
@@ -147,91 +132,123 @@ class LoginForm extends React.Component {
             </form>
         </DialogContent>
         <DialogActions>
-            <Button onClick={this.handleLoginSubmit} color="primary">
+            <Button onClick={handleLoginSubmit} color="primary">
                  Submit
             </Button>
-            <Button onClick={this.handleClose} color="primary">
+            <Button onClick={handleClose} color="primary">
                   Cancel
             </Button>
         </DialogActions>
       </Fragment>
       }
-      {this.state.activeTab == 1 &&
+      {activeTab == 1 &&
           <Fragment>
             <DialogTitle id="form-dialog-create-account">Create Account</DialogTitle>
             <DialogContent>
               <DialogContentText></DialogContentText>
-              <form onSubmit={this.handleCreateSubmit}>
+              <form onSubmit={handleCreateSubmit}>
               <Grid container>
-                <Grid item style={{padding:10}} sm={6}>
-                    <ACSField object_type = "core_user"
-                      field_name = "first_name"  
-                      mode="create"
-                      data_object={this.state.formValues}
-                      disableUnderline={false}
-                      onChange={this.handleChange}
-                      id = "first_name"
-                    /> 
+                <Grid item style={{padding:10}} sm={6}> 
+                    <ACSField
+                    object_type = "core_user"
+                    field_name = "first_name"  
+                    field_mode="create"
+                    field_display="name_value"
+                    field_form={false}
+                    value={formValues["first_name"]}
+                    data={formValues}
+                    formValues={formValues}
+                    disableUnderline={false}
+                    handleFormChange={handleChange}
+                    id = "first_name"
+                    autoFocus={true}
+                    key="first_name" key_id="first_name"
+                  />
+
                 </Grid>
                 <Grid item style={{padding:10}} sm={6}>
-                    <ACSField object_type = "core_user"
-                      field_name = "last_name"  
-                      mode="create"
-                      data_object={this.state.formValues}
-                      disableUnderline={false}
-                      onChange={this.handleChange}
-                      id = "last_name"
-                    /> 
+                <ACSField
+                object_type = "core_user"
+                field_name = "last_name"  
+                field_mode="create"
+                field_display="name_value"
+                field_form={false}
+                value={formValues["last_name"]}
+                data={formValues}
+                formValues={formValues}
+                disableUnderline={false}
+                handleFormChange={handleChange}
+                id = "last_name"
+                key="last_name" key_id="last_name"
+              />
                 </Grid>
               </Grid>
               <Grid container>
                 <Grid item style={{padding:10}} sm={12}>
-                  <ACSField object_type = "core_user"
-                    field_name = "email"  
-                    mode="create"
-                    data_object={this.state.formValues}
-                    disableUnderline={false}
-                    onChange={this.handleChange}
-                    id = "email"
-                  /> 
+                <ACSField
+                object_type = "core_user"
+                field_name = "email"  
+                field_mode="create"
+                field_display="name_value"
+                field_form={false}
+                value={formValues["email"]}
+                data={formValues}
+                formValues={formValues}
+                disableUnderline={false}
+                handleFormChange={handleChange}
+                id = "email"
+                key="email" key_id="email"
+              />
                 </Grid>
               </Grid>
               <Grid container>
                 <Grid item style={{padding:10}} sm={6}>
-                 <ACSField object_type = "core_credential"
-                    field_name = "credential"  
-                    mode="create"
-                    data_object={this.state.formValues}
-                    disableUnderline={false}
-                    onChange={this.handleChange}
-                    id = "password"
-                  /> 
+                <ACSField
+                object_type = "core_credential"
+                field_name = "credential"  
+                field_mode="create"
+                field_display="name_value"
+                field_form={false} 
+                data={formValues}
+                formValues={formValues}
+                disableUnderline={false}
+                handleFormChange={handleChange}
+                id = "credential"
+                autoFocus={false}            
+                key="credential" key_id="credential"
+              /> 
                 </Grid>
                 <Grid item style={{padding:10}} sm={6}>
-                  <ACSField object_type = "core_credential"
-                  field_name = "credential_confirm"  
-                  mode="create"
-                  data_object={this.state.formValues}
-                  disableUnderline={false}
-                  onChange={this.handleChange}
-                  id = "password_confirm"
-                  />
+                <ACSField
+                object_type = "core_credential"
+                field_name = "credential_confirm"  
+                field_mode="edit"
+                field_display="name_value"
+                field_form={false} 
+                data={formValues}
+                formValues={formValues}
+                disableUnderline={false}
+                handleFormChange={handleChange}
+                id = "credential_confirm"
+                autoFocus={false}            
+                key="credential_confirm" key_id="credential_confirm"
+              /> 
                 </Grid>
               </Grid>
           </form>
             </DialogContent>
             <DialogActions>
-                <Button onClick={this.handleCreateSubmit} color="primary">
+                <Button onClick={handleCreateSubmit} color="primary">
                      Submit
                 </Button>
-                <Button onClick={this.handleClose} color="primary">
+                <Button onClick={handleClose} color="primary">
                       Cancel
                 </Button>
             </DialogActions>
           </Fragment>
       }
-      </Dialog>)
-  }
+    </Dialog>)
+  
 }
 
 LoginForm.contextType = AuthContext;
