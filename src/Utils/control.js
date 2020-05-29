@@ -22,6 +22,7 @@ import ACSRowController from '../Functional/ACSRowController.js'
 import ACSListController from '../Functional/ACSListController.js'
 import RABTextField from '../Functional/Fields/RABTextField.js'
 import RABSelectField from '../Functional/Fields/RABSelectField.js'
+import ACSFile from '../Functional/Fields/ACSFile.js'
 import RABObjectPrettyName from '../Functional/Text/RABObjectPrettyName.js'
 import RABObjectTypePrettyPlural from '../Functional/Text/RABObjectTypePrettyPlural.js'
 import {Tab, Tabs, Menu, MenuItem, MenuList,List,ListItem,ListItemAvatar,ListItemIcon,ListItemSecondaryAction,ListItemText,ListSubheader,Table,TableBody,TableCell,TableContainer,TableFooter,TableHead,TablePagination,TableRow,} from '@material-ui/core';
@@ -224,6 +225,7 @@ function componentPicker(name) {
     case "User":  return User;
     case "RABTextField":  return RABTextField;
     case "RABSelectField":  return RABSelectField;
+    case "ACSFile":  return ACSFile;
     case "RABVoid": return RABVoid;
     case "RABObjectPrettyName": return RABObjectPrettyName;
     case "RABObjectTypePrettyPlural": return RABObjectTypePrettyPlural;
