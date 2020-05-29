@@ -116,6 +116,7 @@ function buildRABModel(params) {
                 field_list:params.field_list,
                 field_name:params.field_name,
                 onFieldClick:params.onFieldClick,
+                disable_underline:params.field_disable_underline,
                 click_to_edit:params.field_click_to_edit,
                 mouseover_to_edit:params.field_mouseover_to_edit,
                 field_display:params.field_display,

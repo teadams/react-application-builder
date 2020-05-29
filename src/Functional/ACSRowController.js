@@ -89,7 +89,7 @@ function ACSRowController(input_props) {
     row_component_model.row.components.header_wrap=""
     row_component_model.row.names.header_wrap = "RABVoid"
     row_component_model.row.names.header = "RABVoid"
-
+    row_component_model.field.props.disable_underline = true
   }
   const rab_component_model = control.getFinalModel("row", {...merging_props}, object_model, row_component_model)
   const row_model = rab_component_model.row
