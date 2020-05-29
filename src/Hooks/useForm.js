@@ -53,6 +53,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   }
   
   const handleFormSubmit = (event => {
+    u.a("submitted")
     if (!lastTouched) {
        handleSubmit(event, "no_change")
        return
@@ -88,11 +89,34 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     }
   })
 
+  const handleFileEditSubmit = (event,field_name, file) => {
+      const formFileEditSubmitValues = Object.assign(formValues, {field_name:file})
+      api.putData(object_type, formFileEditSubmitValues, {}, (result, error) => { 
+        if (error) {
+          alert ('error with file upload ' + error.message)
+        } else { 
+        //  context.setDirty();
+          handleSubmit(event,'updated', formValues);
+        }
+      })
+  } 
+
   const handleFormChange = ((event) => {
     event.persist();
-    let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
-    setLastTouched(event.target.name)
-    setFormValues(formValues => ({...formValues, [event.target.name]:value}));
+    const name = event.target_name
+    setLastTouched(name)
+    if (event.target.type !== "file") {
+      let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+      setFormValues(formValues => ({...formValues, [name]:value}));
+    } else {
+      let value = event.target.files[0];
+      if (mode==="edit") {
+        // edit ubmits right away
+        handleFileEditSubmit(event, name, value)
+      } else if (mode === "create") {
+        setFormValues(formValues => ({...formValues, [name]:value}));
+      }
+    }
   })
 
   return {formValues, lastTouched, handleFormSubmit, handleFormChange};

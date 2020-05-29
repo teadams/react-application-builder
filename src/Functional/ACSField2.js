@@ -118,6 +118,7 @@ if (field_model.references && mode !="create") {
 // to initial_mode (typically view or list)
 
 function handleOnFieldBlur() {
+u.a("blur")
   if (form) {
     setMode(initial_mode)
   }
