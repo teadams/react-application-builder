@@ -61,7 +61,7 @@ function RenderACSRow(props) {
   if (data) {
       return (
         <Fragment>
-          <HeaderWrap {...params}>HeaderWrap
+          <HeaderWrap {...params}>
             <Header {...params}/>
           </HeaderWrap>
           {field_list.map((section_fields, s_index) => {
