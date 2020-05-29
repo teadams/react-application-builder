@@ -57,7 +57,6 @@ function RenderACSRow(props) {
 
   const FormWrap = RABFormWrap
   const {header_wrap:HeaderWrap, header:Header, section_wrap:SectionWrap, section_header:SectionHeader, row_wrap:RowWrap,  row:RABRow} = rab_component_model.row.components
-
   if (data) {
       return (
         <Fragment>
