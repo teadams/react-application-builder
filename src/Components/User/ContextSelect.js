@@ -51,6 +51,7 @@ function ContextSelect () {
               style = {context_style}
               onChange={handleContextChange}
               noLabel= {true}
+              disable_underline={true}
               api_options={{parent_field:"parent_subsite"}}
              />
           );

@@ -11,19 +11,21 @@ import * as meta from '../../Utils/meta.js';
 
 
 function RABTextField(props) {
-  const {mode, data, field_name, field_model={}, formdata, formValues,  onChange, autoFocus, fullWidth=true} = props
+  const {mode, data, field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true} = props
   // XX field model passed due to referenced change. May 
   // be done server side later
   const field_value = data[field_model.final_field_name?field_model.final_field_name:field_name]
   switch (mode) {
     case "edit":
     case "create":
+
       return (
           <TextField 
             autoFocus={autoFocus}
             name={field_name} 
             key={field_name}
             fullWidth={fullWidth}
+            InputProps={{disableUnderline:disable_underline}}
             disabled={field_model.prevent_edit}
             type={field_model.input_type}
             onBlur={props.onFieldBlur}

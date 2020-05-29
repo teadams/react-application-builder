@@ -62,7 +62,7 @@ function selectItems(data, select_key_field, select_display_field, field_compone
 
 function RABSelectList(props) {
   const field_models = useGetModel("fields")
-  const {prevent_edit=false} = props
+  const {disable_underline=true, prevent_edit=false} = props
   const select_field_model=field_models[props.object_type][props.select_display_field]
   const field_component_name = select_field_model.field_component 
   // plain function on purpose, will just get text
@@ -78,6 +78,7 @@ function RABSelectList(props) {
       onBlur={props.onSubmit}
       style={props.style}
       disabled={prevent_edit}
+      disableUnderline = {disable_underline}
       onChange={props.onChange}>
       {props.data && selectItems(props.data,props.select_key_field,props.select_display_field, field_component)}
     </Select>
