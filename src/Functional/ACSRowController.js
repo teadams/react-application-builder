@@ -129,7 +129,9 @@ function ACSRowController(input_props) {
     let col_count = 0
     field_list.forEach(field => {
       const col_span = field_model[field].col_span
-      if (col_count + col_span <= num_columns) {
+      if (field_model[field].hidden_on_form && ["create", "edit"].includes(mode)) {
+        chunked_field_list[index].push(field)
+      } else if (col_count + col_span <= num_columns) {
           chunked_field_list[index].push(field)
           col_count += col_span
       } else {
