@@ -28,17 +28,15 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   field_list.forEach(field =>{
     const field_model = field_models[field]
     const references = field_model.references
-    if (references && mode==="edit" && data) {
+    if (field_model.input_type === "file") {
+      defaults[field] = ""
+    } else if (references && mode==="edit" && data) {
       // XX fix to have id work off object meta data 
       const references_field = field_model.references_field?field_model.references_field:"id"; 
       // data has been restructured
       defaults[field]= data[field]?data[field][references_field]:""
     } else if (data && mode === "edit") {
-        if (field_model.input_type === "file") {
-          defaults[field] = ""
-        } else {
-          defaults[field] = data[field]?data[field]:""
-        }
+      defaults[field] = data[field]?data[field]:""
     } else if (mode === "create") {
           // take from field_models
           let default_value = field_model.default?field_model.default:""
@@ -58,7 +56,6 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   }
   
   const handleFormSubmit = (event => {
-    u.a("submitted")
     if (!lastTouched) {
        handleSubmit(event, "no_change")
        return
@@ -95,14 +92,14 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   })
 
   const handleFileEditSubmit = (event,field_name, file) => {
-    let fileFormValues = Object.assign(formValues)
+    let fileFormValues = Object.assign({},formValues)
     fileFormValues[field_name]=file
     api.putData(object_type, fileFormValues, {}, (result, error) => { 
         if (error) {
           alert ('error with file upload ' + error.message)
         } else { 
           context.setDirty();
-            handleSubmit(event,'updated', formValues);
+          handleSubmit(event,'updated', formValues);
         }
     })
   } 
