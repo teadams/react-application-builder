@@ -8,6 +8,7 @@ import axios from 'axios';
 
 
 const useForm = (object_type, field_name="", data, handleSubmit, mode="view", form=true, form_props={}, field_list) => {
+  
   const [formValues, setFormValues] = useState({});
   const [lastTouched,setLastTouched] = useState(false)
   const context = useContext(AuthContext)
@@ -93,9 +94,9 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     }
   })
 
-  const handleFileEditSubmit = (event,field_name, file) => {
+  const handleFileEditSubmit = (event, name, file) => {
     let fileFormValues = Object.assign({},formValues)
-    fileFormValues[field_name]=file
+    fileFormValues[name]=file
     api.putData(object_type, fileFormValues, {}, (result, error) => { 
         if (error) {
           alert ('error with file upload ' + error.message)
@@ -116,8 +117,12 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     } else {
       let value = event.target.files[0];
       if (mode==="edit" && form) {
-        // edit ubmits right away
-        handleFileEditSubmit(event, name, value)
+        // edit submit
+        if (field_name) {
+          // this is a field form 
+          // (not row form)
+          handleFileEditSubmit(event, name, value)
+        }
       } else if (mode === "create") {
         setFormValues(formValues => ({...formValues, [name]:value}));
       }
