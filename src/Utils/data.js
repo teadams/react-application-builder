@@ -53,11 +53,18 @@ export function getParamsObject(options={}, params=validAPIParams()) {
 export async function callAPI (path="", params={}, data_object={}, method="get", callback)   {
   let url = getPathBase() + "/"  + path
   let data = ""
-  //alert ("path and params " + path + " " + JSON.stringify(params))
-  const api_result = await axios({
+  let api_result = {}
+  if (data_object) {
+    let multi_object = new FormData();
+    Object.keys(data_object).forEach(key => {
+      multi_object.append(key, data_object[key])
+    })
+    data_object = multi_object
+  }
+  api_result = await axios({
     method: method,
     url: url,
-    data:{data_object},  
+    data:data_object,
     params:params
   }).catch(error => {
     const error_prompt = 'error connecting to server with url: ' + url + " method: " + method + " params: " + JSON.stringify(params) + " data: " + JSON.stringify(data_object) + " "
