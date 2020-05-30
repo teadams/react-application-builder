@@ -34,7 +34,11 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       // data has been restructured
       defaults[field]= data[field]?data[field][references_field]:""
     } else if (data && mode === "edit") {
-        defaults[field] = data[field]?data[field]:""
+        if (field_model.input_type === "file") {
+          defaults[field] = ""
+        } else {
+          defaults[field] = data[field]?data[field]:""
+        }
     } else if (mode === "create") {
           // take from field_models
           let default_value = field_model.default?field_model.default:""
