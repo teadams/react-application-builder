@@ -4,6 +4,7 @@ import * as u from '../Utils/utils.js';
 import * as meta from '../Utils/meta.js';
 import useGetModel from '../Hooks/useGetModel';
 import {AuthContext} from '../Components/User';
+import axios from 'axios';
 
 
 const useForm = (object_type, field_name="", data, handleSubmit, mode="view", form=true, form_props={}, field_list) => {
@@ -90,27 +91,29 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   })
 
   const handleFileEditSubmit = (event,field_name, file) => {
-      const formFileEditSubmitValues = Object.assign(formValues, {field_name:file})
-      api.putData(object_type, formFileEditSubmitValues, {}, (result, error) => { 
+    let fileFormValues = Object.assign(formValues)
+    fileFormValues.field_name=file
+
+    api.putData(object_type, fileFormValues, {}, (result, error) => { 
         if (error) {
           alert ('error with file upload ' + error.message)
         } else { 
-        //  context.setDirty();
-          handleSubmit(event,'updated', formValues);
+          context.setDirty();
+            handleSubmit(event,'updated', formValues);
         }
-      })
+    })
   } 
 
   const handleFormChange = ((event) => {
     event.persist();
-    const name = event.target_name
+    const name = event.target.name
     setLastTouched(name)
     if (event.target.type !== "file") {
       let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
       setFormValues(formValues => ({...formValues, [name]:value}));
     } else {
       let value = event.target.files[0];
-      if (mode==="edit") {
+      if (mode==="edit" && form) {
         // edit ubmits right away
         handleFileEditSubmit(event, name, value)
       } else if (mode === "create") {
