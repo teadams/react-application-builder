@@ -120,14 +120,10 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       setFormValues(formValues => ({...formValues, [name]:value}));
     } else {
       let value = event.target.files[0];
-      if (mode==="edit" && form) {
-        // edit submit
-        if (field_name) {
-          // this is a field form 
-          // (not row form)
-          handleFileEditSubmit(event, name, value)
-        }
-      } else if (mode === "create") {
+      if (mode==="edit" && form && field_name) {
+        // this is a field form (not row form)
+        handleFileEditSubmit(event, name, value)
+      } else {
         setFormValues(formValues => ({...formValues, [name]:value}));
       }
     }
