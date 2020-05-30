@@ -96,8 +96,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
 
   const handleFileEditSubmit = (event,field_name, file) => {
     let fileFormValues = Object.assign(formValues)
-    fileFormValues.field_name=file
-
+    fileFormValues[field_name]=file
     api.putData(object_type, fileFormValues, {}, (result, error) => { 
         if (error) {
           alert ('error with file upload ' + error.message)
