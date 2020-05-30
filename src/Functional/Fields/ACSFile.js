@@ -26,8 +26,6 @@ function ACSFile(props) {
             InputProps={{disableUnderline:disable_underline}}
             disabled={field_model.prevent_edit}
             type="file"
-            //onBlur={props.onFieldBlur}
-            value={formValues[props.field_name]}
             onChange={onChange}
             />
             </Fragment>
