@@ -34,7 +34,9 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       // XX fix to have id work off object meta data 
       const references_field = field_model.references_field?field_model.references_field:"id"; 
       // data has been restructured
-      defaults[field]= data[field]?data[field][references_field]:""
+      
+      defaults[field]= data[field]?(data[field][references_field]?data[field][references_field]:""):""
+    
     } else if (data && mode === "edit") {
       defaults[field] = data[field]?data[field]:""
     } else if (mode === "create") {
