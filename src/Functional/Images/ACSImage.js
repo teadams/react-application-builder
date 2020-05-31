@@ -10,7 +10,7 @@ function ACSImage(props) {
   const image_object = JSON.parse(props.image_object)
   function get_image_url (object_type, field_name, image_object) {
       if (image_object) {
-        return ("/images/hm/" + object_type + "/" + field_name +"/" + image_object.name)
+        return (image_object.path+ "/" + image_object.name)
       } else {
         return ""
       }   
@@ -68,7 +68,7 @@ function ACSImage(props) {
 //# field name
   
   const image_url = get_image_url(object_type,field_name, image_object)
-u.a(image_url)
+
   let image_dim = {}
   if (image_object) {
     image_dim = get_image_dimensions(image_object,size,fix)
