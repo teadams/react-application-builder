@@ -49,7 +49,7 @@ function ACSImage(props) {
     // XX app_params
     let standard_sizing = {}
     standard_sizing.tiny =   {height:20, width:20}
-    standard_sizing.small =  {height:50, width:50}
+    standard_sizing.small =  {height:30, width:30}
     standard_sizing.medium = {height:100, width:100}
     standard_sizing.large =  {height:300, width:300}
     
@@ -85,7 +85,7 @@ function ACSImage(props) {
   image_dim = get_image_dimensions(image_object,size,fix)
 
   if (!image_object  || !image_object.path || !image_object.name) {
-    return (<Avatar style={{'height':image_dim.height, 'width':image_dim.width}}>{letters}</Avatar>)
+    return (<Avatar style={{'height':image_dim.height, 'width':image_dim.width, verticalAlign:'textTop'}}>CC</Avatar>)
   } else if (avatar) {
     return (
       <Avatar style={ {'height':image_dim.height, 'width':image_dim.width}} src={image_url}/>

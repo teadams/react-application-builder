@@ -2,7 +2,8 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import * as u from '../../Utils/utils.js'
 import React, {Fragment} from 'react';
-import {Typography, Button} from '@material-ui/core';
+import {Typography, Button, IconButton} from '@material-ui/core';
+import ACSImage from "../../Functional/Fields/ACSImage.js"
 import AuthContext from './AuthContext';
 import LoginForm from './LoginForm'
 
@@ -25,9 +26,12 @@ class AuthToggleLink extends React.Component {
 
   render() {
     if (this.context.user) {
-      return (  
+      return (
         <Fragment>
-          <Button color="inherit" onClick={this.context.logout}>  {this.context.user.first_name} Logout</Button>
+
+          <Button color="inherit" onClick={this.context.logout}> Logout</Button>
+          <ACSImage size="small" letters="TA" />
+  
         </Fragment>
       )
     } else {

@@ -20,7 +20,7 @@ import {CreateForm} from "../Layouts/index.js";
 
 function LoginForm(props) {
   const [activeTab, setActiveTab] = useState(0)
-  const [formValues, setFormValues] = useState({})
+  const [formValues, setFormValues] = useState({email:"", credential:"", credential_confirm:"", first_name:"", last_name:""})
   const core_user_object_meta = useGetModel("object_types", "core_user")
   const context = useContext(AuthContext)
   function handleTabChange(event, index) {
@@ -86,7 +86,7 @@ function LoginForm(props) {
       <Tab label="Login" />
       <Tab label="Create Account" />
     </Tabs>
-    {activeTab == 0 &&
+    {activeTab === 0 &&
       <Fragment>
         <DialogTitle id="form-dialog-login">Login</DialogTitle>
         <DialogContent>
@@ -141,7 +141,7 @@ function LoginForm(props) {
         </DialogActions>
       </Fragment>
       }
-      {activeTab == 1 &&
+      {activeTab === 1 &&
           <Fragment>
             <DialogTitle id="form-dialog-create-account">Create Account</DialogTitle>
             <DialogContent>
