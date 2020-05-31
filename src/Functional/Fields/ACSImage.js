@@ -9,8 +9,11 @@ import useGetModel from '../../Hooks/useGetModel.js'
 // called directly (example from ACSFile) 
 // Not part of the  List/Row/Field frameowrk
 function ACSImage(props) {
-  const {size="medium", fix="width", avatar=true} = props
-  const image_object = JSON.parse(props.image_object)
+  const {size="medium", fix="width", avatar=true, letters=""} = props
+  let image_object=""
+  if (props.image_object) {
+    image_object = JSON.parse(props.image_object)
+  }
   function get_image_url (image_object) {
       if (image_object) {
         return (image_object.path+ "/" + image_object.name)
@@ -47,6 +50,9 @@ function ACSImage(props) {
     standard_sizing.medium = {height:100, width:100}
     standard_sizing.large =  {height:300, width:300}
     
+    if (!image_object) {
+        return standard_sizing[size]
+    }
     let resized_dim = standard_sizing[size]
     // algorythm to resize approprialy so image
     // does not get warped
@@ -73,15 +79,14 @@ function ACSImage(props) {
   const image_url = get_image_url(image_object)
 
   let image_dim = {}
-  if (image_object) {
-    image_dim = get_image_dimensions(image_object,size,fix)
-  } 
-  if (avatar) {
-      return (
-        <Fragment>
-        <Avatar style={ {'height':image_dim.height, 'width':image_dim.width}} src={image_url}/>
-        </Fragment>
-      )
+  image_dim = get_image_dimensions(image_object,size,fix)
+
+  if (!image_object) {
+    return (<Avatar style={{'height':image_dim.height, 'width':image_dim.width}}>{letters}</Avatar>)
+  } else if (avatar) {
+    return (
+      <Avatar style={ {'height':image_dim.height, 'width':image_dim.width}} src={image_url}/>
+    )
   } else {
       return (
       <Fragment>
