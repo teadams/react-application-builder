@@ -12,13 +12,15 @@ import ACSImage from './ACSImage.js'
 
 function ACSFile(props) {
   const {mode, data, field_name, field_model={}, formdata, object_type, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true} = props
-  // XX field model passed due to referenced change. May 
-  // be done server side later
+  const {data_type} = field_model
   const field_value = data[field_model.final_field_name?field_model.final_field_name:field_name]
   switch (mode) {
     case "edit":
     case "create":
       return (<Fragment>
+          {mode==="edit" && data_type === "image" &&
+            <ACSImage image_object={field_value}/>
+          }
           <TextField 
             autoFocus={autoFocus}
             name={field_name} 
@@ -36,7 +38,7 @@ function ACSFile(props) {
       break
     default:
       // text, view, list
-      if (field_model.data_type === "image") {
+      if (data_type === "image") {
         return <ACSImage image_object={field_value}/>
       } else {
         return ("placeholder for file")
