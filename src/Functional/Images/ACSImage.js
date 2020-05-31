@@ -1,21 +1,21 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
-
 import React, {Fragment} from 'react';
 import {Paper, Typography, Avatar} from '@material-ui/core';
+import * as u from '../../Utils/utils.js';
+import useGetModel from '../../Hooks/useGetModel.js'
 
-function Image(props) {
-  const (object_type, field_name, image_object, size, fix)  = props
-
-  get_image_url (object_type, field_name, image_object) {
+function ACSImage(props) {
+  const {object_type, field_name, image_object, size="medium", fix="none", avatar="false"} = props
+  function get_image_url (object_type, field_name, image_object) {
       if (image_object) {
-        return ("/images/" + object_type + "/" + field_name +"/" + image_object.name)
+        return ("/images/hm/" + object_type + "/" + field_name +"/" + image_object.name)
       } else {
         return ""
       }   
   }
 
-  get_image_dimensions (image_object, size="medium", fix="none") {
+  function get_image_dimensions (image_object, size="medium", fix="none") {
     // resizes the image 
     // image_object: contains the native height
     // and width attributes of the image.
@@ -66,10 +66,11 @@ function Image(props) {
 //# object name
 //# field name
   
-  image_url = get_image_url(object_type, field_name, image_object)
+  const image_url = get_image_url(object_type,field_name, image_object)
+u.a(image_url)
   let image_dim = {}
   if (image_object) {
-    image_dim = get_image_dimensions(image_object,  size, fix)
+    image_dim = get_image_dimensions(image_object,size,fix)
   } 
 
   if (avatar) {
