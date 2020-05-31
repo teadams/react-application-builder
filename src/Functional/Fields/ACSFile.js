@@ -8,7 +8,7 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 import ACSListController from '../ACSListController.js'
 import rab_component_models from '../../Models/HealthMe/component.js'
 import * as meta from '../../Utils/meta.js';
-import ACSImage from '../Images/ACSImage.js'
+import ACSImage from './ACSImage.js'
 
 function ACSFile(props) {
   const {mode, data, field_name, field_model={}, formdata, object_type, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true} = props
@@ -36,7 +36,11 @@ function ACSFile(props) {
       break
     default:
       // text, view, list
-      return <ACSImage object_type={object_type} field_name={field_name} image_object={field_value}/>
+      if (field_model.data_type === "image") {
+        return <ACSImage image_object={field_value}/>
+      } else {
+        return ("placeholder for file")
+      }
   }
 }
 

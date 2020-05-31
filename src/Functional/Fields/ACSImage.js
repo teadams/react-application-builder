@@ -5,10 +5,13 @@ import {Paper, Typography, Avatar} from '@material-ui/core';
 import * as u from '../../Utils/utils.js';
 import useGetModel from '../../Hooks/useGetModel.js'
 
+// special case 
+// called directly (example from ACSFile) 
+// Not part of the  List/Row/Field frameowrk
 function ACSImage(props) {
-  const {object_type, field_name, size="medium", fix="none", avatar=true} = props
+  const {size="medium", fix="none", avatar=true} = props
   const image_object = JSON.parse(props.image_object)
-  function get_image_url (object_type, field_name, image_object) {
+  function get_image_url (image_object) {
       if (image_object) {
         return (image_object.path+ "/" + image_object.name)
       } else {
@@ -67,7 +70,7 @@ function ACSImage(props) {
 //# object name
 //# field name
   
-  const image_url = get_image_url(object_type,field_name, image_object)
+  const image_url = get_image_url(image_object)
 
   let image_dim = {}
   if (image_object) {
