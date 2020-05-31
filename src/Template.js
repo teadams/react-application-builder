@@ -63,6 +63,7 @@ function Template(props) {
       },
     sectionDesktop: {
        display: 'none',
+       alignItems:'center',
        [theme.breakpoints.up('md')]: {
          display: 'flex',
        },
