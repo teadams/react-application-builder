@@ -12,10 +12,13 @@ function ACSImage(props) {
   const {size="medium", fix="width", avatar=true, letters=""} = props
   let image_object=""
   if (props.image_object) {
-    image_object = JSON.parse(props.image_object)
+    try {
+      //protecting from bad JSON format
+      image_object = JSON.parse(props.image_object)
+    } catch {}
   }
   function get_image_url (image_object) {
-      if (image_object) {
+      if (image_object && image_object.path && image_object.name) {
         return (image_object.path+ "/" + image_object.name)
       } else {
         return ""
@@ -50,7 +53,7 @@ function ACSImage(props) {
     standard_sizing.medium = {height:100, width:100}
     standard_sizing.large =  {height:300, width:300}
     
-    if (!image_object) {
+    if (!image_object || !image_object.path || !image_object.name) {
         return standard_sizing[size]
     }
     let resized_dim = standard_sizing[size]
@@ -81,7 +84,7 @@ function ACSImage(props) {
   let image_dim = {}
   image_dim = get_image_dimensions(image_object,size,fix)
 
-  if (!image_object) {
+  if (!image_object  || !image_object.path || !image_object.name) {
     return (<Avatar style={{'height':image_dim.height, 'width':image_dim.width}}>{letters}</Avatar>)
   } else if (avatar) {
     return (
