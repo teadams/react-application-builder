@@ -85,7 +85,7 @@ function ACSImage(props) {
   image_dim = get_image_dimensions(image_object,size,fix)
 
   if (!image_object  || !image_object.path || !image_object.name) {
-    return (<Avatar style={{'height':image_dim.height, 'width':image_dim.width, verticalAlign:'textTop'}}>CC</Avatar>)
+    return (<Avatar style={{'height':image_dim.height, 'width':image_dim.width, verticalAlign:'textTop'}}>{letters}</Avatar>)
   } else if (avatar) {
     return (
       <Avatar style={ {'height':image_dim.height, 'width':image_dim.width}} src={image_url}/>
