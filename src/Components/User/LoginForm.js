@@ -251,5 +251,4 @@ function LoginForm(props) {
   
 }
 
-LoginForm.contextType = AuthContext;
 export default LoginForm;
