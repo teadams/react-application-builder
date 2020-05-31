@@ -2,6 +2,8 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import { makeStyles } from '@material-ui/core/styles';
 import * as u from '../../Utils/utils.js';
+import * as control from '../../Utils/control.js';
+
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useEffect} from 'react';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Select, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell,InputLabel } from '@material-ui/core';
@@ -9,17 +11,33 @@ import ACSListController from '../ACSListController.js'
 import rab_component_models from '../../Models/HealthMe/component.js'
 import * as meta from '../../Utils/meta.js';
 import ACSImage from './ACSImage.js'
+import useGetModel from '../../Hooks/useGetModel.js'
 
 function ACSFile(props) {
   const {mode, data, field_name, field_model={}, formdata, object_type, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true} = props
-  const {data_type} = field_model
-  const field_value = data[field_model.final_field_name?field_model.final_field_name:field_name]
+  const {data_type, field_component="", final_field_name=field_name} = field_model
+  const field_value = data[final_field_name]
+  const object_type_model = useGetModel("object_types")[object_type]
+  const fields_model = useGetModel("fields")[object_type]
+  let letters = ""
+  if (!field_value && data_type === "image") {
+    const pretty_key = object_type_model.pretty_key_id
+    const pretty_field_meta = fields_model[pretty_key]
+    const pretty_comp_name = pretty_field_meta.field_component
+    const field_component = control.componentByName(pretty_comp_name?pretty_comp_name:"RABTextField")
+    const pretty_name_text  = field_component({data:data, field_name:pretty_key, mode:"text"})
+    let word = ""
+    for (word of pretty_name_text.split(" ")) {
+      letters += word.charAt(0)
+    }
+  }
+
   switch (mode) {
     case "edit":
     case "create":
       return (<Fragment>
           {mode==="edit" && data_type === "image" &&
-            <ACSImage image_object={field_value}/>
+            <ACSImage letters={letters} image_object={field_value} letters={letters}/>
           }
           <TextField 
             autoFocus={autoFocus}
@@ -39,7 +57,7 @@ function ACSFile(props) {
     default:
       // text, view, list
       if (data_type === "image") {
-        return <ACSImage image_object={field_value}/>
+        return <ACSImage letters={letters} image_object={field_value}/>
       } else {
         return ("placeholder for file")
       }
