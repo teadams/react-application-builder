@@ -48,9 +48,12 @@ function RABTableHeaders(props) {
        }
    }
 
-  return (field_list.map(field=>{
-        return(<TableCell className={classes.head} key={field+"header"}>{field_model[field].pretty_name}</TableCell>)
-    }))
+  return (
+        <TableRow>
+        {field_list.map(field=>{
+        return(<TableCell className={classes.head} key={field+"header"}>{field_model[field].pretty_name}</TableCell>)})}
+        </TableRow>
+        )
 }
 
 function RABList(list_props) {
