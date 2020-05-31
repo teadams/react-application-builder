@@ -9,7 +9,7 @@ import useGetModel from '../../Hooks/useGetModel.js'
 // called directly (example from ACSFile) 
 // Not part of the  List/Row/Field frameowrk
 function ACSImage(props) {
-  const {size="medium", fix="none", avatar=true} = props
+  const {size="medium", fix="width", avatar=true} = props
   const image_object = JSON.parse(props.image_object)
   function get_image_url (image_object) {
       if (image_object) {
