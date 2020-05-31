@@ -93,15 +93,7 @@ function Template(props) {
                     <MailIcon />
                </Badge>
               </IconButton>
-              <IconButton
-                  edge="end"
-                  aria-label="account of current user"
-                  aria-haspopup="true"
-                  onClick=""
-                  color="inherit"
-                >
-                <AuthToggleLink></AuthToggleLink>
-                </IconButton>
+              <AuthToggleLink></AuthToggleLink>
               </div>
       </Toolbar>
       </AppBar>
