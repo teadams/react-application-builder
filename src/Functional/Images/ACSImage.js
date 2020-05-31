@@ -6,7 +6,7 @@ import * as u from '../../Utils/utils.js';
 import useGetModel from '../../Hooks/useGetModel.js'
 
 function ACSImage(props) {
-  const {object_type, field_name, size="medium", fix="none", avatar="false"} = props
+  const {object_type, field_name, size="medium", fix="none", avatar=true} = props
   const image_object = JSON.parse(props.image_object)
   function get_image_url (object_type, field_name, image_object) {
       if (image_object) {
@@ -73,7 +73,6 @@ function ACSImage(props) {
   if (image_object) {
     image_dim = get_image_dimensions(image_object,size,fix)
   } 
-
   if (avatar) {
       return (
         <Fragment>
