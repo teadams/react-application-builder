@@ -99,12 +99,15 @@ function RABSelectField(props) {
 
   const field_value = formValues?formValues[form_field_name]:value
   // convert to final field
-  const final_field_component_name = field_model.final_field_component
+  const final_field_component_name = field_model.final_field_component?field_model.final_field_component:"RABTextField"
 
   const Field = control.componentByName(final_field_component_name)
   
+  const final_field_name=field_model.final_field_name?field_model.final_field_name:field_name
+
   const data_field_value = data[field_model.final_field_name?field_model.final_field_name:field_name]
-  const field_display_value = data?data_field_value:display_value
+//  const text_value = data?data_field_value:display_value
+
   // precedence: props, field_model, keys
   let {select_key_field = field_model.select_key_field, select_display_field = field_model.select_display_field, prevent_edit=field_model.prevent_edit} = props 
   
@@ -133,14 +136,14 @@ function RABSelectField(props) {
       list_autoFocus={autoFocus} />)
       break
     case "csv":
-      return '"'+field_display_value+'""'
+      return '"'+Field({data:data, field_name:final_field_name, mode:"text"})+'""'
       break
     case "list":
     case "view":
       return (<Field data={data} field_name={field_model.final_field_name}/>)
     default:
       // text, view, list
-      return field_display_value?field_display_value:" "
+      return (<Field data={data} field_name={final_field_name} mode="text"/>) 
   }
 }
 

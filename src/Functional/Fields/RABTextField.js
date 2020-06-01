@@ -15,6 +15,7 @@ function RABTextField(props) {
   // XX field model passed due to referenced change. May 
   // be done server side later
   const field_value = data[field_model.final_field_name?field_model.final_field_name:field_name]
+
   switch (mode) {
     case "edit":
     case "create":
