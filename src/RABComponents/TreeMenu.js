@@ -5,6 +5,8 @@ import * as log from '../Utils/log.js'
 import * as meta from '../Utils/meta.js'
 import * as data from '../Utils/data.js';
 import * as u from '../Utils/utils.js';
+import * as control from '../Utils/control.js';
+
 import ACSRowController from '../Functional/ACSRowController.js'
 import ACSListController from '../Functional/ACSListController.js'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react'
@@ -31,14 +33,21 @@ function TreeMenu(props)  {
   }
 
   function RenderTreeItem(props) {
-    const {data, object_type, api_options={}} = props
+    const { object_type, api_options={}} = props
     const {grouping_field=""} = api_options
     const object_type_model = useGetModel("object_types", object_type)
     let field_name = object_type_model.pretty_key_id
+    const field_model = useGetModel("fields")[object_type][field_name]
     if (grouping_field && data.group_row) {
         field_name = grouping_field
     } 
-    let label = ACSField({object_type:props.object_type, data:props.data, field_name:field_name, display:"text"})
+    const field_component_name = field_model.final_field_component?field_model.final_field_component:field_model.field_component
+    const Field = control.componentByName(field_component_name)
+    let data = props.data 
+    if (field_model.references) {
+      data = data[field_model.references]
+    }
+    let label = Field({object_type:props.object_type, data:data, field_name:field_name, display:"text"})
     return (<TreeItem key={data.id} nodeId={data.id} label={label}>{props.children[1]}</TreeItem>)
   } 
 

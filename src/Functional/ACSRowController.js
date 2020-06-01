@@ -102,13 +102,18 @@ function ACSRowController(input_props) {
       } 
   }
 
-  let [ready, object_type, id, prescrubbed_field_list, api_options, data] =  useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data); 
+
+  let [ready, object_type, id, prescrubbed_field_list, api_options, data] =  useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data);
+  let trace = ""
+  if (!input_props_data && !id && data) {
+    id = data.id
+    trace = true
+  }
 
   let field_list = useGenerateFieldList(object_type, "", data, mode, form, prescrubbed_field_list)
 
   // field list will come back scrubbed
   let {formValues, lastTouched, handleFormChange, handleFormSubmit,} = useForm(object_type, "", data, handleSubmit, mode, form, merging_props,field_list);
-
 
   //// wall /////
   const field_models =  useGetModel("fields")
@@ -150,7 +155,7 @@ function ACSRowController(input_props) {
   // Final structure[[section], [section]]
   // where each section contains one or more fields 
   // (according to field_chunk and colspan rules examples: [field, field, field ]
-  return  (<RenderACSRow {...row_model.props} mode={mode} form={form} object_type={object_type}  id={id} field_list={field_list} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} form_open={form_open} onClose={handleFormClose}
+  return  (<RenderACSRow {...row_model.props} trace={trace} mode={mode} form={form} object_type={object_type}  id={id} field_list={field_list} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} form_open={form_open} onClose={handleFormClose}
   handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} key={key_id+"Render"} key_id={key_id}/>)
 
 }

@@ -15,6 +15,7 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
 function RABFormWrap(props) {
+
   const {object_type} = props
   const object_types = useGetModel("object_types")
   if (!object_types) {return null}
@@ -57,6 +58,7 @@ function RenderACSRow(props) {
 
   const FormWrap = RABFormWrap
   const {header_wrap:HeaderWrap, header:Header, section_wrap:SectionWrap, section_header:SectionHeader, row_wrap:RowWrap,  row:RABRow} = rab_component_model.row.components
+
   if (data) {
       return (
         <Fragment>
@@ -70,7 +72,7 @@ function RenderACSRow(props) {
                 <SectionHeader {...params} key={s_index+"header"}/>
                 {section_fields.map((field_chunk, f_index) => {
                   return ( 
-                          <RowWrap {...params} key={f_index+"wrap"}>
+                          <RowWrap {...params} trace={props.trace} key={f_index+"wrap"}>
                               <RABRow {...params} s_index={s_index} f_index={f_index} field_chunk={field_chunk} key={f_index+"row"} key_id={f_index}/>
                              {data.children && data.children.length >0 && <ACSListController {...params} {...rab_component_model.list.props} data={data.children} key={f_index+"list"}/>}
                           </RowWrap>

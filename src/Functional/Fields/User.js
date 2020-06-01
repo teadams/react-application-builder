@@ -12,7 +12,7 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 import ACSImage from "./ACSImage.js"
 
 function User(props) {
-  const {data, field_name, mode, size="tiny", ...params} = props
+  const {data, field_name,display, mode="view", size="tiny", ...params} = props
   if (data) {
     const first_name = data.first_name?data.first_name:""
     const last_name = data.last_name?data.last_name:""
