@@ -30,7 +30,7 @@ class AuthToggleLink extends React.Component {
         <Fragment>
 
           <Button color="inherit" onClick={this.context.logout}> Logout</Button>
-          <ACSImage image_object={this.context.user.thumbnail} letters={this.context.user.initials} size="small" letters="TA" />
+          <ACSImage image_object={this.context.user.thumbnail} letters={this.context.user.initials} size="small"  />
   
         </Fragment>
       )
