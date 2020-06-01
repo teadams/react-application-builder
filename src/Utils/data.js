@@ -74,9 +74,11 @@ export async function callAPI (path="", params={}, data_object={}, method="get",
       }
   })
   if (api_result) {
+  u.a("count results", api_result)
       data = api_result.data
     }
   if (callback) {
+  u.a("callback")
     callback(data,"");
   } else {
     return data
@@ -125,9 +127,14 @@ export function createAccount (data_object, callback)   {
   callAPI ("auth/create-account", {}, data_object, "post", callback) 
 }
 
-export function getCount (object_type, options={}, callback)   {
+export async function getCount (object_type, options={}, callback)   {
   options.get_count=true
-  callAPI (object_type, getParamsObject(options, ["filter_id", "filter_field", "filter_join", "get_count"]), {}, "get", callback) 
+  const count_result = await callAPI (object_type, getParamsObject(options, ["filter_id", "filter_field", "filter_join", "get_count"]), {}, "get")
+  if (callback) {
+      return callback("88")
+  } else {
+      return 40
+  }
 }
 
 

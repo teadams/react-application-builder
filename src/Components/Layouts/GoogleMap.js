@@ -5,7 +5,7 @@ import React,  {Fragment} from 'react';
 import {Paper,  Typography, Button, Grid} from '@material-ui/core';
 //import * as meta from '../../Utils/meta.js'
 import {AuthContext} from '../User';
-
+import ACSObjectCount from '../../Functional/Text/ACSObjectCount.js'
 import {Field, ObjectView} from "../Experimental"
 import {ProjectHover} from "../NowWeAct"
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
@@ -13,6 +13,7 @@ import {CreateForm} from "../Layouts/index.js";
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import * as data from '../../Utils/data.js';
+import * as u from '../../Utils/utils.js'
 import * as google_map from './api.js'
 import {  BrowserRouter as Router,  Switch,  Route,  Link,  Redirect, useHistory } from "react-router-dom";
 
@@ -117,20 +118,21 @@ componentDidMount() {
             //  alert ('maker data is ' + JSON.stringify(marker_data))
       })
 
-      data.getCount(this.props.object_type, {}, (num_projects, error) => {
-             this.setState({num_projects:num_projects})
-      })
+//      data.getCount(this.props.object_type, {}, (num_projects, error) => {
+//u.a(num_projects)
+//        this.setState({num_projects:num_projects})
+  //    })
 
-      data.getCount("nwn_project_volunteer", {}, (num_volunteers, error) => {
-             this.setState({num_volunteers:num_volunteers})
-      })
+  //    data.getCount("nwn_project_volunteer", {}, (num_volunteers, error) => {
+//             this.setState({num_volunteers:num_volunteers})
+//      })
 
       let options = {}
       options.filter_field = "status"
       options.filter_id = "Success"
-      data.getCount("nwn_project", options, (num_successful_projects, error) => {
-             this.setState({num_successful_projects:num_successful_projects})
-      })
+  //    data.getCount("nwn_project", options, (num_successful_projects, error) => {
+//             this.setState({num_successful_projects:num_successful_projects})
+  //    })
 
 
       
@@ -150,7 +152,8 @@ componentDidMount() {
           </Grid>
           <Grid item  style={{padding:20}}> <Button variant="contained" onClick={this.handleCreateProjectOpen}>Create a Project</Button></Grid>
           <Grid item  style={{padding:20}}>
-              Number of active Projects: {this.state.num_projects}   Number of successful projects: {this.state.num_successful_projects}   Number of Volunteers: {this.state.num_volunteers}
+              Number of active Projects: <ACSObjectCount object_type="nwn_project"/> 
+              Number of successful projects: {this.state.num_successful_projects}   Number of Volunteers: {this.state.num_volunteers}
           </Grid>
           </Grid>
         
