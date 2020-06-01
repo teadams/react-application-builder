@@ -92,7 +92,6 @@ function RABSelectField(props) {
   // 1. Called from a create/edit form (formValues is present)
   //   View will show field_display_value takend from data object.
   //   Edit/create uses controlled values from formValues
-  
   // 2. Called directly 
   //     dispaly_value is display_value, value is value
   const object_type_model = useGetModel("object_types", object_type)
@@ -100,8 +99,11 @@ function RABSelectField(props) {
 
   const field_value = formValues?formValues[form_field_name]:value
   // convert to final field
-  const data_field_value = data[field_model.final_field_name?field_model.final_field_name:field_name]
+  const final_field_component_name = field_model.final_field_component
+
+  const Field = control.componentByName(final_field_component_name)
   
+  const data_field_value = data[field_model.final_field_name?field_model.final_field_name:field_name]
   const field_display_value = data?data_field_value:display_value
   // precedence: props, field_model, keys
   let {select_key_field = field_model.select_key_field, select_display_field = field_model.select_display_field, prevent_edit=field_model.prevent_edit} = props 
@@ -133,6 +135,8 @@ function RABSelectField(props) {
     case "csv":
       return '"'+field_display_value+'""'
       break
+    case "list":
+      return (<Field data={data} field_name={field_model.final_field_name}/>)
     default:
       // text, view, list
       return field_display_value?field_display_value:" "
