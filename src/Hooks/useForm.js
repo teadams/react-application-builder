@@ -59,7 +59,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   }
   
   const handleFormSubmit = (event => {
-u.a("handle form Submit")
+
     if (!lastTouched) {
        handleSubmit(event, "no_change")
        return
