@@ -187,7 +187,7 @@ function RABVoid(props) {
 }
 
 function componentPicker(name) {
-  if (!name) {alert (name);return Fragment}
+  if (!name) {alert ("No component provided in componentPicker");return Fragment}
   switch (name) {
     case "ObjectView": return ObjectView
     case "RABHeaderAndBodyText": return RABHeaderAndBodyText;
