@@ -120,7 +120,7 @@ function RABSelectField(props) {
   rab_component_model.list.names.header = "RABVoid"
 
   function onBlur() {
-    if (props.form) {
+    if (props.form && props.onSubmit) {
       props.onSubmit()
     }
     if (props.onBlur) {
