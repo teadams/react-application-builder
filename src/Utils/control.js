@@ -136,7 +136,7 @@ function determineModelComponents(level, model) {
   if (!model) {return null}
   Object.keys(model[level].names).forEach(name =>{
     if (model[level].names[name] && !model[level].components[name]) {
-      model[level].components[name] = componentByName(model[level].names[name])
+      model[level].components[name] = componentByName(model[level].names[name],"control")
     }
     model[level].names[name] = undefined  
   })
