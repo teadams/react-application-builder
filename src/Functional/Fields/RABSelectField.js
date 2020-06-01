@@ -136,6 +136,7 @@ function RABSelectField(props) {
       return '"'+field_display_value+'""'
       break
     case "list":
+    case "view":
       return (<Field data={data} field_name={field_model.final_field_name}/>)
     default:
       // text, view, list
