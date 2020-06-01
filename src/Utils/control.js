@@ -28,7 +28,7 @@ import RABObjectTypePrettyPlural from '../Functional/Text/RABObjectTypePrettyPlu
 import {Tab, Tabs, Menu, MenuItem, MenuList,List,ListItem,ListItemAvatar,ListItemIcon,ListItemSecondaryAction,ListItemText,ListSubheader,Table,TableBody,TableCell,TableContainer,TableFooter,TableHead,TablePagination,TableRow,} from '@material-ui/core';
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
-
+import GoogleMap from '../Components/Layouts/GoogleMap.js'
 // precedence: low to high
 // shell - defines structure and defaults for all
 // default_component_for_layer - current list, row, field
@@ -232,6 +232,7 @@ function componentPicker(name, source="not provided") {
     case "RABVoid": return RABVoid;
     case "RABObjectPrettyName": return RABObjectPrettyName;
     case "RABObjectTypePrettyPlural": return RABObjectTypePrettyPlural;
+    case "GoogleMap": return GoogleMap;
     default:  { 
       alert("Menu Model Issues - no component for " + name) 
       return Fragment;
