@@ -15,16 +15,11 @@ import useGetModel from '../../Hooks/useGetModel.js'
 
 function ACSFile(props) {
   const {mode, data, field_name, field_model={}, formdata, object_type, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true} = props
-  let {size} = props 
-  if (!size) {
-    switch(mode) {
-      case "list":
-        size = "tiny"
-        break
-      default:
-        size = "medium"
-    }
-  }
+
+  let image_size = props.image_size?props.image_size:(field_model.image_size?field_model.image_size:"medium")
+
+  let image_size_list = props.image_size_list?props.image_size_list:(field_model.image_size_list?field_model.image_size_list:"tiny")
+
 
   const {data_type, field_component="", final_field_name=field_name} = field_model
   const field_value = data[final_field_name]
@@ -48,7 +43,7 @@ function ACSFile(props) {
     case "create":
       return (<Fragment>
           {mode==="edit" && data_type === "image" &&
-            <ACSImage letters={letters} image_object={field_value} letters={letters} size={size}/>
+            <ACSImage letters={letters} image_object={field_value} letters={letters} size={image_size}/>
           }
           <TextField 
             autoFocus={autoFocus}
@@ -65,10 +60,17 @@ function ACSFile(props) {
     case "csv":
       return '"'+field_value+'""'
       break
+    case "list":
+      if (data_type === "image") {
+        return <ACSImage letters={letters} image_object={field_value} size={image_size_list}/>
+      } else {
+        return ("placeholder for file")
+      }
+      break
     default:
       // text, view, list
       if (data_type === "image") {
-        return <ACSImage letters={letters} image_object={field_value} size={size}/>
+        return <ACSImage letters={letters} image_object={field_value} size={image_size}/>
       } else {
         return ("placeholder for file")
       }
