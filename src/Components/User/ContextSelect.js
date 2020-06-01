@@ -43,7 +43,7 @@ function ContextSelect () {
    }
 
 
-    if (context.user.id && context.context_id ) {        
+    if (context.user.id ) {     
           return (
             <RABSelectField object_type = "core_subsite"
               mode="edit" form="true"
