@@ -66,11 +66,11 @@ function RenderACSField(props) {
   params.autoFocus = props.autoFocus
   params.formValues = props.formValues
   params.mode = props.mode
+  params.form = props.form
   params.onSubmit = props.onSubmit 
   params.onBlur = props.onFieldBlur 
   params.field_name = field_name 
   params.onChange = props.onChange 
-
   switch (field_display) {
     case "name_value_wrapped":
     let col_span = props.col_span*2 -1

@@ -75,7 +75,7 @@ function RABSelectList(props) {
       name={props.select_form_name}
       value={props.value}
       autoFocus={props.autoFocus}
-      onBlur={props.onSubmit}
+      onBlur={props.form?props.onSubmit:""}
       style={props.style}
       disabled={prevent_edit}
       disableUnderline = {disable_underline}
@@ -86,6 +86,7 @@ function RABSelectList(props) {
 }
 
 function RABSelectField(props) {
+
   const {mode, data=[], field_name, formValues, onSubmit, onFieldBlur,  onChange, autoFocus, object_type, field_model={}, value="", display_value=" ", style, api_options} = props
   // 2 use cases:
   // 1. Called from a create/edit form (formValues is present)
