@@ -117,11 +117,11 @@ componentDidMount() {
             //  alert ('maker data is ' + JSON.stringify(marker_data))
       })
 
-      data.getCount(this.props.object_type, "", (num_projects, error) => {
+      data.getCount(this.props.object_type, {}, (num_projects, error) => {
              this.setState({num_projects:num_projects})
       })
 
-      data.getCount("nwn_project_volunteer", "", (num_volunteers, error) => {
+      data.getCount("nwn_project_volunteer", {}, (num_volunteers, error) => {
              this.setState({num_volunteers:num_volunteers})
       })
 

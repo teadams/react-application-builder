@@ -14,7 +14,7 @@ export function getPathBase () {
 } 
 
 export function validAPIParams() {
-    return ["order_by", "order_by_direction", "filter_field", "filter_id", "filter_join", "key_type", "context_limit", "user_id", "subsite_id" ,"parent_field", "grouping_field", "expand_hierarchy"]
+    return ["order_by", "order_by_direction", "filter_field", "filter_id", "filter_join", "key_type", "context_limit", "user_id", "subsite_id" ,"parent_field", "get_count", "grouping_field", "expand_hierarchy"]
 }
 
 
@@ -107,7 +107,7 @@ export function getData (object_type, options={}, callback)   {
   if (options.id) {
     path += '/'+options.id
   }
-  if (object_type=="core_subsite") {
+  if (object_type==="core_subsite") {
 }
   callAPI (path, getParamsObject(options), "", "get", callback) 
 }
@@ -125,9 +125,9 @@ export function createAccount (data_object, callback)   {
   callAPI ("auth/create-account", {}, data_object, "post", callback) 
 }
 
-export function getCount (object_type, options, callback)   {
-  const path = 'count/' + object_type;
-  callAPI (path, getParamsObject(options, ["filter_id", "filter_field", "filter_join"]), {}, "get", callback) 
+export function getCount (object_type, options={}, callback)   {
+  options.get_count=true
+  callAPI (object_type, getParamsObject(options, ["filter_id", "filter_field", "filter_join", "get_count"]), {}, "get", callback) 
 }
 
 
