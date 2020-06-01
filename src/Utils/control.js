@@ -112,6 +112,8 @@ function buildRABModel(params) {
         field:{names:{field:params.field_component},
               components:{}, 
               props:{
+                image_size:params.field_image_size,
+                image_size_list:params.field_image_size_list,
                 object_type:params.object_type,
                 api_options:params.api_options,
                 field_list:params.field_list,
