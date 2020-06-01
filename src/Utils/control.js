@@ -96,6 +96,7 @@ function buildRABModel(params) {
                      autoFocus:params.list_autoFocus,
                      onSubmit:params.list_onSubmit,
                      onChange:params.list_onChange,
+                     onBlur:params.list_onBlur,
                      style:params.list_style,
                      prevent_edit:params.list_prevent_edit,
                      select_form_name:params.list_select_form_name,
