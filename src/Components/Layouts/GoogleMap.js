@@ -194,12 +194,16 @@ function GoogleMap (props) {
             
             <Popover  classes={{paper: classes.paper}} open={showInfoWindow}                   onClose={handlePopoverClose}
 >
+            <Typography
+              onMouseLeave={handlePopoverClose}>
                 <ObjectView  object_type =        {props.object_type}
                   id = {selectedPlace.id}
                   field_mode = "view"
                   click_to_edit = {false}
                   num_columns={1}
                 handleMoreClick = {handleMoreClick}/>
+              </Typography>
+
             </Popover>
 
             
