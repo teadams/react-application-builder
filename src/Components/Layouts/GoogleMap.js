@@ -37,6 +37,7 @@ class GoogleMap extends React.Component {
   }
 
   handleProjectCreated(action_text, inserted_id, formValues)  {
+    // most of this will go server side
     this.setState({create_project_open:false})
     // though we have access to formValues, state and Country
     //  are id's and not the text name.   Simplest path forward
@@ -51,6 +52,7 @@ class GoogleMap extends React.Component {
     options.id = inserted_id
 
     data.getData("nwn_project", options, (project_data, error) => { 
+
       const other_fields = {
         leader_notes: 'Creator',
         creation_user: this.context.user.id
@@ -138,7 +140,6 @@ componentDidMount() {
           </Grid>
           </Grid>
         
-
         {this.state.create_project_open &&
           <CreateForm
             object_type="nwn_project" 
@@ -202,7 +203,6 @@ componentDidMount() {
     )
   }
 }
-
 
 GoogleMap.contextType = AuthContext;
 export default GoogleApiWrapper({
