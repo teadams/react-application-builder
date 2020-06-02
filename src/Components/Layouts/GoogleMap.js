@@ -20,6 +20,10 @@ import {  BrowserRouter as Router,  Switch,  Route,  Link,  Redirect, useHistory
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    learn_button: {
+      display:'flex',
+      justifyContent:'center'
+    },
     grow: {
       flexGrow: 1,
       display:'flex'
@@ -137,13 +141,11 @@ function GoogleMap (props) {
   }
   const onMouseover = (props, marker, e) => {
     setCenter(props.position)
-//    setAnchor(props.onMouseover.target)
     setSelectedPlace(props)
     setActiveMarker(marker)
     setShowInfoWindow(true)
   };
-  const center_width = window.innerWidth /2
-  const center_height =  window.innerHeight/2
+
   if (!marker_data) {
     data.getData(object_type, "", (marker_data, error) => {
       setMarkerData(marker_data)
@@ -228,10 +230,10 @@ function GoogleMap (props) {
                   row_header_image_size="medium"
                 handleMoreClick = {handleMoreClick}/>
               </Typography>
-
-            </Popover>
-
-            
+              <div className={classes.learn_button}> 
+                <Button   variant="contained" onClick={handleMoreClick}>Learn More</Button>
+              </div>
+            </Popover>            
         </Map>
         </Typography>
 
