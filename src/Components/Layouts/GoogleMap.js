@@ -26,8 +26,12 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'center',
     },
     paper: {
-      backgroundColor: theme.palette.background.paper,
+      backgroundColor: '#DDDDDD',
+      maxWidth:'75%',
+      maxHeight:'75%',
+      alight:'center',
       border: '2px solid #000',
+      borderRadius: '25px',
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3),
     },
@@ -35,8 +39,10 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function GoogleMap (props) {
+  const {object_type} = props
+  const classes = useStyles();
   const context = useContext(AuthContext)
-  const [marker_data, setMarkerData] = useState([])
+  const [marker_data, setMarkerData] = useState("")
   const [showInfoWindow, setShowInfoWindow] =useState(false)
   const [activeMarker, setActiveMarker] = useState({})
   const [selectedPlace, setSelectedPlace]= useState({})
@@ -110,7 +116,11 @@ function GoogleMap (props) {
       console.log('button has been clicked')
       alert ('handle clik')
   }
+  const handlePopoverClose= () => {
 
+    setShowInfoWindow(false)
+
+  }
   const onMouseover = (props, marker, e) => {
     setSelectedPlace(props)
     setActiveMarker(marker)
@@ -118,11 +128,14 @@ function GoogleMap (props) {
   };
   
   if (!marker_data) {
-    data.getData(this.props.object_type, "", (marker_data, error) => {
+    data.getData(object_type, "", (marker_data, error) => {
       setMarkerData(marker_data)
     })
   }
     
+  if (!marker_data) {
+    return null
+  }
   return (
       <Fragment>
         <Grid container >
@@ -152,7 +165,6 @@ function GoogleMap (props) {
             {props.text}
           <Map google={props.google} zoom={3}>
             {marker_data.map(marker => {
-            //  alert ("maker is " + JSON.stringify(marker))
               var icon
               if (marker.type.thumbnail) {
                 const thumbnail = JSON.parse(marker.type.thumbnail)
@@ -179,12 +191,18 @@ function GoogleMap (props) {
               position={position}></Marker>
               )
             })}
-    
-            <Popover  open={showInfoWindow}>
+            
+            <Popover  classes={{paper: classes.paper}} open={showInfoWindow}                   onClose={handlePopoverClose}
+>
                 <ObjectView  object_type =        {props.object_type}
                   id = {selectedPlace.id}
+                  field_mode = "view"
+                  click_to_edit = {false}
+                  num_columns={1}
                 handleMoreClick = {handleMoreClick}/>
             </Popover>
+
+            
         </Map>
         </Typography>
 
