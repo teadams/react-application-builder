@@ -15,7 +15,7 @@ import useGetModel from "../../Hooks/useGetModel.js"
 
 
 function RABObjectPrettyName(props) {
-  const { object_type, variant, header=true} = props
+  const { object_type, variant, header=true, image_size="small"} = props
   let {data} = props
   const object_type_model = useGetModel("object_types", object_type)
   const field_model = useGetModel("fields", object_type)
@@ -28,7 +28,7 @@ function RABObjectPrettyName(props) {
   }
   const field_component = control.componentByName(field_component_name?field_component_name:"RABTextField", "ObjectPrettyName")
 
-  const text = field_component({data:data, field_name:pretty_field_name, mode:"view", size:"small"})
+  const text = field_component({data:data, field_name:pretty_field_name, mode:"view", size:image_size})
   return (<RABText header={header} text={text} variant={variant}/>)
 }
 export default RABObjectPrettyName
