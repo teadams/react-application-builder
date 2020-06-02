@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }, 
     paper: {
       backgroundColor: '#DDDDDD',
-      maxWidth:'75%',
+      maxWidth:'40%',
       maxHeight:'75%',
       alight:'center',
       border: '2px solid #000',
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function GoogleMap (props) {
-  const {object_type} = props
+  const {object_type, field_list} = props
   const classes = useStyles();
   const context = useContext(AuthContext)
   const [marker_data, setMarkerData] = useState("")
@@ -59,6 +59,8 @@ function GoogleMap (props) {
   const [activeMarker, setActiveMarker] = useState({})
   const [selectedPlace, setSelectedPlace]= useState({})
   const [create_project_open, setCreateProjectOpen]= useState(false)
+  const [anchor, setAnchor] = useState(null);
+  const [center, setCenter] = useState({});
 
   const handleCreateProjectOpen = () =>  {
         setCreateProjectOpen(false)
@@ -129,16 +131,19 @@ function GoogleMap (props) {
       alert ('handle clik')
   }
   const handlePopoverClose= () => {
-
+    setAnchor(null)
     setShowInfoWindow(false)
 
   }
   const onMouseover = (props, marker, e) => {
+    setCenter(props.position)
+//    setAnchor(props.onMouseover.target)
     setSelectedPlace(props)
     setActiveMarker(marker)
     setShowInfoWindow(true)
   };
-  
+  const center_width = window.innerWidth /2
+  const center_height =  window.innerHeight/2
   if (!marker_data) {
     data.getData(object_type, "", (marker_data, error) => {
       setMarkerData(marker_data)
@@ -178,7 +183,7 @@ function GoogleMap (props) {
           />}
         <Typography variant="body1" style={{padding:10}}>
             {props.text}
-          <Map google={props.google} zoom={3}>
+          <Map google={props.google} zoom={3} center={center}>
             {marker_data.map(marker => {
               var icon
               if (marker.type.thumbnail) {
@@ -197,7 +202,8 @@ function GoogleMap (props) {
               position.lng = marker.longitude
             
               return (
-              <Marker onMouseover={onMouseover}
+              <Marker 
+              onMouseover={onMouseover}
               name={marker.name}
               full_marker = {marker}
               onMore= {props.onMore}
@@ -208,12 +214,15 @@ function GoogleMap (props) {
             })}
             
             <Popover  classes={{paper: classes.paper}} open={showInfoWindow}                   onClose={handlePopoverClose}
->
-            <Typography
-              onMouseLeave={handlePopoverClose}>
+        
+            anchorReference="anchorPosition"
+            anchorPosition={{ top: 50, left: 50 }}
+            >     
+            <Typography>
                 <ObjectView  object_type =        {props.object_type}
                   id = {selectedPlace.id}
                   field_mode = "view"
+                  field_list = {field_list}
                   click_to_edit = {false}
                   num_columns={1}
                 handleMoreClick = {handleMoreClick}/>
