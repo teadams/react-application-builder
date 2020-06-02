@@ -152,7 +152,7 @@ componentDidMount() {
           </Grid>
           <Grid item  style={{padding:20}}> <Button variant="contained" onClick={this.handleCreateProjectOpen}>Create a Project</Button></Grid>
           <Grid item  style={{padding:20}}>
-              Number of active Projects: <ACSObjectCount object_type="nwn_project"/> 
+              Number of active Projects: <ACSObjectCount api_options={{get_count:true}} object_type="nwn_project"/> 
               Number of successful projects: {this.state.num_successful_projects}   Number of Volunteers: {this.state.num_volunteers}
           </Grid>
           </Grid>

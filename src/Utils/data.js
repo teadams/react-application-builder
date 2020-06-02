@@ -74,11 +74,9 @@ export async function callAPI (path="", params={}, data_object={}, method="get",
       }
   })
   if (api_result) {
-  u.a("count results", api_result)
       data = api_result.data
-    }
+  }
   if (callback) {
-  u.a("callback")
     callback(data,"");
   } else {
     return data
@@ -127,7 +125,9 @@ export function createAccount (data_object, callback)   {
   callAPI ("auth/create-account", {}, data_object, "post", callback) 
 }
 
+// deprecated
 export async function getCount (object_type, options={}, callback)   {
+alert ("deprecated funcction getcount")
   options.get_count=true
   const count_result = await callAPI (object_type, getParamsObject(options, ["filter_id", "filter_field", "filter_join", "get_count"]), {}, "get")
   if (callback) {
