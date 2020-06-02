@@ -154,12 +154,13 @@ componentDidMount() {
             {this.state.marker_data.map(marker => {
             //  alert ("maker is " + JSON.stringify(marker))
               var icon
-              if (marker["type_thumbnail"]) {   
-                var icon_name = JSON.parse(marker["type_thumbnail"]).name
-                var url = "/images/nwn_project_type/thumbnail/"+icon_name
-                icon = {}
-                icon.url = url;
-                icon.scaledSize ={"width":20,"height":20}
+              if (marker.type.thumbnail) {
+                const thumbnail = JSON.parse(marker.type.thumbnail)
+                const icon_name = thumbnail.name
+                const path = thumbnail.path
+                const url = path+icon_name
+                icon = {url:url, 
+                        scaledSize:{"width":20,"height":20}}
               }  else  {
                 icon = ""
               }
