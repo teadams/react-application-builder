@@ -7,6 +7,7 @@ import {Paper,  Typography, Button, Grid, Popover} from '@material-ui/core';
 import {AuthContext} from '../User';
 
 import ACSObjectCount from '../../Functional/Text/ACSObjectCount.js'
+import ACSCreateButton from '../../Functional/Buttons/ACSCreateButton.js'
 import ObjectView from '../../RABComponents/ObjectView.js'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
@@ -58,6 +59,8 @@ function GoogleMap (props) {
   const {object_type, field_list} = props
   const classes = useStyles();
   const context = useContext(AuthContext)
+  const history = useHistory({});
+
   const [marker_data, setMarkerData] = useState("")
   const [showInfoWindow, setShowInfoWindow] =useState(false)
   const [activeMarker, setActiveMarker] = useState({})
@@ -70,29 +73,23 @@ function GoogleMap (props) {
         setCreateProjectOpen(false)
   }
 
-  const handleProjectCreated= (action_text, inserted_id, formValues) => {
+  const handleProjectCreated= (event,action, inserted_id) => {
     // most of this will go server side
-    setCreateProjectOpen(true)
-    this.setState({create_project_open:false})
-    // though we have access to formValues, state and Country
-    //  are id's and not the text name.   Simplest path forward
-    // (unfortunately) is to query back the project infor from
-    // the server
-
+u.a("submitted", action, inserted_id)
+return
+    setCreateProjectOpen(false)
+    // this will all move server side
     if (!inserted_id) {
         return
     }
 
     let options = {}
     options.id = inserted_id
-
     data.getData("nwn_project", options, (project_data, error) => { 
-
       const other_fields = {
         leader_notes: 'Creator',
         creation_user: this.context.user.id
       }
-
       const role_add_obj = {
         user_id: this.context.user.id,
         subsite_id: inserted_id,
@@ -112,7 +109,7 @@ function GoogleMap (props) {
           props.onMenuChange("",5)
 
       })
-          // Let this happen in parallel. User will be redirected so we do not have to wait
+      // Let this happen in parallel. User will be redirected so we do not have to wait
       let params = {}
       params.address= project_data.street_address  + ", " + project_data.city  +", " + project_data["state_name"] +",  " + project_data["country_name"] +", " + project_data.zip_code
       params.key = google_map.get_key() 
@@ -131,8 +128,10 @@ function GoogleMap (props) {
   }
 
   const handleMoreClick = event => {
-      console.log('button has been clicked')
-      alert ('handle clik')
+      window.scrollTo(0,0)
+      context.setContextId(activeMarker.id)
+      let path = `/OneProject`
+      history.push(path);
   }
   const handlePopoverClose= () => {
     setAnchor(null)
@@ -155,12 +154,19 @@ function GoogleMap (props) {
   if (!marker_data) {
     return null
   }
+
+  
+  const create_button = (props) => { 
+      return (<Button variant="contained" {...props}>Create a Project</Button>)
+  }
+
+//const create_button = Button
   return (
       <Fragment>
       <div className={classes.grow}>
            <Typography variant="h4" classes={{root:classes.head_row}}>{props.title}</Typography>
-          <div className={classes.head_row}> 
-              <Button variant="contained" onClick={handleCreateProjectOpen}>Create a Project</Button>
+          <div className={classes.head_row}>
+              <ACSCreateButton onSubmit={handleProjectCreated} Component={create_button} object_type={object_type}/>
           </div>
           <div className={classes.grow} />
           <div className={classes.head_count_wrapper}>
@@ -176,13 +182,6 @@ function GoogleMap (props) {
           </div>
         </div>
         
-        {create_project_open &&
-          <CreateForm
-            object_type="nwn_project" 
-            open={create_project_open}
-            hidden={{leader:true}}
-            onClose={this.handleProjectCreated}
-          />}
         <Typography variant="body1" style={{padding:10}}>
             {props.text}
           <Map google={props.google} zoom={3} center={center}>

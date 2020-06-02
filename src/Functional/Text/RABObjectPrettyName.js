@@ -18,16 +18,16 @@ function RABObjectPrettyName(props) {
   const { object_type, variant, header=true, image_size="small"} = props
   let {data} = props
   const object_type_model = useGetModel("object_types", object_type)
-  const field_model = useGetModel("fields", object_type)
-
+  const field_models = useGetModel("fields", object_type)
+  
   const pretty_field_name = object_type_model.pretty_key_id
-
-  const field_component_name = field_model[pretty_field_name].final_field_component?field_model[pretty_field_name].final_field_component:field_model[pretty_field_name].field_component
-  if (field_model[pretty_field_name].references) {
-    data=data[field_model[pretty_field_name].references]
+  const field_model = field_models[pretty_field_name]
+  const field_component_name = field_model.final_field_component?field_model.final_field_component:field_model.field_component
+  if (field_model.references) {
+    data=data[field_model.references]
   }
   const field_component = control.componentByName(field_component_name?field_component_name:"RABTextField")
-  const text = field_component({data:data, field_name:pretty_field_name, mode:"view", image_size:image_size})
+  const text = field_component({data:data, trace:true,field_model:field_model, field_name:pretty_field_name, mode:"view", image_size:image_size})
   return (<RABText header={header} text={text} variant={variant}/>)
 }
 export default RABObjectPrettyName

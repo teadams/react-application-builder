@@ -11,7 +11,6 @@ function ACSCreateButton(props) {
   const [create_dialog, setCreateDialog] = useState(false);
 
   const handleOnClick = event => {
-alert("handle con click")
     setCreateDialog(true)
     if (props.onClick) {
       props.onClick(event);
@@ -24,6 +23,13 @@ alert("handle con click")
     }
   }
 
+  const handleOnSubmit = (event,action, inserted_id) => {
+    if (props.onSubmit) {
+      props.onSubmit(event,action, inserted_id)
+    }
+  }
+
+
   const float=props.float?props.float:'none'
  return (
       <Fragment>
@@ -34,7 +40,7 @@ alert("handle con click")
       </IconButton>
       }
       {create_dialog  &&
-      <ObjectView object_type={object_type} row_mode="create" row_form="true" onClose={handleOnClose} /> }
+      <ObjectView object_type={object_type} row_mode="create" row_form="true" onSubmit={handleOnSubmit} onClose={handleOnClose} /> }
       </Fragment>
       )
 }
