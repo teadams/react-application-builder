@@ -12,7 +12,7 @@ function ACSObjectCount(props)  {
   //api_options.get_count = true
   const ACSCount = (props) => {
     if (!props.data) {return null}
-    return (<Fragment>a1<div style={{display:'flex'}}>{props.data.count}</div>a2</Fragment>)
+    return (<Fragment> {props.data.count}</Fragment>)
   }
   const rab_component_model = {
     row: {
@@ -25,11 +25,11 @@ function ACSObjectCount(props)  {
     }
 
   }
-  return ( <Fragment>c1
-      <div style={{display:'flex'}}> {props.text}<ACSRowController 
+  return ( <Fragment>
+      <div style={{display:'inline'}}> {props.text}<ACSRowController 
         rab_component_model = {rab_component_model}
         object_type={object_type}  api_options={api_options} />
-     </div>c2
+     </div>
       </Fragment>
   )
 }

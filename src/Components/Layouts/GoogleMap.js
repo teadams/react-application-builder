@@ -146,11 +146,11 @@ function GoogleMap (props) {
           </Grid>
           <Grid item  style={{padding:20}}> <Button variant="contained" onClick={handleCreateProjectOpen}>Create a Project</Button></Grid>
           <Grid item  style={{padding:20}}>
-            <ACSObjectCount api_options={{get_count:true, num_rows:1,}} text="Number of active projects:" object_type="nwn_project"/>
+            <ACSObjectCount api_options={{get_count:true, num_rows:1,}} text="Active Projects:" object_type="nwn_project"/>
 
-            <ACSObjectCount api_options={{get_count:true, num_rows:1, filter_id:"Success", filter_field:"status"}} text="Number of sucessful projects:" object_type="nwn_project"/>
+            <ACSObjectCount api_options={{get_count:true, num_rows:1, filter_id:"Success", filter_field:"status"}} text="Sucessful Projects:" object_type="nwn_project"/>
 
-            <ACSObjectCount api_options={{get_count:true, num_rows:1}} text="Number of volunteers:" object_type="nwn_project_volunteer"/> 
+            <ACSObjectCount api_options={{get_count:true, num_rows:1}} text="Volunteers:" object_type="nwn_project_volunteer"/> 
           </Grid>
           </Grid>
         
