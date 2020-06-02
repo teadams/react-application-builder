@@ -2,12 +2,12 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
 import React,  {Fragment} from 'react';
-import {Paper,  Typography, Button, Grid} from '@material-ui/core';
+import {Paper,  Typography, Button, Grid, Popover} from '@material-ui/core';
 //import * as meta from '../../Utils/meta.js'
 import {AuthContext} from '../User';
 import ACSObjectCount from '../../Functional/Text/ACSObjectCount.js'
-import {Field, ObjectView} from "../Experimental"
-import {ProjectHover} from "../NowWeAct"
+import ObjectView from '../../RABComponents/ObjectView.js'
+
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import {CreateForm} from "../Layouts/index.js";
 import * as log from '../../Utils/log.js'
@@ -98,7 +98,6 @@ class GoogleMap extends React.Component {
   handleMoreClick = event => {
       console.log('button has been clicked')
       alert ('handle clik')
-      //this.props.onMore(event, this.props.link_menu_index, this.props.filter_id, this.props.menu_link_field, this.props.link_object_type, this.props.menu_link_reference_field)
   }
 
   onMouseover = (props, marker, e) =>
@@ -171,13 +170,7 @@ componentDidMount() {
             
               return (
               <Marker onMouseover={this.onMouseover}
-
               name={marker.name}
-              project_type = {marker.project_type}
-              summary = {marker.summary}
-              description = {marker.description}
-              leader_first_name = {marker.leader_first_name}
-              leader_last_name = {marker.leader_last_name}
               full_marker = {marker}
               onMore= {this.props.onMore}
               icon = {icon}
@@ -186,17 +179,11 @@ componentDidMount() {
               )
             })}
     
-            <InfoWindow maxWidth="100%" marker={this.state.activeMarker}  visible={this.state.showInfoWindow}>
-                <ProjectHover   object_type = {this.props.object_type}
-                  name = {this.state.selectedPlace.name}
-                  selected_id = {this.state.selectedPlace.id}
-                  description = {this.state.selectedPlace.description}
-                leader_first_name = {this.state.selectedPlace.leader_first_name}
-                leader_last_name = {this.state.selectedPlace.leader_last_name}
-                  summary = {this.state.selectedPlace.summary}
-                full_marker = {this.state.selectedPlace.full_marker}
+            <Popover  open={this.state.showInfoWindow}>
+                <ObjectView  object_type =        {this.props.object_type}
+                  id = {this.state.selectedPlace.id}
                 handleMoreClick = {this.handleMoreClick}/>
-            </InfoWindow>
+            </Popover>
         </Map>
         </Typography>
 
