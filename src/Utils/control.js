@@ -110,7 +110,8 @@ function buildRABModel(params) {
               field_list:params.field_list,
               num_columns:params.num_columns,
               mode:params.row_mode?params.row_mode:params.mode,
-              form:params.row_form
+              form:params.row_form,
+              header_image_size:params.row_header_image_size
         }},
         field:{names:{field:params.field_component},
               components:{}, 

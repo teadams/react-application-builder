@@ -225,6 +225,7 @@ function GoogleMap (props) {
                   field_list = {field_list}
                   click_to_edit = {false}
                   num_columns={1}
+                  row_header_image_size="medium"
                 handleMoreClick = {handleMoreClick}/>
               </Typography>
 

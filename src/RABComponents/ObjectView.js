@@ -32,7 +32,6 @@ function ObjectView(props)  {
       props.onClose()
     }
   }
-u.a(params)
   return ( <ACSRowController {...params} form_open={form_open} onClose={handleFormClose} object_type={object_type} field_list={field_list} api_options={api_options} num_columns={num_columns}  />
           )
 }

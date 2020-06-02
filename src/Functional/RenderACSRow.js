@@ -54,15 +54,14 @@ function RABFormWrap(props) {
 
 function RenderACSRow(props) {
   const { ...params} = props
-  const {key_id, form, mode, form_open, data, rab_component_model, object_type, field_list, handleFormChange, handleFormSubmit, formValues, onClose} = props
-
+  const {key_id, form, mode, form_open, data, rab_component_model, object_type, field_list, handleFormChange, handleFormSubmit, formValues, onClose, header_image_size="tiny"} = props
   const FormWrap = RABFormWrap
   const {header_wrap:HeaderWrap, header:Header, section_wrap:SectionWrap, section_header:SectionHeader, row_wrap:RowWrap,  row:RABRow, row_body:RowBody} = rab_component_model.row.components
   if (data) {
       return (
         <Fragment>
-          <HeaderWrap {...params}>
-            <Header {...params}/>
+          <HeaderWrap {...params} >
+            <Header {...params} image_size={header_image_size}/>
           </HeaderWrap>
           <RowBody {...params}>
           {field_list.map((section_fields, s_index) => {

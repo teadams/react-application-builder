@@ -12,21 +12,20 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 import ACSImage from "./ACSImage.js"
 
 function FieldAndThumbnail(props) {
-  const {data, field_name,  display, mode="view", size="tiny", ...params} = props
+  const {data, field_name,  display, mode="view", image_size="small", ...params} = props
   if (data) {
     const value =  data[field_name]?data[field_name]:""
     const thumbnail = data.thumbnail?data.thumbnail:""
-
     switch (mode) {
       case "text":
         return (value)
         break;
       default:  
         if (thumbnail) {  
-          return (<div style={{display:"flex"}}> <ACSImage image_object={thumbnail} fix="width" size={size}/>&nbsp; {value}</div>)
+          return (<div style={{display:"flex"}}> <ACSImage image_object={thumbnail} fix="width" size={image_size}/>&nbsp; {value}</div>)
         } else {
           const letters = value.charAt(0)
-          return (<div style={{display:"flex"}}><ACSImage letters={letters}  fix="width" size={size}/>&nbsp;
+          return (<div style={{display:"flex"}}><ACSImage letters={letters}  fix="width" size={image_size}/>&nbsp;
           {value}</div>)
         }
     }
