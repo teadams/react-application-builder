@@ -110,30 +110,9 @@ class GoogleMap extends React.Component {
 componentDidMount() {
       log.val('drill down did mount')
 
-      //alert('object type is ' + this.props.object_type)
       data.getData(this.props.object_type, "", (marker_data, error) => {
-  //alert ('data is '  + JSON.stringify(marker_data))
              this.setState({ marker_data:marker_data})
-  //alert ('after set set')
-            //  alert ('maker data is ' + JSON.stringify(marker_data))
       })
-
-//      data.getCount(this.props.object_type, {}, (num_projects, error) => {
-//u.a(num_projects)
-//        this.setState({num_projects:num_projects})
-  //    })
-
-  //    data.getCount("nwn_project_volunteer", {}, (num_volunteers, error) => {
-//             this.setState({num_volunteers:num_volunteers})
-//      })
-
-      let options = {}
-      options.filter_field = "status"
-      options.filter_id = "Success"
-  //    data.getCount("nwn_project", options, (num_successful_projects, error) => {
-//             this.setState({num_successful_projects:num_successful_projects})
-  //    })
-
 
       
   }
@@ -152,8 +131,11 @@ componentDidMount() {
           </Grid>
           <Grid item  style={{padding:20}}> <Button variant="contained" onClick={this.handleCreateProjectOpen}>Create a Project</Button></Grid>
           <Grid item  style={{padding:20}}>
-              Number of active Projects: <ACSObjectCount api_options={{get_count:true, num_rows:1}} object_type="nwn_project"/> 
-              Number of successful projects: {this.state.num_successful_projects}   Number of Volunteers: {this.state.num_volunteers}
+            <ACSObjectCount api_options={{get_count:true, num_rows:1,}} text="Number of active projects:" object_type="nwn_project"/> 
+
+            <ACSObjectCount api_options={{get_count:true, num_rows:1, filter_id:"Success", filter_field:"status"}} text="Number of sucessful projects:" object_type="nwn_project"/>
+
+            <ACSObjectCount api_options={{get_count:true, num_rows:1}} text="Number of volunteers:" object_type="nwn_project_volunteer"/> 
           </Grid>
           </Grid>
         
