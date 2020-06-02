@@ -20,11 +20,23 @@ import {  BrowserRouter as Router,  Switch,  Route,  Link,  Redirect, useHistory
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    modal: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+    grow: {
+      flexGrow: 1,
+      display:'flex'
     },
+    head_row: {
+      display:'flex',
+      padding:'10px'
+    }, 
+    head_count_wrapper: {
+      display:'flex',
+      justifyContent:'flex-end'
+    },
+    head_count_item: {
+      display:'flex',
+      padding:'0px',
+      paddingRight:'20px'
+    }, 
     paper: {
       backgroundColor: '#DDDDDD',
       maxWidth:'75%',
@@ -138,21 +150,24 @@ function GoogleMap (props) {
   }
   return (
       <Fragment>
-        <Grid container >
-          <Grid item  style={{padding:20}}>
-          <Typography variant="headline">
-           {props.title}
-          </Typography>
-          </Grid>
-          <Grid item  style={{padding:20}}> <Button variant="contained" onClick={handleCreateProjectOpen}>Create a Project</Button></Grid>
-          <Grid item  style={{padding:20}}>
-            <ACSObjectCount api_options={{get_count:true, num_rows:1,}} text="Active Projects:" object_type="nwn_project"/>
-
-            <ACSObjectCount api_options={{get_count:true, num_rows:1, filter_id:"Success", filter_field:"status"}} text="Sucessful Projects:" object_type="nwn_project"/>
-
-            <ACSObjectCount api_options={{get_count:true, num_rows:1}} text="Volunteers:" object_type="nwn_project_volunteer"/> 
-          </Grid>
-          </Grid>
+      <div className={classes.grow}>
+           <Typography variant="h4" classes={{root:classes.head_row}}>{props.title}</Typography>
+          <div className={classes.head_row}> 
+              <Button variant="contained" onClick={handleCreateProjectOpen}>Create a Project</Button>
+          </div>
+          <div className={classes.grow} />
+          <div className={classes.head_count_wrapper}>
+            <div className={classes.head_count_item}>
+              <ACSObjectCount api_options={{get_count:true, num_rows:1,}} text="Active Projects:" object_type="nwn_project"/>
+            </div>
+            <div className={classes.head_count_item}>
+              <ACSObjectCount api_options={{get_count:true, num_rows:1, filter_id:"Success", filter_field:"status"}} text="Sucessful Projects:" object_type="nwn_project"/>
+            </div>
+            <div className={classes.head_count_item}>
+              <ACSObjectCount api_options={{get_count:true, num_rows:1}} text="Volunteers:" object_type="nwn_project_volunteer"/> 
+            </div>
+          </div>
+        </div>
         
         {create_project_open &&
           <CreateForm
