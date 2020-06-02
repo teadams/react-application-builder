@@ -7,14 +7,10 @@ import * as u from '../Utils/utils.js';
 import ModelContext from '../ModelContext.js';
 
 
-const useGetModel = (type, object_type="", trace) => {
+const useGetModel = (type, object_type="") => {
   const model = useContext(ModelContext)
-if (trace) {
-  u.a(type, model)
-
-}
   if (object_type&& ["object_types", "fields"].includes(type) ) {
-      return model[type][object_type]
+    return model[type][object_type]
   } else {
     return model[type]
   }

@@ -19,9 +19,8 @@ import {Tab, Tabs, Menu, MenuItem, Paper, MenuList,List,ListItem,ListItemAvatar,
 import useGetModel from "../Hooks/useGetModel.js"
  
 function ObjectView(props)  {
-u.a("object view", props)
-  const field_models = useGetModel("fields","",true)
-  const menu_model =  useGetModel("menus","",true)
+  const field_models = useGetModel("fields")
+  const menu_model =  useGetModel("menus")
   const model = meta.getByPrecedence({filter_field:"id"}, props, menu_model.menu_items[props.menu_name])
   const {object_type, filter_field, num_columns, form_open=props.row_form, ...params} = model
   let api_options = {}
