@@ -1,13 +1,14 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
-import React,  {Fragment} from 'react';
+import React,  {useContext, useState, Fragment} from 'react';
 import {Paper,  Typography, Button, Grid, Popover} from '@material-ui/core';
 //import * as meta from '../../Utils/meta.js'
 import {AuthContext} from '../User';
+
 import ACSObjectCount from '../../Functional/Text/ACSObjectCount.js'
 import ObjectView from '../../RABComponents/ObjectView.js'
-
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import {CreateForm} from "../Layouts/index.js";
 import * as log from '../../Utils/log.js'
@@ -17,27 +18,37 @@ import * as u from '../../Utils/utils.js'
 import * as google_map from './api.js'
 import {  BrowserRouter as Router,  Switch,  Route,  Link,  Redirect, useHistory } from "react-router-dom";
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    modal: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    paper: {
+      backgroundColor: theme.palette.background.paper,
+      border: '2px solid #000',
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing(2, 4, 3),
+    },
+  }),
+);
 
-class GoogleMap extends React.Component {
-  constructor(props) {
-        super(props);
-        this.state = {
-            marker_data: [],
-            showInfoWindow: false,
-            activeMarker: {},
-            selectedPlace: {},
-        }   
-        this.handleMoreClick = this.handleMoreClick.bind(this);
-        this.handleCreateProjectOpen = this.handleCreateProjectOpen.bind(this);
-        this.handleProjectCreated = this.handleProjectCreated.bind(this);
+function GoogleMap (props) {
+  const context = useContext(AuthContext)
+  const [marker_data, setMarkerData] = useState([])
+  const [showInfoWindow, setShowInfoWindow] =useState(false)
+  const [activeMarker, setActiveMarker] = useState({})
+  const [selectedPlace, setSelectedPlace]= useState({})
+  const [create_project_open, setCreateProjectOpen]= useState(false)
+
+  const handleCreateProjectOpen = () =>  {
+        setCreateProjectOpen(false)
   }
 
-  handleCreateProjectOpen()  {
-    this.setState({create_project_open:true});
-  }
-
-  handleProjectCreated(action_text, inserted_id, formValues)  {
+  const handleProjectCreated= (action_text, inserted_id, formValues) => {
     // most of this will go server side
+    setCreateProjectOpen(true)
     this.setState({create_project_open:false})
     // though we have access to formValues, state and Country
     //  are id's and not the text name.   Simplest path forward
@@ -67,14 +78,14 @@ class GoogleMap extends React.Component {
       }
 
       data.callAPI("auth/create-subsite-role", {}, role_add_obj, "post", (role_add_result, error ) => {
-          let new_user_context = this.context.user
+          let new_user_context = context.user
           new_user_context.context_list = role_add_result.context_list
           new_user_context.authorization_object = role_add_result.authorization_object
-          this.context.login(new_user_context)
-          this.context.setContextId(inserted_id)
+          context.login(new_user_context)
+          context.setContextId(inserted_id)
           // direct to project page
         
-          this.props.onMenuChange("",5)
+          props.onMenuChange("",5)
 
       })
           // Let this happen in parallel. User will be redirected so we do not have to wait
@@ -95,41 +106,32 @@ class GoogleMap extends React.Component {
 
   }
 
-  handleMoreClick = event => {
+  const handleMoreClick = event => {
       console.log('button has been clicked')
       alert ('handle clik')
   }
 
-  onMouseover = (props, marker, e) =>
-    this.setState({
-      selectedPlace: props,
-      activeMarker: marker,
-      showInfoWindow: true
-  });
+  const onMouseover = (props, marker, e) => {
+    setSelectedPlace(props)
+    setActiveMarker(marker)
+    setShowInfoWindow(true)
+  };
   
-componentDidMount() {
-      log.val('drill down did mount')
-
-      data.getData(this.props.object_type, "", (marker_data, error) => {
-             this.setState({ marker_data:marker_data})
-      })
-
-      
+  if (!marker_data) {
+    data.getData(this.props.object_type, "", (marker_data, error) => {
+      setMarkerData(marker_data)
+    })
   }
-
-
-  render() {
-
-    let sections = "basic,location"
-    return (
+    
+  return (
       <Fragment>
         <Grid container >
           <Grid item  style={{padding:20}}>
           <Typography variant="headline">
-           {this.props.title}
+           {props.title}
           </Typography>
           </Grid>
-          <Grid item  style={{padding:20}}> <Button variant="contained" onClick={this.handleCreateProjectOpen}>Create a Project</Button></Grid>
+          <Grid item  style={{padding:20}}> <Button variant="contained" onClick={handleCreateProjectOpen}>Create a Project</Button></Grid>
           <Grid item  style={{padding:20}}>
             <ACSObjectCount api_options={{get_count:true, num_rows:1,}} text="Number of active projects:" object_type="nwn_project"/> 
 
@@ -139,18 +141,17 @@ componentDidMount() {
           </Grid>
           </Grid>
         
-        {this.state.create_project_open &&
+        {create_project_open &&
           <CreateForm
             object_type="nwn_project" 
-            open={this.state.create_project_open}
+            open={create_project_open}
             hidden={{leader:true}}
             onClose={this.handleProjectCreated}
-            sections={sections}
           />}
         <Typography variant="body1" style={{padding:10}}>
-            {this.props.text}
-          <Map google={this.props.google} zoom={3}>
-            {this.state.marker_data.map(marker => {
+            {props.text}
+          <Map google={props.google} zoom={3}>
+            {marker_data.map(marker => {
             //  alert ("maker is " + JSON.stringify(marker))
               var icon
               if (marker.type.thumbnail) {
@@ -169,20 +170,20 @@ componentDidMount() {
               position.lng = marker.longitude
             
               return (
-              <Marker onMouseover={this.onMouseover}
+              <Marker onMouseover={onMouseover}
               name={marker.name}
               full_marker = {marker}
-              onMore= {this.props.onMore}
+              onMore= {props.onMore}
               icon = {icon}
               id = {marker.id}
               position={position}></Marker>
               )
             })}
     
-            <Popover  open={this.state.showInfoWindow}>
-                <ObjectView  object_type =        {this.props.object_type}
-                  id = {this.state.selectedPlace.id}
-                handleMoreClick = {this.handleMoreClick}/>
+            <Popover  open={showInfoWindow}>
+                <ObjectView  object_type =        {props.object_type}
+                  id = {selectedPlace.id}
+                handleMoreClick = {handleMoreClick}/>
             </Popover>
         </Map>
         </Typography>
@@ -190,9 +191,8 @@ componentDidMount() {
       </Fragment>
     )
   }
-}
 
-GoogleMap.contextType = AuthContext;
+
 export default GoogleApiWrapper({
   apiKey: google_map.get_key()
 })(GoogleMap)
