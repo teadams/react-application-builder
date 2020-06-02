@@ -91,7 +91,6 @@ class GoogleMap extends React.Component {
         })
     })
 
-
   }
 
   handleMoreClick = event => {
