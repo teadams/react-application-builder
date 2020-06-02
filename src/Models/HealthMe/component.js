@@ -36,6 +36,7 @@ const rab_component_models = {
     row: {
       names:{
         row_wrap:"Fragment",
+        row_body:"Fragment"
       },
       components:{},
       default_mode:"view",
@@ -75,6 +76,7 @@ const rab_component_models = {
       names:{
         header_wrap:"RABVoid",
         header:"Fragment",
+        row_body:"Fragment",
         section_wrap:"Fragment",
         section_header:"Fragment",
         row_wrap:"TableRow",
@@ -108,6 +110,7 @@ const rab_component_models = {
       names:{
         header_wrap:"Fragment",
         header:"RABObjectPrettyName",
+        row_body:"Fragment",
         section_wrap:"Table",
         section_header:"Fragment",
         row_wrap:"TableBody",

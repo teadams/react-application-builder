@@ -14,7 +14,7 @@ export function getPathBase () {
 } 
 
 export function validAPIParams() {
-    return ["order_by", "order_by_direction", "filter_field", "filter_id", "filter_join", "key_type", "context_limit", "user_id", "subsite_id" ,"parent_field", "get_count", "grouping_field", "expand_hierarchy"]
+    return ["order_by", "order_by_direction", "filter_field", "filter_id", "filter_join", "key_type", "context_limit", "user_id", "subsite_id" ,"parent_field", "get_count", "grouping_field", "expand_hierarchy", "num_rows"]
 }
 
 
