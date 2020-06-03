@@ -206,7 +206,7 @@ function GoogleMap (props) {
               onMore= {props.onMore}
               icon = {icon}
               id = {marker.id}
-              position={position}></Marker>
+              position={position}>XXXXX</Marker>
               )
             })}
             
