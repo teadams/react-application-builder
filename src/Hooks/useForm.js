@@ -83,7 +83,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
         } else {
           var inserted_id = insert_result.rows[0][id_field] 
           context.setDirty();
-          handleSubmit(event,'created', inserted_id);
+          handleSubmit(event,'created', formValues, inserted_id);
         }
       })     
     } else {

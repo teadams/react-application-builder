@@ -23,8 +23,7 @@ function ACSCreateButton(props) {
     }
   }
 
-  const handleOnSubmit = (event,action, inserted_id) => {
-u.a("create button submit", action, inserted_id)
+  const handleOnSubmit = (event,action, form_values, inserted_id) => {
     if (props.onSubmit) {
       props.onSubmit(event,action, inserted_id)
     }
