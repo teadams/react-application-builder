@@ -14,7 +14,7 @@ import ObjectView from '../../RABComponents/ObjectView.js'
 
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
-import {Container, Box,  TableHead, TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
+import {Container, Box, Card, TableHead, TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
 import useGetModel from '../../Hooks/useGetModel.js'
 import {SelectObject} from "../index.js";
 import { Image} from "../index.js"
@@ -56,7 +56,7 @@ function SubsiteApply(props) {
 
   const [project_data, setProjectData] = useState("")
 
-  const project_info_fields= ["name", "summary", "leader", "description", "street_address", "city", "state", "country", "zip_code"]
+  const project_info_fields= ["summary", "leader", "description", "street_address", "city", "state", "country", "zip_code"]
 
   const {formValues, lastTouched, handleFormChange, handleFormSubmit} = useForm("core_subsite_role", "", "", handleVolunteerSubmit, "create", "true", {email_perm:true}, ["id", "core_subsite", "core_role", "status", "message", "email_perm"]);
 
@@ -207,7 +207,7 @@ function SubsiteApply(props) {
           Thank you for your interest in helping the Now We Act community. You may start the process by picking either a specific project or a specific role below.  The lower part of the page will update with the needs available. 
       </Typography>
       <div style={{paddingLeft:40, paddingTop:10, display:'flex'}}>       
-        <div style={{display:'inline', width:'50%'}}>
+        <div style={{display:'inline', width:'40%'}}>
           <div style={{display:'block'}}> <Typography variant="h5">Project:</Typography> </div>
           <div><RABSelectField object_type = "core_subsite"
                   mode="edit" form="true"
@@ -232,12 +232,13 @@ function SubsiteApply(props) {
                 />
             </div>
         </div>
-        <div>
+        <div style={{width:"50%"}}>
           {project_id &&
-          <div style={{box_style}}> TEST {project_id}
+          <Card variant="outlined" style={{padding:30,backgroundColor:"#DDDDDD"}}>
           <ACSRowController field_list={project_info_fields} object_type="core_subsite" mode="view" id={project_id} num_columns={1}  />
-          </div>}
+          </Card>}
          </div>
+          <div style={{width:"10%"}}/>
      </div>
      
     {show_needs === 5  && <Fragment>
