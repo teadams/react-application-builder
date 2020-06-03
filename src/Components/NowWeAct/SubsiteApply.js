@@ -1,6 +1,6 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
-import * as log from '../../Utils/log.js'
+import * as u from '../../Utils/utils.js'
 import * as meta from '../../Utils/meta.js';
 import * as data from '../../Utils/data.js';
 import { withStyles } from '@material-ui/core/styles';
@@ -87,6 +87,7 @@ function SubsiteApply(props) {
 
   const project_data = useGetObject("nwn_project", project_id);
 
+u.a(project_data)
   const {formValues, lastTouched, handleFormChange, handleFormSubmit} = useForm("core_subsite_role", "", "", handleVolunteerSubmit, "create", "true", {email_perm:true}, ["id", "core_subsite", "core_role", "status", "message", "email_perm"]);
 
   let show_needs = (project_id ||role_type_id)?true:false
@@ -111,7 +112,7 @@ function SubsiteApply(props) {
             volunteer_object.email_perm = formValues.email_perm
             data.postData("nwn_project_volunteer", volunteer_object, {}, (result, error) => { 
               if (error) {
-                log.val("error is " + error)
+                alert("error is " + error)
               } else { 
                 let volunteer_record = result.rows[0].id;
                 let message_object = {}
@@ -125,7 +126,7 @@ function SubsiteApply(props) {
                 message_object.read_p = false
                 data.postData("nwn_project_message", message_object, {}, (result, error) => {       
                     if (error) {
-                        log.val("error is " + error)
+                        alert("error is " + error)
                     } 
                 })
               }
@@ -143,7 +144,7 @@ function SubsiteApply(props) {
         message_object.read_p = false
         data.postData("nwn_project_message", message_object, {}, (result, error) => {       
             if (error) {
-                log.val("error is " + error)
+                alert("error is " + error)
             } 
         })
       }
@@ -233,9 +234,10 @@ function SubsiteApply(props) {
       <Typography style={{padding:5}}>
           Thank you for your interest in helping the Now We Act community. You may start the process by picking either a specific project or a specific role below.  The lower part of the page will update with the needs available. 
       </Typography>
-      <div style={{paddingLeft:40}}>        
-        <div style={{display:'block'}}> <Typography variant="h5">Project:</Typography> </div>
-              <div><RABSelectField object_type = "core_subsite"
+      <div style={{paddingLeft:40, paddingTop:10, display:'flex'}}>       
+        <div style={{display:'inline', width:'50%'}}>
+          <div style={{display:'block'}}> <Typography variant="h5">Project:</Typography> </div>
+          <div><RABSelectField object_type = "core_subsite"
                   mode="edit" form="true"
                   add_any={true}
                   value = {project_id}
@@ -244,9 +246,9 @@ function SubsiteApply(props) {
                   noLabel= {true}
                   disable_underline={false}
                 />
-              </div>
-              <div style={{display:"block"}}><Typography variant="h5">Role:</Typography></div>
-              <div>
+            </div>
+            <div style={{display:"block"}}><Typography variant="h5">Role:</Typography></div>
+            <div>
               <RABSelectField object_type = "core_role"
                   mode="edit" form="true"
                   add_any={true}
@@ -256,14 +258,15 @@ function SubsiteApply(props) {
                   noLabel= {true}
                   disable_underline={false}            
                 />
-              </div>
-
-      </div>
-        
-      {project_data=== 4 &&
-        <Grid style={box_style} item xs={6}>
-              <ProjectInfo project_data={project_data}/>
-        </Grid>}
+            </div>
+        </div>
+        <div>
+          {project_data &&
+          <div style={{box_style}}> 
+            <ProjectInfo project_data={project_data}/>
+          </div>}
+         </div>
+     </div>
      
     {show_needs === 5  && <Fragment>
       <Paper style={box_style}   elevation={1} style={{padding:20, backgroundColor:"lightGray"}}>
