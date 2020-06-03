@@ -8,7 +8,9 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
 import AuthContext from '../User/AuthContext';
 import useForm from '../../Hooks/useForm';
 import useGetObject  from '../../Hooks/useGetObject';
+import ACSRowController from '../../Functional/ACSRowController.js'
 import RABSelectField from '../../Functional/Fields/RABSelectField.js'
+import ObjectView from '../../RABComponents/ObjectView.js'
 
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
@@ -36,43 +38,10 @@ const box_style = {
   display:"inline"
 }
 
-function ProjectInfo(props) {
-  const project_data = props.project_data
-  if (project_data) {
-    return (<Fragment>
-      <Box>
-      <Typography variant="h6">{project_data.name} Details</Typography>
-      <TableContainer>
-        <Table size="small">
-          <TableRow>
-            <TableCell>Summary</TableCell>
-            <TableCell>{project_data.summary}</TableCell>
-          </TableRow>
-          <TableRow>
-          <TableCell>Description</TableCell>
-          <TableCell>{project_data.description}</TableCell>
-        </TableRow>
-        <TableRow>
-            <TableCell>Location</TableCell>
-            <TableCell>{project_data.address} {project_data.city} {project_data.core_state_name} {project_data.core_country_name} {project_data.zip_code}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Leader</TableCell>
-            <TableCell>{project_data.leader_first_name} {project_data.leader_last_name}</TableCell>
-          </TableRow>
-        </Table>
-      </TableContainer>
-      </Box>
-      </Fragment>
-    )
-  } else {
-    return ""
-  }
-}
 
 function SubsiteApply(props) {
   const context = useContext(AuthContext)
-  const [project_id, setProjectId] = useState(props.project_id);
+  const [project_id, setProjectId] = useState();
   const [project_name, setProjectName] = useState("");
 
   const [role_type_id, setRoleTypeId] = useState(props.role_type_id);
@@ -85,9 +54,10 @@ function SubsiteApply(props) {
   const field_models = useGetModel("fields", "core_subsite")
   const project_field_model = field_models["name"]
 
-  const project_data = useGetObject("nwn_project", project_id);
+  const [project_data, setProjectData] = useState("")
 
-u.a(project_data)
+  const project_info_fields= ["name", "summary", "leader", "description", "street_address", "city", "state", "country", "zip_code"]
+
   const {formValues, lastTouched, handleFormChange, handleFormSubmit} = useForm("core_subsite_role", "", "", handleVolunteerSubmit, "create", "true", {email_perm:true}, ["id", "core_subsite", "core_role", "status", "message", "email_perm"]);
 
   let show_needs = (project_id ||role_type_id)?true:false
@@ -155,16 +125,18 @@ u.a(project_data)
 
   let need_idx = 0
 
-  function handleProjectChange(value, project_name) {
-        if (value != project_id) {
-          setProjectName(project_name)
+  function handleProjectChange(event) {
+        const value=event.target.value
+        if (value !== project_id) {
+//          setProjectName(project_name)
           setProjectId(value)
           setSelectedTouched(true)
         }
   }
-  function handleRoleTypeChange(value, role_name) {
+  function handleRoleTypeChange(event) {
+    const value = event.target_value
     if (value != role_type_id) {
-        setRoleName(role_name)
+  //      setRoleName(role_name)
         setRoleTypeId(value)
         setSelectedTouched(true)
     }
@@ -261,9 +233,9 @@ u.a(project_data)
             </div>
         </div>
         <div>
-          {project_data &&
-          <div style={{box_style}}> 
-            <ProjectInfo project_data={project_data}/>
+          {project_id &&
+          <div style={{box_style}}> TEST {project_id}
+          <ACSRowController field_list={project_info_fields} object_type="core_subsite" mode="view" id={project_id} num_columns={1}  />
           </div>}
          </div>
      </div>

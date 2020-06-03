@@ -136,7 +136,7 @@ function ACSRowController(input_props) {
     field_list.forEach(field => {
       const col_span = field_model[field].col_span
       if ((field_model[field].hidden_on_form && ["create", "edit"].includes(mode)) ||
-          field_model[field].hidden_on_create_form && ["create"]) {
+          field_model[field].hidden_on_create_form && mode === "create") {
         chunked_field_list[index].push(field)
       } else if (col_count + col_span <= num_columns) {
           chunked_field_list[index].push(field)
@@ -144,6 +144,7 @@ function ACSRowController(input_props) {
       } else {
           index += 1
           col_count = col_span
+
           chunked_field_list[index] = [field]
 
       }
@@ -153,6 +154,7 @@ function ACSRowController(input_props) {
   } else {
     field_list = [[field_list]]
   }
+u.a("final field list", field_list)
   // Sectiions
   // Final structure[[section], [section]]
   // where each section contains one or more fields 
