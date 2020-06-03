@@ -71,10 +71,10 @@ function RABRow(row_props) {
 }
 
 function ACSRowController(input_props) {
-  function handleSubmit(event, result, form_values_object, inserted_id) {
+  function handleSubmit(event, result, form_values, inserted_id) {
 
       if (input_props.onSubmit) {
-        input_props.onSubmit(event, result, form_values_object, inserted_id)
+        input_props.onSubmit(event, result, form_values, inserted_id)
       }
       handleFormClose()
   }
