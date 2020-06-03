@@ -87,7 +87,7 @@ function RABSelectList(props) {
 
 function RABSelectField(props) {
 
-  const {mode, data=[], field_name, formValues, onSubmit, onFieldBlur,  onChange, autoFocus, object_type, field_model={}, value="", display_value=" ", style, api_options} = props
+  const {mode, data=[], field_name, formValues, onSubmit, onFieldBlur,  onChange, autoFocus, object_type, field_model={}, value="", display_value=" ", disable_underline, style, api_options} = props
   // 2 use cases:
   // 1. Called from a create/edit form (formValues is present)
   //   View will show field_display_value takend from data object.
@@ -132,6 +132,7 @@ function RABSelectField(props) {
     case "create":
       return (<ACSListController object_type={object_type} api_options={api_options} rab_component_model={rab_component_model} list_select_form_name={form_field_name} list_onSubmit={onSubmit}
       list_onBlur = {onBlur}
+      list_disable_underline = {disable_underline}
       list_field_value={field_value} list_onChange={onChange} list_select_key_field={select_key_field} list_style={style} list_select_display_field={select_display_field} list_prevent_edit={prevent_edit}
       list_autoFocus={autoFocus} />)
       break

@@ -103,6 +103,7 @@ function buildRABModel(params) {
                      onBlur:params.list_onBlur,
                      style:params.list_style,
                      prevent_edit:params.list_prevent_edit,
+                     disable_underline:params.list_disable_underline,
                      select_form_name:params.list_select_form_name,
                      select_key_field:params.list_select_key_field,
                      select_display_field:params.list_select_display_field}},

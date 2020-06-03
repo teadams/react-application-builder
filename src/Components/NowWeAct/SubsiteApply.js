@@ -233,36 +233,38 @@ function SubsiteApply(props) {
       <Typography style={{padding:5}}>
           Thank you for your interest in helping the Now We Act community. You may start the process by picking either a specific project or a specific role below.  The lower part of the page will update with the needs available. 
       </Typography>
-      <Grid container style={{padding:20}}>
-        <Grid  item xs={4}>
-Project:
-          <RABSelectField object_type = "core_subsite"
-            mode="edit" form="true"
-            add_any={true}
-            value = {project_id}
-            style = {{width:"90%"}}
-            onChange={handleProjectChange}
-            noLabel= {true}
-            disable_underline={true}
-          />
-        </Grid> 
-        <Grid   item xs={2}>
-Role:
-          <RABSelectField object_type = "core_role"
-            mode="edit" form="true"
-            add_any={true}
-            value = {role_type_id}
-            style = {{width:"90%"}}
-            //onChange={handleRoleTypeChange}
-            noLabel= {true}
-            disable_underline={true}            
-          />
-        </Grid>
+      <div style={{paddingLeft:40}}>        
+        <div style={{display:'block'}}> <Typography variant="h5">Project:</Typography> </div>
+              <div><RABSelectField object_type = "core_subsite"
+                  mode="edit" form="true"
+                  add_any={true}
+                  value = {project_id}
+                  style = {{width:"90%"}}
+                  onChange={handleProjectChange}
+                  noLabel= {true}
+                  disable_underline={false}
+                />
+              </div>
+              <div style={{display:"block"}}><Typography variant="h5">Role:</Typography></div>
+              <div>
+              <RABSelectField object_type = "core_role"
+                  mode="edit" form="true"
+                  add_any={true}
+                  value = {role_type_id}
+                  style = {{width:"90%"}}
+                  //onChange={handleRoleTypeChange}
+                  noLabel= {true}
+                  disable_underline={false}            
+                />
+              </div>
+
+      </div>
+        
       {project_data=== 4 &&
         <Grid style={box_style} item xs={6}>
               <ProjectInfo project_data={project_data}/>
         </Grid>}
-    </Grid> 
+     
     {show_needs === 5  && <Fragment>
       <Paper style={box_style}   elevation={1} style={{padding:20, backgroundColor:"lightGray"}}>
       <form onSubmit={handleFormSubmit}>
