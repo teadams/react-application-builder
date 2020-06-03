@@ -8,12 +8,12 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
 import AuthContext from '../User/AuthContext';
 import useForm from '../../Hooks/useForm';
 import useGetObject  from '../../Hooks/useGetObject';
-
+import RABSelectField from '../../Functional/Fields/RABSelectField.js'
 
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 import {Container, Box,  TableHead, TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
-
+import useGetModel from '../../Hooks/useGetModel.js'
 import {SelectObject} from "../index.js";
 import { Image} from "../index.js"
 
@@ -74,13 +74,21 @@ function SubsiteApply(props) {
   const context = useContext(AuthContext)
   const [project_id, setProjectId] = useState(props.project_id);
   const [project_name, setProjectName] = useState("");
+
   const [role_type_id, setRoleTypeId] = useState(props.role_type_id);
   const [role_name, setRoleName] = useState("");
+
   const [project_needs, setProjectNeeds] = useState([]);
+
   const [selected_touch, setSelectedTouched] = useState(false);
-  const project_field = meta.field("nwn_project", "name")
+
+  const field_models = useGetModel("fields", "core_subsite")
+  const project_field_model = field_models["name"]
+
   const project_data = useGetObject("nwn_project", project_id);
-  const {formValues, handleFormChange, handleFormSubmit} = useForm({email_perm:true}, handleVolunteerSubmit);
+
+  const {formValues, lastTouched, handleFormChange, handleFormSubmit} = useForm("core_subsite_role", "", "", handleVolunteerSubmit, "create", "true", {email_perm:true}, ["id","core_user", "core_subsite", "core_role", "status", "message", "email_perm"]);
+
   let show_needs = (project_id ||role_type_id)?true:false
 
   function handleVolunteerSubmit() {
@@ -100,7 +108,6 @@ function SubsiteApply(props) {
             volunteer_object.core_subsite  = need.nwn_project
             volunteer_object.core_user = context.user.id
             volunteer_object.core_role = need.role_name
-            volunteer_object.creation_user = context.user_id
             volunteer_object.email_perm = formValues.email_perm
             data.postData("nwn_project_volunteer", volunteer_object, {}, (result, error) => { 
               if (error) {
@@ -228,10 +235,27 @@ function SubsiteApply(props) {
       </Typography>
       <Grid container style={{padding:20}}>
         <Grid  item xs={4}>
-          <SelectObject object_type="nwn_project" shrink="false" style={{width:"90%"}} value={project_id} add_any={true} onChange={handleProjectChange}/>
+          <RABSelectField object_type = "core_subsite"
+            mode="edit" form="true"
+            add_any={true}
+            value = {project_id}
+            style = {{width:"90%"}}
+            onChange={handleProjectChange}
+            noLabel= {true}
+            disable_underline={true}
+          />
         </Grid> 
         <Grid   item xs={2}>
-          <SelectObject object_type="core_role" input_type="radio" shrink="false" style={{width:"90%"}}   filter_id={true} filter_field="accept_signups" add_any={true} value={role_type_id} onChange={handleRoleTypeChange}/>
+          <RABSelectField object_type = "core_subsite_role"
+            mode="edit" form="true"
+            add_any={true}
+            value = {role_type_id}
+            style = {{width:"90%"}}
+            onChange={handleRoleTypeChange}
+            noLabel= {true}
+            disable_underline={true}
+            
+          />
         </Grid>
       {project_data &&
         <Grid style={box_style} item xs={6}>
@@ -266,7 +290,7 @@ function SubsiteApply(props) {
                       <TableCell>{need.role_name_name}</TableCell>
                       <TableCell>{need.description}  {need.role_name_descritpion}</TableCell>
                       <TableCell>{need.nwn_project_name}</TableCell>
-                      <TableCell>{need.nwn_project_descrtion}</TableCell>
+                      <TableCell>{need.nwn_project_description}</TableCell>
                   </TableRow>
               </Fragment>
           ) 

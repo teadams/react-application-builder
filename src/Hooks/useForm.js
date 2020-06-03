@@ -7,7 +7,7 @@ import {AuthContext} from '../Components/User';
 import axios from 'axios';
 
 
-const useForm = (object_type, field_name="", data, handleSubmit, mode="view", form=true, form_props={}, field_list) => {
+const useForm = (object_type, field_name="", data, handleSubmit, mode="view", form=true, default_values_prop={}, field_list) => {
   
   const [formValues, setFormValues] = useState({});
   const [prior_input_mask, setPriorInputMask] = useState(null)
@@ -51,7 +51,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
               default_value = context.user.id
           }
           // take from props
-          default_value=form_props[field]?form_props[field]:default_value  
+          default_value=default_values_prop[field]?default_values_prop[field]:default_value  
           defaults[field] = default_value
       }
             
