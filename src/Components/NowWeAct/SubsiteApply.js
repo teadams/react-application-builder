@@ -127,6 +127,7 @@ function SubsiteApply(props) {
   function handleProjectChange(event) {
         const value=event.target.value
         if (value !== project_id) {
+          setProjectData(event.target.selected_data)
 //          setProjectName(project_name)
           setProjectId(value)
           setSelectedTouched(true)
@@ -239,7 +240,7 @@ function SubsiteApply(props) {
         <div style={{width:"50%"}}>
           {project_id &&
           <Card variant="outlined" style={{padding:30,backgroundColor:"#DDDDDD"}}>
-          <ACSRowController field_list={project_info_fields} object_type="core_subsite" mode="view" id={project_id} num_columns={1} onData={handleProjectData} />
+          <ACSRowController data={project_data} field_list={project_info_fields} object_type="core_subsite" mode="view" id={project_id} num_columns={1}  />
           </Card>}
          </div>
           <div style={{width:"10%"}}/>
