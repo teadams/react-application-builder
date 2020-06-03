@@ -107,7 +107,7 @@ const rab_component_models = {
       props:{}
     },
     row: {
-      names:{
+      names:{prom
         header_wrap:"Fragment",
         header:"RABObjectPrettyName",
         row_body:"Table",
