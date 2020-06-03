@@ -4,7 +4,7 @@ import 'react-app-polyfill/stable';
 import React, {Fragment, useState} from 'react';
 import {IconButton} from '@material-ui/core';
 import IconCreate from "@material-ui/icons/Add";
-import * as log from '../../Utils/log.js'
+import * as u from '../../Utils/utils.js'
 import ObjectView from '../../RABComponents/ObjectView.js'
 function ACSCreateButton(props) {
   const {object_type, Component} = props
@@ -24,6 +24,7 @@ function ACSCreateButton(props) {
   }
 
   const handleOnSubmit = (event,action, inserted_id) => {
+u.a("create button submit", action, inserted_id)
     if (props.onSubmit) {
       props.onSubmit(event,action, inserted_id)
     }

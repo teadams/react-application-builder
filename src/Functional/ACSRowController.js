@@ -72,6 +72,10 @@ function RABRow(row_props) {
 
 function ACSRowController(input_props) {
   function handleSubmit(event, result, form_values_object) {
+      u.a("row controller submit")
+      if (input_props.onSubmit) {
+        input_props.onSubmit(event, result, form_values_object)
+      }
       handleFormClose()
   }
   const object_models =  useGetModel("object_types")
