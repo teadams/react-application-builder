@@ -128,15 +128,16 @@ function GoogleMap (props) {
       history.push(path);
   }
   const handlePopoverClose= () => {
-    setAnchor(null)
-    setShowInfoWindow(false)
-
+     setShowInfoWindow(false)
   }
   const onMouseover = (props, marker, e) => {
-    setCenter(props.position)
     setSelectedPlace(props)
     setActiveMarker(marker)
     setShowInfoWindow(true)
+  };
+
+  const onMapClick = (props, marker, e) => {
+    setShowInfoWindow(false)
   };
 
   if (!marker_data) {
@@ -178,7 +179,7 @@ function GoogleMap (props) {
         
         <Typography variant="body1" style={{padding:10}}>
             {props.text}
-          <Map google={props.google} zoom={3} center={center}>
+          <Map google={props.google} onClick={onMapClick} zoom={3} center={center}>
             {marker_data.map(marker => {
               var icon
               if (marker.type.thumbnail) {
@@ -199,6 +200,7 @@ function GoogleMap (props) {
               return (
               <Marker 
               onMouseover={onMouseover}
+              onClick={onMouseover}
               name={marker.name}
               full_marker = {marker}
               onMore= {props.onMore}
@@ -208,7 +210,7 @@ function GoogleMap (props) {
               )
             })}
             
-            <Popover  classes={{paper: classes.paper}} open={showInfoWindow}                   onClose={handlePopoverClose}
+            <Popover  classes={{paper: classes.paper}} open={showInfoWindow}                  onClose={handlePopoverClose}
         
             anchorReference="anchorPosition"
             anchorPosition={{ top: 50, left: 50 }}
