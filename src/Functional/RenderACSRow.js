@@ -11,6 +11,8 @@ import ACSListController from './ACSListController.js'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import useGetObjectList from '../Hooks/useGetObjectList';
 import useGetModel from '../Hooks/useGetModel';
+import {AuthContext, Auth, LoginForm} from '../Components/User/index.js';
+
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
@@ -60,6 +62,7 @@ function RenderACSRow(props) {
   if (data) {
       return (
         <Fragment>
+        <Auth auth_action={mode} object_type={object_type} onClose={onClose}>
           <HeaderWrap {...params} >
             <Header {...params} image_size={header_image_size}/>
           </HeaderWrap>
@@ -82,6 +85,7 @@ function RenderACSRow(props) {
 )
             })}
           </RowBody>
+        </Auth>
         </Fragment>
       )
   }

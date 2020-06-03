@@ -40,7 +40,10 @@ function LoginForm(props) {
             var inserted_id = result[core_user_object_meta.key_id] 
             const user_data = Object.assign(formValues, {id:inserted_id})
             context.login(user_data)
-            handleClose()
+            if (props.onLogin) {
+              props.onLogin()
+            }   
+
           }
           })
       }
@@ -58,7 +61,9 @@ function LoginForm(props) {
             alert ("password is not correct")
         } else {
           context.login(user_data)
-          handleClose()
+          if (props.onLogin) {
+            props.onLogin()
+          }   
         }
     })
     // update context
@@ -66,7 +71,9 @@ function LoginForm(props) {
   }
 
   function handleClose(event) {
-      props.handleClose(event)
+      if (props.onClose) {
+        props.onClose(event)
+      }
   }
 
   const handleChange = ((event) => {

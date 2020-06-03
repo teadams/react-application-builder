@@ -1,7 +1,7 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
-import React, {Fragment, useState, useContext} from 'react';
+import React, {Fragment,useLayoutEffect, useState, useContext} from 'react';
 import {Typography, Button} from '@material-ui/core';
 import AuthContext from './AuthContext';
 import LoginForm from './LoginForm'
@@ -12,23 +12,24 @@ import useGetModel from '../../Hooks/useGetModel.js'
 
 function Auth(props) {
   let {auth_scope="", auth_priv="", auth_action="read", object_type} = props
-  
+  // for safety making this explicit instead of defaulting
+  if (["view","csv","list"].includes(auth_action)) {auth_action="read"}
+
   const [login_form, setLoginForm] = useState(false)
   const object_type_meta = useGetModel("object_types", object_type)
   const app_params  = useGetModel("app_params")
   const context = useContext(AuthContext)
-  
-  function handleLogin(event) {
-    setLoginForm(true)
+
+  function handleLogin() {
+      setLoginForm(false)
   }
 
   function handleClose(event) {
-    setLoginForm(false)
-    if (!context.user) {
-        // cancelled
-        props.handleClose()
+    if (props.onClose) {
+        props.onClose()
     }
   }
+
   if (!auth_priv) {
     let auth_action_privs = app_params.auth_action_privs.site_default
     if (object_type) {        
@@ -49,20 +50,21 @@ function Auth(props) {
   
   let show_children = true
 
+
   if (auth_priv !== "public") {
-    if (!context.user) {
-        
-        show_children = false
-        if (!login_form) {
-            setLoginForm(true)
-        }    
-    }
+        if (!context.user ) {
+          show_children = false
+         if (!login_form) {
+              u.a("setting login form")
+             setLoginForm(true)
+         }    
+       }
   }
   
   const authorized = auth.authorized({context_id:context.context_id, user:context.user}, auth_scope, auth_priv)
   if (login_form && !context.user) {
     return ( 
-      <LoginForm open={login_form} handleClose={handleClose}/>
+      <LoginForm open={login_form} onLogin={handleLogin} onClose={handleClose}/>
            )
   } else if (authorized && show_children) {
     return (

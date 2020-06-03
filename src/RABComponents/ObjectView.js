@@ -35,9 +35,7 @@ function ObjectView(props)  {
     }
   }
   return ( 
-    <Auth auth_action="create" object_type={object_type} handleClose={handleFormClose}>
       <ACSRowController {...params} form_open={form_open} onClose={handleFormClose} object_type={object_type} field_list={field_list} api_options={api_options} num_columns={num_columns}  />
-    </Auth>
   )
 }
 export default ObjectView;
