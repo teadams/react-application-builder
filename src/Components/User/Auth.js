@@ -13,7 +13,7 @@ import useGetModel from '../../Hooks/useGetModel.js'
 function Auth(props) {
   let {auth_scope="", auth_priv="", auth_action="read", object_type} = props
   
-  const {login_form, setLoginForm} = useState(false)
+  const [login_form, setLoginForm] = useState(false)
   const object_type_meta = useGetModel("object_types", object_type)
   const app_params  = useGetModel("app_params")
   const context = useContext(AuthContext)
@@ -30,12 +30,13 @@ function Auth(props) {
     }
   }
   if (!auth_priv) {
-    let auth_action_priv = app_params.auth_action_privs.site_default
+    let auth_action_privs = app_params.auth_action_privs.site_default
     if (object_type) {        
-        auth_action_priv = object_type_meta.auth_action_privs
+        auth_action_privs = object_type_meta.auth_action_privs
     } 
-    auth_scope = auth_action_priv[0]
-    auth_priv = auth_action_priv[1]
+    const auth_and_scope = auth_action_privs[auth_action].split("_")
+    auth_scope = auth_and_scope[0]
+    auth_priv = auth_and_scope[1]
   } else {
     if (!auth_scope) {
       if (object_type && object_type_meta.with_context) {
@@ -49,7 +50,8 @@ function Auth(props) {
   let show_children = true
 
   if (auth_priv !== "public") {
-    if (context.user) {
+    if (!context.user) {
+        
         show_children = false
         if (!login_form) {
             setLoginForm(true)
@@ -58,7 +60,6 @@ function Auth(props) {
   }
   
   const authorized = auth.authorized({context_id:context.context_id, user:context.user}, auth_scope, auth_priv)
-
   if (login_form && !context.user) {
     return ( 
       <LoginForm open={login_form} handleClose={handleClose}/>
@@ -69,7 +70,7 @@ function Auth(props) {
           )
   } else if (!authorized && show_children) {
       // normal navigation would not reach here
-            this.props.handleClose()
+            props.handleClose()
             return null
   } else {
     // should not reach here by logic
