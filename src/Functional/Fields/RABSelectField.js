@@ -45,7 +45,7 @@ function padding(num) {
   for (i = 0; i < num; i++) {
     padding = padding + ".."
   }  
-  return padding
+  return <Fragment>{padding}</Fragment>
 }
 
 function selectItems(data, select_key_field, select_display_field, field_component) {
@@ -54,7 +54,7 @@ function selectItems(data, select_key_field, select_display_field, field_compone
       data.map ((row, index) => {
 
         return(
-          <option key={index} value={row[select_key_field]}>{padding(row.tree_depth)}{field_component({data:row, field_name:select_display_field, mode:"text"})}</option>
+          <MenuItem key={index} value={index}>{padding(row.tree_depth)}{field_component({data:row, field_name:select_display_field, mode:"text"})}</MenuItem>
           )
         })
     )
@@ -62,14 +62,19 @@ function selectItems(data, select_key_field, select_display_field, field_compone
 
 function RABSelectList(props) {
   const field_models = useGetModel("fields")
-  const {disable_underline=true, prevent_edit=false} = props
+  const {disable_underline=true, prevent_edit=false, data, select_key_field, select_display_field, object_type} = props
   const select_field_model=field_models[props.object_type][props.select_display_field]
   const field_component_name = select_field_model.field_component 
   // plain function on purpose, will just get text
   const field_component = control.componentByName(field_component_name?field_component_name:"RABTextField")
   function handleSelectChange(event) {
-    if (props.data) {
-      props.data(event)
+    const index = event.target.value
+    const selected_data = data[index]
+    const value = selected_data[select_key_field]
+    event.target.value = value
+    event.target.selected_data = selected_data
+    if (props.onChange) {
+      props.onChange(event)
     }
   }
 
@@ -84,7 +89,7 @@ function RABSelectList(props) {
       style={props.style}
       disabled={prevent_edit}
       disableUnderline = {disable_underline}
-      onChange={props.onChange}>
+      onChange={handleSelectChange}>
       {props.data && selectItems(props.data,props.select_key_field,props.select_display_field, field_component)}
     </Select>
     </Fragment>)
