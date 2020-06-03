@@ -45,7 +45,7 @@ function padding(num) {
   for (i = 0; i < num; i++) {
     padding = padding + ".."
   }  
-  return <Fragment>{padding}</Fragment>
+  return padding
 }
 
 function selectItems(data, select_key_field, select_display_field, field_component) {
@@ -54,7 +54,7 @@ function selectItems(data, select_key_field, select_display_field, field_compone
       data.map ((row, index) => {
 
         return(
-          <MenuItem key={index} value={row[select_key_field]}>{padding(row.tree_depth)}{field_component({data:row, field_name:select_display_field, mode:"text"})}</MenuItem>
+          <option key={index} value={row[select_key_field]}>{padding(row.tree_depth)}{field_component({data:row, field_name:select_display_field, mode:"text"})}</option>
           )
         })
     )
@@ -67,6 +67,11 @@ function RABSelectList(props) {
   const field_component_name = select_field_model.field_component 
   // plain function on purpose, will just get text
   const field_component = control.componentByName(field_component_name?field_component_name:"RABTextField")
+  function handleSelectChange(event) {
+    if (props.data) {
+      props.data(event)
+    }
+  }
 
   return (<Fragment>
     <Select
