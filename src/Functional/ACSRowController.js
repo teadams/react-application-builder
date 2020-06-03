@@ -154,7 +154,6 @@ function ACSRowController(input_props) {
   } else {
     field_list = [[field_list]]
   }
-u.a("final field list", field_list)
   // Sectiions
   // Final structure[[section], [section]]
   // where each section contains one or more fields 
