@@ -10,9 +10,9 @@ import axios from 'axios';
 const useForm = (object_type, field_name="", data, handleSubmit, mode="view", form=true, form_props={}, field_list) => {
   
   const [formValues, setFormValues] = useState({});
+  const [prior_input_mask, setPriorInputMask] = useState(null)
   const [lastTouched,setLastTouched] = useState(false)
   const context = useContext(AuthContext)
-
   const object_model =  useGetModel("object_types", object_type)
   const field_models =  useGetModel("fields", object_type)
   // form not needed or inputs not ready
@@ -24,23 +24,26 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       !object_model || !field_models) {
           return {undefined, undefined, undefined, undefined}
     }
+  const input_mask = object_type+","+context.user.id+","+field_name+"mode"+field_list.toString()
 
-  var defaults = {}
-  field_list.forEach(field =>{
-    const field_model = field_models[field]
-    const references = field_model.references
-    if (field_model.input_type === "file") {
-      defaults[field] = ""
-    } else if (references && mode==="edit" && data) {
-      // XX fix to have id work off object meta data 
-      const references_field = field_model.references_field?field_model.references_field:"id"; 
+  if (input_mask !== prior_input_mask) {
+    // context or parent component has changed
+    let defaults = {}
+    field_list.forEach(field =>{
+      const field_model = field_models[field]
+      const references = field_model.references
+      if (field_model.input_type === "file") {
+        defaults[field] = ""
+      } else if (references && mode==="edit" && data) {
+        // XX fix to have id work off object meta data 
+        const references_field = field_model.references_field?field_model.references_field:"id"; 
       // data has been restructured
       
-      defaults[field]= data[field]?(data[field][references_field]?data[field][references_field]:""):""
+        defaults[field]= data[field]?(data[field][references_field]?data[field][references_field]:""):""
     
-    } else if (data && mode === "edit") {
-      defaults[field] = data[field]?data[field]:""
-    } else if (mode === "create") {
+      } else if (data && mode === "edit") {
+        defaults[field] = data[field]?data[field]:""
+      } else if (mode === "create") {
           // take from field_models
           let default_value = field_model.default?field_model.default:""
           // take from context
@@ -50,14 +53,17 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
           // take from props
           default_value=form_props[field]?form_props[field]:default_value  
           defaults[field] = default_value
-    }
+      }
             
-  })
+    })
 
-  if (Object.keys(defaults).length > 0 && Object.keys(formValues).length === 0) {
-      setFormValues(defaults)
+
+    if (Object.keys(defaults).length > 0) {
+        setPriorInputMask(input_mask)
+        setFormValues(defaults)
+    }
   }
-  
+
   const handleFormSubmit = (event => {
 
     if (!lastTouched) {
