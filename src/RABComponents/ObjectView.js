@@ -17,6 +17,8 @@ import ACSListController from '../Functional/ACSRowController.js'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import {Tab, Tabs, Menu, MenuItem, Paper, MenuList,List,ListItem,ListItemAvatar,ListItemIcon,ListItemSecondaryAction,ListItemText,ListSubheader,Table,TableBody,TableCell,TableContainer,TableFooter,TableHead,TablePagination,TableRow,Typography} from '@material-ui/core';
 import useGetModel from "../Hooks/useGetModel.js"
+import {AuthContext, Auth, LoginForm} from '../Components/User/index.js';
+
  
 function ObjectView(props)  {
   const field_models = ("fields")
@@ -32,7 +34,10 @@ function ObjectView(props)  {
       props.onClose()
     }
   }
-  return ( <ACSRowController {...params} form_open={form_open} onClose={handleFormClose} object_type={object_type} field_list={field_list} api_options={api_options} num_columns={num_columns}  />
-          )
+  return ( 
+    <Auth auth_action="create" object_type={object_type} handleClose={handleFormClose}>
+      <ACSRowController {...params} form_open={form_open} onClose={handleFormClose} object_type={object_type} field_list={field_list} api_options={api_options} num_columns={num_columns}  />
+    </Auth>
+  )
 }
 export default ObjectView;

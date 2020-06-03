@@ -1,97 +1,81 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
-import React, {Fragment} from 'react';
+import React, {Fragment, useState, useContext} from 'react';
 import {Typography, Button} from '@material-ui/core';
 import AuthContext from './AuthContext';
 import LoginForm from './LoginForm'
 import * as auth from '../../Utils/auth.js'
 import * as meta from '../../Utils/meta.js';
+import * as u from '../../Utils/utils.js'
+import useGetModel from '../../Hooks/useGetModel.js'
 
-
-class Auth extends React.Component {
-    constructor(props) {
-      super(props);  
-      this.state = {
-          login_form:false,
-      };
-      this.handleLogin = this.handleLogin.bind(this);
-      this.handleClose = this.handleClose.bind(this);
-    }
-
-  handleLogin(event) {
-    alert ("logged in")
-    this.setState({login_form:true})
-  }
-
-  handleClose(event) {
-    alert ("handle Close")
-    this.setState({login_form:false})
-    if (!this.context.user) {
-        // cancelled
-        this.props.handleClose()
-    }
-  }
-
-
-  render() {
-      // the props can override what scope/priv the user must have
-      let {auth_scope, auth_priv, auth_action, object_type} = this.props
-      // otherwise, we look at the action and use app paramters
-      // to determine the default for that action
-
-
-      if (!auth_priv) {
-        // map that links privleges to actions
-         let auth_action_privs = "site"
-         auth_scope = "site"
-         if (object_type) {
-            
-            const object_attributes = meta.object(object_type)
-            if (!object_attributes.all_subsites || object_attributes.extends_object == "core_subsite") {
-              auth_action_privs = "context"
-              auth_scope = "context"
-            }         
-            auth_action_privs =  object_attributes.auth_action_privs?object_attributes.auth_action_privs:auth_action_privs
-          }
-        auth_priv = meta.get_param("auth_action_privs")[auth_action_privs][auth_action]
-      }
+function Auth(props) {
+  let {auth_scope="", auth_priv="", auth_action="read", object_type} = props
   
-      let show_children = true
-      if (auth_scope && auth_priv && auth_priv != "public") {
-          if (!this.context.user) {
-              show_children = false
-              if (!this.state.login_form) {
-                this.setState({login_form:true})
-              }
-          }
-      } 
-      const authorized = auth.authorized({context_id:this.context.context_id, user:this.context.user}, auth_scope, auth_priv)
-
-        if (this.state.login_form && !this.context.user) {
-          return ( 
-            <Fragment>
-              <LoginForm
-                open={this.state.login_form}
-                handleClose={this.handleClose}
-            />
-            </Fragment>
-           )
-          } else if (authorized && show_children) {
-            return (
-              <Fragment>
-                {this.props.children}
-              </Fragment>
-            )
-          } else if (!authorized && show_children) {
-
-            this.props.handleClose()
-            return ""
-          } else {
-            // should not reach here
-            return ""
-          }    
+  const {login_form, setLoginForm} = useState(false)
+  const object_type_meta = useGetModel("object_types", object_type)
+  const app_params  = useGetModel("app_params")
+  const context = useContext(AuthContext)
+  
+  function handleLogin(event) {
+    setLoginForm(true)
   }
+
+  function handleClose(event) {
+    setLoginForm(false)
+    if (!context.user) {
+        // cancelled
+        props.handleClose()
+    }
+  }
+  if (!auth_priv) {
+    let auth_action_priv = app_params.auth_action_privs.site_default
+    if (object_type) {        
+        auth_action_priv = object_type_meta.auth_action_privs
+    } 
+    auth_scope = auth_action_priv[0]
+    auth_priv = auth_action_priv[1]
+  } else {
+    if (!auth_scope) {
+      if (object_type && object_type_meta.with_context) {
+        auth_scope = "context"
+      } else {
+        auth_scope = "site"
+      }
+    }
+  }
+  
+  let show_children = true
+
+  if (auth_priv !== "public") {
+    if (context.user) {
+        show_children = false
+        if (!login_form) {
+            setLoginForm(true)
+        }    
+    }
+  }
+  
+  const authorized = auth.authorized({context_id:context.context_id, user:context.user}, auth_scope, auth_priv)
+
+  if (login_form && !context.user) {
+    return ( 
+      <LoginForm open={login_form} handleClose={handleClose}/>
+           )
+  } else if (authorized && show_children) {
+    return (
+      <Fragment>{props.children}</Fragment>
+          )
+  } else if (!authorized && show_children) {
+      // normal navigation would not reach here
+            this.props.handleClose()
+            return null
+  } else {
+    // should not reach here by logic
+            return null
+  }    
+  
 }
 Auth.contextType = AuthContext;
 export default Auth;
