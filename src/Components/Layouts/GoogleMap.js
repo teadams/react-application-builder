@@ -75,7 +75,6 @@ function GoogleMap (props) {
 
   const handleProjectCreated= (event,action, project_data, inserted_id) => {
     // most of this will go server side
-u.a("submitted", action,  project_data, inserted_id)
     setCreateProjectOpen(false)
     // this will all move server side
     if (!inserted_id) {
@@ -84,28 +83,25 @@ u.a("submitted", action,  project_data, inserted_id)
 
     let options = {}
     options.id = inserted_id
-    data.getData("nwn_project", options, (project_data, error) => { 
-      const other_fields = {
-        leader_notes: 'Creator',
-        creation_user: this.context.user.id
-      }
-      const role_add_obj = {
-        user_id: this.context.user.id,
+    const role_add_obj = {
+        user_id: context.user.id,
         subsite_id: inserted_id,
         role_name: "Admin",
-        status: "Accepted",
-        other_fields: other_fields
-      }
+        status: "Accepted"
+    }
+    data.callAPI("auth/create-subsite-role", {}, role_add_obj, "post", (role_add_result, error ) => {
 
-      data.callAPI("auth/create-subsite-role", {}, role_add_obj, "post", (role_add_result, error ) => {
+        if (Object.keys(role_add_result) > 0) {
+          // will need a way to get updated context
           let new_user_context = context.user
-          new_user_context.context_list = role_add_result.context_list
-          new_user_context.authorization_object = role_add_result.authorization_object
-          context.login(new_user_context)
-          context.setContextId(inserted_id)
-          // direct to project page
-        
-          props.onMenuChange("",5)
+            new_user_context.context_list = role_add_result.context_list
+            new_user_context.authorization_object = role_add_result.authorization_object
+            context.login(new_user_context)
+            context.setContextId(inserted_id)
+            // direct to project page
+        }
+          let path = `/OneProject`
+          history.push(path);
 
       })
       // Let this happen in parallel. User will be redirected so we do not have to wait
@@ -122,7 +118,6 @@ u.a("submitted", action,  project_data, inserted_id)
               } 
           })     
         })
-    })
 
   }
 
