@@ -55,7 +55,6 @@ function Auth(props) {
         if (!context.user ) {
           show_children = false
          if (!login_form) {
-              u.a("setting login form")
              setLoginForm(true)
          }    
        }
