@@ -116,7 +116,6 @@ function ACSRowController(input_props) {
 
   // field list will come back scrubbed
   let {formValues, lastTouched, handleFormChange, handleFormSubmit,} = useForm(object_type, "", data, handleSubmit, mode, form, merging_props,field_list);
-
   //// wall /////
   const field_models =  useGetModel("fields")
   if (!field_models) {return null}
@@ -136,7 +135,8 @@ function ACSRowController(input_props) {
     let col_count = 0
     field_list.forEach(field => {
       const col_span = field_model[field].col_span
-      if (field_model[field].hidden_on_form && ["create", "edit"].includes(mode)) {
+      if ((field_model[field].hidden_on_form && ["create", "edit"].includes(mode)) ||
+          field_model[field].hidden_on_create_form && ["create"]) {
         chunked_field_list[index].push(field)
       } else if (col_count + col_span <= num_columns) {
           chunked_field_list[index].push(field)
