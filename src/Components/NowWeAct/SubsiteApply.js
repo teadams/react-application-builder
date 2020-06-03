@@ -87,7 +87,7 @@ function SubsiteApply(props) {
 
   const project_data = useGetObject("nwn_project", project_id);
 
-  const {formValues, lastTouched, handleFormChange, handleFormSubmit} = useForm("core_subsite_role", "", "", handleVolunteerSubmit, "create", "true", {email_perm:true}, ["id","core_user", "core_subsite", "core_role", "status", "message", "email_perm"]);
+  const {formValues, lastTouched, handleFormChange, handleFormSubmit} = useForm("core_subsite_role", "", "", handleVolunteerSubmit, "create", "true", {email_perm:true}, ["id", "core_subsite", "core_role", "status", "message", "email_perm"]);
 
   let show_needs = (project_id ||role_type_id)?true:false
 
@@ -235,6 +235,7 @@ function SubsiteApply(props) {
       </Typography>
       <Grid container style={{padding:20}}>
         <Grid  item xs={4}>
+Project:
           <RABSelectField object_type = "core_subsite"
             mode="edit" form="true"
             add_any={true}
@@ -246,23 +247,23 @@ function SubsiteApply(props) {
           />
         </Grid> 
         <Grid   item xs={2}>
-          <RABSelectField object_type = "core_subsite_role"
+Role:
+          <RABSelectField object_type = "core_role"
             mode="edit" form="true"
             add_any={true}
             value = {role_type_id}
             style = {{width:"90%"}}
-            onChange={handleRoleTypeChange}
+            //onChange={handleRoleTypeChange}
             noLabel= {true}
-            disable_underline={true}
-            
+            disable_underline={true}            
           />
         </Grid>
-      {project_data &&
+      {project_data=== 4 &&
         <Grid style={box_style} item xs={6}>
               <ProjectInfo project_data={project_data}/>
         </Grid>}
     </Grid> 
-    {show_needs  && <Fragment>
+    {show_needs === 5  && <Fragment>
       <Paper style={box_style}   elevation={1} style={{padding:20, backgroundColor:"lightGray"}}>
       <form onSubmit={handleFormSubmit}>
       <VolunteerNeedsIntroduction /> 

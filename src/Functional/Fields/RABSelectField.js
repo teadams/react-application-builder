@@ -94,7 +94,6 @@ function RABSelectField(props) {
   //   Edit/create uses controlled values from formValues
   // 2. Called directly 
   //     dispaly_value is display_value, value is value
-
   const object_type_model = useGetModel("object_types", object_type)
   const form_field_name = formValues?field_model.formValues_name:object_type_model.key_id
 
