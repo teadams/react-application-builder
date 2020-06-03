@@ -110,10 +110,10 @@ const rab_component_models = {
       names:{
         header_wrap:"Fragment",
         header:"RABObjectPrettyName",
-        row_body:"Fragment",
-        section_wrap:"Table",
+        row_body:"Table",
+        section_wrap:"TableRow",
         section_header:"Fragment",
-        row_wrap:"TableBody",
+        row_wrap:"Fragment",
         field_chunk_wrap:"TableRow"
       },
       components:{},
