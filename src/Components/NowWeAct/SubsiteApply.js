@@ -133,9 +133,10 @@ function SubsiteApply(props) {
         }
   }
   function handleRoleTypeChange(event) {
-    const value = event.target_value
+    const value = event.target.value
+    const role_name = event.target.selected_data.name
     if (value != role_type_id) {
-  //      setRoleName(role_name)
+        setRoleName(role_name)
         setRoleTypeId(value)
         setSelectedTouched(true)
     }
@@ -229,7 +230,7 @@ function SubsiteApply(props) {
                   add_any={true}
                   value = {role_type_id}
                   style = {{width:"90%"}}
-                  //onChange={handleRoleTypeChange}
+                  onChange={handleRoleTypeChange}
                   noLabel= {true}
                   disable_underline={false}            
                 />
