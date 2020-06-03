@@ -82,7 +82,8 @@ function ACSRowController(input_props) {
   const object_model = object_models?[input_props.object_type]:{}
 
   // do not merge expensive, known unnecessary things
-  const {data:input_props_data, form_open, key_id, ...merging_props} = input_props
+  const {data:input_props_data, form_open, key_id, onData="",...merging_props} = input_props
+
   // do not change base component
   let row_component_model = Object.assign({},rab_component_models.row)
   row_component_model.row.components.row = RABRow
@@ -106,7 +107,7 @@ function ACSRowController(input_props) {
       } 
   }
 
-  let [ready, object_type, id, prescrubbed_field_list, api_options, data] =  useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data);
+  let [ready, object_type, id, prescrubbed_field_list, api_options, data] =  useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data, onData);
   if (!input_props_data && !id && data) {
     // lookup was by filter, not id
     id = data.id
@@ -115,7 +116,7 @@ function ACSRowController(input_props) {
   let field_list = useGenerateFieldList(object_type, "", data, mode, form, prescrubbed_field_list)
 
   // field list will come back scrubbed
-  let {formValues, lastTouched, handleFormChange, handleFormSubmit,} = useForm(object_type, "", data, handleSubmit, mode, form, merging_props,field_list);
+  let {formValues, lastTouched, handleFormChange, handleFormSubmit,} = useForm(object_type, "", data, handleSubmit, mode, form, merging_props,field_list, onData);
   //// wall /////
   const field_models =  useGetModel("fields")
   if (!field_models) {return null}

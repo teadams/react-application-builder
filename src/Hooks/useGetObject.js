@@ -9,7 +9,7 @@ import * as u from '../Utils/utils.js';
 
 
 //  const [db_object_data, setDbResults] = useState();
-const useGetObject = (object_type, id, field_list, api_options={}, param_data) => {
+const useGetObject = (object_type, id, field_list, api_options={}, param_data, onData="") => {
   // XX - think not neeed
 
   const [ready, setReady] = useState(false);
@@ -34,6 +34,9 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data) =
                 alert ("error retrieving object " + object_type + " " + id + ":" + error.message)
             } else {
               results = results[0]
+              if (onData) {
+                  onData(results)
+              }
               setState([true, object_type, id, field_list, api_options, results])
             }
         })

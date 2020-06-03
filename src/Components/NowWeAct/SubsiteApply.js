@@ -42,7 +42,6 @@ const box_style = {
 function SubsiteApply(props) {
   const context = useContext(AuthContext)
   const [project_id, setProjectId] = useState();
-  const [project_name, setProjectName] = useState("");
 
   const [role_type_id, setRoleTypeId] = useState(props.role_type_id);
   const [role_name, setRoleName] = useState("");
@@ -174,14 +173,14 @@ function SubsiteApply(props) {
     if (!show_needs) {
         return null
     } else if (project_id && !role_type_id) {
-        header = `Volunteer Opportunities in Project ${project_name}`
-        custom_intro = `The table below lists the volunteer opportunities a ${project_name}.`
+        header = `Volunteer Opportunities in Project ${project_data.name}`
+        custom_intro = `The table below lists the volunteer opportunities a ${project_data.name}.`
     } else if (role_type_id && !project_id) {
         header = `Volunteer Opportunities for Role ${role_name}`
         custom_intro = `The table below lists the volunteer opportunities for ${role_name} accoss all the Now was Act project.`
     } else {
-        header = `Volunteer Opportunities for Project ${project_name} Role ${role_name}`
-        custom_intro = `The table below lists the volunteer opportunities for ${role_name} in the ${project_name} project.`
+        header = `Volunteer Opportunities for Project ${project_data.name} Role ${role_name}`
+        custom_intro = `The table below lists the volunteer opportunities for ${role_name} in the ${project_data._name} project.`
     }
     if ((!project_needs || project_needs.length == 0)) {
         return  ( <Fragment><Typography variant="h6">{header}</Typography>
@@ -199,6 +198,10 @@ function SubsiteApply(props) {
         )
     }
   }
+
+  const handleProjectData = (project_data) => {
+      setProjectData(project_data)
+  }
   
   return (
     <Fragment>
@@ -209,7 +212,7 @@ function SubsiteApply(props) {
       <div style={{paddingLeft:40, paddingTop:10, display:'flex'}}>       
         <div style={{display:'inline', width:'40%'}}>
           <div style={{display:'block'}}> <Typography variant="h5">Project:</Typography> </div>
-          <div><RABSelectField object_type = "core_subsite"
+          <div style={{paddingBottom:20}}><RABSelectField object_type = "core_subsite"
                   mode="edit" form="true"
                   add_any={true}
                   value = {project_id}
@@ -235,13 +238,13 @@ function SubsiteApply(props) {
         <div style={{width:"50%"}}>
           {project_id &&
           <Card variant="outlined" style={{padding:30,backgroundColor:"#DDDDDD"}}>
-          <ACSRowController field_list={project_info_fields} object_type="core_subsite" mode="view" id={project_id} num_columns={1}  />
+          <ACSRowController field_list={project_info_fields} object_type="core_subsite" mode="view" id={project_id} num_columns={1} onData={handleProjectData} />
           </Card>}
          </div>
           <div style={{width:"10%"}}/>
      </div>
      
-    {show_needs === 5  && <Fragment>
+    {show_needs  && <Fragment>
       <Paper style={box_style}   elevation={1} style={{padding:20, backgroundColor:"lightGray"}}>
       <form onSubmit={handleFormSubmit}>
       <VolunteerNeedsIntroduction /> 
