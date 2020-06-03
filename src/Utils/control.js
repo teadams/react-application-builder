@@ -18,6 +18,9 @@ import ObjectTypeView from "../RABComponents/ObjectTypeView.js"
 import Debug from '../Debug.js'
 import User from '../Functional/Fields/User.js'
 
+import NWAProjectView from '../Components/NowWeAct/NWAProjectView.js'
+import SubsiteApply from '../Components/NowWeAct/SubsiteApply.js'
+
 import ACSField from '../Functional/ACSField2.js'
 import ACSRowController from '../Functional/ACSRowController.js'
 import ACSListController from '../Functional/ACSListController.js'
@@ -235,6 +238,8 @@ function componentPicker(name, source="not provided") {
     case "RABObjectPrettyName": return RABObjectPrettyName;
     case "RABObjectTypePrettyPlural": return RABObjectTypePrettyPlural;
     case "GoogleMap": return GoogleMap;
+    case "NWAProjectView": return NWAProjectView;
+    case "SubsiteApply": return SubsiteApply;
     default:  { 
       alert("Menu Model Issues - no component for " + name) 
       return Fragment;

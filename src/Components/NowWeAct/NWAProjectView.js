@@ -15,7 +15,7 @@ import {ObjectMapping, Image, YouTube, Field} from "../index.js"
 import * as data from '../../Utils/data.js';
 import update from 'immutability-helper';
 
-class ProjectView extends React.Component {
+class NWAProjectView extends React.Component {
 
   constructor(props) {
     super(props);           
@@ -190,6 +190,6 @@ class ProjectView extends React.Component {
 }
 
 
-ProjectView.contextType = AuthContext;
-export default ProjectView;
+NWAProjectView.contextType = AuthContext;
+export default NWAProjectView;
 

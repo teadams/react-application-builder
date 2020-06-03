@@ -70,7 +70,7 @@ function ProjectInfo(props) {
   }
 }
 
-function VolunteerNew(props) {
+function SubsiteApply(props) {
   const context = useContext(AuthContext)
   const [project_id, setProjectId] = useState(props.project_id);
   const [project_name, setProjectName] = useState("");
@@ -289,5 +289,5 @@ function VolunteerNew(props) {
 }
 
 //export default withStyles(styles, { withTheme: true })(VolunteerNew);
-export default VolunteerNew;
+export default SubsiteApply;
 
