@@ -25,7 +25,7 @@ function ACSCreateButton(props) {
 
   const handleOnSubmit = (event,action, form_values, inserted_id) => {
     if (props.onSubmit) {
-      props.onSubmit(event,action, inserted_id)
+      props.onSubmit(event,action, form_values, inserted_id)
     }
   }
 

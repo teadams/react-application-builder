@@ -73,10 +73,9 @@ function GoogleMap (props) {
         setCreateProjectOpen(false)
   }
 
-  const handleProjectCreated= (event,action, inserted_id) => {
+  const handleProjectCreated= (event,action, project_data, inserted_id) => {
     // most of this will go server side
-u.a("submitted", action, inserted_id)
-return
+u.a("submitted", action,  project_data, inserted_id)
     setCreateProjectOpen(false)
     // this will all move server side
     if (!inserted_id) {
