@@ -82,7 +82,7 @@ function ACSRowController(input_props) {
   const object_model = object_models?[input_props.object_type]:{}
 
   // do not merge expensive, known unnecessary things
-  const {headless="false", data:input_props_data, form_open, key_id, onData="",...merging_props} = input_props
+  const {headless=false, data:input_props_data, form_open, key_id, onData="",...merging_props} = input_props
 
   // do not change base component
   let row_component_model = Object.assign({},rab_component_models.row)
@@ -106,7 +106,6 @@ function ACSRowController(input_props) {
         input_props.onClose()
       } 
   }
-
   let [ready, object_type, id, prescrubbed_field_list, api_options, data] =  useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data, onData);
   if (!input_props_data && !id && data) {
     // lookup was by filter, not id
@@ -159,6 +158,7 @@ function ACSRowController(input_props) {
   // Final structure[[section], [section]]
   // where each section contains one or more fields 
   // (according to field_chunk and colspan rules examples: [field, field, field ]
+
   if (headless) {
     // XX authorize
     // XX on data 
