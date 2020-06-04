@@ -203,7 +203,7 @@ function SubsiteApply(props) {
                   disable_underline={false}            
                 />
             </div>
-            <div>
+            <div style={{width:"90%", paddingTop:30, paddingRight:20}}>
               <ShowNeeds project_data={project_data} role_name={role_name} project_needs={project_needs} show_needs={show_needs} project_id={project_id} role_type_id={role_type_id} handleFormSubmit={handleFormSubmit} handleFormChange={handleFormChange} formValues={formValues}/> 
 
             </div>
