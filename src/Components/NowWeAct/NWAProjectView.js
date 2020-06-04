@@ -5,7 +5,8 @@ import 'react-app-polyfill/stable';
 import React, { Component, Fragment, useState} from 'react';
 import ACSObjectView from "../../Functional/Rows/ACSObjectView.js"
 import ACSHeadlessObjectView from "../../Functional/Rows/ACSHeadlessObjectView.js"
-
+import ACSObjectTypeView from "../../Functional/Lists/ACSObjectTypeView.js"
+import ACSSummaryObjectTypeView from "../../Functional/Lists/ACSSummaryObjectTypeView.js"
 import * as u from '../../Utils/utils.js';
 
 function NWAProjectView(props) {
@@ -26,6 +27,9 @@ function NWAProjectView(props) {
       <div style={{width:"40%", marginLeft:10, marginRight:10, xborder:"5px solid  blue"}}>messages</div>
       <div style={{width:"30%", marginLeft:10, xborder:"5px solid  blue"}}>
       <ACSObjectView {...props} data={data.leader} field_display="name_value" num_columns={1} object_type="core_user" row_header_image_size="medium" rab_component_model={{row:{names:{row_body:"RABVoid"}}}} row_image_size="medium" />
+
+      <ACSSummaryObjectTypeView {...props} object_type="nwn_project_need"/>
+    
       </div>
     </div>
     }
