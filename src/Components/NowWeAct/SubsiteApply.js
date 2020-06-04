@@ -169,39 +169,6 @@ u.a("project needs are")
       })
   }
 
-  function VolunteerNeedsIntroduction(props) {
-     const standard_text =  "You may select more than one.  Fill out a message to the project leader and hit Submit.  The project leader will be sent a notificaton to review and repond to your interest.   Check the volunteer opportunities you are interested in. Thank you."
-     let header = ""
-     let custom_intro =""
-    if (!show_needs) {
-        return null
-    } else if (project_id && !role_type_id) {
-        header = `Volunteer Opportunities in Project ${project_data.name}`
-        custom_intro = `The table below lists the volunteer opportunities a ${project_data.name}.`
-    } else if (role_type_id && !project_id) {
-        header = `Volunteer Opportunities for Role ${role_name}`
-        custom_intro = `The table below lists the volunteer opportunities for ${role_name} accoss all the Now was Act project.`
-    } else {
-        header = `Volunteer Opportunities for Project ${project_data.name} Role ${role_name}`
-        custom_intro = `The table below lists the volunteer opportunities for ${role_name} in the ${project_data._name} project.`
-    }
-    if ((!project_needs || project_needs.length == 0)) {
-        return  ( <Fragment><Typography variant="h6">{header}</Typography>
-          <Typography> There are no advertised volunteer needs available. {project_id && "However, please use the form below to connect with the project leader about your interest."}</Typography>
-          </Fragment>
-        )
-    } else {
-      return (
-        <Fragment><Typography variant="h6">{header}</Typography>
-            <p/>
-            {custom_intro}
-            {standard_text}
-            <p/>
-        </Fragment>
-        )
-    }
-  }
-
   const handleProjectData = (project_data) => {
       setProjectData(project_data)
   }
@@ -250,7 +217,7 @@ u.a("project needs are")
     {show_needs  && <Fragment>
       <Paper style={box_style}   elevation={1} style={{padding:20, backgroundColor:"lightGray"}}>
       <form onSubmit={handleFormSubmit}>
-      <VolunteerNeedsIntroduction /> 
+      <VolunteerNeedsIntroduction project_data={project_data} role_name={role_name} project_needs={project_needs} show_needs={show_needs} project_id={project_id} role_type_id={role_type_id}/> 
       <FormControl>
       {project_needs && project_needs.length > 0 &&
       <FormGroup name="nwn_project" area-label="Available Needs">
@@ -295,6 +262,40 @@ u.a("project needs are")
     </Paper> </Fragment>
     }
   </Fragment>)
+}
+
+function VolunteerNeedsIntroduction(props) {
+   const {project_data, role_name, project_needs, show_needs, project_id, role_type_id} = props
+   const standard_text =  "You may select more than one.  Fill out a message to the project leader and hit Submit.  The project leader will be sent a notificaton to review and repond to your interest.   Check the volunteer opportunities you are interested in. Thank you."
+   let header = ""
+   let custom_intro =""
+  if (!show_needs) {
+      return null
+  } else if (project_id && !role_type_id) {
+      header = `Volunteer Opportunities in Project ${project_data.name}`
+      custom_intro = `The table below lists the volunteer opportunities a ${project_data.name}.`
+  } else if (role_type_id && !project_id) {
+      header = `Volunteer Opportunities for Role ${role_name}`
+      custom_intro = `The table below lists the volunteer opportunities for ${role_name} accoss all the Now was Act project.`
+  } else {
+      header = `Volunteer Opportunities for Project ${project_data.name} Role ${role_name}`
+      custom_intro = `The table below lists the volunteer opportunities for ${role_name} in the ${project_data._name} project.`
+  }
+  if ((!project_needs || project_needs.length == 0)) {
+      return  ( <Fragment><Typography variant="h6">{header}</Typography>
+        <Typography> There are no advertised volunteer needs available. {project_id && "However, please use the form below to connect with the project leader about your interest."}</Typography>
+        </Fragment>
+      )
+  } else {
+    return (
+      <Fragment><Typography variant="h6">{header}</Typography>
+          <p/>
+          {custom_intro}
+          {standard_text}
+          <p/>
+      </Fragment>
+      )
+  }
 }
 
 //export default withStyles(styles, { withTheme: true })(VolunteerNew);
