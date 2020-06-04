@@ -37,7 +37,7 @@ function NWAProjectView(props) {
       <div style={{marginTop:20}}>
         <Card>
         <Typography variant="h6">Volunteers</Typography>
-        <ACSSummaryObjectTypeView {...props} object_type="nwn_project_volunteer"/>
+        <ACSSummaryObjectTypeView {...props} object_type="core_subsite_role"/>
         </Card>
       </div>
       </div>

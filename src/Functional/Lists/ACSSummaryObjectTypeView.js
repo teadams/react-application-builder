@@ -18,14 +18,14 @@ function SummaryRow(props) {
 
   return (
     <Fragment>
-   <TableCell>
+   <TableCell style={{width:"30%"}}>
     <ACSField  {...props} field_name={pretty_key_field} key={pretty_key_field} />
     {summary_field && 
       <Fragment> - <ACSField  {...props} field_name={summary_field} key={summary_field}/> </Fragment>
     }
-    </TableCell>
+    </TableCell> 
     {description_field && 
-      <TableCell><ACSField  {...props} field_name={description_field} key={description_field} /></TableCell>
+      <TableCell style={{width:"70%"}}><ACSField  {...props} field_name={description_field} key={description_field} /></TableCell>
     }
   </Fragment>
   
