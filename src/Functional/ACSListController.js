@@ -80,8 +80,8 @@ function ACSListController(input_props) {
   list_component_model.list.components.list = RABList
   list_component_model.list.components.list_header = RABTableHeaders
   list_component_model.list.names.list_header_wrap = "TableHead" 
-
   const rab_component_model = control.getFinalModel("list", {...merging_props}, object_model, rab_component_models.list )
+
   const list_model = rab_component_model.list
   const list_components = list_model.components
   const massaged_props = list_model.props
