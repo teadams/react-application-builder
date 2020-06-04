@@ -57,7 +57,7 @@ function SubsiteApply(props) {
 
   const project_info_fields= ["summary", "leader", "description", "street_address", "city", "state", "country", "zip_code"]
 
-  const {formValues, lastTouched, handleFormChange, handleFormSubmit} = useForm("core_subsite_role", "", "", handleVolunteerSubmit, "create", "true", {email_perm:true, status:"Applied"}, ["id", "core_subsite", "core_role", "status", "message", "email_perm"]);
+  const {formValues, lastTouched, handleFormChange, handleFormSubmit} = useForm("core_subsite_role", "", "", "", "create", "true", {email_perm:true, status:"Applied"}, ["id", "core_subsite", "core_role", "status", "message", "email_perm"]);
 
   let show_needs = (project_id ||role_type_id)?true:false
 
@@ -80,6 +80,7 @@ function SubsiteApply(props) {
             volunteer_object.core_role = need.role_name.id
             volunteer_object.email_perm = formValues.email_perm
             volunteer_object.status = formValues.status
+u.a("posting a volunteer")
             data.postData("nwn_project_volunteer", volunteer_object, {}, (result, error) => { 
               if (error) {
                 alert("error is " + error)
@@ -106,7 +107,7 @@ function SubsiteApply(props) {
       if (num_needs == 0 && project_data) {
         let message_object = {}
         message_object.from_user = context.user.id;
-        message_object.to_user = project_data.project_leader;
+        message_object.to_user = project_data.project_leader.id;
         message_object.nwn_project = project_data.id;
         message_object.subject  = "Interest in your project";
         message_object.body = formValues.message;
@@ -214,7 +215,7 @@ function SubsiteApply(props) {
             </div>
         </div>
         <div style={{width:"50%"}}>
-          <ShowNeeds project_data={project_data} role_name={role_name} project_needs={project_needs} show_needs={show_needs} project_id={project_id} role_type_id={role_type_id} handleFormSubmit={handleFormSubmit} handleFormChange={handleFormChange} formValues={formValues}/> 
+          <ShowNeeds project_data={project_data} role_name={role_name} project_needs={project_needs} show_needs={show_needs} project_id={project_id} role_type_id={role_type_id} handleFormSubmit={handleVolunteerSubmit} handleFormChange={handleFormChange} formValues={formValues}/> 
 
          </div>
           <div style={{width:"10%"}}/>
