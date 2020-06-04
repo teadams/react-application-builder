@@ -164,7 +164,6 @@ function SubsiteApply(props) {
       }
       let options = {filter_id:filter_id, filter_field:filter_field, filter_join:"AND"}
       data.getData(object_type, options, (data, error) => {       
-u.a("project needs are")    
             setProjectNeeds(data)
       })
   }
@@ -204,6 +203,10 @@ u.a("project needs are")
                   disable_underline={false}            
                 />
             </div>
+            <div>
+              <ShowNeeds project_data={project_data} role_name={role_name} project_needs={project_needs} show_needs={show_needs} project_id={project_id} role_type_id={role_type_id} handleFormSubmit={handleFormSubmit} handleFormChange={handleFormChange} formValues={formValues}/> 
+
+            </div>
         </div>
         <div style={{width:"50%"}}>
           {project_id &&
@@ -213,55 +216,65 @@ u.a("project needs are")
          </div>
           <div style={{width:"10%"}}/>
      </div>
-     
-    {show_needs  && <Fragment>
-      <Paper style={box_style}   elevation={1} style={{padding:20, backgroundColor:"lightGray"}}>
-      <form onSubmit={handleFormSubmit}>
-      <VolunteerNeedsIntroduction project_data={project_data} role_name={role_name} project_needs={project_needs} show_needs={show_needs} project_id={project_id} role_type_id={role_type_id}/> 
-      <FormControl>
-      {project_needs && project_needs.length > 0 &&
-      <FormGroup name="nwn_project" area-label="Available Needs">
-      <TableContainer>
-        <Table size="small">
-          <TableHead>
-            <TableRow><TableCell></TableCell><TableCell>Role</TableCell>
-                <TableCell>Role Description</TableCell><TableCell>Project Name</TableCell>
-                <TableCell>Project Summary</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-        {project_needs.map(need => {     
-          let need_field_name = "need_" + need_idx 
-          need_idx += 1   
-            return (<Fragment>              
-      
-                  <TableRow>
-                      <TableCell>
-                        <Checkbox onChange={handleFormChange} name={need_field_name} value={formValues[need_field_name]} id={need_field_name}/>
-                      </TableCell>
-                      <TableCell>{need.role_name_name}</TableCell>
-                      <TableCell>{need.description}  {need.role_name_descritpion}</TableCell>
-                      <TableCell>{need.nwn_project_name}</TableCell>
-                      <TableCell>{need.nwn_project_description}</TableCell>
-                  </TableRow>
-              </Fragment>
-          ) 
-      })}
-        </TableBody>
-        </Table>
-      </TableContainer>
-      </FormGroup>}
-      {((project_needs && project_needs.length > 0) || project_id) &&
-      <Fragment>
-      <TextField  id="message" name="message"  onChange={handleFormChange} rows="5" rowsMax="10" value ={formValues.message} label= "Use the area below to  send a message to the project leader." multiline />
-      <FormControlLabel name="email_perm" id="email_id" default={true} checked={formValues.email_perm} label="Check here if it is ok to share your email address with the project email. This will allow you to continue your conversation with email directly.  This is highly recommended as you will be able to talk about the project directly." control={<Checkbox onChange={handleFormChange}/>}/>  
-          <Button type="submit" value="Submit">Submit</Button></Fragment>
-      }
-      </FormControl>
-    </form>
-    </Paper> </Fragment>
-    }
+   
+  
   </Fragment>)
+}
+
+function ShowNeeds(props) {
+  const {project_data, role_name, project_needs, show_needs, project_id, role_type_id, handleFormSubmit, handleFormChange, formValues} = props
+  let need_idx=0
+  if (!show_needs) {
+    return null
+  }
+  return (<Fragment>
+    <Paper style={box_style}   elevation={1} style={{padding:20, backgroundColor:"lightGray"}}>
+    <form onSubmit={handleFormSubmit}>
+    <VolunteerNeedsIntroduction project_data={project_data} role_name={role_name} project_needs={project_needs} show_needs={show_needs} project_id={project_id} role_type_id={role_type_id}/> 
+    <FormControl>
+    {project_needs && project_needs.length > 0 &&
+    <FormGroup name="nwn_project" area-label="Available Needs">
+    <TableContainer>
+      <Table size="small">
+        <TableHead>
+          <TableRow><TableCell></TableCell><TableCell>Role</TableCell>
+              <TableCell>Role Description</TableCell><TableCell>Project Name</TableCell>
+              <TableCell>Project Summary</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+      {project_needs.map(need => {     
+        let need_field_name = "need_" + need_idx 
+        need_idx += 1   
+          return (<Fragment>              
+    
+                <TableRow>
+                    <TableCell>
+                      <Checkbox onChange={handleFormChange} name={need_field_name} value={formValues[need_field_name]} id={need_field_name}/>
+                    </TableCell>
+                    <TableCell>{need.role_name_name}</TableCell>
+                    <TableCell>{need.description}  {need.role_name_descritpion}</TableCell>
+                    <TableCell>{need.nwn_project_name}</TableCell>
+                    <TableCell>{need.nwn_project_description}</TableCell>
+                </TableRow>
+            </Fragment>
+        ) 
+    })}
+      </TableBody>
+      </Table>
+    </TableContainer>
+    </FormGroup>}
+    {((project_needs && project_needs.length > 0) || project_id) &&
+    <Fragment>
+    <TextField  id="message" name="message"  onChange={handleFormChange} rows="5" rowsMax="10" value ={formValues.message} label= "Use the area below to  send a message to the project leader." multiline />
+    <FormControlLabel name="email_perm" id="email_id" default={true} checked={formValues.email_perm} label="Check here if it is ok to share your email address with the project email. This will allow you to continue your conversation with email directly.  This is highly recommended as you will be able to talk about the project directly." control={<Checkbox onChange={handleFormChange}/>}/>  
+        <Button type="submit" value="Submit">Submit</Button></Fragment>
+    }
+    </FormControl>
+  </form>
+  </Paper> </Fragment>
+  )
+
 }
 
 function VolunteerNeedsIntroduction(props) {
