@@ -103,6 +103,7 @@ function RenderACSField(props) {
     case "name_value":
     return (
     <Fragment>
+      <div style={{marginTop:10}}>
       <FieldWrap key={field_name+"_wrap1"}
         onClick={handleFieldClick}  onMouseOver={handleMouseOver} >
         <b>{field_model.pretty_name}: </b>
@@ -110,6 +111,7 @@ function RenderACSField(props) {
         <Field {...params}  key={field_name+"_field"}/>
       </FormWrap>
       </FieldWrap>
+      </div>
     </Fragment>
     )
     break;
