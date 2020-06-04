@@ -67,7 +67,9 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   const handleFormSubmit = (event => {
 
     if (!lastTouched) {
-       handleSubmit(event, "no_change")
+       if (handleSubmit) {
+        handleSubmit(event, "no_change")
+      }
        return
     } 
 
@@ -89,7 +91,9 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
         } else {
           var inserted_id = insert_result.rows[0][id_field] 
           context.setDirty();
-          handleSubmit(event,'created', formValues, inserted_id);
+          if (handleSubmit) {
+            handleSubmit(event,'created', formValues, inserted_id);
+          }
         }
       })     
     } else {
@@ -99,7 +103,9 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
           alert ('error is ' + error.message)
         } else { 
           context.setDirty();
-          handleSubmit(event,'updated', formValues);
+          if (handleSubmit) {
+            handleSubmit(event,'updated', formValues);
+          }
         }
       })
     }
