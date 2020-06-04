@@ -15,7 +15,7 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
       }
   }
   return ( 
-      <ACSObjectView {...params} onData={onData} component_model={component_model}  />
+      <ACSObjectView {...params} mode="headless" onData={onData} component_model={component_model}  />
   )
 }
 export default ACSHeadlessObjectView;
