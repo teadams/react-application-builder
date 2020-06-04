@@ -14,7 +14,7 @@ import TreeMenu from "../RABComponents/TreeMenu.js"
 import RABHeaderAndBodyText from '../Functional/Text/RABHeaderAndBodyText.js'
 import RABText from '../Functional/Text/RABText.js'
 import Message from "../RABComponents/Message.js"
-import ObjectTypeView from "../RABComponents/ObjectTypeView.js"
+import ACSObjectTypeView from "../Functional/Lists/ACSObjectTypeView.js"
 import Debug from '../Debug.js'
 import User from '../Functional/Fields/User.js'
 
@@ -205,7 +205,7 @@ function componentPicker(name, source="not provided") {
     case "DrillDown": return DrillDown;
     case "FieldView": return FieldView;
     case "TreeMenu": return TreeMenu;
-    case "ObjectTypeView": return ObjectTypeView;
+    case "ACSObjectTypeView": return ACSObjectTypeView;
     case "Debug": return Debug;
     case "ACSField": return ACSField;
     case "ACSObjectView": return ACSObjectView;

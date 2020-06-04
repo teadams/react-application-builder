@@ -7,7 +7,7 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
 import AuthContext from './AuthContext';
 import {SelectObject} from '..//FormsAndViews';
 import RABSelectField from '../../Functional/Fields/RABSelectField.js'
-
+import useGetModel from '../../Hooks/useGetModel.js'
 import * as meta from '../../Utils/meta.js';
 
 const context_style = {
@@ -35,6 +35,7 @@ const context_style = {
 
 function ContextSelect () {
   const context = useContext(AuthContext)
+  const app_params = useGetModel("app_params")
   const subsite_id = context.context_id
   const user = context.user
   
@@ -42,8 +43,7 @@ function ContextSelect () {
         context.setContextId(event.target.value)  
    }
 
-
-    if (context.user.id ) {     
+    if (context.user.id && app_params.layout.context_switcher ) {     
           return (
             <RABSelectField object_type = "core_subsite"
               mode="edit" form="true"
@@ -56,7 +56,11 @@ function ContextSelect () {
              />
           );
       }  else {
-            return (<Fragment/>)
+          if (context.context_name) {
+              return (<Fragment>{context.context.name}</Fragment>)
+        } else {  
+              return(null)
+        }
       }
   
 }
