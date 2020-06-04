@@ -1,13 +1,33 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
-import * as u from '../../Utils/log.js'
+import * as u from '../../Utils/utils.js'
 import ACSObjectTypeView from './ACSObjectTypeView.js'
+import ACSField from '../ACSField2.js'
+import useGetModel from '../../Hooks/useGetModel.js'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 
 function SummaryRow(props) {
   const {data, object_type} = props
-  return "ROW "
-//  return (<Fragment>{data.role_name} - {data.descripton}</Fragment>)
+  const object_type_models = useGetModel("object_types")
+  const object_model = object_type_models[object_type]
+
+  const pretty_key_field = object_model.pretty_key_id
+  const summary_field = object_model.summary
+  const description_field = object_model.description
+  return (
+    <Fragment>
+   <td>
+    <ACSField  {...props} field_name={pretty_key_field} key={pretty_key_field} />
+    {summary_field && 
+      <Fragment> - <ACSField  {...props} field_name={summary_field} key={summary_field}/> </Fragment>
+    }
+    </td>
+    {description_field && 
+      <Fragment> <td><ACSField  {...props} field_name={description_field} key={description_field} /></td></Fragment>
+    }
+  </Fragment>
+  
+  )
 }
 
 function ACSSummaryObjectTypeView(props)  {
@@ -22,7 +42,7 @@ function ACSSummaryObjectTypeView(props)  {
                   list_pagination:"RABVoid"}
       },
       row:{components:{
-            row_body:SummaryRow
+            row:SummaryRow
           }
       }}
 
