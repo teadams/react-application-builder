@@ -236,29 +236,31 @@ function ShowNeeds(props) {
     <FormGroup name="nwn_project" area-label="Available Needs">
     <TableContainer>
       <Table size="small">
-        <TableHead>
-          <TableRow><TableCell></TableCell><TableCell>Role</TableCell>
-              <TableCell>Role Description</TableCell><TableCell>Project Name</TableCell>
-              <TableCell>Project Summary</TableCell>
-          </TableRow>
-        </TableHead>
+
         <TableBody>
       {project_needs.map(need => {     
         let need_field_name = "need_" + need_idx 
         need_idx += 1   
-          return (<Fragment>              
-    
+          if (project_id) {
+            return (
+            <TableRow>
+            <TableCell>
+              <Checkbox onChange={handleFormChange} name={need_field_name} value={formValues[need_field_name]} id={need_field_name}/>
+            </TableCell>   
+              <TableCell>{need.role_name_name} - {need.description}</TableCell>
+            </TableRow>
+            )
+          } else {
+            return (<Fragment>              
+        
                 <TableRow>
                     <TableCell>
                       <Checkbox onChange={handleFormChange} name={need_field_name} value={formValues[need_field_name]} id={need_field_name}/>
                     </TableCell>
-                    <TableCell>{need.role_name_name}</TableCell>
-                    <TableCell>{need.description}  {need.role_name_descritpion}</TableCell>
-                    <TableCell>{need.nwn_project_name}</TableCell>
-                    <TableCell>{need.nwn_project_description}</TableCell>
+                    <TableCell>{need.nwn_project_name}({need.nwn_project_summary}) - {need.description}</TableCell>
                 </TableRow>
             </Fragment>
-        ) 
+        ) }
     })}
       </TableBody>
       </Table>
@@ -267,7 +269,7 @@ function ShowNeeds(props) {
     {((project_needs && project_needs.length > 0) || project_id) &&
     <Fragment>
     <TextField  id="message" name="message"  onChange={handleFormChange} rows="5" rowsMax="10" value ={formValues.message} label= "Use the area below to  send a message to the project leader." multiline />
-    <FormControlLabel name="email_perm" id="email_id" default={true} checked={formValues.email_perm} label="Check here if it is ok to share your email address with the project email. This will allow you to continue your conversation with email directly.  This is highly recommended as you will be able to talk about the project directly." control={<Checkbox onChange={handleFormChange}/>}/>  
+    <FormControlLabel style={{paddingTop:40}} name="email_perm" id="email_id" default={true} checked={formValues.email_perm} label="Check here if it is ok to share your email address with the project email. This will allow you to continue your conversation with email directly.  This is highly recommended as you will be able to talk about the project directly." control={<Checkbox onChange={handleFormChange}/>}/>  
         <Button type="submit" value="Submit">Submit</Button></Fragment>
     }
     </FormControl>
