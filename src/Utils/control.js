@@ -162,7 +162,7 @@ function RABTableContainer(props) {
   return(<TableContainer key={props.key_id}>{props.children}</TableContainer>)
 }
 function RABTable(props) {
-  return(<Table size="small" onClick={props.onClick}  onMouseOver={props.onMouseOver} key={props.key_id}>{props.children}</Table>)
+  return(<Table style={{width:"100%"}} size="small" onClick={props.onClick}  onMouseOver={props.onMouseOver} key={props.key_id}>{props.children}</Table>)
 }
 
 function RABTableBody(props) {
