@@ -204,8 +204,8 @@ function SubsiteApply(props) {
                 />
             </div>
             <div style={{width:"90%", paddingTop:30, paddingRight:20}}>
-              <ShowNeeds project_data={project_data} role_name={role_name} project_needs={project_needs} show_needs={show_needs} project_id={project_id} role_type_id={role_type_id} handleFormSubmit={handleFormSubmit} handleFormChange={handleFormChange} formValues={formValues}/> 
-
+                <ShowNeeds project_data={project_data} role_name={role_name} project_needs={project_needs} show_needs={show_needs} project_id={project_id} role_type_id={role_type_id} handleFormSubmit={handleFormSubmit} handleFormChange={handleFormChange} formValues={formValues}/> 
+              
             </div>
         </div>
         <div style={{width:"50%"}}>
@@ -228,7 +228,7 @@ function ShowNeeds(props) {
     return null
   }
   return (<Fragment>
-    <Paper style={box_style}   elevation={1} style={{padding:20, backgroundColor:"lightGray"}}>
+    <Card variant="outlined" style={{padding:30,backgroundColor:"#DDDDDD"}}>
     <form onSubmit={handleFormSubmit}>
     <VolunteerNeedsIntroduction project_data={project_data} role_name={role_name} project_needs={project_needs} show_needs={show_needs} project_id={project_id} role_type_id={role_type_id}/> 
     <FormControl>
@@ -272,7 +272,7 @@ function ShowNeeds(props) {
     }
     </FormControl>
   </form>
-  </Paper> </Fragment>
+  </Card> </Fragment>
   )
 
 }
