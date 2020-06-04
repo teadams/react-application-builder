@@ -1,6 +1,7 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import * as u from '../../Utils/utils.js'
+import * as control from '../../Utils/control.js';
 import ACSObjectTypeView from './ACSObjectTypeView.js'
 import ACSField from '../ACSField2.js'
 import useGetModel from '../../Hooks/useGetModel.js'
@@ -10,20 +11,21 @@ function SummaryRow(props) {
   const {data, object_type} = props
   const object_type_models = useGetModel("object_types")
   const object_model = object_type_models[object_type]
-
   const pretty_key_field = object_model.pretty_key_id
-  const summary_field = object_model.summary
-  const description_field = object_model.description
+  const summary_field = object_model.summary_key
+  const description_field = object_model.description_key
+  const TableCell = control.componentByName("TableCell")
+
   return (
     <Fragment>
-   <td>
+   <TableCell>
     <ACSField  {...props} field_name={pretty_key_field} key={pretty_key_field} />
     {summary_field && 
       <Fragment> - <ACSField  {...props} field_name={summary_field} key={summary_field}/> </Fragment>
     }
-    </td>
+    </TableCell>
     {description_field && 
-      <Fragment> <td><ACSField  {...props} field_name={description_field} key={description_field} /></td></Fragment>
+      <TableCell><ACSField  {...props} field_name={description_field} key={description_field} /></TableCell>
     }
   </Fragment>
   
@@ -43,11 +45,15 @@ function ACSSummaryObjectTypeView(props)  {
       },
       row:{components:{
             row:SummaryRow
-          }
+          },
+      },
+      field:{names:{
+            field_wrap:"Fragment"
+          },
       }}
 
 
-  return (<ACSObjectTypeView {...params} rab_component_model={rab_component_model} field_list={field_list} object_type={object_type} api_options={api_options}/> )
+  return (<ACSObjectTypeView {...params} rab_component_model={rab_component_model}  object_type={object_type} api_options={api_options}/> )
 }
 export default ACSSummaryObjectTypeView;
 
