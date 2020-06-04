@@ -57,7 +57,7 @@ function SubsiteApply(props) {
 
   const project_info_fields= ["summary", "leader", "description", "street_address", "city", "state", "country", "zip_code"]
 
-  const {formValues, lastTouched, handleFormChange, handleFormSubmit} = useForm("core_subsite_role", "", "", handleVolunteerSubmit, "create", "true", {email_perm:true}, ["id", "core_subsite", "core_role", "status", "message", "email_perm"]);
+  const {formValues, lastTouched, handleFormChange, handleFormSubmit} = useForm("core_subsite_role", "", "", handleVolunteerSubmit, "create", "true", {email_perm:true, status:"Applied"}, ["id", "core_subsite", "core_role", "status", "message", "email_perm"]);
 
   let show_needs = (project_id ||role_type_id)?true:false
 
@@ -75,10 +75,11 @@ function SubsiteApply(props) {
             let project_id = need.nwn_project_id
             let need_id = need.id
             let volunteer_object = {}
-            volunteer_object.core_subsite  = need.nwn_project
+            volunteer_object.core_subsite  = need.nwn_project.id
             volunteer_object.core_user = context.user.id
-            volunteer_object.core_role = need.role_name
+            volunteer_object.core_role = need.role_name.id
             volunteer_object.email_perm = formValues.email_perm
+            volunteer_object.status = formValues.status
             data.postData("nwn_project_volunteer", volunteer_object, {}, (result, error) => { 
               if (error) {
                 alert("error is " + error)
@@ -88,7 +89,7 @@ function SubsiteApply(props) {
                 message_object.from_user = context.user.id;
                 message_object.to_user = need.nwn_project_leader;
                 message_object.nwn_project_volunteer = volunteer_record;
-                message_object.nwn_project = need.nwn_project;
+                message_object.nwn_project = need.nwn_project.id;
                 message_object.subject  = "Volunteer Application for " + need.role_name_name;
                 message_object.body = formValues.message;
                 message_object.creation_user = context.user.id
@@ -200,19 +201,21 @@ function SubsiteApply(props) {
                   style = {{width:"90%"}}
                   onChange={handleRoleTypeChange}
                   noLabel= {true}
-                  disable_underline={false}            
+                  disable_underline={false}
+                  api_options={{filter_field:"accept_signups", filter_id:true}}
                 />
             </div>
             <div style={{width:"90%", paddingTop:30, paddingRight:20}}>
-                <ShowNeeds project_data={project_data} role_name={role_name} project_needs={project_needs} show_needs={show_needs} project_id={project_id} role_type_id={role_type_id} handleFormSubmit={handleFormSubmit} handleFormChange={handleFormChange} formValues={formValues}/> 
+              {project_id &&
+            <Card variant="outlined" style={{padding:30,backgroundColor:"#DDDDDD"}}>
+              <ACSRowController data={project_data} field_list={project_info_fields} object_type="core_subsite" mode="view" id={project_id} num_columns={1}  />
+              </Card>}
               
             </div>
         </div>
         <div style={{width:"50%"}}>
-          {project_id &&
-          <Card variant="outlined" style={{padding:30,backgroundColor:"#DDDDDD"}}>
-          <ACSRowController data={project_data} field_list={project_info_fields} object_type="core_subsite" mode="view" id={project_id} num_columns={1}  />
-          </Card>}
+          <ShowNeeds project_data={project_data} role_name={role_name} project_needs={project_needs} show_needs={show_needs} project_id={project_id} role_type_id={role_type_id} handleFormSubmit={handleFormSubmit} handleFormChange={handleFormChange} formValues={formValues}/> 
+
          </div>
           <div style={{width:"10%"}}/>
      </div>
