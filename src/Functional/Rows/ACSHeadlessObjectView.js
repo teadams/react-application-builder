@@ -6,16 +6,8 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
 
  function ACSHeadlessObjectView(props)  {
   const {onData, ...params} = props
-  const component_model = {
-      row: {
-        names:{
-          header_wrap:"RABVoid",
-          row_body:"RABVoid"
-        }
-      }
-  }
   return ( 
-      <ACSObjectView {...params} mode="headless" onData={onData} component_model={component_model}  />
+      <ACSObjectView {...params}  headless={true} onData={onData}/>
   )
 }
 export default ACSHeadlessObjectView;

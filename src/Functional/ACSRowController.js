@@ -82,7 +82,7 @@ function ACSRowController(input_props) {
   const object_model = object_models?[input_props.object_type]:{}
 
   // do not merge expensive, known unnecessary things
-  const {data:input_props_data, form_open, key_id, onData="",...merging_props} = input_props
+  const {headless="false", data:input_props_data, form_open, key_id, onData="",...merging_props} = input_props
 
   // do not change base component
   let row_component_model = Object.assign({},rab_component_models.row)
@@ -159,6 +159,11 @@ function ACSRowController(input_props) {
   // Final structure[[section], [section]]
   // where each section contains one or more fields 
   // (according to field_chunk and colspan rules examples: [field, field, field ]
+  if (headless) {
+    // XX authorize
+    // XX on data 
+    return null
+  }
   return  (<RenderACSRow {...row_model.props} mode={mode} form={form} object_type={object_type}  id={id} field_list={field_list} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} form_open={form_open} onClose={handleFormClose}
   handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} key={key_id+"Render"} key_id={key_id}/>)
 
