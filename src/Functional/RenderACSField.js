@@ -105,7 +105,7 @@ function RenderACSField(props) {
     <Fragment>
       <FieldWrap key={field_name+"_wrap1"}
         onClick={handleFieldClick}  onMouseOver={handleMouseOver} >
-        <b>{field_model.pretty_name}:</b>
+        <b>{field_model.pretty_name}: </b>
        <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
         <Field {...params}  key={field_name+"_field"}/>
       </FormWrap>
