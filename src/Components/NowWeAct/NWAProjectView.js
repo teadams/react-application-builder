@@ -25,7 +25,7 @@ function NWAProjectView(props) {
       </div>
       <div style={{width:"40%", marginLeft:10, marginRight:10, border:"5px solid  blue"}}>messages</div>
       <div style={{width:"30%", marginLeft:10, border:"5px solid  blue"}}>
-      <ACSObjectView {...props} field_display="name_value" num_columns={1} field_list={["leader"]} rab_component_model={{row:{names:{header_wrap:"RABVoid"}}}}/>
+      <ACSObjectView {...props} data={data.leader} field_display="name_value" num_columns={1} object_type="core_user" row_header_image_size="medium" field_list={["full_name"]} row_image_size="medium" />
       </div>
     </div>
     }
