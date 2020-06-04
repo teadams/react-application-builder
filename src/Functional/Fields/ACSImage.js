@@ -50,7 +50,7 @@ function ACSImage(props) {
     let standard_sizing = {}
     standard_sizing.tiny =   {height:20, width:20}
     standard_sizing.small =  {height:30, width:30}
-    standard_sizing.medium = {height:100, width:100}
+    standard_sizing.medium = {height:50, width:50}
     standard_sizing.large =  {height:300, width:300}
     
     if (!image_object || !image_object.path || !image_object.name) {

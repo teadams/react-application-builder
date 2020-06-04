@@ -21,11 +21,11 @@ function NWAProjectView(props) {
     {data && 
     <div style={{display:'flex',padding:20, width:"70%", justifyContext:"center",  border:"5px solid red"}}>
       <div style={{width:"30%", marginRight:10, border:"5px solid  blue"}}>
-      <ACSObjectView {...props} num_columns={1} field_list={["name", "summary", "description", "city"]}/>
+      <ACSObjectView {...props} row_header_image_size="medium" field_display="name_value" num_columns={1} field_list={[ "summary", "description", "city"]}/>
       </div>
       <div style={{width:"40%", marginLeft:10, marginRight:10, border:"5px solid  blue"}}>messages</div>
       <div style={{width:"30%", marginLeft:10, border:"5px solid  blue"}}>
-      <ACSObjectView {...props} num_columns={1} field_list={["leader"]} rab_component_model={{row:{names:{header_wrap:"RABVoid"}}}}/>
+      <ACSObjectView {...props} field_display="name_value" num_columns={1} field_list={["leader"]} rab_component_model={{row:{names:{header_wrap:"RABVoid"}}}}/>
       </div>
     </div>
     }
