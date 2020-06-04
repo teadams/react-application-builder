@@ -163,9 +163,9 @@ function SubsiteApply(props) {
           filter_field.push("role_name")
       }
       let options = {filter_id:filter_id, filter_field:filter_field, filter_join:"AND"}
-      data.getData(object_type, options, (data, error) => {           
-          setProjectNeeds(data)
-      })
+//data.getData(object_type, options, (data, error) => {           
+//          setProjectNeeds(data)
+//      })
   }
 
   function VolunteerNeedsIntroduction(props) {
