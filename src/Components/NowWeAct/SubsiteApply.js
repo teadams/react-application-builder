@@ -163,9 +163,10 @@ function SubsiteApply(props) {
           filter_field.push("role_name")
       }
       let options = {filter_id:filter_id, filter_field:filter_field, filter_join:"AND"}
-//data.getData(object_type, options, (data, error) => {           
-//          setProjectNeeds(data)
-//      })
+      data.getData(object_type, options, (data, error) => {       
+u.a("project needs are")    
+            setProjectNeeds(data)
+      })
   }
 
   function VolunteerNeedsIntroduction(props) {
@@ -204,8 +205,8 @@ function SubsiteApply(props) {
   const handleProjectData = (project_data) => {
       setProjectData(project_data)
   }
-  
   return (
+  
     <Fragment>
       <Typography variant="h5" style={{padding:10}}>Volunteer Opportunities</Typography>
       <Typography style={{padding:5}}>

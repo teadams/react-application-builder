@@ -111,7 +111,7 @@ const rab_component_models = {
         header_wrap:"Fragment",
         header:"RABObjectPrettyName",
         row_body:"Table",
-        section_wrap:"TableRow",
+        section_wrap:"TableBody",
         section_header:"Fragment",
         row_wrap:"Fragment",
         field_chunk_wrap:"TableRow"
