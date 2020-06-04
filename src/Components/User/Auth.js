@@ -79,5 +79,4 @@ function Auth(props) {
   }    
   
 }
-Auth.contextType = AuthContext;
 export default Auth;
