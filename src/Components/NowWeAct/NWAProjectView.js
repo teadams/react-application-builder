@@ -8,7 +8,7 @@ import ACSHeadlessObjectView from "../../Functional/Rows/ACSHeadlessObjectView.j
 import ACSObjectTypeView from "../../Functional/Lists/ACSObjectTypeView.js"
 import ACSCommunicationObjectTypeView from "../../Functional/Lists/ACSCommunicationObjectTypeView.js"
 import ACSSummaryObjectTypeView from "../../Functional/Lists/ACSSummaryObjectTypeView.js"
-import {Container, Box, Typography, Card, TableHead, TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
+import {Paper, Container, Box, Typography, Card, TableHead, TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
 import * as u from '../../Utils/utils.js';
 
 function NWAProjectView(props) {
@@ -20,11 +20,12 @@ function NWAProjectView(props) {
  // ACSHeadlessObjectView wiill retrieve new data on props changes
   return (
     <Fragment>
+<Paper  variant="outlined">
     <ACSHeadlessObjectView {...props} onData={onData}/>
     {data && 
     <div style={{display:'flex',padding:20, width:"90%", justifyContext:"center", xborder:"5px solid red"}}>
       <div style={{width:"30%", marginRight:10,xborder:"5px solid  blue"}}>
-        <ACSObjectView {...props} row_no_stripe={true} row_header_image_size="medium" field_display="name_value" num_columns={1} field_list={["type", "summary",  "description", "city"]}/>
+        <ACSObjectView {...props} row_no_stripe={true} row_header_image_size="medium" field_display="name_value" num_columns={1} field_list={["type", "address", "summary",  "description"]}/>
       </div>
       <div style={{width:"40%", marginLeft:10, marginRight:10, xborder:"5px solid  blue"}}>
           <ACSObjectView {...props} id={1}  row_no_stripe={true} field_display="name" field_list={["url"]} object_type="nwn_project_video" />
@@ -51,7 +52,9 @@ function NWAProjectView(props) {
       </div>
     </div>
     }
+</Paper>
     </Fragment>
+
   )
   
 }

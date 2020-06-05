@@ -17,6 +17,7 @@ import Message from "../RABComponents/Message.js"
 import ACSObjectTypeView from "../Functional/Lists/ACSObjectTypeView.js"
 import Debug from '../Debug.js'
 import User from '../Functional/Fields/User.js'
+import ACSAddress from '../Functional/Fields/ACSAddress.js'
 
 import NWAProjectView from '../Components/NowWeAct/NWAProjectView.js'
 import SubsiteApply from '../Components/NowWeAct/SubsiteApply.js'
@@ -237,6 +238,7 @@ function componentPicker(name, source="not provided") {
     case "TreeView": return TreeView;
     case "Fragment": return RABFragment;
     case "User":  return User;
+    case "ACSAddress":  return ACSAddress;
     case "RABTextField":  return RABTextField;
     case "RABSelectField":  return RABSelectField;
     case "ACSFile":  return ACSFile;
