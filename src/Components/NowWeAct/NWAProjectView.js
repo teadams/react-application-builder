@@ -12,7 +12,7 @@ import * as u from '../../Utils/utils.js';
 
 function NWAProjectView(props) {
   const [data, setData] = useState(null)
-
+  const {id} = props
   const onData=(api_data) => {
     setData(api_data)
   }
@@ -33,13 +33,13 @@ function NWAProjectView(props) {
       <div style={{marginTop:20}}>
         <Card>
         <Typography variant="h6">Current Project Needs</Typography>
-        <ACSSummaryObjectTypeView {...props} object_type="nwn_project_need"/>
+        <ACSSummaryObjectTypeView {...props} object_type="nwn_project_need" api_options={{filter_id:id, filter_field:"nwn_project"}}/>
         </Card>
       </div>
       <div style={{marginTop:20}}>
         <Card>
         <Typography variant="h6">Volunteers</Typography>
-        <ACSSummaryObjectTypeView {...props} object_type="core_subsite_role"/>
+        <ACSSummaryObjectTypeView {...props}   api_options={{filter_id:id, filter_field:"nwn_project"}} object_type="core_subsite_role"/>
         </Card>
       </div>
       </div>
