@@ -46,6 +46,9 @@ function ACSSummaryObjectTypeView(props)  {
       row:{components:{
             row:SummaryRow
           },
+          props: {
+            no_stripe:true
+          }
       },
       field:{names:{
             field_wrap:"Fragment"

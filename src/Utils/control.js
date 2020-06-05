@@ -117,7 +117,8 @@ function buildRABModel(params) {
               num_columns:params.num_columns,
               mode:params.row_mode?params.row_mode:params.mode,
               form:params.row_form,
-              header_image_size:params.row_header_image_size
+              header_image_size:params.row_header_image_size,
+              no_stripe:params.row_no_stripe
         }},
         field:{names:{field:params.field_component},
               components:{}, 
@@ -178,9 +179,9 @@ function RABTableRow(props) {
   });
 
   const classes = useStyles();
-
-
-  return(<TableRow onClick={props.onClick}  onMouseOver={props.onMouseOver} className={classes.root} key={props.key_id}>{props.children}</TableRow>)
+  const className = props.no_stripe?"":classes.root
+  
+  return(<TableRow onClick={props.onClick}  onMouseOver={props.onMouseOver} className={className} key={props.key_id}>{props.children}</TableRow>)
 }
 
 function RABTableCell(props) {
