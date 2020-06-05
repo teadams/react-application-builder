@@ -17,10 +17,13 @@ function ACSCommunicationObjectTypeView(props)  {
                   list_header_wrap:"RABVoid",
                   footer_wrap:"RABVoid",
                   footer:"RABVoid",
+                  list_wrap:"Fragment",
+                  body_wrap:"Fragment",
                   list_pagination:"RABVoid"}
       },
       row:{components:{
-            row:ACSCommunicationRow
+            row:ACSCommunicationRow,
+            row_wrap:Fragment
           },
       },
       field:{names:{

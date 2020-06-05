@@ -28,10 +28,10 @@ function NWAProjectView(props) {
       </div>
       <div style={{width:"40%", marginLeft:10, marginRight:10, xborder:"5px solid  blue"}}>
           <ACSObjectView {...props} id={1} field_display="name" field_list={["url"]} object_type="nwn_project_video" />
-          <Card>
+          
           <Typography style={{marginTop:20}} variant="h5">Announcements</Typography>
           <ACSCommunicationObjectTypeView {...props} object_type="nwn_project_post" api_options={{filter_id:id, filter_field:"nwn_project"}}/>
-        </Card>
+        
       </div>
       <div style={{width:"30%", marginLeft:10, border:"5px solid  blue"}}>
         

@@ -52,7 +52,7 @@ function ACSImage(props) {
     standard_sizing.tiny =   {height:20, width:20}
     standard_sizing.small =  {height:30, width:30}
     standard_sizing.medium = {height:50, width:50}
-    standard_sizing.medium_large = {height:80, width:80}
+    standard_sizing.medium_large = {height:150, width:150}
     standard_sizing.large =  {height:300, width:300}
     
     if (!image_object || !image_object.path || !image_object.name) {
@@ -94,7 +94,7 @@ function ACSImage(props) {
   } else {
       return (
       <Fragment>
-      <Avatar variant="square"  style={{ height:image_dim.height, width:image_dim.width}} src={image_url}/>
+      <img align='left' hspace={20} vspace={10}  height={image_dim.height} width={image_dim.width} src={image_url}/>
       </Fragment>)
     } 
 }

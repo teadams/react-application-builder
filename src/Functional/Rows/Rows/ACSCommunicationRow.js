@@ -22,10 +22,10 @@ function ACSCommunicationRow(props) {
   const {image_size, avatar} = field_component_props
   return (
     <Fragment>
-      <Typography variant="h6">
+      <Typography variant="subtitle1">
       <ACSField  {...props} field_name="name" key="name" />
       </Typography>
-      <div  style={{display:"flex"}}>
+      <div >
       {data.image &&
           <ACSField  {...props}  field_name="image" key="image" />
       }
