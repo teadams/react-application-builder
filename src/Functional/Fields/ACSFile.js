@@ -31,10 +31,16 @@ function ACSFile(props) {
     const pretty_field_meta = fields_model[pretty_key]
     const pretty_comp_name = pretty_field_meta.field_component
     const field_component = control.componentByName(pretty_comp_name?pretty_comp_name:"RABTextField")
-    const pretty_name_text  = field_component({data:data, field_name:pretty_key, mode:"text"})
+    let pretty_name_text = ""
+u.a(data[field_name])
+    if (data[field_name]) {
+      pretty_name_text  = field_component({data:data, field_name:pretty_key, mode:"text"})
+    }
     let word = ""
-    for (word of pretty_name_text.split(" ")) {
-      letters += word.charAt(0)
+    if (pretty_name_text) {
+      for (word of pretty_name_text.split(" ")) {
+        letters += word.charAt(0)
+      }
     }
   }
 
