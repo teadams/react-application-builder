@@ -32,7 +32,6 @@ function ACSFile(props) {
     const pretty_comp_name = pretty_field_meta.field_component
     const field_component = control.componentByName(pretty_comp_name?pretty_comp_name:"RABTextField")
     let pretty_name_text = ""
-u.a(data[field_name])
     if (data[field_name]) {
       pretty_name_text  = field_component({data:data, field_name:pretty_key, mode:"text"})
     }
