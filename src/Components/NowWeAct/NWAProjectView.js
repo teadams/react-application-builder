@@ -39,7 +39,7 @@ function NWAProjectView(props) {
       <div style={{marginTop:20}}>
         <Card>
         <Typography variant="h6">Volunteers</Typography>
-        <ACSSummaryObjectTypeView {...props}   api_options={{filter_id:id, filter_field:"nwn_project"}} object_type="core_subsite_role"/>
+        <ACSSummaryObjectTypeView {...props}   api_options={{filter_id:id, filter_field:"core_subsite"}} object_type="core_subsite_role"/>
         </Card>
       </div>
       </div>
