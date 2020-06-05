@@ -16,7 +16,8 @@ function RABTextField(props) {
   let {with_thumbnail=""} = props
   // XX field model passed due to referenced change. May 
   // be done server side later
-  const field_value = data[field_model.final_field_name?field_model.final_field_name:field_name]
+  let field_value=""
+  field_value = data[field_model.final_field_name?field_model.final_field_name:field_name]
 
   with_thumbnail = with_thumbnail?with_thumbnail:field_model.with_thumbnail
                         

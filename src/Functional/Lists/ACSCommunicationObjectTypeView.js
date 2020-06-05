@@ -25,9 +25,10 @@ function ACSCommunicationObjectTypeView(props)  {
       },
       field:{names:{
             field_wrap:"Fragment"
-          },
+          },props: 
+            { image_size:"medium", 
+              avatar:false},
       }}
-u.a("looking at post")
   return (<ACSObjectTypeView {...params} rab_component_model={rab_component_model}  object_type={object_type} api_options={api_options}/> )
 }
 

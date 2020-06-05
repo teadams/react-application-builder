@@ -8,40 +8,33 @@ import * as u from '../../../Utils/utils.js'
 import ACSYouTube from "../../Fields/ACSYouTube.js"
 import ACSImage from "../../Fields/ACSYouTube.js"
 import ACSField from "../../ACSField2.js"
+import useGetModel from '../../../Hooks/useGetModel.js'
+
 
 function ACSCommunicationRow(props) {
-  const {...params} = props
+  const {data, object_type} = props
+  const object_type_models = useGetModel("object_types")
+  const object_model = object_type_models[object_type]
+  const pretty_key_field = object_model.pretty_key_id
+  const summary_field = object_model.summary_key
+  const description_field = object_model.description_key
+  const field_component_props = props.rab_component_model.field.props
+u.a(field_component_props.image_size)
   return (
-      <Fragment>
-      <Grid container spacing='32' direction='column'>
-      <Grid item>
-      <Typography variant="title">Project Announcements</Typography>
-      </Grid>
-      <Grid>
-      {this.state.data.map(row=>{
-
-          return(
-              <Paper style={{padding:20}}>
-                  <Typography variant='title' gutterBottom>
-                    {row.name}
-                  </Typography>
-                  <Typography  gutterBottom>
-                  {row.body}
-                  </Typography>
-                  {row.role_type && 
-                      <Button variant='contained'>I can help!</Button>
-                  }
-                  {row.url && <ACSYouTube initial_url={row.url}/>}
-                  {row.image && <ACSImage object_type="nwn_project_post"
-                  size="medium" fix="width"
-                  image_object={JSON.parse(row.image)} field_name="image"/>}
-              </Paper>
-            )   
-      })}
-      </Grid>
-      </Grid>
-      </Fragment>  
+    <Fragment>
+      <Typography variant="h6">
+      <ACSField  {...props} field_name="name" key="name" />
+      </Typography>
+      <div  style={{display:"flex"}}>
+      {data.image &&
+          <ACSField  {...props}  field_name="image" key="image" />
+      }
+          <ACSField  {...props} field_name="body" key="body" />
+        
+      </div>
+    </Fragment>
   )
 }
+
 
 export default ACSCommunicationRow
