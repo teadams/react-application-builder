@@ -71,6 +71,7 @@ function ACSField(input_props) {
 
   const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form,  ...params} = massaged_props
 
+
   //u.a(initial_mode,input_props.field_name, field_model.hidden_on_form, field_model)
 
   const [mode, setMode] = useState(initial_mode);
@@ -122,6 +123,7 @@ function handleOnFieldBlur() {
     setMode(initial_mode)
   }
 }
+
 
 return (
     <RenderACSField {...field_component_model.props}  data={data} 

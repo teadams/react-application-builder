@@ -26,8 +26,10 @@ function ACSCommunicationObjectTypeView(props)  {
       field:{names:{
             field_wrap:"Fragment"
           },props: 
-            { image_size:"medium", 
-              avatar:false},
+            { image_size:"medium_large",
+              test_prop:"FOO",
+              avatar:false, 
+              fix:"none"},
       }}
   return (<ACSObjectTypeView {...params} rab_component_model={rab_component_model}  object_type={object_type} api_options={api_options}/> )
 }

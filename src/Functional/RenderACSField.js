@@ -46,6 +46,7 @@ function RenderACSField(props) {
   // Responsible for the layouts
 // Storing the state?
 // Deciding the mode?
+
   function handleFieldClick(event) {
     if (props.onFieldClick) {
         props.onFieldClick(event, data.id, "field", field_name, data)
@@ -116,6 +117,7 @@ function RenderACSField(props) {
     )
     break;
   default:
+
       return (
       <FieldWrap key={field_name+"_wrap1"}
         onClick={handleFieldClick}  onMouseOver={handleMouseOver} >

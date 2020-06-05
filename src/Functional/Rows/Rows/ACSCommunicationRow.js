@@ -19,7 +19,7 @@ function ACSCommunicationRow(props) {
   const summary_field = object_model.summary_key
   const description_field = object_model.description_key
   const field_component_props = props.rab_component_model.field.props
-u.a(field_component_props.image_size)
+  const {image_size, avatar} = field_component_props
   return (
     <Fragment>
       <Typography variant="h6">
