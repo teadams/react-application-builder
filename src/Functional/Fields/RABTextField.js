@@ -51,7 +51,7 @@ function RABTextField(props) {
           if (thumbnail) {  
             return (<div style={{display:"flex"}}> <ACSImage image_object={thumbnail} fix="width" size={image_size}/>&nbsp; {field_value}</div>)
           } else {
-            const letters = field_value.charAt(0)
+            const letters = field_value?field_value.charAt(0):""
             return (<div style={{display:"flex"}}><ACSImage letters={letters}  fix="width" size={image_size}/>&nbsp;
           {field_value}</div>)
           }

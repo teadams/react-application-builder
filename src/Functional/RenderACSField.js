@@ -62,7 +62,6 @@ function RenderACSField(props) {
   const FormWrap = form_wrap
   const {field_wrap:FieldWrap, field:Field=RABTextField} = rab_component_model.field.components 
   if (!data) {return null}
-
   params.data = data 
   params.autoFocus = props.autoFocus
   params.formValues = props.formValues

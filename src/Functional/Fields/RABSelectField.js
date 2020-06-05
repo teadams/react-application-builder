@@ -147,16 +147,15 @@ function RABSelectField(props) {
       list_disable_underline = {disable_underline}
       list_field_value={field_value} list_onChange={onChange} list_select_key_field={select_key_field} list_style={style} list_select_display_field={select_display_field} list_prevent_edit={prevent_edit}
       list_autoFocus={autoFocus} />)
-      break
     case "csv":
       return '"'+Field({data:data, field_name:final_field_name, mode:"text"})+'""'
       break
     case "list":
     case "view":
-      return (<Field data={data} field_name={field_model.final_field_name}/>)
+      return (<Field field_model={field_model} data={data} field_name={field_model.final_field_name}/>)
     default:
       // text, view, list
-      return (<Field data={data} field_name={final_field_name} mode="text"/>) 
+      return (<Field field_model={field_model} data={data} field_name={final_field_name} mode="text"/>) 
   }
 }
 
