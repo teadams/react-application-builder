@@ -47,7 +47,7 @@ function ACSYouTube(props) {
       return (
         <Fragment>
         <center>
-        <iframe width="560" height="315"  frameborder="0" src={url} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> </center>
+        <iframe   frameborder="0" src={url} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> </center>
         </Fragment>
       )
   }

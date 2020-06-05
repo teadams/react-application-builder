@@ -26,7 +26,7 @@ function NWAProjectView(props) {
       <ACSObjectView {...props} row_header_image_size="medium" field_display="name_value" num_columns={1} field_list={["type", "summary",  "description", "city"]}/>
       </div>
       <div style={{width:"40%", marginLeft:10, marginRight:10, xborder:"5px solid  blue"}}>
-      <ACSObjectView {...props} id={1} field_list={["url"]} object_type="nwn_project_video" />
+      <ACSObjectView {...props} id={1} field_display="name" field_list={["url"]} object_type="nwn_project_video" />
       </div>
       <div style={{width:"30%", marginLeft:10, border:"5px solid  blue"}}>
       <ACSObjectView {...props} data={data.leader} field_display="name_value" num_columns={1} object_type="core_user" row_header_image_size="medium" rab_component_model={{row:{names:{row_body:"RABVoid"}}}} row_image_size="medium" />
