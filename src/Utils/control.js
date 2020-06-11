@@ -26,6 +26,7 @@ import ACSField from '../Functional/ACSField2.js'
 import ACSRowController from '../Functional/ACSRowController.js'
 import ACSListController from '../Functional/ACSListController.js'
 import RABTextField from '../Functional/Fields/RABTextField.js'
+import ACSURLField from '../Functional/Fields/ACSURLField.js'
 import ACSYouTube from '../Functional/Fields/ACSYouTube.js'
 import RABSelectField from '../Functional/Fields/RABSelectField.js'
 import ACSFile from '../Functional/Fields/ACSFile.js'
@@ -240,6 +241,7 @@ function componentPicker(name, source="not provided") {
     case "User":  return User;
     case "ACSAddress":  return ACSAddress;
     case "RABTextField":  return RABTextField;
+    case "ACSURLField":  return ACSURLField;
     case "RABSelectField":  return RABSelectField;
     case "ACSFile":  return ACSFile;
     case "ACSYouTube":  return ACSYouTube;

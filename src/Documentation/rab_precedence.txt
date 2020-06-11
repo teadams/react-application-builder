@@ -29,6 +29,61 @@
      // User - State, Context, Props (prior props overriden
         by current props on a per attribute basis) 
 
+
+- ACS (static)
+- App specific defaults (static)
+  - Language/Localization*
+  - Environment specific (model, dev, production)
+- Tenant defaults (instance)
+  - Language/Localization*
+- Subsite/group defaults (instance)
+- ACS specific component input (menu item) (dynamic)
+- App specific component input (menu item) (dynamic)
+
+- User preferences (dynamic)
+- User mode (view, edit) (dynamic)
+
+- Application Parameters
+- Component Imputs (Menus)
+    - Menu_lists
+    - menu_items
+- Layouts
+    - Layout Components
+    - Properties
+    - Panes List
+- Panes
+    - Pane Components
+    - Properties
+    - Object_type
+-Object_types
+    - Properties
+    - List Components
+    - Field List (Sections)
+- Field List (Sections)
+    - properties 
+    - Section Components
+    - Fields
+Fields  
+    - Properties
+    - Field Components
+    - Display
+Display
+  - Mode (View,Edit,Create,CSV)
+  - Application/Mobile
+  - Visual specifics (show name and value)
+  - Type (Image, Text, File)
+Layout
+  - Pane
+    - Object Component
+        -Sections
+        - fields
+        - Display
+
+
+
+Injected anywhere
+
+
 component definition 
   - transformation of individual names override full_model override model_name on a per attribute basis
 
