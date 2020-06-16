@@ -80,7 +80,7 @@ function ACSSectionWrap(props) {
 function ACSSectionHeader(props) {
     const {section, num_columns} = props
     const {title} = useGetModel("sections")[section]
-    return (<TableHead><TableRow><TableCell colspan={num_columns*2}><Typography variant="h6">{title}</Typography></TableCell></TableRow></TableHead>)
+    return (<TableHead><TableRow style={{backgroundColor:"#D4D5DC"}}><TableCell colspan={num_columns*2}><Typography variant="h6">{title}:</Typography></TableCell></TableRow></TableHead>)
 }
 
 function ACSRowController(input_props) {
