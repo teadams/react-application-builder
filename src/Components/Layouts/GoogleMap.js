@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function GoogleMap (props) {
-  const {object_type, field_list} = props
+  const {object_type, field_list, layout, sections} = props
   const classes = useStyles();
   const context = useContext(AuthContext)
   const history = useHistory({});
@@ -154,7 +154,6 @@ function GoogleMap (props) {
   const create_button = (props) => { 
       return (<Button variant="contained" {...props}>Create a Project</Button>)
   }
-u.a(props.layout)
 //const create_button = Button
   return (
       <Fragment>
@@ -162,7 +161,8 @@ u.a(props.layout)
            <Typography variant="h4" classes={{root:classes.head_row}}>{props.title}</Typography>
           <div className={classes.head_row}>
               <ACSCreateButton onSubmit={handleProjectCreated}
-              layout={props.layout}
+              layout={layout}
+              sections={sections}
               Component={create_button} object_type={object_type}/>
           </div>
           <div className={classes.grow} />
