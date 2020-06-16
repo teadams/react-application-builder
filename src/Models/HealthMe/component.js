@@ -121,6 +121,7 @@ const rab_component_models = {
       props:{
         align:"left",
         num_columns:2,
+        no_stripe:true
       }
     },
     field:{
