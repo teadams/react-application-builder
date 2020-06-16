@@ -154,14 +154,16 @@ function GoogleMap (props) {
   const create_button = (props) => { 
       return (<Button variant="contained" {...props}>Create a Project</Button>)
   }
-
+u.a(props.layout)
 //const create_button = Button
   return (
       <Fragment>
       <div className={classes.grow}>
            <Typography variant="h4" classes={{root:classes.head_row}}>{props.title}</Typography>
           <div className={classes.head_row}>
-              <ACSCreateButton onSubmit={handleProjectCreated} Component={create_button} object_type={object_type}/>
+              <ACSCreateButton onSubmit={handleProjectCreated}
+              layout={props.layout}
+              Component={create_button} object_type={object_type}/>
           </div>
           <div className={classes.grow} />
           <div className={classes.head_count_wrapper}>
