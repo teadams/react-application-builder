@@ -4,9 +4,12 @@ import * as u from '../Utils/utils.js';
 import * as meta from '../Utils/meta.js';
 import useGetModel from '../Hooks/useGetModel';
 
-const useGenerateFieldList = (object_type, field_name="", data, mode, form=true,  field_list=[], lazy="core") => {
+const useGenerateFieldList = (object_type, field_name="", data, mode, form=true,  field_list=[], lazy="core", layout, section) => {
   const object_model =  useGetModel("object_types", object_type)
   const field_models =  useGetModel("fields", object_type)
+  if (layout || section) {
+    return []
+  }
   // form not needed or inputs not ready
 
   const id_field = object_model.key_id
