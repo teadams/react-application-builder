@@ -74,7 +74,7 @@ function RABRow(row_props) {
 }
 
 function ACSSectionWrap(props) {
-  return (<Fragment><Table>{props.children}</Table></Fragment>)
+  return (<Fragment><Table style={{marginBottom:20}}>{props.children}</Table ></Fragment>)
 }
 
 function ACSSectionHeader(props) {
