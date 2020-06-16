@@ -63,13 +63,13 @@ if (data) {
       return (
         <Fragment>
         <Auth auth_action={mode} object_type={object_type} onClose={onClose}>
+         <FormWrap mode={mode} form={form} object_type = {object_type} open={form_open} onSubmit={handleFormSubmit} onClose={onClose} key={"row_form"}>
           <HeaderWrap {...params} >
             <Header {...params} image_size={header_image_size}/>
           </HeaderWrap>
           <RowBody {...params}>
           {field_list.map((section_fields, s_index) => {
             return (
-              <FormWrap mode={mode} form={form} object_type = {object_type} open={form_open} onSubmit={handleFormSubmit} onClose={onClose} key={s_index+"form"}>
               <SectionWrap {...params} key={s_index+"wrap"}>
                 <SectionHeader {...params} key={s_index+"header"}/>
                 {section_fields.map((field_chunk, f_index) => {
@@ -81,10 +81,10 @@ if (data) {
           )
                 })}
               </SectionWrap>
-              </FormWrap>
 )
             })}
           </RowBody>
+         </FormWrap>
         </Auth>
         </Fragment>
       )
