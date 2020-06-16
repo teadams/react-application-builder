@@ -5,7 +5,7 @@ import React, {Fragment, useState} from 'react';
 import {IconButton} from '@material-ui/core';
 import IconCreate from "@material-ui/icons/Add";
 import * as u from '../../Utils/utils.js'
-import ObjectView from '../../RABComponents/ObjectView.js'
+import ACSObjectView from '../Rows/ACSObjectView.js'
 function ACSCreateButton(props) {
   const {object_type, Component, layout, sections} = props
   const [create_dialog, setCreateDialog] = useState(false);
@@ -40,7 +40,7 @@ function ACSCreateButton(props) {
       </IconButton>
       }
       {create_dialog  &&
-      <ObjectView object_type={object_type} row_mode="create" row_form="true" layout={layout} sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} /> }
+      <ACSObjectView object_type={object_type} row_mode="create" row_form="true" layout={layout} sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} /> }
       </Fragment>
       )
 }
