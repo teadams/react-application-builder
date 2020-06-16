@@ -3,7 +3,6 @@ import 'react-app-polyfill/stable';
 
 import React, { Component, Fragment} from 'react';
 import * as meta from './Utils/meta.js'
-import * as log from './Utils/log.js'
 import * as u from './Utils/utils.js'
 import * as control from './Utils/control.js'
 import useGetModel from "./Hooks/useGetModel.js"

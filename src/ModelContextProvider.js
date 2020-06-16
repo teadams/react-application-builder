@@ -21,7 +21,9 @@ function ModelContextProvider(props) {
         object_types: meta_model.object_types,
         fields: meta_model.fields,
         menus: meta_model.menus,
-        sections: meta_model.sections
+        sections: meta_model.sections,
+        layouts:meta_model.layouts,
+        field_lists:meta_model.field_lists
         }}>
         {props.children}
       </ModelContext.Provider>)
