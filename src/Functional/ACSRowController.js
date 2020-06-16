@@ -78,8 +78,11 @@ function ACSSectionWrap(props) {
 }
 
 function ACSSectionHeader(props) {
+    const section_models = useGetModel("sections")
     const {section, num_columns} = props
-    const {title} = useGetModel("sections")[section]
+    if (!section) { return null}
+    const {title} =section_models[section]
+    if (!title) { return null}
     return (<TableHead><TableRow style={{backgroundColor:"#D4D5DC"}}><TableCell colspan={num_columns*2}><Typography variant="h6">{title}:</Typography></TableCell></TableRow></TableHead>)
 }
 
