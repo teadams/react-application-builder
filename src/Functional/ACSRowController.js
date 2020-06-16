@@ -5,10 +5,13 @@ import _ from 'lodash'
 
 import * as u from '../Utils/utils.js';
 
-import React, {useState} from 'react';
+import React, {Fragment, useState} from 'react';
 
 import RenderACSRow from './RenderACSRow.js'
 import ACSField from '../Functional/ACSField2.js'
+import { Typography, TableRow, TableCell, Table, TableHead } from '@material-ui/core';
+
+
 
 import useGetObject from '../Hooks/useGetObject';
 import useGetModel from '../Hooks/useGetModel';
@@ -70,6 +73,16 @@ function RABRow(row_props) {
   )
 }
 
+function ACSSectionWrap(props) {
+  return (<Fragment><Table>{props.children}</Table></Fragment>)
+}
+
+function ACSSectionHeader(props) {
+    const {section, num_columns} = props
+    const {title} = useGetModel("sections")[section]
+    return (<TableHead><TableRow><TableCell colspan={num_columns*2}><Typography variant="h6">{title}</Typography></TableCell></TableRow></TableHead>)
+}
+
 function ACSRowController(input_props) {
   function handleSubmit(event, result, form_values, inserted_id) {
 
@@ -90,6 +103,9 @@ function ACSRowController(input_props) {
   // do not use base component
   let row_component_model = Object.assign({},rab_component_models.row)
   row_component_model.row.components.row = RABRow
+  row_component_model.row.components.section_wrap =ACSSectionWrap
+  row_component_model.row.components.section_header =ACSSectionHeader
+
 //  row_component_model.row.names.header_wrap = "RABVoid"
 
   if (form_open) {
@@ -135,7 +151,8 @@ function ACSRowController(input_props) {
   // useGenerateFieldList to not be a hook
   // as it might be impossible to avoid conditionals
   if (sections) {
-    sections.split(",").forEach( section => {
+    sections=sections.split(",")
+    sections.forEach( section => {
       let field_list_name = section_models[section].field_list
       let section_field_list = field_list_models[field_list_name].split(",")
     
@@ -196,7 +213,7 @@ function ACSRowController(input_props) {
     // XX on data 
     return null
   }
-  return  (<RenderACSRow {...row_model.props} mode={mode} form={form} object_type={object_type}  id={id} field_list={section_field_lists} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} form_open={form_open} onClose={handleFormClose}
+  return  (<RenderACSRow {...row_model.props} mode={mode} form={form} object_type={object_type}  id={id} field_list={section_field_lists} sections={sections} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} form_open={form_open} onClose={handleFormClose}
   handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} key={key_id+"Render"} key_id={key_id}/>)
 
 }

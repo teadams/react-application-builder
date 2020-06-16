@@ -56,10 +56,10 @@ function RABFormWrap(props) {
 
 function RenderACSRow(props) {
   const { ...params} = props
-  const {key_id, form, mode, form_open, data, rab_component_model, object_type, field_list, handleFormChange, handleFormSubmit, formValues, onClose, header_image_size="small"} = props
+  const {key_id, form, mode, form_open, data, rab_component_model, object_type, field_list, sections=[], handleFormChange, handleFormSubmit, formValues, onClose, header_image_size="small", num_columns} = props
   const FormWrap = RABFormWrap
   const {header_wrap:HeaderWrap, header:Header, section_wrap:SectionWrap, section_header:SectionHeader, row_wrap:RowWrap,  row:RABRow, row_body:RowBody} = rab_component_model.row.components
-if (data) {
+  if (data) {
       return (
         <Fragment>
         <Auth auth_action={mode} object_type={object_type} onClose={onClose}>
@@ -70,15 +70,15 @@ if (data) {
           <RowBody {...params}>
           {field_list.map((section_fields, s_index) => {
             return (
-              <SectionWrap {...params} key={s_index+"wrap"}>
-                <SectionHeader {...params} key={s_index+"header"}/>
+              <SectionWrap {...params} num_columns={num_columns} section={sections[s_index]} key={s_index+"wrap"}>
+                <SectionHeader {...params}  num_columns={num_columns} section={sections[s_index]} key={s_index+"header"}/>
                 {section_fields.map((field_chunk, f_index) => {
                   return ( 
                           <RowWrap {...params} trace={props.trace} key={f_index+"wrap"}>
                               <RABRow {...params} s_index={s_index} f_index={f_index} field_chunk={field_chunk} key={f_index+"row"} key_id={f_index}/>
                              {data.children && data.children.length >0 && <ACSListController {...params} {...rab_component_model.list.props} data={data.children} key={f_index+"list"}/>}
                           </RowWrap>
-          )
+                  )
                 })}
               </SectionWrap>
 )
