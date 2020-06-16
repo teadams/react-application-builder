@@ -7,7 +7,7 @@ import IconCreate from "@material-ui/icons/Add";
 import * as u from '../../Utils/utils.js'
 import ObjectView from '../../RABComponents/ObjectView.js'
 function ACSCreateButton(props) {
-  const {object_type, Component} = props
+  const {object_type, Component, layout, sections} = props
   const [create_dialog, setCreateDialog] = useState(false);
 
   const handleOnClick = event => {
@@ -40,7 +40,7 @@ function ACSCreateButton(props) {
       </IconButton>
       }
       {create_dialog  &&
-      <ObjectView object_type={object_type} row_mode="create" row_form="true" onSubmit={handleOnSubmit} onClose={handleOnClose} /> }
+      <ObjectView object_type={object_type} row_mode="create" row_form="true" layout={layout} sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} /> }
       </Fragment>
       )
 }
