@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function GoogleMap (props) {
-  const {object_type, field_list, layout, sections} = props
+  const {object_type, field_list, layout, sections, dialog_size} = props
   const classes = useStyles();
   const context = useContext(AuthContext)
   const history = useHistory({});
@@ -163,7 +163,9 @@ function GoogleMap (props) {
               <ACSCreateButton onSubmit={handleProjectCreated}
               layout={layout}
               sections={sections}
-              Component={create_button} object_type={object_type}/>
+              Component={create_button}
+              dialog_size={dialog_size}
+              object_type={object_type}/>
           </div>
           <div className={classes.grow} />
           <div className={classes.head_count_wrapper}>
