@@ -1,7 +1,7 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import { fade, withStyles, makeStyles } from '@material-ui/core/styles';
-import React, { Component, Fragment, useState} from 'react';
+import React, { Component, Fragment, useState, useContext} from 'react';
 import MenuIcon from '@material-ui/icons/Menu';
 import Badge from '@material-ui/core/Badge';
 import IconButton from '@material-ui/core/IconButton';
@@ -23,6 +23,8 @@ import {AppBar,Toolbar, Typography, Paper} from '@material-ui/core';
 import useGetModel from "./Hooks/useGetModel.js"
 
 function Template(props) {
+  const context = useContext(AuthContext)
+  const user_id = context.user.id
   const [message_count, setMessageCount] = useState(0)
   const app_params =  useGetModel("app_params")
   const useStyles = makeStyles((theme) => ({
@@ -87,7 +89,7 @@ function Template(props) {
 
   return    ( 
     <div className={classes.grow}>
-      <ACSObjectCount api_options={{get_count:true, num_rows:1}} headless={true} object_type="core_message" onData={handleMessageCount}/>
+        {user_id &&<ACSObjectCount api_options={{get_count:true, num_rows:1}} headless={true} object_type="core_message" onData={handleMessageCount}/>}
       <AppBar position="static">
       <Toolbar className={classes.root}>
           <DrawerMenu menu_type="hamburger" selected_menu={selected_menu} />
