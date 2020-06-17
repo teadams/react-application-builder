@@ -80,8 +80,7 @@ function SubsiteApply(props) {
             volunteer_object.core_role = need.role_name.id
             volunteer_object.email_perm = formValues.email_perm
             volunteer_object.status = formValues.status
-u.a("posting a volunteer")
-            data.postData("nwn_project_volunteer", volunteer_object, {}, (result, error) => { 
+            data.postData("core_subsite_role", volunteer_object, {}, (result, error) => { 
               if (error) {
                 alert("error is " + error)
               } else { 
@@ -89,8 +88,8 @@ u.a("posting a volunteer")
                 let message_object = {}
                 message_object.from_user = context.user.id;
                 message_object.to_user = need.nwn_project_leader;
-                message_object.nwn_project_volunteer = volunteer_record;
-                message_object.nwn_project = need.nwn_project.id;
+                message_object.applicant_subsite_role = volunteer_record;
+                message_object.core_subsite = need.nwn_project.id;
                 message_object.subject  = "Volunteer Application for " + need.role_name_name;
                 message_object.body = formValues.message;
                 message_object.creation_user = context.user.id

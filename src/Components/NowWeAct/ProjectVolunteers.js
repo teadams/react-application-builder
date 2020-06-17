@@ -37,7 +37,7 @@ class ProjectVolunteers extends React.Component {
 
   loadData() {
 //    window.scrollTo(0,0)
-    const object_type  = "nwn_project_volunteer";
+    const object_type  = "core_subsite_role";
     const project_id = this.props.project_id
 //  alert ('project id is ' + project_id)
     // note leader is misnamed
@@ -46,7 +46,7 @@ class ProjectVolunteers extends React.Component {
     options.filter_field = "nwn_project";
     options.filter_id = project_id;
     options.key_type = "key_id";
-    data.getData("nwn_project_volunteer", options, (data, error) => { 
+    data.getData("core_subsite_role", options, (data, error) => { 
         let updated_state = [];
         updated_state.data = data; 
         this.setState(updated_state)
