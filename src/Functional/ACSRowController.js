@@ -11,8 +11,6 @@ import RenderACSRow from './RenderACSRow.js'
 import ACSField from '../Functional/ACSField2.js'
 import { Typography, TableRow, TableCell, Table, TableHead } from '@material-ui/core';
 
-
-
 import useGetObject from '../Hooks/useGetObject';
 import useGetModel from '../Hooks/useGetModel';
 import useForm from '../Hooks/useForm';

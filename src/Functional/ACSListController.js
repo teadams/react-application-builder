@@ -68,7 +68,7 @@ function RABList(list_props) {
 // Documentation - see comments in ACSRowController
 function ACSListController(input_props) {
   // do not merge expensive, known unnecessary things
-  const {data:input_props_data, target_menu_name, lazy="core", ...merging_props} = input_props
+  const {data:input_props_data, target_menu_name, lazy="core", headless, onData, ...merging_props} = input_props
   const object_models =  useGetModel("object_types")
   const object_model = object_models?object_models[input_props.object_type]:{}
 
@@ -91,11 +91,11 @@ function ACSListController(input_props) {
 
   // important to use input_props.data as it is an array and useGetObjectList
   // see changes to an array's reference as a change
-  let [object_type, api_options, data] = useGetObjectList(massaged_props.object_type, massaged_props.api_options, input_props.data); 
+  let [object_type, api_options, data] = useGetObjectList(massaged_props.object_type, massaged_props.api_options, input_props.data, onData); 
 
   field_list = useGenerateFieldList(object_type, "", data, mode, false, field_list, lazy)
 
-  if (!data || (object_type && !object_model)) return null
+  if (!data || (object_type && !object_model) || headless) return null
   return  (
     <RenderACSList {...list_model.props} key={object_type+"list"}  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} rab_component_model={rab_component_model} />
   )

@@ -11,7 +11,7 @@ import * as u from '../Utils/utils.js';
 // Lay out test cases nicely
 // Later - extend to work with changes of values in api_options (object issues)
 
-const useGetObjectList = (object_type, api_options={}, param_data, callback) => {
+const useGetObjectList = (object_type, api_options={}, param_data, callback, onData="") => {
   const [prev_state, setState] = useState([false, object_type, api_options, param_data]);
 
   if (!param_data && !object_type) {
@@ -44,6 +44,9 @@ const useGetObjectList = (object_type, api_options={}, param_data, callback) => 
                 alert ("error retrieving object list " + object_type + ":" + error.message)
             } else {
                 markStateReady(object_type,  api_options, api_results)
+                if (onData) {
+                    onData(api_results)
+                }
             }
             if (callback) {
                 callback(api_results, error)
