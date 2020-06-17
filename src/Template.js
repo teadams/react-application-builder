@@ -22,6 +22,7 @@ import {AppBar,Toolbar, Typography, Paper} from '@material-ui/core';
 import useGetModel from "./Hooks/useGetModel.js"
 
 function Template(props) {
+  const message_count = 5
   const app_params =  useGetModel("app_params")
   const useStyles = makeStyles((theme) => ({
     grow: {
@@ -90,7 +91,7 @@ function Template(props) {
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
               <IconButton aria-label="show 4 new mails" color="inherit">
-               <Badge badgeContent={4} color="secondary">
+               <Badge badgeContent={message_count} color="secondary">
                     <MailIcon />
                </Badge>
               </IconButton>

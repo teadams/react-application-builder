@@ -8,11 +8,11 @@ import {Tab, Tabs, Menu, MenuItem, Paper, MenuList,List,ListItem,ListItemAvatar,
  
 function ACSObjectCount(props)  {
   // careful no to use api_options = {}
-  const {object_type, api_options} = props
+  const {object_type, api_options, headless=false} = props
   //api_options.get_count = true
   const ACSCount = (props) => {
     if (!props.data) {return null}
-    return (<Fragment> {props.data.count}</Fragment>)
+    return props.data.count
   }
   const rab_component_model = {
     row: {
@@ -25,10 +25,17 @@ function ACSObjectCount(props)  {
     }
 
   }
+  function onData(results) {
+    const count =results.data.count
+    if (props.onData) {
+      return count
+    }
+  }
+
   return ( <Fragment>
       <div style={{display:'inline'}}> {props.text}<ACSRowController 
         rab_component_model = {rab_component_model}
-        object_type={object_type}  api_options={api_options} />
+        object_type={object_type} headless={headless} onData={headless?onData:""} api_options={api_options} />
      </div>
       </Fragment>
   )
