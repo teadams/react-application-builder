@@ -1,7 +1,7 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import { fade, withStyles, makeStyles } from '@material-ui/core/styles';
-import React, { Component, Fragment} from 'react';
+import React, { Component, Fragment, useState} from 'react';
 import MenuIcon from '@material-ui/icons/Menu';
 import Badge from '@material-ui/core/Badge';
 import IconButton from '@material-ui/core/IconButton';
@@ -11,6 +11,7 @@ import DrawerMenu from './RABComponents/DrawerMenu';
 import {Grid} from 'material-ui'
 import {CrudTable, Text, GoogleMap} from './Components/Layouts';
 import {NavMenuLink} from './Components/Experimental';
+import ACSObjectCount from './Functional/Text/ACSObjectCount.js'
 import {ContextSelect, AuthToggleLink, AuthContext, AuthContextProvider} from './Components/User';
 import {SelectObject} from './Components/FormsAndViews';
 import Body from "./Body"
@@ -22,7 +23,7 @@ import {AppBar,Toolbar, Typography, Paper} from '@material-ui/core';
 import useGetModel from "./Hooks/useGetModel.js"
 
 function Template(props) {
-  const message_count = 5
+  const [message_count, setMessageCount] = useState(0)
   const app_params =  useGetModel("app_params")
   const useStyles = makeStyles((theme) => ({
     grow: {
@@ -79,8 +80,14 @@ function Template(props) {
   const classes = useStyles();
 
   let { selected_menu} = props.match.params
+
+  function handleMessageCount(count) {
+    setMessageCount(count)
+  }
+
   return    ( 
     <div className={classes.grow}>
+      <ACSObjectCount api_options={{get_count:true, num_rows:1}} headless={true} object_type="core_message" onData={handleMessageCount}/>
       <AppBar position="static">
       <Toolbar className={classes.root}>
           <DrawerMenu menu_type="hamburger" selected_menu={selected_menu} />

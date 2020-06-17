@@ -26,18 +26,27 @@ function ACSObjectCount(props)  {
 
   }
   function onData(results) {
-    const count =results.data.count
+    const count =results.count
     if (props.onData) {
-      return count
+      props.onData(count)
     }
   }
 
-  return ( <Fragment>
-      <div style={{display:'inline'}}> {props.text}<ACSRowController 
-        rab_component_model = {rab_component_model}
-        object_type={object_type} headless={headless} onData={headless?onData:""} api_options={api_options} />
-     </div>
-      </Fragment>
-  )
+  if (!headless) {
+    return ( 
+      <Fragment>
+        <div style={{display:'inline'}}> {props.text}<ACSRowController 
+          rab_component_model = {rab_component_model}
+          object_type={object_type}  api_options={api_options} />
+      </div>
+        </Fragment>
+    )
+  } else {
+    return (
+    <ACSRowController 
+      rab_component_model = {rab_component_model}
+      object_type={object_type} headless={true} onData={onData} api_options={api_options} />
+    )
+  }
 }
 export default ACSObjectCount;

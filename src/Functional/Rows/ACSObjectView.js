@@ -14,7 +14,7 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
     }
   }
   return ( 
-      <ACSRowController {...params} form_open={form_open} onClose={handleFormClose} object_type={object_type} id={id} layout={layout} secitons={sections} field_list={field_list} api_options={api_options} num_columns={num_columns}  />
+      <ACSRowController {...params} form_open={form_open} onClose={handleFormClose} object_type={object_type} id={id} layout={layout} sections={sections} field_list={field_list} api_options={api_options} num_columns={num_columns}  />
   )
 }
 export default ACSObjectView;
