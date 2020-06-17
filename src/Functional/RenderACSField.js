@@ -71,9 +71,9 @@ function RenderACSField(props) {
   params.onBlur = props.onFieldBlur 
   params.field_name = field_name 
   params.onChange = props.onChange 
+  let col_span = props.col_span
   switch (field_display) {
     case "name_value_wrapped":
-    let col_span = props.col_span
     return (
     <Fragment>
       <FieldWrap key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}
@@ -90,7 +90,7 @@ function RenderACSField(props) {
     return (
     <Fragment>
       <FieldWrap key={field_name+"_wrap1"}
-        onClick={handleFieldClick}  onMouseOver={handleMouseOver} cols_span={props.col_span}>
+        onClick={handleFieldClick}  onMouseOver={handleMouseOver} col_span={col_span}>
         <b>{field_model.pretty_name}:</b><br/>&nbsp;&nbsp;
        <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
         <Field {...params} key={field_name+"_field"}/>
@@ -104,7 +104,9 @@ function RenderACSField(props) {
     <Fragment>
       <div style={{marginTop:10}}>
       <FieldWrap key={field_name+"_wrap1"}
-        onClick={handleFieldClick}  onMouseOver={handleMouseOver} >
+        onClick={handleFieldClick}  onMouseOver={handleMouseOver}
+        col_span={col_span}
+        >
         <b>{field_model.pretty_name}:</b>
        <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
         <Field {...params}  key={field_name+"_field"}/>
