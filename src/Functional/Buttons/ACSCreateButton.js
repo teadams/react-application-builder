@@ -7,7 +7,7 @@ import IconCreate from "@material-ui/icons/Add";
 import * as u from '../../Utils/utils.js'
 import ACSObjectView from '../Rows/ACSObjectView.js'
 function ACSCreateButton(props) {
-  const {object_type, Component, layout, sections} = props
+  const {object_type, Component, layout, sections, field_list, dialog_size} = props
   const [create_dialog, setCreateDialog] = useState(false);
 
   const handleOnClick = event => {
@@ -40,7 +40,7 @@ function ACSCreateButton(props) {
       </IconButton>
       }
       {create_dialog  &&
-      <ACSObjectView object_type={object_type} row_mode="create" row_form="true" layout={layout} sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} /> }
+      <ACSObjectView object_type={object_type} row_mode="create" row_form="true" layout={layout} sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} field_list={field_list} dialog_size={dialog_size} /> }
       </Fragment>
       )
 }
