@@ -15,6 +15,7 @@ import ACSObjectCount from './Functional/Text/ACSObjectCount.js'
 import {ContextSelect, AuthToggleLink, AuthContext, AuthContextProvider} from './Components/User';
 import {SelectObject} from './Components/FormsAndViews';
 import Body from "./Body"
+import MessageIcon from "./MessageIcon.js"
 import Debug from "./Debug.js"
 import * as meta from './Utils/meta.js'
 import * as u from './Utils/utils.js'
@@ -23,9 +24,6 @@ import {AppBar,Toolbar, Typography, Paper} from '@material-ui/core';
 import useGetModel from "./Hooks/useGetModel.js"
 
 function Template(props) {
-  const context = useContext(AuthContext)
-  const user_id = context.user.id
-  const [message_count, setMessageCount] = useState(0)
   const app_params =  useGetModel("app_params")
   const useStyles = makeStyles((theme) => ({
     grow: {
@@ -83,13 +81,10 @@ function Template(props) {
 
   let { selected_menu} = props.match.params
 
-  function handleMessageCount(count) {
-    setMessageCount(count)
-  }
+
   
   return    ( 
     <div className={classes.grow}>
-        {user_id &&<ACSObjectCount api_options={{get_count:true, num_rows:1, filter_id:user_id+","+false, filter_join:"and", filter_field:"to_user,read_p"}} headless={true} object_type="core_message" onData={handleMessageCount}/>}
       <AppBar position="static">
       <Toolbar className={classes.root}>
           <DrawerMenu menu_type="hamburger" selected_menu={selected_menu} />
@@ -99,11 +94,7 @@ function Template(props) {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-              <IconButton aria-label="show 4 new mails" color="inherit">
-               <Badge badgeContent={message_count} color="secondary">
-                    <MailIcon />
-               </Badge>
-              </IconButton>
+              <MessageIcon/>
               <AuthToggleLink></AuthToggleLink>
               </div>
       </Toolbar>
