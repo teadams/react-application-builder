@@ -86,10 +86,10 @@ function Template(props) {
   function handleMessageCount(count) {
     setMessageCount(count)
   }
-
+  
   return    ( 
     <div className={classes.grow}>
-        {user_id &&<ACSObjectCount api_options={{get_count:true, num_rows:1}} headless={true} object_type="core_message" onData={handleMessageCount}/>}
+        {user_id &&<ACSObjectCount api_options={{get_count:true, num_rows:1, filter_id:user_id+","+false, filter_join:"and", filter_field:"to_user,read_p"}} headless={true} object_type="core_message" onData={handleMessageCount}/>}
       <AppBar position="static">
       <Toolbar className={classes.root}>
           <DrawerMenu menu_type="hamburger" selected_menu={selected_menu} />
