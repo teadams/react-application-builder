@@ -45,7 +45,7 @@ import rab_component_models from '../Models/HealthMe/component.js'
 //          2. Individual manipulations
 //  
 // c) The result of a and b are used to protect the state.  Anything that
-//       can change with user input (object_type, id) is saved in a
+//       can change with user input (object_type, id) is saved inn
 //       state until the data is returned.  Data and the appropriate 
 //       inputs all change at the same time and returned by useGetObject.
 //       
@@ -101,8 +101,15 @@ function ACSRowController(input_props) {
   const layout_models = useGetModel("layouts")
   const field_list_models = useGetModel("field_lists")
   // do not merge expensive, known unnecessary things
-  const {headless=false, data:input_props_data, form_open, key_id, onData="",...merging_props} = input_props
-
+  let {headless=false, data:input_props_data, form_open, key_id, onData="",...merging_props} = input_props
+  let layout_model
+  // treat layout as another dynamic input
+  // props (usually from menu) takes
+  // precedence
+  if (input_props.layout) {
+    layout_model = layout_models[input_props.layout]
+    merging_props = _.merge({},layout_model, merging_props)
+  }
   // do not use base component
   let row_component_model = Object.assign({},rab_component_models.row)
   row_component_model.row.components.row = RABRow
@@ -141,7 +148,6 @@ function ACSRowController(input_props) {
   let field_list = useGenerateFieldList(object_type, "", data, mode, form, prescrubbed_field_list, "core", layout, sections)
   let section_field_lists =[] 
   if (layout) {
-      const layout_model = layout_models[input_props.layout]
       sections = layout_model.sections 
   }
 
