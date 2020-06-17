@@ -121,8 +121,8 @@ function ACSRowController(input_props) {
   const rab_component_model = control.getFinalModel("row", {...merging_props}, object_model, row_component_model)
   const row_model = rab_component_model.row
   const massaged_props = row_model.props
-  const {object_type: props_object_type, id: props_id, field_list:props_field_list, api_options:props_api_options, num_columns="", mode="view", form=false,  ...params} = massaged_props
-
+  const {object_type: props_object_type, id: props_id, field_list:props_field_list, layout,  api_options:props_api_options, num_columns="", mode="view", form=false,  ...params} = massaged_props
+  let {sections} = massaged_props
   function handleFormClose() {
       if (input_props.onClose) {
         input_props.onClose()
@@ -138,12 +138,11 @@ function ACSRowController(input_props) {
     id = data.id
   }
 
-  let field_list = useGenerateFieldList(object_type, "", data, mode, form, prescrubbed_field_list, "core", input_props.layout, input_props.section)
+  let field_list = useGenerateFieldList(object_type, "", data, mode, form, prescrubbed_field_list, "core", layout, sections)
   let section_field_lists =[] 
-  let sections = input_props.sections
-  if (input_props.layout) {
-      const layout = layout_models[input_props.layout]
-      sections = layout.sections 
+  if (layout) {
+      const layout_model = layout_models[input_props.layout]
+      sections = layout_model.sections 
   }
 
   // XX for now, we are trusting that
