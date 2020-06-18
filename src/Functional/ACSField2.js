@@ -23,7 +23,7 @@ function ACSField(input_props) {
   const object_type_models = useGetModel("object_types")
   const field_models =  useGetModel("fields")
   let field_model = field_models?field_models[input_props.object_type][input_props.field_name]:{}
-  const {data:props_data, object_type:input_object_type, field_name:input_field_name, handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, key_id, autoFocus=false, ...merging_props} = input_props
+  const {data:props_data, object_type:input_object_type, field_name:input_field_name, onFieldClick, handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, key_id, autoFocus=false, ...merging_props} = input_props
 
   // Use case - this field has been tagged with "references"
   // which indicates the field is from another object type.
@@ -109,7 +109,15 @@ if (field_model.references && mode !="create") {
           rab_component_model.field.props.onFieldClick(event,id,type,field_name,field_data)
       }
   }
-    
+  
+function handleFieldClick(event, id, type, field_name, field_data) {
+    if (onFieldClick) {
+        onFieldClick(event,id,type,field_name,field_data)
+    } 
+    if (form&&((mode!=="create"&&mode!=="edit")&&click_to_edit)) {
+      toggleEditMode(event,id,type,field_name, field_data)
+    }
+}
 // Determine the mode
 // state will track a current mode (edit or initial_mode)
 // Use case
@@ -136,7 +144,7 @@ return (
     col_span={field_model.col_span}
     autoFocus ={(field_name === lastTouched || (autoFocus && !lastTouched) || form)?true:false}
     onMouseOver={(form&&((mode!=="create"&&mode!=="edit")&&mouseover_to_edit))?toggleEditMode:""}
-    onFieldClick ={(form&&((mode!=="create"&&mode!=="edit")&&click_to_edit))?toggleEditMode:""}
+    onFieldClick={handleFieldClick} 
     onFieldBlur = {handleOnFieldBlur} 
     object_type={object_type} field_name={field_name} field_model={field_model}
     mode={mode}

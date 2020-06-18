@@ -24,16 +24,6 @@ import * as u from './Utils/utils.js'
 import {Container, AppBar, Toolbar, Typography, Paper, Popover} from '@material-ui/core';
 import useGetModel from "./Hooks/useGetModel.js"
 
-function MessageRow(row_props) {
-  const {mode, form, field_chunk, data, field, rab_component_model, handleFormChange, handleFormSubmit, formValues, key_id, field_list, s_index, f_index} = row_props
-  const {...row_params} = row_props
-  return (
-    field_list[0][0].map(field_name =>{
-      const emphasis = data.read_p?"":"bold"
-      return <ACSField field_mode={mode} field_form={false} field_name={field_name} emphasis={emphasis} {...row_params} key={field_name} key_id={field_name}/>
-  }))
-
-}
 
 function MessageIcon(props) {
   const context = useContext(AuthContext)
@@ -42,6 +32,21 @@ function MessageIcon(props) {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [message_data, setMessageData] = useState(null);
+
+  function handleMessageClick(event, id, type,field_name, data) {
+    u.a("message clicked")
+  }
+
+  function MessageRow(row_props) {
+    const {mode, form, field_chunk, data, field, rab_component_model, handleFormChange, handleFormSubmit, formValues, key_id, field_list, s_index, f_index} = row_props
+    const {...row_params} = row_props
+    return (
+      field_list[0][0].map(field_name =>{
+        const emphasis = data.read_p?"":"bold"
+        return <ACSField onFieldClick={handleMessageClick} field_mode={mode} field_form={false} field_name={field_name} emphasis={emphasis} {...row_params} key={field_name} key_id={field_name}/>
+    }))
+  
+  }
 
   function handleMessageCount(count) {
     setMessageCount(count)
