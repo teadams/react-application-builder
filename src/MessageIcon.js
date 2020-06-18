@@ -13,6 +13,7 @@ import {CrudTable, Text, GoogleMap} from './Components/Layouts';
 import {NavMenuLink} from './Components/Experimental';
 import ACSObjectCount from './Functional/Text/ACSObjectCount.js'
 import ACSObjectTypeView from './Functional/Lists/ACSObjectTypeView.js'
+import ACSField from './Functional/ACSField2.js'
 import {ContextSelect, AuthToggleLink, AuthContext, AuthContextProvider, Auth} from './Components/User';
 import {SelectObject} from './Components/FormsAndViews';
 import Body from "./Body"
@@ -22,6 +23,17 @@ import * as u from './Utils/utils.js'
 
 import {Container, AppBar, Toolbar, Typography, Paper, Popover} from '@material-ui/core';
 import useGetModel from "./Hooks/useGetModel.js"
+
+function MessageRow(row_props) {
+  const {mode, form, field_chunk, data, field, rab_component_model, handleFormChange, handleFormSubmit, formValues, key_id, field_list, s_index, f_index} = row_props
+  const {...row_params} = row_props
+  return (
+    field_list[0][0].map(field_name =>{
+      return <ACSField field_mode={mode} field_form={false} field_name={field_name} 
+    formValues={formValues} {...row_params} key={field_name} key_id={field_name}/>
+  }))
+
+}
 
 function MessageIcon(props) {
   const context = useContext(AuthContext)
@@ -78,7 +90,8 @@ function MessageIcon(props) {
         horizontal: 'right',
       }}
     ><div>
-        <ACSObjectTypeView data={message_data} field_list={[ "from_user","subject","read_p"]} object_type="core_message"  api_options={{filter_id:user_id ,filter_join:"and", filter_field:"to_user"}}/>
+        <ACSObjectTypeView data={message_data} field_list={[ "from_user","subject","read_p"]}
+        rab_component_model={{row:{components:{row:MessageRow}}}}  object_type="core_message"  api_options={{filter_id:user_id ,filter_join:"and", filter_field:"to_user"}}/>
       </div>
     </Popover>}
     </Fragment>
