@@ -17,6 +17,7 @@ function RABTextField(props) {
   // XX field model passed due to referenced change. May 
   // be done server side later
   let field_value=""
+  // XX everything will be changed to final field_name
   field_value = data[field_model.final_field_name?field_model.final_field_name:field_name]
 
   with_thumbnail = with_thumbnail?with_thumbnail:field_model.with_thumbnail
@@ -39,13 +40,13 @@ function RABTextField(props) {
         )
       break
     case "csv":
-      return '"'+field_value+'""'
+      return '"'+field_value.toString()+'""'
       break
     case "text":
-      return field_value?field_value:" "
+      return field_value.toString()
     default:
       if (!with_thumbnail && !with_url || (with_url && !data[with_url])) {    
-        return field_value?field_value:" "
+        return field_value.toString()
       } else if (!with_thumbnail && with_url) {
         return (<Link href={data[with_url]}>{field_value}</Link>)
       } else {
