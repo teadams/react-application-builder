@@ -19,12 +19,12 @@ function User(props) {
   if (props.image_size) {
     size=props.image_size
   }
-  
+ 
   if (data) {
     const first_name = data.first_name?data.first_name:""
     const last_name = data.last_name?data.last_name:""
     if (with_thumbnail) {
-      thumbnail = data.with_thumbnail?data.with_thumbnail:""
+      thumbnail = data[with_thumbnail]?data[with_thumbnail]:""
     }
     switch (mode) {
       case "text":

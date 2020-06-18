@@ -100,6 +100,7 @@ function RABSelectList(props) {
 function RABSelectField(props) {
 
   const {mode, data=[], field_name, formValues, onSubmit, onFieldBlur,  onChange, autoFocus, object_type, field_model={}, value="", display_value=" ", disable_underline, style, api_options} = props
+  const {...params} = props
   // 2 use cases:
   // 1. Called from a create/edit form (formValues is present)
   //   View will show field_display_value takend from data object.
@@ -152,7 +153,7 @@ function RABSelectField(props) {
       break
     case "list":
     case "view":
-      return (<Field field_model={field_model} data={data} field_name={field_model.final_field_name}/>)
+      return (<Field {...params} data={data} field_name={field_model.final_field_name}/>)
     default:
       // text, view, list
       return (<Field field_model={field_model} data={data} field_name={final_field_name} mode="text"/>) 
