@@ -64,7 +64,12 @@ function MessageIcon(props) {
         <Dialog fullWidth={true} open={message_open} onClose={handleMessageClose} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">{message_open.subject}</DialogTitle>
             <DialogContent>
-              <DialogContentText>{message_open.body}</DialogContentText>
+              <div style={{display:'flex'}}>
+                <div>From:&nbsp;</div><div><ACSField data={message_open} object_type="core_message" field_mode="view" field_model={{with_thumbnail:false}} field_form={false} with_thumbnail={false} field_name="from_user" key="from_user" key_id="from_user"/></div>
+                <div style={{flexGrow:1}}/>
+                <div>Date: <ACSField data={message_open} object_type="core_message" field_mode="view" field_form={false} field_name="last_updated_date" key="last_updated_date" key_id="last_updated_date"/></div>
+              </div>
+              <ACSField data={message_open} object_type="core_message" field_mode="view" field_form={false} field_name="body" key="body" key_id="body"/>
             </DialogContent>
           <DialogActions>
           <Button onClick={handleMessageClose} color="primary">

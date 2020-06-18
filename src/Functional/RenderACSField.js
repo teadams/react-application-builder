@@ -71,6 +71,8 @@ function RenderACSField(props) {
   params.onBlur = props.onFieldBlur 
   params.field_name = field_name 
   params.onChange = props.onChange 
+  params.with_thumbnail = props.with_thumbnail
+
   let col_span = props.col_span
   switch (field_display) {
     case "name_value_wrapped":

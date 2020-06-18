@@ -12,8 +12,9 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 import ACSImage from "./ACSImage.js"
 
 function User(props) {
-  const {data, field_name,display, mode="view", image_size,  ...params} = props
+  const {data, field_name, display, mode="view", with_thumbnail, image_size,  ...params} = props
   let {size="tiny"} = props
+  let thumbnail = ""
   // XX get rid of size. depricate
   if (props.image_size) {
     size=props.image_size
@@ -22,18 +23,24 @@ function User(props) {
   if (data) {
     const first_name = data.first_name?data.first_name:""
     const last_name = data.last_name?data.last_name:""
-    const thumbnail = data.thumbnail?data.thumbnail:""
+    if (with_thumbnail) {
+      thumbnail = data.with_thumbnail?data.with_thumbnail:""
+    }
     switch (mode) {
       case "text":
         return (first_name + " " + last_name)
         break;
       default:  
-        if (thumbnail) {  
-          return (<div style={{display:"flex"}}> <ACSImage image_object={thumbnail} fix="width" size={size}/>&nbsp; {first_name} {last_name}</div>)
+        if (with_thumbnail) {  
+          if (thumbnail) {
+            return (<div style={{display:"flex"}}> <ACSImage image_object={thumbnail} fix="width" size={size}/>&nbsp; {first_name} {last_name}</div>)
+          } else {
+            const letters = first_name.charAt(0)+last_name.charAt(0)
+            return (<div style={{display:"flex"}}><ACSImage letters={letters}  fix="width" size={size}/>&nbsp;
+            {first_name} {last_name}</div>)
+          }
         } else {
-          const letters = first_name.charAt(0)+last_name.charAt(0)
-          return (<div style={{display:"flex"}}><ACSImage letters={letters}  fix="width" size={size}/>&nbsp;
-          {first_name} {last_name}</div>)
+          return (<Fragment>{first_name} {last_name}</Fragment>)
         }
     }
   }
