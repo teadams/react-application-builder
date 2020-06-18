@@ -69,6 +69,7 @@ function MessageIcon(props) {
                 <div style={{flexGrow:1}}/>
                 <div>Date: <ACSField data={message_open} object_type="core_message" field_mode="view" field_form={false} field_name="last_updated_date" key="last_updated_date" key_id="last_updated_date"/></div>
               </div>
+              <div style={{paddingBottom:20}}/>
               <ACSField data={message_open} object_type="core_message" field_mode="view" field_form={false} field_name="body" key="body" key_id="body"/>
             </DialogContent>
           <DialogActions>
