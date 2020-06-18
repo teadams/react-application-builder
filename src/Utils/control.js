@@ -201,7 +201,7 @@ function RABTableCell(props) {
   }
 
 
-  return(<TableCell  onClick={props.onClick}  onMouseOver={props.onMouseOver} colSpan={props.col_span} key={props.key_id}><EmphasisTag>{props.children}</EmphasisTag></TableCell>)
+  return(<TableCell  onClick={props.onClick} style={{verticalAlign:"top"}} onMouseOver={props.onMouseOver} colSpan={props.col_span} key={props.key_id}><EmphasisTag>{props.children}</EmphasisTag></TableCell>)
 }
 
 function RABFragment(props) {
