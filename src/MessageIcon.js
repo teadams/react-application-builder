@@ -36,7 +36,6 @@ function MessageIcon(props) {
   }
 
   function handleMessageData(message_data) {
-u.a(message_data)
     setMessageData(message_data)
   }
 
@@ -64,7 +63,8 @@ u.a(message_data)
     {user_id && open && 
         <ACSObjectTypeView onData={handleMessageData} headless={true} object_type="core_message"  api_options={{filter_id:user_id ,filter_join:"and", filter_field:"to_user"}}/>}
     {user_id && open && message_data &&
-      <Popover
+      <Popover  
+        PaperProps={{style:{padding:"20px"}}}
         id={id}
         open={open}
         anchorEl={anchorEl}
@@ -77,9 +77,9 @@ u.a(message_data)
         vertical: 'top',
         horizontal: 'right',
       }}
-    ><div style={{width:'100%'}}>
-        <ACSObjectTypeView data={message_data} object_type="core_message"  api_options={{filter_id:user_id ,filter_join:"and", filter_field:"to_user"}}/>}
-</div>
+    ><div>
+        <ACSObjectTypeView data={message_data} field_list={[ "from_user","subject","read_p"]} object_type="core_message"  api_options={{filter_id:user_id ,filter_join:"and", filter_field:"to_user"}}/>
+      </div>
     </Popover>}
     </Fragment>
   )
