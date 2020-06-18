@@ -19,6 +19,9 @@ function RABTextField(props) {
   let field_value=""
   // XX everything will be changed to final field_name
   field_value = data[field_model.final_field_name?field_model.final_field_name:field_name]
+  if (field_value === null) {
+      field_value =""
+  }
 
   with_thumbnail = with_thumbnail?with_thumbnail:field_model.with_thumbnail
   with_url = with_url?with_url:field_model.with_url
