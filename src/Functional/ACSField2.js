@@ -126,11 +126,13 @@ function handleOnFieldBlur() {
 
 
 return (
-    <RenderACSField {...field_component_model.props}  data={data} 
+    <RenderACSField {...field_component_model.props}  
+    data={data} 
     formValues = {formValues}
     object_type = {object_type}
     onChange={handleFormChange}
     onSubmit={handleFormSubmit}
+    emphasis={input_props.emphasis}
     col_span={field_model.col_span}
     autoFocus ={(field_name === lastTouched || (autoFocus && !lastTouched) || form)?true:false}
     onMouseOver={(form&&((mode!=="create"&&mode!=="edit")&&mouseover_to_edit))?toggleEditMode:""}

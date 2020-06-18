@@ -46,7 +46,7 @@ function RABTextField(props) {
       return field_value.toString()
     default:
       if (!with_thumbnail && !with_url || (with_url && !data[with_url])) {    
-        return field_value.toString()
+          return field_value.toString()
       } else if (!with_thumbnail && with_url) {
         return (<Link href={data[with_url]}>{field_value}</Link>)
       } else {

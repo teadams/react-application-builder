@@ -190,7 +190,18 @@ function RABTableRow(props) {
 }
 
 function RABTableCell(props) {
-  return(<TableCell  onClick={props.onClick}  onMouseOver={props.onMouseOver} colSpan={props.col_span} key={props.key_id}>{props.children}</TableCell>)
+  const {emphasis} = props
+  let EmphasisTag = Fragment 
+  switch (emphasis) {
+    case "bold":
+      EmphasisTag ="b"
+      break
+    case "italic":
+      EmphasisTag ="i"
+  }
+
+
+  return(<TableCell  onClick={props.onClick}  onMouseOver={props.onMouseOver} colSpan={props.col_span} key={props.key_id}><EmphasisTag>{props.children}</EmphasisTag></TableCell>)
 }
 
 function RABFragment(props) {

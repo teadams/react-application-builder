@@ -42,7 +42,7 @@ function RenderACSField(props) {
   // to get the data set. Different API options will be 
   // needed for select lists, referenced, mapping
   const {api_options,...params} = props
-  const {data, object_type, field_display="field", rab_component_model, field_name, field_model, mode="view", form="true"} = props
+  const {data, object_type, field_display="field", rab_component_model, field_name, field_model, mode="view", form="true", emphasis=""} = props
   // Responsible for the layouts
 // Storing the state?
 // Deciding the mode?
@@ -89,7 +89,7 @@ function RenderACSField(props) {
     case "name_above_value":
     return (
     <Fragment>
-      <FieldWrap key={field_name+"_wrap1"}
+      <FieldWrap  emphasis={emphasis} key={field_name+"_wrap1"}
         onClick={handleFieldClick}  onMouseOver={handleMouseOver} col_span={col_span}>
         <b>{field_model.pretty_name}:</b><br/>
        <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
@@ -119,10 +119,10 @@ function RenderACSField(props) {
   default:
 
       return (
-      <FieldWrap key={field_name+"_wrap1"}
+      <FieldWrap key={field_name+"_wrap1"} emphasis={emphasis}
         onClick={handleFieldClick}  onMouseOver={handleMouseOver} >
          <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
-          <Field {...params} key={field_name+"field"}/>
+          <Field {...params}  key={field_name+"field"}/>
         </FormWrap>
       </FieldWrap>)
   }
