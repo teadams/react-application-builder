@@ -21,7 +21,7 @@ import Debug from "./Debug.js"
 import * as meta from './Utils/meta.js'
 import * as u from './Utils/utils.js'
 
-import {Container, AppBar, Toolbar, Typography, Paper, Popover} from '@material-ui/core';
+import {Container, AppBar, Toolbar, Typography, Paper, Popover, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button} from '@material-ui/core';
 import useGetModel from "./Hooks/useGetModel.js"
 
 
@@ -32,20 +32,48 @@ function MessageIcon(props) {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [message_data, setMessageData] = useState(null);
-
+  const [message_open, setMessageOpen] = useState(false);
+    
   function handleMessageClick(event, id, type,field_name, data) {
-    u.a("message clicked")
+    
+    if (message_open) {
+        handleMessageClose()
+    } else {
+        handleMessageOpen(data)
+    }
+  }
+
+  function handleMessageOpen(data) {
+      setMessageOpen(data)
+  }
+
+  function handleMessageClose() {
+    setMessageOpen(false)
   }
 
   function MessageRow(row_props) {
     const {mode, form, field_chunk, data, field, rab_component_model, handleFormChange, handleFormSubmit, formValues, key_id, field_list, s_index, f_index} = row_props
     const {...row_params} = row_props
     return (
-      field_list[0][0].map(field_name =>{
-        const emphasis = data.read_p?"":"bold"
-        return <ACSField onFieldClick={handleMessageClick} field_mode={mode} field_form={false} field_name={field_name} emphasis={emphasis} {...row_params} key={field_name} key_id={field_name}/>
-    }))
-  
+      <Fragment>
+        {field_list[0][0].map(field_name =>{
+          const emphasis = data.read_p?"":"bold"
+          return <ACSField onFieldClick={handleMessageClick} field_mode={mode} field_form={false} field_name={field_name} emphasis={emphasis} {...row_params} key={field_name} key_id={field_name}/>
+        })}
+        {message_open && 
+        <Dialog fullWidth={true} open={message_open} onClose={handleMessageClose} aria-labelledby="form-dialog-title">
+          <DialogTitle id="form-dialog-title">{message_open.subject}</DialogTitle>
+            <DialogContent>
+              <DialogContentText>{message_open.body}</DialogContentText>
+            </DialogContent>
+          <DialogActions>
+          <Button onClick={handleMessageClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+        </Dialog> }
+      </Fragment>)
+
   }
 
   function handleMessageCount(count) {

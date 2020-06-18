@@ -42,20 +42,20 @@ function RenderACSField(props) {
   // to get the data set. Different API options will be 
   // needed for select lists, referenced, mapping
   const {api_options,...params} = props
-  const {data, object_type, field_display="field", rab_component_model, field_name, field_model, mode="view", form="true", emphasis=""} = props
+  const {data, row_data, object_type, field_display="field", rab_component_model, field_name, field_model, mode="view", form="true", emphasis=""} = props
   // Responsible for the layouts
 // Storing the state?
 // Deciding the mode?
 
   function handleFieldClick(event) {
     if (props.onFieldClick) {
-        props.onFieldClick(event, data.id, "field", field_name, data)
+        props.onFieldClick(event, data.id, "field", field_name, row_data, data)
     }
   }
 
   function handleMouseOver(event) {
     if (props.onMouseOver) {
-        props.onMouseOver(event, data.id, "field", field_name, data)
+        props.onMouseOver(event, data.id, "field", field_name, row_data, data)
     }
   }
 

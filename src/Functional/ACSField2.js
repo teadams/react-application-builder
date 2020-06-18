@@ -23,7 +23,7 @@ function ACSField(input_props) {
   const object_type_models = useGetModel("object_types")
   const field_models =  useGetModel("fields")
   let field_model = field_models?field_models[input_props.object_type][input_props.field_name]:{}
-  const {data:props_data, object_type:input_object_type, field_name:input_field_name, onFieldClick, handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, key_id, autoFocus=false, ...merging_props} = input_props
+  const {data:props_data, object_type:input_object_type, field_name:input_field_name,  handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, key_id, autoFocus=false, ...merging_props} = input_props
 
   // Use case - this field has been tagged with "references"
   // which indicates the field is from another object type.
@@ -43,22 +43,6 @@ function ACSField(input_props) {
   // unconential approach. That would be much better as
   // this causes a lot of confusion about which object_type
   // and model we are actually using (see call to useForm)
-  if (field_model && field_model.references) {
-      // manipulate field_model and object_type to be from references
-//      const references = field_model.references
-    //  final_data_target = input_props.field_name
-  //    final_model_object_type = field_model.references
-      // XX server side
-  //    const references_field_name = field_model.references_field?field_model.references_field:object_type_models[final_model_object_type].key_id 
-
-    //  let references_field_model = field_models?field_models[final_model_object_type][references_field_name]:{}
-      // XX done on server
-//      field_model.formValues_name = input_props.field_name
-      //field_model.field_component = field_model.field_component?field_model.field_component:"RABSelectField"
-      // XX done on server
-    //  field_model.select_display_field = object_type_models[final_model_object_type].pretty_key_id 
-    //  field_model.final_object_type = final_model_object_type
-  }
 
   merging_props.object_type = field_model.final_object_type
   merging_props.field_name = input_props.field_name
@@ -88,12 +72,15 @@ const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormCha
 
 if (!data || (object_type && !field_model) || mode === "hidden" || field_model.hidden_on_form && initial_mode ==="edit" ||  (field_model.hidden_on_form || field_model.hidden_on_create_form) && initial_mode==="create") return null
 
-// references data
-// create form uses formValues as data, 
-// which is flat
+// row_data - original row 
+// data - object with this field's data 
+//     (accounting for references)
+// formValues is flat (base and reference data is the same level
+const row_data = data
 if (field_model.references && mode !="create") {
     data = data[input_props.field_name]
 }
+// row_data - original row
 
 
   // XX ?? look at rest of props and see if there are any other API options... what layer to do this in
@@ -101,22 +88,18 @@ if (field_model.references && mode !="create") {
       setMode(initial_mode)      
   }
 
-  function toggleEditMode(event, id, type, field_name, field_data) {  
-      if (click_to_edit && !field_model.prevent_edit) {
+  function toggleEditMode(event, id, type, field_name, row_data, field_data) {  
+      if (form && click_to_edit && !field_model.prevent_edit && mode!=="create" && mode !=="edit") {
           setMode("edit")
       }
-      if (rab_component_model.field.props.onFieldClick) {
-          rab_component_model.field.props.onFieldClick(event,id,type,field_name,field_data)
-      }
+
   }
   
-function handleFieldClick(event, id, type, field_name, field_data) {
-    if (onFieldClick) {
-        onFieldClick(event,id,type,field_name,field_data)
-    } 
-    if (form&&((mode!=="create"&&mode!=="edit")&&click_to_edit)) {
-      toggleEditMode(event,id,type,field_name, field_data)
+  function handleFieldClick(event, id, type, field_name, row_data, field_data) {
+    if (rab_component_model.field.props.onFieldClick) {
+      rab_component_model.field.props.onFieldClick(event,id,type,field_name,row_data,field_data)
     }
+    toggleEditMode(event,id,type,field_name, row_data, field_data)
 }
 // Determine the mode
 // state will track a current mode (edit or initial_mode)
@@ -136,6 +119,7 @@ function handleOnFieldBlur() {
 return (
     <RenderACSField {...field_component_model.props}  
     data={data} 
+    row_data={row_data}
     formValues = {formValues}
     object_type = {object_type}
     onChange={handleFormChange}
