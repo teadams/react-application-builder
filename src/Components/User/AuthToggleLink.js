@@ -42,7 +42,7 @@ class AuthToggleLink extends React.Component {
             {this.state.login_form  &&
               <LoginForm
                 open={this.state.login_form}
-                handleClose={this.handleClose}
+                onClose={this.handleClose}
              />}
         </Fragment>
       )
