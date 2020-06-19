@@ -14,6 +14,9 @@ import * as u from '../../Utils/utils.js';
 function NWAProjectView(props) {
   const [data, setData] = useState(null)
   const {id} = props
+u.a("id in project", id, props)
+
+
   const onData=(api_data) => {
     setData(api_data)
   }
