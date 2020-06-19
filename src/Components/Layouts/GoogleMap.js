@@ -224,7 +224,7 @@ function GoogleMap (props) {
                   id = {selectedPlace.id}
                   field_mode = "view"
                   field_list = {field_list}
-                  click_to_edit = {false}
+                  field_click_to_edit = {false}
                   num_columns={1}
                   row_header_image_size="medium"
                 handleMoreClick = {handleMoreClick}/>
