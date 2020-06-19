@@ -14,6 +14,8 @@ import * as meta from '../../Utils/meta.js';
 function RABTextField(props) {
   const {mode, data, field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small"} = props
   let {with_thumbnail="", with_url=""} = props
+
+
   // XX field model passed due to referenced change. May 
   // be done server side later
   let field_value=""
@@ -25,6 +27,7 @@ function RABTextField(props) {
 
   with_thumbnail = with_thumbnail?with_thumbnail:field_model.with_thumbnail
   with_url = with_url?with_url:field_model.with_url
+
   switch (mode) {
     case "edit":
     case "create":
@@ -48,7 +51,7 @@ function RABTextField(props) {
     case "text":
       return field_value.toString()
     default:
-      if (!with_thumbnail && !with_url || (with_url && !data[with_url])) {    
+      if (!with_thumbnail && (!with_url || (with_url && !data[with_url]))) {    
           return field_value.toString()
       } else if (!with_thumbnail && with_url) {
         return (<Link href={data[with_url]}>{field_value}</Link>)

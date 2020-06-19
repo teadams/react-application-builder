@@ -46,7 +46,6 @@ function RenderACSField(props) {
   // Responsible for the layouts
 // Storing the state?
 // Deciding the mode?
-
   function handleFieldClick(event) {
     if (props.onFieldClick) {
         props.onFieldClick(event, data.id, "field", field_name, row_data, data)
@@ -72,6 +71,8 @@ function RenderACSField(props) {
   params.field_name = field_name 
   params.onChange = props.onChange 
   params.with_thumbnail = props.with_thumbnail
+
+
 
   let col_span = props.col_span
   switch (field_display) {
