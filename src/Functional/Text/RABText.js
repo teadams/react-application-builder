@@ -9,6 +9,8 @@ import ACSListController from '../ACSListController.js'
 import rab_component_models from '../../Models/HealthMe/component.js'
 import * as meta from '../../Utils/meta.js';
 import ACSCreateButton from '../Buttons/ACSCreateButton.js'
+import ACSEditButton from '../Buttons/ACSEditButton.js'
+
 
 function RABText(props) {
   const {object_type, action=""} = props
@@ -17,6 +19,9 @@ function RABText(props) {
   switch (action) {
     case "create":
       ActionButton = ACSCreateButton 
+      break
+    case "edit":
+      ActionButton = ACSEditButton 
       break
   }
 
