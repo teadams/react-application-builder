@@ -219,7 +219,7 @@ function ACSRowController(input_props) {
     // XX on data 
     return null
   }
-  return  (<RenderACSRow {...row_model.props} mode={mode} form={form} object_type={object_type} action={action}  id={id} field_list={section_field_lists} sections={sections} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} form_open={form_open} onClose={handleFormClose}
+  return  (<RenderACSRow {...row_model.props} mode={mode} form={form} object_type={object_type} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} form_open={form_open} onClose={handleFormClose}
   handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} key={key_id+"Render"} key_id={key_id}/>)
 
 }

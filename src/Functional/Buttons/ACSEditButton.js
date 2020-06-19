@@ -41,7 +41,7 @@ function ACSEditButton(props) {
       </IconButton>
       }
       {create_dialog  &&
-      <ACSObjectView object_type={object_type} id={id} row_mode="edit" row_form="true" layout={layout} sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} field_list={field_list} dialog_size={dialog_size} /> }
+      <ACSObjectView object_type={object_type} id={id} row_mode="edit" row_form="true" layout={layout} sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} field_list={field_list} dialog_size={dialog_size}  trace={true}/> }
       </Fragment>
       )
 }
