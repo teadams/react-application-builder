@@ -11,6 +11,6 @@ function RABObjectTypePrettyPlural(props) {
   const {object_type, variant, action="create", header=true} = props
   const object_model = useGetModel("object_types")
   if (!object_model) {return null}
-  return (<RABText header={header} object_type={object_type} action="create" text={object_model[object_type].pretty_plural} variant={variant}/>)
+  return (<RABText header={header} object_type={object_type} action={action} text={object_model[object_type].pretty_plural} variant={variant}/>)
 }
 export default RABObjectTypePrettyPlural

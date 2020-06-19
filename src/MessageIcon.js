@@ -196,7 +196,7 @@ function MessageIcon(props) {
       }}
     ><div>
         <ACSObjectTypeView data={message_data} field_list={[ "from_user","subject","read_p"]}
-        rab_component_model={{row:{components:{row:MessageRow}}}}  object_type="core_message"  api_options={{filter_id:user_id ,filter_join:"and", filter_field:"to_user"}}/>
+        rab_component_model={{list:{props:{action:""}},row:{components:{row:MessageRow}}}}  object_type="core_message"  api_options={{filter_id:user_id ,filter_join:"and", filter_field:"to_user"}}/>
       </div>
     </Popover>}
     </Fragment>
