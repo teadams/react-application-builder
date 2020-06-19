@@ -20,6 +20,7 @@ import Body from "./Body"
 import Debug from "./Debug.js"
 import * as meta from './Utils/meta.js'
 import * as u from './Utils/utils.js'
+import * as api from './Utils/data.js'
 
 import {Container, AppBar, Toolbar, Typography, Paper, Popover, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button} from '@material-ui/core';
 import useGetModel from "./Hooks/useGetModel.js"
@@ -35,7 +36,6 @@ function MessageIcon(props) {
   const [message_open, setMessageOpen] = useState(false);
     
   function handleMessageClick(event, id, type,field_name, data) {
-    
     if (message_open) {
         handleMessageClose()
     } else {
@@ -44,7 +44,25 @@ function MessageIcon(props) {
   }
 
   function handleMessageOpen(data) {
-      setMessageOpen(data)
+      setMessageOpen(data)  
+      if (!data.read_p) {
+        const read_object = {id:data.id, read_p:true}
+        api.postData("core_message", read_object, {}, (result, error) => { 
+            if (error) {
+              alert("error is " + error)
+            } else {
+              let read_update_message_data = Array.from(message_data)
+              let message
+              for (message of read_update_message_data) {
+                  if (message.id === data.id) {
+                    message.read_p = true
+                    continue
+                  }
+                  setMessageData(read_update_message_data)
+              }
+            }
+        })
+      }
   }
 
   function handleMessageClose() {
