@@ -27,11 +27,10 @@ function RABText(props) {
 
   const {header=false, variant=header?"h5":"body1", text} = props
   let {style} = props
-  if (!header) {
-    style = Object.assign({display:"inline"}, style)
-  }
-  return (<Typography variant={variant} style={style}>{text}
-{action && <ActionButton object_type={object_type}/>}</Typography>)
+  
+  style = Object.assign({display:"flex",alignItems:"center"}, style)
+  
+  return (<Typography  variant={variant} style={style}>{text}{action && <ActionButton {...props} style={{paddingTop:0}} />}</Typography>)
 }
 
 export default RABText

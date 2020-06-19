@@ -29,7 +29,7 @@ function NWAProjectView(props) {
     {data && 
     <div style={{display:'flex',padding:20, width:"90%", justifyContext:"center", xborder:"5px solid red"}}>
       <div style={{width:"30%", marginRight:10,xborder:"5px solid  blue"}}>
-        <ACSObjectView {...props} row_no_stripe={true} row_header_image_size="medium" field_display="name_value"
+        <ACSObjectView {...props} row_no_stripe={true} action="edit" row_header_image_size="medium" field_display="name_value"
         field_click_to_edit = {false} num_columns={1} field_list={["address", "summary",  "description","type"]}/>
       </div>
       <div style={{width:"40%", marginLeft:10, marginRight:10, xborder:"5px solid  blue"}}>

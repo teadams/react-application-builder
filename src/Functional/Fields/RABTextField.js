@@ -60,9 +60,9 @@ function RABTextField(props) {
           let url = with_url?data[with_url]:""
           if (thumbnail) { 
             if (url) {
-              return (<div style={{display:"flex"}}> <ACSImage image_object={thumbnail} fix="width" size={image_size}/>&nbsp;<Link href={url}>{field_value}</Link></div>)
+              return (<div style={{display:"flex", alignItems:"center"}}> <ACSImage image_object={thumbnail} fix="width" size={image_size}/>&nbsp;<Link href={url}>{field_value}</Link></div>)
             } else {
-              return (<div style={{display:"flex"}}> <ACSImage image_object={thumbnail} fix="width" size={image_size}/>&nbsp; {field_value}</div>)
+              return (<div style={{display:"flex", alignItems:"center"}}> <ACSImage image_object={thumbnail} fix="width" size={image_size}/><div>&nbsp;{field_value}</div></div>)
             }
           } else {
             const letters = field_value?field_value.charAt(0):""
