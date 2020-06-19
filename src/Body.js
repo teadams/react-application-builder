@@ -35,7 +35,11 @@ function Body(props) {
 //u.a("bdoy comp", BodyComponent)
   if (selected_menu_model.with_context) {
     selected_menu_model.api_options.filter_field = "core_subsite"
-    selected_menu_model.api_options.filter_id = context.context_id
+    if (context.context_id) {
+      selected_menu_model.api_options.filter_id = context.context_id
+    } else {
+      selected_menu_model.api_options.filter_id = app_params["context_default_object"]
+    }
   }
 
   const { ...rest} = selected_menu_model

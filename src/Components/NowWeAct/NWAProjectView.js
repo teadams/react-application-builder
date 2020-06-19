@@ -13,9 +13,10 @@ import * as u from '../../Utils/utils.js';
 
 function NWAProjectView(props) {
   const [data, setData] = useState(null)
-  const {id} = props
-u.a("id in project", id, props)
-
+  const {id, api_options} = props
+  // if admin, add applied
+  let volunteer_options = {filter_id:api_options.filter_id+",Accepted",
+                           filter_field:api_options.filter_field+",Status,"}
 
   const onData=(api_data) => {
     setData(api_data)
@@ -31,10 +32,10 @@ u.a("id in project", id, props)
         <ACSObjectView {...props} row_no_stripe={true} row_header_image_size="medium" field_display="name_value" num_columns={1} field_list={["address", "summary",  "description","type"]}/>
       </div>
       <div style={{width:"40%", marginLeft:10, marginRight:10, xborder:"5px solid  blue"}}>
-          <ACSObjectView {...props} id={1}  row_no_stripe={true} field_display="name" field_list={["url"]} object_type="nwn_project_video" />
+          <ACSObjectView  id={1}  row_no_stripe={true} field_display="name" field_list={["url"]} object_type="nwn_project_video" />
           
           <Typography style={{marginTop:20}} variant="h5">Announcements</Typography>
-          <ACSCommunicationObjectTypeView {...props} object_type="nwn_project_post" api_options={{filter_id:id, filter_field:"nwn_project"}}/>
+          <ACSCommunicationObjectTypeView {...props} object_type="nwn_project_post" />
         
       </div>
       <div style={{width:"30%", marginLeft:10, xborder:"5px solid  blue"}}>
@@ -43,13 +44,13 @@ u.a("id in project", id, props)
       <div style={{marginTop:20}}>
 
         <Typography variant="h5">Current Project Needs</Typography>
-        <ACSSummaryObjectTypeView {...props} object_type="nwn_project_need" api_options={{filter_id:id, filter_field:"nwn_project"}}/>
+        <ACSSummaryObjectTypeView {...props} object_type="nwn_project_need"/>
         
       </div>
       <div style={{marginTop:20}}>
         
         <Typography variant="h5">Volunteers</Typography>
-        <ACSSummaryObjectTypeView {...props}   api_options={{filter_id:id, filter_field:"core_subsite"}} object_type="core_subsite_role"/>
+        <ACSSummaryObjectTypeView {...props} api_options={volunteer_options} object_type="core_subsite_role"/>
         
       </div>
       </div>
