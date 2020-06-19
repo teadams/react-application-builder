@@ -35,7 +35,7 @@ function User(props) {
       default:  
         if (with_thumbnail) {  
           if (thumbnail) {
-            return (<div style={{display:"flex"}}> <ACSImage image_object={thumbnail} fix="width" size={size}/>&nbsp; {first_name} {last_name}</div>)
+            return (<div style={{display:"flex", alignItems:"center"}}> <ACSImage image_object={thumbnail} fix="width" size={size}/>&nbsp; {first_name} {last_name}</div>)
           } else {
             const letters = first_name.charAt(0)+last_name.charAt(0)
             return (<div style={{display:"flex"}}><ACSImage letters={letters}  fix="width" size={size}/>&nbsp;
