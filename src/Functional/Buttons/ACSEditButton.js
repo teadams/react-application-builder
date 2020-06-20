@@ -8,9 +8,9 @@ import * as u from '../../Utils/utils.js'
 import ACSObjectView from '../Rows/ACSObjectView.js'
 
 function ACSEditButton(props) {
-  const {object_type, id, Component, layout, sections, field_list, dialog_size} = props
+  const {object_type, id, Component, action_props,  sections, field_list, dialog_size} = props
+  const {layout} = action_props
   const [create_dialog, setCreateDialog] = useState(false);
-
   const handleOnClick = event => {
     setCreateDialog(true)
     if (props.onClick) {
