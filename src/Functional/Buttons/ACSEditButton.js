@@ -6,6 +6,7 @@ import {IconButton} from '@material-ui/core';
 import IconEdit from "@material-ui/icons/Edit";
 import * as u from '../../Utils/utils.js'
 import ACSObjectView from '../Rows/ACSObjectView.js'
+import {Auth} from '../../Components/User/index.js';
 
 function ACSEditButton(props) {
   const {object_type, id, Component, action_props,  sections, field_list, dialog_size} = props
@@ -33,14 +34,16 @@ function ACSEditButton(props) {
   const float=props.float?props.float:'none'
  return (
       <Fragment>
-      {Component?
-       <Component text="here" onClick={handleOnClick}/>
-      : <IconButton variant="fab" color="primary"  style={{ display:"inline"}} onClick={handleOnClick}>
-      <IconEdit style={{height:15, width:15}}/>
-      </IconButton>
-      }
-      {create_dialog  &&
-      <ACSObjectView {...action_props} object_type={object_type} id={id} row_mode="edit" row_form="true"  sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} field_list={field_list} dialog_size={dialog_size}  trace={true}/> }
+      <Auth auth_action="edit" object_type={object_type} prompt_login={false}>
+        {Component?
+        <Component text="here" onClick={handleOnClick}/>
+        : <IconButton variant="fab" color="primary"  style={{ display:"inline"}} onClick={handleOnClick}>
+        <IconEdit style={{height:15, width:15}}/>
+        </IconButton>
+        }
+        {create_dialog  &&
+        <ACSObjectView {...action_props} object_type={object_type} id={id} row_mode="edit" row_form="true"  sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} field_list={field_list} dialog_size={dialog_size}  trace={true}/> }
+      </Auth>
       </Fragment>
       )
 }

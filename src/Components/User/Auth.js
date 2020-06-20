@@ -11,7 +11,7 @@ import * as u from '../../Utils/utils.js'
 import useGetModel from '../../Hooks/useGetModel.js'
 
 function Auth(props) {
-  let {auth_scope="", auth_priv="", auth_action="read", object_type} = props
+  let {auth_scope="", auth_priv="", auth_action="read", object_type, prompt_login=true} = props
   // for safety making this explicit instead of defaulting
   if (["view","csv","list"].includes(auth_action)) {auth_action="read"}
 
@@ -54,7 +54,7 @@ function Auth(props) {
   if (auth_priv !== "public") {
         if (!context.user ) {
           show_children = false
-         if (!login_form) {
+         if (!login_form && prompt_login) {
              setLoginForm(true)
          }    
        }
