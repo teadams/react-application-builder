@@ -9,7 +9,6 @@ import ACSObjectView from '../Rows/ACSObjectView.js'
 
 function ACSEditButton(props) {
   const {object_type, id, Component, action_props,  sections, field_list, dialog_size} = props
-  const {layout} = action_props
   const [create_dialog, setCreateDialog] = useState(false);
   const handleOnClick = event => {
     setCreateDialog(true)
@@ -41,7 +40,7 @@ function ACSEditButton(props) {
       </IconButton>
       }
       {create_dialog  &&
-      <ACSObjectView object_type={object_type} id={id} row_mode="edit" row_form="true" layout={layout} sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} field_list={field_list} dialog_size={dialog_size}  trace={true}/> }
+      <ACSObjectView {...action_props} object_type={object_type} id={id} row_mode="edit" row_form="true"  sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} field_list={field_list} dialog_size={dialog_size}  trace={true}/> }
       </Fragment>
       )
 }
