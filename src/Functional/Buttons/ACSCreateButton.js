@@ -1,18 +1,23 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useState, useContext} from 'react';
 import {IconButton} from '@material-ui/core';
 import IconCreate from "@material-ui/icons/Add";
 import * as u from '../../Utils/utils.js'
 import ACSObjectView from '../Rows/ACSObjectView.js'
-import {Auth} from '../../Components/User/index.js';
-
+import {Auth, AuthContext} from '../../Components/User/index.js';
+import useGetModel from '../../Hooks/useGetModel.js'
 
 function ACSCreateButton(props) {
   const {object_type, Component, layout, sections, field_list, dialog_size} = props
   const [create_dialog, setCreateDialog] = useState(false);
-
+  const context = useContext(AuthContext)
+  const context_id = context.context_id
+  const object_model = useGetModel("object_types", object_type)
+  if (object_model.with_context && !context_id) {
+    return null
+  }
   const handleOnClick = event => {
     setCreateDialog(true)
     if (props.onClick) {
