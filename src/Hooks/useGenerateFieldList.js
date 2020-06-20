@@ -38,6 +38,7 @@ const useGenerateFieldList = (object_type, field_name="", data, mode, form=true,
   }
  
   let scrubbed_field_list = []
+
   field_list.forEach(field => {
     const field_model = field_models[field]
     if (!field_model.prevent_view &&
