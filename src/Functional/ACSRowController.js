@@ -109,7 +109,7 @@ function ACSRowController(input_props) {
     merging_props = _.merge({},layout_model, merging_props)
   }
   // do not use base component
-  let row_component_model = Object.assign({},rab_component_models.row)
+  let row_component_model = _.merge({},rab_component_models.row)
   row_component_model.row.components.row = RABRow
   row_component_model.row.components.section_wrap =ACSSectionWrap
   row_component_model.row.components.section_header =ACSSectionHeader

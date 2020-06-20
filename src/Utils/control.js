@@ -68,7 +68,7 @@ export function getFinalModel(level, input_props={}, metadata_model={}, componen
                             rab_component_models[level]),  
                             
                             determineModelComponents(level,
-                            buildRABModel(component_model)),
+                            component_model),
 
                             determineModelComponents(level, buildRABModel(metadata_model)),
  
