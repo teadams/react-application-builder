@@ -12,6 +12,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   const [formValues, setFormValues] = useState({});
   const [prior_input_mask, setPriorInputMask] = useState(null)
   const [lastTouched,setLastTouched] = useState(false)
+  const [filesTouched,setFilesTouched] = useState([])
   const context = useContext(AuthContext)
   const object_model =  useGetModel("object_types", object_type)
   const field_models =  useGetModel("fields", object_type)
@@ -97,7 +98,13 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
         }
       })     
     } else {
-
+      // only send file fields when changed
+      Object.keys(formValues).forEach(form_field_name => {
+        const field_model = field_models[form_field_name]
+        if (field_model.input_type === "file" && !filesTouched.includes(form_field_name)) {
+            delete formValues[form_field_name]
+        }
+      })
       api.putData(object_type, formValues, {}, (result, error) => { 
         if (error) {
           alert ('error is ' + error.message)
@@ -110,7 +117,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       })
     }
   })
-
+  // single field edit, submits on change
   const handleFileEditSubmit = (event, name, file) => {
     let fileFormValues = Object.assign({},formValues)
     fileFormValues[name]=file
@@ -137,6 +144,10 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
         // this is a field form (not row form)
         handleFileEditSubmit(event, name, value)
       } else {
+        // only send new files to the server 
+        if (filesTouched.indexOf(name) === -1) {
+            setFilesTouched(filesTouched.concat([name]))
+        }
         setFormValues(formValues => ({...formValues, [name]:value}));
       }
     }
