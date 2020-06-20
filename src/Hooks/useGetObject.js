@@ -19,7 +19,6 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
   const dirty_data = context.dirty_stamp;
 
   // XX This will move to the session cookie
-  
   api_options.user_id = context.user.id 
   api_options.subsite_id = context.context_id
 
