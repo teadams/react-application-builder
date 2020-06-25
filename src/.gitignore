@@ -2,6 +2,7 @@
 # Dependency directory
 node_modules
 mui-datatables
+build
 
 # Model data
 SModels
