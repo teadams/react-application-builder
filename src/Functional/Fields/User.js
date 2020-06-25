@@ -12,7 +12,7 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 import ACSImage from "./ACSImage.js"
 
 function User(props) {
-  const {data, field_name, display, mode="view", field_model, image_size,  ...params} = props
+  const {data, field_name, display, mode="view", field_model={}, image_size,  ...params} = props
   const {with_thumbnail} = field_model
 
   let {size="tiny"} = props
