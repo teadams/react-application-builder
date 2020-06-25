@@ -10,12 +10,13 @@ import {Auth, AuthContext} from '../../Components/User/index.js';
 import useGetModel from '../../Hooks/useGetModel.js'
 
 function ACSCreateButton(props) {
-  const {object_type, Component, layout, sections, field_list, dialog_size} = props
+
+  const {object_type, Component, layout, sections, field_list, dialog_size, auth_action="create"} = props
   const [create_dialog, setCreateDialog] = useState(false);
   const context = useContext(AuthContext)
   const context_id = context.context_id
   const object_model = useGetModel("object_types", object_type)
-  if (object_model.with_context && !context_id) {
+  if (object_model.with_context && !context_id && object_type !== "core_subsite" && object_model.extends_object !== "core_subsite") {
     return null
   }
   const handleOnClick = event => {
@@ -37,11 +38,10 @@ function ACSCreateButton(props) {
     }
   }
 
-
   const float=props.float?props.float:'none'
  return (
       <Fragment>
-      <Auth auth_action="create" object_type={object_type} prompt_login={false}>
+      <Auth auth_action={auth_action} object_type={object_type} prompt_login={false}>
       {Component?
        <Component text="here" onClick={handleOnClick}/>
       : <IconButton variant="fab" color="primary"  style={{ display:"inline"}} onClick={handleOnClick}>
