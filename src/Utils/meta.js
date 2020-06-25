@@ -38,7 +38,7 @@ export function model(type) {
 }
 
 export async function load(type, callback) {
-  const meta_result = await data.callAPI("/meta/model/"+type, {}, {}, "get")
+  const meta_result = await data.callAPI("meta/model/"+type, {}, {}, "get")
     callback(meta_result)
 }
 
