@@ -14,7 +14,6 @@ function Auth(props) {
   let {auth_scope="", auth_priv="", auth_action="read", object_type, prompt_login=true} = props
   // for safety making this explicit instead of defaulting
   if (["view","csv","list"].includes(auth_action)) {auth_action="read"}
-
   const [login_form, setLoginForm] = useState(false)
   const object_type_meta = useGetModel("object_types", object_type)
   const app_params  = useGetModel("app_params")
@@ -47,9 +46,10 @@ function Auth(props) {
       }
     }
   }
-  
+
   let show_children = true
 
+//  u.aa("object_type, action, auth_scope, auth_priv, context_id, user", object_type, auth_action, auth_scope, auth_priv, context.context_id, context.user.id)
 
   if (auth_priv !== "public") {
         if (!context.user ) {
