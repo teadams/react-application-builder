@@ -74,6 +74,7 @@ function GoogleMap (props) {
   }
 
   const handleProjectCreated= (event,action, project_data, inserted_id) => {
+    u.a("key", google_map.get_key())
     // most of this will go server side
     setCreateProjectOpen(false)
     // this will all move server side
@@ -160,11 +161,12 @@ function GoogleMap (props) {
       <div className={classes.grow}>
            <Typography variant="h4" classes={{root:classes.head_row}}>{props.title}</Typography>
           <div className={classes.head_row}>
-              <ACSCreateButton onSubmit={handleProjectCreated}
+            <ACSCreateButton onSubmit={handleProjectCreated}
               layout={layout}
               sections={sections}
               Component={create_button}
               dialog_size={dialog_size}
+              auth_action="read"
               object_type={object_type}/>
           </div>
           <div className={classes.grow} />
