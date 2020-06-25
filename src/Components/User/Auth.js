@@ -71,8 +71,10 @@ function Auth(props) {
           )
   } else if (!authorized && show_children) {
       // normal navigation would not reach here
+          if (props.handleClose) {
             props.handleClose()
-            return null
+          }
+          return null
   } else {
     // should not reach here by logic
             return null
