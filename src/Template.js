@@ -24,6 +24,7 @@ import {AppBar,Toolbar, Typography, Paper} from '@material-ui/core';
 import useGetModel from "./Hooks/useGetModel.js"
 
 function Template(props) {
+
   const app_params =  useGetModel("app_params")
   const useStyles = makeStyles((theme) => ({
     grow: {
