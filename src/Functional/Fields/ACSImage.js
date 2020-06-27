@@ -84,7 +84,7 @@ function ACSImage(props) {
 //# field name
   
   const image_url = get_image_url(image_object)
-u.a(image_url)
+
   let image_dim = {}
   image_dim = get_image_dimensions(image_object,size,fix)
   if (!image_object  || !image_object.path || !image_object.name) {
