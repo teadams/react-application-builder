@@ -26,6 +26,7 @@ import useGetModel from "./Hooks/useGetModel.js"
 function Template(props) {
 
   const app_params =  useGetModel("app_params")
+  const menu_model = useGetModel("menus")
   const useStyles = makeStyles((theme) => ({
     grow: {
       flexGrow: 1,
@@ -81,9 +82,11 @@ function Template(props) {
   const classes = useStyles();
 
   let { selected_menu} = props.match.params
+  if (!selected_menu) {
+    selected_menu =  menu_model.menus.app_menu[0]
+  }
 
 
-  
   return    ( 
     <div className={classes.grow}>
       <AppBar position="static">
