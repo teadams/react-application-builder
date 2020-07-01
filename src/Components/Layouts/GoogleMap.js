@@ -90,8 +90,7 @@ function GoogleMap (props) {
         status: "Accepted"
     }
     data.callAPI("auth/create-subsite-role", {}, role_add_obj, "post", (role_add_result, error ) => {
-
-        if (Object.keys(role_add_result) > 0) {
+        if (Object.keys(role_add_result).length > 0) {
           // will need a way to get updated context
           let new_user_context = context.user
             new_user_context.context_list = role_add_result.context_list
