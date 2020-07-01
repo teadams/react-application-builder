@@ -73,6 +73,7 @@ function GoogleMap (props) {
 
   const [marker_data, setMarkerData] = useState("")
   const [showInfoWindow, setShowInfoWindow] =useState(false)
+  const [showSideWindow, setShowSideWindow] =useState(false)
   const [activeMarker, setActiveMarker] = useState({})
   const [selectedPlace, setSelectedPlace]= useState({subsite_data:{}})
 
@@ -135,13 +136,19 @@ function GoogleMap (props) {
 
   const onMouseover = (props, marker, e) => {
     //setSelectedPlace(props)
-    console.log("marker", marker)  
     if (marker.id !== activeMarker.id) {
       setActiveMarker(marker)
       setSelectedPlace(props)
     }
     if (!showInfoWindow) {
       setShowInfoWindow(true)
+    }
+  };
+
+  const onClick = (props, marker, e) => {
+    //setSelectedPlace(props)
+    if (!showSideWindow) {
+      setShowSideWindow(true)
     }
   };
 
@@ -158,6 +165,15 @@ function GoogleMap (props) {
   if (!marker_data) {
     return null
   }
+  const handleMoreClick = event => {
+       window.scrollTo(0,0)
+       context.setContextId(activeMarker.id)
+       let path = `/OneProject`
+       history.push(path);
+   }
+   const handlePopoverClose= () => {
+      setShowInfoWindow(false)
+   }
 
   
   const create_button = (props) => { 
@@ -190,11 +206,29 @@ function GoogleMap (props) {
             </div>
           </div>
         </div>
-        
-        <Typography variant="body1" style={{padding:10}}>
-            {props.text}
-        </Typography>
-          <Map google={props.google} onClick={onMapClick} zoom={3} center={center}>
+        <Grid container style={{paddingTop:20}}>
+        {showInfoWindow  && <Grid item style={{width:"20%"}}>
+            <Paper classes={{paper: classes.paper}} open={showInfoWindow}                  onClose={handlePopoverClose}
+            anchorReference="anchorPosition"
+            anchorPosition={{ top: 50, left: 50 }}
+            >     
+            <Typography>
+                <ObjectView  object_type =  {props.object_type}
+                  id = {selectedPlace.id}
+                  field_mode = "view"
+                  field_list = {field_list}
+                  field_click_to_edit = {false}
+                  num_columns={1}
+                  row_header_image_size="medium"
+                handleMoreClick = {handleMoreClick}/>
+              </Typography>
+              <div className={classes.learn_button}> 
+                <Button   variant="contained" onClick={handleMoreClick}>Learn More</Button>
+              </div>
+            </Paper>  
+        </Grid>}
+        <Grid item style={{width:"80%"}}>
+          <Map   style={{width: '80%'}} google={props.google} width={"80%"} onClick={onMapClick} zoom={3} center={center}>
             {marker_data.map(marker => {
               var icon
               if (marker.type.thumbnail) {
@@ -214,7 +248,7 @@ function GoogleMap (props) {
               return (
               <Marker 
                 onMouseover={onMouseover}
-//              onClick={onMouseover}
+              //  onClick={onClick}
               name={marker.name}
               subsite_data={marker}
               icon = {icon}
@@ -228,9 +262,11 @@ function GoogleMap (props) {
                 marker={activeMarker}
                 visible={showInfoWindow}>
               <Fragment><Typography>{selectedPlace.subsite_data.name}</Typography> <Typography>{selectedPlace.subsite_data.summary}</Typography></Fragment>
-            </InfoWindow>
-         
+
+            </InfoWindow>          
         </Map>
+        </Grid>
+      </Grid>
 
 
       </Fragment>

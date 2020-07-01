@@ -120,7 +120,8 @@ function SubsiteApply(props) {
       }
       alert ("You interest has been submitted to the project leader")
       setProjectId("")
-      setRoleTypeId("")      
+      setRoleTypeId("")  
+      context.setDirty();    
   }
 
   let need_idx = 0
