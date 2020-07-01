@@ -10,6 +10,7 @@ import {Auth} from '../../Components/User/index.js';
 
 function ACSEditButton(props) {
   const {object_type, id, Component, action_props,  sections, field_list, dialog_size} = props
+  
   const [create_dialog, setCreateDialog] = useState(false);
   const handleOnClick = event => {
     setCreateDialog(true)
@@ -42,7 +43,7 @@ function ACSEditButton(props) {
         </IconButton>
         }
         {create_dialog  &&
-        <ACSObjectView {...action_props} object_type={object_type} id={id} row_mode="edit" row_form="true"  sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} field_list={field_list} dialog_size={dialog_size}  trace={true}/> }
+        <ACSObjectView  object_type={object_type} id={id} row_mode="edit" row_form="true"  sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} field_list={field_list} dialog_size={dialog_size} {...action_props} trace={true}/> }
       </Auth>
       </Fragment>
       )

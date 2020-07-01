@@ -33,7 +33,7 @@ function NWAProjectView(props) {
         field_click_to_edit = {false} num_columns={1} action_props={{layout:"nwn_project_create_form"}} field_list={["address", "summary",  "description","type"]}/>
       </div>
       <div style={{width:"40%", marginLeft:10, marginRight:10, xborder:"5px solid  blue"}}>
-          <ACSObjectView  api_options={{filter_field:"primary_video", filter_id:true}}  row_no_stripe={true} field_display="name" field_list={["url"]} object_type="nwn_project_video" />
+          <ACSObjectView action="edit"  api_options={{filter_field:"primary_video", filter_id:true}}  row_no_stripe={true} field_display="name" field_list={["url"]} action_props={{field_list:["id","name","url","description"]}} object_type="nwn_project_video" />
           
           <Typography style={{marginTop:20}} variant="h5">Announcements</Typography>
           <ACSCommunicationObjectTypeView {...props} object_type="nwn_project_post" />
