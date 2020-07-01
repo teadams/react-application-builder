@@ -136,7 +136,7 @@ function GoogleMap (props) {
   const onMouseover = (props, marker, e) => {
     //setSelectedPlace(props)
     console.log("marker", marker)  
-    if (marker !== activeMarker) {
+    if (marker.id !== activeMarker.id) {
       setActiveMarker(marker)
     }
     if (!showInfoWindow) {
