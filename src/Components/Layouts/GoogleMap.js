@@ -75,6 +75,7 @@ function GoogleMap (props) {
   const [showInfoWindow, setShowInfoWindow] =useState(false)
   const [activeMarker, setActiveMarker] = useState({})
   const [selectedPlace, setSelectedPlace]= useState({})
+
   const [create_project_open, setCreateProjectOpen]= useState(false)
   const [anchor, setAnchor] = useState(null);
   const [center, setCenter] = useState({});
@@ -130,19 +131,17 @@ function GoogleMap (props) {
 
   }
 
-  const handleMoreClick = event => {
-      window.scrollTo(0,0)
-      context.setContextId(activeMarker.id)
-      let path = `/OneProject`
-      history.push(path);
-  }
-  const handlePopoverClose= () => {
-     setShowInfoWindow(false)
-  }
+
+
   const onMouseover = (props, marker, e) => {
-    setSelectedPlace(props)
-    setActiveMarker(marker)
-    setShowInfoWindow(true)
+    //setSelectedPlace(props)
+    console.log("marker", marker)  
+    if (marker !== activeMarker) {
+      setActiveMarker(marker)
+    }
+    if (!showInfoWindow) {
+      setShowInfoWindow(true)
+    }
   };
 
   const onMapClick = (props, marker, e) => {
@@ -193,6 +192,7 @@ function GoogleMap (props) {
         
         <Typography variant="body1" style={{padding:10}}>
             {props.text}
+        </Typography>
           <Map google={props.google} onClick={onMapClick} zoom={3} center={center}>
             {marker_data.map(marker => {
               var icon
@@ -207,45 +207,29 @@ function GoogleMap (props) {
               }  else  {
                 icon = ""
               }
-
               var position = {}
               position.lat = marker.latitude
               position.lng = marker.longitude
-            
               return (
               <Marker 
-              onMouseover={onMouseover}
-              onClick={onMouseover}
+                onMouseover={onMouseover}
+//              onClick={onMouseover}
               name={marker.name}
-              full_marker = {marker}
-              onMore= {props.onMore}
               icon = {icon}
               id = {marker.id}
-              position={position}>XXXXX</Marker>
+              key = {marker.id}
+              position={position}></Marker>
               )
             })}
             
-            <Popover  classes={{paper: classes.paper}} open={showInfoWindow}                  onClose={handlePopoverClose}
-        
-            anchorReference="anchorPosition"
-            anchorPosition={{ top: 50, left: 50 }}
-            >     
-            <Typography>
-                <ObjectView  object_type =        {props.object_type}
-                  id = {selectedPlace.id}
-                  field_mode = "view"
-                  field_list = {field_list}
-                  field_click_to_edit = {false}
-                  num_columns={1}
-                  row_header_image_size="medium"
-                handleMoreClick = {handleMoreClick}/>
-              </Typography>
-              <div className={classes.learn_button}> 
-                <Button   variant="contained" onClick={handleMoreClick}>Learn More</Button>
-              </div>
-            </Popover>            
+            <InfoWindow
+                marker={activeMarker}
+                visible={showInfoWindow}>
+              <Fragment>This is an infowindow</Fragment>
+            </InfoWindow>
+         
         </Map>
-        </Typography>
+
 
       </Fragment>
     )
