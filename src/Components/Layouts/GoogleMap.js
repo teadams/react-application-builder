@@ -74,7 +74,6 @@ function GoogleMap (props) {
   }
 
   const handleProjectCreated= (event,action, project_data, inserted_id) => {
-    u.a("key", google_map.get_key())
     // most of this will go server side
     setCreateProjectOpen(false)
     // this will all move server side
@@ -107,7 +106,7 @@ function GoogleMap (props) {
       })
       // Let this happen in parallel. User will be redirected so we do not have to wait
       let params = {}
-      params.address= project_data.street_address  + ", " + project_data.city  +", " + project_data["state_name"] +",  " + project_data["country_name"] +", " + project_data.zip_code
+      params.address= project_data.street_address  + ", " + project_data.city  +", " + project_data["state"] +",  " + project_data["country"] +", " + project_data.zip_code
       params.key = google_map.get_key() 
       data.getURL("https://maps.googleapis.com/maps/api/geocode/json", params, (result, error) => { 
           options.latitude = result.results[0].geometry.location.lat
