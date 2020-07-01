@@ -15,7 +15,6 @@ function RABTextField(props) {
   const {mode, data, field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small"} = props
   let {with_thumbnail="", with_url=""} = props
 
-
   // XX field model passed due to referenced change. May 
   // be done server side later
   let field_value=""
@@ -31,12 +30,16 @@ function RABTextField(props) {
   switch (mode) {
     case "edit":
     case "create":
+      const multiline = field_model.multiline?true:false
+      const rows = field_model.multiline?field_model.multiline:1
       return (
           <TextField 
             autoFocus={autoFocus}
             name={field_name} 
             key={field_name}
             fullWidth={fullWidth}
+            multiline={multiline}
+            rows={rows}
             InputProps={{disableUnderline:disable_underline}}
             disabled={field_model.prevent_edit}
             type={field_model.input_type}
