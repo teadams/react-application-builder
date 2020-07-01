@@ -74,7 +74,7 @@ function GoogleMap (props) {
   const [marker_data, setMarkerData] = useState("")
   const [showInfoWindow, setShowInfoWindow] =useState(false)
   const [activeMarker, setActiveMarker] = useState({})
-  const [selectedPlace, setSelectedPlace]= useState({})
+  const [selectedPlace, setSelectedPlace]= useState({subsite_data:{}})
 
   const [create_project_open, setCreateProjectOpen]= useState(false)
   const [anchor, setAnchor] = useState(null);
@@ -138,6 +138,7 @@ function GoogleMap (props) {
     console.log("marker", marker)  
     if (marker.id !== activeMarker.id) {
       setActiveMarker(marker)
+      setSelectedPlace(props)
     }
     if (!showInfoWindow) {
       setShowInfoWindow(true)
@@ -215,6 +216,7 @@ function GoogleMap (props) {
                 onMouseover={onMouseover}
 //              onClick={onMouseover}
               name={marker.name}
+              subsite_data={marker}
               icon = {icon}
               id = {marker.id}
               key = {marker.id}
@@ -225,7 +227,7 @@ function GoogleMap (props) {
             <InfoWindow
                 marker={activeMarker}
                 visible={showInfoWindow}>
-              <Fragment>This is an infowindow</Fragment>
+              <Fragment><Typography>{selectedPlace.subsite_data.name}</Typography> <Typography>{selectedPlace.subsite_data.summary}</Typography></Fragment>
             </InfoWindow>
          
         </Map>
