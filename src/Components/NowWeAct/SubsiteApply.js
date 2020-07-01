@@ -97,16 +97,19 @@ function SubsiteApply(props) {
                 data.postData("nwn_project_message", message_object, {}, (result, error) => {       
                     if (error) {
                         alert("error is " + error)
-                    } 
+                    } else {
+                      context.setDirty();    
+                    }
                 })
               }
             })
           }
       }
-      if (num_needs == 0 && project_data) {
+
+      if (num_needs === 0 && project_data) {
         let message_object = {}
         message_object.from_user = context.user.id;
-        message_object.to_user = project_data.project_leader.id;
+        message_object.to_user = project_data.leader.id;
         message_object.nwn_project = project_data.id;
         message_object.subject  = "Interest in your project";
         message_object.body = formValues.message;
@@ -115,13 +118,14 @@ function SubsiteApply(props) {
         data.postData("nwn_project_message", message_object, {}, (result, error) => {       
             if (error) {
                 alert("error is " + error)
-            } 
+            } else {
+              context.setDirty();    
+            }
         })
       }
       alert ("You interest has been submitted to the project leader")
       setProjectId("")
       setRoleTypeId("")  
-      context.setDirty();    
   }
 
   let need_idx = 0
