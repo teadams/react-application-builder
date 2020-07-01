@@ -38,7 +38,9 @@ function Body(props) {
     if (context.context_id) {
       selected_menu_model.api_options.filter_id = context.context_id
     } else {
+      const default_context = app_params["context_default_object"]
       selected_menu_model.api_options.filter_id = app_params["context_default_object"]
+      context.setContextId(default_context)
     }
   }
 
