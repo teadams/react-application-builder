@@ -24,7 +24,6 @@ function RenderACSList(props) {
      setRowsPerPage(parseInt(event.target.value, 10));
      setPage(0);
   };
-
     if (data ) {
       const count = data.length
       if (pagination && data.length > 0) {
@@ -36,7 +35,9 @@ function RenderACSList(props) {
           <HeaderWrap {...params}>
             <Header {...params}/>
           </HeaderWrap>
-          <ListContainer component={Paper} {...params}>
+          {count > 0 &&
+            <Fragment>
+            <ListContainer component={Paper} {...params}>
             <ListWrap size="tiny" {...params} >
               <ListHeaderWrap {...params}>
                 <ListHeader {...params}/>
@@ -55,7 +56,10 @@ function RenderACSList(props) {
              onChangePage={handleChangePage}
              onChangeRowsPerPage={handleChangeRowsPerPage}
            />
+          </Fragment>
+          }
         </Fragment>
+
     )
     } else {
         return <div/>
