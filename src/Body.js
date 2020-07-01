@@ -37,11 +37,7 @@ function Body(props) {
     selected_menu_model.api_options.filter_field = "core_subsite"
     if (context.context_id) {
       selected_menu_model.api_options.filter_id = context.context_id
-    } else {
-      const default_context = app_params["context_default_object"]
-      selected_menu_model.api_options.filter_id = app_params["context_default_object"]
-      context.setContextId(default_context)
-    }
+    } 
   }
 
   const { ...rest} = selected_menu_model

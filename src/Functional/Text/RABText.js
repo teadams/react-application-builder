@@ -15,12 +15,11 @@ import ACSEditButton from '../Buttons/ACSEditButton.js'
 function RABText(props) {
   const {object_type, action=""} = props
   let ActionButton = ""
-  
   switch (action) {
     case "create":
       ActionButton = ACSCreateButton 
       break
-    case "edit":
+    case "edit":  
       ActionButton = ACSEditButton 
       break
   }
@@ -29,7 +28,6 @@ function RABText(props) {
   let {style} = props
   
   style = Object.assign({display:"flex",alignItems:"center"}, style)
-  
   return (<Typography  variant={variant} style={style}>{text}{action && <ActionButton {...props} style={{paddingTop:0}} />}</Typography>)
 }
 

@@ -27,6 +27,8 @@ function Template(props) {
 
   const app_params =  useGetModel("app_params")
   const menu_model = useGetModel("menus")
+  const context = useContext(AuthContext)
+
   const useStyles = makeStyles((theme) => ({
     grow: {
       flexGrow: 1,
@@ -80,11 +82,16 @@ function Template(props) {
      },
   }))
   const classes = useStyles();
+  const default_context =app_params["context_default_object"]
+  if (!context.context_id && default_context) {
+    context.setContextId(default_context)
+  }
 
   let { selected_menu} = props.match.params
   if (!selected_menu) {
     selected_menu =  menu_model.menus.app_menu[0]
   }
+
 
 
   return    ( 
