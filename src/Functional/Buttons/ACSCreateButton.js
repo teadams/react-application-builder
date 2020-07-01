@@ -11,7 +11,8 @@ import useGetModel from '../../Hooks/useGetModel.js'
 
 function ACSCreateButton(props) {
 
-  const {object_type, Component, layout, sections, field_list, dialog_size, auth_action="create"} = props
+  const {object_type, Component, layout, sections, field_list, dialog_size, action_props, auth_action="create"} = props
+
   const [create_dialog, setCreateDialog] = useState(false);
   const context = useContext(AuthContext)
   const context_id = context.context_id
@@ -51,7 +52,7 @@ function ACSCreateButton(props) {
       </IconButton>
       }
       {create_dialog  &&
-      <ACSObjectView object_type={object_type} row_mode="create" row_form="true" layout={layout} sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} field_list={field_list} dialog_size={dialog_size} /> }
+      <ACSObjectView object_type={object_type} row_mode="create" row_form="true" layout={layout} sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} field_list={field_list} dialog_size={dialog_size} {...action_props}/> }
       </Auth>
       </Fragment>
       )

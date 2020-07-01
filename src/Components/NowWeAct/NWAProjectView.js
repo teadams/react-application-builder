@@ -29,7 +29,7 @@ function NWAProjectView(props) {
  // ACSHeadlessObjectView wiill retrieve new data on props changes
   return (
     <Fragment>
-<Paper  variant="outlined">
+    <Paper  variant="outlined">
     <ACSHeadlessObjectView {...props} onData={onData}/>
     <ACSHeadlessObjectView  {...props} api_options={{filter_field:"primary_video", filter_id:true}} object_type="nwn_project_video" onData={onVideoData}/>
     {data && 
