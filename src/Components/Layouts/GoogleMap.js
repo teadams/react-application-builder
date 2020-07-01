@@ -19,6 +19,16 @@ import * as u from '../../Utils/utils.js'
 import * as google_map from './api.js'
 import {  BrowserRouter as Router,  Switch,  Route,  Link,  Redirect, useHistory } from "react-router-dom";
 
+function get_image_url (image_object) {
+    const image_base = (process.env.NODE_ENV ==="production")? "https://storage.googleapis.com/acs_full_stack/":""
+
+    if (image_object && image_object.path && image_object.name) {
+      return (image_base  + image_object.path +"/"+ image_object.name)
+    } else {
+      return ""
+    }     
+}
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     learn_button: {
@@ -80,7 +90,7 @@ function GoogleMap (props) {
     if (!inserted_id) {
         return
     }
-
+    
     let options = {}
     options.id = inserted_id
     const role_add_obj = {
@@ -190,7 +200,8 @@ function GoogleMap (props) {
                 const thumbnail = JSON.parse(marker.type.thumbnail)
                 const icon_name = thumbnail.name
                 const path = thumbnail.path
-                const url = path+icon_name
+                const url = get_image_url(thumbnail)
+                
                 icon = {url:url, 
                         scaledSize:{"width":20,"height":20}}
               }  else  {
