@@ -52,7 +52,7 @@ function NWAProjectView(props) {
         <ACSObjectView {...props} data={data.leader}  row_no_stripe={true} field_display="name_value" num_columns={1} object_type="core_user" row_header_image_size="medium" rab_component_model={{row:{names:{row_body:"RABVoid"}}}} row_image_size="medium" />
       <div style={{marginTop:20}}>
 
-        <ACSSummaryObjectTypeView action="map" description_field="role_name.description" action_props={{mapping_name:"mapping_values"}} {...props} object_type="nwn_project_need"/>
+        <ACSSummaryObjectTypeView action="map"  description_field="role_name.description" action_props={{mapping_name:"mapping_values"}} {...props} object_type="nwn_project_need"/>
         
       </div>
       <div style={{marginTop:20}}>
