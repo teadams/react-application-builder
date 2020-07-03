@@ -25,19 +25,17 @@ function MappingHeaders(props) {
 }
 
 function MappingRow(props) {
+u.a(props.formValues)
   const {data, object_type, api_options} = props
   const {mapping_name} = api_options
-
   const object_type_models = useGetModel("object_types")
   const object_model = object_type_models[object_type]
-
   const mapping_attributes = object_model[mapping_name]
   const {root_column, mapped_table, mapped_table_link, mapping_table_link, status_column, positive_status, negative_status}  = mapping_attributes
   const mapped_object_model = object_type_models[mapped_table]
   const TableCell = control.componentByName("TableCell")
 
 // Needed, Role, General Description, Specific Description
-
   return (
   <Fragment>
    <TableCell>Checkbox Status = {data[status_column]}</TableCell>
@@ -98,20 +96,24 @@ function ACSMappingView(props)  {
             
                   body_wrap:"TableBody",
                   footer:"RABVoid",
-                  list_pagination:"RABVoid"}
+                  list_pagination:"RABVoid"},
+            props:{mode:"edit"}
       },
       row:{components:{
-            row:MappingRow
+            row:MappingRow,
+            form_wrap:Fragment
           },
           props: {
-            no_stripe:true
+            mode:"edit",
+            form:true,
+            no_stripe:true,
           }
       },
       field:{names:{
             field_wrap:"Fragment"
           },
       }}
-  return (<ACSListController {...params} rab_component_model={rab_component_model}  object_type={object_type} api_options={api_options}/> )
+  return (<ACSListController {...params} rab_component_model={rab_component_model} list_mode="edit" mode="edit" object_type={object_type} api_options={api_options}/> )
 }
 export default ACSMappingView;
 
