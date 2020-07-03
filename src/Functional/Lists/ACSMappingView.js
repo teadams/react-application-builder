@@ -161,7 +161,6 @@ function ACSMappingView(props)  {
     }
   }
 
-
   const rab_component_model = { 
       list:{components:{
                     list_header:MappingHeaders},

@@ -7,34 +7,36 @@ import ACSField from '../ACSField2.js'
 import useGetModel from '../../Hooks/useGetModel.js'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 
-function SummaryRow(props) {
-  const {data, object_type} = props
-  const object_type_models = useGetModel("object_types")
-  const object_model = object_type_models[object_type]
-  const pretty_key_field = object_model.pretty_key_id
-  const summary_field = object_model.summary_key
-  const description_field = object_model.description_key
-  const TableCell = control.componentByName("TableCell")
-
-  return (
-    <Fragment>
-   <TableCell style={{width:"30%"}}>
-    <ACSField  {...props} field_name={pretty_key_field} key={pretty_key_field} />
-    {summary_field && 
-      <Fragment> - <ACSField  {...props} field_name={summary_field} key={summary_field}/> </Fragment>
-    }
-    </TableCell> 
-    {description_field && 
-      <TableCell style={{width:"70%"}}><ACSField  {...props} field_name={description_field} key={description_field} /></TableCell>
-    }
-  </Fragment>
-  
-  )
-}
 
 function ACSSummaryObjectTypeView(props)  {
   const {object_type, api_options, ...params} = props
-  const field_list = ["role_name", "description"]
+  let {summary_field, description_field} = props
+  function SummaryRow(props) {
+    const {data, object_type} = props
+    const object_type_models = useGetModel("object_types")
+    const object_model = object_type_models[object_type]
+    const pretty_key_field = object_model.pretty_key_id
+    // loving javscript closures
+    summary_field = summary_field?summary_field:object_model.summary_key
+    description_field =description_field?description_field: object_model.description_key
+    const TableCell = control.componentByName("TableCell")
+    return (
+      <Fragment>
+     <TableCell style={{width:"30%"}}>
+      <ACSField  {...props} field_name={pretty_key_field} key={pretty_key_field} />
+      {summary_field && 
+        <Fragment> - <ACSField  {...props} field_name={summary_field} key={summary_field}/> </Fragment>
+      }
+      </TableCell> 
+      {description_field && 
+        <TableCell style={{width:"70%"}}><ACSField  {...props} field_name={description_field} key={description_field} /></TableCell>
+      }
+    </Fragment>
+    
+    )
+  }
+
+
   const rab_component_model = { 
       list:{
             names:{

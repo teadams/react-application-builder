@@ -17,18 +17,33 @@ import rab_component_models from '../Models/HealthMe/component.js'
 import useGenerateFieldList from '../Hooks/useGenerateFieldList';
 
 function ACSField(input_props) {
-
   // XX could be encapulated below if we use and unconvential approach
   // and that convolve it
   const object_type_models = useGetModel("object_types")
   const field_models =  useGetModel("fields")
-  let field_model = field_models?field_models[input_props.object_type][input_props.field_name]:{}
+  let input_field_name = input_props.field_name
+  let input_object_type = input_props.object_type
+  let field_model
+  let data_object = ""
+  if (input_props.field_name.indexOf(".") > -1) {
+    const split_field = input_props.field_name.split(".")
+    const references_field = split_field[0] // name of reference field is object_type
+    data_object = references_field
+    const original_field_model = field_models[input_props.object_type][references_field]
+    input_object_type = original_field_model.references
+    input_field_name = split_field[1]
+    field_model =field_models[input_object_type][input_field_name]
+//    u.aa("field_name, references_field, input_field_name, field_model", input_props.field_name, references_field, input_field_name, field_model)
+ } else {
+    field_model = field_models?field_models[input_props.object_type][input_props.field_name]:{}
+  }
+
   if (input_props.field_model) {
       field_model = _.merge({}, field_model, input_props.field_model)
   }
 
 
-  const {data:props_data, object_type:input_object_type, field_name:input_field_name,  handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, key_id, autoFocus=false, ...merging_props} = input_props
+  const {data:props_data, object_type:discard_object_type, field_name:discard_field_name, handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, key_id, autoFocus=false, ...merging_props} = input_props
 
   // Use case - this field has been tagged with "references"
   // which indicates the field is from another object type.
@@ -50,7 +65,7 @@ function ACSField(input_props) {
   // and model we are actually using (see call to useForm)
 
   merging_props.object_type = field_model.final_object_type
-  merging_props.field_name = input_props.field_name
+  merging_props.field_name = input_field_name
   // XX performance optimization, use state merging props (and only)
   // change those if props change
   const rab_component_model = control.getFinalModel("field", {...merging_props}, field_model)
@@ -82,7 +97,12 @@ if (!data || (object_type && !field_model) || mode === "hidden" || field_model.h
 //     (accounting for references)
 // formValues is flat (base and reference data is the same level
 const row_data = data
-if (field_model.references && mode !="create") {
+
+if (data_object && mode !== "create") {
+    // field and data are not in base object
+    data= data[data_object]
+} else if (field_model.references && mode !== "create") {
+    // field in base object, data in reference
     data = data[input_props.field_name]
 }
 // row_data - original row
