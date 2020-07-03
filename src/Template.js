@@ -82,10 +82,7 @@ function Template(props) {
      },
   }))
   const classes = useStyles();
-  const default_context =app_params["context_default_object"]
-  if (!context.context_id && default_context) {
-    context.setContextId(default_context)
-  }
+
 
   let { selected_menu} = props.match.params
   if (!selected_menu) {
