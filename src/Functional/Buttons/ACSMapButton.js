@@ -37,7 +37,7 @@ function ACSMappingButton(props) {
         </IconButton>
         }
         {create_dialog  &&
-        <ACSMappingView  object_type={object_type} data={data} id={id}  dialog_size={dialog_size} {...action_props} trace={true}/> }
+        <ACSMappingView  object_type={object_type} data={data} id={id}  dialog_size={dialog_size} onClose={handleOnClose} {...action_props} trace={true}/> }
       </Auth>
       </Fragment>
       )

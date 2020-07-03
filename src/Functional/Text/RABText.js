@@ -26,7 +26,6 @@ function RABText(props) {
     case "map":
       ActionButton = ACSMapButton
   }
-
   const {header=false, variant=header?"h5":"body1", text} = props
   let {style} = props
   

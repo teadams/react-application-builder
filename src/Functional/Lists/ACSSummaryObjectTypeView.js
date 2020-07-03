@@ -55,7 +55,6 @@ function ACSSummaryObjectTypeView(props)  {
           },
       }}
 
-
   return (<ACSObjectTypeView {...params} rab_component_model={rab_component_model}  object_type={object_type} api_options={api_options}/> )
 }
 export default ACSSummaryObjectTypeView;
