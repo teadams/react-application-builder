@@ -1,5 +1,6 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
+import * as api from '../../Utils/data.js';
 import * as u from '../../Utils/utils.js'
 import * as control from '../../Utils/control.js';
 import ACSObjectTypeView from './ACSObjectTypeView.js'
@@ -8,7 +9,7 @@ import AuthContext from '../../Components/User/AuthContext';
 import useGetModel from '../../Hooks/useGetModel.js'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import ACSListController from '../ACSListController.js'
-import {Tab, Tabs, Menu, MenuItem, MenuList,List,ListItem,ListItemAvatar,ListItemIcon,ListItemSecondaryAction,ListItemText,ListSubheader,Table,TableBody,TableCell,TableContainer,TableFooter,TableHead,TablePagination,TableRow,} from '@material-ui/core';
+import {Button, Tab, Tabs, Menu, MenuItem, MenuList,List,ListItem,ListItemAvatar,ListItemIcon,ListItemSecondaryAction,ListItemText,ListSubheader,Table,TableBody,TableCell,TableContainer,TableFooter,TableHead,TablePagination,TableRow,Checkbox,TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions,} from '@material-ui/core';
 
 
 function MappingHeaders(props) {
@@ -25,7 +26,6 @@ function MappingHeaders(props) {
 }
 
 function MappingRow(props) {
-u.a(props.formValues)
   const {data, object_type, api_options} = props
   const {mapping_name} = api_options
   const object_type_models = useGetModel("object_types")
@@ -34,20 +34,90 @@ u.a(props.formValues)
   const {root_column, mapped_table, mapped_table_link, mapping_table_link, status_column, positive_status, negative_status}  = mapping_attributes
   const mapped_object_model = object_type_models[mapped_table]
   const TableCell = control.componentByName("TableCell")
+  let default_checked = false
+  if (data[status_column] === positive_status) {
+      default_checked = true
+  }
+  const [checked, setChecked] = React.useState(default_checked);
+  const [summary_data, setSummaryData] = React.useState(data[object_model.summary_key])
+  function handleFieldChange(event) {
+      setSummaryData(event.target.value);
+  }
 
-// Needed, Role, General Description, Specific Description
+  function handleFormSubmit(event) {
+    
+    let submitted_object= {id:data.id}
+    submitted_object[object_model.summary_key] = summary_data
+    api.putData(object_type, submitted_object, {}, (result, error) => { 
+      if (error) {
+        alert ('error is ' + error.message)
+      }
+    })
+  } 
+
+  function handleCheckChanged(event) {
+    const checked = event.target.checked
+    setChecked(event.target.checked);
+    let checked_object = {}
+    if (checked) {
+      checked_object[status_column] = positive_status
+    } else {
+      checked_object[status_column] = negative_status
+    }
+    if (data["id"]) {
+        checked_object.id = data.id
+        api.putData(object_type, checked_object, {}, (result, error) => { 
+          if (error) {
+            alert ('error is ' + error.message)
+          }
+        })
+    } else {
+        checked_object[mapping_table_link] = data[mapping_table_link][mapped_table_link]
+        checked_object[root_column] = api_options.root_value 
+        checked_object.subsite_id = api_options.subsite_id
+        if (api_options.user_id) {
+          checked_object.user_id = api_options.user_id
+        }
+        api.postData(object_type, checked_object, {}, (insert_result, error) => { 
+          // XX user_id, subsite
+          if (error) {
+            alert ('error is ' + error.message)
+          } else {
+            const inserted_id = insert_result.rows[0][mapped_object_model.key_id] 
+            u.a("create", inserted_id)
+            data.id = inserted_id
+//            context.setDirty();
+          }
+        })
+    }
+  }
+  
   return (
   <Fragment>
-   <TableCell>Checkbox Status = {data[status_column]}</TableCell>
+   <TableCell><form>     
+      <Checkbox
+        checked={checked}
+        onChange={handleCheckChanged}
+        inputProps={{ 'aria-label': 'primary checkbox' }}/></form>
+   </TableCell>
    <TableCell> Role {data[mapping_table_link][mapped_object_model.pretty_key_id]}</TableCell>
     <TableCell>{data[mapping_table_link][mapped_object_model.summary_key]}</TableCell> 
-    <TableCell>{data[object_model.summary_key]}</TableCell>
+    <TableCell>{(data[status_column] === positive_status) && <form onSubmit={handleFormSubmit}>     
+       <TextField
+          multiline={true}
+          rows={2}
+          maxRows={2}
+          fullWidth
+          onBlur={handleFormSubmit}
+          value={summary_data}
+          name={data[object_model.summary_key]}
+          onChange={handleFieldChange}
+         />
+      </form>}
+  </TableCell>
   </Fragment>
-  
   )
 }
-
-
 
 //      root_column:"core_subsite" 
 //         - linked to root object, column stays the same
@@ -66,7 +136,7 @@ u.a(props.formValues)
 // ?? other columns to display
 
 function ACSMappingView(props)  {
-  const {object_type, root_value, mapping_name, api_options={}, ...params} = props
+  const {object_type, dialog_open=true, root_value, mapping_name, api_options={}, ...params} = props
   const context = useContext(AuthContext)
 
   if (mapping_name) {
@@ -84,6 +154,12 @@ function ACSMappingView(props)  {
       return null
   }
 // XX move above
+  function handleOnClose() {
+    if (props.onClose) {
+      props.onClose()
+    }
+  }
+
 
   const rab_component_model = { 
       list:{components:{
@@ -101,8 +177,10 @@ function ACSMappingView(props)  {
       },
       row:{components:{
             row:MappingRow,
-            form_wrap:Fragment
           },
+          names:
+            {form_wrap:"Fragment"}
+          ,
           props: {
             mode:"edit",
             form:true,
@@ -113,7 +191,20 @@ function ACSMappingView(props)  {
             field_wrap:"Fragment"
           },
       }}
-  return (<ACSListController {...params} rab_component_model={rab_component_model} list_mode="edit" mode="edit" object_type={object_type} api_options={api_options}/> )
+
+
+  return (  
+  <Dialog fullWidth={true} open={dialog_open}  maxWidth="lg" aria-labelledby="form-dialog-title">
+    <DialogTitle id="form-dialog-title">Project Needs</DialogTitle>
+      <DialogContent>
+        <ACSListController {...params} rab_component_model={rab_component_model} list_mode="edit" mode="edit" object_type={object_type} api_options={api_options}/>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleOnClose}  color="primary">
+         Close
+       </Button>
+      </DialogActions> 
+    </Dialog> )
 }
 export default ACSMappingView;
 

@@ -10,6 +10,7 @@ import rab_component_models from '../../Models/HealthMe/component.js'
 import * as meta from '../../Utils/meta.js';
 import ACSCreateButton from '../Buttons/ACSCreateButton.js'
 import ACSEditButton from '../Buttons/ACSEditButton.js'
+import ACSMapButton from '../Buttons/ACSMapButton.js'
 
 
 function RABText(props) {
@@ -22,6 +23,8 @@ function RABText(props) {
     case "edit":  
       ActionButton = ACSEditButton 
       break
+    case "map":
+      ActionButton = ACSMapButton
   }
 
   const {header=false, variant=header?"h5":"body1", text} = props
