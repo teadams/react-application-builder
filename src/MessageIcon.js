@@ -103,7 +103,7 @@ function MessageIcon(props) {
     const {...row_params} = row_props
     return (
       <Fragment>
-        {field_list[0][0].map(field_name =>{
+        {field_list.map(field_name =>{
           const emphasis = data.read_p?"":"bold"
           return <ACSField onFieldClick={handleMessageClick} field_mode={mode} field_form={false} field_name={field_name} emphasis={emphasis} {...row_params} key={field_name} key_id={field_name}/>
         })}
