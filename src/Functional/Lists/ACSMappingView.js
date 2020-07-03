@@ -153,8 +153,9 @@ function ACSMappingView(props)  {
   if (!api_options.root_value) {
       return null
   }
-// XX move above
   function handleOnClose() {
+    // XX - only if things changed
+    context.setDirty();
     if (props.onClose) {
       props.onClose()
     }
