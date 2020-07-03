@@ -84,7 +84,6 @@ function MappingRow(props) {
             alert ('error is ' + error.message)
           } else {
             const inserted_id = insert_result.rows[0][mapped_object_model.key_id] 
-            u.a("create", inserted_id)
             data.id = inserted_id
 //            context.setDirty();
           }
