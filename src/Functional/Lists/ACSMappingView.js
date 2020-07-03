@@ -7,7 +7,22 @@ import ACSField from '../ACSField2.js'
 import AuthContext from '../../Components/User/AuthContext';
 import useGetModel from '../../Hooks/useGetModel.js'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
+import ACSListController from '../ACSListController.js'
+import {Tab, Tabs, Menu, MenuItem, MenuList,List,ListItem,ListItemAvatar,ListItemIcon,ListItemSecondaryAction,ListItemText,ListSubheader,Table,TableBody,TableCell,TableContainer,TableFooter,TableHead,TablePagination,TableRow,} from '@material-ui/core';
 
+
+function MappingHeaders(props) {
+  return (
+    <TableHead>
+    <TableRow>
+      <TableCell>Volunteer Needed?</TableCell>
+      <TableCell>Role</TableCell>
+      <TableCell>Role Summary</TableCell>
+      <TableCell>Project Specific Needs</TableCell>
+    </TableRow>
+    </TableHead>
+  )
+}
 
 function MappingRow(props) {
   const {data, object_type, api_options} = props
@@ -18,18 +33,17 @@ function MappingRow(props) {
 
   const mapping_attributes = object_model[mapping_name]
   const {root_column, mapped_table, mapped_table_link, mapping_table_link, status_column, positive_status, negative_status}  = mapping_attributes
-
   const mapped_object_model = object_type_models[mapped_table]
-
-  u.aa("object_type, root_column, status_column,mapping_attributes,data", object_type, root_columns,status_column,mapping_attributes, data)
-  
   const TableCell = control.componentByName("TableCell")
 
+// Needed, Role, General Description, Specific Description
+
   return (
-    <Fragment>
-   <TableCell style={{width:"30%"}}>
-    Status - {data[status_column]}, Role = {data[mapped_table+"_"+mapped_object_model.pretty_key]}
-    </TableCell> 
+  <Fragment>
+   <TableCell>Checkbox Status = {data[status_column]}</TableCell>
+   <TableCell> Role {data[mapping_table_link][mapped_object_model.pretty_key_id]}</TableCell>
+    <TableCell>{data[mapping_table_link][mapped_object_model.summary_key]}</TableCell> 
+    <TableCell>{data[object_model.summary_key]}</TableCell>
   </Fragment>
   
   )
@@ -68,13 +82,21 @@ function ACSMappingView(props)  {
     // if not provided, use subsite context
     api_options.root_value = context.context_id
   }
-  
+  if (!api_options.root_value) {
+      return null
+  }
+// XX move above
 
   const rab_component_model = { 
-      list:{
+      list:{components:{
+                    list_header:MappingHeaders},
             names:{header_wrap:"RABVoid", 
-                  list_header_wrap:"RABVoid",
-                  footer_wrap:"RABVoid",
+                  list_container:"TableContainer",
+                  list_wrap:"Table",
+                  list_header_wrap:"Fragment",
+                  list_header:"Fragment",
+            
+                  body_wrap:"TableBody",
                   footer:"RABVoid",
                   list_pagination:"RABVoid"}
       },
@@ -89,8 +111,7 @@ function ACSMappingView(props)  {
             field_wrap:"Fragment"
           },
       }}
-
-  return (<ACSObjectTypeView {...params} rab_component_model={rab_component_model}  object_type={object_type} api_options={api_options}/> )
+  return (<ACSListController {...params} rab_component_model={rab_component_model}  object_type={object_type} api_options={api_options}/> )
 }
 export default ACSMappingView;
 

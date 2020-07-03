@@ -86,15 +86,19 @@ function ACSListController(input_props) {
   const massaged_props = list_model.props
   const {list_wrap, body_wrap, list} = list_components
     // XX thinking about the role of field list/field tags in lazy loading, lazy reference loading
-  let {object_type:props_object_type, mode="list", api_options:props_api_options={}, field_list=""} = massaged_props
+  let {mode="list", field_list=""} = massaged_props
+
 
   // important to use input_props.data as it is an array and useGetObjectList
   // see changes to an array's reference as a change
   let [object_type, api_options, data] = useGetObjectList(massaged_props.object_type, massaged_props.api_options, input_props.data, onData); 
 
+
+
   field_list = useGenerateFieldList(object_type, "", data, mode, false, field_list, lazy)
 
   if (!data || (object_type && !object_model) || headless) return null
+
   return  (
     <RenderACSList {...list_model.props} key={object_type+"list"}  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} action_props={action_props} rab_component_model={rab_component_model} />
   )
