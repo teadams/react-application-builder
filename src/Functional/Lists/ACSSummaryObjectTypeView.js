@@ -37,7 +37,7 @@ function ACSSummaryObjectTypeView(props)  {
   const field_list = ["role_name", "description"]
   const rab_component_model = { 
       list:{
-            names:{header_wrap:"RABVoid", 
+            names:{
                   list_header_wrap:"RABVoid",
                   footer_wrap:"RABVoid",
                   footer:"RABVoid",
