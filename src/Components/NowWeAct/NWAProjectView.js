@@ -57,7 +57,6 @@ function NWAProjectView(props) {
       </div>
       <div style={{marginTop:20}}>
         
-        <Typography variant="h5">Volunteers</Typography>
         <ACSSummaryObjectTypeView {...props} api_options={volunteer_options} object_type="core_subsite_role"/>
         
       </div>
