@@ -99,7 +99,7 @@ function MappingRow(props) {
         onChange={handleCheckChanged}
         inputProps={{ 'aria-label': 'primary checkbox' }}/></form>
    </TableCell>
-   <TableCell> Role {data[mapping_table_link][mapped_object_model.pretty_key_id]}</TableCell>
+   <TableCell>{data[mapping_table_link][mapped_object_model.pretty_key_id]}</TableCell>
     <TableCell>{data[mapping_table_link][mapped_object_model.summary_key]}</TableCell> 
     <TableCell>{(data[status_column] === positive_status) && <form onSubmit={handleFormSubmit}>     
        <TextField
