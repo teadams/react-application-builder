@@ -138,7 +138,6 @@ function MappingRow(props) {
 function ACSMappingView(props)  {
   const {object_type, dialog_open=true, root_value, mapping_name, api_options={}, ...params} = props
   const context = useContext(AuthContext)
-
   if (mapping_name) {
       // attribute to use for this mapping
       api_options.mapping_name = mapping_name
@@ -191,20 +190,23 @@ function ACSMappingView(props)  {
             field_wrap:"Fragment"
           },
       }}
-
-
-  return (  
-  <Dialog fullWidth={true} open={dialog_open}  maxWidth="lg" aria-labelledby="form-dialog-title">
-    <DialogTitle id="form-dialog-title">Project Needs</DialogTitle>
-      <DialogContent>
-        <ACSListController {...params} rab_component_model={rab_component_model} list_mode="edit" mode="edit" object_type={object_type} api_options={api_options}/>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleOnClose}  color="primary">
-         Close
-       </Button>
-      </DialogActions> 
-    </Dialog> )
+  if (dialog_open) {
+    return (  
+    <Dialog fullWidth={true} open={dialog_open}  maxWidth="lg" aria-labelledby="form-dialog-title">
+      <DialogTitle id="form-dialog-title">Project Needs</DialogTitle>
+        <DialogContent>
+          <ACSListController {...params} rab_component_model={rab_component_model} list_mode="edit" mode="edit" object_type={object_type} api_options={api_options} trace="Mapping"/>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleOnClose}  color="primary">
+          Close
+        </Button>
+        </DialogActions> 
+      </Dialog> )
+  } else {
+      u.a("null")
+      return null
+  }
 }
 export default ACSMappingView;
 

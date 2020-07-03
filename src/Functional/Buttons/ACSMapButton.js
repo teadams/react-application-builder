@@ -9,7 +9,9 @@ import ACSMappingView from '../Lists/ACSMappingView.js'
 import {Auth} from '../../Components/User/index.js';
 
 function ACSMappingButton(props) {
-  const {object_type, id, Component, action_props,  sections, field_list, data, dialog_size} = props
+  const {object_type, id, Component, action_props, sections, field_list, dialog_size} = props
+  // we do not want to pass data to the map
+  const data = ""
   const [create_dialog, setCreateDialog] = useState(false);
   const handleOnClick = event => {
     setCreateDialog(true)
@@ -37,7 +39,7 @@ function ACSMappingButton(props) {
         </IconButton>
         }
         {create_dialog  &&
-        <ACSMappingView  object_type={object_type} data={data} id={id}  dialog_size={dialog_size} onClose={handleOnClose} {...action_props} trace={true}/> }
+        <ACSMappingView  object_type={object_type} id={id}  dialog_size={dialog_size} onClose={handleOnClose} {...action_props} trace={true}/> }
       </Auth>
       </Fragment>
       )

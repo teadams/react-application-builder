@@ -162,7 +162,7 @@ function SubsiteApply(props) {
       let filter_field = []
       if (project_id) {
           filter_id.push(project_id)
-          filter_field.push("nwn_project")
+          filter_field.push("core_subsite")
       } 
       if (role_type_id) {
           filter_id.push(role_type_id)

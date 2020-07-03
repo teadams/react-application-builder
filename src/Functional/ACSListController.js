@@ -88,7 +88,6 @@ function ACSListController(input_props) {
     // XX thinking about the role of field list/field tags in lazy loading, lazy reference loading
   let {mode="list", field_list=""} = massaged_props
 
-
   // important to use input_props.data as it is an array and useGetObjectList
   // see changes to an array's reference as a change
   let [object_type, api_options, data] = useGetObjectList(massaged_props.object_type, massaged_props.api_options, input_props.data, onData); 
