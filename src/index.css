@@ -1,3 +1,3 @@
-html, body, #root, .App {
-  height: 100%;
+html, body, #root, #tall, #map, .App {
+  height: 99%;
 }

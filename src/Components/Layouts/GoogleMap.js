@@ -231,7 +231,7 @@ function GoogleMap (props) {
             }  
         </Grid>
         <Grid item style={{width:"75%"}}>
-          <Map   style={{width: '75%'}} google={props.google} width={"80%"} onClick={onMapClick} zoom={3} center={center}>
+          <Map containerStyle = {{position: 'relative', width: '100%', height:'100%'}}    style={{width: '100%'}} google={props.google} width={"80%"} onClick={onMapClick} zoom={3} center={center}>
             {marker_data.map(marker => {
               var icon
               if (marker.type.thumbnail) {

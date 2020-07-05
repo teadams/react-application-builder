@@ -32,6 +32,7 @@ function Template(props) {
   const useStyles = makeStyles((theme) => ({
     grow: {
       flexGrow: 1,
+      height:'100%'
     },
     root: {
       backgroundColor:app_params.colors.template_header,
@@ -92,7 +93,7 @@ function Template(props) {
 
 
   return    ( 
-    <div className={classes.grow}>
+    <div id="tall" className={classes.grow}>
       <AppBar position="static">
       <Toolbar className={classes.root}>
           <DrawerMenu menu_type="hamburger" selected_menu={selected_menu} />
