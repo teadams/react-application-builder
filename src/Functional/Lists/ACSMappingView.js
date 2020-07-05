@@ -31,6 +31,8 @@ function MappingRow(props) {
   const object_type_models = useGetModel("object_types")
   const object_model = object_type_models[object_type]
   const mapping_attributes = object_model[mapping_name]
+  const context = useContext(AuthContext)
+
   const {root_column, mapped_table, mapped_table_link, mapping_table_link, status_column, positive_status, negative_status}  = mapping_attributes
   const mapped_object_model = object_type_models[mapped_table]
   const TableCell = control.componentByName("TableCell")
@@ -70,6 +72,8 @@ function MappingRow(props) {
           if (error) {
             alert ('error is ' + error.message)
           }
+          context.setDirty()
+
         })
     } else {
         checked_object[mapping_table_link] = data[mapping_table_link][mapped_table_link]
@@ -85,7 +89,8 @@ function MappingRow(props) {
           } else {
             const inserted_id = insert_result.rows[0][mapped_object_model.key_id] 
             data.id = inserted_id
-//            context.setDirty();
+            data[status_column] = positive_status
+            context.setDirty()
           }
         })
     }
@@ -203,7 +208,6 @@ function ACSMappingView(props)  {
         </DialogActions> 
       </Dialog> )
   } else {
-      u.a("null")
       return null
   }
 }
