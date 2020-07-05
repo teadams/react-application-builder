@@ -42,7 +42,7 @@ function Body(props) {
 
   const { ...rest} = selected_menu_model
 
-  return (<div style={{margin:10}}> < BodyComponent {...rest}/></div>)  
+  return (<div id="tall" style={{margin:10}}>< BodyComponent {...rest}/></div>)  
 }
 
 export default Body
