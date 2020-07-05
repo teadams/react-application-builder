@@ -207,11 +207,8 @@ function GoogleMap (props) {
           </div>
         </div>
         <Grid container style={{paddingTop:20}}>
-        <Grid item style={{width:"20%"}}>
-            {showInfoWindow && <Paper classes={{paper: classes.paper}} open={showInfoWindow}                  onClose={handlePopoverClose}
-            anchorReference="anchorPosition"
-            anchorPosition={{ top: 50, left: 50 }}
-            >     
+        <Grid item style={{width:"20%", padding:10}}>
+            {showInfoWindow && <Fragment>     
             <Typography>
                 <ObjectView  object_type =  {props.object_type}
                   id = {selectedPlace.id}
@@ -222,10 +219,16 @@ function GoogleMap (props) {
                   row_header_image_size="medium"
                 handleMoreClick = {handleMoreClick}/>
               </Typography>
-              <div className={classes.learn_button}> 
-                <Button   variant="contained" onClick={handleMoreClick}>Learn More</Button>
-              </div>
-            </Paper>}  
+              
+              <Button   variant="contained" onClick={handleMoreClick}>Learn More</Button>
+            
+            </Fragment>}  
+
+            {!showInfoWindow &&      
+              <Typography>
+              Welcome!!!!! Click on a pin to learn more.  Zac and Jesse provide text.
+              </Typography>
+            }  
         </Grid>
         <Grid item style={{width:"75%"}}>
           <Map   style={{width: '75%'}} google={props.google} width={"80%"} onClick={onMapClick} zoom={3} center={center}>
