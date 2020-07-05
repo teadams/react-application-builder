@@ -7,7 +7,6 @@ import {NavMenuLink, DrillDown, ObjectView, ObjectMapping, Field} from "./Experi
 import {Image, YouTube, SelectObject} from "./FormsAndViews/index.js"
 
 export {
-  Image, YouTube, AuthToggleLink, AuthContext, Auth, LoginForm,   MenuLink,SelectCell, MenuBar, SelectField, Cell, GoogleMap,    NavMenuLink,  SelectObject
-
+  Image, YouTube, AuthToggleLink, AuthContext, Auth, LoginForm,   MenuLink,SelectCell, MenuBar, SelectField,  GoogleMap,    NavMenuLink,  SelectObject
 }
 
