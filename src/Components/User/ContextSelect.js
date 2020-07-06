@@ -5,7 +5,6 @@ import * as u from '../../Utils/utils.js';
 
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import AuthContext from './AuthContext';
-import {SelectObject} from '..//FormsAndViews';
 import RABSelectField from '../../Functional/Fields/RABSelectField.js'
 import useGetModel from '../../Hooks/useGetModel.js'
 import * as meta from '../../Utils/meta.js';
