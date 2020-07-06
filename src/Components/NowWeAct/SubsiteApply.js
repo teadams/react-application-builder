@@ -210,27 +210,26 @@ function SubsiteApply(props) {
 
 function DelayedAuthButton(props) {
   const [auth_tag, setAuthTag] = useState(false)
-  const {auth_action="create", object_type="nwn_project_volunteer"} = props
+  const {auth_action="create", object_type="nwn_project_volunteer",  onClick} = props
 
   function handleOnClick(event) {
     setAuthTag(true)
   }
+
   function handleOnClose(event) {
     setAuthTag(false)
   }
   
   function handleOnClickAuth(event) {
     setAuthTag(false)
-    if (props.onClick) {
-        props.onClick()
+    if (onClick) {
+        onClick()
     }
   }
   if (auth_tag) {
-    return (<Auth onLogin={handleOnClickAuth} onAuthorized={handleOnClickAuth} auth_action={auth_action} object_type={object_type} onClose={handleOnClose}>
-          <Button onClick={handleOnClick} color="primary">{props.children}</Button></Auth>
-          )
+    return (<Auth onAuthorized={handleOnClickAuth} auth_action={auth_action} object_type={object_type} onClose={handleOnClose}/>)
   } else {
-      return (<Button onClick={handleOnClick} color="primary">{props.children}</Button>)
+      return <Button onClick={handleOnClick}>{props.children}</Button>
   }
 }
 
