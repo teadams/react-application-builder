@@ -6,3 +6,8 @@ div {
   word-break: break-all;
   overflow-wrap: anywhere;
 }
+
+th {
+  overflow-wrap: normal;
+  word-break: normal;
+}
