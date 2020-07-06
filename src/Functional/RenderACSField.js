@@ -47,8 +47,8 @@ function RenderACSField(props) {
 // Storing the state?
 // Deciding the mode?
   function handleFieldClick(event) {
-    if (props.onFieldClick) {
-        props.onFieldClick(event, data.id, "field", field_name, row_data, data)
+    if (props.onFieldClick && event.target.name !== "more_link") {
+      props.onFieldClick(event, data.id, "field", field_name, row_data, data)
     }
   }
 

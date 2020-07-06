@@ -14,14 +14,32 @@ import * as meta from '../../Utils/meta.js';
 function RABTextField(props) {
   const {mode, data, field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small"} = props
   let {with_thumbnail="", with_url=""} = props
-
+  const [more_detail, setMoreDetail] = useState(false);
+  function toggleMoreLink(event) {
+    setMoreDetail(!more_detail)
+  } 
   // XX field model passed due to referenced change. May 
   // be done server side later
   let field_value=""
+  let more_link = ""
+  let less_link = ""
   // XX everything will be changed to final field_name
   field_value = data[field_model.final_field_name?field_model.final_field_name:field_name]
   if (field_value === null) {
       field_value =""
+  }
+  const field_length = field_value.length 
+  let more_link_cutoff = 100000
+  if (mode === "list") {
+    more_link_cutoff = 100
+  }
+  if (field_value.length > more_link_cutoff) {
+    if (!more_detail) {
+      field_value = field_value.substr(0, more_link_cutoff)
+      more_link = <Link key="more_link" id="more_link" name="more_link" onClick={toggleMoreLink}>(...more)</Link>
+    } else {
+      more_link = <Link key="more_link" id="more_link" name="more_link" onClick={toggleMoreLink}>(...less)</Link>
+    }
   }
   if (mode === "list") {
     with_thumbnail = ""
@@ -59,24 +77,24 @@ function RABTextField(props) {
       return field_value.toString()
     default:
       if (!with_thumbnail && (!with_url || (with_url && !data[with_url]))) {    
-          return field_value.toString()
+          return <Fragment>{field_value.toString()} {more_link}</Fragment>
       } else if (!with_thumbnail && with_url) {
-        return (<Link href={data[with_url]}>{field_value}</Link>)
+        return (<Link href={data[with_url]}>{field_value}{more_link}</Link>)
       } else {
           const thumbnail = data[with_thumbnail]
           let url = with_url?data[with_url]:""
           if (thumbnail) { 
             if (url) {
-              return (<div style={{display:"flex", alignItems:"center"}}> <ACSImage image_object={thumbnail} fix="width" size={image_size}/>&nbsp;<Link href={url}>{field_value}</Link></div>)
+              return (<div style={{display:"flex", alignItems:"center"}}> <ACSImage image_object={thumbnail} fix="width" size={image_size}/>&nbsp;<Link href={url}>{field_value}{more_link}</Link></div>)
             } else {
-              return (<div style={{display:"flex", alignItems:"center"}}> <ACSImage image_object={thumbnail} fix="width" size={image_size}/><div>&nbsp;{field_value}</div></div>)
+              return (<div style={{display:"flex", alignItems:"center"}}> <ACSImage image_object={thumbnail} fix="width" size={image_size}/><div>&nbsp;{field_value}{more_link}</div></div>)
             }
           } else {
             const letters = field_value?field_value.charAt(0):""
             if (url) {
-              return (<div style={{display:"flex"}}><ACSImage letters={letters}  fix="width" size={image_size}/>&nbsp;<Link href={url}>{field_value}</Link></div>)    
+              return (<div style={{display:"flex"}}><ACSImage letters={letters}  fix="width" size={image_size}/>&nbsp;<Link href={url}>{field_value}{more_link}</Link></div>)    
             } else {
-              return (<div style={{display:"flex"}}><ACSImage letters={letters}  fix="width" size={image_size}/>&nbsp;{field_value}</div>)
+              return (<div style={{display:"flex"}}><ACSImage letters={letters}  fix="width" size={image_size}/>&nbsp;{field_value}{more_link}</div>)
             }
           }
       }
