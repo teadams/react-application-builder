@@ -26,49 +26,12 @@ function get_image_url (image_object) {
     if (image_object && image_object.path && image_object.name) {
       return (image_base  + image_object.path +"/"+ image_object.name)
     } else {
-      return ""
+      return 
     }     
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    learn_button: {
-      display:'flex',
-      justifyContent:'center'
-    },
-    grow: {
-      flexGrow: 1,
-      display:'flex'
-    },
-    head_row: {
-      display:'flex',
-      padding:'10px'
-    }, 
-    head_count_wrapper: {
-      display:'flex',
-      justifyContent:'flex-end'
-    },
-    head_count_item: {
-      display:'flex',
-      padding:'0px',
-      paddingRight:'20px'
-    }, 
-    paper: {
-      backgroundColor: '#DDDDDD',
-      maxWidth:'40%',
-      maxHeight:'75%',
-      alight:'center',
-      border: '2px solid #000',
-      borderRadius: '25px',
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-    },
-  }),
-);
-
 function GoogleMap (props) {
   const {object_type, field_list, layout, sections, dialog_size} = props
-  const classes = useStyles();
   const context = useContext(AuthContext)
   const history = useHistory({});
 
@@ -82,76 +45,24 @@ function GoogleMap (props) {
   const [anchor, setAnchor] = useState(null);
   const [center, setCenter] = useState({});
 
-  const handleCreateProjectOpen = () =>  {
-        setCreateProjectOpen(false)
-  }
-  const handleProjectCreated= (event,action, project_data, inserted_id) => {
-    // most of this will go server side
-    setCreateProjectOpen(false)
-    // this will all move server side
-    if (!inserted_id) {
-        return
-    }
-    
-    let options = {}
-    options.id = inserted_id
-    const role_add_obj = {
-        user_id: context.user.id,
-        subsite_id: inserted_id,
-        role_name: "Admin",
-        status: "Accepted"
-    }
-    data.callAPI("auth/create-subsite-role", {}, role_add_obj, "post", (role_add_result, error ) => {
-        if (Object.keys(role_add_result).length > 0) {
-          // will need a way to get updated context
-          let new_user_context = context.user
-            new_user_context.context_list = role_add_result.context_list
-            new_user_context.authorization_object = role_add_result.authorization_object
-            context.login(new_user_context)
-            context.setContextId(inserted_id)
-            // direct to project page
-        }
-          let path = `/OneProject`
-          history.push(path);
+  const {onClick} = props
 
-      })
-      // Let this happen in parallel. User will be redirected so we do not have to wait
-      let params = {}
-      params.address= project_data.street_address  + ", " + project_data.city  +", " + project_data["state"] +",  " + project_data["country"] +", " + project_data.zip_code
-      params.key = google_map.get_key() 
-      data.getURL("https://maps.googleapis.com/maps/api/geocode/json", params, (result, error) => { 
-          options.latitude = result.results[0].geometry.location.lat
-          options.longitude = result.results[0].geometry.location.lng 
-
-          data.putData("nwn_project", options, {}, (data, error) => { 
-              if (error) {
-                    alert ('error is ' + error.message)
-              } 
-          })     
-        })
-
-  }
-
-
-  const onMouseover = (props, marker, e) => {
+  const handleMouseover = (props, marker, e) => {
     //setSelectedPlace(props)
     if (marker.id !== activeMarker.id) {
       setActiveMarker(marker)
       setSelectedPlace(props)
-    }
-    if (!showInfoWindow) {
       setShowInfoWindow(true)
     }
   };
 
-  const onClick = (props, marker, e) => {
-    //setSelectedPlace(props)
-    if (!showSideWindow) {
-      setShowSideWindow(true)
+  const handleClick = (id, marker, e) => {
+    if (onClick) {
+       onClick(id, marker, e)
     }
   };
 
-  const onMapClick = (props, marker, e) => {
+  const handleMapClick = (props, marker, e) => {
     setShowInfoWindow(false)
   };
 
@@ -164,12 +75,7 @@ function GoogleMap (props) {
   if (!marker_data) {
     return null
   }
-  const handleMoreClick = event => {
-       window.scrollTo(0,0)
-       context.setContextId(activeMarker.id)
-       let path = `/OneProject`
-       history.push(path);
-   }
+
    const handlePopoverClose= () => {
       setShowInfoWindow(false)
    }
@@ -177,7 +83,7 @@ function GoogleMap (props) {
   //const create_button = Button
   return (
       <Fragment> 
-      <Map   const containerStyle = {{position: 'absolute',  width: '75%',height: '75%'}} style = {{position: 'absolute',  width: '100%', height: '100%'}} google={props.google}  onClick={onMapClick} zoom={3} center={center}>
+      <Map   const containerStyle = {{position: 'absolute',  width: '75%',height: '75%'}} style = {{position: 'absolute',  width: '100%', height: '100%'}} google={props.google}  onClick={handleMapClick} zoom={3} center={center}>
             {marker_data.map(marker => {
               var icon
               if (marker.type.thumbnail) {
@@ -196,8 +102,8 @@ function GoogleMap (props) {
               position.lng = marker.longitude
               return (
               <Marker 
-                onMouseover={onMouseover}
-              //  onClick={onClick}
+              onMouseover={handleMouseover}
+              onClick={handleClick}
               name={marker.name}
               subsite_data={marker}
               icon = {icon}
@@ -206,9 +112,13 @@ function GoogleMap (props) {
               position={position}></Marker>
               )
             })}
-         
+            <InfoWindow
+               marker={activeMarker}
+               visible={showInfoWindow}>
+             <Fragment><Typography>{selectedPlace.subsite_data.name}</Typography> <Typography>{selectedPlace.subsite_data.summary}</Typography></Fragment>
+           </InfoWindow>         
         </Map>
-       THIS IS THE END OF THE MAP
+
       </Fragment>
     )
   }

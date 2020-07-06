@@ -134,38 +134,14 @@ function NWAMap (props) {
   }
 
 
-
-  const onMouseover = (props, marker, e) => {
-    //setSelectedPlace(props)
-    if (marker.id !== activeMarker.id) {
-      setActiveMarker(marker)
-      setSelectedPlace(props)
-    }
-    if (!showInfoWindow) {
-      setShowInfoWindow(true)
-    }
-  };
-
-  const onClick = (props, marker, e) => {
-    //setSelectedPlace(props)
+  const handleOnClick = (id, marker, e) => {
+    setSelectedPlace(id)
     if (!showSideWindow) {
       setShowSideWindow(true)
     }
   };
 
-  const onMapClick = (props, marker, e) => {
-    setShowInfoWindow(false)
-  };
-
-  if (!marker_data) {
-    data.getData(object_type, "", (marker_data, error) => {
-      setMarkerData(marker_data)
-    })
-  }
     
-  if (!marker_data) {
-    return null
-  }
   const handleMoreClick = event => {
        window.scrollTo(0,0)
        context.setContextId(activeMarker.id)
@@ -207,9 +183,9 @@ function NWAMap (props) {
             </div>
           </div>
         </div>
-        <Grid container style={{paddingTop:20, height:"100%"}}>
-        <Grid item style={{width:"20%", padding:10, height:"100%"}}>
-            {showInfoWindow && <Fragment>     
+        <Grid container style={{paddingTop:20, height:"75%"}}>
+        <Grid item style={{width:"20%", padding:10, height:"75%"}}>
+            {showSideWindow && <Fragment>     
             <Typography>
                 <ObjectView  object_type =  {props.object_type}
                   id = {selectedPlace.id}
@@ -220,19 +196,18 @@ function NWAMap (props) {
                   row_header_image_size="medium"
                 handleMoreClick = {handleMoreClick}/>
               </Typography>
-              
               <Button   variant="contained" onClick={handleMoreClick}>Learn More</Button>
             
             </Fragment>}  
 
-            {!showInfoWindow &&      
+            {!showSideWindow &&      
               <Typography>
               Welcome!!!!! Click on a pin to learn more.  Zac and Jesse provide text.
               </Typography>
             }  
         </Grid>
-        <Grid item style={{width:"75%", height:"100%"}}>
-          <GoogleMap object_type={object_type} field_list={field_list} layout={layout} sections={sections} dialog_size={dialog_size}/>
+        <Grid item style={{width:"75%", height:"75%"}}>
+          <GoogleMap onClick={handleOnClick} object_type={object_type} field_list={field_list} layout={layout} sections={sections} dialog_size={dialog_size}/>
         </Grid>
       </Grid>
 
