@@ -2,4 +2,7 @@ html, body, #root,  .App {
   height: 99%;
 }
 
-
+div {
+  word-break: break-all;
+  overflow-wrap: anywhere;
+}
