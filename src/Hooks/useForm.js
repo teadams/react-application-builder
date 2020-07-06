@@ -77,7 +77,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     if (event) {
       event.preventDefault();
     }
-    if (context.context_id) {
+    if (context.context_id && object_model.with_context && mode === "create") {
       formValues.core_subsite = context.context_id
     }
     if (context.user && context.user_id) {
@@ -101,6 +101,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       // only send file fields when changed
       Object.keys(formValues).forEach(form_field_name => {
         const field_model = field_models[form_field_name]
+
         if (field_model.input_type === "file" && !filesTouched.includes(form_field_name)) {
             delete formValues[form_field_name]
         }

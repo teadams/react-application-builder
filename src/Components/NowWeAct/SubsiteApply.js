@@ -44,15 +44,12 @@ function SubsiteApply(props) {
   const context = useContext(AuthContext)
 
   const [subsite_data, setSubsiteData] = useState("");
-  const [project_needs, setProjectNeeds] = useState([]);
+  const [subsite_needs, setSubsiteNeeds] = useState([]);
 
   const [selected_touch, setSelectedTouched] = useState(false);
 
   const field_models = useGetModel("fields", "core_subsite")
   const project_field_model = field_models["name"]
-
-
-  const project_info_fields= ["summary", "leader", "description", "street_address", "city", "state", "country", "zip_code"]
 
   const {formValues, lastTouched, handleFormChange, handleFormSubmit} = useForm("core_subsite_role", "", "", "", "create", "true", {email_perm:true, status:"Applied"}, ["id", "core_subsite", "core_role", "status", "message", "email_perm"]);
 
@@ -74,9 +71,9 @@ function SubsiteApply(props) {
           if (key.search("need_") == 0) {
             num_needs += 1
             let need_idx =  key.replace("need_","")
-            let need = project_needs[need_idx]
+            let need = subsite_needs[need_idx]
             let project_id = need.nwn_project_id
-            let need_id = need.id
+            let need_id = need.id1
             let volunteer_object = {}
             volunteer_object.core_subsite  = need.nwn_project.id
             volunteer_object.core_user = context.user.id
@@ -145,7 +142,7 @@ function SubsiteApply(props) {
       filter_field.push("core_subsite")
       let options = {filter_id:filter_id, filter_field:filter_field, filter_join:"AND"}
       data.getData(object_type, options, (data, error) => {       
-            setProjectNeeds(data)
+            setSubsiteNeeds(data)
       })
   }
 
@@ -155,112 +152,74 @@ function SubsiteApply(props) {
 
   return (
     <Fragment>
-    <ACSHeadlessObjectView object_type="core_subsite" id={props.id} onData={onData}/>
+      <ACSHeadlessObjectView object_type="core_subsite" id={props.id} onData={onData}/>
     {subsite_data && <Dialog fullWidth={true} open={true}  onClose={handleOnClose}>
-    <DialogTitle id="form-dialog-title">Volunteer Opportunities {u.capitalize(subsite_data.name)}</DialogTitle>
-    <DialogContent>
-      <div style={{paddingLeft:40, paddingTop:10, display:'flex'}}>       
-        <div style={{width:"50%"}}>
-          <ShowNeeds project_data={subsite_data}  project_needs={project_needs} show_needs={show_needs} project_id={props.id}  handleFormSubmit={handleVolunteerSubmit} handleFormChange={handleFormChange} formValues={formValues}/> 
+      <DialogTitle id="form-dialog-title">Volunteer for {u.capitalize(subsite_data.name)}</DialogTitle>
+        <DialogContent>
+        <form onSubmit={handleFormSubmit}>
+        <VolunteerNeedsIntroduction subsite_needs={subsite_needs}/> 
+        <FormControl>
+        {subsite_needs && subsite_needs.length > 0 &&
+        <FormGroup name="core_subsite" area-label="Available Needs">
+        <TableContainer>
+          <Table size="small">
+            <TableBody>
+          {subsite_needs.map(need => {     
+            let need_field_name = "need_" + need_idx 
+            need_idx += 1   
+              if (props.id) {
+                return (
+                <TableRow>
+                <TableCell>
+                  <Checkbox onChange={handleFormChange} name={need_field_name} value={formValues[need_field_name]} id={need_field_name}/>
+                </TableCell>   
+                  <TableCell>{need.role_name_name} - {need.description}</TableCell>
+                </TableRow>
+                )
+              } else {
+                return (<Fragment>              
+                    <TableRow>
+                        <TableCell>
+                          <Checkbox onChange={handleFormChange} name={need_field_name} value={formValues[need_field_name]} id={need_field_name}/>
+                        </TableCell>
+                        <TableCell>{need.nwn_project_name}({need.nwn_project_summary}) - {need.description}</TableCell>
+                    </TableRow>
+                </Fragment>
+            ) }
+        })}
+          </TableBody>
+          </Table>
+        </TableContainer>
+        </FormGroup>}
+        <Fragment>
+        <TextField  id="message" name="message"  onChange={handleFormChange} rows="5" rowsMax="10" value ={formValues.message} label= "Use the area below to  send a message to the project leader." multiline />
+        <FormControlLabel style={{paddingTop:40}} name="email_perm" id="email_id" default={true} checked={formValues.email_perm} label="Check here if it is ok to share your email address with the project email. This will allow you to continue your conversation with email directly.  This is highly recommended as you will be able to talk about the project directly." control={<Checkbox onChange={handleFormChange}/>}/>  
+            <Button type="submit" value="Submit">Submit</Button></Fragment>
+        </FormControl>
+      </form>
 
-         </div>
-          <div style={{width:"10%"}}/>
-     </div>
-       </DialogContent>
+
+        </DialogContent>
       </Dialog>}
     </Fragment>
   )
 }
 
-function ShowNeeds(props) {
-  const {project_data, role_name, project_needs, show_needs, project_id, role_type_id, handleFormSubmit, handleFormChange, formValues} = props
-  let need_idx=0
-  if (!show_needs) {
-    return null
-  }
-  return (<Fragment>
-    <Card variant="outlined" style={{padding:30,backgroundColor:"#DDDDDD"}}>
-    <form onSubmit={handleFormSubmit}>
-    <VolunteerNeedsIntroduction project_data={project_data} role_name={role_name} project_needs={project_needs} show_needs={show_needs} project_id={project_id} role_type_id={role_type_id}/> 
-    <FormControl>
-    {project_needs && project_needs.length > 0 &&
-    <FormGroup name="nwn_project" area-label="Available Needs">
-    <TableContainer>
-      <Table size="small">
-
-        <TableBody>
-      {project_needs.map(need => {     
-        let need_field_name = "need_" + need_idx 
-        need_idx += 1   
-          if (project_id) {
-            return (
-            <TableRow>
-            <TableCell>
-              <Checkbox onChange={handleFormChange} name={need_field_name} value={formValues[need_field_name]} id={need_field_name}/>
-            </TableCell>   
-              <TableCell>{need.role_name_name} - {need.description}</TableCell>
-            </TableRow>
-            )
-          } else {
-            return (<Fragment>              
-        
-                <TableRow>
-                    <TableCell>
-                      <Checkbox onChange={handleFormChange} name={need_field_name} value={formValues[need_field_name]} id={need_field_name}/>
-                    </TableCell>
-                    <TableCell>{need.nwn_project_name}({need.nwn_project_summary}) - {need.description}</TableCell>
-                </TableRow>
-            </Fragment>
-        ) }
-    })}
-      </TableBody>
-      </Table>
-    </TableContainer>
-    </FormGroup>}
-    {((project_needs && project_needs.length > 0) || project_id) &&
-    <Fragment>
-    <TextField  id="message" name="message"  onChange={handleFormChange} rows="5" rowsMax="10" value ={formValues.message} label= "Use the area below to  send a message to the project leader." multiline />
-    <FormControlLabel style={{paddingTop:40}} name="email_perm" id="email_id" default={true} checked={formValues.email_perm} label="Check here if it is ok to share your email address with the project email. This will allow you to continue your conversation with email directly.  This is highly recommended as you will be able to talk about the project directly." control={<Checkbox onChange={handleFormChange}/>}/>  
-        <Button type="submit" value="Submit">Submit</Button></Fragment>
-    }
-    </FormControl>
-  </form>
-  </Card> </Fragment>
-  )
-
-}
 
 function VolunteerNeedsIntroduction(props) {
-   const {project_data, role_name, project_needs, show_needs, project_id, role_type_id} = props
+   const {subsite_needs} = props
    const standard_text =  "You may select more than one.  Fill out a message to the project leader and hit Submit.  The project leader will be sent a notificaton to review and repond to your interest.   Check the volunteer opportunities you are interested in. Thank you."
-   let header = ""
    let custom_intro =""
-  if (!show_needs) {
-      return null
-  } else if (project_id && !role_type_id) {
-      header = `Volunteer Opportunities in Project ${project_data.name}`
-      custom_intro = `The table below lists the volunteer opportunities a ${project_data.name}.`
-  } else if (role_type_id && !project_id) {
-      header = `Volunteer Opportunities for Role ${role_name}`
-      custom_intro = `The table below lists the volunteer opportunities for ${role_name} accoss all the Now was Act project.`
+   if (subsite_needs.length === 1) {
+     custom_intro = `The project leader has requested specific help with ${subsite_needs[0].name}. Select this role if you are interested. Otherwise, fill out the message to share with the project leader how you can help.`
+   } else if (subsite_needs.length > 1){
+     custom_intro = `Select the roles you are interested in. Fill out a message to the project leader and hit Submit.  The project leader will be sent a notificaton to review and repond to your interest.   Check the volunteer opportunities you are interested in.`
+  } 
+    
+  if (custom_intro) {
+    return (<Fragment>{custom_intro}</Fragment>)
   } else {
-      header = `Volunteer Opportunities for Project ${project_data.name} Role ${role_name}`
-      custom_intro = `The table below lists the volunteer opportunities for ${role_name} in the ${project_data._name} project.`
-  }
-  if ((!project_needs || project_needs.length == 0)) {
-      return  ( <Fragment><Typography variant="h6">{header}</Typography>
-        <Typography> There are no advertised volunteer needs available. {project_id && "However, please use the form below to connect with the project leader about your interest."}</Typography>
-        </Fragment>
-      )
-  } else {
-    return (
-      <Fragment><Typography variant="h6">{header}</Typography>
-          <p/>
-          {custom_intro}
-          {standard_text}
-          <p/>
-      </Fragment>
-      )
+    return null
   }
 }
 
