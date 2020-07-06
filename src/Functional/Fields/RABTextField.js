@@ -23,8 +23,12 @@ function RABTextField(props) {
   if (field_value === null) {
       field_value =""
   }
+  if (mode === "list") {
+    with_thumbnail = ""
+  } else {
+    with_thumbnail = with_thumbnail?with_thumbnail:field_model.with_thumbnail
+  }
 
-  with_thumbnail = with_thumbnail?with_thumbnail:field_model.with_thumbnail
   with_url = with_url?with_url:field_model.with_url
 
   switch (mode) {
