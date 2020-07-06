@@ -52,7 +52,6 @@ function SubsiteApply(props) {
   const project_field_model = field_models["name"]
 
   const {formValues, lastTouched, handleFormChange, handleFormSubmit} = useForm("core_subsite_role", "", "", "", "create", "true", {email_perm:true, status:"Applied"}, ["id", "core_subsite", "core_role", "status", "message", "email_perm"]);
-  u.a("running subsite apply", formValues)
 
   let show_needs = subsite_data?true:false
 
@@ -63,7 +62,6 @@ function SubsiteApply(props) {
   }
 
   function handleVolunteerSubmit() {
-      u.a("volunteer Submit", formValues)
       let volunteer_object = {}
       volunteer_object.email_perm = formValues.email_perm
       volunteer_object.message =    formValues.message
