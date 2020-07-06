@@ -5,7 +5,8 @@ import * as meta from '../../Utils/meta.js';
 import * as data from '../../Utils/data.js';
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
-import AuthContext from '../User/AuthContext';
+import {AuthContext, Auth, LoginForm} from '../User/index.js';
+
 import useForm from '../../Hooks/useForm';
 import useGetObject  from '../../Hooks/useGetObject';
 import ACSRowController from '../../Functional/ACSRowController.js'
@@ -42,7 +43,6 @@ const box_style = {
 
 function SubsiteApply(props) {
   const context = useContext(AuthContext)
-
   const [subsite_data, setSubsiteData] = useState("");
   const [subsite_needs, setSubsiteNeeds] = useState([]);
 
@@ -52,6 +52,7 @@ function SubsiteApply(props) {
   const project_field_model = field_models["name"]
 
   const {formValues, lastTouched, handleFormChange, handleFormSubmit} = useForm("core_subsite_role", "", "", "", "create", "true", {email_perm:true, status:"Applied"}, ["id", "core_subsite", "core_role", "status", "message", "email_perm"]);
+  u.a("running subsite apply", formValues)
 
   let show_needs = subsite_data?true:false
 
@@ -62,6 +63,7 @@ function SubsiteApply(props) {
   }
 
   function handleVolunteerSubmit() {
+      u.a("volunteer Submit", formValues)
       let volunteer_object = {}
       volunteer_object.email_perm = formValues.email_perm
       volunteer_object.message =    formValues.message
@@ -162,7 +164,7 @@ function SubsiteApply(props) {
         {subsite_needs && subsite_needs.length > 0 &&
         <FormGroup name="core_subsite" area-label="Available Needs">
         <TableContainer>
-          <Table size="small">
+          <Table>
             <TableBody>
           {subsite_needs.map(need => {     
             let need_field_name = "need_" + need_idx 
@@ -191,20 +193,46 @@ function SubsiteApply(props) {
           </Table>
         </TableContainer>
         </FormGroup>}
-        <Fragment>
-        <TextField  id="message" name="message"  onChange={handleFormChange} rows="5" rowsMax="10" value ={formValues.message} label= "Use the area below to  send a message to the project leader." multiline />
-        <FormControlLabel style={{paddingTop:40}} name="email_perm" id="email_id" default={true} checked={formValues.email_perm} label="Check here if it is ok to share your email address with the project email. This will allow you to continue your conversation with email directly.  This is highly recommended as you will be able to talk about the project directly." control={<Checkbox onChange={handleFormChange}/>}/>  
-            <Button type="submit" value="Submit">Submit</Button></Fragment>
+        <Typography style={{paddingBottom:10}}>Use the area below to  send a message to the project leader:</Typography>
+        <TextField  id="message" name="message"  onChange={handleFormChange} rows="5" rowsMax="10" value ={formValues.message} multiline />
+        <FormControlLabel style={{paddingTop:40, align:"top"}} name="email_perm" id="email_id" default={true} checked={formValues.email_perm} label="Check here if it is ok to share your email address with the project email. This will allow you to continue your conversation with email directly.  This is highly recommended as you will be able to talk about the project directly." control={<Checkbox onChange={handleFormChange}/>}/>  
+        <DialogActions>
+          <DelayedAuthButton onClick={handleVolunteerSubmit} color="primary">Submit</DelayedAuthButton>
+          <Button onClick={handleOnClose} color="primary">Close</Button>
+        </DialogActions>  
         </FormControl>
-      </form>
-
-
+        </form>
         </DialogContent>
       </Dialog>}
     </Fragment>
   )
 }
 
+function DelayedAuthButton(props) {
+  const [auth_tag, setAuthTag] = useState(false)
+  const {auth_action="create", object_type="nwn_project_volunteer"} = props
+
+  function handleOnClick(event) {
+    setAuthTag(true)
+  }
+  function handleOnClose(event) {
+    setAuthTag(false)
+  }
+  
+  function handleOnClickAuth(event) {
+    setAuthTag(false)
+    if (props.onClick) {
+        props.onClick()
+    }
+  }
+  if (auth_tag) {
+    return (<Auth onLogin={handleOnClickAuth} onAuthorized={handleOnClickAuth} auth_action={auth_action} object_type={object_type} onClose={handleOnClose}>
+          <Button onClick={handleOnClick} color="primary">{props.children}</Button></Auth>
+          )
+  } else {
+      return (<Button onClick={handleOnClick} color="primary">{props.children}</Button>)
+  }
+}
 
 function VolunteerNeedsIntroduction(props) {
    const {subsite_needs} = props

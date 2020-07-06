@@ -55,6 +55,7 @@ function Auth(props) {
         if (!context.user ) {
           show_children = false
          if (!login_form && prompt_login) {
+
              setLoginForm(true)
          }    
        }
@@ -65,6 +66,9 @@ function Auth(props) {
     return ( 
       <LoginForm open={login_form} onLogin={handleLogin} onClose={handleClose}/>
            )
+  } else if (authorized && props.onAuthorized) {
+      props.onAuthorized()
+      return null
   } else if (authorized && show_children) {
     return (
       <Fragment>{props.children}</Fragment>
