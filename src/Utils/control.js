@@ -39,6 +39,8 @@ import {Tab, Tabs, Menu, MenuItem, MenuList,List,ListItem,ListItemAvatar,ListIte
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
 import GoogleMap from '../Components/Layouts/GoogleMap.js'
+import NWAMap from '../Components/Layouts/NWAMap.js'
+
 // precedence: low to high
 // shell - defines structure and defaults for all
 // default_component_for_layer - current list, row, field
@@ -266,6 +268,7 @@ function componentPicker(name, source="not provided") {
     case "RABObjectPrettyName": return RABObjectPrettyName;
     case "RABObjectTypePrettyPlural": return RABObjectTypePrettyPlural;
     case "GoogleMap": return GoogleMap;
+    case "NWAMap": return NWAMap;
     case "NWAProjectView": return NWAProjectView;
     case "SubsiteApply": return SubsiteApply;
     default:  { 
