@@ -148,6 +148,12 @@ function NWAMap (props) {
        let path = `/OneProject`
        history.push(path);
    }
+
+   const handleVolunteerClick = event => {
+      u.a("volunteer")
+  }
+
+
    const handlePopoverClose= () => {
       setShowInfoWindow(false)
    }
@@ -196,8 +202,10 @@ function NWAMap (props) {
                   row_header_image_size="medium"
                 handleMoreClick = {handleMoreClick}/>
               </Typography>
+              <div style={{display:"flex", width:"100%", justifyContent:"space-evenly"}}>
+              <Button   variant="contained" onClick={handleVolunteerClick}>Volunteer</Button>
               <Button   variant="contained" onClick={handleMoreClick}>Learn More</Button>
-            
+              </div>
             </Fragment>}  
 
             {!showSideWindow &&      
