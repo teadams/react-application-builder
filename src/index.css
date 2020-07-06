@@ -3,7 +3,6 @@ html, body, #root,  .App {
 }
 
 div {
-  word-break: break-all;
   overflow-wrap: anywhere;
 }
 
