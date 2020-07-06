@@ -23,17 +23,18 @@ function RABTextField(props) {
   let field_value=""
   let more_link = ""
   let less_link = ""
+  let more_link_cutoff = field_model.more_link_cutoff?field_model.more_link_cutoff:""
+  if (mode === "list") {
+    more_link_cutoff = field_model.more_link_list_cutoff?field_model.more_link_list_cutoff:more_link_cutoff
+  }
   // XX everything will be changed to final field_name
   field_value = data[field_model.final_field_name?field_model.final_field_name:field_name]
   if (field_value === null) {
       field_value =""
   }
   const field_length = field_value.length 
-  let more_link_cutoff = 100000
-  if (mode === "list") {
-    more_link_cutoff = 100
-  }
-  if (field_value.length > more_link_cutoff) {
+
+  if (more_link_cutoff && field_value.length > more_link_cutoff) {
     if (!more_detail) {
       field_value = field_value.substr(0, more_link_cutoff)
       more_link = <Link key="more_link" id="more_link" name="more_link" onClick={toggleMoreLink}>(...more)</Link>
