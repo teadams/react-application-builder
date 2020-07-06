@@ -30,7 +30,6 @@ function Body(props) {
   if (!selected_menu  ) {return null}
   let selected_menu_model = menu_model.menu_items[selected_menu]
   selected_menu_model.api_options = shieldObject(selected_menu_model.api_options)
-
   let BodyComponent = control.componentByName(selected_menu_model.menu_component_name)
 //u.a("bdoy comp", BodyComponent)
   if (selected_menu_model.with_context) {

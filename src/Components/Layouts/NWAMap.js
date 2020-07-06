@@ -18,7 +18,7 @@ import * as data from '../../Utils/data.js';
 import * as u from '../../Utils/utils.js'
 import * as google_map from './api.js'
 import {  BrowserRouter as Router,  Switch,  Route,  Link,  Redirect, useHistory } from "react-router-dom";
-//import GoogleAPIWrapper from "./GoogleAPIWrapper.js"
+import GoogleMap from "./GoogleMap.js"
 
 function get_image_url (image_object) {
     const image_base = (process.env.NODE_ENV ==="production")? "https://storage.googleapis.com/acs_full_stack/":""
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-function GoogleMap (props) {
+function NWAMap (props) {
   const {object_type, field_list, layout, sections, dialog_size} = props
   const classes = useStyles();
   const context = useContext(AuthContext)
@@ -85,6 +85,7 @@ function GoogleMap (props) {
   const handleCreateProjectOpen = () =>  {
         setCreateProjectOpen(false)
   }
+
   const handleProjectCreated= (event,action, project_data, inserted_id) => {
     // most of this will go server side
     setCreateProjectOpen(false)
@@ -133,6 +134,7 @@ function GoogleMap (props) {
   }
 
 
+
   const onMouseover = (props, marker, e) => {
     //setSelectedPlace(props)
     if (marker.id !== activeMarker.id) {
@@ -174,46 +176,69 @@ function GoogleMap (props) {
       setShowInfoWindow(false)
    }
 
-  //const create_button = Button
+  
+  const create_button = (props) => { 
+      return (<Button variant="contained" {...props}>Create a Project</Button>)
+  }
+//const create_button = Button
   return (
-      <Fragment> 
-      <Map   const containerStyle = {{position: 'absolute',  width: '75%',height: '75%'}} style = {{position: 'absolute',  width: '100%', height: '100%'}} google={props.google}  onClick={onMapClick} zoom={3} center={center}>
-            {marker_data.map(marker => {
-              var icon
-              if (marker.type.thumbnail) {
-                const thumbnail = JSON.parse(marker.type.thumbnail)
-                const icon_name = thumbnail.name
-                const path = thumbnail.path
-                const url = get_image_url(thumbnail)
-                
-                icon = {url:url, 
-                        scaledSize:{"width":20,"height":20}}
-              }  else  {
-                icon = ""
-              }
-              var position = {}
-              position.lat = marker.latitude
-              position.lng = marker.longitude
-              return (
-              <Marker 
-                onMouseover={onMouseover}
-              //  onClick={onClick}
-              name={marker.name}
-              subsite_data={marker}
-              icon = {icon}
-              id = {marker.id}
-              key = {marker.id}
-              position={position}></Marker>
-              )
-            })}
-         
-        </Map>
-       THIS IS THE END OF THE MAP
+      <Fragment>
+      <div className={classes.grow}>
+           <Typography variant="h4" classes={{root:classes.head_row}}>{props.title}</Typography>
+          <div className={classes.head_row}>
+            <ACSCreateButton onSubmit={handleProjectCreated}
+              layout={layout}
+              sections={sections}
+              Component={create_button}
+              dialog_size={dialog_size}
+              auth_action="read"
+              object_type={object_type}/>
+          </div>
+          <div className={classes.grow} />
+          <div className={classes.head_count_wrapper}>
+            <div className={classes.head_count_item}>
+              <ACSObjectCount api_options={{get_count:true, num_rows:1,}} text="Active Projects:" object_type="nwn_project"/>
+            </div>
+            <div className={classes.head_count_item}>
+              <ACSObjectCount api_options={{get_count:true, num_rows:1, filter_id:"Success", filter_field:"status"}} text="Sucessful Projects:" object_type="nwn_project"/>
+            </div>
+            <div className={classes.head_count_item}>
+              <ACSObjectCount api_options={{get_count:true, num_rows:1}} text="Volunteers:" object_type="nwn_project_volunteer"/> 
+            </div>
+          </div>
+        </div>
+        <Grid container style={{paddingTop:20, height:"100%"}}>
+        <Grid item style={{width:"20%", padding:10, height:"100%"}}>
+            {showInfoWindow && <Fragment>     
+            <Typography>
+                <ObjectView  object_type =  {props.object_type}
+                  id = {selectedPlace.id}
+                  field_mode = "view"
+                  field_list = {field_list}
+                  field_click_to_edit = {false}
+                  num_columns={1}
+                  row_header_image_size="medium"
+                handleMoreClick = {handleMoreClick}/>
+              </Typography>
+              
+              <Button   variant="contained" onClick={handleMoreClick}>Learn More</Button>
+            
+            </Fragment>}  
+
+            {!showInfoWindow &&      
+              <Typography>
+              Welcome!!!!! Click on a pin to learn more.  Zac and Jesse provide text.
+              </Typography>
+            }  
+        </Grid>
+        <Grid item style={{width:"75%", height:"100%"}}>
+          <GoogleMap object_type={object_type} field_list={field_list} layout={layout} sections={sections} dialog_size={dialog_size}/>
+        </Grid>
+      </Grid>
+
+
       </Fragment>
     )
   }
 
-
-export default GoogleApiWrapper({
-  apiKey: google_map.get_key()
-})(GoogleMap)
+export default NWAMap;
