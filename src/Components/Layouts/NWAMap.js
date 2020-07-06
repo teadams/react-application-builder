@@ -225,7 +225,7 @@ function NWAMap (props) {
           <GoogleMap onClick={handleOnClick} object_type={object_type} field_list={field_list} layout={layout} sections={sections} dialog_size={dialog_size}/>
         </Grid>
       </Grid>
-      {showVolunteerDialog && <SubsiteApply open={showVolunteerDialog}/>}
+      {showVolunteerDialog && <SubsiteApply id={selectedPlace.id} open={showVolunteerDialog}/>}
       </Fragment>
     )
   }
