@@ -11,7 +11,7 @@ import ACSCreateButton from '../../Functional/Buttons/ACSCreateButton.js'
 import ObjectView from '../../RABComponents/ObjectView.js'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
-import {CreateForm} from "../Layouts/index.js";
+
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import * as data from '../../Utils/data.js';
@@ -19,6 +19,7 @@ import * as u from '../../Utils/utils.js'
 import * as google_map from './api.js'
 import {  BrowserRouter as Router,  Switch,  Route,  Link,  Redirect, useHistory } from "react-router-dom";
 import GoogleMap from "./GoogleMap.js"
+import SubsiteApply from "../NowWeAct/SubsiteApply.js"
 
 function get_image_url (image_object) {
     const image_base = (process.env.NODE_ENV ==="production")? "https://storage.googleapis.com/acs_full_stack/":""
@@ -75,6 +76,8 @@ function NWAMap (props) {
   const [marker_data, setMarkerData] = useState("")
   const [showInfoWindow, setShowInfoWindow] =useState(false)
   const [showSideWindow, setShowSideWindow] =useState(false)
+  const [showVolunteerDialog, setShowVolunteerDialog] = useState(false)
+
   const [activeMarker, setActiveMarker] = useState({})
   const [selectedPlace, setSelectedPlace]= useState({subsite_data:{}})
 
@@ -149,8 +152,12 @@ function NWAMap (props) {
        history.push(path);
    }
 
+   const handleVolunteerClose= event => {
+      setShowVolunteerDialog(false)
+  }
+
    const handleVolunteerClick = event => {
-      u.a("volunteer")
+      setShowVolunteerDialog(true)
   }
 
 
@@ -218,8 +225,7 @@ function NWAMap (props) {
           <GoogleMap onClick={handleOnClick} object_type={object_type} field_list={field_list} layout={layout} sections={sections} dialog_size={dialog_size}/>
         </Grid>
       </Grid>
-
-
+      {showVolunteerDialog && <SubsiteApply open={showVolunteerDialog}/>}
       </Fragment>
     )
   }

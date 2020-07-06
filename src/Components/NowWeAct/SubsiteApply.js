@@ -61,6 +61,12 @@ function SubsiteApply(props) {
 
   let show_needs = (project_id ||role_type_id)?true:false
 
+  function handleOnClose() {
+    if (props.onClose) {
+      props.onClose()
+    }
+  }
+
   function handleVolunteerSubmit() {
       let volunteer_object = {}
       volunteer_object.email_perm = formValues.email_perm
@@ -177,9 +183,11 @@ function SubsiteApply(props) {
   const handleProjectData = (project_data) => {
       setProjectData(project_data)
   }
+
   return (
-  
-    <Fragment>
+    <Dialog fullWidth={true}  open={props.open} onClose={handleOnClose}>
+    <DialogTitle id="form-dialog-title">Volunteer</DialogTitle>
+    <DialogContent>
       <Typography variant="h5" style={{padding:10}}>Volunteer Opportunities</Typography>
       <Typography style={{padding:5}}>
           Thank you for your interest in helping the Now We Act community. You may start the process by picking either a specific project or a specific role below.  The lower part of the page will update with the needs available. 
@@ -224,9 +232,9 @@ function SubsiteApply(props) {
          </div>
           <div style={{width:"10%"}}/>
      </div>
-   
-  
-  </Fragment>)
+       </DialogContent>
+      </Dialog>
+  )
 }
 
 function ShowNeeds(props) {
