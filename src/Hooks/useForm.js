@@ -16,6 +16,8 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   const context = useContext(AuthContext)
   const object_model =  useGetModel("object_types", object_type)
   const field_models =  useGetModel("fields", object_type)
+  const [prior_user_id, setPriorUserId] = useState("")
+
   // form not needed or inputs not ready
 
   const id_field = object_model.key_id
@@ -25,8 +27,8 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       !object_model || !field_models) {
           return {undefined, undefined, undefined, undefined}
     }
-  const input_mask = object_type+","+context.user.id+","+field_name+"mode"+field_list.toString()
-
+  const input_mask = object_type+","+field_name+"mode"+field_list.toString()
+  
   if (input_mask !== prior_input_mask) {
     // context or parent component has changed
     let defaults = {}
@@ -58,11 +60,23 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
             
     })
 
-
     if (Object.keys(defaults).length > 0) {
         setPriorInputMask(input_mask)
+        if (context.user) {
+          setPriorUserId(context.user_id)
+        }
         setFormValues(defaults)
     }
+  } else if (context.user && mode === "create" && context.user_id !== prior_user_id) {
+      // user logs in after fillout out form
+      field_list.forEach(field => {
+          const field_model = field_models[field]
+          const references = field_model.references
+          if (context.user.id && references === "core_user" && field_model.use_context) {
+            setFormValues(formValues=>({...formValues,[field]:context.user_id}))
+          }
+      })
+      setPriorUserId(context.user_id)
   }
 
   const handleFormSubmit = (event => {
