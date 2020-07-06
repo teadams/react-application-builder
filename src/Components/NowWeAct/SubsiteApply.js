@@ -46,6 +46,8 @@ function SubsiteApply(props) {
   const [subsite_data, setSubsiteData] = useState("");
   const [subsite_needs, setSubsiteNeeds] = useState([]);
 
+  const [volunteer_confirm, setVolunteerConfirm] = useState(false);
+
   const [selected_touch, setSelectedTouched] = useState(false);
 
   const field_models = useGetModel("fields", "core_subsite")
@@ -123,7 +125,7 @@ function SubsiteApply(props) {
             }
         })
       }
-      alert ("You interest has been submitted to the project leader")
+      setVolunteerConfirm(true)
   }
 
   let need_idx = 0
@@ -153,53 +155,62 @@ function SubsiteApply(props) {
   return (
     <Fragment>
       <ACSHeadlessObjectView object_type="core_subsite" id={props.id} onData={onData}/>
-    {subsite_data && <Dialog fullWidth={true} open={true}  onClose={handleOnClose}>
-      <DialogTitle id="form-dialog-title">Volunteer for {u.capitalize(subsite_data.name)}</DialogTitle>
+      {subsite_data && <Dialog fullWidth={true} open={true}  onClose={handleOnClose}>
+        <DialogTitle id="form-dialog-title">Volunteer for {u.capitalize(subsite_data.name)}</DialogTitle>
         <DialogContent>
-        <form onSubmit={handleFormSubmit}>
-        <VolunteerNeedsIntroduction subsite_needs={subsite_needs}/> 
-        <FormControl>
-        {subsite_needs && subsite_needs.length > 0 &&
-        <FormGroup name="core_subsite" area-label="Available Needs">
-        <TableContainer>
-          <Table>
-            <TableBody>
-          {subsite_needs.map(need => {     
-            let need_field_name = "need_" + need_idx 
-            need_idx += 1   
-              if (props.id) {
-                return (
-                <TableRow>
-                <TableCell>
-                  <Checkbox onChange={handleFormChange} name={need_field_name} value={formValues[need_field_name]} id={need_field_name}/>
-                </TableCell>   
-                  <TableCell>{need.role_name_name} - {need.description}</TableCell>
-                </TableRow>
-                )
-              } else {
-                return (<Fragment>              
+          {volunteer_confirm ?
+            <Fragment>
+              <Typography>Your interest have been sumbitted tot he project leader</Typography>
+              <DialogActions>
+                <Button onClick={handleOnClose} color="primary">Close</Button>
+              </DialogActions>  
+            </Fragment>
+          :
+            <form onSubmit={handleFormSubmit}>
+              <VolunteerNeedsIntroduction subsite_needs={subsite_needs}/> 
+              <FormControl>
+                {subsite_needs && subsite_needs.length > 0 &&
+                <FormGroup name="core_subsite" area-label="Available Needs">
+            <TableContainer>
+              <Table>
+              <TableBody>
+                {subsite_needs.map(need => {     
+                  let need_field_name = "need_" + need_idx 
+                  need_idx += 1   
+                  if (props.id) {
+                  return (
                     <TableRow>
-                        <TableCell>
+                      <TableCell>
+                        <Checkbox onChange={handleFormChange} name={need_field_name} value={formValues[need_field_name]} id={need_field_name}/>
+                      </TableCell>   
+                      <TableCell>{need.role_name_name} - {need.description}</TableCell>
+                    </TableRow>
+                  )
+                } else {
+                  return (<Fragment>              
+                    <TableRow>
+                      <TableCell>
                           <Checkbox onChange={handleFormChange} name={need_field_name} value={formValues[need_field_name]} id={need_field_name}/>
                         </TableCell>
                         <TableCell>{need.nwn_project_name}({need.nwn_project_summary}) - {need.description}</TableCell>
                     </TableRow>
-                </Fragment>
-            ) }
-        })}
+                  </Fragment>
+                ) }
+              })}
           </TableBody>
           </Table>
         </TableContainer>
-        </FormGroup>}
-        <Typography style={{paddingBottom:10}}>Use the area below to  send a message to the project leader:</Typography>
-        <TextField  id="message" name="message"  onChange={handleFormChange} rows="5" rowsMax="10" value ={formValues.message} multiline />
-        <FormControlLabel style={{paddingTop:40, align:"top"}} name="email_perm" id="email_id" default={true} checked={formValues.email_perm} label="Check here if it is ok to share your email address with the project email. This will allow you to continue your conversation with email directly.  This is highly recommended as you will be able to talk about the project directly." control={<Checkbox onChange={handleFormChange}/>}/>  
-        <DialogActions>
-          <DelayedAuthButton onClick={handleVolunteerSubmit} color="primary">Submit</DelayedAuthButton>
-          <Button onClick={handleOnClose} color="primary">Close</Button>
-        </DialogActions>  
-        </FormControl>
-        </form>
+                </FormGroup>}
+                <Typography style={{paddingBottom:10}}>Use the area below to  send a message to the project leader:</Typography>
+                <TextField  id="message" name="message"  onChange={handleFormChange} rows="5" rowsMax="10" value ={formValues.message} multiline />
+                <FormControlLabel style={{paddingTop:40, align:"top"}} name="email_perm" id="email_id" default={true} checked={formValues.email_perm} label="Check here if it is ok to share your email address with the project email. This will allow you to continue your conversation with email directly.  This is highly recommended as you will be able to talk about the project directly." control={<Checkbox onChange={handleFormChange}/>}/>  
+              <DialogActions>
+                <DelayedAuthButton onClick={handleVolunteerSubmit} color="primary">Submit</DelayedAuthButton>
+                <Button onClick={handleOnClose} color="primary">Close</Button>
+              </DialogActions>  
+            </FormControl>
+            </form>
+            }
         </DialogContent>
       </Dialog>}
     </Fragment>
