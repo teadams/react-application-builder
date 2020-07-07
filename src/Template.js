@@ -45,8 +45,6 @@ function Template(props) {
     context: {
        position: 'relative',
        borderRadius: theme.shape.borderRadius,
-       marginRight: theme.spacing(2),
-       marginLeft: 0,
        width: '100%',
        [theme.breakpoints.up('sm')]: {
          marginLeft: theme.spacing(3),

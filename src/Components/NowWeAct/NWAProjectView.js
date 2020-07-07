@@ -45,12 +45,12 @@ function NWAProjectView(props) {
     <ACSHeadlessObjectView {...props} onData={onData}/>
     <ACSHeadlessObjectView  {...props} api_options={{filter_field:"primary_video", filter_id:true}} object_type="nwn_project_video" onData={onVideoData}/>
     {data && 
-    <div style={{display:'flex',padding:20, width:"90%", justifyContext:"center", xborder:"5px solid red"}}>
-      <div style={{width:"30%", marginRight:10,xborder:"5px solid  blue"}}>
+    <div style={{display:'flex',padding:10, width:"99%", alignSelf:"center", justifyContent:"center"}}>
+      <div style={{width:"30%", paddingRight:10,xborder:"5px solid  blue"}}>
         <ACSObjectView {...props} data={data} row_no_stripe={true} action="edit" row_header_image_size="medium" field_display="name_value"
         field_click_to_edit = {false} num_columns={1} action_props={{layout:"nwn_project_create_form"}} field_list={["address", "summary",  "description","type"]}/>
       </div>
-      <div style={{width:"40%", marginLeft:10, marginRight:10, xborder:"5px solid  blue"}}>
+      <div style={{width:"40%", paddingLeft:10, paddingRight:10, xborder:"5px solid  blue"}}>
           {video_data ?
           <ACSObjectView action="edit" data={video_data} api_options={{filter_field:"primary_video", filter_id:true}}  row_no_stripe={true} field_display="name" field_list={["url"]} action_props={{field_list:["id","name","url","description"]}} object_type="nwn_project_video" />
           :  
@@ -59,7 +59,7 @@ function NWAProjectView(props) {
           <ACSCommunicationObjectTypeView action="create" {...props} object_type="nwn_project_post" />
         
       </div>
-      <div style={{width:"30%", marginLeft:10,xborder:"5px solid  blue"}}>
+      <div style={{width:"30%", paddingLeft:10}}>
         
         <ACSObjectView {...props} data={data.leader}  row_no_stripe={true} field_display="name_value" num_columns={1} object_type="core_user" row_header_image_size="medium" rab_component_model={{row:{names:{row_body:"RABVoid"}}}} row_image_size="medium" />
       <div style={{marginTop:20, marginBottom:20,display:"flex", flexDirection:"column", }}>

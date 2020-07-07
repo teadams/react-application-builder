@@ -22,17 +22,16 @@ function ACSSummaryObjectTypeView(props)  {
     const TableCell = control.componentByName("TableCell")
     return (
       <Fragment>
-     <TableCell style={{width:"30%"}}>
-      <ACSField  {...props} field_name={pretty_key_field} key={pretty_key_field} />
-      {summary_field && 
-        <Fragment> - <ACSField  {...props} field_name={summary_field} key={summary_field}/> </Fragment>
-      }
-      </TableCell> 
-      {description_field && 
-        <TableCell style={{width:"70%"}}><ACSField  {...props} field_name={description_field} key={description_field} /></TableCell>
-      }
+        <TableCell>
+          <b><ACSField  {...props} field_name={pretty_key_field} key={pretty_key_field} />:</b> &nbsp;
+          {summary_field && 
+            <ACSField  {...props} field_name={summary_field} key={summary_field}/>
+          }
+          {!summary_field && description_field && 
+            <ACSField  {...props} field_name={description_field} key={description_field}/>
+          }
+        </TableCell>
     </Fragment>
-    
     )
   }
 
