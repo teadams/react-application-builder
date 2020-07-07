@@ -62,6 +62,7 @@ function selectItems(data, select_key_field, select_display_field, field_compone
 function RABSelectList(props) {
   const field_models = useGetModel("fields")
   const {disable_underline=true, prevent_edit=false, data, select_key_field, select_display_field, object_type} = props
+
   const select_field_model=field_models[props.object_type][props.select_display_field]
   const field_component_name = select_field_model.field_component 
   // plain function on purpose, will just get text
@@ -100,6 +101,7 @@ function RABSelectList(props) {
 function RABSelectField(props) {
 
   const {mode, data=[], field_name, formValues, onSubmit, onFieldBlur,  onChange, autoFocus, object_type, field_model={}, value="", display_value=" ", disable_underline, style, api_options} = props
+  let {form_field_name} = props
   const {...params} = props
   // 2 use cases:
   // 1. Called from a create/edit form (formValues is present)
@@ -108,8 +110,9 @@ function RABSelectField(props) {
   // 2. Called directly 
   //     dispaly_value is display_value, value is value
   const object_type_model = useGetModel("object_types", object_type)
-  const form_field_name = formValues?field_model.formValues_name:object_type_model.key_id
-
+  if (!form_field_name) {
+    form_field_name = formValues?field_model.formValues_name:object_type_model.select_key_id
+  }
   const field_value = formValues?formValues[form_field_name]:value
   // convert to final field
   const final_field_component_name = field_model.final_field_component?field_model.final_field_component:"RABTextField"
@@ -124,9 +127,8 @@ function RABSelectField(props) {
   // precedence: props, field_model, keys
   let {select_key_field = field_model.select_key_field, select_display_field = field_model.select_display_field, prevent_edit=field_model.prevent_edit} = props 
   
-  select_key_field = select_key_field?select_key_field:object_type_model.key_id
-  select_display_field = select_display_field?select_display_field:object_type_model.pretty_key_id
-
+  select_key_field = select_key_field?select_key_field:object_type_model.select_key_field
+  select_display_field = select_display_field?select_display_field:object_type_model.select_display_field
   // XX - make a "select" in the library
   let rab_component_model = rab_component_models.shell
   rab_component_model.list.components.list_wrap = RABSelectList
