@@ -176,7 +176,7 @@ function SubsiteSelect(props) {
           <ACSRowController data={subsite_data[0]} field_list={subsite_info_fields} object_type="core_subsite" mode="view" num_columns={1}  />
           </Card>}
           {subsite_data.length >1 &&
-            <ACSObjectTypeView data={subsite_data} field_list={["name","summary","address"]} object_type="core_subsite" mode="view" num_columns={1}  />
+            <ACSObjectTypeView data={subsite_data} rab_component_model={{list:{names:{header_wrap:"RABVoid"}}}} field_list={["name","summary","address"]} object_type="core_subsite" mode="view" num_columns={1}  />
           }
          </div>
      </div>
