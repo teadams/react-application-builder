@@ -59,15 +59,15 @@ function NWAProjectView(props) {
           <ACSCommunicationObjectTypeView action="create" {...props} object_type="nwn_project_post" />
         
       </div>
-      <div style={{width:"30%", marginLeft:10, xborder:"5px solid  blue"}}>
+      <div style={{width:"30%", marginLeft:10,xborder:"5px solid  blue"}}>
         
         <ACSObjectView {...props} data={data.leader}  row_no_stripe={true} field_display="name_value" num_columns={1} object_type="core_user" row_header_image_size="medium" rab_component_model={{row:{names:{row_body:"RABVoid"}}}} row_image_size="medium" />
-      <div style={{marginTop:20}}>
+      <div style={{marginTop:20, marginBottom:20,display:"flex", flexDirection:"column", }}>
 
         <ACSSummaryObjectTypeView action="map"   api_options={{filter_id:true, filter_field:"role_name.accept_signups"}}  description_field="role_name.description" action_props={{mapping_name:"mapping_values",filter_field:"role_name.accept_signups", filter_id:true}} object_type="nwn_project_need"/>
-        <Button   variant="contained" onClick={handleVolunteerClick}>Volunteer</Button>
-
-        
+        <div style={{alignSelf:"center"}}>
+          <Button style={{alignSelf:"center"}}  variant="contained" onClick={handleVolunteerClick}>Volunteer</Button>
+        </div>
       </div>
       <div style={{marginTop:20}}>
         
