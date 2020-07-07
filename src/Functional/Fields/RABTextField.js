@@ -29,7 +29,7 @@ function RABTextField(props) {
   }
   // XX everything will be changed to final field_name
   field_value = data[field_model.final_field_name?field_model.final_field_name:field_name]
-  if (field_value === null) {
+  if (!field_value && (field_value === null || field_value === undefined)) {
       field_value =""
   }
   const field_length = field_value.length 
