@@ -44,7 +44,7 @@ const box_style = {
 function SubsiteApply(props) {
   const context = useContext(AuthContext)
   const [subsite_data, setSubsiteData] = useState("");
-  const [subsite_needs, setSubsiteNeeds] = useState([]);
+  const [subsite_needs, setSubsiteNeeds] = useState("");
 
   const [volunteer_confirm, setVolunteerConfirm] = useState(false);
 
@@ -77,7 +77,7 @@ function SubsiteApply(props) {
             let project_id = need.nwn_project_id
             let need_id = need.id1
             let volunteer_object = {}
-            volunteer_object.core_subsite  = need.nwn_project.id
+            volunteer_object.core_subsite  = need.core_subsite.id
             volunteer_object.core_user = context.user.id
             volunteer_object.core_role = need.role_name.id
             volunteer_object.email_perm = formValues.email_perm
@@ -91,7 +91,7 @@ function SubsiteApply(props) {
                 message_object.from_user = context.user.id;
                 message_object.to_user = need.nwn_project_leader;
                 message_object.applicant_subsite_role = volunteer_record;
-                message_object.core_subsite = need.nwn_project.id;
+                message_object.core_subsite = need.core_subsite.id;
                 message_object.subject  = "Volunteer Application for " + need.role_name_name;
                 message_object.body = formValues.message;
                 message_object.creation_user = context.user.id
@@ -131,17 +131,20 @@ function SubsiteApply(props) {
   let need_idx = 0
 
   if (selected_touch) {
-      loadNeedData()
-      setSelectedTouched(false)
+    setSelectedTouched(false)
   }
 
+  if (!subsite_needs) {
+      loadNeedData()
+  }
   function loadNeedData () {
       const object_type = "nwn_project_need"
-    
       let filter_id = []
       let filter_field = []
       filter_id.push(props.id)
+      filter_id.push(true)
       filter_field.push("core_subsite")
+      filter_field.push("role_name.accept_signups")
       let options = {filter_id:filter_id, filter_field:filter_field, filter_join:"AND"}
       data.getData(object_type, options, (data, error) => {       
             setSubsiteNeeds(data)
@@ -244,16 +247,15 @@ function DelayedAuthButton(props) {
 
 function VolunteerNeedsIntroduction(props) {
    const {subsite_needs} = props
-   const standard_text =  "You may select more than one.  Fill out a message to the project leader and hit Submit.  The project leader will be sent a notificaton to review and repond to your interest.   Check the volunteer opportunities you are interested in. Thank you."
    let custom_intro =""
    if (subsite_needs.length === 1) {
      custom_intro = `The project leader has requested specific help with ${subsite_needs[0].name}. Select this role if you are interested. Otherwise, fill out the message to share with the project leader how you can help.`
    } else if (subsite_needs.length > 1){
-     custom_intro = `Select the roles you are interested in. Fill out a message to the project leader and hit Submit.  The project leader will be sent a notificaton to review and repond to your interest.   Check the volunteer opportunities you are interested in.`
+     custom_intro = `Select the roles you are interested in.`
   } 
     
   if (custom_intro) {
-    return (<Fragment>{custom_intro}</Fragment>)
+    return (<Typography>{custom_intro}</Typography>)
   } else {
     return null
   }
