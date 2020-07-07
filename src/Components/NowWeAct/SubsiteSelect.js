@@ -61,73 +61,6 @@ function SubsiteSelect(props) {
 
   let show_needs = (project_id ||role_type_id)?true:false
 
-  function handleVolunteerSubmit() {
-      let volunteer_object = {}
-      volunteer_object.email_perm = formValues.email_perm
-      volunteer_object.message =    formValues.message
-      let key=""
-      let num_needs = 0
-      for (key of Object.keys(formValues)) {
-          if (key.search("need_") == 0) {
-            num_needs += 1
-            let need_idx =  key.replace("need_","")
-            let need = project_needs[need_idx]
-            let project_id = need.nwn_project_id
-            let need_id = need.id
-            let volunteer_object = {}
-            volunteer_object.core_subsite  = need.nwn_project.id
-            volunteer_object.core_user = context.user.id
-            volunteer_object.core_role = need.role_name.id
-            volunteer_object.email_perm = formValues.email_perm
-            volunteer_object.status = formValues.status
-            data.postData("core_subsite_role", volunteer_object, {}, (result, error) => { 
-              if (error) {
-                alert("error is " + error)
-              } else { 
-                let volunteer_record = result.rows[0].id;
-                let message_object = {}
-                message_object.from_user = context.user.id;
-                message_object.to_user = need.nwn_project_leader;
-                message_object.applicant_subsite_role = volunteer_record;
-                message_object.core_subsite = need.nwn_project.id;
-                message_object.subject  = "Volunteer Application for " + need.role_name_name;
-                message_object.body = formValues.message;
-                message_object.creation_user = context.user.id
-                message_object.read_p = false
-                data.postData("nwn_project_message", message_object, {}, (result, error) => {       
-                    if (error) {
-                        alert("error is " + error)
-                    } else {
-                      context.setDirty();    
-                    }
-                })
-              }
-            })
-          }
-      }
-
-      if (num_needs === 0 && project_data) {
-        let message_object = {}
-        message_object.from_user = context.user.id;
-        message_object.to_user = project_data.leader.id;
-        message_object.nwn_project = project_data.id;
-        message_object.subject  = "Interest in your project";
-        message_object.body = formValues.message;
-        message_object.creation_user = context.user.id
-        message_object.read_p = false
-        data.postData("nwn_project_message", message_object, {}, (result, error) => {       
-            if (error) {
-                alert("error is " + error)
-            } else {
-              context.setDirty();    
-            }
-        })
-      }
-      alert ("You interest has been submitted to the project leader")
-      setProjectId("")
-      setRoleTypeId("")  
-  }
-
   let need_idx = 0
 
   function handleProjectChange(event) {
@@ -151,41 +84,20 @@ function SubsiteSelect(props) {
 
 
   if (selected_touch) {
-      loadNeedData()
       setSelectedTouched(false)
-  }
-
-  function loadNeedData () {
-      const object_type = "nwn_project_need"
-    
-      let filter_id = []
-      let filter_field = []
-      if (project_id) {
-          filter_id.push(project_id)
-          filter_field.push("core_subsite")
-      } 
-      if (role_type_id) {
-          filter_id.push(role_type_id)
-          filter_field.push("role_name")
-      }
-      let options = {filter_id:filter_id, filter_field:filter_field, filter_join:"AND"}
-      data.getData(object_type, options, (data, error) => {       
-            setProjectNeeds(data)
-      })
   }
 
   const handleProjectData = (project_data) => {
       setProjectData(project_data)
   }
   return (
-  
     <Fragment>
       <Typography variant="h5" style={{padding:10}}>Volunteer Opportunities</Typography>
       <Typography style={{padding:5}}>
           Thank you for your interest in helping the Now We Act community. You may start the process by picking either a specific project or a specific role below.  The lower part of the page will update with the needs available. 
       </Typography>
-      <div style={{paddingLeft:40, paddingTop:10, display:'flex'}}>       
-        <div style={{display:'inline', width:'40%'}}>
+      <div style={{paddingLeft:10, paddingRight:40, paddingTop:10, display:'flex'}}>       
+        <div style={{display:'inline', width:'30%'}}>
           <div style={{display:'block'}}> <Typography variant="h5">Project:</Typography> </div>
           <div style={{paddingBottom:20}}><RABSelectField object_type = "core_subsite"
                   mode="edit" form="true"
@@ -210,116 +122,19 @@ function SubsiteSelect(props) {
                   api_options={{filter_field:"accept_signups", filter_id:true}}
                 />
             </div>
-            <div style={{width:"90%", paddingTop:30, paddingRight:20}}>
-              {project_id &&
-            <Card variant="outlined" style={{padding:30,backgroundColor:"#DDDDDD"}}>
-              <ACSRowController data={project_data} field_list={project_info_fields} object_type="core_subsite" mode="view" id={project_id} num_columns={1}  />
-              </Card>}
-              
-            </div>
         </div>
-        <div style={{width:"50%"}}>
-          <ShowNeeds project_data={project_data} role_name={role_name} project_needs={project_needs} show_needs={show_needs} project_id={project_id} role_type_id={role_type_id} handleFormSubmit={handleVolunteerSubmit} handleFormChange={handleFormChange} formValues={formValues}/> 
-
+        <div style={{width:"70%"}}>
+          {project_id &&
+          <Card variant="outlined" style={{padding:30,backgroundColor:"#DDDDDD"}}>
+          <ACSRowController data={project_data} field_list={project_info_fields} object_type="core_subsite" mode="view" id={project_id} num_columns={1}  />
+          </Card>}        
          </div>
-          <div style={{width:"10%"}}/>
      </div>
    
   
   </Fragment>)
 }
 
-function ShowNeeds(props) {
-  const {project_data, role_name, project_needs, show_needs, project_id, role_type_id, handleFormSubmit, handleFormChange, formValues} = props
-  let need_idx=0
-  if (!show_needs) {
-    return null
-  }
-  return (<Fragment>
-    <Card variant="outlined" style={{padding:30,backgroundColor:"#DDDDDD"}}>
-    <form onSubmit={handleFormSubmit}>
-    <VolunteerNeedsIntroduction project_data={project_data} role_name={role_name} project_needs={project_needs} show_needs={show_needs} project_id={project_id} role_type_id={role_type_id}/> 
-    <FormControl>
-    {project_needs && project_needs.length > 0 &&
-    <FormGroup name="nwn_project" area-label="Available Needs">
-    <TableContainer>
-      <Table size="small">
-
-        <TableBody>
-      {project_needs.map(need => {     
-        let need_field_name = "need_" + need_idx 
-        need_idx += 1   
-          if (project_id) {
-            return (
-            <TableRow>
-            <TableCell>
-              <Checkbox onChange={handleFormChange} name={need_field_name} value={formValues[need_field_name]} id={need_field_name}/>
-            </TableCell>   
-              <TableCell>{need.role_name_name} - {need.description}</TableCell>
-            </TableRow>
-            )
-          } else {
-            return (<Fragment>              
-        
-                <TableRow>
-                    <TableCell>
-                      <Checkbox onChange={handleFormChange} name={need_field_name} value={formValues[need_field_name]} id={need_field_name}/>
-                    </TableCell>
-                    <TableCell>{need.nwn_project_name}({need.nwn_project_summary}) - {need.description}</TableCell>
-                </TableRow>
-            </Fragment>
-        ) }
-    })}
-      </TableBody>
-      </Table>
-    </TableContainer>
-    </FormGroup>}
-    {((project_needs && project_needs.length > 0) || project_id) &&
-    <Fragment>
-    <TextField  id="message" name="message"  onChange={handleFormChange} rows="5" rowsMax="10" value ={formValues.message} label= "Use the area below to  send a message to the project leader." multiline />
-    <FormControlLabel style={{paddingTop:40}} name="email_perm" id="email_id" default={true} checked={formValues.email_perm} label="Check here if it is ok to share your email address with the project email. This will allow you to continue your conversation with email directly.  This is highly recommended as you will be able to talk about the project directly." control={<Checkbox onChange={handleFormChange}/>}/>  
-        <Button type="submit" value="Submit">Submit</Button></Fragment>
-    }
-    </FormControl>
-  </form>
-  </Card> </Fragment>
-  )
-
-}
-
-function VolunteerNeedsIntroduction(props) {
-   const {project_data, role_name, project_needs, show_needs, project_id, role_type_id} = props
-   const standard_text =  "You may select more than one.  Fill out a message to the project leader and hit Submit.  The project leader will be sent a notificaton to review and repond to your interest.   Check the volunteer opportunities you are interested in. Thank you."
-   let header = ""
-   let custom_intro =""
-  if (!show_needs) {
-      return null
-  } else if (project_id && !role_type_id) {
-      header = `Volunteer Opportunities in Project ${project_data.name}`
-      custom_intro = `The table below lists the volunteer opportunities a ${project_data.name}.`
-  } else if (role_type_id && !project_id) {
-      header = `Volunteer Opportunities for Role ${role_name}`
-      custom_intro = `The table below lists the volunteer opportunities for ${role_name} accoss all the Now was Act project.`
-  } else {
-      header = `Volunteer Opportunities for Project ${project_data.name} Role ${role_name}`
-      custom_intro = `The table below lists the volunteer opportunities for ${role_name} in the ${project_data._name} project.`
-  }
-  if ((!project_needs || project_needs.length == 0)) {
-      return  ( <Fragment><Typography variant="h6">{header}</Typography>
-        <Typography> There are no advertised volunteer needs available. {project_id && "However, please use the form below to connect with the project leader about your interest."}</Typography>
-        </Fragment>
-      )
-  } else {
-    return (
-      <Fragment><Typography variant="h6">{header}</Typography>
-          <p/>
-          {custom_intro}
-          {standard_text}
-          <p/>
-      </Fragment>
-      )
-  }
-}
 
 //export default withStyles(styles, { withTheme: true })(VolunteerNew);
 export default SubsiteSelect;
