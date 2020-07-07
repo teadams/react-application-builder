@@ -113,7 +113,7 @@ function SubsiteApply(props) {
         message_object.from_user = context.user.id;
         message_object.to_user = subsite_data.leader.id;
         message_object.nwn_project = subsite_data.id;
-        message_object.subject  = "Interest in your project";
+        message_object.subject  = "Interest in your project: "+subsite_data.name;
         message_object.body = formValues.message;
         message_object.creation_user = context.user.id
         message_object.read_p = false
