@@ -134,14 +134,15 @@ function SubsiteApply(props) {
     setSelectedTouched(false)
   }
 
-  if (!subsite_needs) {
+  if (!subsite_needs && (props.id || subsite_data.id)) {
       loadNeedData()
   }
+
   function loadNeedData () {
       const object_type = "nwn_project_need"
       let filter_id = []
       let filter_field = []
-      filter_id.push(props.id)
+      filter_id.push(props.id?props.id:subsite_data.id)
       filter_id.push(true) 
       filter_field.push("core_subsite")
       filter_field.push("role_name.accept_signups")
@@ -157,7 +158,7 @@ function SubsiteApply(props) {
 
   return (
     <Fragment>
-      <ACSHeadlessObjectView object_type="core_subsite" id={props.id} onData={onData}/>
+      <ACSHeadlessObjectView object_type="core_subsite" api_options={props.api_options} id={props.id} onData={onData}/>
       {subsite_data && <Dialog fullWidth={true} open={true}  onClose={handleOnClose}>
         <DialogTitle id="form-dialog-title">Volunteer for {u.capitalize(subsite_data.name)}</DialogTitle>
         <DialogContent>
@@ -180,25 +181,14 @@ function SubsiteApply(props) {
                 {subsite_needs.map(need => {     
                   let need_field_name = "need_" + need_idx 
                   need_idx += 1   
-                  if (props.id) {
                   return (
                     <TableRow>
                       <TableCell>
                         <Checkbox onChange={handleFormChange} name={need_field_name} value={formValues[need_field_name]} id={need_field_name}/>
                       </TableCell>   
-                      <TableCell>{need.role_name_name} - {need.description}</TableCell>
+                      <TableCell>{need.role_name.name} - {need.description}</TableCell>
                     </TableRow>
                   )
-                } else {
-                  return (<Fragment>              
-                    <TableRow>
-                      <TableCell>
-                          <Checkbox onChange={handleFormChange} name={need_field_name} value={formValues[need_field_name]} id={need_field_name}/>
-                        </TableCell>
-                        <TableCell>{need.nwn_project_name}({need.nwn_project_summary}) - {need.description}</TableCell>
-                    </TableRow>
-                  </Fragment>
-                ) }
               })}
           </TableBody>
           </Table>

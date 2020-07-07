@@ -8,17 +8,28 @@ import ACSHeadlessObjectView from "../../Functional/Rows/ACSHeadlessObjectView.j
 import ACSObjectTypeView from "../../Functional/Lists/ACSObjectTypeView.js"
 import ACSCommunicationObjectTypeView from "../../Functional/Lists/ACSCommunicationObjectTypeView.js"
 import ACSSummaryObjectTypeView from "../../Functional/Lists/ACSSummaryObjectTypeView.js"
-import {Paper, Container, Box, Typography, Card, TableHead, TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
+import {Paper, Container, Box, Typography, Card, TableHead, TableContainer, Table, TableBody, TableRow, TableCell, Button} from '@material-ui/core';
 import * as u from '../../Utils/utils.js';
+import SubsiteApply from "./SubsiteApply.js"
 
 function NWAProjectView(props) {
   const [data, setData] = useState(null)
   const [video_data, setVideoData] = useState(null)
+  const [showVolunteerDialog, setShowVolunteerDialog] = useState(false)
+
   const {id, api_options} = props
   // if admin, add applied
   let volunteer_options = {filter_id:api_options.filter_id+",Accepted",
                            filter_field:api_options.filter_field+",Status,"}
 
+  const handleVolunteerClose= event => {
+    setShowVolunteerDialog(false)
+  }
+                        
+  const handleVolunteerClick = event => {
+    setShowVolunteerDialog(true)
+  }
+  
   const onData=(api_data) => {
     setData(api_data)
   }
@@ -29,6 +40,7 @@ function NWAProjectView(props) {
  // ACSHeadlessObjectView wiill retrieve new data on props changes
   return (
     <Fragment>
+    {showVolunteerDialog && <SubsiteApply id={id} api_options={api_options} onClose={handleVolunteerClose} open={showVolunteerDialog}/>}
     <Paper  variant="outlined">
     <ACSHeadlessObjectView {...props} onData={onData}/>
     <ACSHeadlessObjectView  {...props} api_options={{filter_field:"primary_video", filter_id:true}} object_type="nwn_project_video" onData={onVideoData}/>
@@ -53,6 +65,8 @@ function NWAProjectView(props) {
       <div style={{marginTop:20}}>
 
         <ACSSummaryObjectTypeView action="map"   api_options={{filter_id:true, filter_field:"role_name.accept_signups"}}  description_field="role_name.description" action_props={{mapping_name:"mapping_values",filter_field:"role_name.accept_signups", filter_id:true}} object_type="nwn_project_need"/>
+        <Button   variant="contained" onClick={handleVolunteerClick}>Volunteer</Button>
+
         
       </div>
       <div style={{marginTop:20}}>
