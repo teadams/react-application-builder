@@ -140,7 +140,7 @@ function MappingRow(props) {
 // ?? other columns to display
 
 function ACSMappingView(props)  {
-  const {object_type, dialog_open=true, root_value, mapping_name, api_options={}, ...params} = props
+  const {object_type, dialog_open=true, root_value, mapping_name, filter_id, filter_field, api_options={}, ...params} = props
   const context = useContext(AuthContext)
   if (mapping_name) {
       // attribute to use for this mapping
@@ -156,6 +156,9 @@ function ACSMappingView(props)  {
   if (!api_options.root_value) {
       return null
   }
+  if (filter_id) {api_options.filter_id=filter_id}
+  if (filter_field) {api_options.filter_field=filter_field}
+
   function handleOnClose() {
     // XX - only if things changed
     context.setDirty();
@@ -194,6 +197,7 @@ function ACSMappingView(props)  {
             field_wrap:"Fragment"
           },
       }}
+u.a(params)
   if (dialog_open) {
     return (  
     <Dialog fullWidth={true} open={dialog_open}  maxWidth="lg" aria-labelledby="form-dialog-title">

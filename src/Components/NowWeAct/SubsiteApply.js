@@ -142,7 +142,7 @@ function SubsiteApply(props) {
       let filter_id = []
       let filter_field = []
       filter_id.push(props.id)
-      filter_id.push(true)
+      filter_id.push(true) 
       filter_field.push("core_subsite")
       filter_field.push("role_name.accept_signups")
       let options = {filter_id:filter_id, filter_field:filter_field, filter_join:"AND"}
