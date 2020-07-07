@@ -27,7 +27,7 @@ const useGetObjectList = (object_type, api_options={}, param_data, callback, onD
 
   let return_state = prev_state.slice(1)
   const trigger_change_array = api.addAPIParams([object_type, dirty_stamp], api_options)
-  
+
   function markStateReady(object_type, api_options, api_results) {
     setState([true, object_type,  api_options, api_results])
   }

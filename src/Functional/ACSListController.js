@@ -93,7 +93,6 @@ function ACSListController(input_props) {
   let [object_type, api_options, data] = useGetObjectList(massaged_props.object_type, massaged_props.api_options, input_props.data, onData); 
 
 
-
   field_list = useGenerateFieldList(object_type, "", data, mode, false, field_list, lazy)
 
   if (!data || (object_type && !object_model) || headless) return null

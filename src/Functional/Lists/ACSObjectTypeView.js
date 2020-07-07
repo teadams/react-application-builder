@@ -7,8 +7,8 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
 
 
 function ACSObjectTypeView(props)  {
-  const {object_type, api_options, ...params} = props
-  return (<ACSListController {...params} object_type={object_type} api_options={api_options}/> )
+  const {object_type,  ...params} = props
+  return (<ACSListController {...params} object_type={object_type} api_options={props.api_options}/> )
 }
 export default ACSObjectTypeView;
 

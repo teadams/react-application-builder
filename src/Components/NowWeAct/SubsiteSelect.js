@@ -5,6 +5,7 @@ import * as meta from '../../Utils/meta.js';
 import * as data from '../../Utils/data.js';
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
+import ACSObjectTypeView from "../../Functional/Lists/ACSObjectTypeView.js"
 import AuthContext from '../User/AuthContext';
 import useForm from '../../Hooks/useForm';
 import useGetObject  from '../../Hooks/useGetObject';
@@ -41,92 +42,114 @@ const box_style = {
 
 function SubsiteSelect(props) {
   const context = useContext(AuthContext)
-  const [project_id, setProjectId] = useState();
+  //XX could get default select field by object type from proc?
+  const [form_values, setFormValues]= useState({
+    core_subsite:"",
+    nwn_project_type:"",
+    core_role:"",
+    core_country:"US",
+    core_state_province:""
+  })
+  const [subsite_data, setSubsiteData] = useState([])
+  //const [api_options, setApiOptions] = useState("")
+  const subsite_info_fields= ["summary", "leader", "description", "street_address", "city", "state", "country", "zip_code"]
 
-  const [role_type_id, setRoleTypeId] = useState(props.role_type_id);
-  const [role_name, setRoleName] = useState("");
-
-  const [project_needs, setProjectNeeds] = useState([]);
-
-  const [selected_touch, setSelectedTouched] = useState(false);
-
-  const field_models = useGetModel("fields", "core_subsite")
-  const project_field_model = field_models["name"]
-
-  const [project_data, setProjectData] = useState("")
-
-  const project_info_fields= ["summary", "leader", "description", "street_address", "city", "state", "country", "zip_code"]
-
-  const {formValues, lastTouched, handleFormChange, handleFormSubmit} = useForm("core_subsite_role", "", "", "", "create", "true", {email_perm:true, status:"Applied"}, ["id", "core_subsite", "core_role", "status", "message", "email_perm"]);
-
-  let show_needs = (project_id ||role_type_id)?true:false
-
-  let need_idx = 0
-
-  function handleProjectChange(event) {
+  function handleChange(event) {
         const value=event.target.value
-        if (value !== project_id) {
-          setProjectData(event.target.selected_data)
-//          setProjectName(project_name)
-          setProjectId(value)
-          setSelectedTouched(true)
+        const name=event.target.name
+        if (form_values[name] !== value) {
+          setFormValues(form_values=>({...form_values,[name]:value}))
         }
   }
-  function handleRoleTypeChange(event) {
-    const value = event.target.value
-    const role_name = event.target.selected_data.name
-    if (value != role_type_id) {
-        setRoleName(role_name)
-        setRoleTypeId(value)
-        setSelectedTouched(true)
-    }
-  }
 
+  let api_options = {filter_id:[], filter_field:[]}
+  api_options.filter_id.push(form_values.core_subsite)
+  api_options.filter_field.push("id")
 
-  if (selected_touch) {
-      setSelectedTouched(false)
-  }
-
-  const handleProjectData = (project_data) => {
-      setProjectData(project_data)
+  const handleSubsiteData = (api_data) => {
+      setSubsiteData(api_data)
   }
   return (
     <Fragment>
-      <Typography variant="h5" style={{padding:10}}>Volunteer Opportunities</Typography>
-      <Typography style={{padding:5}}>
-          Thank you for your interest in helping the Now We Act community. You may start the process by picking either a specific project or a specific role below.  The lower part of the page will update with the needs available. 
-      </Typography>
-      <div style={{paddingLeft:10, paddingRight:40, paddingTop:10, display:'flex'}}>       
+      {api_options && <ACSObjectTypeView headless={true} api_options={api_options} object_type="core_subsite" onData={handleSubsiteData}/>}
+      <Typography variant="h5" style={{padding:10}}>Search for a project</Typography>
+      <div style={{paddingLeft:20, paddingRight:40, paddingTop:10, display:'flex'}}>       
         <div style={{display:'inline', width:'30%'}}>
-          <div style={{display:'block'}}> <Typography variant="h5">Project:</Typography> </div>
+          <div style={{display:'block'}}> <Typography variant="h6">Project:</Typography> </div>
           <div style={{paddingBottom:20}}><RABSelectField object_type = "core_subsite"
                   mode="edit" form="true"
                   add_any={true}
-                  value = {project_id}
+                  form_field_name="core_subsite"
+                  value = {form_values.core_subsite}
                   style = {{width:"90%"}}
-                  onChange={handleProjectChange}
+                  onChange={handleChange}
                   noLabel= {true}
                   disable_underline={false}
                 />
             </div>
-            <div style={{display:"block"}}><Typography variant="h5">Role:</Typography></div>
-            <div>
+            <div style={{display:"block"}}><Typography variant="h6">Project Type:</Typography></div>
+            <div style={{paddingBottom:20}}>
+              <RABSelectField object_type = "nwn_project_type"
+                  mode="edit" form="true"
+                  add_any={true}
+                  form_field_name="nwn_project_type"
+                  value = {form_values.nwn_project_type}
+                  name = "nwn_project_type"
+                  style = {{width:"90%"}}
+                  onChange={handleChange}
+                  noLabel= {true}
+                  disable_underline={false}
+                />
+            </div>
+            <div style={{display:"block"}}><Typography variant="h6">Role:</Typography></div>
+            <div  style={{paddingBottom:20}}>
               <RABSelectField object_type = "core_role"
                   mode="edit" form="true"
                   add_any={true}
-                  value = {role_type_id}
+                  form_field_name="core_role"
+                  value = {form_values.core_role}
+                  name="core_role"
                   style = {{width:"90%"}}
-                  onChange={handleRoleTypeChange}
+                  onChange={handleChange}
                   noLabel= {true}
                   disable_underline={false}
                   api_options={{filter_field:"accept_signups", filter_id:true}}
                 />
             </div>
+            <div style={{display:"block"}}><Typography variant="h6">Country:</Typography></div>
+            <div style={{paddingBottom:20}}>
+              <RABSelectField object_type = "core_country"
+                  mode="edit" form="true"
+                  add_any={true}
+                  form_field_name="core_country"
+                  value = {form_values.core_country}
+                  name="core_country"
+                  style = {{width:"90%"}}
+                  onChange={handleChange}
+                  noLabel= {true}
+                  disable_underline={false}
+                />
+            </div>
+            <div style={{display:"block"}}><Typography variant="h6">State or Province:</Typography></div>
+            <div style={{paddingBottom:20}}>
+              <RABSelectField object_type = "core_state_province"
+                  mode="edit" form="true"
+                  add_any={true}
+                  form_field_name="core_state_province"
+                  value = {form_values.core_state_province}
+                  name="core_state_province"
+                  style = {{width:"90%"}}
+                  onChange={handleChange}
+                  noLabel= {true}
+                  disable_underline={false}
+                />
+            </div>
+
         </div>
         <div style={{width:"70%"}}>
-          {project_id &&
+          {subsite_data.length ===1 &&
           <Card variant="outlined" style={{padding:30,backgroundColor:"#DDDDDD"}}>
-          <ACSRowController data={project_data} field_list={project_info_fields} object_type="core_subsite" mode="view" id={project_id} num_columns={1}  />
+          <ACSRowController data={subsite_data[0]} field_list={subsite_info_fields} object_type="core_subsite" mode="view" num_columns={1}  />
           </Card>}        
          </div>
      </div>
