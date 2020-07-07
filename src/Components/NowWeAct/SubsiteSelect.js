@@ -50,7 +50,8 @@ function SubsiteSelect(props) {
     core_country:"US",
     core_state_province:""
   })
-  const [subsite_data, setSubsiteData] = useState([])
+  const [form_touched, setFormTouched] = useState(false)
+  const [subsite_data, setSubsiteData] = useState("")
   //const [api_options, setApiOptions] = useState("")
   const subsite_info_fields= ["summary", "leader", "description", "street_address", "city", "state", "country", "zip_code"]
 
@@ -58,20 +59,37 @@ function SubsiteSelect(props) {
         const value=event.target.value
         const name=event.target.name
         if (form_values[name] !== value) {
+          setFormTouched(true)
           setFormValues(form_values=>({...form_values,[name]:value}))
         }
   }
 
-  let api_options = {filter_id:[], filter_field:[]}
-  api_options.filter_id.push(form_values.core_subsite)
-  api_options.filter_field.push("id")
+  let api_options = {filter_id:[], filter_field:[], filter_join:"AND"}
+  if (form_values.core_subsite) {
+    api_options.filter_id.push(form_values.core_subsite)
+    api_options.filter_field.push("id")
+  }
+  if (form_values.nwn_project_type) {
+    api_options.filter_id.push(form_values.nwn_project_type)
+    api_options.filter_field.push("type")
+  }
+
+  if (form_values.core_country) {
+    api_options.filter_id.push(form_values.core_country)
+    api_options.filter_field.push("country")
+  }
+  if (form_values.core_state_province) {
+    api_options.filter_id.push(form_values.core_state_province)
+    api_options.filter_field.push("state")
+  }
+
 
   const handleSubsiteData = (api_data) => {
       setSubsiteData(api_data)
   }
   return (
     <Fragment>
-      {api_options && <ACSObjectTypeView headless={true} api_options={api_options} object_type="core_subsite" onData={handleSubsiteData}/>}
+      {api_options && form_touched && <ACSObjectTypeView headless={true} api_options={api_options} object_type="core_subsite" onData={handleSubsiteData}/>}
       <Typography variant="h5" style={{padding:10}}>Search for a project</Typography>
       <div style={{paddingLeft:20, paddingRight:40, paddingTop:10, display:'flex'}}>       
         <div style={{display:'inline', width:'30%'}}>
@@ -142,15 +160,24 @@ function SubsiteSelect(props) {
                   onChange={handleChange}
                   noLabel= {true}
                   disable_underline={false}
+                  api_options={{filter_field:"country_alpha_2", filter_id:form_values.core_country}}
                 />
             </div>
 
         </div>
         <div style={{width:"70%"}}>
+          {form_touched && subsite_data !== "" && subsite_data.length ===0 &&
+          <Card variant="outlined" style={{padding:30,backgroundColor:"#DDDDDD"}}>
+            There are no results that meet your criteria.
+          </Card>
+          }
           {subsite_data.length ===1 &&
           <Card variant="outlined" style={{padding:30,backgroundColor:"#DDDDDD"}}>
           <ACSRowController data={subsite_data[0]} field_list={subsite_info_fields} object_type="core_subsite" mode="view" num_columns={1}  />
-          </Card>}        
+          </Card>}
+          {subsite_data.length >1 &&
+            <ACSObjectTypeView data={subsite_data} field_list={["name","summary","address"]} object_type="core_subsite" mode="view" num_columns={1}  />
+          }
          </div>
      </div>
    
