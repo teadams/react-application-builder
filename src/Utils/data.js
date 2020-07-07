@@ -21,7 +21,7 @@ export function validAPIParams() {
 export function addAPIParams(trigger_change_array, api_options) {
     validAPIParams().forEach(param => {
       if (api_options && api_options[param]) {
-        trigger_change_array.push(api_options[param])
+        trigger_change_array.push(JSON.stringify(api_options[param]))
       } else { 
         // MUST keep consistent array size. (rule of useEffect)
         trigger_change_array.push("")
