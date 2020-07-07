@@ -197,7 +197,7 @@ function ACSMappingView(props)  {
             field_wrap:"Fragment"
           },
       }}
-u.a(params)
+
   if (dialog_open) {
     return (  
     <Dialog fullWidth={true} open={dialog_open}  maxWidth="lg" aria-labelledby="form-dialog-title">
