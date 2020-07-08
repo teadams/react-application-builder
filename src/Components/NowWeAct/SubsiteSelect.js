@@ -40,16 +40,6 @@ const box_style = {
   display:"inline"
 }
 
-function SubsiteMoreInfo (props) {
-    return (<Link>Details</Link>)
-}
-
-const field_models = {core_subsite:{
-                      more:{pretty_name:"More",
-                        rab_component_model:{field:{components:{field:SubsiteMoreInfo}}}
-                        }
-                      }}
-
 
 function SubsiteSelect(props) {
   const context = useContext(AuthContext)
@@ -63,8 +53,29 @@ function SubsiteSelect(props) {
   })
   const [form_touched, setFormTouched] = useState(false)
   const [subsite_data, setSubsiteData] = useState("")
+  const [show_details, setShowDetails] = useState(false)
+  const [active_data, setActiveData] = useState("")
   //const [api_options, setApiOptions] = useState("")
   const subsite_info_fields= ["summary", "leader", "description", "address"]
+
+  function handleSubsiteDetailsClose(event) {
+      setActiveData("")
+  }
+
+
+  function SubsiteMoreInfo (props) {
+      function handleSetActiveData(event) {
+        setActiveData(props.data)
+      }
+      return (<Link name={props.data} onClick={handleSetActiveData}>Details</Link>)
+  }
+  
+  const field_models = {core_subsite:{
+                        more:{pretty_name:"More",
+                          rab_component_model:{field:{components:{field:SubsiteMoreInfo}}}
+                          }
+                        }}
+
 
   function handleChange(event) {
         const value=event.target.value
@@ -110,6 +121,15 @@ function SubsiteSelect(props) {
   }
   return (
     <Fragment>
+      {active_data && <Dialog fullWidth={true} open={true}  onClose={handleSubsiteDetailsClose}>
+        <DialogContent>
+              <ACSRowController data={active_data} field_list={subsite_info_fields} object_type="core_subsite" mode="view" num_columns={1}  />
+
+              <DialogActions>
+                <Button onClick={handleSubsiteDetailsClose} color="primary">Close</Button>
+              </DialogActions>  
+        </DialogContent>
+      </Dialog>}
       {api_options && form_touched && <ACSObjectTypeView headless={true} api_options={api_options} object_type="core_subsite" onData={handleSubsiteData}/>}
       <Typography variant="h5" style={{padding:10}}>Search for a project</Typography>
       <div style={{paddingLeft:20, paddingRight:40, paddingTop:10, display:'flex'}}>       
