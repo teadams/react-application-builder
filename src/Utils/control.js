@@ -42,6 +42,12 @@ import TreeItem from '@material-ui/lab/TreeItem';
 import GoogleMap from '../Components/Layouts/GoogleMap.js'
 import NWAMap from '../Components/Layouts/NWAMap.js'
 
+const useStyles = makeStyles({
+  table_cell: {
+    padding: "4px"
+  },
+});
+
 // precedence: low to high
 // shell - defines structure and defaults for all
 // default_component_for_layer - current list, row, field
@@ -195,6 +201,7 @@ function RABTableRow(props) {
 }
 
 function RABTableCell(props) {
+  const classes = useStyles();
   const {emphasis} = props
   let EmphasisTag = Fragment 
   switch (emphasis) {
@@ -204,9 +211,8 @@ function RABTableCell(props) {
     case "italic":
       EmphasisTag ="i"
   }
-
-
-  return(<TableCell  onClick={props.onClick} style={{verticalAlign:"top"}} onMouseOver={props.onMouseOver} colSpan={props.col_span} key={props.key_id}><EmphasisTag>{props.children}</EmphasisTag></TableCell>)
+  
+  return(<TableCell classes={{root:classes.table_cell}} onClick={props.onClick} style={{verticalAlign:"top"}} onMouseOver={props.onMouseOver} colSpan={props.col_span} key={props.key_id}><EmphasisTag>{props.children}</EmphasisTag></TableCell>)
 }
 
 function RABFragment(props) {
