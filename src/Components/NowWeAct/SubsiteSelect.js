@@ -64,7 +64,7 @@ function SubsiteSelect(props) {
         }
   }
 
-  let api_options = {filter_id:[], filter_field:[], filter_join:"AND"}
+  let api_options = {filter_id:[], filter_field:[], filter_join:"AND", referenced_by:[]}
   if (form_values.core_subsite) {
     api_options.filter_id.push(form_values.core_subsite)
     api_options.filter_field.push("id")
@@ -77,6 +77,12 @@ function SubsiteSelect(props) {
   if (form_values.core_country) {
     api_options.filter_id.push(form_values.core_country)
     api_options.filter_field.push("country")
+  }
+
+  if (form_values.core_role) {
+    api_options.filter_id.push(form_values.core_role)
+    api_options.filter_field.push("project_needs.role_name")
+    api_options.referenced_by.push("project_needs")
   }
   if (form_values.core_state_province) {
     api_options.filter_id.push(form_values.core_state_province)

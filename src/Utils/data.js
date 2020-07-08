@@ -14,7 +14,7 @@ export function getPathBase () {
 } 
 
 export function validAPIParams() {
-    return ["order_by", "order_by_direction", "filter_field", "filter_id", "filter_join", "key_type", "context_limit", "user_id", "subsite_id" ,"parent_field", "get_count", "grouping_field", "expand_hierarchy", "num_rows", "root_value", "mapping_name"]
+    return ["order_by", "order_by_direction", "filter_field", "filter_id", "filter_join", "key_type", "context_limit", "user_id", "subsite_id" ,"parent_field", "get_count", "grouping_field", "expand_hierarchy", "num_rows", "root_value", "mapping_name", "referenced_by"]
 }
 
 
@@ -40,7 +40,7 @@ export function getParamsObject(options={}, params=validAPIParams()) {
       const value = options[param]
       if (value) {
           if (Array.isArray(value) & 
-              ["filter_id", "filter_field", "filter_join"].includes(param)) {
+              ["referenced_by","filter_id", "filter_field", "filter_join"].includes(param)) {
               params_object[param] = value.join(",")
           } else {
               params_object[param] = options[param]
