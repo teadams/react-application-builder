@@ -81,8 +81,12 @@ function SubsiteSelect(props) {
 
   if (form_values.core_role) {
     api_options.filter_id.push(form_values.core_role)
+    api_options.filter_id.push("Recruiting")
     api_options.filter_field.push("project_needs.role_name")
+    api_options.filter_field.push("project_needs.status")
     api_options.referenced_by.push("project_needs")
+    api_options.filter_join="AND"
+  
   }
   if (form_values.core_state_province) {
     api_options.filter_id.push(form_values.core_state_province)
