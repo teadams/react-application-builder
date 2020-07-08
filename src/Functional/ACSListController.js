@@ -57,10 +57,10 @@ function RABTableHeaders(props) {
 }
 
 function RABList(list_props) {
-  const {data, rab_component_model, ...list_params} = list_props
+  const {data, field_models, rab_component_model, ...list_params} = list_props
   return (
     data.map((row, index) => {
-        return (<ACSRowController {...list_params} data={row} rab_component_model={rab_component_model} key={index+"Controller"} key_id={index}/>)
+        return (<ACSRowController {...list_params} data={row} field_models={field_models} rab_component_model={rab_component_model} key={index+"Controller"} key_id={index}/>)
     })
   )
 }
@@ -68,7 +68,7 @@ function RABList(list_props) {
 // Documentation - see comments in ACSRowController
 function ACSListController(input_props) {
   // do not merge expensive, known unnecessary things
-  const {data:input_props_data, action, target_menu_name, lazy="core", headless, action_props, onData, ...merging_props} = input_props
+  const {data:input_props_data, action, target_menu_name, lazy="core", field_models, headless, action_props, onData, ...merging_props} = input_props
   const object_models =  useGetModel("object_types")
   const object_model = object_models?object_models[input_props.object_type]:{}
   // XX BUG. will change the original 
@@ -98,7 +98,7 @@ function ACSListController(input_props) {
   if (!data || (object_type && !object_model) || headless) return null
 
   return  (
-    <RenderACSList {...list_model.props} action={action} key={object_type+"list"}  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} action_props={action_props} rab_component_model={rab_component_model} />
+    <RenderACSList {...list_model.props} field_models={field_models} action={action} key={object_type+"list"}  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} action_props={action_props} rab_component_model={rab_component_model} />
   )
   
 }

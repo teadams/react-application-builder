@@ -20,7 +20,13 @@ function ACSField(input_props) {
   // XX could be encapulated below if we use and unconvential approach
   // and that convolve it
   const object_type_models = useGetModel("object_types")
-  const field_models =  useGetModel("fields")
+  const default_field_models =  useGetModel("fields")
+  let field_models
+  if (input_props.field_models) {
+    field_models = input_props.field_models
+  } else {
+    field_models=default_field_models
+  }
   let input_field_name = input_props.field_name
   let input_object_type = input_props.object_type
   let field_model

@@ -11,6 +11,7 @@ import useForm from '../../Hooks/useForm';
 import useGetObject  from '../../Hooks/useGetObject';
 import ACSRowController from '../../Functional/ACSRowController.js'
 import RABSelectField from '../../Functional/Fields/RABSelectField.js'
+import RABTextField from '../../Functional/Fields/RABTextField.js'
 import ObjectView from '../../RABComponents/ObjectView.js'
 
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
@@ -38,6 +39,16 @@ const box_style = {
   borderStyle:"solid",
   display:"inline"
 }
+
+function SubsiteNameField (props) {
+    return (<Fragment><RABTextField {...props}/> WHOOPEE</Fragment>)
+}
+
+const field_models = {core_subsite:{
+                      name:{
+                        rab_component_model:{field:{components:{field:SubsiteNameField}}}
+                        }
+                      }}
 
 
 function SubsiteSelect(props) {
@@ -186,7 +197,7 @@ function SubsiteSelect(props) {
           <ACSRowController data={subsite_data[0]} field_list={subsite_info_fields} object_type="core_subsite" mode="view" num_columns={1}  />
           </Card>}
           {subsite_data.length >1 &&
-            <ACSObjectTypeView data={subsite_data} field_click_to_edit={false} rab_component_model={{list:{names:{header_wrap:"RABVoid"}}}} field_list={["name","summary","address"]} object_type="core_subsite" mode="view" num_columns={1}  />
+            <ACSObjectTypeView data={subsite_data} field_click_to_edit={false} rab_component_model={{list:{names:{header_wrap:"RABVoid"}}}} field_models={field_models} field_list={["name","summary","address"]} object_type="core_subsite" mode="view" num_columns={1}  />
           }
          </div>
      </div>

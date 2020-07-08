@@ -55,7 +55,7 @@ import rab_component_models from '../Models/HealthMe/component.js'
 //   The rest is just prep
 
 function RABRow(row_props) {
-  const {mode, form, field_chunk, data, field, rab_component_model, handleFormChange, handleFormSubmit, formValues, key_id, s_index, f_index} = row_props
+  const {mode, form, field_chunk, field_models, data, field, rab_component_model, handleFormChange, handleFormSubmit, formValues, key_id, s_index, f_index} = row_props
   const {...row_params} = row_props
   const {field_chunk_wrap:FieldChunk} = rab_component_model.row.components
   return (
@@ -63,7 +63,7 @@ function RABRow(row_props) {
       {field_chunk.map( (field_name, ch_index) => {
            const autoFocus = (f_index === 0 && s_index === 0 && ch_index === 0 )?true:false
             
-           return <ACSField field_mode={mode} field_form={!form} field_name={field_name} handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit}
+           return <ACSField field_mode={mode} field_models={field_models} field_form={!form} field_name={field_name} handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit}
            autoFocus ={autoFocus}
            formValues={formValues} {...row_params} key={ch_index+"field_name"} key_id={ch_index}/>
       })}
@@ -97,7 +97,6 @@ function ACSRowController(input_props) {
   let field_models =  useGetModel("fields")
   if (input_props.field_models) { 
     field_models = _.merge({},field_models, input_props.field_models)
-    u.aa("props",  field_models.core_subsite.name)
   }
 
   const section_models = useGetModel("sections")
@@ -224,7 +223,7 @@ function ACSRowController(input_props) {
     // XX on data 
     return null
   }
-  return  (<RenderACSRow {...row_model.props} mode={mode} form={form} object_type={object_type} action_props={action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} form_open={form_open} onClose={handleFormClose}
+  return  (<RenderACSRow {...row_model.props} field_models={field_models} mode={mode} form={form} object_type={object_type} action_props={action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} form_open={form_open} onClose={handleFormClose}
   handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} key={key_id+"Render"} key_id={key_id}/>)
 
 }
