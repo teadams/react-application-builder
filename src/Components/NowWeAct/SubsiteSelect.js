@@ -14,8 +14,8 @@ import RABSelectField from '../../Functional/Fields/RABSelectField.js'
 import RABTextField from '../../Functional/Fields/RABTextField.js'
 import ObjectView from '../../RABComponents/ObjectView.js'
 import NWAProjectSummary from './NWAProjectSummary.js'
-
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
+
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 import {Link, Container, Box, Card, TableHead, TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
 import useGetModel from '../../Hooks/useGetModel.js'
@@ -137,7 +137,7 @@ function SubsiteSelect(props) {
           <div style={{display:'block'}}> <Typography variant="h6">Project:</Typography> </div>
           <div style={{paddingBottom:20}}><RABSelectField object_type = "core_subsite"
                   mode="edit" form="true"
-                  add_any={true}
+                  add_none="Any"
                   form_field_name="core_subsite"
                   value = {form_values.core_subsite}
                   style = {{width:"90%"}}
@@ -150,7 +150,7 @@ function SubsiteSelect(props) {
             <div style={{paddingBottom:20}}>
               <RABSelectField object_type = "nwn_project_type"
                   mode="edit" form="true"
-                  add_any={true}
+                  add_none="Any"
                   form_field_name="nwn_project_type"
                   value = {form_values.nwn_project_type}
                   name = "nwn_project_type"
@@ -164,7 +164,7 @@ function SubsiteSelect(props) {
             <div  style={{paddingBottom:20}}>
               <RABSelectField object_type = "core_role"
                   mode="edit" form="true"
-                  add_any={true}
+                  add_none="Any"
                   form_field_name="core_role"
                   value = {form_values.core_role}
                   name="core_role"
@@ -179,7 +179,7 @@ function SubsiteSelect(props) {
             <div style={{paddingBottom:20}}>
               <RABSelectField object_type = "core_country"
                   mode="edit" form="true"
-                  add_any={true}
+                  add_none="Any"
                   form_field_name="core_country"
                   value = {form_values.core_country}
                   name="core_country"
@@ -193,7 +193,7 @@ function SubsiteSelect(props) {
             <div style={{paddingBottom:20}}>
               <RABSelectField object_type = "core_state_province"
                   mode="edit" form="true"
-                  add_any={true}
+                  add_none="Any"
                   form_field_name="core_state_province"
                   value = {form_values.core_state_province}
                   name="core_state_province"
