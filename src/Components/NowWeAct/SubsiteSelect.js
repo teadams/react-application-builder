@@ -46,11 +46,11 @@ function SubsiteSelect(props) {
   const context = useContext(AuthContext)
   //XX could get default select field by object type from proc?
   const [form_values, setFormValues]= useState({
-    core_subsite:"",
-    nwn_project_type:"",
-    core_role:"",
+    core_subsite:"_none_",
+    nwn_project_type:"_none_",
+    core_role:"_none_",
     core_country:"US",
-    core_state_province:""
+    core_state_province:"_none_"
   })
   const [form_touched, setFormTouched] = useState(false)
   const [subsite_data, setSubsiteData] = useState("")
@@ -88,21 +88,21 @@ function SubsiteSelect(props) {
   }
 
   let api_options = {filter_id:[], filter_field:[], filter_join:"AND", referenced_by:[]}
-  if (form_values.core_subsite) {
+  if (form_values.core_subsite && form_values.core_subsite !== "_none_") {
     api_options.filter_id.push(form_values.core_subsite)
     api_options.filter_field.push("id")
   }
-  if (form_values.nwn_project_type) {
+  if (form_values.nwn_project_type && form_values.nwn_project_type !== "_none_") {
     api_options.filter_id.push(form_values.nwn_project_type)
     api_options.filter_field.push("type")
   }
 
-  if (form_values.core_country) {
+  if (form_values.core_country && form_values.core_country !== "_none_") {
     api_options.filter_id.push(form_values.core_country)
     api_options.filter_field.push("country")
   }
 
-  if (form_values.core_role) {
+  if (form_values.core_role && form_values.core_role !== "_none_") {
     api_options.filter_id.push(form_values.core_role)
     api_options.filter_id.push("Recruiting")
     api_options.filter_field.push("project_needs.role_name")
@@ -111,7 +111,7 @@ function SubsiteSelect(props) {
     api_options.filter_join="AND"
   
   }
-  if (form_values.core_state_province) {
+  if (form_values.core_state_province && form_values.core_state_province !== "_none_") {
     api_options.filter_id.push(form_values.core_state_province)
     api_options.filter_field.push("state")
   }
