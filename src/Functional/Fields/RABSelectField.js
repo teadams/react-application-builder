@@ -113,9 +113,23 @@ function RABSelectList(props) {
 
 function RABSelectField(props) {
 
-  const {mode, data=[], add_none, field_name, formValues, onSubmit, onFieldBlur,  onChange, autoFocus, object_type, field_model={}, value="", display_value=" ", disable_underline, style, api_options} = props
+  const {mode, data=[], add_none, field_name, formValues, onSubmit, onFieldBlur,  onChange, autoFocus, object_type, field_model={}, value="", display_value=" ", disable_underline, style, api_options={}} = props
   let {form_field_name} = props
   const {...params} = props
+
+  const {dependent_filter_field, dependent_data_field} = field_model
+  if (dependent_filter_field) {
+      if (api_options.filter_field) { 
+        api_options.filter_field = api_options.filter_field.push(dependent_filter_field)
+      } else {
+        api_options.filter_field = dependent_filter_field
+      }
+      if (api_options.filter_id) {
+        api_options.filter_id = api_options.filter_id.push(data[dependent_data_field])
+      } else {
+        api_options.filter_id = data[dependent_data_field]
+    }
+  }
   // 2 use cases:
   // 1. Called from a create/edit form (formValues is present)
   //   View will show field_display_value takend from data object.
@@ -125,7 +139,7 @@ function RABSelectField(props) {
   const object_type_model = useGetModel("object_types", object_type)
   if (!form_field_name) {
     form_field_name = formValues?field_model.formValues_name:object_type_model.select_key_id
-  }
+   }
   const field_value = formValues?formValues[form_field_name]:value
   // convert to final field
   const final_field_component_name = field_model.final_field_component?field_model.final_field_component:"RABTextField"
@@ -147,6 +161,7 @@ function RABSelectField(props) {
   rab_component_model.list.components.list_wrap = RABSelectList
   rab_component_model.list.names.header = "RABVoid"
   rab_component_model.list.props.add_none = add_none
+  
   function onBlur() {
     if (props.form && props.onSubmit) {
       props.onSubmit()
