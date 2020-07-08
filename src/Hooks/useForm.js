@@ -80,7 +80,6 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   }
 
   const handleFormSubmit = (event => {
-
     if (!lastTouched) {
        if (handleSubmit) {
         handleSubmit(event, "no_change")
@@ -149,10 +148,15 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   const handleFormChange = ((event) => {
     event.persist();
     const name = event.target.name
+    const field_model = field_models[name]
     setLastTouched(name)
     if (event.target.type !== "file") {
       let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
-      setFormValues(formValues => ({...formValues, [name]:value}));
+      if (field_model.dependency_data_field) {
+        setFormValues(formValues => ({...formValues, [name]:value, [field_model.dependency_data_field]:""}));
+      } else {
+        setFormValues(formValues => ({...formValues, [name]:value}));
+      }
     } else {
       let value = event.target.files[0];
       if (mode==="edit" && form && field_name) {
@@ -163,6 +167,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
         if (filesTouched.indexOf(name) === -1) {
             setFilesTouched(filesTouched.concat([name]))
         }
+        //dependency_data_field
         setFormValues(formValues => ({...formValues, [name]:value}));
       }
     }
