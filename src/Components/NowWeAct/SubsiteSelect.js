@@ -51,6 +51,7 @@ function SubsiteSelect(props) {
     core_role:"_none_",
     core_country:"US",
     core_state_province:"_none_"
+
   })
   const [form_touched, setFormTouched] = useState(false)
   const [subsite_data, setSubsiteData] = useState("")
@@ -86,7 +87,6 @@ function SubsiteSelect(props) {
           setFormValues(form_values=>({...form_values,[name]:value}))
         }
   }
-
   let api_options = {filter_id:[], filter_field:[], filter_join:"AND", referenced_by:[]}
   if (form_values.core_subsite && form_values.core_subsite !== "_none_") {
     api_options.filter_id.push(form_values.core_subsite)
@@ -97,10 +97,13 @@ function SubsiteSelect(props) {
     api_options.filter_field.push("type")
   }
 
+  let state_api_options = {filter_field:"country_alpha_2", filter_id:"US"}
   if (form_values.core_country && form_values.core_country !== "_none_") {
     api_options.filter_id.push(form_values.core_country)
     api_options.filter_field.push("country")
+    state_api_options = {filter_field:"country_alpha_2", filter_id:form_values.core_country}
   }
+
 
   if (form_values.core_role && form_values.core_role !== "_none_") {
     api_options.filter_id.push(form_values.core_role)
@@ -115,7 +118,6 @@ function SubsiteSelect(props) {
     api_options.filter_id.push(form_values.core_state_province)
     api_options.filter_field.push("state")
   }
-
 
   const handleSubsiteData = (api_data) => {
       setSubsiteData(api_data)
@@ -201,7 +203,7 @@ function SubsiteSelect(props) {
                   onChange={handleChange}
                   noLabel= {true}
                   disable_underline={false}
-                  api_options={{filter_field:"country_alpha_2", filter_id:form_values.core_country}}
+                  api_options={state_api_options}
                 />
             </div>
 
