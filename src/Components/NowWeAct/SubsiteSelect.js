@@ -13,6 +13,7 @@ import ACSRowController from '../../Functional/ACSRowController.js'
 import RABSelectField from '../../Functional/Fields/RABSelectField.js'
 import RABTextField from '../../Functional/Fields/RABTextField.js'
 import ObjectView from '../../RABComponents/ObjectView.js'
+import NWAProjectSummary from './NWAProjectSummary.js'
 
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
@@ -123,8 +124,7 @@ function SubsiteSelect(props) {
     <Fragment>
       {active_data && <Dialog fullWidth={true} open={true}  onClose={handleSubsiteDetailsClose}>
         <DialogContent>
-              <ACSRowController data={active_data} field_list={subsite_info_fields} object_type="core_subsite" mode="view" num_columns={1}  />
-
+              <NWAProjectSummary data={active_data} field_list={subsite_info_fields} object_type="core_subsite" mode="view" num_columns={1}  />
               <DialogActions>
                 <Button onClick={handleSubsiteDetailsClose} color="primary">Close</Button>
               </DialogActions>  
