@@ -144,8 +144,10 @@ function SubsiteApply(props) {
       let filter_field = []
       filter_id.push(props.id?props.id:subsite_data.id)
       filter_id.push(true) 
+      filter_id.push("Recruiting")
       filter_field.push("core_subsite")
       filter_field.push("role_name.accept_signups")
+      filter_field.push("status")
       let options = {filter_id:filter_id, filter_field:filter_field, filter_join:"AND"}
       data.getData(object_type, options, (data, error) => {       
             setSubsiteNeeds(data)
