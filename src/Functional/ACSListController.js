@@ -2,6 +2,7 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import * as u from '../Utils/utils.js';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import _ from 'lodash/object'
 
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import {Tab, Tabs, Menu, MenuItem, MenuList,List,ListItem,ListItemAvatar,ListItemIcon,ListItemSecondaryAction,ListItemText,ListSubheader,Table,TableBody,TableCell,TableContainer,TableFooter,TableHead,TablePagination,TableRow,} from '@material-ui/core';
@@ -35,7 +36,10 @@ function RABTableHeaders(props) {
   const {object_type, data, rab_component_model, ...list_params} = props
 
   let {field_list} = props
-   const field_models =  useGetModel("fields")
+   let field_models =  useGetModel("fields")
+    if (props.field_models) {
+      field_models = _.merge({},field_models, props.field_models)
+    }  
    if (!field_models) {return null}
    const field_model = field_models[object_type]
 

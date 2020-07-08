@@ -41,11 +41,11 @@ const box_style = {
 }
 
 function SubsiteNameField (props) {
-    return (<Fragment><RABTextField {...props}/> WHOOPEE</Fragment>)
+    return (<Fragment>WHOOPEE</Fragment>)
 }
 
 const field_models = {core_subsite:{
-                      name:{
+                      more:{pretty_name:"More",
                         rab_component_model:{field:{components:{field:SubsiteNameField}}}
                         }
                       }}
@@ -197,7 +197,7 @@ function SubsiteSelect(props) {
           <ACSRowController data={subsite_data[0]} field_list={subsite_info_fields} object_type="core_subsite" mode="view" num_columns={1}  />
           </Card>}
           {subsite_data.length >1 &&
-            <ACSObjectTypeView data={subsite_data} field_click_to_edit={false} rab_component_model={{list:{names:{header_wrap:"RABVoid"}}}} field_models={field_models} field_list={["name","summary","address"]} object_type="core_subsite" mode="view" num_columns={1}  />
+            <ACSObjectTypeView data={subsite_data} field_click_to_edit={false} rab_component_model={{list:{names:{header_wrap:"RABVoid"}}}} field_models={field_models} field_list={["more", "name","summary","address"]} object_type="core_subsite" mode="view" num_columns={1}  />
           }
          </div>
      </div>
