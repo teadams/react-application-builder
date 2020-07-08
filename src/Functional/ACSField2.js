@@ -85,6 +85,12 @@ function ACSField(input_props) {
   //u.a(initial_mode,input_props.field_name, field_model.hidden_on_form, field_model)
 
   const [mode, setMode] = useState(initial_mode);
+  const [more_detail, setMoreDetail]  = useState(false)
+
+  function toggleMoreDetail(event) {
+    setMoreDetail(!more_detail)
+  } 
+
 
   let [ready, object_type, id, field_name, api_options, data] = useGetObject(props_object_type, props_id,props_field_name, props_api_options, props_data); 
 
@@ -165,6 +171,8 @@ return (
     onFieldBlur = {handleOnFieldBlur} 
     object_type={object_type} field_name={field_name} field_model={field_model}
     mode={mode}
+    more_detail={more_detail}
+    toggleMoreDetail={toggleMoreDetail}
     form={form}
     rab_component_model={rab_component_model}
     key={key_id+"_render_"+field_name}/>

@@ -42,7 +42,7 @@ function RenderACSField(props) {
   // to get the data set. Different API options will be 
   // needed for select lists, referenced, mapping
   const {api_options,...params} = props
-  const {data, row_data, object_type, field_display="field", rab_component_model, field_name, field_model, mode="view", form="true", emphasis=""} = props
+  const {data, row_data, object_type, field_display="field", rab_component_model, field_name, field_model, mode="view", form="true", emphasis="", more_detail,toggleMoreDetail} = props
   // Responsible for the layouts
 // Storing the state?
 // Deciding the mode?
@@ -57,6 +57,7 @@ function RenderACSField(props) {
         props.onMouseOver(event, data.id, "field", field_name, row_data, data)
     }
   }
+
 
   const FormWrap = form_wrap
   const {field_wrap:FieldWrap, field:Field=RABTextField} = rab_component_model.field.components 

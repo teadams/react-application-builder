@@ -13,11 +13,8 @@ import * as meta from '../../Utils/meta.js';
 
 function RABTextField(props) {
   const {mode, data, field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small"} = props
-  let {with_thumbnail="", with_url=""} = props
-  const [more_detail, setMoreDetail] = useState(false);
-  function toggleMoreLink(event) {
-    setMoreDetail(!more_detail)
-  } 
+  let {with_thumbnail="", with_url="", more_detail=false, toggleMoreDetail} = props
+
   // XX field model passed due to referenced change. May 
   // be done server side later
   let field_value=""
@@ -34,12 +31,12 @@ function RABTextField(props) {
   }
   const field_length = field_value.length 
 
-  if (more_link_cutoff && field_value.length > more_link_cutoff) {
+  if (toggleMoreDetail && more_link_cutoff && field_value.length > more_link_cutoff) {
     if (!more_detail) {
       field_value = field_value.substr(0, more_link_cutoff)
-      more_link = <Link key="more_link" id="more_link" name="more_link" onClick={toggleMoreLink}>(...more)</Link>
+      more_link = <Link key="more_link" id="more_link" name="more_link" onClick={toggleMoreDetail}>(...more)</Link>
     } else {
-      more_link = <Link key="more_link" id="more_link" name="more_link" onClick={toggleMoreLink}>(...less)</Link>
+      more_link = <Link key="more_link" id="more_link" name="more_link" onClick={toggleMoreDetail}>(...less)</Link>
     }
   }
   if (mode === "list") {
