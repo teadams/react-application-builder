@@ -94,7 +94,12 @@ function ACSRowController(input_props) {
   }
   const object_models =  useGetModel("object_types")
   const object_model = object_models?[input_props.object_type]:{}
-  const field_models =  useGetModel("fields")
+  let field_models =  useGetModel("fields")
+  if (input_props.field_models) { 
+    field_models = _.merge({},field_models, input_props.field_models)
+    u.aa("props",  field_models.core_subsite.name)
+  }
+
   const section_models = useGetModel("sections")
   const layout_models = useGetModel("layouts")
   const field_list_models = useGetModel("field_lists")
