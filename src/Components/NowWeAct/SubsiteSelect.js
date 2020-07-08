@@ -214,7 +214,7 @@ function SubsiteSelect(props) {
           }
           {subsite_data.length ===1 &&
           <Card variant="outlined" style={{padding:30,backgroundColor:"#DDDDDD"}}>
-          <ACSRowController data={subsite_data[0]} field_list={subsite_info_fields} object_type="core_subsite" mode="view" num_columns={1}  />
+          <NWAProjectSummary data={subsite_data[0]} field_list={subsite_info_fields} object_type="core_subsite" mode="view" num_columns={1}  />
           </Card>}
           {subsite_data.length >1 &&
             <ACSObjectTypeView data={subsite_data} field_click_to_edit={false} rab_component_model={{list:{names:{header_wrap:"RABVoid"}}}} field_models={field_models} field_list={["more", "name","summary","address"]} object_type="core_subsite" mode="view" num_columns={1}  />
