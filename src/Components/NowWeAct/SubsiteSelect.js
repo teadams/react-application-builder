@@ -11,7 +11,7 @@ import useForm from '../../Hooks/useForm';
 import useGetObject  from '../../Hooks/useGetObject';
 import ACSRowController from '../../Functional/ACSRowController.js'
 import RABSelectField from '../../Functional/Fields/RABSelectField.js'
-import RABTextField from '../../Functional/Fields/RABTextField.js'
+import ACSField from '../../Functional/ACSField2.js'
 import ObjectView from '../../RABComponents/ObjectView.js'
 import NWAProjectSummary from './NWAProjectSummary.js'
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
@@ -50,8 +50,8 @@ function SubsiteSelect(props) {
     nwn_project_type:"_none_",
     core_role:"_none_",
     core_country:"US",
-    core_state_province:"_none_"
-
+    core_state_province:"_none_",
+    zip_code:"",
   })
   const [form_touched, setFormTouched] = useState(false)
   const [subsite_data, setSubsiteData] = useState("")
@@ -79,14 +79,28 @@ function SubsiteSelect(props) {
                         }}
 
 
-  function handleChange(event) {
+  const handleChange = (event) => {
         const value=event.target.value
         const name=event.target.name
         if (form_values[name] !== value) {
-          setFormTouched(true)
+            setFormTouched(true)
+          }
           setFormValues(form_values=>({...form_values,[name]:value}))
-        }
   }
+
+  const handleTextSubmit = (event, name, filter_form_values) => {
+    if (event) {
+      event.preventDefault();
+    }
+  
+    const value=filter_form_values[name]
+
+    if (value) {
+      setFormTouched(true)
+    }
+    setFormValues(form_values=>({...form_values,[name]:value}))
+  } 
+
   let api_options = {filter_id:[], filter_field:[], filter_join:"AND", referenced_by:[]}
   if (form_values.core_subsite && form_values.core_subsite !== "_none_") {
     api_options.filter_id.push(form_values.core_subsite)
@@ -104,7 +118,6 @@ function SubsiteSelect(props) {
     state_api_options = {filter_field:"country_alpha_2", filter_id:form_values.core_country}
   }
 
-
   if (form_values.core_role && form_values.core_role !== "_none_") {
     api_options.filter_id.push(form_values.core_role)
     api_options.filter_id.push("Recruiting")
@@ -119,9 +132,16 @@ function SubsiteSelect(props) {
     api_options.filter_field.push("state")
   }
 
+  if (form_values.zip_code) {
+    api_options.filter_id.push(form_values.zip_code)
+    api_options.filter_field.push("zip_code")
+  }
+
   const handleSubsiteData = (api_data) => {
       setSubsiteData(api_data)
   }
+
+  
   return (
     <Fragment>
       {active_data && <Dialog fullWidth={true} open={true}  onClose={handleSubsiteDetailsClose}>
@@ -141,7 +161,7 @@ function SubsiteSelect(props) {
                   mode="edit" form="true"
                   add_none="Any"
                   form_field_name="core_subsite"
-                  value = {form_values.core_subsite}
+                  field_value = {form_values.core_subsite}
                   style = {{width:"90%"}}
                   onChange={handleChange}
                   noLabel= {true}
@@ -204,6 +224,22 @@ function SubsiteSelect(props) {
                   noLabel= {true}
                   disable_underline={false}
                   api_options={state_api_options}
+                />
+            </div>
+            <div style={{display:"block"}}><Typography variant="h6">Postal Code:</Typography></div>
+            <div style={{paddingBottom:20}}>      
+              <ACSField 
+                  object_type="core_subsite"
+                  field_mode="filter" field_form={true}
+                  field_name="zip_code"
+                  data = {form_values}
+                  name="zip_code"
+                  style = {{width:"90%"}}
+                  id="zip_code" key="zip_code"
+                  onFieldSubmit={handleTextSubmit}
+                  noLabel= {true}
+                  autoFocus={false}
+                  disable_underline={false}
                 />
             </div>
 

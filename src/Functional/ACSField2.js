@@ -51,6 +51,7 @@ function ACSField(input_props) {
 
   const {data:props_data, object_type:discard_object_type, field_name:discard_field_name, handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, key_id, autoFocus=false, ...merging_props} = input_props
 
+
   // Use case - this field has been tagged with "references"
   // which indicates the field is from another object type.
   // Need to modify that the  object_type, field_name to 
@@ -99,7 +100,6 @@ function ACSField(input_props) {
   // hook rules. always has to run
   // care with inputs.  Form is based of the original object_type
   // and the original field_name (not the change for the references.
-
 const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(input_object_type, input_props.field_name, data, handleSubmit, mode, form, "", field_list);
 
 if (!data || (object_type && !field_model) || mode === "hidden" || field_model.hidden_on_form && initial_mode ==="edit" ||  (field_model.hidden_on_form || field_model.hidden_on_create_form) && initial_mode==="create") return null
@@ -122,7 +122,10 @@ if (data_object && mode !== "create") {
 
   // XX ?? look at rest of props and see if there are any other API options... what layer to do this in
   function handleSubmit(event, result, form_values_object) {
-      setMode(initial_mode)      
+      setMode(initial_mode)  
+      if (input_props.onFieldSubmit) {
+        input_props.onFieldSubmit(event,result,form_values_object)
+      }
   }
 
   function toggleEditMode(event, id, type, field_name, row_data, field_data) {  
@@ -146,12 +149,17 @@ if (data_object && mode !== "create") {
 // form, the form is submitted and the page returns
 // to initial_mode (typically view or list)
 
-function handleOnFieldBlur() {
+function handleOnFieldBlur(event) {
   if (form) {
     setMode(initial_mode)
   }
+  if (input_props.onBlur) {
+    input_props.onBlur()
+  }
+  if (mode === "filter") {
+    handleFormSubmit(event)
+  }
 }
-
 
 
 return (

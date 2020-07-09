@@ -22,6 +22,32 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
 
   const id_field = object_model.key_id
 
+  if (mode === "filter" && form) {
+    const handleFilterFormSubmit = (event) => {
+        if (event) {
+          event.preventDefault();
+        }
+        if (handleSubmit) {
+          handleSubmit(event,field_name, formValues)
+        }
+    }
+    const handleFilterFormChanged = (event) => {
+        /// FILTER
+      const value=event.target.value
+      const name=event.target.name
+      if (formValues[name] !== value) {
+          setLastTouched(name)
+          setFormValues(formValues=>({...formValues,[name]:value}))
+      }
+    }
+
+    if (Object.keys(formValues).length === 0) {
+        setFormValues({[field_name]:data[field_name]})
+    }
+
+    return {formValues, lastTouched, handleFormSubmit:handleFilterFormSubmit, handleFormChange:handleFilterFormChanged};
+  }
+
   if ((mode !== "edit" && mode !=="create") || !form ||
       (mode === "edit" && !data) || 
       !object_model || !field_models) {

@@ -50,6 +50,7 @@ function RABTextField(props) {
   switch (mode) {
     case "edit":
     case "create":
+    case "filter":
       const multiline = field_model.multiline?true:false
       const rows = field_model.multiline?field_model.multiline:1
       return (
