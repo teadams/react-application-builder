@@ -22,7 +22,7 @@ import RABTextField from "./Fields/RABTextField.js"
 
 
 function form_wrap(props) {
-  if (props.form && props.mode === "edit") {
+  if (props.form && (props.mode === "edit" || props.mode === "filter")) {
     return (<form onSubmit={props.onSubmit}>
       {props.children}
     </form>)
