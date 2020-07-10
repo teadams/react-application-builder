@@ -227,7 +227,7 @@ function SubsiteSelect(props) {
                 />
             </div>
             <div style={{display:"block"}}><Typography variant="h6">Postal Code:</Typography></div>
-            <div style={{paddingBottom:20}}>      
+            <div style={{paddingBottom:20, width:'90%'}}>      
               <ACSField 
                   object_type="core_subsite"
                   field_mode="filter" field_form={true}
