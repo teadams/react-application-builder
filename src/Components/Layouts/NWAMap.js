@@ -147,7 +147,7 @@ function NWAMap (props) {
     
   const handleMoreClick = event => {
        window.scrollTo(0,0)
-       context.setContextId(activeMarker.id)
+       context.setContextId(selectedPlace.id)
        let path = `/OneProject`
        history.push(path);
    }
