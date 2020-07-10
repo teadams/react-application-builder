@@ -28,6 +28,7 @@ function NWAProjectSummary (props) {
 
   const handleMoreClick = event => {
        window.scrollTo(0,0)
+       context.setContextId(props.data.id)
        let path = `/OneProject`
        history.push(path);
    }
