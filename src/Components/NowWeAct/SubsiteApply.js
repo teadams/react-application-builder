@@ -168,7 +168,7 @@ function SubsiteApply(props) {
         <DialogContent>
           {volunteer_confirm ?
             <Fragment>
-              <Typography>Your interest have been sumbitted tot he project leader</Typography>
+              <Typography>Your interest have been sumbitted to the project leader</Typography>
               <DialogActions>
                 <Button onClick={handleOnClose} color="primary">Close</Button>
               </DialogActions>  
