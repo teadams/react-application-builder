@@ -2,6 +2,7 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import { fade, withStyles, makeStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment, useState, useContext} from 'react';
+import Auth from "./Components/User/Auth.js"
 import MenuIcon from '@material-ui/icons/Menu';
 import Badge from '@material-ui/core/Badge';
 import IconButton from '@material-ui/core/IconButton';
@@ -92,7 +93,9 @@ function Template(props) {
     <div id="tall" className={classes.grow}>
       <AppBar position="static">
       <Toolbar className={classes.root}>
-          <DrawerMenu menu_type="hamburger" selected_menu={selected_menu} />
+          <Auth auth_scope="site" auth_priv="admin" prompt_login={false}>
+            <DrawerMenu menu_type="hamburger" selected_menu={selected_menu} />
+          </Auth>
           <Typography className={classes.title} variant="h6" noWrap>{app_params.name}</Typography>
           <div className={classes.context}>
           <ContextSelect/>
