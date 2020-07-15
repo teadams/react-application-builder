@@ -98,7 +98,9 @@ function Template(props) {
           </Auth>
           <Typography className={classes.title} variant="h6" noWrap>{app_params.name}</Typography>
           <div className={classes.context}>
-          <ContextSelect/>
+          <Auth auth_scope="site" auth_priv="admin" prompt_login={false}>
+            <ContextSelect/>
+          </Auth>
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
