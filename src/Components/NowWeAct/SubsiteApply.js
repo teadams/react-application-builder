@@ -200,7 +200,7 @@ function SubsiteApply(props) {
                 </FormGroup>}
                 <Typography style={{paddingBottom:10}}>Use the area below to  send a message to the project leader:</Typography>
                 <TextField  id="message" name="message"  onChange={handleFormChange} rows="5" rowsMax="10" value ={formValues.message} multiline />
-                <FormControlLabel style={{paddingTop:40, align:"top"}} name="email_perm" id="email_id" default={true} checked={formValues.email_perm} label="Check here if it is ok to share your email address with the project email. This will allow you to continue your conversation with email directly.  This is highly recommended as you will be able to talk about the project directly." control={<Checkbox onChange={handleFormChange}/>}/>  
+                <FormControlLabel style={{paddingTop:40, align:"top"}} name="email_perm" id="email_id" default={true} checked={formValues.email_perm} label="Check here if it is ok to share your email address with the project leader. This will allow you to continue your conversation in email directly." control={<Checkbox onChange={handleFormChange}/>}/>  
               <DialogActions>
                 <DelayedAuthButton onClick={handleVolunteerSubmit} color="primary">Submit</DelayedAuthButton>
                 <Button onClick={handleOnClose} color="primary">Close</Button>
