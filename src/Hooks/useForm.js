@@ -54,7 +54,6 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
           return {undefined, undefined, undefined, undefined}
     }
   const input_mask = object_type+","+field_name+"mode"+field_list.toString()
-  
   if (input_mask !== prior_input_mask) {
     // context or parent component has changed
     let defaults = {}
@@ -93,18 +92,17 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
         }
         setFormValues(defaults)
     }
-  } else if (context.user && mode === "create" && context.user_id !== prior_user_id) {
-      // user logs in after fillout out form
+  } else if (context.user && mode === "create" && context.user.id !== prior_user_id) {
+      // user logs in after fillout out form  
       field_list.forEach(field => {
           const field_model = field_models[field]
           const references = field_model.references
           if (context.user.id && references === "core_user" && field_model.use_context) {
-            setFormValues(formValues=>({...formValues,[field]:context.user_id}))
+            setFormValues(formValues=>({...formValues,[field]:context.user.id}))
           }
       })
-      setPriorUserId(context.user_id)
+      setPriorUserId(context.user.id)
   }
-
   const handleFormSubmit = (event => {
     if (!lastTouched) {
        if (handleSubmit) {
@@ -198,7 +196,6 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       }
     }
   })
-
   return {formValues, lastTouched, handleFormSubmit, handleFormChange};
 
 }
