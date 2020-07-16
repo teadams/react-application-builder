@@ -128,10 +128,10 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
           alert ('error is ' + error.message)
         } else {
           var inserted_id = insert_result.rows[0][id_field] 
-          context.setDirty();
           if (handleSubmit) {
             handleSubmit(event,'created', formValues, inserted_id);
           }
+          context.setDirty();
         }
       })     
     } else {
