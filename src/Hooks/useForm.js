@@ -138,8 +138,8 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       // only send file fields when changed
       Object.keys(formValues).forEach(form_field_name => {
         const field_model = field_models[form_field_name]
-
-        if (field_model.input_type === "file" && !filesTouched.includes(form_field_name)) {
+        // user_id, core_subsite might not have field_model
+        if (field_model && field_model.input_type === "file" && !filesTouched.includes(form_field_name)) {
             delete formValues[form_field_name]
         }
       })
