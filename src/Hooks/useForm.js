@@ -117,7 +117,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     if (context.context_id && object_model.with_context && mode === "create") {
       formValues.core_subsite = context.context_id
     }
-    if (context.user && context.user_id) {
+    if (context.user && context.user.id) {
       formValues.user_id = context.user.id 
     }
 
