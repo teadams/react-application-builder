@@ -23,8 +23,7 @@ import ACSAddress from '../Functional/Fields/ACSAddress.js'
 
 import NWAProjectView from '../Components/NowWeAct/NWAProjectView.js'
 import SubsiteApply from '../Components/NowWeAct/SubsiteApply.js'
-import SubsiteSelect from '../Components/NowWeAct/SubsiteSelect.js'
-
+import FilterFinder from '../Modules/Map/FilterFinder.js'
 import ACSField from '../Functional/ACSField2.js'
 import ACSRowController from '../Functional/ACSRowController.js'
 import ACSListController from '../Functional/ACSListController.js'
@@ -278,7 +277,7 @@ function componentPicker(name, source="not provided") {
     case "Map": return MapFinder;
     case "NWAProjectView": return NWAProjectView;
     case "SubsiteApply": return SubsiteApply;
-    case "SubsiteSelect": return SubsiteSelect;
+    case "FilterFinder": return FilterFinder;
     default:  { 
       alert("Menu Model Issues - no component for " + name) 
       return Fragment;
