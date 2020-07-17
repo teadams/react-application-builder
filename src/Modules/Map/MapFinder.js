@@ -4,7 +4,7 @@ import 'react-app-polyfill/stable';
 import React,  {useContext, useState, Fragment} from 'react';
 import {Paper,  Typography, Button, Grid, Popover} from '@material-ui/core';
 //import * as meta from '../../Utils/meta.js'
-import {AuthContext} from '../User';
+import {AuthContext} from '../../Components/User';
 
 import ACSObjectCount from '../../Functional/Text/ACSObjectCount.js'
 import ACSCreateButton from '../../Functional/Buttons/ACSCreateButton.js'
@@ -18,8 +18,8 @@ import * as data from '../../Utils/data.js';
 import * as u from '../../Utils/utils.js'
 import * as google_map from './api.js'
 import {  BrowserRouter as Router,  Switch,  Route,  Link,  Redirect, useHistory } from "react-router-dom";
-import GoogleMap from "./GoogleMap.js"
-import SubsiteApply from "../NowWeAct/SubsiteApply.js"
+import GoogleMap from "./Map.js"
+import SubsiteApply from "../../Components/NowWeAct/SubsiteApply.js"
 
 // XX name after client
 function get_image_url (image_object) {

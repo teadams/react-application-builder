@@ -20,8 +20,6 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 import {Container, Box, Card, TableHead, TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
 import useGetModel from '../../Hooks/useGetModel.js'
-import {SelectObject} from "../index.js";
-import { Image} from "../index.js"
 
 const styles = theme => ({
 drawerHeader: {
