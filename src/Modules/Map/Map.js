@@ -1,7 +1,7 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
-import React,  {useContext, useState, Fragment} from 'react';
+import React, {useState, Fragment} from 'react';
 import {Paper,  Typography, Button, Grid, Popover} from '@material-ui/core';
 //import * as meta from '../../Utils/meta.js'
 import {AuthContext} from '../User';
@@ -11,7 +11,6 @@ import ACSCreateButton from '../../Functional/Buttons/ACSCreateButton.js'
 import ObjectView from '../../RABComponents/ObjectView.js'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
-import {CreateForm} from "../Layouts/index.js";
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import * as data from '../../Utils/data.js';
@@ -31,9 +30,7 @@ function get_image_url (image_object) {
 }
 
 function GoogleMap (props) {
-  const {object_type, field_list, layout, sections, dialog_size} = props
-  const context = useContext(AuthContext)
-  const history = useHistory({});
+  const {object_type, onClick} = props
 
   const [marker_data, setMarkerData] = useState("")
   const [showInfoWindow, setShowInfoWindow] =useState(false)
@@ -41,11 +38,9 @@ function GoogleMap (props) {
   const [activeMarker, setActiveMarker] = useState({})
   const [selectedPlace, setSelectedPlace]= useState({subsite_data:{}})
 
-  const [create_project_open, setCreateProjectOpen]= useState(false)
   const [anchor, setAnchor] = useState(null);
   const [center, setCenter] = useState({});
 
-  const {onClick} = props
 
   const handleMouseover = (props, marker, e) => {
     //setSelectedPlace(props)
