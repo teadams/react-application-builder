@@ -27,17 +27,26 @@ function get_image_url (image_object) {
     }     
 }
 
-function GoogleMap (props) {
-  const {object_type,  data, onClick} = props
-  const [marker_data, setMarkerData] = useState(data)
+function ACSMap (props) {
+  const {object_type,  data, onClick, latitude_field="latitude", longitude_field="longitude", onMarkerClick, onMapClick, onMouseover, PopupComponent} = props
+  const [map_data, setMapData] = useState(data)
   const [showInfoWindow, setShowInfoWindow] =useState(false)
-  const [showSideWindow, setShowSideWindow] =useState(false)
   const [activeMarker, setActiveMarker] = useState({})
-  const [selectedPlace, setSelectedPlace]= useState({subsite_data:{}})
+
+  const [selectedPlace, setSelectedPlace]= useState({marker_data:{}})
 
   const [anchor, setAnchor] = useState(null);
   const [center, setCenter] = useState({});
 
+// TODO - default lat and long
+      // from props
+      // from subsite
+      // from user's organization
+// TODO - move map
+// TODO - play with drawing on map
+// TODO - pop up component 
+// TODO - show_popup_thumbnail, show_popup_summary, show_popup_description
+// TOOD - lengths
   const handleMouseover = (props, marker, e) => {
     //setSelectedPlace(props)
     if (marker.id !== activeMarker.id) {
@@ -47,35 +56,34 @@ function GoogleMap (props) {
     }
   };
 
-  const handleClick = (id, marker, e) => {
-    if (onClick) {
+/// TODO - get id, name, thumbnail, description from object_type
+//  Type field (get type field then thumbnail)
+  const handleMarkerClick = (id, marker, e) => {
+    if (onMarkerClick) {
        onClick(id, marker, e)
     }
   };
 
   const handleMapClick = (props, marker, e) => {
-    setShowInfoWindow(false)
+    if (onMapClick) {
+        onClick(props, marker, e)
+    }
   };
 
-  if (!marker_data) {
-    api.getData(object_type, "", (marker_data, error) => {
-      setMarkerData(marker_data)
+  if (!map_data) {
+    api.getData(object_type, "", (map_data, error) => {
+      setMapData(map_data)
     })
   }
     
-  if (!marker_data) {
+  if (!map_data) {
     return null
   }
 
-   const handlePopoverClose= () => {
-      setShowInfoWindow(false)
-   }
-
-  //const create_button = Button
   return (
       <Fragment> 
       <Map   const containerStyle = {{position: 'absolute',  width: '75%',height: '75%'}} style = {{position: 'absolute',  width: '100%', height: '100%'}} google={props.google}  onClick={handleMapClick} zoom={3} center={center}>
-            {marker_data.map(marker => {
+            {map_data.map(marker => {
               var icon
               if (marker.type && marker.type.thumbnail) {
                 const thumbnail = JSON.parse(marker.type.thumbnail)
@@ -89,14 +97,14 @@ function GoogleMap (props) {
                 icon = ""
               }
               var position = {}
-              position.lat = marker.latitude
-              position.lng = marker.longitude
+              position.lat = marker[latitude_field]
+              position.lng = marker[longitude_field]
               return (
               <Marker 
               onMouseover={handleMouseover}
-              onClick={handleClick}
+              onClick={handleMarkerClick}
               name={marker.name}
-              subsite_data={marker}
+              marker_data={marker}
               icon = {icon}
               id = {marker.id}
               key = {marker.id}
@@ -106,10 +114,9 @@ function GoogleMap (props) {
             <InfoWindow
                marker={activeMarker}
                visible={showInfoWindow}>
-             <Fragment><Typography>{selectedPlace.subsite_data.name}</Typography> <Typography>{selectedPlace.subsite_data.summary}</Typography></Fragment>
+             <Fragment><Typography>{selectedPlace.marker_data.name}</Typography> <Typography>{selectedPlace.marker_data.summary}</Typography></Fragment>
            </InfoWindow>         
         </Map>
-
       </Fragment>
     )
   }
@@ -117,4 +124,4 @@ function GoogleMap (props) {
 
 export default GoogleApiWrapper({
   apiKey: google_map.get_key()
-})(GoogleMap)
+})(ACSMap)
