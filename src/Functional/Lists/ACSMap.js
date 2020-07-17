@@ -12,7 +12,7 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
-import * as data from '../../Utils/data.js';
+import * as api from '../../Utils/data.js';
 import * as u from '../../Utils/utils.js'
 import * as google_map from './api.js'
 import {  BrowserRouter as Router,  Switch,  Route,  Link,  Redirect, useHistory } from "react-router-dom";
@@ -29,9 +29,9 @@ function get_image_url (image_object) {
 }
 
 function GoogleMap (props) {
-  const {object_type, onClick} = props
-
-  const [marker_data, setMarkerData] = useState("")
+  const {object_type,  data, onClick} = props
+u.a("adding map")
+  const [marker_data, setMarkerData] = useState(data)
   const [showInfoWindow, setShowInfoWindow] =useState(false)
   const [showSideWindow, setShowSideWindow] =useState(false)
   const [activeMarker, setActiveMarker] = useState({})
@@ -39,7 +39,6 @@ function GoogleMap (props) {
 
   const [anchor, setAnchor] = useState(null);
   const [center, setCenter] = useState({});
-
 
   const handleMouseover = (props, marker, e) => {
     //setSelectedPlace(props)
@@ -61,7 +60,8 @@ function GoogleMap (props) {
   };
 
   if (!marker_data) {
-    data.getData(object_type, "", (marker_data, error) => {
+  u.a("loading marker data")
+    api.getData(object_type, "", (marker_data, error) => {
       setMarkerData(marker_data)
     })
   }
