@@ -28,7 +28,7 @@ function get_image_url (image_object) {
 }
 
 function ACSMap (props) {
-  const {object_type,  data, onClick, latitude_field="latitude", longitude_field="longitude", onMarkerClick, onMapClick, onMouseover, PopupComponent} = props
+  const {object_type,  data, onClick, latitude_field="latitude", longitude_field="longitude", initial_zoom=7, onMarkerClick, onMapClick, onMouseover, PopupComponent} = props
   const [map_data, setMapData] = useState(data)
   const [showInfoWindow, setShowInfoWindow] =useState(false)
   const [activeMarker, setActiveMarker] = useState({})
@@ -36,17 +36,18 @@ function ACSMap (props) {
   const [selectedPlace, setSelectedPlace]= useState({marker_data:{}})
 
   const [anchor, setAnchor] = useState(null);
-  const [center, setCenter] = useState({});
+  //const [center, setCenter] = useState({lat:"26.599674",	lng:"-81.853839"});
+  const [center, setCenter] = useState({lat:70.599674, lng:-81.853839});
 
 // TODO - default lat and long
       // from props
-      // from subsite
+      // from subsi
       // from user's organization
 // TODO - move map
 // TODO - play with drawing on map
 // TODO - pop up component 
 // TODO - show_popup_thumbnail, show_popup_summary, show_popup_description
-// TOOD - lengths
+// TOOD - lengths  
   const handleMouseover = (props, marker, e) => {
     //setSelectedPlace(props)
     if (marker.id !== activeMarker.id) {
@@ -73,6 +74,7 @@ function ACSMap (props) {
   if (!map_data) {
     api.getData(object_type, "", (map_data, error) => {
       setMapData(map_data)
+      setCenter({lat:20.599674,	lng:-81.853839});
     })
   }
     
@@ -82,7 +84,7 @@ function ACSMap (props) {
 
   return (
       <Fragment> 
-      <Map   const containerStyle = {{position: 'absolute',  width: '75%',height: '75%'}} style = {{position: 'absolute',  width: '100%', height: '100%'}} google={props.google}  onClick={handleMapClick} zoom={3} center={center}>
+      <Map   const containerStyle = {{position: 'absolute',  width: '75%',height: '75%'}} style = {{position: 'absolute',  width: '100%', height: '100%'}} google={props.google}  onClick={handleMapClick} zoom={initial_zoom} center={center}  centerAroundCurrentLocation={false}>
             {map_data.map(marker => {
               var icon
               if (marker.type && marker.type.thumbnail) {
