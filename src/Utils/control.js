@@ -38,7 +38,7 @@ import RABObjectTypePrettyPlural from '../Functional/Text/RABObjectTypePrettyPlu
 import {Tab, Tabs, Menu, MenuItem, MenuList,List,ListItem,ListItemAvatar,ListItemIcon,ListItemSecondaryAction,ListItemText,ListSubheader,Table,TableBody,TableCell,TableContainer,TableFooter,TableHead,TablePagination,TableRow,} from '@material-ui/core';
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
-import Map from '../Modules/Map/Map.js'
+import ACSMap from '../Functional/Lists/ACSMap.js'
 import MapFinder from '../Modules/Map/MapFinder.js'
 
 const useStyles = makeStyles({
@@ -273,8 +273,8 @@ function componentPicker(name, source="not provided") {
     case "RABVoid": return RABVoid;
     case "RABObjectPrettyName": return RABObjectPrettyName;
     case "RABObjectTypePrettyPlural": return RABObjectTypePrettyPlural;
-    case "Map": return Map;
-    case "Map": return MapFinder;
+    case "ACSMap": return ACSMap;
+    case "MapFinder": return MapFinder;
     case "NWAProjectView": return NWAProjectView;
     case "SubsiteApply": return SubsiteApply;
     case "FilterFinder": return FilterFinder;

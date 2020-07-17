@@ -18,7 +18,7 @@ import * as data from '../../Utils/data.js';
 import * as u from '../../Utils/utils.js'
 import * as google_map from './api.js'
 import {  BrowserRouter as Router,  Switch,  Route,  Link,  Redirect, useHistory } from "react-router-dom";
-import GoogleMap from "./Map.js"
+import GoogleMap from "../../Functional/Lists/ACSMap.js"
 import SubsiteApply from "../../Components/NowWeAct/SubsiteApply.js"
 
 // XX name after client
