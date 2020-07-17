@@ -5,7 +5,6 @@ import React, {useState, Fragment} from 'react';
 import {Paper,  Typography, Button, Grid, Popover} from '@material-ui/core';
 //import * as meta from '../../Utils/meta.js'
 
-import ACSObjectCount from '../../Functional/Text/ACSObjectCount.js'
 import ACSCreateButton from '../../Functional/Buttons/ACSCreateButton.js'
 import ObjectView from '../../RABComponents/ObjectView.js'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
@@ -30,7 +29,6 @@ function get_image_url (image_object) {
 
 function GoogleMap (props) {
   const {object_type,  data, onClick} = props
-u.a("adding map")
   const [marker_data, setMarkerData] = useState(data)
   const [showInfoWindow, setShowInfoWindow] =useState(false)
   const [showSideWindow, setShowSideWindow] =useState(false)
@@ -60,7 +58,6 @@ u.a("adding map")
   };
 
   if (!marker_data) {
-  u.a("loading marker data")
     api.getData(object_type, "", (marker_data, error) => {
       setMarkerData(marker_data)
     })
@@ -80,7 +77,7 @@ u.a("adding map")
       <Map   const containerStyle = {{position: 'absolute',  width: '75%',height: '75%'}} style = {{position: 'absolute',  width: '100%', height: '100%'}} google={props.google}  onClick={handleMapClick} zoom={3} center={center}>
             {marker_data.map(marker => {
               var icon
-              if (marker.type.thumbnail) {
+              if (marker.type && marker.type.thumbnail) {
                 const thumbnail = JSON.parse(marker.type.thumbnail)
                 const icon_name = thumbnail.name
                 const path = thumbnail.path
