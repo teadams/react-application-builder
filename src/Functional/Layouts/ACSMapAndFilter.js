@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function ACSMapAndFilter (props) {
   // layout params
-  const { object_type, details_screen_field_list, create_field_list, layout, sections, dialog_size, more_path="/Job", more_button_text="Learn More", action_button_text="Volunteer"} = props
+  const { object_type, details_screen_field_list, create_field_list, layout, sections, dialog_size, more_path="Job", more_button_text="Learn More", action_button_text="Apply"} = props
 
   const {icon_type_field="job_type", onClick, latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff=""} = props
 
@@ -144,8 +144,9 @@ function ACSMapAndFilter (props) {
   const handleMoreClick = event => {
        window.scrollTo(0,0)
       // TODO - if object_type is core_subsite
-       context.setContextId(selected_place.id)
-       let path = `/${more_path}`
+  //     context.setContextId(selected_place.id)
+       let path = `/${more_path}/${selected_place.id}`
+u.a(path)
        history.push(path);
    }
 
