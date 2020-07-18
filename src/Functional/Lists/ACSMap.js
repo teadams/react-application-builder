@@ -26,7 +26,7 @@ function get_image_url (image_object) {
 }
 
 function ACSMap (props) {
-  const {object_type, icon_type_field="job_type", onClick, latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, centerAroundSubsiteLocation=true} = props
+  const {object_type, icon_type_field="job_type", onClick, latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff=""} = props
 
   const [map_data, setMapData] = useState(props.map_data)
   const [subsite_data, setSubsiteData] = useState(props.subsite_data)
@@ -42,8 +42,6 @@ function ACSMap (props) {
 
   const context = useContext(AuthContext)
 
-  const object_type_models = useGetModel("object_types")
-  const field_models =  useGetModel("fields")
 
   const object_model =  useGetModel("object_types", object_type)
   const id_field = props.id_field?props.id_field:object_model.key_id
@@ -55,7 +53,6 @@ function ACSMap (props) {
   const icon_object = icon_field_model["references"]
   const icon_object_model = useGetModel("object_types", icon_object)
   const icon_thumbnail_field = props.icon_thumbnail_field?props.icon_thumbnsil_field:icon_object_model.thumbnail_key
-
   const {show_popup_summary:props_show_popup_summary=true, show_popup_thumbnail:props_show_popup_thumbnail, show_popup_description:props_show_popup_description=true} = props
   const show_popup_summary = (summary_field && props_show_popup_summary)?true:false
   const show_popup_thumbnail = (thumbnail_field && props_show_popup_thumbnail)?true:false
@@ -115,16 +112,24 @@ function ACSMap (props) {
     }
   };
 
+  
+//field_value = field_value.substr(0, more_link_cutoff)
+
   const PopoverComponent = (props) => {
-    const marker_data = props.marker_data
+    const selected_marker_data = props.selected_marker_data
+    if (!selected_marker_data || Object.keys(selected_marker_data).length === 0) {return null}
+
+    if (summary_cutoff && selected_marker_data[summary_field].length > summary_cutoff) {
+      selected_marker_data[summary_field]= selected_marker_data[summary_field].substr(0, summary_cutoff)+"..."
+    }
     return (
-      <Fragment>
-       <Typography>
-       {show_popup_thumbnail && <Typography>{marker_data[thumbnail_field]}</Typography>}
-       {marker_data[name_field]}</Typography> 
-       {show_popup_summary && <ACSField object_type_models={object_type_models} field_models={field_models} field_name={summary_field} object_type={object_type} data={marker_data}/>}
-       {show_popup_description && <Typography>{marker_data[description_field]}</Typography>}
-     </Fragment>
+      <div style={{maxWidth:maxPopoverWidth}}>
+       <Typography variant="subtitle1">
+       {show_popup_thumbnail && <Typography >{selected_marker_data[thumbnail_field]}</Typography >}
+       {selected_marker_data[name_field]}</Typography> 
+       {show_popup_summary && <Typography>{selected_marker_data[summary_field]}</Typography>}
+       {show_popup_description && <Typography>{selected_marker_data[description_field]}</Typography>}
+     </div>
     )
   }
 
@@ -162,7 +167,7 @@ function ACSMap (props) {
             <InfoWindow
                marker={activeMarker}
                visible={showInfoWindow}>
-              <PopoverComponent marker_data={selectedPlace.marker_data}/>
+              <PopoverComponent selected_marker_data={selectedPlace.marker_data}/>
            </InfoWindow>         
         </Map>
       </Fragment>
