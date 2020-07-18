@@ -9,8 +9,11 @@ import * as meta from '../../Utils/meta.js';
 import * as api from '../../Utils/data.js';
 import * as u from '../../Utils/utils.js'
 import * as google_map from './api.js'
+
 import {AuthContext} from '../../Components/User';
 import useGetModel from '../../Hooks/useGetModel';
+
+import ACSField from "../../Functional/ACSField2.js"
 
 function get_image_url (image_object) {
     const image_base = (process.env.NODE_ENV ==="production")? "https://storage.googleapis.com/acs_full_stack/":""
@@ -51,9 +54,9 @@ function ACSMap (props) {
   const icon_thumbnail_field = props.icon_thumbnail_field?props.icon_thumbnsil_field:icon_object_model.thumbnail_key
 
   const {show_popup_summary:props_show_popup_summary=true, show_popup_thumbnail:props_show_popup_thumbnail, show_popup_description:props_show_popup_description=true} = props
-  const show_popup_summary = (summary_field && !props_show_popup_summary)?true:false
-  const show_popup_thumbnail = (thumbnail_field && !props_show_popup_thumbnail)?true:false
-  const show_popup_description = (description_field && !props_show_popup_description)?true:false
+  const show_popup_summary = (summary_field && props_show_popup_summary)?true:false
+  const show_popup_thumbnail = (thumbnail_field && props_show_popup_thumbnail)?true:false
+  const show_popup_description = (description_field && props_show_popup_description)?true:false
 
   // TODO - play with drawing on map
   // TODO - pop up component 
@@ -109,6 +112,18 @@ function ACSMap (props) {
     }
   };
 
+  const PopoverComponent = (props) => {
+    const marker_data = props.marker_data
+    return (
+      <Fragment>
+       <Typography>
+       {show_popup_thumbnail && <Typography>{marker_data[thumbnail_field]}</Typography>}
+       {marker_data[name_field]}</Typography> 
+       {show_popup_summary && <ACSField field_name={summary_field} object_type={object_type} data={marker_data}/>}
+       {show_popup_description && <Typography>{marker_data[description_field]}</Typography>}
+     </Fragment>
+    )
+  }
 
   return (
       <Fragment> 
@@ -144,13 +159,7 @@ function ACSMap (props) {
             <InfoWindow
                marker={activeMarker}
                visible={showInfoWindow}>
-             <Fragment>
-              <Typography>
-              {show_popup_thumbnail && <Typography>{selectedPlace.marker_data[thumbnail_field]}</Typography>}
-              {selectedPlace.marker_data[name_field]}</Typography> 
-              {show_popup_summary && <Typography>{selectedPlace.marker_data[summary_field]}</Typography>}
-              {show_popup_description && <Typography>{selectedPlace.marker_data[description_field]}</Typography>}
-            </Fragment>
+              <PopoverComponent marker_data={selectedPlace.marker_data}/>
            </InfoWindow>         
         </Map>
       </Fragment>

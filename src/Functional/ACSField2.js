@@ -29,9 +29,13 @@ function ACSField(input_props) {
     // expect these to have everything necessary. no merge
     field_models=default_field_models
   }
-  if (input_props.object_type_model) {
+
+  if (input_props.object_type_models) {
+    object_type_models = default_object_type_models
+  } else {
     object_type_models = default_object_type_models
   }
+
   let input_field_name = input_props.field_name
   let input_object_type = input_props.object_type
   let field_model
