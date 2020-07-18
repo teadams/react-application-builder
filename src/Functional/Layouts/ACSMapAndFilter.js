@@ -127,10 +127,16 @@ function ACSMapAndFilter (props) {
 
 
 
-  const handleOnClick = (id, marker, e) => {
+  const handleOnMarkerClick = (id, marker, e) => {
     setSelectedPlace(id.marker_data)
     if (!showSideWindow) {
       setShowSideWindow(true)
+    }
+  };
+
+  const handleOnMapClick = (id, marker, e) => {
+    if (showSideWindow) {
+      setShowSideWindow(false)
     }
   };
   
@@ -159,7 +165,7 @@ function ACSMapAndFilter (props) {
       {showSideWindow && <div style={{width:400, height:"85%", zIndex:1, position:"absolute", backgroundColor:"white"}}>
       
       </div>}
-      <ACSMap onMarkerClick={handleOnClick} object_type={object_type} container_height="85%" container_width="98%"/>
+      <ACSMap onMarkerClick={handleOnMarkerClick} onMapClick={handleOnMapClick} object_type={object_type} container_height="85%" container_width="98%"/>
     </Fragment>
     )
   }
