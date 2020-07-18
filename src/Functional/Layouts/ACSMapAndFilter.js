@@ -158,13 +158,15 @@ function ACSMapAndFilter (props) {
   }
 //const create_button = Button
   return (
-    <div style={{width:"100%", height:"100%", position:"relative", flexGrow:1}}>THIS IS OUTER DIV
-      <div style={{width:"100%", height:"100%", zIndex:1, position:"absolute", border:"3px solid #73AD21"}}>
-  Does this draw on top
-      </div>
-      <ACSMap onClick={handleOnClick} object_type={object_type} container_height="75%" container_width="99%"/>
-    </div>
+    <Fragment>
+      {showSideWindow && <div style={{width:400, height:"85%", zIndex:1, position:"absolute", backgroundColor:"white"}}>
+      
+      </div>}
+      <ACSMap onClick={handleOnClick} object_type={object_type} container_height="85%" container_width="98%"/>
+    </Fragment>
     )
   }
+
+
 
 export default ACSMapAndFilter;
