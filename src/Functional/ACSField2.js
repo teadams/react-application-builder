@@ -31,7 +31,7 @@ function ACSField(input_props) {
   }
 
   if (input_props.object_type_models) {
-    object_type_models = default_object_type_models
+    object_type_models = input_props.object_type_models
   } else {
     object_type_models = default_object_type_models
   }
