@@ -19,13 +19,18 @@ import useGenerateFieldList from '../Hooks/useGenerateFieldList';
 function ACSField(input_props) {
   // XX could be encapulated below if we use and unconvential approach
   // and that convolve it
-  const object_type_models = useGetModel("object_types")
+  const default_object_type_models = useGetModel("object_types")
   const default_field_models =  useGetModel("fields")
   let field_models
   if (input_props.field_models) {
+    // expect these to have everything necessary. no merge
     field_models = input_props.field_models
   } else {
+    // expect these to have everything necessary. no merge
     field_models=default_field_models
+  }
+  if (input_props.object_type_model) {
+    object_type_models = default_object_type_models
   }
   let input_field_name = input_props.field_name
   let input_object_type = input_props.object_type
