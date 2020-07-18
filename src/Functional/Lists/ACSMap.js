@@ -26,7 +26,7 @@ function get_image_url (image_object) {
 }
 
 function ACSMap (props) {
-  const {object_type, icon_type_field="job_type", onClick, latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff=""} = props
+  const {object_type, icon_type_field="job_type", onClick, latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff="", container_height="75%", container_width="75%"} = props
 
   const [map_data, setMapData] = useState(props.map_data)
   const [subsite_data, setSubsiteData] = useState(props.subsite_data)
@@ -128,7 +128,7 @@ function ACSMap (props) {
 
   return (
       <Fragment> 
-      <Map   const containerStyle = {{position: 'absolute',  width: '75%',height: '75%'}} style = {{position: 'absolute',  width: '100%', height: '100%'}} google={props.google}  onClick={handleMapClick} zoom={initial_zoom} center={center}  centerAroundCurrentLocation={centerAroundCurrentLocation}>
+      <Map   const containerStyle = {{position: 'absolute',  width:container_width,height: container_height}} style = {{position: 'absolute',  width: '100%', height: '100%'}} google={props.google}  onClick={handleMapClick} zoom={initial_zoom} center={center}  centerAroundCurrentLocation={centerAroundCurrentLocation}>
             {map_data.map(marker => {
               var icon
               if (marker[icon_type_field] && marker[icon_type_field][icon_thumbnail_field]) {

@@ -4,6 +4,7 @@ html, body, #root,  .App {
 
 div {
   overflow-wrap: anywhere;
+  box-sizing:border-box;
 }
 
 th {

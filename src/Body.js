@@ -41,7 +41,7 @@ function Body(props) {
 
   const { ...rest} = selected_menu_model
 
-  return (<div id="tall" style={{padding:5}}>< BodyComponent {...rest}/></div>)  
+  return (<div id="tall" style={{padding:5, flexGrow: 1, height:'100%'}}>< BodyComponent {...rest}/></div>)  
 }
 
 export default Body
