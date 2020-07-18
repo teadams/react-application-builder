@@ -39,7 +39,7 @@ import {Tab, Tabs, Menu, MenuItem, MenuList,List,ListItem,ListItemAvatar,ListIte
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
 import ACSMap from '../Functional/Lists/ACSMap.js'
-import MapFinder from '../Modules/Map/MapFinder.js'
+import ACSMapAndFilter from '../Functional/Layouts/ACSMapAndFilter.js'
 
 const useStyles = makeStyles({
   table_cell: {
@@ -274,7 +274,7 @@ function componentPicker(name, source="not provided") {
     case "RABObjectPrettyName": return RABObjectPrettyName;
     case "RABObjectTypePrettyPlural": return RABObjectTypePrettyPlural;
     case "ACSMap": return ACSMap;
-    case "MapFinder": return MapFinder;
+    case "ACSMapAndFilter": return ACSMapAndFilter;
     case "NWAProjectView": return NWAProjectView;
     case "SubsiteApply": return SubsiteApply;
     case "FilterFinder": return FilterFinder;

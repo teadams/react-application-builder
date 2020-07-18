@@ -21,17 +21,6 @@ import { BrowserRouter as Router,  Switch,  Route,  Link,  Redirect, useHistory 
 import ACSMap from "../Lists/ACSMap.js"
 import SubsiteApply from "../../Components/NowWeAct/SubsiteApply.js"
 
-// XX name after client
-function get_image_url (image_object) {
-    const image_base = (process.env.NODE_ENV ==="production")? "https://storage.googleapis.com/acs_full_stack/":""
-
-    if (image_object && image_object.path && image_object.name) {
-      return (image_base  + image_object.path +"/"+ image_object.name)
-    } else {
-      return ""
-    }     
-}
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     learn_button: {
@@ -68,7 +57,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-function NWAMap (props) {
+function ACSMapAndFilter (props) {
   const {object_type, field_list, layout, sections, dialog_size} = props
   const classes = useStyles();
   const context = useContext(AuthContext)
@@ -227,4 +216,4 @@ function NWAMap (props) {
     )
   }
 
-export default NWAMap;
+export default ACSMapAndFilter;
