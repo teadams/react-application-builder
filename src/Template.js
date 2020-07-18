@@ -87,7 +87,6 @@ function Template(props) {
   }
 
 
-
   return    ( 
     <div id="tall" className={classes.grow}>
       <AppBar position="static">
@@ -109,7 +108,7 @@ function Template(props) {
       </Toolbar>
       </AppBar>
       <TabMenu menu_type="app_menu" selected_menu={selected_menu} object_type={object_type} id={id} />
-      <Body  selected_menu={selected_menu} />
+      <Body  selected_menu={selected_menu} object_type={object_type} id={id}  />
     <Debug/> 
     </div>
 
