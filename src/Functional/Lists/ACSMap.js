@@ -58,7 +58,7 @@ function ACSMap (props) {
   const show_popup_thumbnail = (thumbnail_field && props_show_popup_thumbnail)?true:false
   const show_popup_description = (description_field && props_show_popup_description)?true:false
  
-
+ 
   if (!map_data) {
     api.getData(object_type, "", (map_data, error) => {
       setMapData(map_data)
