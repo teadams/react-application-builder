@@ -10,7 +10,7 @@ import * as api from '../../Utils/data.js';
 import * as u from '../../Utils/utils.js'
 import * as google_map from './api.js'
 import {AuthContext} from '../../Components/User';
-
+import useGetModel from '../../Hooks/useGetModel';
 
 function get_image_url (image_object) {
     const image_base = (process.env.NODE_ENV ==="production")? "https://storage.googleapis.com/acs_full_stack/":""
@@ -23,7 +23,8 @@ function get_image_url (image_object) {
 }
 
 function ACSMap (props) {
-  const {object_type, onClick, latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, centerAroundSubsiteLocation=true} = props
+  const {object_type, icon_type_field="job_type", onClick, latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, centerAroundSubsiteLocation=true} = props
+
   const [map_data, setMapData] = useState(props.map_data)
   const [subsite_data, setSubsiteData] = useState(props.subsite_data)
 
@@ -37,6 +38,28 @@ function ACSMap (props) {
   const [center, setCenter] = useState({});
 
   const context = useContext(AuthContext)
+
+  const object_model =  useGetModel("object_types", object_type)
+  const id_field = props.id_field?props.id_field:object_model.key_id
+  const name_field = props.name_field?props.name_field:object_model.pretty_key_id
+  const summary_field = props.summary_field?props.summary_field:object_model.summary_key
+  const description_field = props.description_field?props.description_field:object_model.description_key
+  const thumbnail_field = props.thumbnail_field?props.thumbnail_field:object_model.thumbnail_key
+  const icon_field_model =  useGetModel("fields", object_type)[icon_type_field]
+  const icon_object = icon_field_model["references"]
+  const icon_object_model = useGetModel("object_types", icon_object)
+  const icon_thumbnail_field = props.icon_thumbnail_field?props.icon_thumbnsil_field:icon_object_model.thumbnail_key
+
+  const {show_popup_summary:props_show_popup_summary=true, show_popup_thumbnail:props_show_popup_thumbnail, show_popup_description:props_show_popup_description=true} = props
+  const show_popup_summary = (summary_field && !props_show_popup_summary)?true:false
+  const show_popup_thumbnail = (thumbnail_field && !props_show_popup_thumbnail)?true:false
+  const show_popup_description = (description_field && !props_show_popup_description)?true:false
+
+  // TODO - play with drawing on map
+  // TODO - pop up component 
+  // TOOD - lengths  
+ 
+
 
   if (!map_data) {
     api.getData(object_type, "", (map_data, error) => {
@@ -65,21 +88,15 @@ function ACSMap (props) {
   }
 
   
-// TODO - play with drawing on map
-// TODO - pop up component 
-// TODO - show_popup_thumbnail, show_popup_summary, show_popup_description
-// TOOD - lengths  
   const handleMouseover = (props, marker, e) => {
     //setSelectedPlace(props)
-    if (marker.id !== activeMarker.id) {
+    if (marker[id_field] !== activeMarker[id_field]) {
       setActiveMarker(marker)
       setSelectedPlace(props)
       setShowInfoWindow(true)
     }
   };
 
-/// TODO - get id, name, thumbnail, description from object_type
-//  Type field (get type field then thumbnail)
   const handleMarkerClick = (id, marker, e) => {
     if (onMarkerClick) {
        onClick(id, marker, e)
@@ -98,8 +115,8 @@ function ACSMap (props) {
       <Map   const containerStyle = {{position: 'absolute',  width: '75%',height: '75%'}} style = {{position: 'absolute',  width: '100%', height: '100%'}} google={props.google}  onClick={handleMapClick} zoom={initial_zoom} center={center}  centerAroundCurrentLocation={centerAroundCurrentLocation}>
             {map_data.map(marker => {
               var icon
-              if (marker.type && marker.type.thumbnail) {
-                const thumbnail = JSON.parse(marker.type.thumbnail)
+              if (marker[icon_type_field] && marker[icon_type_field][icon_thumbnail_field]) {
+                const thumbnail = JSON.parse(marker[icon_type_field][icon_thumbnail_field])
                 const icon_name = thumbnail.name
                 const path = thumbnail.path
                 const url = get_image_url(thumbnail)
@@ -116,7 +133,7 @@ function ACSMap (props) {
               <Marker 
               onMouseover={handleMouseover}
               onClick={handleMarkerClick}
-              name={marker.name}
+              name={marker[name_field]}
               marker_data={marker}
               icon = {icon}
               id = {marker.id}
@@ -127,7 +144,13 @@ function ACSMap (props) {
             <InfoWindow
                marker={activeMarker}
                visible={showInfoWindow}>
-             <Fragment><Typography>{selectedPlace.marker_data.name}</Typography> <Typography>{selectedPlace.marker_data.summary}</Typography></Fragment>
+             <Fragment>
+              <Typography>
+              {show_popup_thumbnail && <Typography>{selectedPlace.marker_data[thumbnail_field]}</Typography>}
+              {selectedPlace.marker_data[name_field]}</Typography> 
+              {show_popup_summary && <Typography>{selectedPlace.marker_data[summary_field]}</Typography>}
+              {show_popup_description && <Typography>{selectedPlace.marker_data[description_field]}</Typography>}
+            </Fragment>
            </InfoWindow>         
         </Map>
       </Fragment>
