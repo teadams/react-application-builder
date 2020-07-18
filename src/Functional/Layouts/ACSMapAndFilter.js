@@ -8,7 +8,7 @@ import {AuthContext} from '../../Components/User';
 
 import ACSObjectCount from '../../Functional/Text/ACSObjectCount.js'
 import ACSCreateButton from '../../Functional/Buttons/ACSCreateButton.js'
-
+import ACSObjectView from '../../Functional/Rows/ACSObjectView.js'
 // XX TODO
 import ObjectView from '../../RABComponents/ObjectView.js'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
@@ -58,26 +58,27 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function ACSMapAndFilter (props) {
-  // map params
-  const {object_type, icon_type_field="job_type", onClick, latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff=""} = props
+  // layout params
+  const { object_type, details_screen_field_list, create_field_list, layout, sections, dialog_size, more_path="/Job", more_button_text="Learn More", action_button_text="Volunteer"} = props
 
-  const {field_list, layout, sections, dialog_size} = props
+  const {icon_type_field="job_type", onClick, latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff=""} = props
+
   const classes = useStyles();
   const context = useContext(AuthContext)
   const history = useHistory({});
 
   const [marker_data, setMarkerData] = useState("")
-  const [showInfoWindow, setShowInfoWindow] =useState(false)
-  const [showSideWindow, setShowSideWindow] =useState(false)
-  const [showVolunteerDialog, setShowVolunteerDialog] = useState(false)
+  const [show_side_window, setShowSideWindow] =useState(false)
+  const [show_action_dialog, setShowActionDialog] = useState(false)
 
-  const [selectedPlace, setSelectedPlace]= useState({subsite_data:{}})
+  const [selected_place, setSelectedPlace]= useState({subsite_data:{}})
 
   const [create_project_open, setCreateProjectOpen]= useState(false)
 
   const handleCreateProjectOpen = () =>  {
         setCreateProjectOpen(false)
   }
+
   const handleProjectCreated= (event,action, project_data, inserted_id) => {
     // most of this will go server side
     // setCreateProjectOpen(false)
@@ -125,45 +126,66 @@ function ACSMapAndFilter (props) {
 
   }
 
-
-
-  const handleOnMarkerClick = (id, marker, e) => {
-    setSelectedPlace(id.marker_data)
-    if (!showSideWindow) {
+  const handleOnMarkerClick = (marker, m, e) => {
+    if (selected_place.id !== marker.marker_data.id) {
+      setSelectedPlace(marker.marker_data)
+    }
+    if (!show_side_window) {
       setShowSideWindow(true)
     }
   };
 
   const handleOnMapClick = (id, marker, e) => {
-    if (showSideWindow) {
+    if (show_side_window) {
       setShowSideWindow(false)
     }
   };
   
   const handleMoreClick = event => {
        window.scrollTo(0,0)
-       context.setContextId(selectedPlace.id)
-       let path = `/OneProject`
+      // TODO - if object_type is core_subsite
+       context.setContextId(selected_place.id)
+       let path = `/${more_path}`
        history.push(path);
    }
 
-  const handleVolunteerClose= event => {
-      setShowVolunteerDialog(false)
+  const handleActionClose= event => {
+      if (show_action_dialog) {
+        setShowActionDialog(false)
+      }
   }
 
-  const handleVolunteerClick = event => {
-      setShowVolunteerDialog(true)
+  const handleActionClick = event => {
+      if (!show_action_dialog) {
+        setShowActionDialog(true)
+      }
   }
 
   
   const create_button = (props) => { 
       return (<Button variant="contained" {...props}>Create a Project</Button>)
   }
-//const create_button = Button
+
+// TOTO - what did handle more click do?
   return (
     <Fragment>
-      {showSideWindow && <div style={{width:400, height:"85%", zIndex:1, position:"absolute", backgroundColor:"white"}}>
-      
+      {show_side_window && 
+      <div style={{width:400, height:"85%", zIndex:1, position:"absolute", backgroundColor:"white"}}>
+        <Typography>
+          <ACSObjectView  object_type =  {object_type}
+            id = {selected_place.id}
+            data = {selected_place}
+            field_mode = "view"
+            field_list = {details_screen_field_list}
+            field_click_to_edit = {false}
+            num_columns={1}
+            row_header_image_size="medium"
+            handleMoreClick = {handleMoreClick}/>
+        </Typography>
+        <div style={{display:"flex", width:"100%", justifyContent:"space-evenly"}}>
+          <Button   variant="contained" onClick={handleActionClick}>{action_button_text}</Button>
+          <Button   variant="contained" onClick={handleMoreClick}>{more_button_text}</Button>
+        </div> 
       </div>}
       <ACSMap onMarkerClick={handleOnMarkerClick} onMapClick={handleOnMapClick} object_type={object_type} container_height="85%" container_width="98%"/>
     </Fragment>
