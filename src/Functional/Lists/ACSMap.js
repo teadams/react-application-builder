@@ -57,12 +57,7 @@ function ACSMap (props) {
   const show_popup_summary = (summary_field && props_show_popup_summary)?true:false
   const show_popup_thumbnail = (thumbnail_field && props_show_popup_thumbnail)?true:false
   const show_popup_description = (description_field && props_show_popup_description)?true:false
-
-  // TODO - play with drawing on map
-  // TODO - pop up component 
-  // TOOD - lengths  
  
-
 
   if (!map_data) {
     api.getData(object_type, "", (map_data, error) => {
@@ -113,8 +108,6 @@ function ACSMap (props) {
   };
 
   
-//field_value = field_value.substr(0, more_link_cutoff)
-
   const PopoverComponent = (props) => {
     const selected_marker_data = props.selected_marker_data
     if (!selected_marker_data || Object.keys(selected_marker_data).length === 0) {return null}
