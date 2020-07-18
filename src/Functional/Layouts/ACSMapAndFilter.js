@@ -146,7 +146,6 @@ function ACSMapAndFilter (props) {
       // TODO - if object_type is core_subsite
   //     context.setContextId(selected_place.id)
        let path = `/${more_path}/${selected_place.id}`
-u.a(path)
        history.push(path);
    }
 
