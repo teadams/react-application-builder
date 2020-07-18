@@ -16,11 +16,11 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
   const [prev_state, setState] = useState([false, object_type, id, field_list, api_options, param_data]);
 
   const context = useContext(AuthContext)
-  const dirty_data = context.dirty_stamp;
+  const dirty_data = context?context.dirty_stamp:""
 
   // XX This will move to the session cookie
-  api_options.user_id = context.user.id 
-  api_options.subsite_id = context.context_id
+  api_options.user_id = context?context.user.id:"" 
+  api_options.subsite_id = context?context.context_id:""
 
 
   let trigger_change_array = [object_type, id, dirty_data, param_data]

@@ -21,7 +21,7 @@ function ACSField(input_props) {
   // and that convolve it
   const default_object_type_models = useGetModel("object_types")
   const default_field_models =  useGetModel("fields")
-  let field_models
+  let field_models, object_type_models
   if (input_props.field_models) {
     // expect these to have everything necessary. no merge
     field_models = input_props.field_models
