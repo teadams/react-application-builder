@@ -81,7 +81,7 @@ function Template(props) {
   const classes = useStyles();
 
 
-  let { selected_menu} = props.match.params
+  let { selected_menu, object_type, id } = props.match.params
   if (!selected_menu) {
     selected_menu =  menu_model.menus.app_menu[0]
   }
@@ -108,7 +108,7 @@ function Template(props) {
               </div>
       </Toolbar>
       </AppBar>
-      <TabMenu menu_type="app_menu" selected_menu={selected_menu}  />
+      <TabMenu menu_type="app_menu" selected_menu={selected_menu} object_type={object_type} id={id} />
       <Body  selected_menu={selected_menu} />
     <Debug/> 
     </div>
