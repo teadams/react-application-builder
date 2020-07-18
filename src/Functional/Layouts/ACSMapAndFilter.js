@@ -71,7 +71,6 @@ function ACSMapAndFilter (props) {
   const [showSideWindow, setShowSideWindow] =useState(false)
   const [showVolunteerDialog, setShowVolunteerDialog] = useState(false)
 
-  const [activeMarker, setActiveMarker] = useState({})
   const [selectedPlace, setSelectedPlace]= useState({subsite_data:{}})
 
   const [create_project_open, setCreateProjectOpen]= useState(false)
@@ -79,7 +78,6 @@ function ACSMapAndFilter (props) {
   const handleCreateProjectOpen = () =>  {
         setCreateProjectOpen(false)
   }
-
   const handleProjectCreated= (event,action, project_data, inserted_id) => {
     // most of this will go server side
     // setCreateProjectOpen(false)
@@ -127,8 +125,10 @@ function ACSMapAndFilter (props) {
 
   }
 
+
+
   const handleOnClick = (id, marker, e) => {
-    setSelectedPlace(id)
+    setSelectedPlace(id.marker_data)
     if (!showSideWindow) {
       setShowSideWindow(true)
     }
@@ -149,9 +149,6 @@ function ACSMapAndFilter (props) {
       setShowVolunteerDialog(true)
   }
 
-  const handlePopoverClose= () => {
-      setShowInfoWindow(false)
-   }
   
   const create_button = (props) => { 
       return (<Button variant="contained" {...props}>Create a Project</Button>)
@@ -162,7 +159,7 @@ function ACSMapAndFilter (props) {
       {showSideWindow && <div style={{width:400, height:"85%", zIndex:1, position:"absolute", backgroundColor:"white"}}>
       
       </div>}
-      <ACSMap onClick={handleOnClick} object_type={object_type} container_height="85%" container_width="98%"/>
+      <ACSMap onMarkerClick={handleOnClick} object_type={object_type} container_height="85%" container_width="98%"/>
     </Fragment>
     )
   }

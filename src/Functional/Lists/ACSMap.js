@@ -26,7 +26,7 @@ function get_image_url (image_object) {
 }
 
 function ACSMap (props) {
-  const {object_type, icon_type_field="job_type", onClick, latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff="", container_height="75%", container_width="75%"} = props
+  const {object_type, icon_type_field="job_type",  latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff="", container_height="75%", container_width="75%"} = props
 
   const [map_data, setMapData] = useState(props.map_data)
   const [subsite_data, setSubsiteData] = useState(props.subsite_data)
@@ -97,13 +97,13 @@ function ACSMap (props) {
 
   const handleMarkerClick = (id, marker, e) => {
     if (onMarkerClick) {
-       onClick(id, marker, e)
+       onMarkerClick(id, marker, e)
     }
   };
 
   const handleMapClick = (props, marker, e) => {
     if (onMapClick) {
-        onClick(props, marker, e)
+        onMapClick(props, marker, e)
     }
   };
 
@@ -112,16 +112,26 @@ function ACSMap (props) {
     const selected_marker_data = props.selected_marker_data
     if (!selected_marker_data || Object.keys(selected_marker_data).length === 0) {return null}
 
+    let summary_field_data, description_field_data
     if (summary_cutoff && selected_marker_data[summary_field].length > summary_cutoff) {
-      selected_marker_data[summary_field]= selected_marker_data[summary_field].substr(0, summary_cutoff)+"..."
+      summary_field_data = selected_marker_data[summary_field].substr(0, summary_cutoff)+"..."
+    } else {
+      summary_field_data = selected_marker_data[summary_field]
     }
+
+    if (description_cutoff && selected_marker_data[description_field].length > description_cutoff) {
+      description_field_data = selected_marker_data[description_field].substr(0, description_cutoff)+"..."
+    } else {
+      description_field_data = selected_marker_data[description_field]
+    }
+
     return (
       <div style={{maxWidth:maxPopoverWidth}}>
        <Typography variant="subtitle1">
        {show_popup_thumbnail && <Typography >{selected_marker_data[thumbnail_field]}</Typography >}
        {selected_marker_data[name_field]}</Typography> 
-       {show_popup_summary && <Typography>{selected_marker_data[summary_field]}</Typography>}
-       {show_popup_description && <Typography>{selected_marker_data[description_field]}</Typography>}
+       {show_popup_summary && <Typography>{summary_field_data}</Typography>}
+       {show_popup_description && <Typography>{description_field_data}</Typography>}
      </div>
     )
   }
