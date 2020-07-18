@@ -42,6 +42,9 @@ function ACSMap (props) {
 
   const context = useContext(AuthContext)
 
+  const object_type_models = useGetModel("object_types")
+  const field_models =  useGetModel("fields")
+
   const object_model =  useGetModel("object_types", object_type)
   const id_field = props.id_field?props.id_field:object_model.key_id
   const name_field = props.name_field?props.name_field:object_model.pretty_key_id
@@ -119,7 +122,7 @@ function ACSMap (props) {
        <Typography>
        {show_popup_thumbnail && <Typography>{marker_data[thumbnail_field]}</Typography>}
        {marker_data[name_field]}</Typography> 
-       {show_popup_summary && <ACSField field_name={summary_field} object_type={object_type} data={marker_data}/>}
+       {show_popup_summary && <ACSField object_type_models={object_type_models} field_models={field_models} field_name={summary_field} object_type={object_type} data={marker_data}/>}
        {show_popup_description && <Typography>{marker_data[description_field]}</Typography>}
      </Fragment>
     )

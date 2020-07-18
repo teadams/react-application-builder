@@ -12,7 +12,7 @@ const useGetModel = (type, object_type="") => {
   if (!model) {
     // edge case. GoogleMaps popup window is in new 
     // DOM and does not have context
-    return null
+    return ""
   }
   if (object_type&& ["object_types", "fields"].includes(type) ) {
     return model[type][object_type]
