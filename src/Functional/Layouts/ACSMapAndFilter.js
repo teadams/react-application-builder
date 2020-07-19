@@ -88,7 +88,6 @@ function ACSMapAndFilter (props) {
   }
 
   const handleCreateMarkerSubmit= (event,action, project_data, inserted_id) => {
-      u.a(inserted_id)
       redirectToMore(inserted_id)
   }
 
