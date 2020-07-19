@@ -8,18 +8,19 @@ import {AuthContext} from '../../Components/User';
 
 import ACSObjectCount from '../../Functional/Text/ACSObjectCount.js'
 import ACSCreateButton from '../../Functional/Buttons/ACSCreateButton.js'
+import ACSCreateDialogButton from '../../Functional/Buttons/ACSCreateDialogButton.js'
 import ACSObjectView from '../../Functional/Rows/ACSObjectView.js'
 // XX TODO
-import ObjectView from '../../RABComponents/ObjectView.js'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
 import * as data from '../../Utils/data.js';
 import * as u from '../../Utils/utils.js'
-import { BrowserRouter as Router,  Switch,  Route,  Link,  Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import ACSMap from "../Lists/ACSMap.js"
-import SubsiteApply from "../../Components/NowWeAct/SubsiteApply.js"
+import * as control from '../../Utils/control.js'
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -59,7 +60,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function ACSMapAndFilter (props) {
   // layout params
-  const { object_type, details_screen_field_list, create_field_list, layout, sections, dialog_size, more_path="Job", more_button_text="Learn More", action_button_text="Apply"} = props
+  const { object_type, details_screen_field_list, create_field_list, layout, sections, dialog_size, more_path="Job", more_button_text="Learn More", action_button_text="Apply", action_component_name="ACSObjectView", action_link_field="job_listing", action_object_type="job_listing"} = props
+
+  const ActionComponent = control.componentByName(action_component_name)
 
   const {icon_type_field="job_type", onClick, latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff=""} = props
 
@@ -80,50 +83,6 @@ function ACSMapAndFilter (props) {
   }
 
   const handleProjectCreated= (event,action, project_data, inserted_id) => {
-    // most of this will go server side
-    // setCreateProjectOpen(false)
-    // // this will all move server side
-    // if (!inserted_id) {
-    //     return
-    // }
-    // 
-    // let options = {}
-    // options.id = inserted_id
-    // const role_add_obj = {
-    //     user_id: context.user.id,
-    //     subsite_id: inserted_id,
-    //     role_name: "Admin",
-    //     status: "Accepted"
-    // }
-    // data.callAPI("auth/create-subsite-role", {}, role_add_obj, "post", (role_add_result, error ) => {
-    //     if (Object.keys(role_add_result).length > 0) {
-    //       // will need a way to get updated context
-    //       let new_user_context = context.user
-    //         new_user_context.context_list = role_add_result.context_list
-    //         new_user_context.authorization_object = role_add_result.authorization_object
-    //         context.login(new_user_context)
-    //         context.setContextId(inserted_id)
-    //         // direct to project page
-    //     }
-    //       let path = `/OneProject`
-    //       history.push(path);
-    // 
-    //   })
-    //   // Let this happen in parallel. User will be redirected so we do not have to wait
-    //   let params = {}
-    //   params.address= project_data.street_address  + ", " + project_data.city  +", " + project_data["state"] +",  " + project_data["country"] +", " + project_data.zip_code
-    //   params.key = google_map.get_key() 
-    //   data.getURL("https://maps.googleapis.com/maps/api/geocode/json", params, (result, error) => { 
-    //       options.latitude = result.results[0].geometry.location.lat
-    //       options.longitude = result.results[0].geometry.location.lng 
-    // 
-    //       data.putData("nwn_project", options, {}, (data, error) => { 
-    //           if (error) {
-    //                 alert ('error is ' + error.message)
-    //           } 
-    //       })     
-    //     })
-
   }
 
   const handleOnMarkerClick = (marker, m, e) => {
@@ -165,10 +124,25 @@ function ACSMapAndFilter (props) {
   const create_button = (props) => { 
       return (<Button variant="contained" {...props}>Create a Project</Button>)
   }
+  
+ let id, default_values_prop
+  
+ if (show_action_dialog) {
+    if (action_link_field) {
+      default_values_prop = {[action_link_field]:selected_place.id}
+    } else {
+      id = selected_place.id
+    }
+  }
 
-// TOTO - what did handle more click do?
+  const ActionButton = function(props) {
+      return (<Button {...props}>{action_button_text}</Button>)
+  }
+  // TOTO - what did handle more click do?
   return (
     <Fragment>
+      {show_action_dialog && <ACSCreateDialogButton ButtonComponent={ActionButton} DialogComponent={ActionComponent} row_mode="create" row_form="true"  id={id} object_type={action_object_type} action_props={{default_values_prop:default_values_prop}} onClose={handleActionClose} open={show_action_dialog} form_open={show_action_dialog}/>}
+
       {show_side_window && 
       <div style={{width:400, height:"85%", zIndex:1, position:"absolute", backgroundColor:"white"}}>
         <Typography>
@@ -183,8 +157,8 @@ function ACSMapAndFilter (props) {
             handleMoreClick = {handleMoreClick}/>
         </Typography>
         <div style={{display:"flex", width:"100%", justifyContent:"space-evenly"}}>
-          <Button   variant="contained" onClick={handleActionClick}>{action_button_text}</Button>
-          <Button   variant="contained" onClick={handleMoreClick}>{more_button_text}</Button>
+          <ACSCreateButton object_type={object_type} Component={ActionButton}/>
+          <Button   onClick={handleMoreClick}>{more_button_text}</Button>
         </div> 
       </div>}
       <ACSMap onMarkerClick={handleOnMarkerClick} onMapClick={handleOnMapClick} object_type={object_type} container_height="85%" container_width="98%"/>

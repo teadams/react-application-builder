@@ -9,7 +9,7 @@ import {AuthContext} from '../../Components/User';
 import ACSObjectCount from '../../Functional/Text/ACSObjectCount.js'
 import ACSCreateButton from '../../Functional/Buttons/ACSCreateButton.js'
 
-// XX TODO
+// XX TODOs
 import ObjectView from '../../RABComponents/ObjectView.js'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 

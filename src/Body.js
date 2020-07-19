@@ -22,8 +22,7 @@ function shieldObject(object) {
 }
 
 function Body(props) {
-  const {selected_menu, object_type, id} = props
-  u.a(selected_menu,object_type,id)
+  const {selected_menu, object_type="", id=""} = props
 
   const menu_model =  useGetModel("menus")
   const app_params =  useGetModel("app_params")
@@ -42,8 +41,8 @@ function Body(props) {
   }
 
   const { ...rest} = selected_menu_model
-
-  return (<div id="tall" style={{display:"table", marginTop:5}}>< BodyComponent {...rest}/></div>)  
+  // object_type in menu_model will override URL
+  return (<div id="tall" style={{display:"table", marginTop:5}}>< BodyComponent object_type={object_type} id={id} {...rest}  /></div>)  
 }
 
 export default Body
