@@ -12,6 +12,7 @@ import ACSCreateDialogButton from '../../Functional/Buttons/ACSCreateDialogButto
 import ACSObjectView from '../../Functional/Rows/ACSObjectView.js'
 // XX TODO
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import useGetModel from '../../Hooks/useGetModel';
 
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
@@ -60,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function ACSMapAndFilter (props) {
   // layout params
-  const { object_type, details_screen_field_list, create_field_list, layout, sections, dialog_size, more_path="Job", more_button_text="Learn More", action_button_text="Apply", action_component_name="ACSObjectView", action_link_field="job_listing", action_object_type="job_listing", create_marker_button_text="Create Job Listing"} = props
+  const { object_type, details_screen_field_list, create_field_list, layout, sections, dialog_size, more_path="ProjectOne", more_button_text="Learn More", action_button_text="Apply", action_component_name="ACSObjectView", action_link_field="job_listing", action_object_type="job_listing", create_marker_button_text="Create Job Listing"} = props
 
   const ActionComponent = control.componentByName(action_component_name)
 
@@ -69,7 +70,7 @@ function ACSMapAndFilter (props) {
   const classes = useStyles();
   const context = useContext(AuthContext)
   const history = useHistory({});
-
+  const object_model = useGetModel("object_types", object_type)
   const [marker_data, setMarkerData] = useState("")
   const [show_side_window, setShowSideWindow] =useState(false)
   const [selected_place, setSelectedPlace]= useState({subsite_data:{}})
@@ -77,9 +78,10 @@ function ACSMapAndFilter (props) {
 
   function redirectToMore(inserted_id) {
       window.scrollTo(0,0)
-    // TODO - if object_type is core_subsite
-    //     context.setContextId(selected_place.id)
       const redirect_id = inserted_id?inserted_id:selected_place.id
+      if (object_model.name === "core_subsite" || object_model.extends_object === "core_subsite") {
+          context.setContextId(redirect_id)
+      }
       let path = `/${more_path}/${redirect_id}`
       history.push(path);
   }
@@ -127,11 +129,13 @@ function ACSMapAndFilter (props) {
       return (<Button variant="contained" color="primary" style={{margin:10}} {...props}>{create_marker_button_text}</Button>)
   }
 
+
+
   return (
     <Fragment>
       {show_side_window && 
       <div style={{width:400, height:"85%", zIndex:1, position:"absolute", backgroundColor:"white"}}>
-        <ACSCreateButton   ButtonComponent={CreateMarkerButton} object_type={object_type}  onSubmit={handleCreateMarkerSubmit} require_authorization={false}/>
+        <ACSCreateButton   ButtonComponent={CreateMarkerButton} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false}/>
         <Typography>
           <ACSObjectView  object_type =  {object_type}
             id = {selected_place.id}
@@ -150,7 +154,7 @@ function ACSMapAndFilter (props) {
       </div>}
       {!show_side_window &&
       <div  style={{zIndex:1, position:"absolute"}}>
-      <ACSCreateButton   ButtonComponent={CreateMarkerButton} object_type={object_type}  onSubmit={handleCreateMarkerSubmit} require_authorization={false}/>
+      <ACSCreateButton   ButtonComponent={CreateMarkerButton} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false}/>
       </div>}
       <ACSMap 
           icon_type_field={icon_type_field}
