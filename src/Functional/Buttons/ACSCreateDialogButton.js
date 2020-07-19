@@ -11,7 +11,7 @@ import useGetModel from '../../Hooks/useGetModel.js'
 
 function ACSCreateDialogButton(props) {
 
-  const {object_type, id, ButtonComponent, DialogComponent, layout, sections, field_list, dialog_size, action_props, auth_action="create", row_mode, row_form} = props
+  const {object_type, id, ButtonComponent, DialogComponent, layout, sections, field_list, dialog_size, action_props, auth_action="create", row_mode, row_form, require_authorization=true} = props
 
   const [create_dialog, setCreateDialog] = useState(false);
   const context = useContext(AuthContext)
@@ -44,7 +44,7 @@ function ACSCreateDialogButton(props) {
 
  return (
       <Fragment>
-      <Auth auth_action={auth_action} object_type={object_type} prompt_login={false}>
+      <Auth require_authorization={require_authorization} auth_action={auth_action} object_type={object_type} prompt_login={false}>
       {ButtonComponent?
        <ButtonComponent text="here" onClick={handleOnClick}/>
       : <IconButton variant="fab" color="primary"  style={{ display:"inline"}} onClick={handleOnClick}>
