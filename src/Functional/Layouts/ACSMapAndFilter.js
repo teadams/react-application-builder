@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function ACSMapAndFilter (props) {
   // layout params
-  const { object_type, details_screen_field_list, create_field_list, layout, sections, dialog_size, more_path="Job", more_button_text="Learn More", action_button_text="Apply", action_component_name="ACSObjectView", action_link_field="job_listing", action_object_type="job_listing"} = props
+  const { object_type, details_screen_field_list, create_field_list, layout, sections, dialog_size, more_path="Job", more_button_text="Learn More", action_button_text="Apply", action_component_name="ACSObjectView", action_link_field="job_listing", action_object_type="job_listing", create_marker_button_text="Create Job Listing"} = props
 
   const ActionComponent = control.componentByName(action_component_name)
 
@@ -72,17 +72,22 @@ function ACSMapAndFilter (props) {
 
   const [marker_data, setMarkerData] = useState("")
   const [show_side_window, setShowSideWindow] =useState(false)
-
   const [selected_place, setSelectedPlace]= useState({subsite_data:{}})
 
-  const [create_project_open, setCreateProjectOpen]= useState(false)
 
-  const handleCreateProjectOpen = () =>  {
-        setCreateProjectOpen(false)
+  function redirectToMore() {
+      window.scrollTo(0,0)
+    // TODO - if object_type is core_subsite
+    //     context.setContextId(selected_place.id)
+      let path = `/${more_path}/${selected_place.id}`
+      history.push(path);
   }
 
   const handleActionSubmit= (event,action, project_data, inserted_id) => {
-      u.a("Action is component")
+  }
+
+  const handleCreateMarkerSubmit= (event,action, project_data, inserted_id) => {
+      redirectToMore()
   }
 
   const handleOnMarkerClick = (marker, m, e) => {
@@ -101,16 +106,10 @@ function ACSMapAndFilter (props) {
   };
   
   const handleMoreClick = event => {
-       window.scrollTo(0,0)
-      // TODO - if object_type is core_subsite
-  //     context.setContextId(selected_place.id)
-       let path = `/${more_path}/${selected_place.id}`
-       history.push(path);
-   }
-  
-  const create_button = (props) => { 
-      return (<Button variant="contained" {...props}>Create a Project</Button>)
+    redirectToMore()
   }
+  
+
   
  let id, action_props
  if (action_link_field) {
@@ -119,14 +118,16 @@ function ACSMapAndFilter (props) {
       id = selected_place.id
   }
   
-
   const ActionButton = function(props) {
       return (<Button {...props}>{action_button_text}</Button>)
   }
-  // TOTO - what did handle more click do?
+
+  const CreateMarkerButton = function(props) {
+      return (<Button {...props}>{create_marker_button_text}</Button>)
+  }
+
   return (
     <Fragment>
-
       {show_side_window && 
       <div style={{width:400, height:"85%", zIndex:1, position:"absolute", backgroundColor:"white"}}>
         <Typography>
@@ -145,6 +146,7 @@ function ACSMapAndFilter (props) {
           <Button   onClick={handleMoreClick}>{more_button_text}</Button>
         </div> 
       </div>}
+      <ACSCreateButton   ButtonComponent={CreateMarkerButton} object_type={object_type}  onSubmit={handleCreateMarkerSubmit}/>
       <ACSMap onMarkerClick={handleOnMarkerClick} onMapClick={handleOnMapClick} object_type={object_type} container_height="85%" container_width="98%"/>
     </Fragment>
     )
