@@ -72,7 +72,6 @@ function ACSMapAndFilter (props) {
 
   const [marker_data, setMarkerData] = useState("")
   const [show_side_window, setShowSideWindow] =useState(false)
-  const [show_action_dialog, setShowActionDialog] = useState(false)
 
   const [selected_place, setSelectedPlace]= useState({subsite_data:{}})
 
@@ -82,7 +81,8 @@ function ACSMapAndFilter (props) {
         setCreateProjectOpen(false)
   }
 
-  const handleProjectCreated= (event,action, project_data, inserted_id) => {
+  const handleActionSubmit= (event,action, project_data, inserted_id) => {
+      u.a("Action is component")
   }
 
   const handleOnMarkerClick = (marker, m, e) => {
@@ -107,33 +107,18 @@ function ACSMapAndFilter (props) {
        let path = `/${more_path}/${selected_place.id}`
        history.push(path);
    }
-
-  const handleActionClose= event => {
-      if (show_action_dialog) {
-        setShowActionDialog(false)
-      }
-  }
-
-  const handleActionClick = event => {
-      if (!show_action_dialog) {
-        setShowActionDialog(true)
-      }
-  }
-
   
   const create_button = (props) => { 
       return (<Button variant="contained" {...props}>Create a Project</Button>)
   }
   
  let id, default_values_prop
-  
- if (show_action_dialog) {
-    if (action_link_field) {
+ if (action_link_field) {
       default_values_prop = {[action_link_field]:selected_place.id}
-    } else {
+  } else {
       id = selected_place.id
-    }
   }
+  
 
   const ActionButton = function(props) {
       return (<Button {...props}>{action_button_text}</Button>)
@@ -141,7 +126,6 @@ function ACSMapAndFilter (props) {
   // TOTO - what did handle more click do?
   return (
     <Fragment>
-      {show_action_dialog && <ACSCreateDialogButton ButtonComponent={ActionButton} DialogComponent={ActionComponent} row_mode="create" row_form="true"  id={id} object_type={action_object_type} action_props={{default_values_prop:default_values_prop}} onClose={handleActionClose} open={show_action_dialog} form_open={show_action_dialog}/>}
 
       {show_side_window && 
       <div style={{width:400, height:"85%", zIndex:1, position:"absolute", backgroundColor:"white"}}>
@@ -157,7 +141,7 @@ function ACSMapAndFilter (props) {
             handleMoreClick = {handleMoreClick}/>
         </Typography>
         <div style={{display:"flex", width:"100%", justifyContent:"space-evenly"}}>
-          <ACSCreateButton object_type={object_type} Component={ActionButton}/>
+          <ACSCreateDialogButton   ButtonComponent={ActionButton} DialogComponent={ActionComponent} object_type={object_type} row_mode="create" row_form="true"  id={id}  action_props={{default_values_prop:default_values_prop}} onSubmit={handleActionSubmit}/>
           <Button   onClick={handleMoreClick}>{more_button_text}</Button>
         </div> 
       </div>}
