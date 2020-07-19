@@ -112,9 +112,9 @@ function ACSMapAndFilter (props) {
       return (<Button variant="contained" {...props}>Create a Project</Button>)
   }
   
- let id, default_values_prop
+ let id, action_props
  if (action_link_field) {
-      default_values_prop = {[action_link_field]:selected_place.id}
+      action_props = {[action_link_field]:selected_place.id}
   } else {
       id = selected_place.id
   }
@@ -141,7 +141,7 @@ function ACSMapAndFilter (props) {
             handleMoreClick = {handleMoreClick}/>
         </Typography>
         <div style={{display:"flex", width:"100%", justifyContent:"space-evenly"}}>
-          <ACSCreateDialogButton   ButtonComponent={ActionButton} DialogComponent={ActionComponent} object_type={object_type} row_mode="create" row_form="true"  id={id}  action_props={{default_values_prop:default_values_prop}} onSubmit={handleActionSubmit}/>
+          <ACSCreateDialogButton   ButtonComponent={ActionButton} DialogComponent={ActionComponent} object_type={object_type} row_mode="create" row_form="true"  id={id}  action_props={action_props} onSubmit={handleActionSubmit}/>
           <Button   onClick={handleMoreClick}>{more_button_text}</Button>
         </div> 
       </div>}
