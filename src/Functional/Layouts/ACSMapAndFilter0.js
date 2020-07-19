@@ -78,45 +78,6 @@ function ACSMapAndFilter (props) {
   }
 
   const handleProjectCreated= (event,action, project_data, inserted_id) => {
-
-    
-    // let options = {}
-    // options.id = inserted_id
-    // const role_add_obj = {
-    //     user_id: context.user.id,
-    //     subsite_id: inserted_id,
-    //     role_name: "Admin",
-    //     status: "Accepted"
-    // }
-    // data.callAPI("auth/create-subsite-role", {}, role_add_obj, "post", (role_add_result, error ) => {
-    //     if (Object.keys(role_add_result).length > 0) {
-    //       // will need a way to get updated context
-    //       let new_user_context = context.user
-    //         new_user_context.context_list = role_add_result.context_list
-    //         new_user_context.authorization_object = role_add_result.authorization_object
-    //         context.login(new_user_context)
-    //         context.setContextId(inserted_id)
-    //         // direct to project page
-    //     }
-    //       let path = `/OneProject`
-    //       history.push(path);
-    // 
-    //   })
-    //   // Let this happen in parallel. User will be redirected so we do not have to wait
-    //   let params = {}
-    //   params.address= project_data.street_address  + ", " + project_data.city  +", " + project_data["state"] +",  " + project_data["country"] +", " + project_data.zip_code
-    //   params.key = google_map.get_key() 
-    //   data.getURL("https://maps.googleapis.com/maps/api/geocode/json", params, (result, error) => { 
-    //       options.latitude = result.results[0].geometry.location.lat
-    //       options.longitude = result.results[0].geometry.location.lng 
-    // 
-    //       data.putData("nwn_project", options, {}, (data, error) => { 
-    //           if (error) {
-    //                 alert ('error is ' + error.message)
-    //           } 
-    //       })     
-    //     })
-
   }
 
   const handleOnClick = (id, marker, e) => {

@@ -14,7 +14,6 @@ import SubsiteApply from "./SubsiteApply.js"
 
 function NWAProjectView(props) {
   const [data, setData] = useState(null)
-  const [video_data, setVideoData] = useState(null)
   const [showVolunteerDialog, setShowVolunteerDialog] = useState(false)
 
   const {id, api_options} = props
@@ -34,16 +33,12 @@ function NWAProjectView(props) {
     setData(api_data)
   }
 
-  const onVideoData=(api_data) => {
-    setVideoData(api_data)
-  }
  // ACSHeadlessObjectView wiill retrieve new data on props changes
   return (
     <Fragment>
     {showVolunteerDialog && <SubsiteApply id={id} api_options={api_options} onClose={handleVolunteerClose} open={showVolunteerDialog}/>}
     <Paper  variant="outlined">
     <ACSHeadlessObjectView {...props} onData={onData}/>
-    <ACSHeadlessObjectView  {...props} api_options={{filter_field:"primary_video", filter_id:true}} object_type="nwn_project_video" onData={onVideoData}/>
     {data && 
     <div style={{display:'flex',padding:10, width:"99%", alignSelf:"center", justifyContent:"center"}}>
       <div style={{width:"50%", paddingRight:10,xborder:"5px solid  blue"}}>
