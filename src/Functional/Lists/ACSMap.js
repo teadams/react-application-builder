@@ -26,7 +26,7 @@ function get_image_url (image_object) {
 }
 
 function ACSMap (props) {
-  const {object_type, icon_type_field="job_type",  latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff="", container_height="75%", container_width="75%"} = props
+  const {object_type, icon_type_field="",  latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff="", container_height="75%", container_width="75%"} = props
 
   const [map_data, setMapData] = useState(props.map_data)
   const [subsite_data, setSubsiteData] = useState(props.subsite_data)
@@ -68,9 +68,11 @@ function ACSMap (props) {
   // take initial center from subsite
   if (map_data && !subsite_data && context.context_id && centerAroundSubsiteLocation && !centerAroundCurrentLocation) {
     api.getData("core_subsite", {id:context.context_id}, (api_subsite_data, error) => {
-      setSubsiteData(api_subsite_data[0])
-      if  (api_subsite_data[0].latitude && api_subsite_data[0].longitude)  {
-        setCenter({lat:api_subsite_data[0].latitude,	lng:api_subsite_data[0].longitude});
+      if(api_subsite_data[0]) {
+        setSubsiteData(api_subsite_data[0])
+        if  (api_subsite_data[0].latitude && api_subsite_data[0].longitude)  {
+          setCenter({lat:api_subsite_data[0].latitude,	lng:api_subsite_data[0].longitude});
+        }
       }
     })
   }
