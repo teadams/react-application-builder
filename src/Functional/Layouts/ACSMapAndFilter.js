@@ -64,7 +64,7 @@ function ACSMapAndFilter (props) {
 
   const ActionComponent = control.componentByName(action_component_name)
 
-  const {icon_type_field="job_type", onClick, latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff=""} = props
+  const {icon_type_field="job_type", onClick, latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff="", show_popup_summary=true, show_popup_thumbnail=true, show_popup_description=false} = props
 
   const classes = useStyles();
   const context = useContext(AuthContext)
@@ -152,7 +152,29 @@ function ACSMapAndFilter (props) {
       <div  style={{zIndex:1, position:"absolute"}}>
       <ACSCreateButton   ButtonComponent={CreateMarkerButton} object_type={object_type}  onSubmit={handleCreateMarkerSubmit}/>
       </div>}
-      <ACSMap onMarkerClick={handleOnMarkerClick} onMapClick={handleOnMapClick} object_type={object_type} container_height="85%" container_width="98%"/>
+      <ACSMap 
+          icon_type_field={icon_type_field}
+          latitude={latitude}
+          longitude={longitude}
+          latitude_field={latitude_field} 
+          longitude_field={longitude_field}
+          show_popup_summary={show_popup_summary}
+          show_popup_description={show_popup_description}
+          show_popup_thumbnail={show_popup_thumbnail}
+          initial_zoom={initial_zoom}
+          onMouseover={onMouseover}
+          PopupComponent={PopupComponent}
+          centerAroundCurrentLocation={centerAroundCurrentLocation} 
+          maxPopoverWidth={maxPopoverWidth}
+          centerAroundSubsiteLocation={centerAroundSubsiteLocation} 
+          summary_cutoff={summary_cutoff}
+          description_cutoff={description_cutoff}
+          icon_type_field={icon_type_field} 
+          onMarkerClick={handleOnMarkerClick} 
+          onMapClick={handleOnMapClick} 
+          object_type={object_type} 
+          container_height="85%" 
+          container_width="98%"/>
     </Fragment>
     )
   }
