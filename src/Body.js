@@ -42,7 +42,7 @@ function Body(props) {
 
   const { ...rest} = selected_menu_model
   // object_type in menu_model will override URL
-  return (<div id="tall" style={{display:"table", marginTop:5}}>< BodyComponent object_type={object_type} id={id} {...rest}  /></div>)  
+  return (<div id="tall" style={{display:"flex", marginTop:5}}>< BodyComponent object_type={object_type} id={id} {...rest}  /></div>)  
 }
 
 export default Body

@@ -20,6 +20,8 @@ import * as data from '../../Utils/data.js';
 import * as u from '../../Utils/utils.js'
 import { useHistory } from "react-router-dom";
 import ACSMap from "../Lists/ACSMap.js"
+import ACSFinder from "../Lists/ACSFinder.js"
+
 import * as control from '../../Utils/control.js'
 
 
@@ -156,12 +158,16 @@ function ACSMapAndFilter (props) {
           <Button   onClick={handleMoreClick}>{more_button_text}</Button>
         </div> 
       </div>}
-      {!show_side_window &&
+      {!show_side_window && !filter_view &&
       <div  style={{zIndex:1, position:"absolute"}}>
       <ACSCreateButton   ButtonComponent={CreateMarkerButton} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false}/>
       Map <Switch checked={filter_view} onChange={toggleFilterView} size="small"  color="default" name="view" /> Filter
-      </div>}
-      <ACSMap 
+      </div> 
+      }
+      {filter_view &&
+        <div style={{width:"100%", display:"flex"}}><ACSFinder object_type={object_type}/></div>
+      }
+        {!filter_view &&  <ACSMap 
           icon_type_field={icon_type_field}
           latitude={latitude}
           longitude={longitude}
@@ -184,6 +190,7 @@ function ACSMapAndFilter (props) {
           object_type={object_type} 
           container_height="85%" 
           container_width="98%"/>
+      }
     </Fragment>
     )
   }

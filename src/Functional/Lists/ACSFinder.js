@@ -149,7 +149,6 @@ function ACSFinder(props) {
         </DialogContent>
       </Dialog>}
       {api_options && form_touched && <ACSObjectTypeView headless={true} api_options={api_options} object_type="core_subsite" onData={handleSubsiteData}/>}
-      <Typography variant="h5" style={{padding:10}}>Search for a project</Typography>
       <div style={{paddingLeft:20, paddingRight:40, paddingTop:10, display:'flex'}}>       
         <div style={{display:'inline', width:'30%'}}>
           <div style={{display:'block'}}> <Typography variant="h6">Project:</Typography> </div>
