@@ -123,13 +123,14 @@ function ACSMapAndFilter (props) {
   }
 
   const CreateMarkerButton = function(props) {
-      return (<Button {...props}>{create_marker_button_text}</Button>)
+      return (<Button variant="contained" color="primary" style={{margin:10}} {...props}>{create_marker_button_text}</Button>)
   }
 
   return (
     <Fragment>
       {show_side_window && 
       <div style={{width:400, height:"85%", zIndex:1, position:"absolute", backgroundColor:"white"}}>
+        <ACSCreateButton   ButtonComponent={CreateMarkerButton} object_type={object_type}  onSubmit={handleCreateMarkerSubmit}/>
         <Typography>
           <ACSObjectView  object_type =  {object_type}
             id = {selected_place.id}
@@ -146,7 +147,10 @@ function ACSMapAndFilter (props) {
           <Button   onClick={handleMoreClick}>{more_button_text}</Button>
         </div> 
       </div>}
+      {!show_side_window &&
+      <div  style={{zIndex:1, position:"absolute"}}>
       <ACSCreateButton   ButtonComponent={CreateMarkerButton} object_type={object_type}  onSubmit={handleCreateMarkerSubmit}/>
+      </div>}
       <ACSMap onMarkerClick={handleOnMarkerClick} onMapClick={handleOnMapClick} object_type={object_type} container_height="85%" container_width="98%"/>
     </Fragment>
     )
