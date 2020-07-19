@@ -78,13 +78,8 @@ function ACSMapAndFilter (props) {
   }
 
   const handleProjectCreated= (event,action, project_data, inserted_id) => {
-    // most of this will go server side
-    // setCreateProjectOpen(false)
-    // // this will all move server side
-    // if (!inserted_id) {
-    //     return
-    // }
-    // 
+
+    
     // let options = {}
     // options.id = inserted_id
     // const role_add_obj = {

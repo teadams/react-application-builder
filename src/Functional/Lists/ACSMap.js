@@ -113,13 +113,13 @@ function ACSMap (props) {
     if (!selected_marker_data || Object.keys(selected_marker_data).length === 0) {return null}
 
     let summary_field_data, description_field_data
-    if (summary_cutoff && selected_marker_data[summary_field].length > summary_cutoff) {
+    if (summary_cutoff && selected_marker_data[summary_field] && selected_marker_data[summary_field].length > summary_cutoff) {
       summary_field_data = selected_marker_data[summary_field].substr(0, summary_cutoff)+"..."
     } else {
       summary_field_data = selected_marker_data[summary_field]
     }
 
-    if (description_cutoff && selected_marker_data[description_field].length > description_cutoff) {
+    if (description_cutoff && selected_marker_data[description_field] && selected_marker_data[description_field].length > description_cutoff) {
       description_field_data = selected_marker_data[description_field].substr(0, description_cutoff)+"..."
     } else {
       description_field_data = selected_marker_data[description_field]

@@ -75,11 +75,12 @@ function ACSMapAndFilter (props) {
   const [selected_place, setSelectedPlace]= useState({subsite_data:{}})
 
 
-  function redirectToMore() {
+  function redirectToMore(inserted_id) {
       window.scrollTo(0,0)
     // TODO - if object_type is core_subsite
     //     context.setContextId(selected_place.id)
-      let path = `/${more_path}/${selected_place.id}`
+      const redirect_id = inserted_id?inserted_id:selected_place.id
+      let path = `/${more_path}/${redirect_id}`
       history.push(path);
   }
 
@@ -87,7 +88,8 @@ function ACSMapAndFilter (props) {
   }
 
   const handleCreateMarkerSubmit= (event,action, project_data, inserted_id) => {
-      redirectToMore()
+      u.a(inserted_id)
+      redirectToMore(inserted_id)
   }
 
   const handleOnMarkerClick = (marker, m, e) => {
