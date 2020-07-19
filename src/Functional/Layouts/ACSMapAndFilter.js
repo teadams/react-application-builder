@@ -2,7 +2,7 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
 import React,  {useContext, useState, Fragment} from 'react';
-import {Paper,  Typography, Button, Grid, Popover} from '@material-ui/core';
+import {Paper,  Switch, Typography, Button, Grid, Popover} from '@material-ui/core';
 //import * as meta from '../../Utils/meta.js'
 import {AuthContext} from '../../Components/User';
 
@@ -74,7 +74,11 @@ function ACSMapAndFilter (props) {
   const [marker_data, setMarkerData] = useState("")
   const [show_side_window, setShowSideWindow] =useState(false)
   const [selected_place, setSelectedPlace]= useState({subsite_data:{}})
+  const [filter_view, setFilterView] = useState(false)
 
+  function toggleFilterView(event) {
+    setFilterView(!filter_view)
+  } 
 
   function redirectToMore(inserted_id) {
       window.scrollTo(0,0)
@@ -155,6 +159,7 @@ function ACSMapAndFilter (props) {
       {!show_side_window &&
       <div  style={{zIndex:1, position:"absolute"}}>
       <ACSCreateButton   ButtonComponent={CreateMarkerButton} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false}/>
+      Map <Switch checked={filter_view} onChange={toggleFilterView} size="small"  color="default" name="view" /> Filter
       </div>}
       <ACSMap 
           icon_type_field={icon_type_field}
