@@ -129,7 +129,7 @@ function ACSMapAndFilter (props) {
 
   return (
     <Fragment>
-      {show_side_window && 
+      {!show_side_window && 
       <div style={{width:400, height:"85%", zIndex:1, position:"absolute", backgroundColor:"white"}}>
         <ACSCreateButton   ButtonComponent={CreateMarkerButton} object_type={object_type}  onSubmit={handleCreateMarkerSubmit}/>
         <Typography>

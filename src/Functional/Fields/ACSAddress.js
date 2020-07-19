@@ -14,11 +14,17 @@ import ACSImage from "./ACSImage.js"
 function ACSAddress(props) {
   const {data, field_name,display, mode="view", ...params} = props
   
-  if (data) {
+  if (data && Object.keys(data).length >0) {
     const city = data.city?data.city:""
     const street_address = data.street_address?data.street_address:""
-    const country = data.country.name?data.country.name:""
-    const state = data.state.name?data.state.name:""
+    let country = ""
+    let state =""
+    if (data.country) {
+      country = data.country.name?data.country.name:""
+    }
+    if (data.state) {
+      state = data.state.name?data.state.name:""
+    }
     const zip_code = data.zip_code?data.zip_code:""
 
     switch (mode) {
