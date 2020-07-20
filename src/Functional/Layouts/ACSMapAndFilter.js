@@ -82,7 +82,7 @@ const UpperRightControls = function(props) {
 
 const MapOverlay = function(props) {
   return (
-  <div style={{ zindex:2, position:"absolute",width:'95%', display:"flex", flexDirection:"row"}}>
+  <div style={{ zindex:2, position:"absolute",width:'95%', alignItems:"flex-start", display:"flex", flexDirection:"row"}}>
     <div  style={{zIndex:2, display:"flex", flexDirection:"row", alignItems:"center"}}><UpperLeftNavigation text={props.create_marker_button_text} object_type={props.object_type} layout={props.layout} sections={props.sections} dialog_size={props.dialog_size} onSubmit={props.handleCreateMarkerSubmit} require_authorization={false} checked={props.filter_view} onChange={props.toggleFilterView}/></div>
     <div style={{zIndex:2, display:"flex", flexGrow:2}}></div>
     <div style={{zIndex:2, display:"flex", backgroundColor:"white", padding:10, marginTop:10}}><UpperRightControls filters={props.filters} handleFilterChange={props.handleFilterChange}/></div>

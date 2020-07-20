@@ -98,7 +98,7 @@ function ACSFinder(props) {
       <UpperLeftNavagationComponent/>
       </div>
       <div style={{paddingLeft:20, paddingRight:40, paddingTop:10,  display:'flex', width:'100%'}}>       
-        <div style={{display:'inline', width:'30%'}}>
+        <div style={{display:'flex'}}>
           <ACSFilters filters={props.filters} label_direction="row" label_variant="subtitle1" onChange={handleFilterChange}/>
         </div>
         <div style={{width:"70%"}}>
