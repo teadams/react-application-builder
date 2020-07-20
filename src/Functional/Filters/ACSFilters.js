@@ -35,7 +35,6 @@ function ACSFilters(props) {
 
   if (JSON.stringify(new_api_options) !== JSON.stringify(api_options)) {
       setAPIOptions(new_api_options)
-      u.a(new_api_options)
       if (onChange) {
         onChange(new_api_options)
       }

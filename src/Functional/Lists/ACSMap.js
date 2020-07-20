@@ -26,9 +26,9 @@ function get_image_url (image_object) {
 }
 
 function ACSMap (props) {
-  const {object_type, api_options, icon_type_field="",  latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff="", container_height="75%", container_width="75%", load_own_data=true} = props
+  const {object_type, api_options, icon_type_field="",  latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff="", container_height="75%", container_width="75%", map_data:props_map_data, load_own_data=true} = props
 
-  const [map_data, setMapData] = useState(props.map_data)
+  const [map_data, setMapData] = useState(props_map_data)
   const [subsite_data, setSubsiteData] = useState(props.subsite_data)
 
   const [prior_api_options, setPriorApiOptions] = useState(props.api_options)
@@ -59,7 +59,9 @@ function ACSMap (props) {
   const show_popup_thumbnail = (thumbnail_field && props_show_popup_thumbnail)?true:false
   const show_popup_description = (description_field && props_show_popup_description)?true:false
  
-  
+  if (!load_own_data && (map_data !== props_map_data)) {
+      setMapData(props_map_data)
+  }
   if (load_own_data && (!map_data ||  JSON.stringify(prior_api_options)!==JSON.stringify(api_options))) {
     api.getData(object_type, api_options, (map_data, error) => {
       setMapData(map_data)
@@ -67,6 +69,9 @@ function ACSMap (props) {
     })
   }
 
+  if (!map_data) {
+    return null
+  }
   // take initial center from subsite
   if (map_data && !subsite_data && context.context_id && centerAroundSubsiteLocation && !centerAroundCurrentLocation) {
     api.getData("core_subsite", {id:context.context_id}, (api_subsite_data, error) => {
@@ -79,9 +84,7 @@ function ACSMap (props) {
     })
   }
 
-  if (!map_data) {
-    return null
-  }
+
 
   // Handles latitude and longitude changing from props 
   if  (latitude !== prior_props_center.latitude || longitude !== prior_props_center.longitude)  {

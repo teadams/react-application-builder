@@ -117,10 +117,9 @@ function ACSMapAndFilter (props) {
     })
   }
 
-  if (!data) {loadData()}
-
+  if (!data) {loadData("")}
   const handleFilterChange = (api_options) => {
-    u.a(api_options)
+      loadData(api_options)
   }
 
   function toggleFilterView(event) {
