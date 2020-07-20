@@ -169,7 +169,7 @@ function ACSMapAndFilter (props) {
       </div> 
       }
       {filter_view &&
-        <div style={{width:"100%", display:"flex"}}><ACSFinder UpperLeftNavagationComponent={UpperLeftNavigation} object_type={object_type}/></div>
+        <ACSFinder UpperLeftNavagationComponent={UpperLeftNavigation} object_type={object_type}/>
       }
         {!filter_view &&  <ACSMap 
           icon_type_field={icon_type_field}
