@@ -47,22 +47,17 @@ u.a("value", event_value)
   }
 
   return (
-    <Fragment>
-       {label&&<div style={{display:"block"}}><Typography variant="h6">{label}:</Typography></div>}
-       <div style={{paddingBottom:20}}>
-              <RABSelectField object_type = {object_type}
-                  mode="edit" form="true"
-                  add_none="Any"
-                  form_field_name={filter_name}
-                  value = {value}
-                  name = {filter_name}
-                  style = {{width:"90%"}}
-                  onChange={handleChange}
-                  noLabel= {true}
-                  disable_underline={false}
-                />
-            </div>
-    </Fragment>
+    <RABSelectField object_type = {object_type}
+        mode="edit" form="true"
+        add_none="Any"
+        form_field_name={filter_name}
+        value = {value}
+        name = {filter_name}
+        style = {{width:"90%"}}
+        onChange={handleChange}
+        noLabel= {true}
+        disable_underline={false}
+      />
   )
 }
 
