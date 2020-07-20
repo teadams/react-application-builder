@@ -11,7 +11,7 @@ import useGetModel from '../../Hooks/useGetModel.js'
 import ACSSelectFilter from './ACSSelectFilter.js'
 // default_value, object_type, label, 
 function ACSFilters(props) {
-  const {filters, onChange, label_direction="row", label_variant="subtitle1"} = props
+  const {filters, onChange, label_direction="column", label_variant="subtitle1"} = props
 
   const [formValues, setFormValues] =useState({})
   const [api_options, setAPIOptions] = useState({filter_id:[], filter_field:[]})
@@ -39,12 +39,12 @@ function ACSFilters(props) {
         onChange(new_api_options)
       }
   }
-      
+  
   return (
    <Fragment>
    {filters.map(filter => {
        return (
-         <div style={{display:"flex", flexDirection:{label_direction}, alignItems:"center"}}>
+         <div style={{display:"flex", flexDirection:label_direction, alignItems:"center"}}>
           {filter.label&&<div style={{marginRight:"10px"}}><Typography variant={label_variant}>{filter.label}:</Typography></div>}
           <div><ACSSelectFilter key={filter.name} object_type={filter.object_type} filter_name={filter.name} field_name={filter.name} default_value="_none_" onChange={handleFilterChange}/></div>
         </div>)
