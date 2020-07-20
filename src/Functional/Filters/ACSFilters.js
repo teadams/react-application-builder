@@ -11,8 +11,35 @@ import useGetModel from '../../Hooks/useGetModel.js'
 import ACSSelectFilter from './ACSSelectFilter.js'
 // default_value, object_type, label, 
 function ACSFilters(props) {
-  //XX could get default select field by object type from proc?
-  const {filters, handleFilterChange} = props
+  const {filters, onFilterChange} = props
+
+  const [formValues, setFormValues] =useState({})
+  const [api_options, setAPIOptions] = useState({filter_id:[], filter_field:[]})
+  const handleFilterChange = (event) => {
+    const event_name = event.target.name 
+    const event_value = event.target.value 
+    if (formValues[event_name] !== event_value) {
+        setFormValues(formValues=>({...formValues,[event_name]:event_value}))
+    }
+  }
+
+  
+  let new_api_options = {filter_id:[], filter_field:[]}
+  filters.forEach(filter => {
+    if (formValues[filter.name]) {
+        new_api_options.filter_field.push(filter.filter_field_name)
+        new_api_options.filter_id.push(formValues[filter.name])
+    }
+  })
+//  u.a(api_options, new_api_options)
+
+  if (JSON.stringify(new_api_options) !== JSON.stringify(api_options)) {
+      setAPIOptions(new_api_options)
+      if (onFilterChange) {
+        onFilterChange(new_api_options)
+      }
+  }
+      
   return (
    <Fragment>
    {filters.map(filter => {

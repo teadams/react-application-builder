@@ -24,7 +24,7 @@ import useGetModel from '../../Hooks/useGetModel.js'
 function ACSSelectFilter(props) {
   //XX could get default select field by object type from proc?
   const {default_value, object_type, label, field_name, filter_name=props.object_type, onChange} = props
-  const [value, setValue]= useState("2")
+  const [value, setValue]= useState(default_value)
  
   const handleChange = (event) => {
       // form touched
@@ -32,9 +32,9 @@ function ACSSelectFilter(props) {
     if (value !== event_value) {
         setValue(event_value)
     }
-//    if (onChange) {
-//      onChange(event)
-//    }
+    if (onChange) {
+      onChange(event)
+    }
   }
   // filter consolator
   // Display the filters (array of filters)

@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function ACSMapAndFilter (props) {
   // layout params
-  const { object_type, details_screen_field_list, create_field_list, layout, sections, dialog_size, more_path="ProjectOne", more_button_text="Learn More", action_button_text="Apply", action_component_name="ACSObjectView", action_link_field="job_listing", action_object_type="job_listing", create_marker_button_text="Create Job Listing"} = props
+  const { object_type, api_options, details_screen_field_list, create_field_list, layout, sections, dialog_size, more_path="ProjectOne", more_button_text="Learn More", action_button_text="Apply", action_component_name="ACSObjectView", action_link_field="job_listing", action_object_type="job_listing", create_marker_button_text="Create Job Listing"} = props
 
   const ActionComponent = control.componentByName(action_component_name)
 
@@ -191,7 +191,7 @@ function ACSMapAndFilter (props) {
         <ACSFinder UpperLeftNavagationComponent={UpperLeftNavigation} object_type={object_type}/>
       }
         {!filter_view &&  <ACSMap 
-          api_options={final_filter_api_options}
+          api_options={api_options}
           icon_type_field={icon_type_field}
           latitude={latitude}
           longitude={longitude}
