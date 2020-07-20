@@ -72,7 +72,7 @@ const CreateMarkerButton = function(props) {
 const UpperLeftNavigation = function(props) {
   return (<Fragment>
  <ACSCreateButton   ButtonComponent={CreateMarkerButton} text={props.text} object_type={props.object_type} layout={props.layout} sections={props.sections} dialog_size={props.dialog_size} onSubmit={props.handleCreateMarkerSubmit} require_authorization={false}/>
- Map <Switch checked={props.filter_view} onChange={props.toggleFilterView} size="small"  color="default" name="view" /> Filter
+ Map <Switch checked={props.filter_view} onChange={props.onChange} size="small"  color="default" name="view" /> Filter
 </Fragment>)
 }
 
@@ -184,7 +184,7 @@ function ACSMapAndFilter (props) {
     <Fragment>
       {show_side_window && 
       <Fragment>
-        <MapOverlay filters={map_filters} handleFilterChange={handleFilterChange} create_market_button_text={create_marker_button_text} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false} checked={filter_view} onChange={toggleFilterView}/>/>
+        <MapOverlay filters={map_filters} handleFilterChange={handleFilterChange} create_market_button_text={create_marker_button_text} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false} checked={filter_view} toggleFilterView={toggleFilterView}/>/>
         <div style={{width:400, paddingTop:60, height:"85%", zIndex:1, position:"absolute", backgroundColor:"white"}}>
           <Typography>
             <ACSObjectView  object_type =  {object_type}
@@ -204,7 +204,7 @@ function ACSMapAndFilter (props) {
         </div>
       </Fragment>}
       {!show_side_window && !filter_view &&
-          <MapOverlay  filters={map_filters} handleFilterChange={handleFilterChange} create_marker_button_text={create_marker_button_text} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false} checked={filter_view} onChange={toggleFilterView}/>
+          <MapOverlay  filters={map_filters} handleFilterChange={handleFilterChange} create_marker_button_text={create_marker_button_text} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false} checked={filter_view} toggleFilterView={toggleFilterView}/>
       }
       {filter_view &&
         <ACSFinder UpperLeftNavagationComponent={UpperLeftNavigation} object_type={object_type}/>
