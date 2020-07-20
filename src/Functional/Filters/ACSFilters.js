@@ -11,7 +11,7 @@ import useGetModel from '../../Hooks/useGetModel.js'
 import ACSSelectFilter from './ACSSelectFilter.js'
 // default_value, object_type, label, 
 function ACSFilters(props) {
-  const {filters, onChange, label_direction="column", label_variant="subtitle1", filter_direction="column"} = props
+  const {filters, onChange, label_direction="column", label_variant="subtitle1", filter_direction="column", label_width="70px", select_width="150px"} = props
 
   const [formValues, setFormValues] =useState({})
   const [api_options, setAPIOptions] = useState({filter_id:[], filter_field:[]})
@@ -42,12 +42,12 @@ function ACSFilters(props) {
   
   return (
    <Fragment>
-   <div style={{display:"flex", flexDirection:filter_direction}}>
+   <div style={{display:"flex", flexDirection:filter_direction, width:"100%"}}>
       {filters.map(filter => {
         return (
           <div style={{display:"flex", alignSelf:"flex-end", flexDirection:label_direction, alignItems:"center"}}>
-          {filter.label&&<div style={{marginRight:"10px"}}><Typography variant={label_variant}>{filter.label}:</Typography></div>}
-          <div style={{alignSelf:"flex-start"}}><ACSSelectFilter key={filter.name} object_type={filter.object_type} filter_name={filter.name} field_name={filter.name} default_value="_none_" onChange={handleFilterChange}/></div>
+          {filter.label&&<div style={{marginRight:"10px", width:label_width}}><Typography variant={label_variant}>{filter.label}:</Typography></div>}
+          <div style={{alignSelf:"flex-start", width:select_width}}><ACSSelectFilter key={filter.name} object_type={filter.object_type} filter_name={filter.name} field_name={filter.name} default_value="_none_" onChange={handleFilterChange}/></div>
           </div>)
       })}
     </div>

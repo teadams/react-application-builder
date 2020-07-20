@@ -98,8 +98,11 @@ function ACSMapAndFilter (props) {
 
   const {icon_type_field="job_type", onClick, latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff="", show_popup_summary=true, show_popup_thumbnail=true, show_popup_description=false} = props
 
+  // TODO select_api_options, addition_api_options, referenced_by, filter_field_name
   const map_filters = [{label:"Type", name:"nwn_project_type", default_value:"", object_type:"nwn_project_type",  select_field_name:"name", filter_field_name:"type"},
-  {label:"Type2", name:"nwn_project_type2", default_value:"", object_type:"nwn_project_type",  select_field_name:"name", filter_field_name:"type"}]
+  {label:"Role", name:"core_role", default_value:"", object_type:"core_role",  select_field_name:"core_role", filter_field_name:"project_needs.role_name", 
+  referenced_by:"project_needs", select_api_options:{filter_field:"accept_signups", filter_id:true},
+  additional_api_options:{filter_field:"project_needs.status", filter_id:"Recruiting"}}]
     
 
   const classes = useStyles();
