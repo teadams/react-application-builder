@@ -45,7 +45,6 @@ function SubsiteApply(props) {
   const context = useContext(AuthContext)
   const [subsite_data, setSubsiteData] = useState("");
   const [subsite_needs, setSubsiteNeeds] = useState("");
-
   const [volunteer_confirm, setVolunteerConfirm] = useState(false);
 
   const [selected_touch, setSelectedTouched] = useState(false);

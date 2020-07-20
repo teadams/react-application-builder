@@ -120,7 +120,6 @@ function ACSMapAndFilter (props) {
   }
   
 
-  
  let id, action_props
  if (action_link_field) {
       action_props = {[action_link_field]:selected_place.id}
@@ -151,10 +150,10 @@ function ACSMapAndFilter (props) {
 
   const MapOverlay = function(props) {
     return (
-    <div style={{zIndex:2, position:"absolute",width:'95%', display:"flex", flexDirection:"row"}}>
-      <div  style={{zIndex:1, display:"flex", flexDirection:"row", alignItems:"center"}}><UpperLeftNavigation/></div>
-      <div style={{zIndex:1, display:"flex", flexGrow:2}}></div>
-      <div style={{zIndex:1, display:"flex", marginTop:10}}><UpperRightControls/></div>
+    <div style={{ zindex:2, position:"absolute",width:'95%', display:"flex", flexDirection:"row"}}>
+      <div  style={{zIndex:2, display:"flex", flexDirection:"row", alignItems:"center"}}><UpperLeftNavigation/></div>
+      <div style={{zIndex:2, display:"flex", flexGrow:2}}></div>
+      <div style={{zIndex:2, display:"flex", marginTop:10}}><UpperRightControls/></div>
     </div>)
   }
 
