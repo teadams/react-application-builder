@@ -13,9 +13,7 @@ import RABSelectField from '../../Functional/Fields/RABSelectField.js'
 import ACSField from '../../Functional/ACSField2.js'
 import ObjectView from '../../RABComponents/ObjectView.js'
 import NWAProjectSummary from '../../Components/NowWeAct/NWAProjectSummary.js'
-import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
-
-, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
+import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 import {Link, Container, Box, Card, TableHead, TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
 import useGetModel from '../../Hooks/useGetModel.js'
 

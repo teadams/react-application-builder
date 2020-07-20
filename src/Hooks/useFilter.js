@@ -6,6 +6,8 @@ import useGetModel from '../Hooks/useGetModel';
 import {AuthContext} from '../Components/User';
 import axios from 'axios';
 
+import ACSSelectFilter from "../Filters/ACSSelectFilter.js"
+
 
 const useFilter = (filters) => {
   const [filter_api_options, setFilterApiOptions] =useState({})
@@ -35,8 +37,12 @@ const useFilter = (filters) => {
   }
 
   const FilterComponent = (props) => {
-      return ("THIS IS THE FILTERCOMPONENT")
+      return (filters.forEach(filter => {
+              return (<ACSSelectFilter object_type={filter.object_type} filter_name={filter.name} field_name={filter.name} onChange={handleFilterChange}/>)
+              }))
   }
+
+
   return {FilterComponent, handleFilterChange, final_filter_api_options, last_filter_touched}
 
 }
