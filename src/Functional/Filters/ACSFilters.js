@@ -24,7 +24,7 @@ function ACSFilters(props) {
   }
 
   
-  let new_api_options = {filter_id:[], filter_field:[]}
+  let new_api_options = {filter_id:[], filter_field:[], filter_join:"AND"}
   filters.forEach(filter => {
     if (formValues[filter.name]) {
         new_api_options.filter_field.push(filter.filter_field_name)

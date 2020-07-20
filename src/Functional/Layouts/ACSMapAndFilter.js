@@ -98,7 +98,8 @@ function ACSMapAndFilter (props) {
 
   const {icon_type_field="job_type", onClick, latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff="", show_popup_summary=true, show_popup_thumbnail=true, show_popup_description=false} = props
 
-  const map_filters = [{label:"Type", name:"nwn_project_type", default_value:"", object_type:"nwn_project_type",  select_field_name:"name", filter_field_name:"type"}]
+  const map_filters = [{label:"Type", name:"nwn_project_type", default_value:"", object_type:"nwn_project_type",  select_field_name:"name", filter_field_name:"type"},
+  {label:"Type2", name:"nwn_project_type2", default_value:"", object_type:"nwn_project_type",  select_field_name:"name", filter_field_name:"type"}]
     
 
   const classes = useStyles();

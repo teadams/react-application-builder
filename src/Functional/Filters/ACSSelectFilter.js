@@ -32,7 +32,6 @@ function ACSSelectFilter(props) {
     if (value !== event_value) {
         setValue(event_value)
     }
-u.a("value", event_value)
     if (onChange) {
       onChange(event)
     }
