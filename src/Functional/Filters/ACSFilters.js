@@ -42,13 +42,15 @@ function ACSFilters(props) {
   
   return (
    <Fragment>
-   {filters.map(filter => {
-       return (
-         <div style={{display:"flex", flexDirection:label_direction, alignItems:"center"}}>
+   <div style={{display:"flex", flexDirection:"column"}}>
+      {filters.map(filter => {
+        return (
+          <div style={{display:"flex", alignSelf:"flex-end", flexDirection:label_direction, alignItems:"center"}}>
           {filter.label&&<div style={{marginRight:"10px"}}><Typography variant={label_variant}>{filter.label}:</Typography></div>}
-          <div><ACSSelectFilter key={filter.name} object_type={filter.object_type} filter_name={filter.name} field_name={filter.name} default_value="_none_" onChange={handleFilterChange}/></div>
-        </div>)
-     })}
+          <div style={{alignSelf:"flex-start"}}><ACSSelectFilter key={filter.name} object_type={filter.object_type} filter_name={filter.name} field_name={filter.name} default_value="_none_" onChange={handleFilterChange}/></div>
+          </div>)
+      })}
+    </div>
    </Fragment>
    )
 
