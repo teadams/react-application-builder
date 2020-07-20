@@ -11,7 +11,7 @@ import useGetModel from '../../Hooks/useGetModel.js'
 import ACSSelectFilter from './ACSSelectFilter.js'
 // default_value, object_type, label, 
 function ACSFilters(props) {
-  const {filters, onFilterChange} = props
+  const {filters, onChange} = props
 
   const [formValues, setFormValues] =useState({})
   const [api_options, setAPIOptions] = useState({filter_id:[], filter_field:[]})
@@ -35,8 +35,9 @@ function ACSFilters(props) {
 
   if (JSON.stringify(new_api_options) !== JSON.stringify(api_options)) {
       setAPIOptions(new_api_options)
-      if (onFilterChange) {
-        onFilterChange(new_api_options)
+      u.a(new_api_options)
+      if (onChange) {
+        onChange(new_api_options)
       }
   }
       
