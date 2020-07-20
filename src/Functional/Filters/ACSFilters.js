@@ -31,6 +31,11 @@ function ACSFilters(props) {
     if (formValues[filter.name] && formValues[filter.name] !== "_none_") {
         new_api_options.filter_field.push(filter.filter_field_name)
         new_api_options.filter_id.push(formValues[filter.name])
+        new_api_options.referenced_by = filter.referenced_by
+        if (filter.additional_api_options) {
+          new_api_options.filter_field.push(filter.additional_api_options.filter_field)
+          new_api_options.filter_id.push(filter.additional_api_options.filter_id)
+        }
     }
   })
 //  u.a(api_options, new_api_options)
