@@ -199,7 +199,7 @@ function ACSMapAndFilter (props) {
     <Fragment>
       {show_side_window && 
       <Fragment>
-        <MapOverlay filters={map_filters} handleFilterChange={handleFilterChange} create_market_button_text={create_marker_button_text} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false} checked={filter_view} toggleFilterView={toggleFilterView}/>/>
+        <MapOverlay filters={map_filters} handleFilterChange={handleFilterChange} create_marker_button_text={create_marker_button_text} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false} checked={filter_view} toggleFilterView={toggleFilterView}/>/>
         <div style={{width:400, paddingTop:60, height:"85%", zIndex:1, position:"absolute", backgroundColor:"white"}}>
           <Typography>
             <ACSObjectView  object_type =  {object_type}
