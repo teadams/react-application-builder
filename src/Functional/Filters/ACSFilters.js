@@ -44,7 +44,7 @@ function ACSFilters(props) {
    <Fragment>
    {filters.map(filter => {
        return (
-         <ACSSelectFilter key={filter.name} object_type={filter.object_type} filter_name={filter.name} field_name={filter.name}  onChange={handleFilterChange}/>)
+         <ACSSelectFilter key={filter.name} object_type={filter.object_type} filter_name={filter.name} field_name={filter.name} default_value="_none_" onChange={handleFilterChange}/>)
      })}
    </Fragment>
    )

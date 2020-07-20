@@ -69,11 +69,12 @@ function RABSelectList(props) {
   const {disable_underline=true, prevent_edit=false, select_key_field, select_display_field, object_type, add_none, data:props_data, dependent_filter} = props
   let data = props_data
   if (add_none) {
-    let any_row = [{[select_key_field]:"_none_", [select_display_field]:add_none}]
+    let any_row = [{[select_key_field]:"", [select_display_field]:add_none}]
     if (typeof add_none !== "boolean") {
-      any_row =[{[select_key_field]:"", [select_display_field]:add_none}]
+      any_row =[{[select_key_field]:"_none_", [select_display_field]:add_none}]
     }
     data = any_row.concat(props_data)
+
   }
 
   const select_field_model=field_models[props.object_type][props.select_display_field]
