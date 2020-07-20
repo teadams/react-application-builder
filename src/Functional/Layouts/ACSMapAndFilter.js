@@ -19,9 +19,10 @@ import * as meta from '../../Utils/meta.js';
 import * as data from '../../Utils/data.js';
 import * as u from '../../Utils/utils.js'
 import { useHistory } from "react-router-dom";
+import useFilter from "../../Hooks/useFilter.js"
 import ACSMap from "../Lists/ACSMap.js"
 import ACSFinder from "../Lists/ACSFinder.js"
-
+import ACSSelectFilter from "../Filters/ACSSelectFilter.js"
 import * as control from '../../Utils/control.js'
 
 
@@ -68,6 +69,11 @@ function ACSMapAndFilter (props) {
   const ActionComponent = control.componentByName(action_component_name)
 
   const {icon_type_field="job_type", onClick, latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff="", show_popup_summary=true, show_popup_thumbnail=true, show_popup_description=false} = props
+
+  const project_type_filter = {name:"nwn_project_type", default_value:"", object_type:"nwn_project_type", label:"", select_field_name:"name", filter_field_name:"type"}
+    
+  let filter_array = [project_type_filter]
+  const {FilterComponent, handleFilterChange, final_filter_api_options} = useFilter(filter_array)
 
   const classes = useStyles();
   const context = useContext(AuthContext)
@@ -138,13 +144,13 @@ function ACSMapAndFilter (props) {
  const UpperLeftNavigation = function(props) {
   return (<Fragment>
    <ACSCreateButton   ButtonComponent={CreateMarkerButton} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false}/>
-   Map <Switch checked={filter_view} onChange={toggleFilterView} size="small"  color="default" name="view" /> Filter
+   Map <Switch checked={filter_view} onChange={toggleFilterView} size="small"  color="default" name="view"  /> Filter
   </Fragment>)
  }
 
  const UpperRightControls = function(props) {
   return (<Fragment>
-   Shit in the upper right
+    <ACSSelectFilter object_type="nwn_project_type" filter_name="nwn_project_type" field_name="name" onChange={handleFilterChange}/>
   </Fragment>)
  }
 
@@ -187,6 +193,7 @@ function ACSMapAndFilter (props) {
         <ACSFinder UpperLeftNavagationComponent={UpperLeftNavigation} object_type={object_type}/>
       }
         {!filter_view &&  <ACSMap 
+          api_options={final_filter_api_options}
           icon_type_field={icon_type_field}
           latitude={latitude}
           longitude={longitude}

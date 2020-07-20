@@ -26,11 +26,12 @@ function get_image_url (image_object) {
 }
 
 function ACSMap (props) {
-  const {object_type, icon_type_field="",  latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff="", container_height="75%", container_width="75%"} = props
+  const {object_type, api_options, icon_type_field="",  latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff="", container_height="75%", container_width="75%"} = props
 
   const [map_data, setMapData] = useState(props.map_data)
   const [subsite_data, setSubsiteData] = useState(props.subsite_data)
 
+  const [prior_api_options, setPriorApiOptions] = useState(props.api_options)
   const [showInfoWindow, setShowInfoWindow] =useState(false)
   const [activeMarker, setActiveMarker] = useState({})
   const [selectedPlace, setSelectedPlace]= useState({marker_data:{}})
@@ -58,10 +59,12 @@ function ACSMap (props) {
   const show_popup_thumbnail = (thumbnail_field && props_show_popup_thumbnail)?true:false
   const show_popup_description = (description_field && props_show_popup_description)?true:false
  
- 
-  if (!map_data) {
-    api.getData(object_type, "", (map_data, error) => {
+  
+  if (!map_data || JSON.stringify(prior_api_options)!==JSON.stringify(api_options)) {
+  u.a("getting map data")
+    api.getData(object_type, api_options, (map_data, error) => {
       setMapData(map_data)
+      setPriorApiOptions(api_options)
     })
   }
 
