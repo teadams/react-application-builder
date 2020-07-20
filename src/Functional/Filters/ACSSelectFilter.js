@@ -23,7 +23,7 @@ import useGetModel from '../../Hooks/useGetModel.js'
 // default_value, object_type, label, 
 function ACSSelectFilter(props) {
   //XX could get default select field by object type from proc?
-  const {default_value, object_type, label, field_name, filter_name=props.object_type, onChange} = props
+  const {default_value, object_type, label, field_name, filter_name=props.object_type, onChange, api_options} = props
   const [value, setValue]= useState(default_value)
  
   const handleChange = (event) => {
@@ -36,14 +36,6 @@ function ACSSelectFilter(props) {
       onChange(event)
     }
   }
-  // filter consolator
-  // Display the filters (array of filters)
-  // form values
-  let api_options = {filter_id:[], filter_field:[], filter_join:"AND", referenced_by:[]}
-  if (field_name && field_name !== "_none_") {
-    api_options.filter_id.push(value)
-    api_options.filter_field.push("type")
-  }
 
   return (
     <RABSelectField object_type = {object_type}
@@ -55,6 +47,7 @@ function ACSSelectFilter(props) {
         style = {{width:"90%"}}
         onChange={handleChange}
         noLabel= {true}
+        api_options = {api_options}
         disable_underline={false}
       />
   )

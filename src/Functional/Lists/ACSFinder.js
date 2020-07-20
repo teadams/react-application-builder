@@ -2,7 +2,7 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import * as u from '../../Utils/utils.js'
 import * as meta from '../../Utils/meta.js';
-import * as data from '../../Utils/data.js';
+import * as api from '../../Utils/data.js';
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import ACSObjectTypeView from "../../Functional/Lists/ACSObjectTypeView.js"
@@ -12,6 +12,8 @@ import ACSRowController from '../../Functional/ACSRowController.js'
 import RABSelectField from '../../Functional/Fields/RABSelectField.js'
 import ACSField from '../../Functional/ACSField2.js'
 import ObjectView from '../../RABComponents/ObjectView.js'
+import ACSFilters from "../../Functional/Filters/ACSFilters.js"
+
 import NWAProjectSummary from '../../Components/NowWeAct/NWAProjectSummary.js'
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 import {Link, Container, Box, Card, TableHead, TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
@@ -39,7 +41,7 @@ const box_style = {
 
 function ACSFinder(props) {
   //XX could get default select field by object type from proc?
-  const {UpperLeftNavagationComponent} = props
+  const {UpperLeftNavagationComponent, data, object_type="core_subsite"} = props
   const [form_values, setFormValues]= useState({
     core_subsite:"_none_",
     nwn_project_type:"_none_",
@@ -49,7 +51,7 @@ function ACSFinder(props) {
     zip_code:"",
   })
   const [form_touched, setFormTouched] = useState(false)
-  const [subsite_data, setSubsiteData] = useState("")
+  const [subsite_data, setSubsiteData] = useState(props)
   const [show_details, setShowDetails] = useState(false)
   const [active_data, setActiveData] = useState("")
   //const [api_options, setApiOptions] = useState("")
@@ -58,8 +60,6 @@ function ACSFinder(props) {
   function handleSubsiteDetailsClose(event) {
       setActiveData("")
   }
-
-
   function SubsiteMoreInfo (props) {
       function handleSetActiveData(event) {
         setActiveData(props.data)
@@ -73,69 +73,16 @@ function ACSFinder(props) {
                           }
                         }}
 
-
-  const handleChange = (event) => {
-        const value=event.target.value
-        const name=event.target.name
-        if (form_values[name] !== value) {
-            setFormTouched(true)
-          }
-          setFormValues(form_values=>({...form_values,[name]:value}))
-  }
-
-  const handleTextSubmit = (event, name, filter_form_values) => {
-    if (event) {
-      event.preventDefault();
-    }
-  
-    const value=filter_form_values[name]
-
-    if (value) {
-      setFormTouched(true)
-    }
-    setFormValues(form_values=>({...form_values,[name]:value}))
-  } 
-
-  let api_options = {filter_id:[], filter_field:[], filter_join:"AND", referenced_by:[]}
-  if (form_values.core_subsite && form_values.core_subsite !== "_none_") {
-    api_options.filter_id.push(form_values.core_subsite)
-    api_options.filter_field.push("id")
-  }
-  if (form_values.nwn_project_type && form_values.nwn_project_type !== "_none_") {
-    api_options.filter_id.push(form_values.nwn_project_type)
-    api_options.filter_field.push("type")
-  }
-
-  let state_api_options = {filter_field:"country_alpha_2", filter_id:"US"}
-  if (form_values.core_country && form_values.core_country !== "_none_") {
-    api_options.filter_id.push(form_values.core_country)
-    api_options.filter_field.push("country")
-    state_api_options = {filter_field:"country_alpha_2", filter_id:form_values.core_country}
-  }
-
-  if (form_values.core_role && form_values.core_role !== "_none_") {
-    api_options.filter_id.push(form_values.core_role)
-    api_options.filter_id.push("Recruiting")
-    api_options.filter_field.push("project_needs.role_name")
-    api_options.filter_field.push("project_needs.status")
-    api_options.referenced_by.push("project_needs")
-    api_options.filter_join="AND"
-  
-  }
-  if (form_values.core_state_province && form_values.core_state_province !== "_none_") {
-    api_options.filter_id.push(form_values.core_state_province)
-    api_options.filter_field.push("state")
-  }
-
-  if (form_values.zip_code) {
-    api_options.filter_id.push(form_values.zip_code)
-    api_options.filter_field.push("zip_code")
-  }
-
-  const handleSubsiteData = (api_data) => {
+  function loadData(api_options="") {
+    api.getData(object_type, api_options, (api_data, error) => {
       setSubsiteData(api_data)
+    })
   }
 
+
+  const handleFilterChange = (api_options) => {
+      loadData(api_options)
+  }
   
   return (
     <Fragment>
@@ -147,99 +94,12 @@ function ACSFinder(props) {
               </DialogActions>  
         </DialogContent>
       </Dialog>}
-      {api_options && form_touched && <ACSObjectTypeView headless={true} api_options={api_options} object_type="core_subsite" onData={handleSubsiteData}/>}
       <div  style={{ display:"block"}}>
       <UpperLeftNavagationComponent/>
       </div>
       <div style={{paddingLeft:20, paddingRight:40, paddingTop:10,  display:'flex', width:'100%'}}>       
         <div style={{display:'inline', width:'30%'}}>
-          <div style={{display:'block'}}> <Typography variant="h6">Project:</Typography> </div>
-          <div style={{paddingBottom:20}}><RABSelectField object_type = "core_subsite"
-                  mode="edit" form="true"
-                  add_none="Any"
-                  form_field_name="core_subsite"
-                  field_value = {form_values.core_subsite}
-                  style = {{width:"90%"}}
-                  onChange={handleChange}
-                  noLabel= {true}
-                  disable_underline={false}
-                />
-            </div>
-            <div style={{display:"block"}}><Typography variant="h6">Project Type:</Typography></div>
-            <div style={{paddingBottom:20}}>
-              <RABSelectField object_type = "nwn_project_type"
-                  mode="edit" form="true"
-                  add_none="Any"
-                  form_field_name="nwn_project_type"
-                  value = {form_values.nwn_project_type}
-                  name = "nwn_project_type"
-                  style = {{width:"90%"}}
-                  onChange={handleChange}
-                  noLabel= {true}
-                  disable_underline={false}
-                />
-            </div>
-            <div style={{display:"block"}}><Typography variant="h6">Role:</Typography></div>
-            <div  style={{paddingBottom:20}}>
-              <RABSelectField object_type = "core_role"
-                  mode="edit" form="true"
-                  add_none="Any"
-                  form_field_name="core_role"
-                  value = {form_values.core_role}
-                  name="core_role"
-                  style = {{width:"90%"}}
-                  onChange={handleChange}
-                  noLabel= {true}
-                  disable_underline={false}
-                  api_options={{filter_field:"accept_signups", filter_id:true}}
-                />
-            </div>
-            <div style={{display:"block"}}><Typography variant="h6">Country:</Typography></div>
-            <div style={{paddingBottom:20}}>
-              <RABSelectField object_type = "core_country"
-                  mode="edit" form="true"
-                  add_none="Any"
-                  form_field_name="core_country"
-                  value = {form_values.core_country}
-                  name="core_country"
-                  style = {{width:"90%"}}
-                  onChange={handleChange}
-                  noLabel= {true}
-                  disable_underline={false}
-                />
-            </div>
-            <div style={{display:"block"}}><Typography variant="h6">State or Province:</Typography></div>
-            <div style={{paddingBottom:20}}>
-              <RABSelectField object_type = "core_state_province"
-                  mode="edit" form="true"
-                  add_none="Any"
-                  form_field_name="core_state_province"
-                  value = {form_values.core_state_province}
-                  name="core_state_province"
-                  style = {{width:"90%"}}
-                  onChange={handleChange}
-                  noLabel= {true}
-                  disable_underline={false}
-                  api_options={state_api_options}
-                />
-            </div>
-            <div style={{display:"block"}}><Typography variant="h6">Postal Code:</Typography></div>
-            <div style={{paddingBottom:20, width:'90%'}}>      
-              <ACSField 
-                  object_type="core_subsite"
-                  field_mode="filter" field_form={true}
-                  field_name="zip_code"
-                  data = {form_values}
-                  name="zip_code"
-                  style = {{width:"90%"}}
-                  id="zip_code" key="zip_code"
-                  onFieldSubmit={handleTextSubmit}
-                  noLabel= {true}
-                  autoFocus={false}
-                  disable_underline={false}
-                />
-            </div>
-
+          <ACSFilters filters={props.filters} label_direction="row" label_variant="subtitle1" onChange={handleFilterChange}/>
         </div>
         <div style={{width:"70%"}}>
           {form_touched && subsite_data !== "" && subsite_data.length ===0 &&
@@ -256,7 +116,6 @@ function ACSFinder(props) {
           }
          </div>
      </div>
-   
   
   </Fragment>)
 }

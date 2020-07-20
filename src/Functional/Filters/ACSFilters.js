@@ -12,8 +12,11 @@ import ACSSelectFilter from './ACSSelectFilter.js'
 // default_value, object_type, label, 
 function ACSFilters(props) {
   const {filters, onChange, label_direction="column", label_variant="subtitle1", filter_direction="column", label_width="70px", select_width="150px"} = props
-
-  const [formValues, setFormValues] =useState({})
+  let default_form_values = {}
+  filters.forEach(filter => {
+    default_form_values[filter.name] = filter.default_value?filter.default_value:""
+  })
+  const [formValues, setFormValues] =useState(default_form_values)
   const [api_options, setAPIOptions] = useState({filter_id:[], filter_field:[]})
   const handleFilterChange = (event) => {
     const event_name = event.target.name 
@@ -23,10 +26,9 @@ function ACSFilters(props) {
     }
   }
 
-  
   let new_api_options = {filter_id:[], filter_field:[], filter_join:"AND"}
   filters.forEach(filter => {
-    if (formValues[filter.name]) {
+    if (formValues[filter.name] && formValues[filter.name] !== "_none_") {
         new_api_options.filter_field.push(filter.filter_field_name)
         new_api_options.filter_id.push(formValues[filter.name])
     }
@@ -44,10 +46,19 @@ function ACSFilters(props) {
    <Fragment>
    <div style={{display:"flex", flexDirection:filter_direction, width:"100%"}}>
       {filters.map(filter => {
+        if (filter.select_api_options) {
+            if (filter.select_api_options.filter_dependent_field) {
+                filter.select_api_options.filter_id = formValues[filter.select_api_options.filter_dependent_field]
+            }
+        } else {
+          filter.select_api_options= {}
+        }
+    //    u.a(filter.name, filter.select_api_options)
         return (
           <div style={{display:"flex", alignSelf:"flex-end", flexDirection:label_direction, alignItems:"center"}}>
           {filter.label&&<div style={{marginRight:"10px", width:label_width}}><Typography variant={label_variant}>{filter.label}:</Typography></div>}
-          <div style={{alignSelf:"flex-start", width:select_width}}><ACSSelectFilter key={filter.name} object_type={filter.object_type} filter_name={filter.name} field_name={filter.name} default_value="_none_" onChange={handleFilterChange}/></div>
+          <div style={{alignSelf:"flex-start", width:select_width}}>
+            <ACSSelectFilter key={filter.name} object_type={filter.object_type} filter_name={filter.name} field_name={filter.name} default_value={filter.default_value} onChange={handleFilterChange} api_options={filter.select_api_options}/></div>
           </div>)
       })}
     </div>
