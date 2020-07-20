@@ -41,7 +41,7 @@ const box_style = {
 
 function ACSFinder(props) {
   //XX could get default select field by object type from proc?
-  const {UpperLeftNavagationComponent, data, object_type="core_subsite"} = props
+  const {UpperLeftNavagationComponent, data, object_type="core_subsite", toggleFilterView} = props
   const [form_values, setFormValues]= useState({
     core_subsite:"_none_",
     nwn_project_type:"_none_",
@@ -95,7 +95,7 @@ function ACSFinder(props) {
         </DialogContent>
       </Dialog>}
       <div  style={{ display:"block"}}>
-      <UpperLeftNavagationComponent/>
+      <UpperLeftNavagationComponent onChange={toggleFilterView} text={props.text} object_type={props.object_type} layout={props.layout} sections={props.sections} dialog_size={props.dialog_size} onSubmit={props.handleCreateMarkerSubmit} filter_view={props.filter_view}/>
       </div>
       <div style={{paddingLeft:20, paddingRight:40, paddingTop:10,  display:'flex', width:'100%'}}>       
         <div style={{display:'flex', paddingRight:40}}>

@@ -222,7 +222,7 @@ function ACSMapAndFilter (props) {
           <MapOverlay  filters={map_filters} handleFilterChange={handleFilterChange} create_marker_button_text={create_marker_button_text} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false} checked={filter_view} toggleFilterView={toggleFilterView}/>
       }
       {filter_view &&
-        <ACSFinder UpperLeftNavagationComponent={UpperLeftNavigation} object_type={object_type} filters={finder_filters}/>
+        <ACSFinder UpperLeftNavagationComponent={UpperLeftNavigation} object_type={object_type} filters={finder_filters} toggleFilterView={toggleFilterView} text={create_marker_button_text}  layout={layout} sections={sections} dialog_size={props.dialog_size} onSubmit={handleCreateMarkerSubmit} filter_view={filter_view}/>
       }
         {!filter_view  &&  <ACSMap 
           map_data={data}
