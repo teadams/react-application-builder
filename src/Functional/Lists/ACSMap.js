@@ -140,7 +140,7 @@ function ACSMap (props) {
 
   return (
       <Fragment> 
-      <Map   const containerStyle = {{position: 'absolute',  width:container_width,height: container_height}} style = {{position: 'absolute',  width: '100%', height: '100%'}} google={props.google}  onClick={handleMapClick} zoom={initial_zoom} center={center}  centerAroundCurrentLocation={centerAroundCurrentLocation}  mapTypeControl={false}>
+      <Map   const containerStyle = {{position: 'absolute',  width:container_width,height: container_height}} style = {{position: 'absolute',  width: '100%', height: '100%'}} google={props.google}  onClick={handleMapClick} zoom={initial_zoom} center={center}  centerAroundCurrentLocation={centerAroundCurrentLocation}  mapTypeControl={false} fullscreenControl={false} streetViewControl={false}>
             {map_data.map(marker => {
               var icon
               if (marker[icon_type_field] && marker[icon_type_field][icon_thumbnail_field]) {

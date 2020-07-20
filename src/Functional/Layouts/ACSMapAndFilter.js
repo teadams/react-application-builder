@@ -164,9 +164,11 @@ function ACSMapAndFilter (props) {
         </div> 
       </div>}
       {!show_side_window && !filter_view &&
-      <div  style={{zIndex:1, position:"absolute"}}>
-      <UpperLeftNavigation/>
-      </div> 
+      <div style={{zIndex:1, position:"absolute",width:'100%', display:"flex", flexDirection:"row"}}>
+        <div  style={{zIndex:1, display:"flex", flexDirection:"row", alignItems:"center"}}><UpperLeftNavigation/></div>
+        <div style={{zIndex:1, display:"flex", flexGrow:2}}></div>
+        <div style={{zIndex:1, display:"flex"}}> BOTTOM LEFT</div>
+      </div>
       }
       {filter_view &&
         <ACSFinder UpperLeftNavagationComponent={UpperLeftNavigation} object_type={object_type}/>
