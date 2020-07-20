@@ -24,17 +24,17 @@ import useGetModel from '../../Hooks/useGetModel.js'
 function ACSSelectFilter(props) {
   //XX could get default select field by object type from proc?
   const {default_value, object_type, label, field_name, filter_name=props.object_type, onChange} = props
-  const [value, setValue]= useState(props.default_value)
-
+  const [value, setValue]= useState("2")
+ 
   const handleChange = (event) => {
       // form touched
     const event_value=event.target.value
     if (value !== event_value) {
         setValue(event_value)
     }
-    if (onChange) {
-      onChange(event)
-    }
+//    if (onChange) {
+//      onChange(event)
+//    }
   }
   // filter consolator
   // Display the filters (array of filters)
@@ -44,7 +44,6 @@ function ACSSelectFilter(props) {
     api_options.filter_id.push(value)
     api_options.filter_field.push("type")
   }
-
 
   return (
     <Fragment>

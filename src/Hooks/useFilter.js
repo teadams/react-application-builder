@@ -38,18 +38,11 @@ const useFilter = (filters) => {
 
 
   const FilterComponent = (props) => {
-       return (
-        <Fragment>
-        {filters.map(filter => {
-            return (
-              <ACSSelectFilter object_type={filter.object_type} filter_name={filter.name} field_name={filter.name} onChange={handleFilterChange}/>)
-          })}
-        </Fragment>
-        )
+      return null
   }
 
 
-  return {FilterComponent, handleFilterChange, final_filter_api_options, last_filter_touched}
+  return {handleFilterChange, final_filter_api_options, last_filter_touched}
 
 }
 
