@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {Fragment, useState, useContext} from 'react';
 import * as api from '../Utils/data.js';
 import * as u from '../Utils/utils.js';
 import * as meta from '../Utils/meta.js';
@@ -6,7 +6,7 @@ import useGetModel from '../Hooks/useGetModel';
 import {AuthContext} from '../Components/User';
 import axios from 'axios';
 
-import ACSSelectFilter from "../Filters/ACSSelectFilter.js"
+import ACSSelectFilter from "../Functional/Filters/ACSSelectFilter.js"
 
 
 const useFilter = (filters) => {
@@ -36,10 +36,16 @@ const useFilter = (filters) => {
     setFinalApiOptions(calc_filter_api_options)
   }
 
+
   const FilterComponent = (props) => {
-      return (filters.forEach(filter => {
-              return (<ACSSelectFilter object_type={filter.object_type} filter_name={filter.name} field_name={filter.name} onChange={handleFilterChange}/>)
-              }))
+       return (
+        <Fragment>
+        {filters.map(filter => {
+            return (
+              <ACSSelectFilter object_type={filter.object_type} filter_name={filter.name} field_name={filter.name} onChange={handleFilterChange}/>)
+          })}
+        </Fragment>
+        )
   }
 
 

@@ -150,7 +150,7 @@ function ACSMapAndFilter (props) {
 
  const UpperRightControls = function(props) {
   return (<Fragment>
-    <ACSSelectFilter object_type="nwn_project_type" filter_name="nwn_project_type" field_name="name" onChange={handleFilterChange}/>
+    <FilterComponent/>
   </Fragment>)
  }
 

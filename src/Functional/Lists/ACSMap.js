@@ -61,7 +61,6 @@ function ACSMap (props) {
  
   
   if (!map_data || JSON.stringify(prior_api_options)!==JSON.stringify(api_options)) {
-  u.a("getting map data")
     api.getData(object_type, api_options, (map_data, error) => {
       setMapData(map_data)
       setPriorApiOptions(api_options)
