@@ -41,6 +41,7 @@ const box_style = {
 
 function ACSFinder(props) {
   //XX could get default select field by object type from proc?
+  const {UpperLeftNavagationComponent} = props
   const [form_values, setFormValues]= useState({
     core_subsite:"_none_",
     nwn_project_type:"_none_",
@@ -149,7 +150,10 @@ function ACSFinder(props) {
         </DialogContent>
       </Dialog>}
       {api_options && form_touched && <ACSObjectTypeView headless={true} api_options={api_options} object_type="core_subsite" onData={handleSubsiteData}/>}
-      <div style={{paddingLeft:20, paddingRight:40, paddingTop:10, display:'flex'}}>       
+      <div  style={{ display:"block"}}>
+      <UpperLeftNavagationComponent/>
+      </div>
+      <div style={{paddingLeft:20, paddingRight:40, paddingTop:10,  display:'flex', width:'100%'}}>       
         <div style={{display:'inline', width:'30%'}}>
           <div style={{display:'block'}}> <Typography variant="h6">Project:</Typography> </div>
           <div style={{paddingBottom:20}}><RABSelectField object_type = "core_subsite"

@@ -135,7 +135,12 @@ function ACSMapAndFilter (props) {
       return (<Button variant="contained" color="primary" style={{margin:10}} {...props}>{create_marker_button_text}</Button>)
   }
 
-
+ const UpperLeftNavigation = function(props) {
+  return (<Fragment>
+   <ACSCreateButton   ButtonComponent={CreateMarkerButton} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false}/>
+   Map <Switch checked={filter_view} onChange={toggleFilterView} size="small"  color="default" name="view" /> Filter
+  </Fragment>)
+ }
 
   return (
     <Fragment>
@@ -160,12 +165,11 @@ function ACSMapAndFilter (props) {
       </div>}
       {!show_side_window && !filter_view &&
       <div  style={{zIndex:1, position:"absolute"}}>
-      <ACSCreateButton   ButtonComponent={CreateMarkerButton} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false}/>
-      Map <Switch checked={filter_view} onChange={toggleFilterView} size="small"  color="default" name="view" /> Filter
+      <UpperLeftNavigation/>
       </div> 
       }
       {filter_view &&
-        <div style={{width:"100%", display:"flex"}}><ACSFinder object_type={object_type}/></div>
+        <div style={{width:"100%", display:"flex"}}><ACSFinder UpperLeftNavagationComponent={UpperLeftNavigation} object_type={object_type}/></div>
       }
         {!filter_view &&  <ACSMap 
           icon_type_field={icon_type_field}
