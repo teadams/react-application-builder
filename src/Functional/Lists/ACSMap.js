@@ -26,7 +26,7 @@ function get_image_url (image_object) {
 }
 
 function ACSMap (props) {
-  const {object_type, api_options, icon_type_field="",  latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff="", container_height="75%", container_width="75%"} = props
+  const {object_type, api_options, icon_type_field="",  latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff="", container_height="75%", container_width="75%", load_own_data=true} = props
 
   const [map_data, setMapData] = useState(props.map_data)
   const [subsite_data, setSubsiteData] = useState(props.subsite_data)
@@ -60,7 +60,7 @@ function ACSMap (props) {
   const show_popup_description = (description_field && props_show_popup_description)?true:false
  
   
-  if (!map_data || JSON.stringify(prior_api_options)!==JSON.stringify(api_options)) {
+  if (load_own_data && (!map_data ||  JSON.stringify(prior_api_options)!==JSON.stringify(api_options))) {
     api.getData(object_type, api_options, (map_data, error) => {
       setMapData(map_data)
       setPriorApiOptions(api_options)

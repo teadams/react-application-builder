@@ -16,7 +16,7 @@ import useGetModel from '../../Hooks/useGetModel';
 
 import * as log from '../../Utils/log.js'
 import * as meta from '../../Utils/meta.js';
-import * as data from '../../Utils/data.js';
+import * as api from '../../Utils/data.js';
 import * as u from '../../Utils/utils.js'
 import { useHistory } from "react-router-dom";
 import ACSMap from "../Lists/ACSMap.js"
@@ -77,10 +77,19 @@ function ACSMapAndFilter (props) {
   const context = useContext(AuthContext)
   const history = useHistory({});
   const object_model = useGetModel("object_types", object_type)
+  const [data, setData] = useState("")
   const [marker_data, setMarkerData] = useState("")
   const [show_side_window, setShowSideWindow] =useState(false)
   const [selected_place, setSelectedPlace]= useState({subsite_data:{}})
   const [filter_view, setFilterView] = useState(false)
+
+  function loadData(api_options="") {
+    api.getData(object_type, api_options, (api_data, error) => {
+      setData(api_data)
+    })
+  }
+
+  if (!data) {loadData()}
 
   function toggleFilterView(event) {
     setFilterView(!filter_view)
@@ -190,8 +199,9 @@ function ACSMapAndFilter (props) {
       {filter_view &&
         <ACSFinder UpperLeftNavagationComponent={UpperLeftNavigation} object_type={object_type}/>
       }
-        {!filter_view &&  <ACSMap 
-          api_options={api_options}
+        {!filter_view  &&  <ACSMap 
+          map_data={data}
+          load_own_data={false}
           icon_type_field={icon_type_field}
           latitude={latitude}
           longitude={longitude}
