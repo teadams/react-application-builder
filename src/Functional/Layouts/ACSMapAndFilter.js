@@ -80,6 +80,7 @@ function ACSMapAndFilter (props) {
 
   function toggleFilterView(event) {
     setFilterView(!filter_view)
+    setShowSideWindow(false)
   } 
 
   function redirectToMore(inserted_id) {
@@ -142,13 +143,29 @@ function ACSMapAndFilter (props) {
   </Fragment>)
  }
 
+ const UpperRightControls = function(props) {
+  return (<Fragment>
+   Shit in the upper right
+  </Fragment>)
+ }
+
+  const MapOverlay = function(props) {
+    return (
+    <div style={{zIndex:2, position:"absolute",width:'95%', display:"flex", flexDirection:"row"}}>
+      <div  style={{zIndex:1, display:"flex", flexDirection:"row", alignItems:"center"}}><UpperLeftNavigation/></div>
+      <div style={{zIndex:1, display:"flex", flexGrow:2}}></div>
+      <div style={{zIndex:1, display:"flex", marginTop:10}}><UpperRightControls/></div>
+    </div>)
+  }
+
   return (
     <Fragment>
       {show_side_window && 
-      <div style={{width:400, height:"85%", zIndex:1, position:"absolute", backgroundColor:"white"}}>
-        <ACSCreateButton   ButtonComponent={CreateMarkerButton} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false}/>
-        <Typography>
-          <ACSObjectView  object_type =  {object_type}
+      <Fragment>
+        <MapOverlay/>
+        <div style={{width:400, paddingTop:60, height:"85%", zIndex:1, position:"absolute", backgroundColor:"white"}}>
+          <Typography>
+            <ACSObjectView  object_type =  {object_type}
             id = {selected_place.id}
             data = {selected_place}
             field_mode = "view"
@@ -157,18 +174,15 @@ function ACSMapAndFilter (props) {
             num_columns={1}
             row_header_image_size="medium"
             handleMoreClick = {handleMoreClick}/>
-        </Typography>
-        <div style={{display:"flex", width:"100%", justifyContent:"space-evenly"}}>
-          <ACSCreateDialogButton  require_authorization={false} ButtonComponent={ActionButton} DialogComponent={ActionComponent} object_type={object_type} row_mode="create" row_form="true"  id={id}  action_props={action_props} onSubmit={handleActionSubmit}/>
-          <Button   onClick={handleMoreClick}>{more_button_text}</Button>
-        </div> 
-      </div>}
+          </Typography>
+          <div style={{display:"flex", width:"100%", justifyContent:"space-evenly"}}>
+            <ACSCreateDialogButton  require_authorization={false} ButtonComponent={ActionButton} DialogComponent={ActionComponent} object_type={object_type} row_mode="create" row_form="true"  id={id}  action_props={action_props} onSubmit={handleActionSubmit}/>
+            <Button   onClick={handleMoreClick}>{more_button_text}</Button>
+          </div> 
+        </div>
+      </Fragment>}
       {!show_side_window && !filter_view &&
-      <div style={{zIndex:1, position:"absolute",width:'100%', display:"flex", flexDirection:"row"}}>
-        <div  style={{zIndex:1, display:"flex", flexDirection:"row", alignItems:"center"}}><UpperLeftNavigation/></div>
-        <div style={{zIndex:1, display:"flex", flexGrow:2}}></div>
-        <div style={{zIndex:1, display:"flex"}}> BOTTOM LEFT</div>
-      </div>
+        <MapOverlay/>
       }
       {filter_view &&
         <ACSFinder UpperLeftNavagationComponent={UpperLeftNavigation} object_type={object_type}/>
