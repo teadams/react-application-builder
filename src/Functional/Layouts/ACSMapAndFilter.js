@@ -121,6 +121,9 @@ function ACSMapAndFilter (props) {
     {label:"State or Province", name:"core_state_province", default_value:"",     object_type:"core_state_province", filter_field_name:"state",
     select_api_options:{filter_field:"country_alpha_2", filter_dependent_field:"core_country"}, default_value:"_none_"
     },
+
+    {label:"Zip Code", name:"zip_code", default_value:"", object_type:"core_subsite", filter_field_name:"zip_code", filter_type:"Text"},
+  
     ]
     
 

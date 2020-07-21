@@ -9,6 +9,8 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 import {Link, Container, Box, Card, TableHead, TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
 import useGetModel from '../../Hooks/useGetModel.js'
 import ACSSelectFilter from './ACSSelectFilter.js'
+import ACSTextFilter from './ACSTextFilter.js'
+
 // default_value, object_type, label, 
 function ACSFilters(props) {
   const {filters, default_filter_values={}, onChange, label_direction="column", label_variant="subtitle1", filter_direction="column", label_width="70px", select_width="150px"} = props
@@ -19,6 +21,7 @@ function ACSFilters(props) {
   const [formValues, setFormValues] =useState(default_form_values)
   const [api_options, setAPIOptions] = useState({filter_id:[], filter_field:[]})
   const handleFilterChange = (event) => {
+    
     const event_name = event.target.name 
     const event_value = event.target.value 
     if (formValues[event_name] !== event_value) {
@@ -40,6 +43,7 @@ function ACSFilters(props) {
         }
     }
   })
+
 //  u.a(api_options, new_api_options)
 
   if (JSON.stringify(new_api_options) !== JSON.stringify(api_options)) {
@@ -65,7 +69,13 @@ function ACSFilters(props) {
           <div style={{display:"flex", alignSelf:"flex-end", flexDirection:label_direction, alignItems:"center"}}>
           {filter.label&&<div style={{marginRight:"10px", width:label_width}}><Typography variant={label_variant}>{filter.label}:</Typography></div>}
           <div style={{alignSelf:"flex-start", width:select_width}}>
-            <ACSSelectFilter key={filter.name} object_type={filter.object_type} filter_name={filter.name} field_name={filter.name} default_value={formValues[filter.name]} onChange={handleFilterChange} api_options={filter.select_api_options}/></div>
+            {filter.filter_type !== "Text" &&
+            <ACSSelectFilter key={filter.name} object_type={filter.object_type} filter_name={filter.name} field_name={filter.name} default_value={formValues[filter.name]} onChange={handleFilterChange} api_options={filter.select_api_options}/>}
+
+            {filter.filter_type === "Text" &&
+            <ACSTextFilter key={filter.name} object_type={filter.object_type} filter_name={filter.name} field_name={filter.name} default_value={formValues[filter.name]} onChange={handleFilterChange}/>
+            }
+          </div>
           </div>)
       })}
     </div>
