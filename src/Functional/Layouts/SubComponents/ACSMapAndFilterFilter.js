@@ -65,7 +65,7 @@ function ACSFinder(props) {
         </DialogContent>
       </Dialog>}
       <div  style={{ display:"block"}}>
-      <UpperLeftNavagationComponent onChange={toggleFilterView} text={props.text} object_type={props.object_type} layout={props.layout} sections={props.sections} dialog_size={props.dialog_size} onSubmit={props.handleCreateMarkerSubmit} filter_view={props.filter_view}/>
+      <UpperLeftNavagationComponent onChange={toggleFilterView} text={props.text} object_type={props.object_type} layout={props.layout} sections={props.sections} dialog_size={props.dialog_size} onSubmit={props.onSubmit} filter_view={props.filter_view}/>
       </div>
       <div style={{paddingLeft:20, paddingRight:40, paddingTop:10,  display:'flex', width:'100%'}}>       
         <div style={{display:'flex', paddingRight:40}}>
