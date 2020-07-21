@@ -81,7 +81,7 @@ function RenderACSField(props) {
     return (
     <Fragment>
       <FieldWrap key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}
-        onClick={handleFieldClick}  onMouseOver={handleMouseOver} align="right"><b>{field_model.pretty_name}:</b>
+        onClick={handleFieldClick}  onMouseOver={handleMouseOver} align="right"><b>{field_model.pretty_name}: </b>
        <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
         <Field {...params}
           data={data} key={field_name+"_field"}/>
@@ -95,7 +95,7 @@ function RenderACSField(props) {
     <Fragment>
       <FieldWrap  emphasis={emphasis} key={field_name+"_wrap1"}
         onClick={handleFieldClick}  onMouseOver={handleMouseOver} col_span={col_span}>
-        <b>{field_model.pretty_name}:</b><br/>
+        <b>{field_model.pretty_name}: </b><br/>
        <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
         <Field {...params} key={field_name+"_field"}/>
       </FormWrap>
@@ -111,7 +111,7 @@ function RenderACSField(props) {
         onClick={handleFieldClick}  onMouseOver={handleMouseOver}
         col_span={col_span}
         >
-        <b>{field_model.pretty_name}:</b>
+        <b>{field_model.pretty_name}: </b>
        <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
         <Field {...params}  key={field_name+"_field"}/>
       </FormWrap>
