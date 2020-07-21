@@ -92,39 +92,14 @@ const MapOverlay = function(props) {
 
 function ACSMapAndFilter (props) {
   // layout params
-  const { object_type, api_options, details_screen_field_list, create_field_list, layout, sections, dialog_size, more_path="ProjectOne", more_button_text="Learn More", action_button_text="Apply", action_component_name="ACSObjectView", action_link_field="job_listing", action_object_type="job_listing", create_marker_button_text="Create Job Listing"} = props
+  const { object_type, api_options, details_screen_field_list, create_field_list, layout, sections, dialog_size, more_path="ProjectOne", more_button_text="Learn More", action_button_text="Apply", action_component_name="ACSObjectView", action_link_field="job_listing", action_object_type="job_listing", create_marker_button_text="Create Job Listing", map_filters=[], finder_filters=[]} = props
 
   const ActionComponent = control.componentByName(action_component_name)
 
   const {icon_type_field="job_type", onClick, latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff="", show_popup_summary=true, show_popup_thumbnail=true, show_popup_description=false} = props
 
   // TODO select_api_options, addition_api_options, referenced_by, filter_field_name
-  const map_filters = [
-    {label:"Type", name:"nwn_project_type", default_value:"_none_", object_type:"nwn_project_type",  select_field_name:"name", filter_field_name:"type"},
-      
-    {label:"Role", name:"core_role", default_value:"_none_", object_type:"core_role",  select_field_name:"core_role", filter_field_name:"project_needs.role_name", 
-    referenced_by:"project_needs", select_api_options:{filter_field:"accept_signups", filter_id:true},
-    additional_api_options:{filter_field:"project_needs.status", filter_id:"Recruiting"}}
-  ]
 
-  const finder_filters = [
-    {label:"Project", name:"nwn_project", object_type:"nwn_project",  select_field_name:"name", filter_field_name:"id", default_value:"_none_"},
-
-    {label:"Type", name:"nwn_project_type",  object_type:"nwn_project_type",  select_field_name:"name", filter_field_name:"type", default_value:"_none_"},
-  
-    {label:"Role", name:"core_role", default_value:"_none_", object_type:"core_role",  select_field_name:"core_role", filter_field_name:"project_needs.role_name", 
-    referenced_by:"project_needs", select_api_options:{filter_field:"accept_signups", filter_id:true},
-    additional_api_options:{filter_field:"project_needs.status", filter_id:"Recruiting"}},
-
-    {label:"Country", name:"core_country", default_value:"US", object_type:"core_country", filter_field_name:"country"},
-  
-    {label:"State or Province", name:"core_state_province", default_value:"",     object_type:"core_state_province", filter_field_name:"state",
-    select_api_options:{filter_field:"country_alpha_2", filter_dependent_field:"core_country"}, default_value:"_none_"
-    },
-
-    {label:"Zip Code", name:"zip_code", default_value:"", object_type:"core_subsite", filter_field_name:"zip_code", filter_type:"Text"},
-  
-    ]
     
 
   const classes = useStyles();
