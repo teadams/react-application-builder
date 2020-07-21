@@ -77,7 +77,7 @@ const UpperLeftNavigation = function(props) {
 }
 
 const UpperRightControls = function(props) {
-  return (<Fragment><ACSFilters filters={props.filters} filter_form_values={props.filter_form_values} label_direction="row" label_variant="subtitle1" onChange={props.handleFilterChange}/></Fragment>)
+  return (<Fragment><ACSFilters filters={props.filters} default_filter_values={props.filter_form_values} label_direction="row" label_variant="subtitle1" onChange={props.handleFilterChange}/></Fragment>)
 }
 
 const MapOverlay = function(props) {
