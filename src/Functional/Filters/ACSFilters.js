@@ -68,8 +68,8 @@ function ACSFilters(props) {
     //    u.a(filter.name, filter.select_api_options)
         return (
           <div style={{display:"flex", alignSelf:"flex-end", flexDirection:label_direction, alignItems:"center"}}>
-          {filter.label&&<div style={{marginRight:"10px", width:label_width}}><Typography variant={label_variant}>{filter.label}:</Typography></div>}
-          <div style={{alignSelf:"flex-start", width:select_width}}>
+          {filter.label&&<div style={{marginRight:"10px", minWidth:label_width}}><Typography variant={label_variant}>{filter.label}:</Typography></div>}
+          <div style={{alignSelf:"flex-start", minWidth:select_width}}>
             {filter.filter_type !== "Text" &&
             <ACSSelectFilter key={filter.name} object_type={filter.object_type} filter_name={filter.name} field_name={filter.name} default_value={formValues[filter.name]} onChange={handleFilterChange} api_options={filter.select_api_options}/>}
 
