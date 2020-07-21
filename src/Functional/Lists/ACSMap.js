@@ -51,7 +51,7 @@ function ACSMap (props) {
   const description_field = props.description_field?props.description_field:object_model.description_key
   const thumbnail_field = props.thumbnail_field?props.thumbnail_field:object_model.thumbnail_key
   const icon_field_model =  useGetModel("fields", object_type)[icon_type_field]
-  const icon_object = icon_field_model["references"]
+  const icon_object = icon_field_model?icon_field_model["references"]:""
   const icon_object_model = useGetModel("object_types", icon_object)
   const icon_thumbnail_field = props.icon_thumbnail_field?props.icon_thumbnsil_field:icon_object_model.thumbnail_key
   const {show_popup_summary:props_show_popup_summary=true, show_popup_thumbnail:props_show_popup_thumbnail, show_popup_description:props_show_popup_description=true} = props
