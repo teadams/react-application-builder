@@ -41,7 +41,7 @@ const box_style = {
 
 function ACSFinder(props) {
   //XX could get default select field by object type from proc?
-  const {UpperLeftNavagationComponent, data, object_type="core_subsite", toggleFilterView, filter_form_values} = props
+  const {UpperLeftNavagationComponent, data=[], object_type="core_subsite", toggleFilterView, filter_form_values, setFilterFormValues} = props
 
   const [form_values, setFormValues]= useState({
     core_subsite:"_none_",
@@ -52,7 +52,7 @@ function ACSFinder(props) {
     zip_code:"",
   })
   const [form_touched, setFormTouched] = useState(false)
-  const [subsite_data, setSubsiteData] = useState(props)
+  const [subsite_data, setSubsiteData] = useState(data)
   const [show_details, setShowDetails] = useState(false)
   const [active_data, setActiveData] = useState("")
   //const [api_options, setApiOptions] = useState("")
@@ -81,7 +81,10 @@ function ACSFinder(props) {
   }
 
 
-  const handleFilterChange = (api_options) => {
+  const handleFilterChange = (api_options, filter_form_values) => {
+      if (setFilterFormValues) {
+        setFilterFormValues(filter_form_values)
+      }
       loadData(api_options)
   }
   

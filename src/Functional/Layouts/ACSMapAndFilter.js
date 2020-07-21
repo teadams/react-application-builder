@@ -104,16 +104,19 @@ function ACSMapAndFilter (props) {
       
     {label:"Role", name:"core_role", default_value:"_none_", object_type:"core_role",  select_field_name:"core_role", filter_field_name:"project_needs.role_name", 
     referenced_by:"project_needs", select_api_options:{filter_field:"accept_signups", filter_id:true},
-    additional_api_options:{filter_field:"project_needs.status", filter_id:"Recruiting"}}]
+    additional_api_options:{filter_field:"project_needs.status", filter_id:"Recruiting"}}
+  ]
 
   const finder_filters = [
     {label:"Project", name:"nwn_project", object_type:"nwn_project",  select_field_name:"name", filter_field_name:"id", default_value:"_none_"},
 
     {label:"Type", name:"nwn_project_type",  object_type:"nwn_project_type",  select_field_name:"name", filter_field_name:"type", default_value:"_none_"},
   
-    {label:"Role", name:"core_role",  object_type:"core_role",  select_field_name:"core_role", filter_field_name:"project_needs.role_name", referenced_by:"project_needs", select_api_options:{filter_field:"accept_signups", filter_id:true}, additional_api_options:{filter_field:"project_needs.status", filter_id:"Recruiting"}, default_value:"_none_"},
+    {label:"Role", name:"core_role", default_value:"_none_", object_type:"core_role",  select_field_name:"core_role", filter_field_name:"project_needs.role_name", 
+    referenced_by:"project_needs", select_api_options:{filter_field:"accept_signups", filter_id:true},
+    additional_api_options:{filter_field:"project_needs.status", filter_id:"Recruiting"}},
 
-    {label:"Country", name:"core_country", default_value:"US", object_type:"core_country", filter_field_name:"country", default_value:"_none_"},
+    {label:"Country", name:"core_country", default_value:"US", object_type:"core_country", filter_field_name:"country"},
   
     {label:"State or Province", name:"core_state_province", default_value:"",     object_type:"core_state_province", filter_field_name:"state",
     select_api_options:{filter_field:"country_alpha_2", filter_dependent_field:"core_country"}, default_value:"_none_"
@@ -227,6 +230,7 @@ function ACSMapAndFilter (props) {
       {filter_view &&
         <ACSFinder UpperLeftNavagationComponent={UpperLeftNavigation} object_type={object_type} filters={finder_filters}
         filter_form_values={filter_form_values}
+        setFilterFormValues={setFilterFormValues}
         toggleFilterView={toggleFilterView} text={create_marker_button_text}  layout={layout} sections={sections} dialog_size={props.dialog_size} onSubmit={handleCreateMarkerSubmit} filter_view={filter_view}/>
       }
         {!filter_view  &&  <ACSMap 

@@ -26,12 +26,14 @@ function ACSFilters(props) {
     }
   }
 
-  let new_api_options = {filter_id:[], filter_field:[], filter_join:"AND"}
+  let new_api_options = {filter_id:[], filter_field:[], referenced_by:[], filter_join:"AND"}
   filters.forEach(filter => {
     if (formValues[filter.name] && formValues[filter.name] !== "_none_") {
         new_api_options.filter_field.push(filter.filter_field_name)
         new_api_options.filter_id.push(formValues[filter.name])
-        new_api_options.referenced_by = filter.referenced_by
+        if (filter.referenced_by) {
+          new_api_options.referenced_by.push(filter.referenced_by)
+        }
         if (filter.additional_api_options) {
           new_api_options.filter_field.push(filter.additional_api_options.filter_field)
           new_api_options.filter_id.push(filter.additional_api_options.filter_id)
