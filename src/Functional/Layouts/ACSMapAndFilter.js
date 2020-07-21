@@ -20,7 +20,7 @@ import * as api from '../../Utils/data.js';
 import * as u from '../../Utils/utils.js'
 import { useHistory } from "react-router-dom";
 import ACSMap from "../Lists/ACSMap.js"
-import ACSFinder from "../Lists/ACSFinder.js"
+import ACSMapAndFilterFilter from "./SubComponents/ACSMapAndFilterFilter.js"
 import ACSFilters from "../Filters/ACSFilters.js"
 import ACSSelectFilter from "../Filters/ACSSelectFilter.js"
 import * as control from '../../Utils/control.js'
@@ -206,7 +206,7 @@ function ACSMapAndFilter (props) {
           handleFilterChange={handleFilterChange} create_marker_button_text={create_marker_button_text} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false} checked={filter_view} toggleFilterView={toggleFilterView}/>
       }
       {filter_view &&
-        <ACSFinder UpperLeftNavagationComponent={UpperLeftNavigation} object_type={object_type} filters={finder_filters}
+        <ACSMapAndFilterFilter UpperLeftNavagationComponent={UpperLeftNavigation} object_type={object_type} filters={finder_filters}
         filter_form_values={filter_form_values}
         setFilterFormValues={setFilterFormValues}
         toggleFilterView={toggleFilterView} text={create_marker_button_text}  layout={layout} sections={sections} dialog_size={props.dialog_size} onSubmit={handleCreateMarkerSubmit} filter_view={filter_view}/>

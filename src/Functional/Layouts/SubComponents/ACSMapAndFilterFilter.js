@@ -1,42 +1,17 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
-import * as u from '../../Utils/utils.js'
-import * as meta from '../../Utils/meta.js';
-import * as api from '../../Utils/data.js';
+import * as u from '../../../Utils/utils.js'
+import * as meta from '../../../Utils/meta.js';
+import * as api from '../../../Utils/data.js';
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
-import ACSObjectTypeView from "../../Functional/Lists/ACSObjectTypeView.js"
-import useForm from '../../Hooks/useForm';
-import useGetObject  from '../../Hooks/useGetObject';
-import ACSRowController from '../../Functional/ACSRowController.js'
-import RABSelectField from '../../Functional/Fields/RABSelectField.js'
-import ACSField from '../../Functional/ACSField2.js'
-import ObjectView from '../../RABComponents/ObjectView.js'
-import ACSFilters from "../../Functional/Filters/ACSFilters.js"
+import ACSObjectTypeView from "../../../Functional/Lists/ACSObjectTypeView.js"
+import ACSObjectView from '../../../Functional/Rows/ACSObjectView.js'
+import ACSFilters from "../../../Functional/Filters/ACSFilters.js"
 
-import NWAProjectSummary from '../../Components/NowWeAct/NWAProjectSummary.js'
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 import {Link, Container, Box, Card, TableHead, TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
-import useGetModel from '../../Hooks/useGetModel.js'
 
-const styles = theme => ({
-drawerHeader: {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
-  padding: '0 8px',
-  ...theme.mixins.toolbar,
-},
-});
-
-const box_style = { 
-  padding:10,
-  backgroundColor:"lightGray",
-  borderColor:"darkGray",
-  borderWidth:"thin",
-  borderStyle:"solid",
-  display:"inline"
-}
 
 
 function ACSFinder(props) {
@@ -84,7 +59,7 @@ function ACSFinder(props) {
     <Fragment>
       {active_data && <Dialog fullWidth={true} open={true}  onClose={handleDetailsClose}>
         <DialogContent>
-              <NWAProjectSummary data={active_data} field_list={more_field_list} object_type={object_type} mode="view" num_columns={1}  />
+              <ACSObjectView data={active_data} field_list={more_field_list} object_type={object_type} mode="view" num_columns={1}  />
               <DialogActions>
                 <Button onClick={handleDetailsClose} color="primary">Close</Button>
               </DialogActions>  
@@ -105,7 +80,7 @@ function ACSFinder(props) {
           }
           {data.length ===1 &&
           <Card variant="outlined" style={{padding:30,backgroundColor:"#DDDDDD"}}>
-          <NWAProjectSummary data={data[0]} field_list={more_field_list} object_type={object_type} mode="view" num_columns={1}  />
+          <ACSObjectView data={data[0]} field_list={more_field_list} object_type={object_type} mode="view" num_columns={1}  />
           </Card>}
           {data.length >1 &&
             <ACSObjectTypeView data={data} field_click_to_edit={false} rab_component_model={{list:{names:{header_wrap:"RABVoid"}}}} field_models={field_models} field_list={list_field_list} object_type={object_type} mode="view" num_columns={1}  />
