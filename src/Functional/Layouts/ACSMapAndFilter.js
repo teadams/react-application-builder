@@ -142,8 +142,6 @@ function ACSMapAndFilter (props) {
       history.push(path);
   }
 
-  const handleActionSubmit= (event,action, project_data, inserted_id) => {
-  }
 
   const handleCreateMarkerSubmit= (event,action, project_data, inserted_id) => {
       redirectToMore(inserted_id)
@@ -198,7 +196,7 @@ function ACSMapAndFilter (props) {
             handleMoreClick = {handleMoreClick}/>
           </Typography>
           <div style={{display:"flex", width:"100%", justifyContent:"space-evenly"}}>
-            <ACSCreateDialogButton  require_authorization={false} ButtonComponent={ActionButton} DialogComponent={ActionComponent} object_type={object_type} row_mode="create" row_form="true"  id={id}  action_props={action_props} onSubmit={handleActionSubmit}/>
+            <ACSCreateDialogButton  require_authorization={false} ButtonComponent={ActionButton} DialogComponent={ActionComponent} object_type={object_type} row_mode="create" row_form="true"  id={id}  action_props={action_props}/>
             <Button   onClick={handleMoreClick}>{more_button_text}</Button>
           </div> 
         </div>
@@ -215,7 +213,10 @@ function ACSMapAndFilter (props) {
         setFilterFormValues={setFilterFormValues}
         more_field_list = {more_field_list}
         list_field_list = {list_field_list}
-        toggleFilterView={toggleFilterView} text={create_marker_button_text}  layout={layout} sections={sections} dialog_size={props.dialog_size} onSubmit={handleCreateMarkerSubmit} filter_view={filter_view}/>
+        toggleFilterView={toggleFilterView} text={create_marker_button_text}  layout={layout} sections={sections} dialog_size={props.dialog_size}
+        action_link_field={action_link_field}
+        ActionButton={ActionButton} ActionComponent={ActionComponent}
+        onSubmit={handleCreateMarkerSubmit} filter_view={filter_view}/>
       }
         {!filter_view  &&  <ACSMap 
           map_data={data}

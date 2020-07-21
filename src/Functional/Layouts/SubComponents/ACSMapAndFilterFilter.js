@@ -8,6 +8,7 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
 import ACSObjectTypeView from "../../../Functional/Lists/ACSObjectTypeView.js"
 import ACSObjectView from '../../../Functional/Rows/ACSObjectView.js'
 import ACSFilters from "../../../Functional/Filters/ACSFilters.js"
+import ACSCreateDialogButton from '../../../Functional/Buttons/ACSCreateDialogButton.js'
 
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 import {Link, Container, Box, Card, TableHead, TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
@@ -15,7 +16,7 @@ import {Link, Container, Box, Card, TableHead, TableContainer, Table, TableBody,
 
 function ACSMapAndFilterFilter(props) {
   //XX could get default select field by object type from proc?
-  const {UpperLeftNavagationComponent, data:props_data=[], object_type="core_subsite", toggleFilterView, filter_form_values, setFilterFormValues} = props
+  const {UpperLeftNavagationComponent, data:props_data=[], object_type="core_subsite", toggleFilterView, filter_form_values, setFilterFormValues, ActionButton, ActionComponent, action_link_field} = props
 
   const {more_field_list, list_field_list} = props
 
@@ -53,6 +54,7 @@ function ACSMapAndFilterFilter(props) {
       if (setFilterFormValues) {
         setFilterFormValues(filter_form_values)
       }
+
       loadData(api_options)
   }
   return (
@@ -61,6 +63,7 @@ function ACSMapAndFilterFilter(props) {
         <DialogContent>
               <ACSObjectView data={active_data} field_list={more_field_list} object_type={object_type} mode="view" num_columns={1}  />
               <DialogActions>
+                <ACSCreateDialogButton  require_authorization={false} ButtonComponent={ActionButton} DialogComponent={ActionComponent} object_type={object_type} row_mode="create" row_form="true"  id={data[0].id}  action_props={action_link_field?{[action_link_field]:data[0].id}:""}/>
                 <Button onClick={handleDetailsClose} color="primary">Close</Button>
               </DialogActions>  
         </DialogContent>
@@ -81,6 +84,7 @@ function ACSMapAndFilterFilter(props) {
           {data.length ===1 &&
           <Card variant="outlined" style={{padding:30,backgroundColor:"#DDDDDD"}}>
           <ACSObjectView data={data[0]} field_list={more_field_list} object_type={object_type} mode="view" num_columns={1}  />
+            <ACSCreateDialogButton  require_authorization={false} ButtonComponent={ActionButton} DialogComponent={ActionComponent} object_type={object_type} row_mode="create" row_form="true"  id={data[0].id}  action_props={action_link_field?{[action_link_field]:data[0].id}:{}}/>
           </Card>}
           {data.length >1 &&
             <ACSObjectTypeView data={data} field_click_to_edit={false} rab_component_model={{list:{names:{header_wrap:"RABVoid"}}}} field_models={field_models} field_list={list_field_list} object_type={object_type} mode="view" num_columns={1}  />
