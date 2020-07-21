@@ -77,6 +77,7 @@ function ACSFinder(props) {
   function loadData(api_options="") {
     api.getData(object_type, api_options, (api_data, error) => {
       setSubsiteData(api_data)
+      setFormTouched(true)
     })
   }
 
@@ -87,7 +88,6 @@ function ACSFinder(props) {
       }
       loadData(api_options)
   }
-  
   return (
     <Fragment>
       {active_data && <Dialog fullWidth={true} open={true}  onClose={handleSubsiteDetailsClose}>
