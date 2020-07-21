@@ -41,6 +41,7 @@ function ACSMapAndFilterFilter(props) {
                           }
                         }}
 
+
   function loadData(api_options="") {
     api.getData(object_type, api_options, (api_data, error) => {
       setData(api_data)
