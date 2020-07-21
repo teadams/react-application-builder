@@ -13,11 +13,11 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 import {Link, Container, Box, Card, TableHead, TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
 
 
-function ACSFinder(props) {
+function ACSMapAndFilterFilter(props) {
   //XX could get default select field by object type from proc?
   const {UpperLeftNavagationComponent, data:props_data=[], object_type="core_subsite", toggleFilterView, filter_form_values, setFilterFormValues} = props
 
-  const {more_field_list=["summary", "leader", "description", "address"], list_field_list=["more", "name","summary","address"]} = props
+  const {more_field_list, list_field_list} = props
 
   const [form_touched, setFormTouched] = useState(false)
   const [data, setData] = useState(props_data)
@@ -92,5 +92,5 @@ function ACSFinder(props) {
 
 
 //export default withStyles(styles, { withTheme: true })(VolunteerNew);
-export default ACSFinder;
+export default ACSMapAndFilterFilter;
 

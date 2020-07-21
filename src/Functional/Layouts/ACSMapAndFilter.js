@@ -91,11 +91,14 @@ const MapOverlay = function(props) {
 
 
 function ACSMapAndFilter (props) {
-  // layout params
+  // params - map view
   const { object_type, api_options, details_screen_field_list, create_field_list, layout, sections, dialog_size, more_path="ProjectOne", more_button_text="Learn More", action_button_text="Apply", action_component_name="ACSObjectView", action_link_field="job_listing", action_object_type="job_listing", create_marker_button_text="Create Job Listing", map_filters=[], finder_filters=[]} = props
 
+  // params - fitler filter_view 
+  const {more_field_list, list_field_list} = props
   const ActionComponent = control.componentByName(action_component_name)
 
+  // map params
   const {icon_type_field="job_type", onClick, latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff="", show_popup_summary=true, show_popup_thumbnail=true, show_popup_description=false} = props
 
   // TODO select_api_options, addition_api_options, referenced_by, filter_field_name
@@ -206,9 +209,12 @@ function ACSMapAndFilter (props) {
           handleFilterChange={handleFilterChange} create_marker_button_text={create_marker_button_text} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false} checked={filter_view} toggleFilterView={toggleFilterView}/>
       }
       {filter_view &&
-        <ACSMapAndFilterFilter UpperLeftNavagationComponent={UpperLeftNavigation} object_type={object_type} filters={finder_filters}
+        <ACSMapAndFilterFilter
+        UpperLeftNavagationComponent={UpperLeftNavigation} object_type={object_type} filters={finder_filters}
         filter_form_values={filter_form_values}
         setFilterFormValues={setFilterFormValues}
+        more_field_list = {more_field_list}
+        list_field_list = {list_field_list}
         toggleFilterView={toggleFilterView} text={create_marker_button_text}  layout={layout} sections={sections} dialog_size={props.dialog_size} onSubmit={handleCreateMarkerSubmit} filter_view={filter_view}/>
       }
         {!filter_view  &&  <ACSMap 
