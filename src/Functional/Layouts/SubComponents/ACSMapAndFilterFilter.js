@@ -13,7 +13,6 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 import {Link, Container, Box, Card, TableHead, TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
 
 
-
 function ACSFinder(props) {
   //XX could get default select field by object type from proc?
   const {UpperLeftNavagationComponent, data:props_data=[], object_type="core_subsite", toggleFilterView, filter_form_values, setFilterFormValues} = props
