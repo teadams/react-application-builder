@@ -41,46 +41,38 @@ const box_style = {
 
 function ACSFinder(props) {
   //XX could get default select field by object type from proc?
-  const {UpperLeftNavagationComponent, data=[], object_type="core_subsite", toggleFilterView, filter_form_values, setFilterFormValues} = props
+  const {UpperLeftNavagationComponent, data:props_data=[], object_type="core_subsite", toggleFilterView, filter_form_values, setFilterFormValues} = props
 
-  const [form_values, setFormValues]= useState({
-    core_subsite:"_none_",
-    nwn_project_type:"_none_",
-    core_role:"_none_",
-    core_country:"US",
-    core_state_province:"_none_",
-    zip_code:"",
-  })
+  const {more_field_list=["summary", "leader", "description", "address"], list_field_list=["more", "name","summary","address"]} = props
+
   const [form_touched, setFormTouched] = useState(false)
-  const [subsite_data, setSubsiteData] = useState(data)
+  const [data, setData] = useState(props_data)
   const [show_details, setShowDetails] = useState(false)
   const [active_data, setActiveData] = useState("")
-  //const [api_options, setApiOptions] = useState("")
-  const subsite_info_fields= ["summary", "leader", "description", "address"]
 
-  function handleSubsiteDetailsClose(event) {
+  function handleDetailsClose(event) {
       setActiveData("")
   }
-  function SubsiteMoreInfo (props) {
+
+  function HandleMoreInfo (props) {
       function handleSetActiveData(event) {
         setActiveData(props.data)
       }
       return (<Link name={props.data} onClick={handleSetActiveData}>Details</Link>)
   }
   
-  const field_models = {core_subsite:{
+  const field_models = {[object_type]:{
                         more:{pretty_name:"More",
-                          rab_component_model:{field:{components:{field:SubsiteMoreInfo}}}
+                          rab_component_model:{field:{components:{field:HandleMoreInfo}}}
                           }
                         }}
 
   function loadData(api_options="") {
     api.getData(object_type, api_options, (api_data, error) => {
-      setSubsiteData(api_data)
+      setData(api_data)
       setFormTouched(true)
     })
   }
-
 
   const handleFilterChange = (api_options, filter_form_values) => {
       if (setFilterFormValues) {
@@ -90,11 +82,11 @@ function ACSFinder(props) {
   }
   return (
     <Fragment>
-      {active_data && <Dialog fullWidth={true} open={true}  onClose={handleSubsiteDetailsClose}>
+      {active_data && <Dialog fullWidth={true} open={true}  onClose={handleDetailsClose}>
         <DialogContent>
-              <NWAProjectSummary data={active_data} field_list={subsite_info_fields} object_type="core_subsite" mode="view" num_columns={1}  />
+              <NWAProjectSummary data={active_data} field_list={more_field_list} object_type={object_type} mode="view" num_columns={1}  />
               <DialogActions>
-                <Button onClick={handleSubsiteDetailsClose} color="primary">Close</Button>
+                <Button onClick={handleDetailsClose} color="primary">Close</Button>
               </DialogActions>  
         </DialogContent>
       </Dialog>}
@@ -106,17 +98,17 @@ function ACSFinder(props) {
           <ACSFilters filters={props.filters} label_direction="row" default_filter_values={filter_form_values} label_variant="subtitle1" onChange={handleFilterChange}/>
         </div>
         <div style={{width:"70%"}}>
-          {form_touched && subsite_data !== "" && subsite_data.length ===0 &&
+          {form_touched && data !== "" && data.length ===0 &&
           <Card variant="outlined" style={{padding:30,backgroundColor:"#DDDDDD"}}>
             There are no results that meet your criteria.
           </Card>
           }
-          {subsite_data.length ===1 &&
+          {data.length ===1 &&
           <Card variant="outlined" style={{padding:30,backgroundColor:"#DDDDDD"}}>
-          <NWAProjectSummary data={subsite_data[0]} field_list={subsite_info_fields} object_type="core_subsite" mode="view" num_columns={1}  />
+          <NWAProjectSummary data={data[0]} field_list={more_field_list} object_type={object_type} mode="view" num_columns={1}  />
           </Card>}
-          {subsite_data.length >1 &&
-            <ACSObjectTypeView data={subsite_data} field_click_to_edit={false} rab_component_model={{list:{names:{header_wrap:"RABVoid"}}}} field_models={field_models} field_list={["more", "name","summary","address"]} object_type="core_subsite" mode="view" num_columns={1}  />
+          {data.length >1 &&
+            <ACSObjectTypeView data={data} field_click_to_edit={false} rab_component_model={{list:{names:{header_wrap:"RABVoid"}}}} field_models={field_models} field_list={list_field_list} object_type={object_type} mode="view" num_columns={1}  />
           }
          </div>
      </div>
