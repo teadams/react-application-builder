@@ -92,7 +92,7 @@ const MapOverlay = function(props) {
 
 function ACSMapAndFilter (props) {
   // params - map view
-  const { object_type, api_options, details_screen_field_list, create_field_list, layout, sections, dialog_size, more_path="ProjectOne", more_button_text="Learn More", action_button_text="Apply", action_component_name="ACSObjectView", action_link_field="job_listing", action_object_type="job_listing", create_marker_button_text="Create Job Listing", map_filters=[], finder_filters=[]} = props
+  const { object_type, api_options, details_screen_field_list, create_field_list, layout, sections, dialog_size, more_path="ProjectOne", more_button_text="Learn More", action_button_text="Apply", action_component_name="ACSObjectView", action_link_field="job_listing", action_object_type="job_application", create_marker_button_text="Create Job Listing", map_filters=[], finder_filters=[]} = props
 
   // params - fitler filter_view 
   const {more_field_list, list_field_list} = props
@@ -196,7 +196,7 @@ function ACSMapAndFilter (props) {
             handleMoreClick = {handleMoreClick}/>
           </Typography>
           <div style={{display:"flex", width:"100%", justifyContent:"space-evenly"}}>
-            <ACSCreateDialogButton  require_authorization={false} ButtonComponent={ActionButton} DialogComponent={ActionComponent} object_type={object_type} row_mode="create" row_form="true"  id={id}  action_props={action_props}/>
+            <ACSCreateDialogButton  require_authorization={false} ButtonComponent={ActionButton} DialogComponent={ActionComponent}  object_type={action_object_type} row_mode="create" row_form="true"  id={id}  action_props={action_props}/>
             <Button   onClick={handleMoreClick}>{more_button_text}</Button>
           </div> 
         </div>
