@@ -1,53 +1,43 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import * as u from '../../Utils/utils.js'
-import React, {Fragment} from 'react';
+import React, {useState, useContext, Fragment} from 'react';
 import {Typography, Button, IconButton} from '@material-ui/core';
 import ACSImage from "../../Functional/Fields/ACSImage.js"
 import AuthContext from './AuthContext';
 import LoginForm from './LoginForm'
 
-class AuthToggleLink extends React.Component {
-    constructor(props) {
-      super(props);  
-      this.state = {
-          login_form:false 
-      };
-      this.handleLogin = this.handleLogin.bind(this);
-      this.handleClose = this.handleClose.bind(this);
-    }
-  handleLogin(event) {
-    this.setState({login_form:true})
+function AuthToggleLink(props) {
+  const [login_form, setLoginForm] = useState(false)
+  const handleLogin = (event) => {
+    setLoginForm(true)
   }
-
-  handleClose(event) {
-    this.setState({login_form:false})
+  const handleClose= (event) => {
+    setLoginForm(false)
   }
+  const context = useContext(AuthContext)
 
-  render() {
-    if (this.context.user) {
-      return (
-        <Fragment>
-
-          <Button color="inherit" onClick={this.context.logout}> Logout</Button>
-          <ACSImage image_object={this.context.user.thumbnail} letters={this.context.user.initials} size="small"  />
-  
-        </Fragment>
+  if (context.user) {
+    return (
+      <Fragment>
+        <Button color="inherit" onClick={context.logout}> Logout</Button>
+        <ACSImage image_object={context.user.thumbnail} letters={context.user.initials} size="small"/> &nbsp; {context.user.first_name}
+      </Fragment>
       )
     } else {
       return (
         <Fragment>
-            <Button onClick={this.handleLogin}
+            <Button onClick={handleLogin}
             color="inherit">Login</Button>
-            {this.state.login_form  &&
+            {login_form  &&
               <LoginForm
-                open={this.state.login_form}
-                onClose={this.handleClose}
+                open={login_form}
+                onClose={handleClose}
              />}
         </Fragment>
       )
     }
   }
-}
-AuthToggleLink.contextType = AuthContext;
+
+
 export default AuthToggleLink;
