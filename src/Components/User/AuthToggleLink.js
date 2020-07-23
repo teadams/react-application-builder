@@ -5,6 +5,7 @@ import React, {useState, useContext, Fragment} from 'react';
 import {Typography, Button, IconButton, Popover, Tabs, Tab} from '@material-ui/core';
 import ACSImage from "../../Functional/Fields/ACSImage.js"
 import ACSObjectTypeView from "../../Functional/Lists/ACSObjectTypeView.js"
+import ACSField from "../../Functional/ACSField2.js"
 import AuthContext from './AuthContext';
 import PopupContext from '../../Template/PopupContext.js';
 import LoginForm from './LoginForm'
@@ -24,7 +25,24 @@ function AuthToggleLink(props) {
   const popup = useContext(PopupContext)
 
   const ProfilePopup = (props) => {
-      return (<div style={{padding:10}}><Typography>{context.user.first_name} {context.user.last_name}</Typography></div>)
+      return (<div style={{padding:10}}><Typography>
+        <ACSField
+        object_type = "core_user"
+        field_name = "first_name"  
+        field_mode="view"
+        field_form={false}
+//        data={{first_name:"TEST"}}
+        value="FIRST NAME"
+        disableUnderline={true}
+        id = "first_name"
+        key="first_name" key_id="first_name"
+      />
+
+
+</Typography>
+
+
+</div>)
   }
 
   const handlePopup= (event) => {
