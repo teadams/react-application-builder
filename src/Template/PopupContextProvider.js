@@ -41,7 +41,7 @@ function PopupContextProvider(props) {
   return (
     <PopupContext.Provider
       value={{
-      open: open,
+      isOpen: open,
       setOrigin: (origin) => {setOrigin(origin)},
       setPopupComponent: (component) => {setPopupComponent(component)},
       open: (event, component) => handlePopupOpen(event, component, origin),

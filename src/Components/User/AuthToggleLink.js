@@ -36,7 +36,7 @@ function AuthToggleLink(props) {
         <Button color="inherit" onClick={context.logout}>Logout</Button>
         <ACSImage image_object={context.user.thumbnail} letters={context.user.initials} size="small"/> &nbsp; 
         <Button onClick={handlePopup} color="inherit">{context.user.first_name}
-        {popup.open?<ExpandLessIcon size="small"/>:<ExpandMoreIcon size="small"/>}
+        {popup.isOpen?<ExpandLessIcon size="small"/>:<ExpandMoreIcon size="small"/>}
         </Button>
       </Fragment>
       )
