@@ -2,7 +2,7 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import * as u from '../../Utils/utils.js'
 import React, {useState, useContext, Fragment} from 'react';
-import {Typography, Button, IconButton, Popover, Tabs, Tab} from '@material-ui/core';
+import {Typography, Button, IconButton, Popover, Tabs, Tab, Divider} from '@material-ui/core';
 import ACSImage from "../../Functional/Fields/ACSImage.js"
 import ACSObjectTypeView from "../../Functional/Lists/ACSObjectTypeView.js"
 import ACSField from "../../Functional/ACSField2.js"
@@ -26,7 +26,9 @@ function AuthToggleLink(props) {
   const popup = useContext(PopupContext)
 
   const ProfilePopup = (props) => {
-      return (<div style={{margin:10, display:"flex",flexDirection:"row", alignItems:"center"}}>
+      return (
+      <Fragment>
+      <div style={{margin:10, display:"flex",flexDirection:"row", alignItems:"center"}}>
         <div style={{display:"flex",flexDirection:"row", marginRight:10}}>
           <ACSImage letters={context.user.first_name.charAt(0)+context.user.last_name.charAt(0)} image_object={context.user.thumbnail}/>
         </div>
@@ -39,7 +41,10 @@ function AuthToggleLink(props) {
             <ACSField object_type = "core_user" field_name = "email" data={context.user}/>
           </div>
       </div>
-    </div>)
+    </div>
+    <Divider/>
+
+    </Fragment>)
   }
 
   const handlePopup= (event) => {
