@@ -1,7 +1,8 @@
 import React, {  useState} from 'react';
 import PopupContext from './PopupContext.js'
+import { Popover} from '@material-ui/core';
 
-function PopupProvider(props) {
+function PopupContextProvider(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [PopupComponent, setPopupComponent] = useState(null)
   const handlePopupOpen = (event) => {
@@ -43,4 +44,4 @@ function PopupProvider(props) {
      </PopupContext.Provider>)
 }
 
-export default PopupProvider
+export default PopupContextProvider
