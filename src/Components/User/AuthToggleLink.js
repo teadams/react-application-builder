@@ -6,6 +6,9 @@ import {Typography, Button, IconButton} from '@material-ui/core';
 import ACSImage from "../../Functional/Fields/ACSImage.js"
 import AuthContext from './AuthContext';
 import LoginForm from './LoginForm'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+
 
 function AuthToggleLink(props) {
   const [login_form, setLoginForm] = useState(false)
@@ -20,8 +23,11 @@ function AuthToggleLink(props) {
   if (context.user) {
     return (
       <Fragment>
-        <Button color="inherit" onClick={context.logout}> Logout</Button>
-        <ACSImage image_object={context.user.thumbnail} letters={context.user.initials} size="small"/> &nbsp; {context.user.first_name}
+        <Button color="inherit" onClick={context.logout}>Logout</Button>
+        <ACSImage image_object={context.user.thumbnail} letters={context.user.initials} size="small"/> &nbsp; 
+        <Button color="inherit">{context.user.first_name}
+        <ExpandMoreIcon size="small"/></Button>
+        
       </Fragment>
       )
     } else {
