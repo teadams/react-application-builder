@@ -22,8 +22,7 @@ function shieldObject(object) {
 }
 
 function Body(props) {
-  const {selected_menu, object_type="", id=""} = props
-
+  const {selected_menu, object_type="", id="", menu_type} = props
   const menu_model =  useGetModel("menus")
   const app_params =  useGetModel("app_params")
   const context = useContext(AuthContext)
