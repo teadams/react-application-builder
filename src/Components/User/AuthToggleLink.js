@@ -2,8 +2,9 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import * as u from '../../Utils/utils.js'
 import React, {useState, useContext, Fragment} from 'react';
-import {Typography, Button, IconButton, Popover} from '@material-ui/core';
+import {Typography, Button, IconButton, Popover, Tabs, Tab} from '@material-ui/core';
 import ACSImage from "../../Functional/Fields/ACSImage.js"
+import ACSObjectTypeView from "../../Functional/Lists/ACSObjectTypeView.js"
 import AuthContext from './AuthContext';
 import PopupContext from '../../Template/PopupContext.js';
 import LoginForm from './LoginForm'
@@ -23,7 +24,7 @@ function AuthToggleLink(props) {
   const popup = useContext(PopupContext)
 
   const ProfilePopup = (props) => {
-      return (<Typography> XXXX <Button>A REALLY NEW BUTTON</Button></Typography>)
+      return (<div style={{padding:10}}><Typography>{context.user.first_name} {context.user.last_name}</Typography></div>)
   }
 
   const handlePopup= (event) => {

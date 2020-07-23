@@ -54,7 +54,7 @@ function PopupContextProvider(props) {
             children={<PopupC/>}
             onClose={handlePopupClose}
             anchorOrigin={origin.anchorOrigin}
-            transformOrigina={origin.transformOrigin}
+            transformOrigin={origin.transformOrigin}
         >
         </Popover>
         {props.children}
