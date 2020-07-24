@@ -16,6 +16,7 @@ function PopupContextProvider(props) {
     horizontal: 'right',
   }})
 
+  const [dialog_open, setDialogOpen] = useState(null)
   const [PopupComponent, setPopupComponent] = useState(null)
   const handlePopupOpen = (event, Pcomponent) => {
       if (Pcomponent) {setPopupComponent(Pcomponent)}
@@ -41,6 +42,9 @@ function PopupContextProvider(props) {
   return (
     <PopupContext.Provider
       value={{
+      isDialogOpen: dialog_open,
+      setDialogOpen: ()=> setDialogOpen(true),
+      setDialogClosed:() => setDialogOpen(false),
       isOpen: open,
       setOrigin: (origin) => {setOrigin(origin)},
       setPopupComponent: (component) => {setPopupComponent(component)},

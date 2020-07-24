@@ -15,6 +15,7 @@ import {AppBar,Toolbar, Typography, IconButton, Button, Paper, Tabs, Tab, Drawer
 import rab_component_models from '../../Models/HealthMe/component.js'
 import * as control from '../../Utils/control.js'
 import AuthContext from '../../Components/User/AuthContext';
+import PopupContext from '../../Template/PopupContext';
 import { withStyles } from '@material-ui/core/styles';
 
 function ListMenu(props)  {
@@ -22,6 +23,7 @@ function ListMenu(props)  {
   const history = useHistory({});
   const value = selected_menu
   const context = useContext(AuthContext)
+  const popup = useContext(PopupContext)
   // XX This will move to the session cookie
    
   const menu_model =  useGetModel("menus")
@@ -37,6 +39,7 @@ function ListMenu(props)  {
       setValue(new_value)
       let path = `/${new_value}`
       history.push(path);
+      popup.setDialogOpen()
       if (props.onChange) {
           props.onChange(new_value)
       }
