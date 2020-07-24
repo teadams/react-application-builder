@@ -35,7 +35,6 @@ function ListMenu(props)  {
     function handleOnClick(event,new_value) {
       window.scrollTo(0,0)
       setValue(new_value)
-u.a(new_value)
       let path = `/${new_value}`
       history.push(path);
       if (props.onChange) {
