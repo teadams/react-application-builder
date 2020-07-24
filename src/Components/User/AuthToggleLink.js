@@ -6,7 +6,7 @@ import {Typography, Button, IconButton, Popover, Tabs, Tab, Divider} from '@mate
 import ACSImage from "../../Functional/Fields/ACSImage.js"
 import ACSObjectTypeView from "../../Functional/Lists/ACSObjectTypeView.js"
 import ACSField from "../../Functional/ACSField2.js"
-
+import ListMenu from "../../Functional/Menus/ListMenu.js"
 import AuthContext from './AuthContext';
 import PopupContext from '../../Template/PopupContext.js';
 import LoginForm from './LoginForm'
@@ -43,7 +43,7 @@ function AuthToggleLink(props) {
       </div>
     </div>
     <Divider/>
-
+    <ListMenu menu_type="user_profile"/>
     </Fragment>)
   }
 

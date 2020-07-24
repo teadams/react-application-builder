@@ -17,7 +17,6 @@ function ACSCreateDialogButton(props) {
   const context = useContext(AuthContext)
   const context_id = context.context_id
   const object_model = useGetModel("object_types", object_type)
-
   if (object_model.with_context && !context_id && object_type !== "core_subsite" && object_model.extends_object !== "core_subsite") {
     return null
   }
