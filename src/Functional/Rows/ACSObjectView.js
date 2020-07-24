@@ -11,6 +11,8 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
   function handleFormClose() {
     if (props.onClose) {
       props.onClose()
+    } else {
+      //  alert ("Successful")
     }
   }
 

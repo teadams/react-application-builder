@@ -33,8 +33,10 @@ function Body(props) {
   let BodyComponent = control.componentByName(selected_menu_model.menu_component_name)
 //u.a("bdoy comp", BodyComponent)
   if (selected_menu_model.with_context) {
-    selected_menu_model.api_options.filter_field = "core_subsite"
-    if (context.context_id) {
+    if (selected_menu_model.object_type === "core_user") {
+      selected_menu_model.id = context.user.id
+    } else if (context.context_id) {
+      selected_menu_model.api_options.filter_field = "core_subsite"
       selected_menu_model.api_options.filter_id = context.context_id
     } 
   }
