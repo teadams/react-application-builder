@@ -22,6 +22,10 @@ function AuthToggleLink(props) {
   const handleClose= (event) => {
     setLoginForm(false)
   }
+  const handleMenuChange= (event) => {
+      popup.close()
+  }
+
   const context = useContext(AuthContext)
   const popup = useContext(PopupContext)
 
@@ -43,7 +47,7 @@ function AuthToggleLink(props) {
       </div>
     </div>
     <Divider/>
-    <ListMenu menu_type="user_profile"/>
+    <ListMenu menu_type="user_profile" onChange={handleMenuChange}/>
     </Fragment>)
   }
 
