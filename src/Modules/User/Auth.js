@@ -11,7 +11,7 @@ import * as u from '../../Utils/utils.js'
 import useGetModel from '../../Hooks/useGetModel.js'
 
 function Auth(props) {
-  let {auth_scope="", auth_priv="", auth_action="read", object_type, prompt_login=true, require_authorization=true} = props
+  let {auth_scope="", auth_priv="", auth_action="read", object_type, prompt_login=true, require_authorization=true, data=""} = props
   // for safety making this explicit instead of defaulting
   if (["view","csv","list"].includes(auth_action)) {auth_action="read"}
   const [login_form, setLoginForm] = useState(false)
@@ -68,7 +68,8 @@ function Auth(props) {
        }
   }
   
-  const authorized = auth.authorized({context_id:context.context_id, user:context.user}, auth_scope, auth_priv)
+  const authorized = auth.authorized({context_id:context.context_id, user:context.user}, auth_scope, auth_priv, object_type_meta, data)
+
   if (login_form && !context.user) {
     return ( 
       <LoginForm open={login_form} onLogin={handleLogin} onClose={handleClose}/>

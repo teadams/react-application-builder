@@ -3,8 +3,15 @@ import 'react-app-polyfill/stable';
 
 
 
-export function authorized(context, auth_scope, auth_priv) {
+export function authorized(context, auth_scope, auth_priv, object_model={}, data="") {
 
+  if (object_model && (object_model.name === "core_user" || object_model.extends_object === "core_user")) {
+      // you can do anything to yourself (for now)
+        alert("data in auth is" +JSON.stringify(data))
+        if (data.id === context.user.id) {
+          return true
+        }
+  }
   if (!auth_scope || auth_priv=="public" || ( context.user && context.user.site_admin) || (context.user && auth_priv == "user")) {
       // no auth  check; site admins get into everything
     //  alert ("user is " + JSON.stringify(context.user))

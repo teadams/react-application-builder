@@ -61,8 +61,8 @@ function RenderACSRow(props) {
   if (data) {
       return (
         <Fragment>
-        <Auth auth_action={mode} object_type={object_type} onClose={onClose}>
-         <FormWrap mode={mode} form={form} object_type = {object_type} open={form_open} dialog_size={dialog_size} form_title={form_title} onSubmit={handleFormSubmit} onClose={onClose} key={"row_form"} >
+        <Auth auth_action={mode} object_type={object_type} onClose={onClose} data={data}>
+         <FormWrap mode={mode} form={form} object_type = {object_type} open={form_open} dialog_size={dialog_size} form_title={form_title} onSubmit={handleFormSubmit} onClose={onClose} key={"row_form"}  >
           <HeaderWrap {...params} >
             <Header {...params} image_size={header_image_size}/>
           </HeaderWrap>
