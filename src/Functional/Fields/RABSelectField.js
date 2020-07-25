@@ -126,9 +126,9 @@ function RABSelectField(props) {
         api_options.filter_field = dependent_filter_field
       }
       if (api_options.filter_id) {
-        api_options.filter_id = api_options.filter_id.push(data[dependent_data_field])
+        api_options.filter_id = api_options.filter_id.push(formValues[dependent_data_field])
       } else {
-        api_options.filter_id = data[dependent_data_field]
+        api_options.filter_id = formValues[dependent_data_field]
     }
   }
   // 2 use cases:
