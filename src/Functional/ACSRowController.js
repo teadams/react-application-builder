@@ -201,9 +201,17 @@ function ACSRowController(input_props) {
       let index = 0
       let col_count = 0
       field_list.forEach(field => {
-        const col_span = field_model[field].col_span
-        if ((field_model[field].hidden_on_form && ["create", "edit"].includes(mode)) ||
-            field_model[field].hidden_on_create_form && mode === "create") {
+        let field_model
+        const split_field = field.split(".")
+        let field_field_model
+        if (split_field.length === 2 ) {
+            field_field_model = field_models[split_field[0]][split_field[1]] 
+        } else {
+            field_field_model = field_models[object_type][field] 
+        }
+        const col_span = field_field_model.col_span
+        if ((field_field_model.hidden_on_form && ["create", "edit"].includes(mode)) ||
+            field_field_model.hidden_on_create_form && mode === "create") {
           chunked_field_list[index].push(field)
         } else if (col_count + col_span <= num_columns) {
             chunked_field_list[index].push(field)
