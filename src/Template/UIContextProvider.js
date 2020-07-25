@@ -1,11 +1,11 @@
 
 import React, {useState, useContext, Fragment} from 'react';
-import PopupContext from './PopupContext.js'
+import UIContext from './UIContext.js'
 import { Popover, Button} from '@material-ui/core';
 import * as u from '../Utils/utils.js'
 
 
-function PopupContextProvider(props) {
+function UIContextProvider(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [origin, setOrigin] = useState({anchorOrigin:{
     vertical: 'bottom',
@@ -40,7 +40,7 @@ function PopupContextProvider(props) {
   const id = open ? 'acs-popover' : undefined;
     
   return (
-    <PopupContext.Provider
+    <UIContext.Provider
       value={{
       isDialogOpen: dialog_open,
       setDialogOpen: ()=> setDialogOpen(true),
@@ -62,7 +62,7 @@ function PopupContextProvider(props) {
         >
         </Popover>
         {props.children}
-     </PopupContext.Provider>)
+     </UIContext.Provider>)
 }
 
-export default PopupContextProvider
+export default UIContextProvider

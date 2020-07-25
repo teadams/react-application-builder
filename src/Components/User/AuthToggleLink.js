@@ -8,7 +8,7 @@ import ACSObjectTypeView from "../../Functional/Lists/ACSObjectTypeView.js"
 import ACSField from "../../Functional/ACSField2.js"
 import ListMenu from "../../Functional/Menus/ListMenu.js"
 import AuthContext from './AuthContext';
-import PopupContext from '../../Template/PopupContext.js';
+import UIContext from '../../Template/UIContext.js';
 import LoginForm from './LoginForm'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
@@ -27,7 +27,7 @@ function AuthToggleLink(props) {
   }
 
   const context = useContext(AuthContext)
-  const popup = useContext(PopupContext)
+  const popup = useContext(UIContext)
 
   const ProfilePopup = (props) => {
       return (

@@ -15,7 +15,8 @@ import {AppBar,Toolbar, Typography, IconButton, Button, Paper, Tabs, Tab, Drawer
 import rab_component_models from '../../Models/HealthMe/component.js'
 import * as control from '../../Utils/control.js'
 import AuthContext from '../../Components/User/AuthContext';
-import PopupContext from '../../Template/PopupContext';
+import UIContext from '../../Template/UIContext.js';
+
 import { withStyles } from '@material-ui/core/styles';
 
 function ListMenu(props)  {
@@ -23,27 +24,35 @@ function ListMenu(props)  {
   const history = useHistory({});
   const value = selected_menu
   const context = useContext(AuthContext)
-  const popup = useContext(PopupContext)
-  // XX This will move to the session cookie
-   
   const menu_model =  useGetModel("menus")
   const field_list=
       menu_model.menus[menu_type]?menu_model.menus[menu_type]:
       Object.keys(menu_model.menu_items)
+  const dialog = useContext(UIContext)   
 
   const ListComponent = ((props) => {
-    const {data, field_list} = props
+
+    const {data, field_list, launch_dialog=true} = props
     const [value, setValue] = React.useState(props.value);
-    function handleOnClick(event,new_value) {
+    const BUT = (props) => {
+        return (<Button>HELLO</Button>)
+    }
+
+    function handleOnClick(event, menu_item) {
       window.scrollTo(0,0)
+      let new_value=menu_item.key
       setValue(new_value)
-      let path = `/${new_value}`
-      history.push(path);
-      popup.setDialogOpen()
+      if (!launch_dialog) {
+         let path = `/${new_value}`
+         history.push(path);
+      } else {
+          dialog.open(BUT)
+      }
       if (props.onChange) {
-          props.onChange(new_value)
+        props.onChange(menu_item)
       }
     }
+
     return (<List
        value={value}
       > 
@@ -54,7 +63,7 @@ function ListMenu(props)  {
         const auth_priv = menu_item.auth_priv
         const authorized = auth.authorized({context_id:context.context_id, user:context.user}, auth_scope, auth_priv)
         if (authorized && menu_item.label) {
-          return (<ListItem value={key} onClick={(event) => handleOnClick(event, key)}>{menu_item.label}</ListItem>)
+          return (<ListItem value={key} onClick={(event) => handleOnClick(event, menu_item)}>{menu_item.label}</ListItem>)
         }
       })}
     </List>)

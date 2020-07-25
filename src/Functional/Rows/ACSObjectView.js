@@ -3,12 +3,12 @@ import 'react-app-polyfill/stable';
 import * as u from '../../Utils/utils.js';
 import ACSRowController from '../ACSRowController.js'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
-import PopupContext from '../../Template/PopupContext';
+import UIContext from '../../Template/UIContext';
 
 
  function ACSObjectView(props)  {
   const {object_type, id, api_options, layout, sections, field_list, num_columns, ...params} = props
-  const popup = useContext(PopupContext)
+  const popup = useContext(UIContext)
   let {form_open=props.row_form} = props
   // the open state of form is controll by contect
   // instead of the caller
