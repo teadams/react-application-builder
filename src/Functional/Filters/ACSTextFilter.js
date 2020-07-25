@@ -50,7 +50,7 @@ function ACSTextFilter(props) {
       autoFocus={false}
       name={field_name} 
       key={field_name}
-      fullWidth={true}
+      fullWidth={false}
       disabled={false}
 //      onBlur={props.onFieldBlur}
       value={value}
