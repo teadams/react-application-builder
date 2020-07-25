@@ -19,12 +19,20 @@ function UIContextProvider(props) {
 
   const [dialog_open, setDialogOpen] = useState(null)
   const [PopupComponent, setPopupComponent] = useState(null)
+  const [DialogComponent, setDialogComponent] = useState(null)
 
   const handlePopupOpen = (event, Pcomponent) => {
       if (Pcomponent) {setPopupComponent(Pcomponent)}
       if (origin) {setOrigin(origin)}
       setAnchorEl(event.currentTarget);
     };
+
+  const handleDialogOpen = (event, Dcomponent) => {
+      if (Dcomponent) {
+        setDialogComponent(Dcomponent)
+        setDialogOpen(true)
+      }
+  };
   
   const PopupC = (props) => {
         if (PopupComponent) {
@@ -34,9 +42,22 @@ function UIContextProvider(props) {
         }
   }
 
+  const DialogC = (props) => {
+        if (DialogComponent) {
+          return (DialogComponent)
+        } else {
+          return null
+        }
+  }
+
   const handlePopupClose = () => {
       setAnchorEl(null);
   };
+
+  const handleDialogClose = () => {
+      setDialogOpen(false);
+  };
+
 
   const popup_open = Boolean(anchorEl);
   const popup_id = popup_open ? 'acs-popover' : undefined;
@@ -45,9 +66,9 @@ function UIContextProvider(props) {
     <UIContext.Provider
       value={{
           dialog: {
-            isDialogOpen: dialog_open,
-            setDialogOpen: ()=> setDialogOpen(true),
-            setDialogClosed:() => setDialogOpen(false),
+            isOpen: dialog_open,
+            open: (event, component)=> handleDialogOpen(event, component),
+            close:() => handleDialogClose(),
           },
           popup: {
             isOpen: popup_open,
@@ -67,6 +88,9 @@ function UIContextProvider(props) {
             anchorOrigin={origin.anchorOrigin}
             transformOrigin={origin.transformOrigin}
         ></Popover>}
+        {dialog_open &&
+          <DialogC/>
+        }
         {props.children}
      </UIContext.Provider>)
 }

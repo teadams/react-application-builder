@@ -16,6 +16,7 @@ import rab_component_models from '../../Models/HealthMe/component.js'
 import * as control from '../../Utils/control.js'
 import AuthContext from '../../Components/User/AuthContext';
 import UIContext from '../../Template/UIContext.js';
+import ACSObjectView from '../Rows/ACSObjectView.js'
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -28,14 +29,14 @@ function ListMenu(props)  {
   const field_list=
       menu_model.menus[menu_type]?menu_model.menus[menu_type]:
       Object.keys(menu_model.menu_items)
-  const dialog = useContext(UIContext)   
+  const dialog = useContext(UIContext).dialog   
 
   const ListComponent = ((props) => {
 
     const {data, field_list, launch_dialog=true} = props
     const [value, setValue] = React.useState(props.value);
     const BUT = (props) => {
-        return (<Button>HELLO</Button>)
+        return (<ACSObjectView object_type="core_user" id="1"/>)
     }
 
     function handleOnClick(event, menu_item) {
@@ -46,7 +47,7 @@ function ListMenu(props)  {
          let path = `/${new_value}`
          history.push(path);
       } else {
-          dialog.open(BUT)
+          dialog.open("", BUT)
       }
       if (props.onChange) {
         props.onChange(menu_item)
