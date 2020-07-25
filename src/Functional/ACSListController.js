@@ -61,7 +61,7 @@ function RABTableHeaders(props) {
           } else {
             column_field_model = field_models[object_type][field] 
           }
-        return(<TableCell className={classes.head} key={field+"header"}>column_field_model.pretty_name}</TableCell>)})}
+        return(<TableCell className={classes.head} key={field+"header"}>{column_field_model.pretty_name}</TableCell>)})}
         </TableRow>
         )
 }
