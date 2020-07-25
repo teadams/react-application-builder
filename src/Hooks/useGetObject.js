@@ -1,5 +1,5 @@
 
-import React, {useState, useLayoutEffect, useContext, useEffect} from 'react';
+import React, {useState, useRef, useLayoutEffect, useContext, useEffect} from 'react';
 import AuthContext from '../Components/User/AuthContext';
 
 import * as api from '../Utils/data.js';
@@ -14,7 +14,7 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
 
   const [ready, setReady] = useState(false);
   const [prev_state, setState] = useState([false, object_type, id, field_list, api_options, param_data]);
-
+  const isMountedRef = useRef(null);
   const context = useContext(AuthContext)
   const dirty_data = context?context.dirty_stamp:""
 
@@ -27,8 +27,10 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
   trigger_change_array = api.addAPIParams(trigger_change_array, api_options)
 
   useLayoutEffect( () => {
+      isMountedRef.current = true;
       if (!param_data && (object_type && (id||api_options.filter_id||api_options.get_count))) {
         api.getData (object_type, Object.assign({id:id},api_options), (results, error) => {         
+          if (isMountedRef.current) {
             if (error) {
                 alert ("error retrieving object " + object_type + " " + id + ":" + error.message)
             } else {
@@ -38,10 +40,13 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
               }
               setState([true, object_type, id, field_list, api_options, results])
             }
+          }
         })
     } else if (!param_data && object_type) {
         setState([true, object_type, id, field_list, api_options, ""])
     }
+
+    return () => isMountedRef.current = false;
 }, trigger_change_array);
 //https://reactjs.org/docs/hooks-faq.html#is-there-something-like-instance-variables - Should I use one or more States
 // WE NEED TO USE ONE because we want the data and the metadata
