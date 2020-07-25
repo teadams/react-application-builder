@@ -8,7 +8,7 @@ import UIContext from '../../Template/UIContext';
 
  function ACSObjectView(props)  {
   const {object_type, id, api_options, layout, sections, field_list, num_columns, ...params} = props
-  const popup = useContext(UIContext)
+  const popup = useContext(UIContext).popup
   let {form_open=props.row_form} = props
   // the open state of form is controll by contect
   // instead of the caller

@@ -6,6 +6,7 @@ import * as u from '../Utils/utils.js'
 
 
 function UIContextProvider(props) {
+
   const [anchorEl, setAnchorEl] = useState(null);
   const [origin, setOrigin] = useState({anchorOrigin:{
     vertical: 'bottom',
@@ -18,6 +19,7 @@ function UIContextProvider(props) {
 
   const [dialog_open, setDialogOpen] = useState(null)
   const [PopupComponent, setPopupComponent] = useState(null)
+
   const handlePopupOpen = (event, Pcomponent) => {
       if (Pcomponent) {setPopupComponent(Pcomponent)}
       if (origin) {setOrigin(origin)}
@@ -36,31 +38,35 @@ function UIContextProvider(props) {
       setAnchorEl(null);
   };
 
-  const open = Boolean(anchorEl);
-  const id = open ? 'acs-popover' : undefined;
+  const popup_open = Boolean(anchorEl);
+  const popup_id = popup_open ? 'acs-popover' : undefined;
     
   return (
     <UIContext.Provider
       value={{
-      isDialogOpen: dialog_open,
-      setDialogOpen: ()=> setDialogOpen(true),
-      setDialogClosed:() => setDialogOpen(false),
-      isOpen: open,
-      setOrigin: (origin) => {setOrigin(origin)},
-      setPopupComponent: (component) => {setPopupComponent(component)},
-      open: (event, component) => handlePopupOpen(event, component, origin),
-      close: () => handlePopupClose()
+          dialog: {
+            isDialogOpen: dialog_open,
+            setDialogOpen: ()=> setDialogOpen(true),
+            setDialogClosed:() => setDialogOpen(false),
+          },
+          popup: {
+            isOpen: popup_open,
+            setOrigin: (origin) => {setOrigin(origin)},
+            setPopupComponent: (component) => {setPopupComponent(component)},
+            open: (event, component) => handlePopupOpen(event, component, origin),
+            close: () => handlePopupClose()
+        }
       }}>
+        {popup_open &&
         <Popover 
-            id={id}
-            open={open}
+            id={popup_id}
+            open={popup_open}
             anchorEl={anchorEl}
             children={<PopupC/>}
             onClose={handlePopupClose}
             anchorOrigin={origin.anchorOrigin}
             transformOrigin={origin.transformOrigin}
-        >
-        </Popover>
+        ></Popover>}
         {props.children}
      </UIContext.Provider>)
 }

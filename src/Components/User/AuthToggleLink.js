@@ -27,7 +27,7 @@ function AuthToggleLink(props) {
   }
 
   const context = useContext(AuthContext)
-  const popup = useContext(UIContext)
+  const popup = useContext(UIContext).popup
 
   const ProfilePopup = (props) => {
       return (
