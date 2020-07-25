@@ -51,11 +51,17 @@ function RABTableHeaders(props) {
          field_list = Object.keys(data)
        }
    }
-
   return (
         <TableRow>
         {field_list.map(field=>{
-        return(<TableCell className={classes.head} key={field+"header"}>{field_model[field].pretty_name}</TableCell>)})}
+          const split_field = field.split(".")
+          let column_field_model
+          if (split_field.length === 2 ) {
+              column_field_model = field_models[split_field[0]][split_field[1]] 
+          } else {
+            column_field_model = field_models[object_type][field] 
+          }
+        return(<TableCell className={classes.head} key={field+"header"}>column_field_model.pretty_name}</TableCell>)})}
         </TableRow>
         )
 }

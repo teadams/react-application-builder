@@ -50,7 +50,7 @@ function ACSFilters(props) {
   if (JSON.stringify(new_api_options) !== JSON.stringify(api_options)) {
       setAPIOptions(new_api_options)
       if (onChange) {
-//        onChange(new_api_options, formValues)
+          onChange(new_api_options, formValues)
       }
   }
   
