@@ -26,7 +26,7 @@ function get_image_url (image_object) {
 }
 
 function ACSMap (props) {
-  const {object_type, api_options, icon_type_field="",  latitude, longitude, latitude_field="latitude", longitude_field="longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff="", container_height="75%", container_width="75%", map_data:props_map_data, load_own_data=true} = props
+  const {object_type, api_options, icon_type_field="",  latitude, longitude, latitude_field="core_address_latitude", longitude_field="core_address_longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff="", container_height="75%", container_width="75%", map_data:props_map_data, load_own_data=true} = props
 
   const [map_data, setMapData] = useState(props_map_data)
   const [subsite_data, setSubsiteData] = useState(props.subsite_data)
@@ -75,6 +75,7 @@ function ACSMap (props) {
     return null
   }
   // take initial center from subsite
+console.log(map_data)
   if (map_data && !subsite_data && context.context_id && centerAroundSubsiteLocation && !centerAroundCurrentLocation) {
     api.getData("core_subsite", {id:context.context_id}, (api_subsite_data, error) => {
       if(api_subsite_data[0]) {
