@@ -119,7 +119,7 @@ function RABSelectField(props) {
   const {...params} = props
 
   const {dependent_filter_field, dependent_data_field} = field_model
-  if (dependent_filter_field) {
+  if (dependent_filter_field && formValues && ["create","edit"].includes(mode)) {
       if (api_options.filter_field) { 
         api_options.filter_field = api_options.filter_field.push(dependent_filter_field)
       } else {
