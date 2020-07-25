@@ -17,7 +17,7 @@ import ACSListController from '../Functional/ACSRowController.js'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import {Tab, Tabs, Menu, MenuItem, Paper, MenuList,List,ListItem,ListItemAvatar,ListItemIcon,ListItemSecondaryAction,ListItemText,ListSubheader,Table,TableBody,TableCell,TableContainer,TableFooter,TableHead,TablePagination,TableRow,Typography} from '@material-ui/core';
 import useGetModel from "../Hooks/useGetModel.js"
-import {AuthContext, Auth, LoginForm} from '../Components/User/index.js';
+import {AuthContext, Auth, LoginForm} from '../Modules/User/index.js';
 
  
 function ObjectView(props)  {

@@ -5,7 +5,7 @@ import * as meta from '../../Utils/meta.js';
 import * as data from '../../Utils/data.js';
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
-import {AuthContext, Auth, LoginForm} from '../User/index.js';
+import {AuthContext, Auth, LoginForm} from '../../Modules/User/index.js';
 
 import useForm from '../../Hooks/useForm';
 import useGetObject  from '../../Hooks/useGetObject';

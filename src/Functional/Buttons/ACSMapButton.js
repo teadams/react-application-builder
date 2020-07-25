@@ -6,7 +6,7 @@ import {IconButton} from '@material-ui/core';
 import IconEdit from "@material-ui/icons/Edit";
 import * as u from '../../Utils/utils.js'
 import ACSMappingView from '../Lists/ACSMappingView.js'
-import {Auth} from '../../Components/User/index.js';
+import {Auth} from '../../Modules/User/index.js';
 
 function ACSMappingButton(props) {
   const {object_type, id, Component, action_props, sections, field_list, dialog_size} = props

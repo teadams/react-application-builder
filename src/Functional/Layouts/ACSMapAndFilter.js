@@ -4,7 +4,7 @@ import 'react-app-polyfill/stable';
 import React,  {useContext, useState, Fragment} from 'react';
 import {Paper,  Switch, Typography, Button, Grid, Popover} from '@material-ui/core';
 //import * as meta from '../../Utils/meta.js'
-import {AuthContext} from '../../Components/User';
+import {AuthContext} from '../../Modules/User';
 
 import ACSObjectCount from '../../Functional/Text/ACSObjectCount.js'
 import ACSCreateButton from '../../Functional/Buttons/ACSCreateButton.js'

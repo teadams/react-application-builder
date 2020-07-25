@@ -14,7 +14,7 @@ import * as auth from '../../Utils/auth.js'
 import {AppBar,Toolbar, Typography, IconButton, Button, Paper, Tabs, Tab, Drawer, Divider,List, Menu, MenuItem, ListItem, ListItemText} from '@material-ui/core';
 import rab_component_models from '../../Models/HealthMe/component.js'
 import * as control from '../../Utils/control.js'
-import AuthContext from '../../Components/User/AuthContext';
+import AuthContext from '../../Modules/User/AuthContext';
 import UIContext from '../../Template/UIContext.js';
 import ACSObjectView from '../Rows/ACSObjectView.js'
 

@@ -6,7 +6,7 @@ import * as meta from './Utils/meta.js'
 import * as u from './Utils/utils.js'
 import * as control from './Utils/control.js'
 import useGetModel from "./Hooks/useGetModel.js"
-import AuthContext from './Components/User/AuthContext';
+import AuthContext from './Modules/User/AuthContext';
 
 function shieldObject(object) {
   // ensure object exists

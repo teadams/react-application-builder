@@ -6,7 +6,7 @@ import {IconButton} from '@material-ui/core';
 import IconCreate from "@material-ui/icons/Add";
 import * as u from '../../Utils/utils.js'
 import ACSObjectView from '../Rows/ACSObjectView.js'
-import {Auth, AuthContext} from '../../Components/User/index.js';
+import {Auth, AuthContext} from '../../Modules/User/index.js';
 import useGetModel from '../../Hooks/useGetModel.js'
 
 function ACSCreateDialogButton(props) {

@@ -1,6 +1,6 @@
 
 import React, {useState, useRef, useLayoutEffect, useContext, useEffect} from 'react';
-import AuthContext from '../Components/User/AuthContext';
+import AuthContext from '../Modules/User/AuthContext';
 
 import * as api from '../Utils/data.js';
 import * as meta from '../Utils/meta.js';

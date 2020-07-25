@@ -2,7 +2,7 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import { fade, withStyles, makeStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment, useState, useContext} from 'react';
-import Auth from "./Components/User/Auth.js"
+import Auth from "./Modules/User/Auth.js"
 import MenuIcon from '@material-ui/icons/Menu';
 import Badge from '@material-ui/core/Badge';
 import IconButton from '@material-ui/core/IconButton';
@@ -11,7 +11,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import DrawerMenu from './RABComponents/DrawerMenu';
 import {Grid} from 'material-ui'
 import ACSObjectCount from './Functional/Text/ACSObjectCount.js'
-import {ContextSelect, AuthToggleLink, AuthContext, AuthContextProvider} from './Components/User';
+import {ContextSelect, AuthToggleLink, AuthContext, AuthContextProvider} from './Modules/User';
 import Body from "./Body"
 import MessageIcon from "./MessageIcon.js"
 import Debug from "./Debug.js"

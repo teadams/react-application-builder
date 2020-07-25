@@ -6,7 +6,7 @@ import {IconButton} from '@material-ui/core';
 import IconEdit from "@material-ui/icons/Edit";
 import * as u from '../../Utils/utils.js'
 import ACSObjectView from '../Rows/ACSObjectView.js'
-import {Auth} from '../../Components/User/index.js';
+import {Auth} from '../../Modules/User/index.js';
 
 function ACSEditButton(props) {
   const {object_type, id, Component, action_props,  sections, field_list, data, dialog_size} = props

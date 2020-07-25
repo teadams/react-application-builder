@@ -6,7 +6,7 @@ import * as utils from './Utils/utils.js';
 import useGetModel from './Hooks/useGetModel';
 
 import React, { Component, Fragment, useState, useContext, useEffect} from 'react';
-import {AuthContext} from './Components/User';
+import {AuthContext} from './Modules/User';
 import {Container, Box, Grid, Typography, TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
 
 const container_style = { 

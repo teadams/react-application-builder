@@ -5,7 +5,6 @@ import * as u from './utils.js';
 import * as log from './log.js';
 import axios from 'axios';
 import * as meta from './meta.js';
-import AuthContext from '../Components/User/AuthContext';
 
 
 export function getPathBase () {
