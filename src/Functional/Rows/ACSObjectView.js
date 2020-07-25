@@ -8,21 +8,18 @@ import UIContext from '../../Template/UIContext';
 
  function ACSObjectView(props)  {
   const {object_type, id, api_options, layout, sections, field_list, num_columns, ...params} = props
-  const popup = useContext(UIContext).popup
+u.a("object", props)
+  const dialog = useContext(UIContext).dialog
   let {form_open=props.row_form} = props
-  // the open state of form is controll by contect
-  // instead of the caller
   if (!props.onClose) {
-      form_open=popup.isDialogOpen
+      // using the context, not the parent
+      form_open=dialog.isOpen
   }
-  // XX now-look up by id.
-  // later may allow other unique columns
   function handleFormClose() {
     if (props.onClose) {
       props.onClose()
     } else {
-      popup.setDialogClosed()
-      //  alert ("Successful")
+      dialog.close()
     }
   }
 

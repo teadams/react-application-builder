@@ -35,19 +35,33 @@ function ListMenu(props)  {
 
     const {data, field_list, launch_dialog=true} = props
     const [value, setValue] = React.useState(props.value);
-    const BUT = (props) => {
-        return (<ACSObjectView object_type="core_user" id="1"/>)
+  
+    const _MenuComponent = (props) => {
+        let {menu_component_name, with_context, object_type, id, api_options, ...rest} = props
+        const Helper = control.componentByName(menu_component_name)
+        if (with_context) {
+          if (object_type === "core_user") {
+              id = context.user.id
+          } else if (context.context_id) {
+            api_options.filter_field = "core_subsite"
+            api_options.filter_id = context.context_id
+          } 
+        }
+        return (
+        <Helper with_context={with_context} object_type={object_type} id={id} api_options={api_options} {...rest}  />)    
     }
 
     function handleOnClick(event, menu_item) {
       window.scrollTo(0,0)
       let new_value=menu_item.key
       setValue(new_value)
+      const MenuComponent = _MenuComponent(menu_item)
+
       if (!launch_dialog) {
          let path = `/${new_value}`
          history.push(path);
       } else {
-          dialog.open("", BUT)
+          dialog.open("", MenuComponent)
       }
       if (props.onChange) {
         props.onChange(menu_item)
