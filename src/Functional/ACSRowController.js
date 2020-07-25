@@ -9,7 +9,7 @@ import React, {Fragment, useState} from 'react';
 
 import RenderACSRow from './RenderACSRow.js'
 import ACSField from '../Functional/ACSField2.js'
-import { Typography, TableRow, TableCell, Table, TableHead } from '@material-ui/core';
+import { Typography, TableBody, TableRow, TableCell, Table, TableHead } from '@material-ui/core';
 
 import useGetObject from '../Hooks/useGetObject';
 import useGetModel from '../Hooks/useGetModel';
@@ -72,16 +72,22 @@ function RABRow(row_props) {
 }
 
 function ACSSectionWrap(props) {
-  return (<Fragment><Table style={{marginBottom:20}}>{props.children}</Table ></Fragment>)
+  return (<Fragment>{props.children}</Fragment>)
+}
+
+function ACSSectionBodyWrap(props) {
+  return (<Table style={{marginBottom:20}}>
+            <TableBody>{props.children}</TableBody>
+        </Table>)
 }
 
 function ACSSectionHeader(props) {
     const section_models = useGetModel("sections")
     const {section, num_columns} = props
-    if (!section) { return null}
-    const {title} =section_models[section]
-    if (!title) { return null}
-    return (<TableHead><TableRow style={{backgroundColor:"#D4D5DC", paddingTop:0, paddingBottom:0}}><TableCell style={{paddingTop:0, paddingBottom:0}} colspan={num_columns}><Typography variant="h6" style={{paddingTop:0, paddingBottom:0}}>{title}:</Typography></TableCell></TableRow></TableHead>)
+    const {title} =section?section_models[section]:""
+    return (<Fragment>
+        {title && <Typography variant="h6" style={{paddingTop:0, paddingBottom:0}}>{title}:</Typography>}
+        </Fragment>)
 }
 
 function ACSRowController(input_props) {
@@ -117,6 +123,8 @@ function ACSRowController(input_props) {
   row_component_model.row.components.row = RABRow
   row_component_model.row.components.section_wrap =ACSSectionWrap
   row_component_model.row.components.section_header =ACSSectionHeader
+  row_component_model.row.components.section_body_wrap =ACSSectionBodyWrap
+
 
 //  row_component_model.row.names.header_wrap = "RABVoid"
 

@@ -30,7 +30,7 @@ function RABFormWrap(props) {
     const object_type_pretty_name = object_type_model.pretty_name
     const form_message = (props.mode==="create")?object_type_model.create_message:object_type_model.edit_message
     return (
-      <Dialog fullWidth={true} maxWidth={dialog_size} open={props.open} onClose={handleOnClose} aria-labelledby="form-dialog-title">
+      <Dialog fullWidth={true} maxWidth={dialog_size} open={Boolean(props.open)} onClose={handleOnClose} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">{form_title?form_title:(u.capitalize(props.mode) + u.capitalize(object_type_pretty_name))}</DialogTitle>
         <DialogContent>
           {form_message && 
@@ -56,7 +56,7 @@ function RABFormWrap(props) {
 function RenderACSRow(props) {
   const { ...params} = props
   const {key_id, form, form_title, mode, form_open, data, rab_component_model, object_type, field_list, chunked_field_list, sections=[], handleFormChange, handleFormSubmit, formValues, onClose, header_image_size="small", num_columns, dialog_size} = props
-  const {header_wrap:HeaderWrap, header:Header, section_wrap:SectionWrap, section_header:SectionHeader, row_wrap:RowWrap,  row:RABRow, row_body:RowBody, form_wrap:FormWrap=RABFormWrap} = rab_component_model.row.components
+  const {header_wrap:HeaderWrap, header:Header, section_wrap:SectionWrap, section_header:SectionHeader, section_body_wrap:SectionBodyWrap=Fragment, row_wrap:RowWrap,  row:RABRow, row_body:RowBody, form_wrap:FormWrap=RABFormWrap} = rab_component_model.row.components
 
   if (data) {
       return (
@@ -70,7 +70,8 @@ function RenderACSRow(props) {
           {chunked_field_list.map((section_fields, s_index) => {
             return (
               <SectionWrap {...params} num_columns={num_columns} section={sections[s_index]} key={s_index+"wrap"}>
-                <SectionHeader {...params}  num_columns={num_columns} section={sections[s_index]} key={s_index+"header"}/>
+                <SectionHeader {...params}  num_columns={num_columns} section={sections[s_index]} key={s_index+"section_header"}/>
+                <SectionBodyWrap {...params} num_columns={num_columns} section={sections[s_index]} key={s_index+"section_body_wrap"}>
                 {section_fields.map((field_chunk, f_index) => {
                   return ( 
                           <RowWrap {...params} trace={props.trace} key={f_index+"wrap"}>
@@ -79,6 +80,8 @@ function RenderACSRow(props) {
                           </RowWrap>
                   )
                 })}
+              
+                </SectionBodyWrap>
               </SectionWrap>
 )
             })}
