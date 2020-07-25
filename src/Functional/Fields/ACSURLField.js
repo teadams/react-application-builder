@@ -44,7 +44,7 @@ function ACSURLField(props) {
       return field_value?field_value:" "
     default:
       if (!with_thumbnail) {    
-        return (<Link href={field_value}>{field_value}</Link>)
+        return (<Link href={field_value}>{field_value?field_value:""}</Link>)
       } else {
           const thumbnail = data[with_thumbnail]
           if (thumbnail) {  
