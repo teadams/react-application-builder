@@ -209,6 +209,7 @@ function ACSRowController(input_props) {
         } else {
             field_field_model = field_models[object_type][field] 
         }
+console.log(field, split_field, field_field_model)
         const col_span = field_field_model.col_span
         if ((field_field_model.hidden_on_form && ["create", "edit"].includes(mode)) ||
             field_field_model.hidden_on_create_form && mode === "create") {
