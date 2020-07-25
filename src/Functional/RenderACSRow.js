@@ -17,7 +17,7 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
 function RABFormWrap(props) {
-  const {object_type, dialog_size="sm"} = props
+  const {object_type, dialog_size="sm", form_title} = props
   const object_types = useGetModel("object_types")
   if (!object_types) {return null}
   function handleOnClose() {
@@ -31,7 +31,7 @@ function RABFormWrap(props) {
     const form_message = (props.mode==="create")?object_type_model.create_message:object_type_model.edit_message
     return (
       <Dialog fullWidth={true} maxWidth={dialog_size} open={props.open} onClose={handleOnClose} aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title">{u.capitalize(props.mode)} {u.capitalize(object_type_pretty_name)}</DialogTitle>
+      <DialogTitle id="form-dialog-title">{form_title?form_title:(u.capitalize(props.mode) + u.capitalize(object_type_pretty_name))}</DialogTitle>
         <DialogContent>
           {form_message && 
           <DialogContentText>{form_message}</DialogContentText>}
@@ -55,14 +55,14 @@ function RABFormWrap(props) {
 
 function RenderACSRow(props) {
   const { ...params} = props
-  const {key_id, form, mode, form_open, data, rab_component_model, object_type, field_list, chunked_field_list, sections=[], handleFormChange, handleFormSubmit, formValues, onClose, header_image_size="small", num_columns, dialog_size} = props
+  const {key_id, form, form_title, mode, form_open, data, rab_component_model, object_type, field_list, chunked_field_list, sections=[], handleFormChange, handleFormSubmit, formValues, onClose, header_image_size="small", num_columns, dialog_size} = props
   const {header_wrap:HeaderWrap, header:Header, section_wrap:SectionWrap, section_header:SectionHeader, row_wrap:RowWrap,  row:RABRow, row_body:RowBody, form_wrap:FormWrap=RABFormWrap} = rab_component_model.row.components
 
   if (data) {
       return (
         <Fragment>
         <Auth auth_action={mode} object_type={object_type} onClose={onClose}>
-         <FormWrap mode={mode} form={form} object_type = {object_type} open={form_open} dialog_size={dialog_size} onSubmit={handleFormSubmit} onClose={onClose} key={"row_form"} >
+         <FormWrap mode={mode} form={form} object_type = {object_type} open={form_open} dialog_size={dialog_size} form_title={form_title} onSubmit={handleFormSubmit} onClose={onClose} key={"row_form"} >
           <HeaderWrap {...params} >
             <Header {...params} image_size={header_image_size}/>
           </HeaderWrap>

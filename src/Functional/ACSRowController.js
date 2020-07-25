@@ -103,7 +103,7 @@ function ACSRowController(input_props) {
   const layout_models = useGetModel("layouts")
   const field_list_models = useGetModel("field_lists")
   // do not merge expensive, known unnecessary things
-  let {headless=false, data:input_props_data, form_open, key_id, onData="",action_props, action, ...merging_props} = input_props
+  let {headless=false, data:input_props_data, form_open, key_id, onData="",action_props, action, form_title, ...merging_props} = input_props
   let layout_model
   // treat layout as another dynamic input
   // props (usually from menu) takes
@@ -224,7 +224,7 @@ function ACSRowController(input_props) {
     // XX on data 
     return null
   }
-  return  (<RenderACSRow {...row_model.props} field_models={field_models} mode={mode} form={form} object_type={object_type} action_props={action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} form_open={form_open} onClose={handleFormClose}
+  return  (<RenderACSRow {...row_model.props} field_models={field_models} mode={mode} form={form} object_type={object_type} action_props={action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} form_open={form_open} form_title={form_title} onClose={handleFormClose}
   handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} key={key_id+"Render"} key_id={key_id}/>)
 
 }
