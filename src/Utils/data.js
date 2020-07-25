@@ -121,6 +121,10 @@ export function login (data_object, callback)   {
   callAPI ("auth/login", {}, data_object, "post", callback) 
 }
 
+export function getUserContext (user_id, callback)   {
+  callAPI ("auth/user-context/"+user_id, {}, "", "get", callback) 
+}
+
 export function createAccount (data_object, callback)   {
   callAPI ("auth/create-account", {}, data_object, "post", callback) 
 }
