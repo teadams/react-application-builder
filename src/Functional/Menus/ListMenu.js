@@ -37,11 +37,12 @@ function ListMenu(props)  {
     const [value, setValue] = React.useState(props.value);
   
     const _MenuComponent = (props) => {
-        let {menu_component_name, with_context, object_type, id, api_options, ...rest} = props
+        let {menu_component_name, with_context,context_user_field="id", object_type, id, api_options={}, ...rest} = props
         const Helper = control.componentByName(menu_component_name)
         if (with_context) {
-          if (object_type === "core_user") {
-              id = context.user.id
+          if (object_type === "core_user" || context_user_field) {
+              api_options.filter_field = context_user_field 
+              api_options.filter_id = context.user.id
           } else if (context.context_id) {
             api_options.filter_field = "core_subsite"
             api_options.filter_id = context.context_id
