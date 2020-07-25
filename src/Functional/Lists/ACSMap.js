@@ -43,8 +43,8 @@ function ACSMap (props) {
 
   const context = useContext(AuthContext)
 
-
   const object_model =  useGetModel("object_types", object_type)
+
   const id_field = props.id_field?props.id_field:object_model.key_id
   const name_field = props.name_field?props.name_field:object_model.pretty_key_id
   const summary_field = props.summary_field?props.summary_field:object_model.summary_key
@@ -58,10 +58,12 @@ function ACSMap (props) {
   const show_popup_summary = (summary_field && props_show_popup_summary)?true:false
   const show_popup_thumbnail = (thumbnail_field && props_show_popup_thumbnail)?true:false
   const show_popup_description = (description_field && props_show_popup_description)?true:false
- 
+
+
   if (!load_own_data && (map_data !== props_map_data)) {
       setMapData(props_map_data)
   }
+
   if (load_own_data && (!map_data ||  JSON.stringify(prior_api_options)!==JSON.stringify(api_options))) {
     api.getData(object_type, api_options, (map_data, error) => {
       setMapData(map_data)
