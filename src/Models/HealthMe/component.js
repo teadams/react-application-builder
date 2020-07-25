@@ -78,7 +78,8 @@ const rab_component_models = {
         header:"Fragment",
         row_body:"Fragment",
         section_wrap:"Fragment",
-        section_header:"Fragment",
+        section_header:"RABVoid",
+        section_body_wrap:"Fragment",
         row_wrap:"TableRow",
         field_chunk_wrap:"Fragment"
     },
