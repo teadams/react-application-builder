@@ -1,14 +1,22 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
-
+function getDataValue(data,string_name) {
+  if (string_name.indexOf(".") > -1) {
+    const split_string_name = string_name.split(".")
+    const references_field = split_string_name[0]
+    const final_field = split_string_name[1]
+    return data[references_field][final_field]
+  } else {
+      return data[string_name]
+  }
+}
 
 export function authorized(context, auth_scope, auth_priv, object_model={}, data="") {
 
-  if (object_model && (object_model.name === "core_user" || object_model.extends_object === "core_user")) {
+  if (object_model && (object_model.user_context_key)) {
       // you can do anything to yourself (for now)
-        alert("data in auth is" +JSON.stringify(data))
-        if (data.id === context.user.id) {
+        if ( getDataValue(data,object_model.user_context_key) === context.user.id) {
           return true
         }
   }

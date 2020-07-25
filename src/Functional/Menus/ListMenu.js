@@ -26,6 +26,8 @@ function ListMenu(props)  {
   const value = selected_menu
   const context = useContext(AuthContext)
   const menu_model =  useGetModel("menus")
+  const object_models =  useGetModel("object_types")
+
   const field_list=
       menu_model.menus[menu_type]?menu_model.menus[menu_type]:
       Object.keys(menu_model.menu_items)
@@ -38,10 +40,11 @@ function ListMenu(props)  {
   
     const _MenuComponent = (props) => {
         let {menu_component_name, with_context,context_user_field="id", object_type, id, api_options={}, ...rest} = props
+        const object_model = object_models[object_type]
         const Helper = control.componentByName(menu_component_name)
         if (with_context) {
-          if (object_type === "core_user" || context_user_field) {
-              api_options.filter_field = context_user_field 
+          if (object_model.user_context_key) {
+              api_options.filter_field = object_model.user_context_key
               api_options.filter_id = context.user.id
           } else if (context.context_id) {
             api_options.filter_field = "core_subsite"
