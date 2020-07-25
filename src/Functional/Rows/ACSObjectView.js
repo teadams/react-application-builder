@@ -8,7 +8,6 @@ import UIContext from '../../Template/UIContext';
 
  function ACSObjectView(props)  {
   const {object_type, id, api_options, layout, sections, field_list, num_columns, ...params} = props
-u.a("object", props)
   const dialog = useContext(UIContext).dialog
   let {form_open=props.row_form} = props
   if (!props.onClose) {
