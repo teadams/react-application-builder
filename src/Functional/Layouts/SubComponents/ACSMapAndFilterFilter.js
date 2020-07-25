@@ -73,9 +73,9 @@ function ACSMapAndFilterFilter(props) {
       </div>
       <div style={{paddingLeft:20, paddingRight:40, paddingTop:10,  display:'flex', width:'100%'}}>       
         <div style={{display:'flex', paddingRight:40}}>
-          <ACSFilters filters={props.filters} label_direction="row" default_filter_values={filter_form_values} label_variant="subtitle1" onChange={handleFilterChange}/>
+          <ACSFilters filters={props.filters} label_direction="row" default_filter_values={filter_form_values} select_width="200px" label_variant="subtitle1" onChange={handleFilterChange}/>
         </div>
-        <div style={{width:"70%"}}>
+        <div>
           {form_touched && data !== "" && data.length ===0 &&
           <Card variant="outlined" style={{padding:30,backgroundColor:"#DDDDDD"}}>
             There are no results that meet your criteria.
