@@ -1,4 +1,4 @@
-import React, {useState, useLayoutEffect, useContext, useEffect} from 'react';
+import React, {useState, useRef, useLayoutEffect, useContext, useEffect} from 'react';
 import AuthContext from '../Components/User/AuthContext';
 import * as api from '../Utils/data.js';
 
@@ -18,6 +18,8 @@ const useGetObjectList = (object_type, api_options={}, param_data, callback, onD
       alert ("Error in useGetObjectList. Either data or object_type must be provided.")
   }
   const context = useContext(AuthContext)
+  const isMountedRef = useRef(null);
+
   const dirty_stamp = context.dirty_stamp;
 
   // XX This will move to the session cookie
@@ -38,8 +40,10 @@ const useGetObjectList = (object_type, api_options={}, param_data, callback, onD
   // put the direct flag in the call?  How does that interact with trigger change array. 
   // think about it, it is reall about API_options
   useLayoutEffect( () => {
+    isMountedRef.current = true;
       if (!param_data && object_type) {
         api.getData (object_type,  api_options, (api_results, error) => { 
+          if (isMountedRef.current) {
             if (error) {
                 alert ("error retrieving object list " + object_type + ":" + error.message)
             } else {
@@ -51,8 +55,10 @@ const useGetObjectList = (object_type, api_options={}, param_data, callback, onD
             if (callback) {
                 callback(api_results, error)
             }
+          }
         })
     }
+  return () => isMountedRef.current = false;
 }, trigger_change_array);
 
   if (param_data || !prev_state) {
