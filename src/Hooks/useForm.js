@@ -131,6 +131,9 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
           if (handleSubmit) {
             handleSubmit(event,'created', formValues, inserted_id);
           }
+          if (object_type === "core_user" || object_type=== "core_subsite" || object_model.extends_object === "core_user" || object_model.extends_object === "core_subsite") {
+            context.refreshUserContext()
+          }
           context.setDirty();
         }
       })     
@@ -147,6 +150,9 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
         if (error) {
           alert ('error is ' + error.message)
         } else { 
+          if (object_type === "core_user" || object_type=== "core_subsite" || object_model.extends_object === "core_user" || object_model.extends_object === "core_subsite") {
+            context.refreshUserContext()
+          }
           context.setDirty();
           if (handleSubmit) {
             handleSubmit(event,'updated', formValues);

@@ -48,7 +48,7 @@ function ListMenu(props)  {
           } 
         }
         return (
-        <Helper form_title="foo" with_context={with_context} object_type={object_type} id={id} api_options={api_options} {...rest}  />)    
+        <Helper with_context={with_context} object_type={object_type} id={id} api_options={api_options} {...rest}  />)    
     }
 
     function handleOnClick(event, menu_item) {
