@@ -35,42 +35,42 @@ function ACSAddress(props) {
         return (
           <Fragment>
           {street_address &&
-            <Typography style={{display:'block'}} variant="body">
+            <Typography style={{display:'block'}} variant="body1">
               {street_address}
             </Typography>
           }
           {city && state &&
-            <Typography style={{display:'block'}} variant="body">
+            <Typography style={{display:'block'}} variant="body1">
               {city}, {state}
             </Typography>
           }
           {city && !state && country &&
-            <Typography style={{display:'block'}} variant="body">
+            <Typography style={{display:'block'}} variant="body1">
               {city}, {country}
             </Typography>
           }
           {city && !state && !country &&
-            <Typography style={{display:'block'}} variant="body">
+            <Typography style={{display:'block'}} variant="body1">
               {city}
             </Typography>
           }
           {!city && state && country &&
-            <Typography style={{display:'block'}} variant="body">
+            <Typography style={{display:'block'}} variant="body1">
               {state}, {country}
             </Typography>
           }
           {!city && state && !country &&
-            <Typography style={{display:'block'}} variant="body">
+            <Typography style={{display:'block'}} variant="body1">
               {state}
             </Typography>
           }
           {country && city && state &&
-            <Typography style={{display:'block'}} variant="body">
+            <Typography style={{display:'block'}} variant="body1">
                 {country}
             </Typography>
           }
           {country && !city && !state &&
-            <Typography style={{display:'block'}} variant="body">
+            <Typography style={{display:'block'}} variant="body1">
                 {country}
             </Typography>
           }
