@@ -50,7 +50,7 @@ function ACSFilters(props) {
   if (JSON.stringify(new_api_options) !== JSON.stringify(api_options)) {
       setAPIOptions(new_api_options)
       if (onChange) {
-        onChange(new_api_options, formValues)
+//        onChange(new_api_options, formValues)
       }
   }
   
@@ -67,7 +67,7 @@ function ACSFilters(props) {
         }
     //    u.a(filter.name, filter.select_api_options)
         return (
-          <div style={{display:"flex", alignSelf:"flex-end", flexDirection:label_direction, alignItems:"center"}}>
+          <div key={"div1-"+filter.name }style={{display:"flex", alignSelf:"flex-end", flexDirection:label_direction, alignItems:"center"}}>
           {filter.label&&<div style={{marginRight:"10px", minWidth:label_width}}><Typography variant={label_variant}>{filter.label}:</Typography></div>}
           <div style={{alignSelf:"flex-start", minWidth:select_width}}>
             {filter.filter_type !== "Text" &&

@@ -78,7 +78,7 @@ function ListMenu(props)  {
         const auth_priv = menu_item.auth_priv
         const authorized = auth.authorized({context_id:context.context_id, user:context.user}, auth_scope, auth_priv)
         if (authorized && menu_item.label) {
-          return (<ListItem value={key} onClick={(event) => handleOnClick(event, menu_item)}>{menu_item.label}</ListItem>)
+          return (<ListItem key={key} value={key} onClick={(event) => handleOnClick(event, menu_item)}>{menu_item.label}</ListItem>)
         }
       })}
     </List>)

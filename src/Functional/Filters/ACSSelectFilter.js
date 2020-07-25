@@ -41,6 +41,7 @@ function ACSSelectFilter(props) {
     <RABSelectField object_type = {object_type}
         mode="edit" form="true"
         add_none="Any"
+        key={filter_name}
         form_field_name={filter_name}
         value = {value}
         name = {filter_name}
