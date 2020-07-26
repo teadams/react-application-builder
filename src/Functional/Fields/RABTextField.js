@@ -12,9 +12,12 @@ import * as meta from '../../Utils/meta.js';
 
 
 function RABTextField(props) {
-  const {mode, data, field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small"} = props
+  const {mode, data, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small"} = props
   let {with_thumbnail="", with_url="", more_detail=false, toggleMoreDetail} = props
 
+  if (props.object_type && props.object_type !== "core_user" && props.object_type !== "core_credential") {
+//    u.a(props.object_type, field_name, form_field_name, formValues, field_model)
+  }
   // XX field model passed due to referenced change. May 
   // be done server side later
   let field_value=""
@@ -25,7 +28,7 @@ function RABTextField(props) {
     more_link_cutoff = field_model.more_link_list_cutoff?field_model.more_link_list_cutoff:more_link_cutoff
   }
   // XX everything will be changed to final field_name
-  field_value = data[field_model.final_field_name?field_model.final_field_name:field_name]
+  field_value = data[field_name]
   if (!field_value && (field_value === null || field_value === undefined)) {
       field_value =""
   }
@@ -56,8 +59,8 @@ function RABTextField(props) {
       return (
           <TextField 
             autoFocus={autoFocus}
-            name={field_name} 
-            key={field_name}
+            name={form_field_name} 
+            key={form_field_name}
             fullWidth={fullWidth}
             multiline={multiline}
             rows={rows}
@@ -65,7 +68,7 @@ function RABTextField(props) {
             disabled={field_model.prevent_edit}
             type={field_model.input_type}
             onBlur={props.onFieldBlur}
-            value={formValues[props.field_name]}
+            value={formValues[form_field_name]}
             onChange={onChange}/>
         )
       break
