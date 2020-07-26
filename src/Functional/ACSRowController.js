@@ -4,6 +4,8 @@ import 'react-app-polyfill/stable';
 import _ from 'lodash'
 
 import * as u from '../Utils/utils.js';
+import * as meta from '../Utils/meta.js';
+
 
 import React, {Fragment, useState} from 'react';
 
@@ -203,16 +205,12 @@ function ACSRowController(input_props) {
       field_list.forEach(field => {
         let field_model
         const split_field = field.split(".")
-        let field_field_model
-        if (split_field.length === 2 ) {
-            field_field_model = field_models[split_field[0]][split_field[1]] 
-        } else {
-            field_field_model = field_models[object_type][field] 
-        }
-//console.log(field, split_field, field_field_model)
-        const col_span = field_field_model.col_span
-        if ((field_field_model.hidden_on_form && ["create", "edit"].includes(mode)) ||
-            field_field_model.hidden_on_create_form && mode === "create") {
+        const [base_field_name, final_field_name, base_object_type, final_object_type, base_field_model, final_field_model] = meta.resolveFieldModel(object_type, field, object_models, field_models)
+
+//console.log(field, split_field, final_field_model)
+        const col_span = final_field_model.col_span
+        if ((final_field_model.hidden_on_form && ["create", "edit"].includes(mode)) ||
+            final_field_model.hidden_on_create_form && mode === "create") {
           chunked_field_list[index].push(field)
         } else if (col_count + col_span <= num_columns) {
             chunked_field_list[index].push(field)
