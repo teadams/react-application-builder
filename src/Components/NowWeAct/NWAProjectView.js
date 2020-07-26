@@ -34,6 +34,8 @@ function NWAProjectView(props) {
   }
 
  // ACSHeadlessObjectView wiill retrieve new data on props changes
+
+
   return (
     <Fragment>
     {showVolunteerDialog && <SubsiteApply id={id} api_options={api_options} onClose={handleVolunteerClose} open={showVolunteerDialog}/>}
