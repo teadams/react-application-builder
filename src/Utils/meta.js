@@ -48,16 +48,16 @@ export function resolveFieldModel(object_type, field_name,object_models, field_m
   const base_object_type = object_type
   let  base_field_name, final_field_name,  final_object_type, base_field_model, final_field_model
   if (split_field.length === 2 ) {
-      base_field_name = split_field[0]
-      final_field_name = split_field[1]
+      base_field_name = split_field[0].trim()
+      final_field_name = split_field[1].trim()
       base_field_model = field_models[object_type][base_field_name]
       final_object_type = base_field_model.references
       final_field_model = field_models[final_object_type][final_field_name] 
   } else {
       base_field_model= field_models[object_type][field_name] 
       final_field_model = base_field_model
-      base_field_name = field_name
-      final_field_name = field_name
+      base_field_name = field_name.trim()
+      final_field_name = field_name.trim()
       final_object_type = object_type
   }
   return [base_field_name, final_field_name, base_object_type, final_object_type, base_field_model, final_field_model]
