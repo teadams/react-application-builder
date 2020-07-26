@@ -39,9 +39,9 @@ function ACSAddress(props) {
               {street_address}
             </Typography>
           }
-          {city && state &&
+          {city && state && country &&
             <Typography style={{display:'block'}} variant="body1">
-              {city}, {state} {zip_code}
+              {city}, {state}
             </Typography>
           }
           {city && !state && country &&
