@@ -56,8 +56,9 @@ function ACSField(input_props) {
   // this causes a lot of confusion about which object_type
   // and model we are actually using (see call to useForm)
 
-  merging_props.object_type = final_object_type
+  merging_props.object_type = final_field_model.references?final_field_model.references:final_object_type
   // matches data
+
   merging_props.field_name = final_field_name
   // matches form values
   const form_field_name = input_props.field_name
@@ -68,8 +69,6 @@ function ACSField(input_props) {
 
   const {object_type:pre_fetch_object_type, id:pre_fetch_id, field_name:pre_fetch_field_name,  api_options:pre_fetch_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form,  ...params} = massaged_props
 
-//    u.aa("props_object_type, props_field_name, props.form_field_name, props_formValues", props_object_type, props_field_name, props_form_field_name, props_formValues)
-  //u.a(initial_mode,input_props.field_name, field_model.hidden_on_form, field_model)
 
   const [mode, setMode] = useState(initial_mode);
   const [more_detail, setMoreDetail]  = useState(false)
@@ -80,6 +79,7 @@ function ACSField(input_props) {
 
 
   let [ready, object_type, id, field_name, api_options, data] = useGetObject(pre_fetch_object_type, pre_fetch_id,pre_fetch_field_name, pre_fetch_api_options, props_data); 
+
 
   const field_list = ["id", field_name]  
 //  const field_list = useGenerateFieldList(object_type, field_name, data, mode, form, input_props.field_list)
@@ -99,6 +99,12 @@ const row_data = data
 if (base_field_model.references && mode !== "create") {
     // field in base object, data in reference
     data = row_data[base_field_name]
+}
+if ((base_object_type !== final_object_type) || (base_field_name !== final_field_name)) {
+    data = row_data[base_field_name]
+    if (final_field_model.references) {
+      data = data[final_field_name]
+    }
 }
 // row_data - original row
 
@@ -160,7 +166,7 @@ return (
     onMouseOver={(form&&((mode!=="create"&&mode!=="edit")&&mouseover_to_edit))?toggleEditMode:""}
     onFieldClick={handleFieldClick} 
     onFieldBlur = {handleOnFieldBlur} 
-    object_type={final_object_type} 
+    object_type={object_type} 
     form_field_name={form_field_name}
     field_name={final_field_name} 
     field_model={final_field_model}

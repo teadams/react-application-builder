@@ -114,12 +114,13 @@ function RABSelectList(props) {
 
 function RABSelectField(props) {
 
-  const {mode, data=[], add_none, field_name, formValues, onSubmit, onFieldBlur,  onChange, autoFocus, object_type, field_model={}, value="", display_value=" ", disable_underline, style, api_options={}} = props
+  const {mode, data=[], add_none, field_name,   formValues, onSubmit, onFieldBlur,  onChange, autoFocus, object_type, field_model={}, value="", display_value=" ", disable_underline, style, api_options={}} = props
   let {form_field_name} = props
   const {...params} = props
 
   const {dependent_filter_field, dependent_data_field} = field_model
   if (dependent_filter_field && formValues && ["create","edit"].includes(mode)) {
+      // XXX HAVE TO ADD THE ORIGINAL FIELD NAME HERE
       if (api_options.filter_field) { 
         api_options.filter_field = api_options.filter_field.push(dependent_filter_field)
       } else {
@@ -139,20 +140,20 @@ function RABSelectField(props) {
   //     dispaly_value is display_value, value is value
   const object_type_model = useGetModel("object_types", object_type)
   if (!form_field_name) {
+    ///????
     form_field_name = formValues?field_model.formValues_name:object_type_model.select_key_id
    }
-  const field_value = formValues?formValues[form_field_name]:value
-  // convert to final field
-  const final_field_component_name = field_model.final_field_component?field_model.final_field_component:"RABTextField"
 
-  const Field = control.componentByName(final_field_component_name)
-  
+  const field_value = formValues?formValues[form_field_name]:value
+
+  // Viewing
+  const view_field_component_name = field_model.final_field_component?field_model.final_field_component:"RABTextField"
+  const Field = control.componentByName(view_field_component_name)
   const final_field_name=field_model.final_field_name?field_model.final_field_name:field_name
 
-  const data_field_value = data[field_model.final_field_name?field_model.final_field_name:field_name]
-//  const text_value = data?data_field_value:display_value
 
-  // precedence: props, field_model, keys
+  const data_field_value = data[final_field_name]
+  // precedence: p"rops, field_model, keys
   let {select_key_field = field_model.select_key_field, select_display_field = field_model.select_display_field, prevent_edit=field_model.prevent_edit} = props 
   
   select_key_field = select_key_field?select_key_field:object_type_model.select_key_field
@@ -171,6 +172,7 @@ function RABSelectField(props) {
       props.onBlur()
     }
   }
+
   switch (mode) {   
     case "edit":
     case "create":

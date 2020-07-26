@@ -127,7 +127,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     if (!formValues[id_field]) {
       api.postData(object_type, formValues, {}, (insert_result, error) => { 
         // XX user_id, subsite
-        u.a("insert results", insert_result)
+        //u.a("insert results", insert_result)
 
         if (error) {
           alert ('error is ' + error.message)
@@ -152,7 +152,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
         }
       })
       api.putData(object_type, formValues, {}, (result, error) => { 
-        u.a("update results", result)
+      //  u.a("update results", result)
 
         if (error) {
           alert ('error is ' + error.message)
@@ -209,7 +209,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       }
     }
   })
-u.a(formValues)
+u.a("form values", formValues)
   return {formValues, lastTouched, handleFormSubmit, handleFormChange};
 
 }

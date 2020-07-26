@@ -15,9 +15,7 @@ function RABTextField(props) {
   const {mode, data, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small"} = props
   let {with_thumbnail="", with_url="", more_detail=false, toggleMoreDetail} = props
 
-  if (props.object_type && props.object_type !== "core_user" && props.object_type !== "core_credential") {
-//    u.a(props.object_type, field_name, form_field_name, formValues, field_model)
-  }
+
   // XX field model passed due to referenced change. May 
   // be done server side later
   let field_value=""
