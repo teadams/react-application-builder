@@ -143,6 +143,7 @@ function buildRABModel(params) {
                 api_options:params.api_options,
                 field_list:params.field_list,
                 field_name:params.field_name,
+                form_field_name:params.form_field_name,
                 onFieldClick:params.onFieldClick,
                 disable_underline:params.field_disable_underline,
                 click_to_edit:params.field_click_to_edit,
