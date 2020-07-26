@@ -8,14 +8,15 @@ import axios from 'axios';
 
 
 const useForm = (object_type, field_name="", data, handleSubmit, mode="view", form=true, default_values_prop={}, field_list) => {
-  
+  u.a('rendering useform')
   const [formValues, setFormValues] = useState({});
   const [prior_input_mask, setPriorInputMask] = useState(null)
   const [lastTouched,setLastTouched] = useState(false)
   const [filesTouched,setFilesTouched] = useState([])
   const context = useContext(AuthContext)
+  const object_models = useGetModel("object_types")
   const object_model =  useGetModel("object_types", object_type)
-  const field_models =  useGetModel("fields", object_type)
+  const field_models =  useGetModel("fields")
   const [prior_user_id, setPriorUserId] = useState("")
 
   // form not needed or inputs not ready
@@ -58,24 +59,22 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     // context or parent component has changed
     let defaults = {}
     field_list.forEach(field =>{
-      const field_model = field_models[field]
-      const references = field_model.references
-      if (field_model.input_type === "file") {
-        defaults[field] = ""
-      } else if (references && mode==="edit" && data) {
-        // XX fix to have id work off object meta data 
-        const references_field = field_model.references_field?field_model.references_field:"id"; 
+      const [base_field_name, final_field_name, base_object_type, final_object_type, base_field_model, final_field_model] = meta.resolveFieldModel(object_type, field, object_models, field_models)
+
+      const references = final_field_model.references
+      if (final_field_model.input_type === "file") {
+        defaults[final_field_name] = ""
+      } else if ((final_field_name !== base_field_name) && mode==="edit" && data) {
       // data has been restructured
-      
-        defaults[field]= data[field]?(data[field][references_field]?data[field][references_field]:""):""
-    
+        defaults[field]=data[base_field_name][final_field_name]?data[base_field_name][final_field_name]:""
+
       } else if (data && mode === "edit") {
         defaults[field] = data[field]?data[field]:""
       } else if (mode === "create") {
           // take from field_models
-          let default_value = field_model.default?field_model.default:""
+          let default_value = final_field_model.default?final_field_model.default:""
           // take from context
-          if (context.user.id && references === "core_user" && field_model.use_context) {
+          if (context.user.id && references === "core_user" && final_field_model.use_context) {
               default_value = context.user.id
           }
           // take from props
