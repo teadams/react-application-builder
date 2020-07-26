@@ -21,7 +21,7 @@ function ACSField(input_props) {
   // and that convolve it
   const default_object_type_models = useGetModel("object_types")
   const default_field_models =  useGetModel("fields")
-  let field_models, object_type_models
+  let field_models, object_models
   if (input_props.field_models) {
     // expect these to have everything necessary. no merge
     field_models = input_props.field_models
@@ -31,44 +31,21 @@ function ACSField(input_props) {
   }
 
   if (input_props.object_type_models) {
-    object_type_models = input_props.object_type_models
+    object_models = input_props.object_type_models
   } else {
-    object_type_models = default_object_type_models
+    object_models = default_object_type_models
   }
 
   let input_field_name = input_props.field_name
   let input_object_type = input_props.object_type
-  let field_model
-  let data_object = ""
-  if (input_props.field_name.indexOf(".") > -1) {
-    const split_field = input_props.field_name.split(".")
-    const references_field = split_field[0] // name of reference field is object_type
-    data_object = references_field
-    const original_field_model = field_models[input_props.object_type][references_field]
-    input_object_type = original_field_model.references
-    input_field_name = split_field[1]
-    field_model =field_models[input_object_type][input_field_name]
-//    u.aa("field_name, references_field, input_field_name, field_model", input_props.field_name, references_field, input_field_name, field_model)
- } else {
-    field_model = field_models?field_models[input_props.object_type][input_props.field_name]:{}
-  }
-
-  if (input_props.field_model) {
-      field_model = _.merge({}, field_model, input_props.field_model)
-  }
+  const [base_field_name, final_field_name, base_object_type, final_object_type, base_field_model, final_field_model] = meta.resolveFieldModel(input_object_type, input_field_name, object_models, field_models)
 
   const {data:input_data, object_type:discard_object_type, field_name:discard_field_name, handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, key_id, autoFocus=false, ...merging_props} = input_props
   const props_data = input_data?input_data:{[input_props.field_name]:input_props.value}
 
-  // Use case - this field has been tagged with "references"
-  // which indicates the field is from another object type.
-  // Need to modify that the  object_type, field_name to 
-  // represent the meta model from the other model and
-  // provide the correct data.
-  let final_data_target = ""
-//  let final_model_object_type = input_object_type
-  let final_field_name = input_field_name
-  field_model.formValues_name = input_props.field_name
+  // form values has the path (references.field)
+  // data is structured as object
+  final_field_model.formValues_name = input_field_name
 
   // The REFERENCES field model 
   // has to have input into the component ,etc. But
@@ -79,18 +56,19 @@ function ACSField(input_props) {
   // this causes a lot of confusion about which object_type
   // and model we are actually using (see call to useForm)
 
-  merging_props.object_type = field_model.final_object_type
-  merging_props.field_name = input_field_name
-  // XX performance optimization, use state merging props (and only)
-  // change those if props change
-  const rab_component_model = control.getFinalModel("field", {...merging_props}, field_model)
+  merging_props.object_type = final_object_type
+  // matches data
+  merging_props.field_name = final_field_name
+  // matches form values
+  const form_field_name = input_props.field_name
+  const rab_component_model = control.getFinalModel("field", {...merging_props}, final_field_model)
 
   const field_component_model = rab_component_model.field
   const massaged_props = field_component_model.props
 
-  const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form,  ...params} = massaged_props
+  const {object_type:pre_fetch_object_type, id:pre_fetch_id, field_name:pre_fetch_field_name,  api_options:pre_fetch_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form,  ...params} = massaged_props
 
-
+//    u.aa("props_object_type, props_field_name, props.form_field_name, props_formValues", props_object_type, props_field_name, props_form_field_name, props_formValues)
   //u.a(initial_mode,input_props.field_name, field_model.hidden_on_form, field_model)
 
   const [mode, setMode] = useState(initial_mode);
@@ -101,16 +79,16 @@ function ACSField(input_props) {
   } 
 
 
-  let [ready, object_type, id, field_name, api_options, data] = useGetObject(props_object_type, props_id,props_field_name, props_api_options, props_data); 
+  let [ready, object_type, id, field_name, api_options, data] = useGetObject(pre_fetch_object_type, pre_fetch_id,pre_fetch_field_name, pre_fetch_api_options, props_data); 
 
   const field_list = ["id", field_name]  
 //  const field_list = useGenerateFieldList(object_type, field_name, data, mode, form, input_props.field_list)
   // hook rules. always has to run
   // care with inputs.  Form is based of the original object_type
   // and the original field_name (not the change for the references.
-const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(input_object_type, input_props.field_name, data, handleSubmit, mode, form, "", field_list);
+const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(base_object_type, form_field_name, data, handleSubmit, mode, form, "", field_list);
 
-if (!data || (object_type && !field_model) || mode === "hidden" || field_model.hidden_on_form && initial_mode ==="edit" ||  (field_model.hidden_on_form || field_model.hidden_on_create_form) && initial_mode==="create") return null
+if (!data || (object_type && !final_field_model) || mode === "hidden" || final_field_model.hidden_on_form && initial_mode ==="edit" ||  (final_field_model.hidden_on_form || final_field_model.hidden_on_create_form) && initial_mode==="create") return null
 
 // row_data - original row 
 // data - object with this field's data 
@@ -118,15 +96,13 @@ if (!data || (object_type && !field_model) || mode === "hidden" || field_model.h
 // formValues is flat (base and reference data is the same level
 const row_data = data
 
-if (data_object && mode !== "create") {
-    // field and data are not in base object
-    data= data[data_object]
-} else if (field_model.references && mode !== "create") {
+if (base_field_model.references && mode !== "create") {
     // field in base object, data in reference
-    data = data[input_props.field_name]
+    data = row_data[base_field_name]
 }
 // row_data - original row
 
+// form_field_name  - matches form values
 
   // XX ?? look at rest of props and see if there are any other API options... what layer to do this in
   function handleSubmit(event, result, form_values_object) {
@@ -137,7 +113,7 @@ if (data_object && mode !== "create") {
   }
 
   function toggleEditMode(event, id, type, field_name, row_data, field_data) {  
-      if (form && click_to_edit && !field_model.prevent_edit && mode!=="create" && mode !=="edit") {
+      if (form && click_to_edit && !final_field_model.prevent_edit && mode!=="create" && mode !=="edit") {
           setMode("edit")
       }
 
@@ -175,17 +151,19 @@ return (
     data={data} 
     row_data={row_data}
     formValues = {formValues}
-    object_type = {object_type}
     onChange={handleFormChange}
     onSubmit={handleFormSubmit}
     emphasis={input_props.emphasis}
-    col_span={field_model.col_span}
-    with_thumbnail= {field_model.with_thumbnail}
+    col_span={final_field_model.col_span}
+    with_thumbnail= {final_field_model.with_thumbnail}
     autoFocus ={(field_name === lastTouched || (autoFocus && !lastTouched) || form)?true:false}
     onMouseOver={(form&&((mode!=="create"&&mode!=="edit")&&mouseover_to_edit))?toggleEditMode:""}
     onFieldClick={handleFieldClick} 
     onFieldBlur = {handleOnFieldBlur} 
-    object_type={object_type} field_name={field_name} field_model={field_model}
+    object_type={final_object_type} 
+    form_field_name={form_field_name}
+    field_name={final_field_name} 
+    field_model={final_field_model}
     mode={mode}
     more_detail={more_detail}
     toggleMoreDetail={toggleMoreDetail}
