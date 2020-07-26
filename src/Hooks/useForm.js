@@ -65,10 +65,16 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
         defaults[final_field_name] = ""
       } else if ((final_field_name !== base_field_name) && mode==="edit" && data) {
       // data has been restructured
+
         defaults[field]=data[base_field_name][final_field_name]?data[base_field_name][final_field_name]:""
 
       } else if (data && mode === "edit") {
-        defaults[field] = data[field]?data[field]:""
+//        u.a("final, base", final_field_name, base_field_name)
+        if (references) {
+          defaults[field] = data[field][base_field_model["references_field"]]?data[field][base_field_model["references_field"]]:""
+        } else {
+          defaults[field] = data[field]?data[field]:""
+        }
       } else if (mode === "create") {
           // take from field_models
           let default_value = final_field_model.default?final_field_model.default:""
@@ -122,6 +128,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       api.postData(object_type, formValues, {}, (insert_result, error) => { 
         // XX user_id, subsite
         u.a("insert results", insert_result)
+
         if (error) {
           alert ('error is ' + error.message)
         } else {
@@ -145,6 +152,8 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
         }
       })
       api.putData(object_type, formValues, {}, (result, error) => { 
+        u.a("update results", result)
+
         if (error) {
           alert ('error is ' + error.message)
         } else { 
@@ -200,6 +209,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       }
     }
   })
+u.a(formValues)
   return {formValues, lastTouched, handleFormSubmit, handleFormChange};
 
 }
