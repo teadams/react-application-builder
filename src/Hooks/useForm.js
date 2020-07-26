@@ -175,12 +175,12 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   const handleFormChange = ((event) => {
     event.persist();
     const name = event.target.name
-    const field_model = field_models[name]
+    const [base_field_name, final_field_name, base_object_type, final_object_type, base_field_model, final_field_model] = meta.resolveFieldModel(object_type, name, object_models, field_models)
     setLastTouched(name)
     if (event.target.type !== "file") {
       let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
-      if (field_model.dependency_data_field) {
-        setFormValues(formValues => ({...formValues, [name]:value, [field_model.dependency_data_field]:""}));
+      if (final_field_model.dependency_data_field) {
+        setFormValues(formValues => ({...formValues, [name]:value, [final_field_model.dependency_data_field]:""}));
       } else {
         setFormValues(formValues => ({...formValues, [name]:value}));
       }

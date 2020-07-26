@@ -42,7 +42,7 @@ function RenderACSField(props) {
   // to get the data set. Different API options will be 
   // needed for select lists, referenced, mapping
   const {api_options,...params} = props
-  const {data, row_data, object_type, field_display="field", rab_component_model, field_name, field_model, mode="view", form="true", emphasis="", more_detail,toggleMoreDetail} = props
+  const {data, row_data, object_type, field_display="field", rab_component_model, field_name, form_field_name, field_model, mode="view", form="true", emphasis="", more_detail,toggleMoreDetail} = props
   // Responsible for the layouts
 // Storing the state?
 // Deciding the mode?
@@ -84,7 +84,7 @@ function RenderACSField(props) {
         onClick={handleFieldClick}  onMouseOver={handleMouseOver} align="right"><b>{field_model.pretty_name}: </b>
        <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
         <Field {...params}
-          data={data} key={field_name+"_field"}/>
+          data={data} key={form_field_name+"_field"}/>
       </FormWrap>
       </FieldWrap>
     </Fragment>
@@ -97,7 +97,7 @@ function RenderACSField(props) {
         onClick={handleFieldClick}  onMouseOver={handleMouseOver} col_span={col_span}>
         <b>{field_model.pretty_name}: </b><br/>
        <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
-        <Field {...params} key={field_name+"_field"}/>
+        <Field {...params} key={form_field_name+"_field"}/>
       </FormWrap>
       </FieldWrap>
     </Fragment>
@@ -113,7 +113,7 @@ function RenderACSField(props) {
         >
         <b>{field_model.pretty_name}: </b>
        <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
-        <Field {...params}  key={field_name+"_field"}/>
+        <Field {...params}  key={form_field_name+"_field"}/>
       </FormWrap>
       </FieldWrap>
       </div>

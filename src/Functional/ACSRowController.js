@@ -61,6 +61,7 @@ function RABRow(row_props) {
   return (
     <FieldChunk {...row_params} key={key_id+"chunk"}>
       {field_chunk.map( (field_name, ch_index) => {
+          //  u.a(field_name, field_chunk)
            const autoFocus = (f_index === 0 && s_index === 0 && ch_index === 0 )?true:false
             
            return <ACSField field_mode={mode} field_models={field_models} field_form={!form} field_name={field_name} handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit}
@@ -161,7 +162,6 @@ function ACSRowController(input_props) {
   if (layout) {
       sections = layout_model.sections 
   }
-
   // XX for now, we are trusting that
   // layout, section and field_list are  
   // prescrubbed if provied.
@@ -209,7 +209,7 @@ function ACSRowController(input_props) {
         } else {
             field_field_model = field_models[object_type][field] 
         }
-console.log(field, split_field, field_field_model)
+//console.log(field, split_field, field_field_model)
         const col_span = field_field_model.col_span
         if ((field_field_model.hidden_on_form && ["create", "edit"].includes(mode)) ||
             field_field_model.hidden_on_create_form && mode === "create") {
@@ -235,6 +235,8 @@ console.log(field, split_field, field_field_model)
   // Final structure[[section], [section]]
   // where each section contains one or more fields 
   // (according to field_chunk and colspan rules examples: [field, field, field ]
+
+  //u.a("sectioned field list", object_type, section_field_lists, field_list)
 
   if (headless) {
     // XX authorize
