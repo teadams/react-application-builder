@@ -41,37 +41,37 @@ function ACSAddress(props) {
           }
           {city && state &&
             <Typography style={{display:'block'}} variant="body1">
-              {city}, {state}
+              {city}, {state} {zip_code}
             </Typography>
           }
           {city && !state && country &&
             <Typography style={{display:'block'}} variant="body1">
-              {city}, {country}
+              {city}, {country} {zip_code}
             </Typography>
           }
           {city && !state && !country &&
             <Typography style={{display:'block'}} variant="body1">
-              {city}
+              {city} {zip_code}
             </Typography>
           }
           {!city && state && country &&
             <Typography style={{display:'block'}} variant="body1">
-              {state}, {country}
+              {state}, {country} {zip_code}
             </Typography>
           }
           {!city && state && !country &&
             <Typography style={{display:'block'}} variant="body1">
-              {state}
+              {state} {zip_code}
             </Typography>
           }
           {country && city && state &&
             <Typography style={{display:'block'}} variant="body1">
-                {country}
+                {country} {zip_code}
             </Typography>
           }
           {country && !city && !state &&
             <Typography style={{display:'block'}} variant="body1">
-                {country}
+                {country} {zip_code}
             </Typography>
           }
           </Fragment>
