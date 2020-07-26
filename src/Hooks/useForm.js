@@ -93,9 +93,8 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   } else if (context.user && mode === "create" && context.user.id !== prior_user_id) {
       // user logs in after fillout out form  
       field_list.forEach(field => {
-          const field_model = field_models[field]
-          const references = field_model.references
-          if (context.user.id && references === "core_user" && field_model.use_context) {
+        const [base_field_name, final_field_name, base_object_type, final_object_type, base_field_model, final_field_model] = meta.resolveFieldModel(object_type, field, object_models, field_models)
+        if (context.user.id && final_object_type === "core_user" && final_field_model.use_context) {
             setFormValues(formValues=>({...formValues,[field]:context.user.id}))
           }
       })
