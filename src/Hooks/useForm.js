@@ -8,7 +8,6 @@ import axios from 'axios';
 
 
 const useForm = (object_type, field_name="", data, handleSubmit, mode="view", form=true, default_values_prop={}, field_list) => {
-  u.a('rendering useform')
   const [formValues, setFormValues] = useState({});
   const [prior_input_mask, setPriorInputMask] = useState(null)
   const [lastTouched,setLastTouched] = useState(false)
