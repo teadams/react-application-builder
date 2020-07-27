@@ -65,9 +65,12 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
         defaults[final_field_name] = ""
       } else if ((final_field_name !== base_field_name) && mode==="edit" && data) {
       // data has been restructured
-
-        defaults[field]=data[base_field_name][final_field_name]?data[base_field_name][final_field_name]:""
-
+        if (final_field_model.references) {
+          const references = final_field_model.references
+          defaults[field]=data[base_field_name][final_field_name][final_field_model["references_field"]]?data[base_field_name][final_field_name][final_field_model["references_field"]]:""
+        } else {
+          defaults[field]=data[base_field_name][final_field_name]?data[base_field_name][final_field_name]:""
+        }
       } else if (data && mode === "edit") {
 //        u.a("final, base", final_field_name, base_field_name)
         if (references) {
