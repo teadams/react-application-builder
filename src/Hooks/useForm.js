@@ -212,8 +212,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       }
     }
   })
-u.a("form values", formValues)
-  return {formValues, lastTouched, handleFormSubmit, handleFormChange};
+   return {formValues, lastTouched, handleFormSubmit, handleFormChange};
 
 }
 
