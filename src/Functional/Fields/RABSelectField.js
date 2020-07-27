@@ -114,13 +114,16 @@ function RABSelectList(props) {
 
 function RABSelectField(props) {
 
-  const {mode, data=[], add_none, field_name,   formValues, onSubmit, onFieldBlur,  onChange, autoFocus, object_type, field_model={}, value="", display_value=" ", disable_underline, style, api_options={}} = props
+  const {mode, data=[], add_none, base_field_name, parent_field_name, base_object_type, parent_object_type, field_name,   formValues, onSubmit, onFieldBlur,  onChange, autoFocus, object_type, field_model={}, value="", display_value=" ", disable_underline, style, api_options={}} = props
   let {form_field_name} = props
   const {...params} = props
 
-  const {dependent_filter_field, dependent_data_field} = field_model
+  let {dependent_filter_field, dependent_data_field} = field_model
   if (dependent_filter_field && formValues && ["create","edit"].includes(mode)) {
       // XXX HAVE TO ADD THE ORIGINAL FIELD NAME HERE
+      if (parent_object_type !== base_object_type) {
+        dependent_data_field = base_field_name+"."+dependent_data_field
+      }
       if (api_options.filter_field) { 
         api_options.filter_field = api_options.filter_field.push(dependent_filter_field)
       } else {
@@ -131,6 +134,8 @@ function RABSelectField(props) {
       } else {
         api_options.filter_id = formValues[dependent_data_field]
     }
+//    u.aa("base_field_name, parent_field_name, field_name, base_object_type, parent_object_type, object_type, dependent_filter_field, dependent_data_field, formValues, api_options",base_field_name, parent_field_name, field_name, base_object_type, parent_object_type, object_type, dependent_filter_field, dependent_data_field, formValues, api_options)
+
   }
   // 2 use cases:
   // 1. Called from a create/edit form (formValues is present)

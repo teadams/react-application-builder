@@ -56,6 +56,9 @@ function ACSField(input_props) {
   // this causes a lot of confusion about which object_type
   // and model we are actually using (see call to useForm)
 
+  const parent_object_type = final_object_type
+  const parent_field_name = final_field_name
+  
   merging_props.object_type = final_field_model.references?final_field_model.references:final_object_type
   // matches data
 
@@ -168,8 +171,12 @@ return (
     onFieldClick={handleFieldClick} 
     onFieldBlur = {handleOnFieldBlur} 
     object_type={object_type} 
+    parent_object_type={parent_object_type}
+    base_object_type = {base_object_type}
     form_field_name={form_field_name}
     field_name={final_field_name} 
+    parent_field_name = {parent_field_name}
+    base_field_name ={base_field_name}
     field_model={final_field_model}
     mode={mode}
     more_detail={more_detail}
