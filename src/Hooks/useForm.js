@@ -194,7 +194,11 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     if (event.target.type !== "file") {
       let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
       if (final_field_model.dependency_data_field) {
-        setFormValues(formValues => ({...formValues, [name]:value, [final_field_model.dependency_data_field]:""}));
+        let dependent_form_values_name = final_field_model.dependency_data_field
+        if (base_field_name !== final_field_name) {
+          dependent_form_values_name = base_field_name+"."+dependent_form_values_name
+        }
+        setFormValues(formValues => ({...formValues, [name]:value, [dependent_form_values_name]:""}));
       } else {
         setFormValues(formValues => ({...formValues, [name]:value}));
       }
