@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useEffect} from 'react';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Select, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell,InputLabel } from '@material-ui/core';
 import ACSListController from '../ACSListController.js'
-import rab_component_models from '../../Models/HealthMe/component.js'
+import rab_component_models from '../../Utils/component.js'
 import * as meta from '../../Utils/meta.js';
 import useGetModel from '../../Hooks/useGetModel';
 
@@ -48,14 +48,18 @@ function padding(num) {
   return <Fragment>{padding}</Fragment>
 }
 
-function selectItems(data, select_key_field, select_display_field, field_component) {
+function selectItems(data, select_key_field, select_display_field, field_component, limit_value) {
     data=formTreeData(data)
     return (
       data.map ((row, index) => {
-        return(
-          <MenuItem key={index}  value={row[select_key_field]}>{padding(row.tree_depth)}{field_component({data:row, field_name:select_display_field, mode:"text"})}</MenuItem>
-          )
-        })
+        if (limit_value && limit_value !== row[select_key_field]) {
+          return null
+        } else {
+          return(
+            <MenuItem key={index}  value={row[select_key_field]}>{padding(row.tree_depth)}{field_component({data:row, field_name:select_display_field, mode:"text"})}</MenuItem>
+            )
+        }
+      })
     )
 }
 
@@ -95,6 +99,7 @@ function RABSelectList(props) {
     }
   }
 
+//props.select_key_field,props.select_display_field
   return (<Fragment>
     <Select
       labelId="demo-simple-select-label"
@@ -104,10 +109,10 @@ function RABSelectList(props) {
       autoFocus={props.autoFocus}
       onBlur={props.onBlur}
       style={props.style}
-      disabled={prevent_edit}
+  //    disabled={prevent_edit}
       disableUnderline = {disable_underline}
       onChange={handleSelectChange}>
-      {props.data && selectItems(data,props.select_key_field,props.select_display_field, field_component)}
+      {data && selectItems(data,props.select_key_field,props.select_display_field, field_component, prevent_edit?props.value:"")}
     </Select>
     </Fragment>)
 }
