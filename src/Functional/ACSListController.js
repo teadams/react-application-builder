@@ -19,10 +19,7 @@ import RenderACSList from './RenderACSList.js'
 import ACSRowController from './ACSRowController.js'
 
 import * as control from "../Utils/control.js"
-import rab_component_models from '../Models/HealthMe/component.js'
-
-
-
+import rab_component_models from '../Utils/component.js'
 
 function RABTableHeaders(props) {
   const app_params = useGetModel("app_params")

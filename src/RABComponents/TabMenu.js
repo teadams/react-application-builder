@@ -12,7 +12,7 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
 import {  BrowserRouter as Router,  Switch,  Route,  Link,  Redirect, useHistory } from "react-router-dom";
 import * as auth from '../Utils/auth.js'
 import {AppBar,Toolbar, Typography, IconButton, Button, Paper, Tabs, Tab, Drawer, Divider,List, Menu, MenuItem, ListItem, ListItemText} from '@material-ui/core';
-import rab_component_models from '../Models/HealthMe/component.js'
+import rab_component_models from '../Utils/component.js'
 import * as control from '../Utils/control.js'
 import AuthContext from '../Modules/User/AuthContext';
 import { withStyles } from '@material-ui/core/styles';

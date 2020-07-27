@@ -19,7 +19,7 @@ import useForm from '../Hooks/useForm';
 import useGenerateFieldList from '../Hooks/useGenerateFieldList';
 
 import * as control from "../Utils/control.js"
-import rab_component_models from '../Models/HealthMe/component.js'
+import rab_component_models from '../Utils/component.js'
 
 // Will use the current inputs (object_type, data, id) until the 
 //    data is returned  (maybe upcoping React concurrently will help)
