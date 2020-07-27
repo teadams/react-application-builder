@@ -67,6 +67,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       // data has been restructured
         if (final_field_model.references) {
           const references = final_field_model.references
+          
           defaults[field]=data[base_field_name][final_field_name][final_field_model["references_field"]]?data[base_field_name][final_field_name][final_field_model["references_field"]]:""
         } else {
           defaults[field]=data[base_field_name][final_field_name]?data[base_field_name][final_field_name]:""
