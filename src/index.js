@@ -26,7 +26,7 @@ render((
       <Route path="/menu/:menu_type/:selected_menu/:object_type" component={App}/>
       <Route path="/menu/:menu_type/:selected_menu/" component={App}/>
       <Route path="/:selected_menu/:object_type/:id" component={App}/>
-      <Route path="/:selected_menu/:id" component={App}/>
+      <Route path="/:selected_menu/:object_type/" component={App}/>
       <Route path="/:selected_menu" component={App}/>
       <Route path="/" component={App}></Route>
     </Switch>

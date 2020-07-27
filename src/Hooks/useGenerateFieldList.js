@@ -59,10 +59,11 @@ const useGenerateFieldList = (object_type, field_name="", data, mode, form=true,
 
   field_list.forEach(field => {
     const [base_field_name, final_field_name, base_object_type, final_object_type, base_field_model, final_field_model] = meta.resolveFieldModel(object_type, field, object_models, field_models)
-    if (!final_field_model.prevent_view &&
+    if (!final_field_model.prevent_view && !(mode==="view" && final_field_model.not_on_view) &&
             !(final_field_model.not_on_list && mode==="list")
             && !(form && final_field_model.not_on_row_form)
-            && !(form && mode==="create" && final_field_model.not_on_create_form)) {
+            && !(form && mode==="create" && final_field_model.not_on_create_form)
+            && !(form && mode==="edit" && final_field_model.not_on_edit_form)) {
           scrubbed_field_list.push(field)
       }
   })
