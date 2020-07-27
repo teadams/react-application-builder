@@ -29,16 +29,17 @@ const useGenerateFieldList = (object_type, field_name="", data, mode, form=true,
   } else {
 
     if (object_type) {
-      field_list = [...object_models[object_type].field_tags[lazy]]
-      field_list.forEach(field => {
+      const base_field_list = object_models[object_type].field_tags[lazy]
+      field_list = []
+      base_field_list.forEach(field => {
          const field_model = field_models[object_type][field] 
          if (field_model.references && field_model.expand_results) {
-           const referenced_field_index = field_list.indexOf(field);
-           if (referenced_field_index > -1) {
-             field_list.splice(referenced_field_index, 1);
-           }
-            const references_field_list = object_models[field_model.references].field_tags[lazy]
-            field_list = field_list.concat(references_field_list)
+            const referenced_field_list = object_models[field_model.references].field_tags[lazy]
+            referenced_field_list.forEach( referenced_field =>{
+              field_list.push(field+"."+referenced_field)
+            })
+        } else {
+          field_list.push(field)
         }
       })
     } else {
@@ -57,12 +58,11 @@ const useGenerateFieldList = (object_type, field_name="", data, mode, form=true,
   let scrubbed_field_list = []
 
   field_list.forEach(field => {
-  // XX FIX FOR REFERNCES
-    const field_model = field_models[object_type][field]
-    if (!field_model.prevent_view &&
-            !(field_model.not_on_list && mode==="list")
-            && !(form && field_model.not_on_row_form)
-            && !(form && mode==="create" && field_model.not_on_create_form)) {
+    const [base_field_name, final_field_name, base_object_type, final_object_type, base_field_model, final_field_model] = meta.resolveFieldModel(object_type, field, object_models, field_models)
+    if (!final_field_model.prevent_view &&
+            !(final_field_model.not_on_list && mode==="list")
+            && !(form && final_field_model.not_on_row_form)
+            && !(form && mode==="create" && final_field_model.not_on_create_form)) {
           scrubbed_field_list.push(field)
       }
   })
