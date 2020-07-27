@@ -100,7 +100,8 @@ if (base_field_model.references && mode !== "create") {
     // field in base object, data in reference
     data = row_data[base_field_name]
 }
-if (data && (base_object_type !== final_object_type) || (base_field_name !== final_field_name) && mode !== "create") {
+
+if (data && ((base_object_type !== final_object_type) || (base_field_name !== final_field_name)) && mode !== "create") {
     data = row_data[base_field_name]
     if (data && final_field_model.references) {
       data = data[final_field_name]
