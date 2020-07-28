@@ -15,19 +15,23 @@ import _ from 'lodash/object'
 
 function ACSReferencesField(props) {
   const {mode, data=[], add_none, base_field_name, parent_field_name, base_object_type, parent_object_type, field_name, formValues, onSubmit, onChange, object_type, field_model={}} = props
-  let {form_field_name, referenced_display_type="div"} = props
+  let {form_field_name, list_display="div"} = props
   const {...params} = props
+
 
   let api_options ={}
   api_options.filter_field = [field_model.referenced_by_object_type_field, field_model.referenced_by_field]
   api_options.filter_id = [object_type, data.id]
   api_options.filter_join = "AND"
 
+  let default_create_props = {}
+  default_create_props[field_model.referenced_by_object_type_field] = object_type 
+  default_create_props[field_model.referenced_by_field] = data.id
   if (field_model.referenced_display_type) {
-      referenced_display_type = field_model.referenced_display_type
+      list_display = field_model.referenced_display_type
   }
   let rab_component_model 
-  switch (referenced_display_type) {
+  switch (list_display) {
     case "list":
       rab_component_model = _.merge({},rab_component_models.list)
       break;
