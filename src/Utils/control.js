@@ -59,7 +59,7 @@ const useStyles = makeStyles({
 // component_model - current component_running
 // metadata_model - current object_type/field/etc (name?)
 // input_props - current user input/result of upper layer
-export function getFinalModel(level, input_props={}, metadata_model={}, component_model) {
+export function getFinalModel(level, input_props={}, metadata_model={}, component_model, override_meta_model=false) {
 
   // XX could potentially determin metadata_model from 
   // object_type and field. then caller would not have to.
@@ -78,7 +78,10 @@ export function getFinalModel(level, input_props={}, metadata_model={}, componen
   // it get threaded through input_props. The input props from the Menu 
   // and model_props are the same way.  We want them all to override
   // models from a lower level
-  let final_model = _.merge({},
+  let final_model
+  if (override_meta_model) {
+    // imput parameters will prevail
+    final_model = _.merge({},
                             rab_component_models.shell,
                             determineModelComponents(level,
                             rab_component_models[level]),  
@@ -90,6 +93,21 @@ export function getFinalModel(level, input_props={}, metadata_model={}, componen
  
                             determineModelComponents(level, buildRABModel(input_props))
                             )
+  } else {
+
+    // objevt or field meta model will prevail
+    final_model = _.merge({},
+                            rab_component_models.shell,
+                            determineModelComponents(level,
+                            rab_component_models[level]),  
+                            
+                            determineModelComponents(level,
+                            component_model),
+
+                            determineModelComponents(level, buildRABModel(input_props)),
+                            determineModelComponents(level, buildRABModel(metadata_model)))
+ 
+  }
   
   // only want a shallow merge! (state management in getObject/list)
   // XX  Want to do this in a clean way,

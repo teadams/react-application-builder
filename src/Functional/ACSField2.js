@@ -23,14 +23,13 @@ function ACSField(input_props) {
   let field_models, object_models
   if (input_props.field_models) {
     // expect these to have everything necessary. no merge
-    field_models = input_props.field_models
+    field_models =_.merge({}, input_props.field_models)
   } else {
     // expect these to have everything necessary. no merge
-    field_models=default_field_models
+    field_models=_.merge({}, default_field_models)
   }
 
   //u.a(Object.keys(input_props.data), input_props.field_name, field_models[input_props.object_type][input_props.field_name])
-
   if (input_props.object_type_models) {
     object_models = input_props.object_type_models
   } else {
@@ -39,9 +38,10 @@ function ACSField(input_props) {
 
   let input_field_name = input_props.field_name
   let input_object_type = input_props.object_type
+
   const [base_field_name, final_field_name, base_object_type, final_object_type, base_field_model, final_field_model] = meta.resolveFieldModel(input_object_type, input_field_name, object_models, field_models)
 
-  const {data:input_data, object_type:discard_object_type, field_name:discard_field_name, handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, key_id, autoFocus=false, ...merging_props} = input_props
+  const {data:input_data, override_meta_model=false, object_type:discard_object_type, field_name:discard_field_name, handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, key_id, autoFocus=false, ...merging_props} = input_props
   const props_data = input_data?input_data:{[input_props.field_name]:input_props.value}
 
   // form values has the path (references.field)
@@ -66,11 +66,14 @@ function ACSField(input_props) {
   merging_props.field_name = final_field_name
   // matches form values
   const form_field_name = input_props.field_name
-  const rab_component_model = control.getFinalModel("field", {...merging_props}, final_field_model)
+//u.a("final field model",  final_field_model.field_display, final_field_model.rab_component_model.field.props)
+//u.a("merging props", Object.keys(merging_props))
+  const rab_component_model = control.getFinalModel("field", {...merging_props}, final_field_model, null, override_meta_model)
 
   const field_component_model = rab_component_model.field
   const massaged_props = field_component_model.props
 
+//u.a("massaged_props", massaged_props)
   const {object_type:pre_fetch_object_type, id:pre_fetch_id, field_name:pre_fetch_field_name,  api_options:pre_fetch_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form,  ...params} = massaged_props
 
 

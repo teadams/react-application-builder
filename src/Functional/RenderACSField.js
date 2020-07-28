@@ -73,8 +73,7 @@ function RenderACSField(props) {
   params.onChange = props.onChange 
   params.with_thumbnail = props.with_thumbnail
 
-
-
+//u.a(object_type, field_model.pretty_name, field_model.rab_component_model, field_name, field_display)
   let col_span = props.col_span
   switch (field_display) {
     case "name_value_wrapped":
@@ -121,7 +120,7 @@ function RenderACSField(props) {
     )
     break;
   default:
-
+//u.a("in default")
       return (
       <FieldWrap key={field_name+"_wrap1"} emphasis={emphasis}
         onClick={handleFieldClick}  onMouseOver={handleMouseOver} >
