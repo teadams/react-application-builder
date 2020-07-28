@@ -23,14 +23,21 @@ import ACSAddress from '../Functional/Fields/ACSAddress.js'
 
 import NWAProjectView from '../Components/NowWeAct/NWAProjectView.js'
 import SubsiteApply from '../Components/NowWeAct/SubsiteApply.js'
+
+// Engine
 import ACSField from '../Functional/ACSField2.js'
 import ACSRowController from '../Functional/ACSRowController.js'
 import ACSListController from '../Functional/ACSListController.js'
+
+/// fields
 import RABTextField from '../Functional/Fields/RABTextField.js'
 import ACSURLField from '../Functional/Fields/ACSURLField.js'
 import ACSYouTube from '../Functional/Fields/ACSYouTube.js'
 import RABSelectField from '../Functional/Fields/RABSelectField.js'
 import ACSFile from '../Functional/Fields/ACSFile.js'
+import ACSReferencesField from '../Functional/Fields/ACSReferencesField.js'
+
+// rows
 import ACSObjectView from '../Functional/Rows/ACSObjectView.js'
 import RABObjectPrettyName from '../Functional/Text/RABObjectPrettyName.js'
 import RABObjectTypePrettyPlural from '../Functional/Text/RABObjectTypePrettyPlural.js'
@@ -269,6 +276,7 @@ function componentPicker(name, source="not provided") {
     case "ACSURLField":  return ACSURLField;
     case "RABSelectField":  return RABSelectField;
     case "ACSFile":  return ACSFile;
+    case "ACSReferencesField" : return  ACSReferencesField;
     case "ACSYouTube":  return ACSYouTube;
     case "RABVoid": return RABVoid;
     case "RABObjectPrettyName": return RABObjectPrettyName;

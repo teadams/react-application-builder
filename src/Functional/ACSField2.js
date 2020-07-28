@@ -29,6 +29,8 @@ function ACSField(input_props) {
     field_models=default_field_models
   }
 
+  //u.a(Object.keys(input_props.data), input_props.field_name, field_models[input_props.object_type][input_props.field_name])
+
   if (input_props.object_type_models) {
     object_models = input_props.object_type_models
   } else {
