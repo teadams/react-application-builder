@@ -112,7 +112,7 @@ function ACSRowController(input_props) {
   const layout_models = useGetModel("layouts")
   const field_list_models = useGetModel("field_lists")
   // do not merge expensive, known unnecessary things
-  let {headless=false, data:input_props_data, form_open, key_id, onData="",action_props, action, form_title, ...merging_props} = input_props
+  let {headless=false, data:input_props_data, form_open, key_id, onData="",action_props, action, form_title, no_header=false,...merging_props} = input_props
   let layout_model
   // treat layout as another dynamic input
   // props (usually from menu) takes
@@ -139,6 +139,11 @@ function ACSRowController(input_props) {
     row_component_model.field.props.disable_underline = true
   }
 
+  if (no_header) {
+    row_component_model.row.components.header_wrap=""
+    row_component_model.row.names.header_wrap = "RABVoid"
+    row_component_model.row.names.header = "RABVoid"
+  }
   const rab_component_model = control.getFinalModel("row", {...merging_props}, object_model, row_component_model)
   const row_model = rab_component_model.row
   const massaged_props = row_model.props
