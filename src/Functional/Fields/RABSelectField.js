@@ -182,7 +182,8 @@ function RABSelectField(props) {
       props.onBlur()
     }
   }
-
+  // data_field was used to navigate to the right data set
+  field_model.data_field = ""
   switch (mode) {   
     case "edit":
     case "create":
@@ -197,12 +198,11 @@ function RABSelectField(props) {
       break
     case "list":
     case "view":
-        u.a("view")
-      return (<Field  data={data} field_name={final_field_name}/>)
+      return (<Field field_model={field_model} data={data} field_name={final_field_name}/>)
       break
     default:
       // text, view, list
-      return (<Field  data={data} field_name={final_field_name} mode="text"/>) 
+      return (<Field field_model={field_model} data={data} field_name={final_field_name} mode="text"/>) 
   }
 }
 
