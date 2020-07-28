@@ -167,9 +167,9 @@ const rab_component_models = {
       props:{
           num_columns:"all",
           mode:"list",
-          tag:"div",
-          tag_style:{padding:10},/// ul, div
-          pagination:false
+          pagination:false,
+          list_container:{tag:"div",
+            tag_style:{padding:30}}/// ul, div}
       }
     },
     row: {

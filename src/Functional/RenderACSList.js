@@ -42,7 +42,7 @@ function RenderACSList(props) {
           </HeaderWrap>
           {show_list && 
             <Fragment>
-            <ListContainer component={Paper} {...params}>
+            <ListContainer component={Paper} {...params} {...params.list_container}>
             <ListWrap size="tiny" {...params} >
               <ListHeaderWrap {...params}>
                 <ListHeader {...params}/>

@@ -10,11 +10,12 @@ import ACSListController from '../ACSListController.js'
 import rab_component_models from '../../Utils/component.js'
 import * as meta from '../../Utils/meta.js';
 import useGetModel from '../../Hooks/useGetModel';
+import _ from 'lodash/object'
 
 
 function ACSReferencesField(props) {
   const {mode, data=[], add_none, base_field_name, parent_field_name, base_object_type, parent_object_type, field_name, formValues, onSubmit, onChange, object_type, field_model={}} = props
-  let {form_field_name} = props
+  let {form_field_name, referenced_display_type="div"} = props
   const {...params} = props
 
   let api_options ={}
@@ -22,13 +23,32 @@ function ACSReferencesField(props) {
   api_options.filter_id = [object_type, data.id]
   api_options.filter_join = "AND"
 
-  // object_type 
-  // which column it has
-//referenced_by_field = data[id]
-//referenced_by_object_type_field = object_type
-//u.a(field_model.referenced_by)
-  let rab_component_model = rab_component_models.tag_list
-// TAG
+  if (field_model.referenced_display_type) {
+      referenced_display_type = field_model.referenced_display_type
+  }
+  let rab_component_model 
+  switch (referenced_display_type) {
+    case "list":
+      rab_component_model = _.merge({},rab_component_models.list)
+      break;
+    case "div":
+      rab_component_model = _.merge({},rab_component_models.tag_list)
+      rab_component_model.list.props.tag = "div"
+      rab_component_model.row.props.tag = "div"
+      break;
+    case "ul":
+      rab_component_model = _.merge({},rab_component_models.tag_list)
+      rab_component_model.list.props.tag = "ul"
+      rab_component_model.row.props.tag = "li"
+      break;
+    case "li":
+      rab_component_model = _.merge({},rab_component_models.tag_list)
+      rab_component_model.list.props.tag = "ul"
+      rab_component_model.row.props.tag = "li"
+
+      break;
+  }
+
   switch (mode) {   
     case "list":
       return (null)
