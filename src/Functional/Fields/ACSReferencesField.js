@@ -20,6 +20,7 @@ function ACSReferencesField(props) {
   let api_options ={}
   api_options.filter_field = [field_model.referenced_by_object_type_field, field_model.referenced_by_field]
   api_options.filter_id = [object_type, data.id]
+  api_options.filter_join = "AND"
 
   // object_type 
   // which column it has
@@ -35,7 +36,7 @@ function ACSReferencesField(props) {
     case "create":
     case "csv":
     default:
-      return (<ACSListController object_type={field_model.referenced_by} api_options={api_options}/>)
+      return (<ACSListController field_list={field_model.list_field_list} object_type={field_model.referenced_by} api_options={api_options}/>)
       // text, view, list
   }
 }
