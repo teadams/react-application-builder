@@ -92,7 +92,7 @@ const MapOverlay = function(props) {
 
 function ACSMapAndFilter (props) {
   // params - map view
-  const { object_type, api_options, details_screen_field_list, create_field_list, layout, sections, dialog_size, more_path="ProjectOne", more_button_text="Learn More", action_button_text="Apply", action_component_name="ACSObjectView", action_link_field="id", action_object_type="job_application", create_marker_button_text="Create Job Listing", map_filters=[], finder_filters=[]} = props
+  const { object_type, api_options, details_screen_field_list, details_screen_no_header=false, create_field_list, layout, sections, dialog_size, more_path="ProjectOne", more_button_text="Learn More", action_button_text="Apply", action_component_name="ACSObjectView", action_link_field="id", action_object_type="job_application", create_marker_button_text="Create Job Listing", map_filters=[], finder_filters=[]} = props
 
   // params - fitler filter_view 
   const {more_field_list, list_field_list} = props
@@ -190,6 +190,7 @@ function ACSMapAndFilter (props) {
             data = {selected_place}
             field_mode = "view"
             field_list = {details_screen_field_list}
+            no_header = {details_screen_no_header}
             field_click_to_edit = {false}
             num_columns={1}
             row_header_image_size="medium"
