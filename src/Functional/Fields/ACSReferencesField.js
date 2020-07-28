@@ -27,7 +27,8 @@ function ACSReferencesField(props) {
 //referenced_by_field = data[id]
 //referenced_by_object_type_field = object_type
 //u.a(field_model.referenced_by)
-
+  let rab_component_model = rab_component_models.tag_list
+u.a(rab_component_model)
   switch (mode) {   
     case "list":
       return (null)
@@ -36,7 +37,7 @@ function ACSReferencesField(props) {
     case "create":
     case "csv":
     default:
-      return (<ACSListController field_list={field_model.list_field_list} object_type={field_model.referenced_by} api_options={api_options}/>)
+      return (<ACSListController field_list={field_model.list_field_list} object_type={field_model.referenced_by} rab_component_model={rab_component_model} api_options={api_options}/>)
       // text, view, list
   }
 }

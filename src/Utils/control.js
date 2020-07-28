@@ -182,9 +182,16 @@ export function componentByName(name) {
   
 }
 
+function ACSTagWrap(props) {
+  const {tag:Tag} = props  
+  u.a(props, Tag)
+  return(<Tag key={props.key_id}>{props.children}</Tag>)
+}
+
 function RABTableContainer(props) {
   return(<TableContainer key={props.key_id}>{props.children}</TableContainer>)
 }
+
 function RABTable(props) {
   return(<Table style={{width:"100%"}} size="small" onClick={props.onClick}  onMouseOver={props.onMouseOver} key={props.key_id}>{props.children}</Table>)
 }
@@ -263,6 +270,7 @@ function componentPicker(name, source="not provided") {
     case "TableBody": return RABTableBody; 
     case "TableCell": return RABTableCell; 
     case "TableContainer": return RABTableContainer;
+    case "ACSTagWrap": return ACSTagWrap;
     case "TableFooter": return TableFooter; 
     case "TableHead": return TableHead;
     case "TablePagination": return TablePagination; 

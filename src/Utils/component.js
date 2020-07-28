@@ -100,6 +100,106 @@ const rab_component_models = {
       }
     }
   },
+  table_list: {
+    list: {
+      names:{
+        header_wrap:"Fragment",
+        header:"RABObjectTypePrettyPlural",
+        list_container:"TableContainer",
+        list_wrap:"Table",
+        list_header_wrap:"Fragment",
+        list_header:"Fragment",
+        list_pagination:"TablePagination",
+        body_wrap:"TableBody",
+        footer_wrap:"Fragment",
+        footer:"Fragment"
+      },
+      components:{}, 
+      props:{
+          num_columns:"all",
+          mode:"list",
+          pagination:true
+      }
+    },
+    row: {
+      names:{
+        header_wrap:"RABVoid",
+        header:"Fragment",
+        row_body:"Fragment",
+        section_wrap:"Fragment",
+        section_header:"RABVoid",
+        section_body_wrap:"Fragment",
+        row_wrap:"TableRow",
+        field_chunk_wrap:"Fragment"
+    },
+      components:{},
+      default_mode:"view",
+      props:{
+          num_columns:"all"
+      }
+    },
+    field:{
+      names:{
+        field_wrap:"TableCell",
+    },
+      components:{},
+      default_mode:"click_to_edit",
+      props:{
+        field_display:"field"
+      }
+    }
+  },
+  tag_list: {
+    list: {
+      names:{
+        header_wrap:"RABVoid",
+        header:"RABVoid",
+        list_container:"ACSTagWrap",
+        list_wrap:"Fragment",
+        list_header_wrap:"Fragment",
+        list_header:"Fragment",
+        list_pagination:"RABVoid",
+        body_wrap:"Fragment",
+        footer_wrap:"Fragment",
+        footer:"Fragment"
+      },
+      components:{}, 
+      props:{
+          num_columns:"all",
+          mode:"list",
+          tag:"ul", /// ul, div
+          pagination:false
+      }
+    },
+    row: {
+      names:{
+        header_wrap:"RABVoid",
+        header:"RABVoid",
+        row_body:"Fragment",
+        section_wrap:"Fragment",
+        section_header:"RABVoid",
+        section_body_wrap:"Fragment",
+        row_wrap:"ACSTagWrap",
+        field_chunk_wrap:"Fragment"
+    },
+      components:{},
+      default_mode:"view",
+      props:{
+          num_columns:"all",
+          tag:"li" // li, div
+      }
+    },
+    field:{
+      names:{
+        field_wrap:"Fragment",
+    },
+      components:{},
+      default_mode:"click_to_edit",
+      props:{
+        field_display:"field"
+      }
+    }
+  },
   row: {
     list: {
       names:{},
