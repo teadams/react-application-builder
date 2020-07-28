@@ -13,7 +13,7 @@ import ACSImage from './ACSImage.js'
 import useGetModel from '../../Hooks/useGetModel.js'
 
 function ACSFile(props) {
-  const {mode, data, field_name, field_model={}, formdata, object_type, formValues, disable_underline=false, onChange, autoFocus, avatar, fullWidth=true} = props
+  const {mode, data, field_name, field_model={}, formdata, object_type, formValues, disable_underline=false, onChange, autoFocus, avatar, fullWidth=true, custom_width, custom_height} = props
 
   let image_size = props.image_size?props.image_size:(field_model.image_size?field_model.image_size:"medium")
 
@@ -47,7 +47,7 @@ function ACSFile(props) {
     case "create":
       return (<Fragment>
           {mode==="edit" && data_type === "image" &&
-            <ACSImage letters={letters} image_object={field_value} letters={letters} size={image_size}/>
+            <ACSImage letters={letters} image_object={field_value} letters={letters} size={image_size} custom_width={custom_width} custom_height={custom_height}/>
           }
           <TextField 
             autoFocus={autoFocus}
@@ -66,7 +66,7 @@ function ACSFile(props) {
       break
     case "list":
       if (data_type === "image") {
-        return <ACSImage letters={letters} image_object={field_value} size={image_size_list}/>
+        return <ACSImage letters={letters} image_object={field_value} size={image_size_list} custom_width={custom_width} custom_height={custom_height}/>
       } else {
         return ("placeholder for file")
       }
@@ -74,7 +74,7 @@ function ACSFile(props) {
     default:
       // text, view, list
       if (data_type === "image") {
-        return <ACSImage letters={letters} avatar={avatar} image_object={field_value} size={image_size}/>
+        return <ACSImage letters={letters} avatar={avatar} image_object={field_value} size={image_size} custom_width={custom_width} custom_height={custom_height}/>
       } else {
         return ("placeholder for file")
       }

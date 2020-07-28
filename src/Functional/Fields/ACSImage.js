@@ -10,7 +10,7 @@ import useGetModel from '../../Hooks/useGetModel.js'
 // Not part of the  List/Row/Field frameowrk
 function ACSImage(props) {
 
-  const {size="medium", fix="width", avatar=true, letters=""} = props
+  const {size="medium", fix="width", avatar=true, letters="", custom_height=500, custom_width=500} = props
   let image_object=""
   if (props.image_object) {
     try {
@@ -28,7 +28,7 @@ function ACSImage(props) {
       }     
   }
 
-  function get_image_dimensions (image_object, size="medium", fix="none") {
+  function get_image_dimensions (image_object, size="medium", fix="none", custom_width=500, custom_height=500 ) {
     // resizes the image 
     // image_object: contains the native height
     // and width attributes of the image.
@@ -56,7 +56,7 @@ function ACSImage(props) {
     standard_sizing.medium = {height:50, width:50}
     standard_sizing.medium_large = {height:150, width:150}
     standard_sizing.large =  {height:300, width:300}
-    
+    standard_sizing.custom = {height:custom_height, width:custom_width}
     if (!image_object || !image_object.path || !image_object.name) {
         return standard_sizing[size]
     }
@@ -86,7 +86,7 @@ function ACSImage(props) {
   const image_url = get_image_url(image_object)
 
   let image_dim = {}
-  image_dim = get_image_dimensions(image_object,size,fix)
+  image_dim = get_image_dimensions(image_object,size,fix, custom_width, custom_height)
   if (!image_object  || !image_object.path || !image_object.name) {
     return (<Avatar style={{'height':image_dim.height, 'width':image_dim.width, verticalAlign:'textTop'}}>{letters}</Avatar>)
   } else if (avatar && avatar !=="false") {
