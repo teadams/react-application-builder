@@ -168,8 +168,8 @@ const rab_component_models = {
           num_columns:"all",
           mode:"list",
           pagination:false,
-          list_container:{tag:"div",
-            tag_style:{padding:30}}/// ul, div}
+          tag:"div",
+          tag_style:{padding:10}/// ul, div}
       }
     },
     row: {

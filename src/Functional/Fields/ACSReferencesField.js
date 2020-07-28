@@ -41,9 +41,9 @@ function ACSReferencesField(props) {
       rab_component_model.list.props.tag = "ul"
       rab_component_model.row.props.tag = "li"
       break;
-    case "li":
+    case "ol":
       rab_component_model = _.merge({},rab_component_models.tag_list)
-      rab_component_model.list.props.tag = "ul"
+      rab_component_model.list.props.tag = "ol"
       rab_component_model.row.props.tag = "li"
 
       break;
