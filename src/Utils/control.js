@@ -184,8 +184,7 @@ export function componentByName(name) {
 
 function ACSTagWrap(props) {
   const {tag:Tag} = props  
-  u.a(props, Tag)
-  return(<Tag key={props.key_id}>{props.children}</Tag>)
+  return(<Tag style={props.tag_style} key={props.key_id}>{props.children}</Tag>)
 }
 
 function RABTableContainer(props) {

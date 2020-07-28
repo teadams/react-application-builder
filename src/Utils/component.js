@@ -167,7 +167,8 @@ const rab_component_models = {
       props:{
           num_columns:"all",
           mode:"list",
-          tag:"ul", /// ul, div
+          tag:"div",
+          tag_style:{padding:10},/// ul, div
           pagination:false
       }
     },
@@ -186,7 +187,8 @@ const rab_component_models = {
       default_mode:"view",
       props:{
           num_columns:"all",
-          tag:"li" // li, div
+          tag:"div", // li, div
+          tag_style:{padding:5},
       }
     },
     field:{
