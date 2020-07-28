@@ -25,7 +25,10 @@ function RABTextField(props) {
     more_link_cutoff = field_model.more_link_list_cutoff?field_model.more_link_list_cutoff:more_link_cutoff
   }
   // XX everything will be changed to final field_name
+
   field_value = field_model.data_field?data[field_model.data_field]:data[field_name]
+
+
   if (!field_value && (field_value === null || field_value === undefined)) {
       field_value =""
   }

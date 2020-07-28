@@ -41,6 +41,10 @@ function ACSField(input_props) {
 
   const [base_field_name, final_field_name, base_object_type, final_object_type, base_field_model, final_field_model] = meta.resolveFieldModel(input_object_type, input_field_name, object_models, field_models)
 
+//  if (final_field_model.data_field) {
+//    final_field_name = final_field_model.data_field
+//  }
+
   const {data:input_data, override_meta_model=false, object_type:discard_object_type, field_name:discard_field_name, handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, key_id, autoFocus=false, ...merging_props} = input_props
   const props_data = input_data?input_data:{[input_props.field_name]:input_props.value}
 
@@ -74,7 +78,7 @@ function ACSField(input_props) {
   const massaged_props = field_component_model.props
 
 //u.a("massaged_props", massaged_props)
-  const {object_type:pre_fetch_object_type, id:pre_fetch_id, field_name:pre_fetch_field_name,  api_options:pre_fetch_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form,  ...params} = massaged_props
+  const {object_type:pre_fetch_object_type, id:pre_fetch_id, field_name:pre_fetch_field_name,  api_options:pre_fetch_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form,  emphasis, ...params} = massaged_props
 
 
   const [mode, setMode] = useState(initial_mode);
@@ -104,8 +108,8 @@ if (!data || (object_type && !final_field_model) || mode === "hidden" || final_f
 const row_data = data
 
 if (base_field_model.references && mode !== "create") {
-    // field in base object, data in reference
-    data = row_data[base_field_name]
+    // move down to the reference row, which is named after the base field
+    data = row_data[base_field_model.data_field?base_field_model.data_field:base_field_name]
 }
 
 if (data && ((base_object_type !== final_object_type) || (base_field_name !== final_field_name)) && mode !== "create") {
@@ -160,6 +164,9 @@ function handleOnFieldBlur(event) {
 }
 
 
+
+
+
 return (
     <RenderACSField {...field_component_model.props}  
     data={data} 
@@ -167,7 +174,6 @@ return (
     formValues = {formValues}
     onChange={handleFormChange}
     onSubmit={handleFormSubmit}
-    emphasis={input_props.emphasis}
     col_span={final_field_model.col_span}
     with_thumbnail= {final_field_model.with_thumbnail}
     autoFocus ={(field_name === lastTouched || (autoFocus && !lastTouched) || form)?true:false}

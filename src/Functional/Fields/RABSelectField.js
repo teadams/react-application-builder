@@ -119,9 +119,9 @@ function RABSelectList(props) {
 
 function RABSelectField(props) {
 
-  const {mode, data=[], add_none, base_field_name, parent_field_name, base_object_type, parent_object_type, field_name,   formValues, onSubmit, onFieldBlur,  onChange, autoFocus, object_type, field_model={}, value="", display_value=" ", disable_underline, style, api_options={}} = props
-  let {form_field_name} = props
-  const {...params} = props
+  const {mode, data=[], add_none, base_field_name, parent_field_name, base_object_type, parent_object_type,   formValues, onSubmit, onFieldBlur,  onChange, autoFocus, object_type, field_model={}, value="", display_value=" ", disable_underline, style, api_options={}} = props
+  let {form_field_name, field_name} = props
+  const {field_name:discard_field_name, ...params} = props
 
   let {dependent_filter_field, dependent_data_field} = field_model
   if (dependent_filter_field && formValues && ["create","edit"].includes(mode)) {
@@ -197,10 +197,12 @@ function RABSelectField(props) {
       break
     case "list":
     case "view":
-      return (<Field {...params} data={data} field_name={field_model.final_field_name}/>)
+        u.a("view")
+      return (<Field  data={data} field_name={final_field_name}/>)
+      break
     default:
       // text, view, list
-      return (<Field field_model={field_model} data={data} field_name={final_field_name} mode="text"/>) 
+      return (<Field  data={data} field_name={final_field_name} mode="text"/>) 
   }
 }
 
