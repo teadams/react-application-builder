@@ -17,7 +17,10 @@ function ACSReferencesField(props) {
   const {mode, data=[], add_none, base_field_name, parent_field_name, base_object_type, parent_object_type, field_name, formValues, onSubmit, onChange, object_type, field_model={}} = props
   let {form_field_name, list_display="div"} = props
   const {...params} = props
-
+u.a("props", list_display)
+  if (field_model.list_display) {
+      list_display = field_model.list_display
+  }
 
   let api_options ={}
   api_options.filter_field = [field_model.referenced_by_object_type_field, field_model.referenced_by_field]
@@ -32,7 +35,8 @@ function ACSReferencesField(props) {
   }
   let rab_component_model 
   switch (list_display) {
-    case "list":
+    case "table":
+u.a(list_display)
       rab_component_model = _.merge({},rab_component_models.list)
       break;
     case "div":
