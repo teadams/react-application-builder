@@ -13,24 +13,29 @@ import useGetModel from '../../Hooks/useGetModel';
 
 
 function ACSReferencesField(props) {
-  const {mode, data=[], add_none, base_field_name, parent_field_name, base_object_type, parent_object_type, field_name,   formValues, onSubmit, onFieldBlur,  onChange, autoFocus, object_type, field_model={}, value="", display_value=" ", disable_underline, style, api_options={}} = props
+  const {mode, data=[], add_none, base_field_name, parent_field_name, base_object_type, parent_object_type, field_name, formValues, onSubmit, onChange, object_type, field_model={}} = props
   let {form_field_name} = props
   const {...params} = props
+
+  let api_options ={}
+  api_options.filter_field = [field_model.referenced_by_object_type_field, field_model.referenced_by_field]
+  api_options.filter_id = [object_type, data.id]
 
   // object_type 
   // which column it has
 //referenced_by_field = data[id]
 //referenced_by_object_type_field = object_type
+//u.a(field_model.referenced_by)
 
   switch (mode) {   
+    case "list":
+      return (null)
+      break
     case "edit":
     case "create":
-
     case "csv":
-      return '"'+Field({data:data, field_name:field_name, mode:"text"})+'""'
-      break
     default:
-      return (<ACSListController object_type={object_type} api_options={api_options}/>)
+      return (<ACSListController object_type={field_model.referenced_by} api_options={api_options}/>)
       // text, view, list
   }
 }
