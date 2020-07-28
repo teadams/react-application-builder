@@ -14,7 +14,6 @@ import useGetModel from '../../Hooks/useGetModel.js'
 
 function ACSFile(props) {
   const {mode, data, field_name, field_model={}, formdata, object_type, formValues, disable_underline=false, onChange, autoFocus, avatar, fullWidth=true, custom_width, custom_height} = props
-
   let image_size = props.image_size?props.image_size:(field_model.image_size?field_model.image_size:"medium")
 
   let image_size_list = props.image_size_list?props.image_size_list:(field_model.image_size_list?field_model.image_size_list:"tiny")
@@ -31,9 +30,10 @@ function ACSFile(props) {
     const pretty_comp_name = pretty_field_meta.field_component
     const field_component = control.componentByName(pretty_comp_name?pretty_comp_name:"RABTextField")
     let pretty_name_text = ""
-    if (data[field_name]) {
+    if (data[pretty_key]) {
       pretty_name_text  = field_component({data:data, field_name:pretty_key, mode:"text"})
     }
+
     let word = ""
     if (pretty_name_text) {
       for (word of pretty_name_text.split(" ")) {
@@ -47,7 +47,7 @@ function ACSFile(props) {
     case "create":
       return (<Fragment>
           {mode==="edit" && data_type === "image" &&
-            <ACSImage letters={letters} image_object={field_value} letters={letters} size={image_size} custom_width={custom_width} custom_height={custom_height}/>
+            <ACSImage letters={letters} image_object={field_value} letters={letters} size={image_size} avatar={avatar} custom_width={custom_width} custom_height={custom_height}/>
           }
           <TextField 
             autoFocus={autoFocus}
@@ -66,7 +66,7 @@ function ACSFile(props) {
       break
     case "list":
       if (data_type === "image") {
-        return <ACSImage letters={letters} image_object={field_value} size={image_size_list} custom_width={custom_width} custom_height={custom_height}/>
+        return <ACSImage letters={letters} image_object={field_value} size={image_size_list}   avatar={avatar} custom_width={custom_width} custom_height={custom_height}/>
       } else {
         return ("placeholder for file")
       }

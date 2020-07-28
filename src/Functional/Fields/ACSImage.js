@@ -10,7 +10,8 @@ import useGetModel from '../../Hooks/useGetModel.js'
 // Not part of the  List/Row/Field frameowrk
 function ACSImage(props) {
 
-  const {size="medium", fix="width", avatar=true, letters="", custom_height=500, custom_width=500} = props
+  const {size="medium", fix="width",  letters="", custom_height=500, custom_width=500, avatar=true} = props
+  
   let image_object=""
   if (props.image_object) {
     try {
@@ -87,8 +88,12 @@ function ACSImage(props) {
 
   let image_dim = {}
   image_dim = get_image_dimensions(image_object,size,fix, custom_width, custom_height)
+  let variant="circle"
+  if (!avatar || avatar == "false") {
+      variant = "square"
+  }
   if (!image_object  || !image_object.path || !image_object.name) {
-    return (<Avatar style={{'height':image_dim.height, 'width':image_dim.width, verticalAlign:'textTop'}}>{letters}</Avatar>)
+      return (<Avatar variant={variant} style={{'height':image_dim.height, 'width':image_dim.width, verticalAlign:'textTop'}}>{letters}</Avatar>)
   } else if (avatar && avatar !=="false") {
     return (
       <Avatar style={ {'height':image_dim.height, 'width':image_dim.width}} src={image_url}/>
@@ -96,7 +101,7 @@ function ACSImage(props) {
   } else {
       return (
       <Fragment>
-      <img align='left' hspace={20} vspace={10}  height={image_dim.height} width={image_dim.width} src={image_url}/>
+      <img align='left' height={image_dim.height} width={image_dim.width} src={image_url}/>
       </Fragment>)
     } 
 }
