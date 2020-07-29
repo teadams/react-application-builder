@@ -45,7 +45,7 @@ function ACSField(input_props) {
 //    final_field_name = final_field_model.data_field
 //  }
 
-  const {data:input_data, override_meta_model=false, object_type:discard_object_type, field_name:discard_field_name, handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, key_id, autoFocus=false, ...merging_props} = input_props
+  const {data:input_data, override_meta_model=true, object_type:discard_object_type, field_name:discard_field_name, handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, key_id, autoFocus=false, ...merging_props} = input_props
   const props_data = input_data?input_data:{[input_props.field_name]:input_props.value}
 
   // form values has the path (references.field)

@@ -67,6 +67,7 @@ function RABRow(row_props) {
            const autoFocus = (f_index === 0 && s_index === 0 && ch_index === 0 )?true:false
             
            return <ACSField field_mode={mode} field_models={field_models} field_form={!form} field_name={field_name} handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit}
+           override_meta_model={false}
            autoFocus ={autoFocus}
            formValues={formValues} {...row_params} key={ch_index+"field_name"} key_id={ch_index}/>
       })}
