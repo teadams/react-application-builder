@@ -1,7 +1,7 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import * as u from '../../Utils/utils.js';
-import ACSRowController from '../ACSRowController.js'
+import {ACSRowController} from '../../ACSRenderEngine/index.js'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import UIContext from '../../Template/UIContext';
 
