@@ -43,8 +43,14 @@ const rab_component_models = {
     },
     row: {
       names:{
+        header_wrap:"Fragment",
+        header:"RABVoid",
+        section_wrap:"Fragment",
+        section_header:"RABVoid",
+        section_body_wrap:"Fragment",
         row_wrap:"Fragment",
-        row_body:"Fragment"
+        row_body:"Fragment",
+        form_wrap:"Fragment"
       },
       components:{},
       default_mode:"view",
@@ -221,7 +227,7 @@ const rab_component_models = {
       names:{
         header_wrap:"Fragment",
         header:"RABObjectPrettyName",
-        row_body:"",
+        row_body:"Fragment",
         section_wrap:"Fragment",
         section_header:"Fragment",
         row_wrap:"Fragment",
