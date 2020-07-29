@@ -115,7 +115,7 @@ function RenderACSField(props) {
         col_span={col_span}
         >
         <div style={{display:"flex", direction:"row", width:"100%"}}>
-          <div style={{display:"flex"}}><b>{field_model.pretty_name}: </b></div>
+          <div style={{display:"flex", width:props.label_width}}><b>{field_model.pretty_name}: </b></div>
           <div style={{display:"flex", flexGrow:2}}> 
             <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
               <Field {...params}  key={form_field_name+"_field"}/>

@@ -105,6 +105,7 @@ function LoginForm(props) {
                   field_mode="edit"
                   field_display="name_value"
                   field_form={false}
+                  label_width="15%"
                   value={formValues["email"]}
                   data={formValues}
                   formValues={formValues}
@@ -122,6 +123,7 @@ function LoginForm(props) {
                 object_type = "core_credential"
                 field_name = "credential"  
                 field_mode="edit"
+                label_width="15%"
                 field_display="name_value"
                 field_form={false} 
                 data={formValues}

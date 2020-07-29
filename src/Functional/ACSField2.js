@@ -172,6 +172,7 @@ return (
     data={data} 
     row_data={row_data}
     formValues = {formValues}
+    label_width = {merging_props.label_width}
     onChange={handleFormChange}
     onSubmit={handleFormSubmit}
     col_span={final_field_model.col_span}
