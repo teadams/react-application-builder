@@ -22,10 +22,18 @@ const rab_component_models = {
   shell: {
     list: {
       names:{
-        body_wrap:"Fragment",
+        header_wrap:"Fragment",
+        header:"RABVoid",
         list_body_wrap:"Fragment",
         list_container:"Fragment",
-        list_pagination:"Fragment"
+        list_header_wrap:"Fragment",
+        list_header:"RABVoid",
+        list_wrap:"Fragment",
+        list:"RABVoid",
+        list_pagination:"Fragment",
+        body_wrap:"Fragment",
+        footer_wrap:"Fragment",
+        footer:"Fragment"
     },
       components:{},
       defaut_mode:"view",  
