@@ -90,9 +90,9 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
           // take from context
           if (context.user.id && references === "core_user" && final_field_model.use_context) {
               default_value = context.user.id
+          } else {
+            default_value=default_values_prop[field]?default_values_prop[field]:default_value  
           }
-          // take from props
-          default_value=default_values_prop[field]?default_values_prop[field]:default_value  
           defaults[field] = default_value
       }
             
