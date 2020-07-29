@@ -27,7 +27,6 @@ function ACSField(input_props) {
   } else {
     field_models=_.merge({}, default_field_models)
   }
-
   if (input_props.object_type_models) {
     object_models = input_props.object_type_models
   } else {
@@ -37,6 +36,9 @@ function ACSField(input_props) {
   // resolve field_names with dot notation (ie - core_address.name)
   let input_field_name = input_props.field_name
   let input_object_type = input_props.object_type
+  if (!field_models[input_object_type][input_field_name]) {
+      alert ("No field in model. Object Type: " + input_object_type + " Field: " + input_field_name)
+  }
   const [base_field_name, final_field_name, base_object_type, final_object_type, base_field_model, final_field_model] = meta.resolveFieldModel(input_object_type, input_field_name, object_models, field_models)
 
   // isolate input props to merge into model
@@ -76,6 +78,7 @@ function ACSField(input_props) {
   // return params for render and data at the same time
   let [ready, object_type, id, field_name, api_options, data] = useGetObject(pre_fetch_object_type, pre_fetch_id,pre_fetch_field_name, pre_fetch_api_options, props_data); 
 
+u.a(field_name, data)
   // form setup - if necessary
   const field_list = ["id", field_name]  
   const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(base_object_type, form_field_name, data, handleSubmit, mode, form, "", field_list);
