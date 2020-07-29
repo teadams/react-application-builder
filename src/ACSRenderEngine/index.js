@@ -8,7 +8,7 @@ import ACSListController from '../Functional/ACSListController';
 // Used only by Controllers
 
 import ACSFieldRenderer from '../Functional/RenderACSField';
-import ACSRowRenderer  from '../Functional/ACSRowController';
+import ACSRowRenderer  from '../Functional/RenderACSRow';
 import ACSListRenderer  from '../Functional/RenderACSList';
 
 
