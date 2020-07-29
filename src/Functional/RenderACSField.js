@@ -109,14 +109,14 @@ function RenderACSField(props) {
 
     return (
     <Fragment>
-      <div style={{marginTop:10}}>
+      <div style={{marginTop:2, display:"flex", width:"100%"}}>
       <FieldWrap key={field_name+"_wrap1"}
         onClick={handleFieldClick}  onMouseOver={handleMouseOver}
         col_span={col_span}
         >
-        <div style={{display:"flex", direction:"row"}}>
-          <div> <b>{field_model.pretty_name}: </b></div>
-          <div> 
+        <div style={{display:"flex", direction:"row", width:"100%"}}>
+          <div style={{display:"flex"}}><b>{field_model.pretty_name}: </b></div>
+          <div style={{display:"flex", flexGrow:2}}> 
             <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
               <Field {...params}  key={form_field_name+"_field"}/>
             </FormWrap>
