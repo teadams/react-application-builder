@@ -82,7 +82,7 @@ function ACSListController(input_props) {
   // Fix is to make RABList in the library and 
   // put it in the base. (which is actually the )
   // same effect so it's not "really" a a bug
-  let list_component_model = rab_component_models.list
+  let list_component_model = _.merge({},rab_component_models.list)
   list_component_model.list.components.list = RABList
   list_component_model.list.components.list_header = RABTableHeaders
   list_component_model.list.names.list_header_wrap = "TableHead" 

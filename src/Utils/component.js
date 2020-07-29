@@ -28,11 +28,11 @@ const rab_component_models = {
         list_header_wrap:"Fragment",
         list_header:"RABVoid",
         list_wrap:"Fragment",
+        footer:"Fragment",
         list:"RABVoid",
         list_pagination:"Fragment",
         body_wrap:"Fragment",
         footer_wrap:"Fragment",
-        footer:"Fragment"
     },
 
       components:{},
