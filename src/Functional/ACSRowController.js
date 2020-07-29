@@ -11,7 +11,10 @@ import React, {Fragment, useState} from 'react';
 
 import {ACSFieldController, ACSRowRenderer} from '../ACSRenderEngine/'
 
-import { Typography, TableBody, TableRow, TableCell, Table, TableHead } from '@material-ui/core';
+import {  TableBody, TableRow, TableCell, Table, TableHead } from '@material-ui/core';
+import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
+, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
+
 
 import useGetObject from '../Hooks/useGetObject';
 import useGetModel from '../Hooks/useGetModel';
@@ -56,7 +59,7 @@ import rab_component_models from '../Utils/component.js'
 // Essentially, think of the function starting immediate after useGetObject! 
 //   The rest is just prep
 
-function RABRow(row_props) {
+function ACSRow(row_props) {
   const {mode, form, field_chunk, field_models, data, field, rab_component_model, handleFormChange, handleFormSubmit, formValues, key_id, s_index, f_index} = row_props
   const {...row_params} = row_props
   const {field_chunk_wrap:FieldChunk} = rab_component_model.row.components
@@ -73,6 +76,43 @@ function RABRow(row_props) {
       })}
     </FieldChunk>
   )
+}
+
+function ACSFormWrap(props) {
+  const {object_type, dialog_size="sm", form_title} = props
+  const object_types = useGetModel("object_types")
+  if (!object_types) {return null}
+  function handleOnClose() {
+    if (props.onClose) {
+        props.onClose()
+    }
+  }
+  if (props.form && (props.mode === "edit" || props.mode === "create")) {
+    const object_type_model = object_types[object_type]
+    const object_type_pretty_name = object_type_model.pretty_name
+    const form_message = (props.mode==="create")?object_type_model.create_message:object_type_model.edit_message
+    return (
+      <Dialog fullWidth={true} maxWidth={dialog_size} open={Boolean(props.open)} onClose={handleOnClose} aria-labelledby="form-dialog-title">
+      <DialogTitle id="form-dialog-title">{form_title?form_title:(u.capitalize(props.mode) + u.capitalize(object_type_pretty_name))}</DialogTitle>
+        <DialogContent>
+          {form_message && 
+          <DialogContentText>{form_message}</DialogContentText>}
+          <form onSubmit={props.onSubmit}>
+          {props.children}
+          <DialogActions>
+           <Button onClick={props.onSubmit} color="primary">
+             {props.mode}
+           </Button>
+            <Button onClick={handleOnClose} color="primary">
+             Cancel
+           </Button>
+        </DialogActions>  
+        </form>
+        </DialogContent>
+      </Dialog>)
+  } else {
+    return (<Fragment>{props.children}</Fragment>)
+  }
 }
 
 function ACSSectionWrap(props) {
@@ -124,7 +164,8 @@ function ACSRowController(input_props) {
   }
   // do not use base component
   let row_component_model = _.merge({},rab_component_models.row)
-  row_component_model.row.components.row = RABRow
+  row_component_model.row.components.row = ACSRow
+  row_component_model.row.components.form_wrap =ACSFormWrap
   row_component_model.row.components.section_wrap =ACSSectionWrap
   row_component_model.row.components.section_header =ACSSectionHeader
   row_component_model.row.components.section_body_wrap =ACSSectionBodyWrap

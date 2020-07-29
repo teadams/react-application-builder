@@ -15,47 +15,11 @@ import {AuthContext, Auth, LoginForm} from '../Modules/User/index.js';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
-function RABFormWrap(props) {
-  const {object_type, dialog_size="sm", form_title} = props
-  const object_types = useGetModel("object_types")
-  if (!object_types) {return null}
-  function handleOnClose() {
-    if (props.onClose) {
-        props.onClose()
-    }
-  }
-  if (props.form && (props.mode === "edit" || props.mode === "create")) {
-    const object_type_model = object_types[object_type]
-    const object_type_pretty_name = object_type_model.pretty_name
-    const form_message = (props.mode==="create")?object_type_model.create_message:object_type_model.edit_message
-    return (
-      <Dialog fullWidth={true} maxWidth={dialog_size} open={Boolean(props.open)} onClose={handleOnClose} aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title">{form_title?form_title:(u.capitalize(props.mode) + u.capitalize(object_type_pretty_name))}</DialogTitle>
-        <DialogContent>
-          {form_message && 
-          <DialogContentText>{form_message}</DialogContentText>}
-          <form onSubmit={props.onSubmit}>
-          {props.children}
-          <DialogActions>
-           <Button onClick={props.onSubmit} color="primary">
-             {props.mode}
-           </Button>
-            <Button onClick={handleOnClose} color="primary">
-             Cancel
-           </Button>
-        </DialogActions>  
-        </form>
-        </DialogContent>
-      </Dialog>)
-  } else {
-    return (<Fragment>{props.children}</Fragment>)
-  }
-}
 
 function RenderACSRow(props) {
   const { ...params} = props
   const {key_id, form, form_title, mode, form_open, data, rab_component_model, object_type, field_list, chunked_field_list, sections=[], handleFormChange, handleFormSubmit, formValues, onClose, header_image_size="small", num_columns, dialog_size} = props
-  const {header_wrap:HeaderWrap, header:Header, section_wrap:SectionWrap, section_header:SectionHeader, section_body_wrap:SectionBodyWrap=Fragment, row_wrap:RowWrap,  row:RABRow, row_body:RowBody, form_wrap:FormWrap=RABFormWrap} = rab_component_model.row.components
+  const {header_wrap:HeaderWrap, header:Header, section_wrap:SectionWrap, section_header:SectionHeader, section_body_wrap:SectionBodyWrap=Fragment, row_wrap:RowWrap,  row:RABRow, row_body:RowBody, form_wrap:FormWrap} = rab_component_model.row.components
 
   if (data) {
       return (
