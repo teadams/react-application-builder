@@ -6,7 +6,8 @@ import _ from 'lodash/object'
 
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 
-import RenderACSField from './RenderACSField.js'
+import {ACSFieldRenderer} from '../ACSRenderEngine/'
+
 
 import useGetObject from '../Hooks/useGetObject';
 import useGetModel from '../Hooks/useGetModel';
@@ -168,7 +169,7 @@ function handleOnFieldBlur(event) {
 
 
 return (
-    <RenderACSField {...field_component_model.props}  
+    <ACSFieldRenderer {...field_component_model.props}  
     data={data} 
     row_data={row_data}
     formValues = {formValues}
