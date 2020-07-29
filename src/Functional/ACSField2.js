@@ -16,10 +16,8 @@ import * as control from "../Utils/control.js"
 import useGenerateFieldList from '../Hooks/useGenerateFieldList';
 
 function ACSField(input_props) {
-
   const default_object_type_models = useGetModel("object_types")
   const default_field_models =  useGetModel("fields")
-
   // merge in mdoels from props
   let field_models, object_models
   if (input_props.field_models) { 
@@ -44,8 +42,13 @@ function ACSField(input_props) {
   // isolate input props to merge into model
   const {data:input_data, override_meta_model=true, object_type:discard_object_type, field_name:discard_field_name, handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, key_id, autoFocus=false, ...merging_props} = input_props
 
-  // if props does not provide data in data param, use prop named after field
-  const props_data = input_data?input_data:{[input_props.field_name]:input_props.value}
+  // value overrides general data prop
+  let props_data
+  if (input_props.value) {
+      props_data = {[input_props.field_name]:input_props.value}
+  } else {
+      props_data = input_data
+  }
 
   // formValues (state for forms) uses field_name WITH dot notation
   final_field_model.formValues_name = input_field_name
@@ -63,22 +66,21 @@ function ACSField(input_props) {
   const rab_component_model = control.getFinalModel("field", {...merging_props}, final_field_model, null, override_meta_model)
 
   const field_component_model = rab_component_model.field
-  const massaged_props = field_component_model.props
+  let massaged_props = field_component_model.props
+  massaged_props.id = input_props.id
+
 
   // "pre" convention is before call to get data.
   // do not want to render page before final data and object_type, etc match
   const {object_type:pre_fetch_object_type, id:pre_fetch_id, field_name:pre_fetch_field_name,  api_options:pre_fetch_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form,  emphasis, ...params} = massaged_props
-
   // control of mode (view, edit, create, list)
   const [mode, setMode] = useState(initial_mode);
   const [more_detail, setMoreDetail]  = useState(false)
-
 
   // get data from api 
   // return params for render and data at the same time
   let [ready, object_type, id, field_name, api_options, data] = useGetObject(pre_fetch_object_type, pre_fetch_id,pre_fetch_field_name, pre_fetch_api_options, props_data); 
 
-u.a(field_name, data)
   // form setup - if necessary
   const field_list = ["id", field_name]  
   const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(base_object_type, form_field_name, data, handleSubmit, mode, form, "", field_list);

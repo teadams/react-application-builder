@@ -18,13 +18,12 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
   const context = useContext(AuthContext)
   const dirty_data = context?context.dirty_stamp:""
 
-  // XX This will move to the session cookie
   api_options.user_id = context?context.user.id:"" 
   api_options.subsite_id = context?context.context_id:""
 
-
   let trigger_change_array = [object_type, id, dirty_data, param_data]
   trigger_change_array = api.addAPIParams(trigger_change_array, api_options)
+
 
   useLayoutEffect( () => {
       isMountedRef.current = true;
