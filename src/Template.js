@@ -81,7 +81,8 @@ function Template(props) {
   const classes = useStyles();
 
 
-  let { selected_menu, object_type, id, menu_type } = props.match.params
+  let { selected_menu, object_type, id, menu_type, field_name } = props.match.params
+u.a("field name is temp", field_name, object_type, id)
   if (!selected_menu) {
     selected_menu =  menu_model.menus.app_menu[0]
   }
@@ -108,7 +109,7 @@ function Template(props) {
       </Toolbar>
       </AppBar>
       <TabMenu menu_type="app_menu" selected_menu={selected_menu} object_type={object_type} id={id} />
-      <Body  selected_menu={selected_menu} object_type={object_type} id={id} menu_type={menu_type} />
+      <Body  selected_menu={selected_menu} object_type={object_type} id={id} field_name={field_name} menu_type={menu_type} />
     <Debug/> 
     </div>
 

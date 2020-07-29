@@ -22,7 +22,7 @@ function shieldObject(object) {
 }
 
 function Body(props) {
-  const {selected_menu, object_type="", id="", menu_type} = props
+  const {selected_menu, object_type="", id="", field_name="", menu_type} = props
   const menu_model =  useGetModel("menus")
   const app_params =  useGetModel("app_params")
   const context = useContext(AuthContext)
@@ -43,7 +43,7 @@ function Body(props) {
 
   const { ...rest} = selected_menu_model
   // object_type in menu_model will override URL
-  return (< BodyComponent object_type={object_type} id={id} {...rest}  />)  
+  return (< BodyComponent object_type={object_type} id={id} field_name={field_name} {...rest}  />)  
 }
 
 export default Body
