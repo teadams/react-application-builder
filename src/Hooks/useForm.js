@@ -9,53 +9,29 @@ import axios from 'axios';
 
 const useForm = (object_type, field_name="", data, handleSubmit, mode="view", form=true, default_values_prop={}, field_list) => {
   const [formValues, setFormValues] = useState({});
-  const [prior_input_mask, setPriorInputMask] = useState(null)
   const [lastTouched,setLastTouched] = useState(false)
   const [filesTouched,setFilesTouched] = useState([])
   const context = useContext(AuthContext)
   const object_models = useGetModel("object_types")
   const object_model =  useGetModel("object_types", object_type)
   const field_models =  useGetModel("fields")
+  const [prior_input_mask, setPriorInputMask] = useState(null)
   const [prior_user_id, setPriorUserId] = useState("")
 
   // form not needed or inputs not ready
 
   const id_field = object_model.key_id
 
-  if (mode === "filter" && form) {
-    const handleFilterFormSubmit = (event) => {
-        if (event) {
-          event.preventDefault();
-        }
-        if (handleSubmit) {
-          handleSubmit(event,field_name, formValues)
-        }
-    }
-    const handleFilterFormChanged = (event) => {
-        /// FILTER
-      const value=event.target.value
-      const name=event.target.name
-      if (formValues[name] !== value) {
-          setLastTouched(name)
-          setFormValues(formValues=>({...formValues,[name]:value}))
-      }
-    }
-
-    if (Object.keys(formValues).length === 0) {
-        setFormValues({[field_name]:data[field_name]})
-    }
-
-    return {formValues, lastTouched, handleFormSubmit:handleFilterFormSubmit, handleFormChange:handleFilterFormChanged};
-  }
 
   if ((mode !== "edit" && mode !=="create") || !form ||
       (mode === "edit" && !data) || 
       !object_model || !field_models) {
           return {undefined, undefined, undefined, undefined}
     }
-  const input_mask = object_type+","+field_name+"mode"+field_list.toString()
+  const input_mask = object_type+","+field_name+mode+field_list.toString()
+
   if (input_mask !== prior_input_mask) {
-    // context or parent component has changed
+    // props have changed, new form
     let defaults = {}
     field_list.forEach(field =>{
       const [base_field_name, final_field_name, base_object_type, final_object_type, base_field_model, final_field_model] = meta.resolveFieldModel(object_type, field, object_models, field_models)
@@ -90,10 +66,11 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
           // take from context
           if (context.user.id && references === "core_user" && final_field_model.use_context) {
               default_value = context.user.id
-          } else {
-            default_value=default_values_prop[field]?default_values_prop[field]:default_value  
-          }
+          } 
+          default_value=default_values_prop[field]?default_values_prop[field]:default_value  
+          
           defaults[field] = default_value
+
       }
             
     })
@@ -101,20 +78,25 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     if (Object.keys(defaults).length > 0) {
         setPriorInputMask(input_mask)
         if (context.user) {
-          setPriorUserId(context.user_id)
+          setPriorUserId(context.user.id)
         }
         setFormValues(defaults)
     }
   } else if (context.user && mode === "create" && context.user.id !== prior_user_id) {
-      // user logs in after fillout out form  
+      // user logs in after starting to fill out the form 
+      // update context
+    
       field_list.forEach(field => {
         const [base_field_name, final_field_name, base_object_type, final_object_type, base_field_model, final_field_model] = meta.resolveFieldModel(object_type, field, object_models, field_models)
-        if (context.user.id && final_object_type === "core_user" && final_field_model.use_context) {
+
+
+        if (context.user.id  && final_field_model.use_context) {
             setFormValues(formValues=>({...formValues,[field]:context.user.id}))
           }
       })
       setPriorUserId(context.user.id)
   }
+
   const handleFormSubmit = (event => {
     if (!lastTouched) {
        if (handleSubmit) {
