@@ -82,7 +82,6 @@ function Template(props) {
 
 
   let { selected_menu, object_type, id, menu_type, field_name } = props.match.params
-u.a("field name is temp", field_name, object_type, id)
   if (!selected_menu) {
     selected_menu =  menu_model.menus.app_menu[0]
   }
