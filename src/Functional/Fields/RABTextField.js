@@ -12,6 +12,8 @@ import * as meta from '../../Utils/meta.js';
 
 function RABTextField(props) {
   const {mode, data, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small"} = props
+
+
   let {with_thumbnail="", with_url="", more_detail=false, toggleMoreDetail} = props
 
 

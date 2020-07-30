@@ -42,7 +42,7 @@ function RenderACSField(props) {
   // to get the data set. Different API options will be 
   // needed for select lists, referenced, mapping
   const {api_options,...params} = props
-  const {data, row_data, object_type, field_display="field", rab_component_model, field_name, form_field_name, field_model, mode="view", form="true", emphasis="", cell_style, more_detail,toggleMoreDetail} = props
+  const {data, row_data, object_type, data_field, field_display="field", rab_component_model, field_name, form_field_name, field_model, mode="view", form="true", emphasis="", cell_style, more_detail,toggleMoreDetail} = props
   // Responsible for the layouts
 // Storing the state?
 // Deciding the mode?
@@ -63,13 +63,14 @@ function RenderACSField(props) {
   const {field_wrap:FieldWrap, field:Field=RABTextField} = rab_component_model.field.components 
   if (!data) {return null}
   params.data = data 
+
+  
   params.autoFocus = props.autoFocus
   params.formValues = props.formValues
   params.mode = props.mode
   params.form = props.form
   params.onSubmit = props.onSubmit 
   params.onBlur = props.onFieldBlur 
-  params.field_name = field_name 
   params.onChange = props.onChange 
   params.with_thumbnail = props.with_thumbnail
 //u.a(object_type, field_model.pretty_name, field_model.rab_component_model, field_name, field_display)

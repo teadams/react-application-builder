@@ -97,19 +97,25 @@ function ACSField(input_props) {
   // isolate data object 
   // navigate to proper object for  references and dot notation
     const row_data = data
-
   // references
-  if (base_field_model.references && mode !== "create") {
-    data = row_data[base_field_model.data_field?base_field_model.data_field:base_field_name]
+
+  if (data && base_field_model.data_path) {
+      data = row_data[base_field_model.data_path]
   }
+  if (base_field_model.data_path) {
+    u.aa("input field_name, path, data field name,  render_field, data", input_props.field_name, base_field_model.data_path, base_field_model.data_field, base_field_model.render_field, data)
+  }
+//  if (base_field_model.references && mode !== "create") {
+//    data = row_data[base_field_model.data_field?base_field_model.data_field:base_field_name]
+//  }
 
   // dot notation
-  if (data && ((base_object_type !== final_object_type) || (base_field_name !== final_field_name)) && mode !== "create") {
-    data = row_data[base_field_name]
-    if (data && final_field_model.references) {
-      data = data[final_field_name]
-    }
-  }
+//  if (data && ((base_object_type !== final_object_type) || (base_field_name !== final_field_name)) && mode !== "create") {
+//    data = row_data[base_field_name]
+//    if (data && final_field_model.references) {
+//      data = data[final_field_name]
+//    }
+//  }
 
   // actions
   function toggleMoreDetail(event) {
@@ -162,7 +168,12 @@ function ACSField(input_props) {
     onMouseOver={(form&&((mode!=="create"&&mode!=="edit")&&mouseover_to_edit))?toggleEditMode:""}
     onFieldClick={handleFieldClick} 
     onFieldBlur = {handleOnFieldBlur} 
+
     object_type={object_type} 
+    data_field = {base_field_model.data_field}
+    field_name = {base_field_model.render_field}
+
+
     parent_object_type={parent_object_type}
     base_object_type = {base_object_type}
     form_field_name={form_field_name}
