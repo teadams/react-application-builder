@@ -47,6 +47,9 @@ function ACSField(input_props) {
   // look for value if data was not provided
   let props_data = input_data
   if (!props_data && input_props.value) {
+      // will cause an infinite loop if this is used in combination with form 
+      // triggers useGetObject to keep setting state as param_data is technically changing 
+      // not sure if this use case will happen (this mgiht only be for views)
       props_data = {[input_props.field_name]:input_props.value}
 
   } 
