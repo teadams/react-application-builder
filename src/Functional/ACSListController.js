@@ -65,6 +65,7 @@ function RABTableHeaders(props) {
 
 function RABList(list_props) {
   const {data, field_models, rab_component_model, ...list_params} = list_props
+
   return (
     data.map((row, index) => {
         return (<ACSRowController {...list_params} data={row} field_models={field_models} rab_component_model={rab_component_model} key={index+"Controller"} key_id={index}/>)
@@ -86,8 +87,7 @@ function ACSListController(input_props) {
   list_component_model.list.components.list = RABList
   list_component_model.list.components.list_header = RABTableHeaders
   list_component_model.list.names.list_header_wrap = "TableHead" 
-  const rab_component_model = control.getFinalModel("list", {...merging_props}, object_model, rab_component_models.list )
-
+  const rab_component_model = control.getFinalModel("list", {...merging_props}, object_model, list_component_model )
   const list_model = rab_component_model.list
   const list_components = list_model.components
   const massaged_props = list_model.props

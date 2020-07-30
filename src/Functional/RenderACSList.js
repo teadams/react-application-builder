@@ -16,6 +16,7 @@ function RenderACSList(props) {
 
   const {header_wrap:HeaderWrap, header:Header, list_wrap:ListWrap, list_header_wrap:ListHeaderWrap, list_header:ListHeader, body_wrap:BodyWrap, list:RABList, footer_wrap:FooterWrap, footer:Footer,
   list_container:ListContainer, list_pagination:ListPagination} = rab_component_model.list.components 
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -43,14 +44,14 @@ function RenderACSList(props) {
             <Header {...params}/>
           </HeaderWrap>
           {show_list && 
-            <Fragment>
+            <Fragment> 
             <ListContainer component={Paper} {...params} {...params.list_container}>
             <ListWrap size="tiny" {...params} >
               <ListHeaderWrap {...params}>
                 <ListHeader {...params}/>
               </ListHeaderWrap> 
               <BodyWrap {...params}>
-                  <RABList {...params}/>
+                 <RABList {...params}/>
               </BodyWrap>
              </ListWrap>
           </ListContainer>
