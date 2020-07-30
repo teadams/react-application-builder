@@ -66,11 +66,10 @@ function selectItems(data, select_key_field, select_display_field, field_compone
 function RABSelectList(props) {
   let field_models = useGetModel("fields")
   if (props.field_models) {
-    // field model is always merged in the Controller
-    // XX always pass field model down so we don't have state and hook problems
     field_models = props.field_models
   }
   const {disable_underline=true, prevent_edit=false, select_key_field, select_display_field, object_type, add_none, data:props_data, dependent_filter} = props
+
   let data = props_data
   if (add_none) {
     let any_row = [{[select_key_field]:"", [select_display_field]:add_none}]
@@ -78,7 +77,6 @@ function RABSelectList(props) {
       any_row =[{[select_key_field]:"_none_", [select_display_field]:add_none}]
     }
     data = any_row.concat(props_data)
-
   }
 
   const select_field_model=field_models[props.object_type][props.select_display_field]
@@ -119,6 +117,10 @@ function RABSelectList(props) {
 
 function RABSelectField(props) {
 
+// data, data_field 
+// if RABSelect, the final model should be 
+///    -- viewing - data_type, component, object_type - taken from references
+
   const {mode, data=[], add_none, base_field_name, parent_field_name, base_object_type, parent_object_type,   formValues, onSubmit, onFieldBlur,  onChange, autoFocus, object_type, field_model={}, value="", display_value=" ", disable_underline, style, api_options={}} = props
   let {form_field_name, field_name} = props
   const {field_name:discard_field_name, ...params} = props
@@ -139,7 +141,6 @@ function RABSelectField(props) {
       } else {
         api_options.filter_id = formValues[dependent_data_field]
     }
-//    u.aa("base_field_name, parent_field_name, field_name, base_object_type, parent_object_type, object_type, dependent_filter_field, dependent_data_field, formValues, api_options",base_field_name, parent_field_name, field_name, base_object_type, parent_object_type, object_type, dependent_filter_field, dependent_data_field, formValues, api_options)
 
   }
   // 2 use cases:
@@ -159,10 +160,8 @@ function RABSelectField(props) {
   // Viewing
   const view_field_component_name = field_model.final_field_component?field_model.final_field_component:"RABTextField"
   const Field = control.componentByName(view_field_component_name)
-  const final_field_name=field_model.final_field_name?field_model.final_field_name:field_name
-
-
-  const data_field_value = data[final_field_name]
+  const final_field_name= field_model.render_field
+  const data_field_value = data[field_model.data_field]
   // precedence: p"rops, field_model, keys
   let {select_key_field = field_model.select_key_field, select_display_field = field_model.select_display_field, prevent_edit=field_model.prevent_edit} = props 
   
