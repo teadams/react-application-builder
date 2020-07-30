@@ -34,13 +34,13 @@ function ACSField(input_props) {
   // resolve field_names with dot notation (ie - core_address.name)
   let input_field_name = input_props.field_name
   let input_object_type = input_props.object_type
+//
 
-  // base(data), resolved_base, final_base
-  const [base_field_name, final_field_name, base_object_type, final_object_type, base_field_model, final_field_model] = meta.resolveFieldModel(input_object_type, input_field_name, object_models, field_models)
-
-  if (!field_models[final_object_type][final_field_name]) {
+  if (!field_models[input_object_type][input_field_name]) {
       alert ("No field in model. Object Type: " + input_object_type + " Field: " + input_field_name)
   }
+  const field_model = field_models[input_object_type][input_field_name]
+
   // isolate input props to merge into model
   const {data:input_data, override_meta_model=true, object_type:discard_object_type, field_name:discard_field_name, handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, key_id, autoFocus=false, ...merging_props} = input_props
 
@@ -54,20 +54,17 @@ function ACSField(input_props) {
 
   } 
   // formValues (state for forms) uses field_name WITH dot notation
-  final_field_model.formValues_name = input_field_name
+  field_model.formValues_name = input_field_name
 
   // fields that reference another object type
-  const parent_object_type = final_object_type
-  const parent_field_name = final_field_name  
   merging_props.object_type = input_props.object_type
-  const pre_fetch_final_object_type = final_field_model.references?final_field_model.references:final_object_type
 
 
-  merging_props.field_name = final_field_name
+  merging_props.field_name = input_props.field_name
   const form_field_name = input_props.field_name
 
   // merge in props and field_model to get final component model
-  const rab_component_model = control.getFinalModel("field", {...merging_props}, final_field_model, null, override_meta_model)
+  const rab_component_model = control.getFinalModel("field", {...merging_props}, field_model, null, override_meta_model)
 
   const field_component_model = rab_component_model.field
   let massaged_props = field_component_model.props
@@ -81,14 +78,14 @@ function ACSField(input_props) {
 
   // get data from api 
   // return params for render and data at the same time
-  let [ready, object_type, id, field_name, api_options, data] = useGetObject(pre_fetch_object_type, pre_fetch_id,pre_fetch_field_name, pre_fetch_api_options, props_data, null, pre_fetch_final_object_type); 
+  let [ready, object_type, id, field_name, api_options, data] = useGetObject(pre_fetch_object_type, pre_fetch_id,pre_fetch_field_name, pre_fetch_api_options, props_data, null, pre_fetch_object_type); 
 
 
   // form setup - if necessary
   const field_list = ["id", field_name]  
-  const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(base_object_type, form_field_name, data, handleSubmit, mode, form, "", field_list);
+  const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(object_type, form_field_name, data, handleSubmit, mode, form, "", field_list);
 
-  if (!data || (object_type && !final_field_model) || mode === "hidden" || final_field_model.hidden_on_form && initial_mode ==="edit" ||  (final_field_model.hidden_on_form || final_field_model.hidden_on_create_form) && initial_mode==="create") return null
+  if (!data || (object_type && !field_model) || mode === "hidden" || field_model.hidden_on_form && initial_mode ==="edit" ||  (field_model.hidden_on_form || field_model.hidden_on_create_form) && initial_mode==="create") return null
 
   // ***************************************************//
   // Data and final values ready for render             //
@@ -99,25 +96,10 @@ function ACSField(input_props) {
     const row_data = data
   // references
 
-  if (data && base_field_model.data_path) {
-      data = row_data[base_field_model.data_path]
+  if (data && field_model.data_path) {
+      data = row_data[field_model.data_path]
   }
-  if (base_field_model.data_path) {
-    u.aa("input field_name, path, data field name,  render_field, data", input_props.field_name, base_field_model.data_path, base_field_model.data_field, base_field_model.render_field, data)
-  }
-//  if (base_field_model.references && mode !== "create") {
-//    data = row_data[base_field_model.data_field?base_field_model.data_field:base_field_name]
-//  }
 
-  // dot notation
-//  if (data && ((base_object_type !== final_object_type) || (base_field_name !== final_field_name)) && mode !== "create") {
-//    data = row_data[base_field_name]
-//    if (data && final_field_model.references) {
-//      data = data[final_field_name]
-//    }
-//  }
-
-  // actions
   function toggleMoreDetail(event) {
     setMoreDetail(!more_detail)
   } 
@@ -130,7 +112,7 @@ function ACSField(input_props) {
   }
 
   function toggleEditMode(event, id, type, field_name, row_data, field_data) {  
-      if (form && click_to_edit && !final_field_model.prevent_edit && mode!=="create" && mode !=="edit") {
+      if (form && click_to_edit && !field_model.prevent_edit && mode!=="create" && mode !=="edit") {
           setMode("edit")
       }
   }
@@ -162,25 +144,18 @@ function ACSField(input_props) {
     label_width = {merging_props.label_width}
     onChange={handleFormChange}
     onSubmit={handleFormSubmit}
-    col_span={final_field_model.col_span}
-    with_thumbnail= {final_field_model.with_thumbnail}
+    col_span={field_model.col_span}
+    with_thumbnail= {field_model.with_thumbnail}
     autoFocus ={(field_name === lastTouched || (autoFocus && !lastTouched) || form)?true:false}
     onMouseOver={(form&&((mode!=="create"&&mode!=="edit")&&mouseover_to_edit))?toggleEditMode:""}
     onFieldClick={handleFieldClick} 
     onFieldBlur = {handleOnFieldBlur} 
-
     object_type={object_type} 
-    data_field = {base_field_model.data_field}
-    field_name = {base_field_model.render_field}
-
-
-    parent_object_type={parent_object_type}
-    base_object_type = {base_object_type}
+    data_field = {field_model.data_field}
+    field_name = {field_name}
     form_field_name={form_field_name}
-    field_name={final_field_name} 
-    parent_field_name = {parent_field_name}
-    base_field_name ={base_field_name}
-    field_model={final_field_model}
+    field_name={field_name} 
+    field_model={field_model}
     mode={mode}
     more_detail={more_detail}
     toggleMoreDetail={toggleMoreDetail}
