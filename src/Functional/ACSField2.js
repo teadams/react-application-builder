@@ -34,11 +34,13 @@ function ACSField(input_props) {
   // resolve field_names with dot notation (ie - core_address.name)
   let input_field_name = input_props.field_name
   let input_object_type = input_props.object_type
-  if (!field_models[input_object_type][input_field_name]) {
-      alert ("No field in model. Object Type: " + input_object_type + " Field: " + input_field_name)
-  }
+
+  // base(data), resolved_base, final_base
   const [base_field_name, final_field_name, base_object_type, final_object_type, base_field_model, final_field_model] = meta.resolveFieldModel(input_object_type, input_field_name, object_models, field_models)
 
+  if (!field_models[final_object_type][final_field_name]) {
+      alert ("No field in model. Object Type: " + input_object_type + " Field: " + input_field_name)
+  }
   // isolate input props to merge into model
   const {data:input_data, override_meta_model=true, object_type:discard_object_type, field_name:discard_field_name, handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, key_id, autoFocus=false, ...merging_props} = input_props
 
@@ -56,7 +58,8 @@ function ACSField(input_props) {
   // fields that reference another object type
   const parent_object_type = final_object_type
   const parent_field_name = final_field_name  
-  merging_props.object_type = final_field_model.references?final_field_model.references:final_object_type
+  merging_props.object_type = input_props.object_type
+  const pre_fetch_final_object_type = final_field_model.references?final_field_model.references:final_object_type
 
 
   merging_props.field_name = final_field_name
@@ -68,8 +71,6 @@ function ACSField(input_props) {
   const field_component_model = rab_component_model.field
   let massaged_props = field_component_model.props
   massaged_props.id = input_props.id
-
-
   // "pre" convention is before call to get data.
   // do not want to render page before final data and object_type, etc match
   const {object_type:pre_fetch_object_type, id:pre_fetch_id, field_name:pre_fetch_field_name,  api_options:pre_fetch_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form,  emphasis, ...params} = massaged_props
@@ -79,7 +80,8 @@ function ACSField(input_props) {
 
   // get data from api 
   // return params for render and data at the same time
-  let [ready, object_type, id, field_name, api_options, data] = useGetObject(pre_fetch_object_type, pre_fetch_id,pre_fetch_field_name, pre_fetch_api_options, props_data); 
+  let [ready, object_type, id, field_name, api_options, data] = useGetObject(pre_fetch_object_type, pre_fetch_id,pre_fetch_field_name, pre_fetch_api_options, props_data, null, pre_fetch_final_object_type); 
+
 
   // form setup - if necessary
   const field_list = ["id", field_name]  
@@ -145,7 +147,6 @@ function ACSField(input_props) {
     }
   }
 
-  
   return (
     <ACSFieldRenderer {...field_component_model.props}  
     data={data} 

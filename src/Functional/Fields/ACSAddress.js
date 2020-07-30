@@ -13,7 +13,7 @@ import ACSImage from "./ACSImage.js"
 
 function ACSAddress(props) {
   const {data, field_name,display, mode="view", ...params} = props
-  
+
   if (data && Object.keys(data).length >0) {
     const city = data.city?data.city:""
     const street_address = data.street_address?data.street_address:""
@@ -26,7 +26,6 @@ function ACSAddress(props) {
       state = data.state.name?data.state.name:""
     }
     const zip_code = data.zip_code?data.zip_code:""
-
     switch (mode) {
       case "text":
         return (street_address + "," + city)
