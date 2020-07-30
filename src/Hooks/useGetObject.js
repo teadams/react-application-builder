@@ -68,7 +68,7 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
   // type on data from another.  A mess of subtle bugs
   if (object_type != prev_state[2] || field_list != param_data[3]) { /// OR something else is different 
       if(prev_state[0]) {
-        setState([false, prev_state[1], prev_state[2],prev_state[3], prev_state[4],prev_state[5]])
+        setState([false, prev_state[1], prev_state[2],prev_state[3], prev_state[4],prev_state[5], prev_state[6]])
       }
     return [false, prev_state[6], prev_state[2],prev_state[3], prev_state[4],prev_state[5]]
   } else {

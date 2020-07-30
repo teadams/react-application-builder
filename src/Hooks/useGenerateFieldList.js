@@ -27,7 +27,6 @@ const useGenerateFieldList = (object_type, field_name="", data, mode, form=true,
   if (field_name) {
     field_list = [id_field, field_name]
   } else {
-
     if (object_type) {
       const base_field_list = object_models[object_type].field_tags[lazy]
       field_list = []

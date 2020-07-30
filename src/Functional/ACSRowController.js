@@ -200,7 +200,7 @@ function ACSRowController(input_props) {
   // getting new data (all needs clean up).
   // layout->sections-field_list all apply to 
   // "prescrubbed"
-  let [ready, object_type, id, prescrubbed_field_list, api_options, data] =  useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data, onData);
+  let [ready, object_type, id, prescrubbed_field_list, api_options, data] =  useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data, onData, props_object_type);
   if (!input_props_data && !id && data) {
     // lookup was by filter, not id
     id = data.id
