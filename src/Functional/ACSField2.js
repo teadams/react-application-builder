@@ -44,14 +44,12 @@ function ACSField(input_props) {
   // isolate input props to merge into model
   const {data:input_data, override_meta_model=true, object_type:discard_object_type, field_name:discard_field_name, handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, key_id, autoFocus=false, ...merging_props} = input_props
 
-  // value overrides general data prop
-  let props_data
-  if (input_props.value) {
+  // look for value if data was not provided
+  let props_data = input_data
+  if (!props_data && input_props.value) {
       props_data = {[input_props.field_name]:input_props.value}
-  } else {
-      props_data = input_data
-  }
 
+  } 
   // formValues (state for forms) uses field_name WITH dot notation
   final_field_model.formValues_name = input_field_name
 

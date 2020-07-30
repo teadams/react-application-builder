@@ -177,6 +177,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
 
   const handleFormChange = ((event) => {
     event.persist();
+    console.log("handle form change")
     const name = event.target.name
     const [base_field_name, final_field_name, base_object_type, final_object_type, base_field_model, final_field_model] = meta.resolveFieldModel(object_type, name, object_models, field_models)
     setLastTouched(name)
@@ -187,8 +188,12 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
         if (base_field_name !== final_field_name) {
           dependent_form_values_name = base_field_name+"."+dependent_form_values_name
         }
+        console.log("set form values 1")
+
         setFormValues(formValues => ({...formValues, [name]:value, [dependent_form_values_name]:""}));
       } else {
+        console.log("set form values 2")
+
         setFormValues(formValues => ({...formValues, [name]:value}));
       }
     } else {
@@ -202,6 +207,8 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
             setFilesTouched(filesTouched.concat([name]))
         }
         //dependency_data_field
+        console.log("set form values 3")
+
         setFormValues(formValues => ({...formValues, [name]:value}));
       }
     }

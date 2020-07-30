@@ -15,12 +15,13 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
       final_object_type = object_type
   }
 
-
   const [ready, setReady] = useState(false);
   const [prev_state, setState] = useState([false, object_type, id, field_list, api_options, param_data, final_object_type]);
   const isMountedRef = useRef(null);
   const context = useContext(AuthContext)
   const dirty_data = context?context.dirty_stamp:""
+  const [data_ready, prev_object_type, pre_id, pre_field_list, prev_api_options, prev_param_data, prev_final_object_type] = prev_state
+
 
   api_options.user_id = context?context.user.id:"" 
   api_options.subsite_id = context?context.context_id:""
@@ -56,7 +57,7 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
 // model to match. Otherwise, we will have a lot of weird debuggs
 // and flickering
   if (param_data || !prev_state) {
-    if ((object_type != prev_state[1]) || (param_data != prev_state[5])  || (JSON.stringify(field_list) != JSON.stringify(prev_state[3]))) {
+    if ((object_type != prev_state[1]) || (param_data != prev_state[5]) || (JSON.stringify(field_list) != JSON.stringify(prev_state[3]))) {
         setState([true, object_type, id, field_list, api_options, param_data, final_object_type])
     }
     return [true, final_object_type, id, field_list, api_options, param_data]
