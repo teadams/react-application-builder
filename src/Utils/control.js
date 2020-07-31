@@ -5,11 +5,6 @@ import _ from 'lodash/object'
 import React, {Component,Fragment} from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 
-import ObjectView from "../RABComponents/ObjectView.js"
-import NavMenu from "../RABComponents/NavMenu.js"
-import DrillDown from "../RABComponents/DrillDown.js"
-import FieldView from "../RABComponents/FieldView.js"
-import TreeMenu from "../RABComponents/TreeMenu.js"
 //import Text from "../Functional/Text/Text.js"
 import RABHeaderAndBodyText from '../Functional/Text/RABHeaderAndBodyText.js'
 import RABText from '../Functional/Text/RABText.js'
@@ -254,14 +249,9 @@ function RABVoid(props) {
 function componentPicker(name, source="not provided") {
   if (!name) {alert ("No component provided in componentPicker:source "+ source);return Fragment}
   switch (name) {
-    case "ObjectView": return ObjectView
     case "RABHeaderAndBodyText": return RABHeaderAndBodyText;
     case "RABText": return RABText;
     case "Message": return Message;
-    case "NavMenu": return NavMenu;
-    case "DrillDown": return DrillDown;
-    case "FieldView": return FieldView;
-    case "TreeMenu": return TreeMenu;
     case "ACSObjectTypeView": return ACSObjectTypeView;
     case "ACSMappingView": return ACSMappingView;
     case "Debug": return Debug;

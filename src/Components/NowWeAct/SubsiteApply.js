@@ -14,7 +14,7 @@ import ACSHeadlessObjectView from '../../Functional/Rows/ACSHeadlessObjectView.j
 import RABSelectField from '../../Functional/Fields/RABSelectField.js'
 import RABTextField from '../../Functional/Fields/RABTextField.js'
 
-import ObjectView from '../../RABComponents/ObjectView.js'
+//import ObjectView from '../../RABComponents/ObjectView.js'
 
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
