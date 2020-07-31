@@ -8,7 +8,7 @@ import React, { Component, Fragment,  useState, useEffect} from 'react';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell } from '@material-ui/core';
 import useGetModel from '../Hooks/useGetModel';
-import RABTextField from "../Functional/Fields/RABTextField.js"
+import {ACSTextField} from "../ACSLibrary";
 // <TextField    
 //   InputLabelProps={{shrink:true}}
 //   name={.name}
@@ -60,7 +60,7 @@ function RenderACSField(props) {
 
   
   const FormWrap = form_wrap
-  const {field_wrap:FieldWrap, field:Field=RABTextField} = rab_component_model.field.components 
+  const {field_wrap:FieldWrap, field:Field=ACSTextField} = rab_component_model.field.components 
   if (!data) {return null}
   params.data = data 
 
