@@ -25,16 +25,17 @@ function form_wrap(props) {
 
 function RenderACSField(props) {
 
-  // api_options not needed
-  const {api_options,...params} = props
-  const {data, row_data, object_type, data_field,  field_name, form_field_name, rab_component_model, field_model, 
+  if (!props.data) {return null}
+
+  const {api_options,  ...params} = props
+  const {data, row_data, object_type, data_field,  field_name, form_field_name, field_model, 
         mode="view", form="true", formValues, autoFocus, onSubmit, onBlur, onChange, 
-        more_detail,toggleMoreDetail} = props
+        more_detail, toggleMoreDetail} = props
+
   // everything regarding field presentation will be in field_model
-  
   function handleFieldClick(event) {
     if (props.onFieldClick && event.target.name !== "more_link") {
-      props.onFieldClick(event, data.id, "field", field_name, row_data, data)
+       props.onFieldClick(event, data.id, "field", field_name, row_data, data)
     }
   }
 
@@ -45,14 +46,8 @@ function RenderACSField(props) {
   }
 
   const FormWrap = form_wrap
-  const {field_wrap:FieldWrap, field:Field=ACSTextField} = rab_component_model.field.components 
+  const {field_wrap:FieldWrap, field:Field=ACSTextField} = field_model.components 
 
-  if (!data) {return null}
-  params.data = data 
-  // form params
-  params = {mode, formValues, form, autoFocus, onSubmit, onBlur, onChange} 
-  
-u.a(field_name, data)
   return ( 
     <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
       <Field {...params} {...field_model} key={field_name+"field"}/>

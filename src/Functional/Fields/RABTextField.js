@@ -18,21 +18,21 @@ function RABTextField(props) {
   // XX field model passed due to referenced change. May 
   // be done server side later
   let field_value=""
+
+
+  field_value = data[field_model.data_field?field_model.data_field:field_name]
+//u.a(field_name, field_value, data)
+  if (!field_value && (field_value === null || field_value === undefined)) {
+      field_value =""
+  }
+
+  const field_length = field_value.length 
   let more_link = ""
   let less_link = ""
   let more_link_cutoff = field_model.more_link_cutoff?field_model.more_link_cutoff:""
   if (mode === "list") {
     more_link_cutoff = field_model.more_link_list_cutoff?field_model.more_link_list_cutoff:more_link_cutoff
   }
-  // XX everything will be changed to final field_name
-
-  field_value = data[field_model.data_field]
-//u.a(field_name, field_value, data)
-  if (!field_value && (field_value === null || field_value === undefined)) {
-      field_value =""
-  }
-  const field_length = field_value.length 
-
   if (toggleMoreDetail && more_link_cutoff && field_value.length > more_link_cutoff) {
     if (!more_detail) {
       field_value = field_value.substr(0, more_link_cutoff)
