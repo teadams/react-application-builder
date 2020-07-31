@@ -67,6 +67,7 @@ function ACSFieldController(input_props) {
   const field_component_model = rab_component_model.field
   let massaged_props = field_component_model.props
   massaged_props.id = input_props.id
+u.a("field_component_model",Object.keys(field_component_model.props))
   // "pre" convention is before call to get data.
   // do not want to render page before final data and object_type, etc match
   const {object_type:pre_fetch_object_type, id:pre_fetch_id, field_name:pre_fetch_field_name,  api_options:pre_fetch_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form,  emphasis, ...params} = massaged_props
@@ -133,7 +134,8 @@ function ACSFieldController(input_props) {
     }
   }
 
-  
+  u.a("massaged",Object.keys(massaged_props))
+
   return (
     <ACSFieldRenderer {...field_component_model.props}  
     data={data} 
@@ -149,7 +151,6 @@ function ACSFieldController(input_props) {
     onFieldClick={handleFieldClick} 
     onFieldBlur = {handleOnFieldBlur} 
     object_type={object_type} 
-    data_field = {field_model.data_field}
     field_name = {field_name}
     form_field_name={form_field_name}
     field_name={field_name} 
