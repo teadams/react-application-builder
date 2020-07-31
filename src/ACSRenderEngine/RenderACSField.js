@@ -8,7 +8,7 @@ import React, { Component, Fragment,  useState, useEffect} from 'react';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell } from '@material-ui/core';
 import useGetModel from '../Hooks/useGetModel';
-import RABTextField from "./Fields/RABTextField.js"
+import RABTextField from "../Functional/Fields/RABTextField.js"
 // <TextField    
 //   InputLabelProps={{shrink:true}}
 //   name={.name}
