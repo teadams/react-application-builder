@@ -67,7 +67,6 @@ function ACSFieldController(input_props) {
   const field_component_model = rab_component_model.field
   let massaged_props = field_component_model.props
   massaged_props.id = input_props.id
-u.a("field_component_model",Object.keys(field_component_model.props))
   // "pre" convention is before call to get data.
   // do not want to render page before final data and object_type, etc match
   const {object_type:pre_fetch_object_type, id:pre_fetch_id, field_name:pre_fetch_field_name,  api_options:pre_fetch_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form,  emphasis, ...params} = massaged_props
@@ -138,30 +137,35 @@ u.a("field_component_model",Object.keys(field_component_model.props))
 
   return (
     <ACSFieldRenderer {...field_component_model.props}  
+// data
     data={data} 
     row_data={row_data}
     formValues = {formValues}
-    label_width = {merging_props.label_width}
+// model info
+    object_type={object_type} 
+    field_name = {field_name}
+    form_field_name={form_field_name}
+    data_field = {field_model.data_field}
+// mode and is this s afield form
+    mode={mode}
+    form={form}
+// more detail functionality
+    more_detail={more_detail}
+    toggleMoreDetail={toggleMoreDetail}
+// form
     onChange={handleFormChange}
     onSubmit={handleFormSubmit}
-    col_span={field_model.col_span}
     with_thumbnail= {field_model.with_thumbnail}
     autoFocus ={(field_name === lastTouched || (autoFocus && !lastTouched) || form)?true:false}
     onMouseOver={(form&&((mode!=="create"&&mode!=="edit")&&mouseover_to_edit))?toggleEditMode:""}
     onFieldClick={handleFieldClick} 
     onFieldBlur = {handleOnFieldBlur} 
-    object_type={object_type} 
-    field_name = {field_name}
-    form_field_name={form_field_name}
-    field_name={field_name} 
+    // Just in case (should not need)
     field_model={field_model}
-    mode={mode}
-    more_detail={more_detail}
-    toggleMoreDetail={toggleMoreDetail}
-    form={form}
-    rab_component_model={rab_component_model}
-    key={key_id+"_render_"+field_name}
+    // destructured props from field_model
     {...massaged_props}
+    key={key_id+"_render_"+field_name}
+
 />
   )
 }
