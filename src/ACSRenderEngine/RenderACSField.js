@@ -27,11 +27,12 @@ function RenderACSField(props) {
 
   if (!props.data) {return null}
 
-  const {api_options,  ...params} = props
-  const {data, row_data, object_type, data_field,  field_name, form_field_name, field_model, 
+  const {api_options, components:discard_components, ...params} = props
+  const {data, row_data, object_type, data_field,  field_name, form_field_name, components, 
         mode="view", form="true", formValues, autoFocus, onSubmit, onBlur, onChange, 
         more_detail, toggleMoreDetail} = props
 
+  const {pre_text, post_text} = props
   // everything regarding field presentation will be in field_model
   function handleFieldClick(event) {
     if (props.onFieldClick && event.target.name !== "more_link") {
@@ -46,13 +47,19 @@ function RenderACSField(props) {
   }
 
   const FormWrap = form_wrap
-  const {field_wrap:FieldWrap, field:Field=ACSTextField} = field_model.components 
+  const {field_wrap:FieldWrap, field:Field=ACSTextField} = components 
 
-  return ( 
-    <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
-      <Field {...params} {...field_model} key={field_name+"field"}/>
-    </FormWrap>
+  if (mode !== "edit") {
+    return (<div>{pre_text}<Field {...params}  key={field_name+"field"}/>{post_text}
+      </div>
   )
+  } else {
+    return ( 
+      <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
+        <Field {...params} key={field_name+"field"}/>
+      </FormWrap>
+    )
+  }
 
 }
 

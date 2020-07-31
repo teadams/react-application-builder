@@ -78,24 +78,26 @@ function RABTextField(props) {
       return field_value.toString()
     default:
       if (!with_thumbnail && (!with_url || (with_url && !data[with_url]))) {    
-          return <Fragment>{field_value.toString()} {more_link}</Fragment>
+          return <Fragment>{field_value.toString()}{more_link}</Fragment>
+
+
       } else if (!with_thumbnail && with_url) {
-        return (<Link href={data[with_url]}>{field_value}{more_link}</Link>)
+        return (<Link href={data[with_url]}>test3{field_value}test3{more_link}</Link>)
       } else {
           const thumbnail = data[with_thumbnail]
           let url = with_url?data[with_url]:""
           if (thumbnail) { 
             if (url) {
-              return (<div style={{display:"flex", alignItems:"center"}}> <ACSImage image_object={thumbnail} fix="width" size={image_size}/>&nbsp;<Link href={url}>{field_value}{more_link}</Link></div>)
+              return (<div style={{display:"flex", alignItems:"center"}}> <ACSImage image_object={thumbnail} fix="width" size={image_size}/><Link href={url}>{field_value}{more_link}</Link></div>)
             } else {
-              return (<div style={{display:"flex", alignItems:"center"}}> <ACSImage image_object={thumbnail} fix="width" size={image_size}/><div>&nbsp;{field_value}{more_link}</div></div>)
+              return (<div style={{display:"flex", alignItems:"center"}}> <ACSImage image_object={thumbnail} fix="width" size={image_size}/><div>test2{field_value}test2{more_link}</div></div>)
             }
           } else {
             const letters = field_value?field_value.charAt(0):""
             if (url) {
-              return (<div style={{display:"flex"}}><ACSImage letters={letters}  fix="width" size={image_size}/>&nbsp;<Link href={url}>{field_value}{more_link}</Link></div>)    
+              return (<div style={{display:"flex"}}><ACSImage letters={letters}  fix="width" size={image_size}/><Link href={url}>{field_value}{more_link}</Link></div>)    
             } else {
-              return (<div style={{display:"flex"}}><ACSImage letters={letters}  fix="width" size={image_size}/>&nbsp;{field_value}{more_link}</div>)
+              return (<div style={{display:"flex"}}><ACSImage letters={letters}  fix="width" size={image_size}/>{field_value}test{more_link}test</div>)
             }
           }
       }

@@ -132,7 +132,8 @@ function ACSFieldController(input_props) {
       handleFormSubmit(event)
     }
   }
-  field_model.components = rab_component_model.field.components
+  
+  
 
   return (
     <ACSFieldRenderer {...field_component_model.props}  
@@ -159,8 +160,8 @@ function ACSFieldController(input_props) {
     onMouseOver={(form&&((mode!=="create"&&mode!=="edit")&&mouseover_to_edit))?toggleEditMode:""}
     onFieldClick={handleFieldClick} 
     onFieldBlur = {handleOnFieldBlur} 
-    // models
-    field_model={field_model}
+    // components
+    components={rab_component_model.field.components}
     // destructured props from field_model
     {...massaged_props}
     key={key_id+"_render_"+field_name}
