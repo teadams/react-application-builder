@@ -76,7 +76,7 @@ function ACSFieldController(input_props) {
 
   // get data from api 
   // return params for render and data at the same time
-  let [ready, object_type, id, field_name, api_options, data] = useGetObject(pre_fetch_object_type, pre_fetch_id,pre_fetch_field_name, pre_fetch_api_options, props_data, null, pre_fetch_object_type); 
+  let [ready, object_type, id, field_name, api_options, data] = useGetObject(pre_fetch_object_type, pre_fetch_id,pre_fetch_field_name, pre_fetch_api_options, props_data, null); 
 
   // form setup - if necessary
   const field_list = ["id", field_name]  

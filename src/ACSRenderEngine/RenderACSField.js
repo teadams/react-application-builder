@@ -9,16 +9,6 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell } from '@material-ui/core';
 import useGetModel from '../Hooks/useGetModel';
 import {ACSTextField} from "../ACSLibrary";
-// <TextField    
-//   InputLabelProps={{shrink:true}}
-//   name={.name}
-//   label={field.pretty_name}
-//   disabled={options.disabled?options.disabled:true}
-//   type="text"
-//   helperText={field.helper_text}
-//   value=  {this.getDisplayView(object_type,field,prefix)}
-//  style={{width:"90%"}}
-
 
 
 function form_wrap(props) {

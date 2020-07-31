@@ -9,11 +9,8 @@ import * as u from '../Utils/utils.js';
 
 
 //  const [db_object_data, setDbResults] = useState();
-const useGetObject = (object_type, id, field_list, api_options={}, param_data, onData, final_object_type) => {
+const useGetObject = (object_type, id, field_list, api_options={}, param_data, onData) => {
   // XX - think not neeed
-  if (!final_object_type) {
-      final_object_type = object_type
-  }
   let param_data_exists = false
   if (param_data && Object.keys(param_data).length >0 ) {
       param_data_exists = true
@@ -21,17 +18,17 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
 
   const [ready, setReady] = useState(false);
   // changes that would trigger a new db call (except param_data, only care if it exists)
-  const [prev_state, setState] = useState([false, object_type, id, field_list, api_options, param_data_exists, param_data, final_object_type]);
+  const [prev_state, setState] = useState([false, object_type, id, field_list, api_options, param_data_exists, param_data]);
   const isMountedRef = useRef(null);
   const context = useContext(AuthContext)
   const dirty_data = context?context.dirty_stamp:""
 
-  const [data_ready, prev_object_type, prev_id, prev_field_list, prev_api_options, prev_param_data_exists, output_data, prev_final_object_type] = prev_state
+  const [data_ready, prev_object_type, prev_id, prev_field_list, prev_api_options, prev_param_data_exists, output_data] = prev_state
 
   api_options.user_id = context?context.user.id:"" 
   api_options.subsite_id = context?context.context_id:""
 
-  let trigger_change_array = [object_type, id, dirty_data, param_data_exists, final_object_type]
+  let trigger_change_array = [object_type, id, dirty_data, param_data_exists]
   trigger_change_array = api.addAPIParams(trigger_change_array, api_options)
 
 
@@ -47,12 +44,12 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
               if (onData) {
                   onData(results)
               }
-              setState([true, object_type, id, field_list, api_options, true, results, final_object_type])
+              setState([true, object_type, id, field_list, api_options, results])
             }
           }
         })
     } else if (!param_data && object_type) {
-        setState([true, object_type, id, field_list, api_options, false, "", final_object_type])
+        setState([true, object_type, id, field_list, api_options, false, ""])
     }
 
     return () => isMountedRef.current = false;
@@ -63,9 +60,9 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
 // and flickering
   if (output_data || !prev_state) {
     if ((object_type != prev_object_type) || (param_data_exists != prev_param_data_exists) || (JSON.stringify(field_list) != JSON.stringify(prev_field_list))) {
-        setState([true, object_type, id, field_list, api_options, param_data_exists, output_data, final_object_type])
+        setState([true, object_type, id, field_list, api_options, param_data_exists, output_data])
     }
-    return [true, final_object_type, id, field_list, api_options, output_data]
+    return [true, object_type, id, field_list, api_options, output_data]
   } 
   // subtle use case example
   // menu has the same component twice but with 2 different
@@ -74,11 +71,11 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
   // type on data from another.  A mess of subtle bugs
   if (object_type != prev_object_type || field_list != prev_field_list) { /// OR something else is different 
       if(prev_state[0]) {
-        setState([false, prev_object_type, prev_id, prev_field_list, prev_api_options, prev_param_data_exists, output_data, prev_final_object_type])
+        setState([false, object_type, prev_id, prev_field_list, prev_api_options, prev_param_data_exists, output_data])
       }
-    return [false, prev_final_object_type, prev_id, prev_field_list, prev_api_options, output_data]
+    return [false, prev_object_type, prev_id, prev_field_list, prev_api_options, output_data]
   } else {
-    return [true, prev_final_object_type, prev_id, prev_field_list, prev_api_options, output_data]
+    return [true, prev_object_type, prev_id, prev_field_list, prev_api_options, output_data]
   }
 }
 
