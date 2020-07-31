@@ -74,7 +74,6 @@ function ACSMap (props) {
     return null
   }
   // take initial center from subsite
-console.log(map_data)
   if (map_data && !subsite_data && context.context_id && centerAroundSubsiteLocation && !centerAroundCurrentLocation) {
     api.getData("core_subsite", {id:context.context_id}, (api_subsite_data, error) => {
       if(api_subsite_data[0]) {
