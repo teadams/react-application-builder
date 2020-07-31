@@ -11,11 +11,9 @@ import * as meta from '../../Utils/meta.js';
 
 
 function RABTextField(props) {
-  const {mode, data, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small"} = props
-
+  const {mode, row_data,  data, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small"} = props
 
   let {with_thumbnail="", with_url="", more_detail=false, toggleMoreDetail} = props
-
 
   // XX field model passed due to referenced change. May 
   // be done server side later
@@ -29,7 +27,7 @@ function RABTextField(props) {
   // XX everything will be changed to final field_name
 
   field_value = data[field_model.data_field]
-
+//u.a(field_name, field_value, data)
   if (!field_value && (field_value === null || field_value === undefined)) {
       field_value =""
   }
