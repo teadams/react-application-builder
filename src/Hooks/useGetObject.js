@@ -44,13 +44,13 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
               if (onData) {
                   onData(results)
               }
-              setState([true, object_type, id, field_list, api_options, true, results])
+              setState([true, object_type, id, field_list, api_options, param_data_exists, results])
             }
           }
         })
-    } else if (!param_data && object_type) {
-        setState([true, object_type, id, field_list, api_options, false, ""])
-    }
+      } else if (!param_data && object_type) {
+          setState([true, object_type, id, field_list, api_options, false, undefined])
+      }
 
     return () => isMountedRef.current = false;
 }, trigger_change_array);
@@ -59,7 +59,7 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
 // model to match. Otherwise, we will have a lot of weird debuggs
 // and flickering
   if (output_data || !prev_state) {
-    if ((object_type != prev_object_type) || (param_data_exists != prev_param_data_exists) || (JSON.stringify(field_list) != JSON.stringify(prev_field_list))) {
+    if ((object_type !== prev_object_type) || (param_data_exists !== prev_param_data_exists) || (JSON.stringify(field_list) !== JSON.stringify(prev_field_list))) {
         setState([true, object_type, id, field_list, api_options, param_data_exists, output_data])
     }
     return [true, object_type, id, field_list, api_options, output_data]

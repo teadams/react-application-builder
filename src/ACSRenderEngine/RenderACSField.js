@@ -12,7 +12,9 @@ import {ACSTextField} from "../ACSLibrary";
 
 
 function form_wrap(props) {
-  if (props.form && (props.mode === "edit" || props.mode === "filter")) {
+  // objects are always created at the row level
+  // filters always use the filter component 
+  if (props.form && (props.mode === "edit")) {
     return (<form onSubmit={props.onSubmit}>
       {props.children}
     </form>)
@@ -22,20 +24,14 @@ function form_wrap(props) {
 }
 
 function RenderACSField(props) {
-  // XX field model passed from controller as controller makes 
-  // modification due to reference fields.  May change if we 
-  // can do all modifications server side
-  // const field_models =  useGetModel("fields")
- //  if (!field_models) {return null} 
 
-  // api_options not passed further (they were used)
-  // to get the data set. Different API options will be 
-  // needed for select lists, referenced, mapping
+  // api_options not needed
   const {api_options,...params} = props
-  const {data, row_data, object_type, data_field, field_display="field", rab_component_model, field_name, form_field_name, field_model, mode="view", form="true", emphasis="", cell_style, more_detail,toggleMoreDetail} = props
-  // Responsible for the layouts
-// Storing the state?
-// Deciding the mode?
+  const {data, row_data, object_type, data_field,  field_name, form_field_name, rab_component_model, field_model, 
+        mode="view", form="true", formValues, autoFocus, onSubmit, onBlur, onChange, 
+        more_detail,toggleMoreDetail} = props
+  // everything regarding field presentation will be in field_model
+  
   function handleFieldClick(event) {
     if (props.onFieldClick && event.target.name !== "more_link") {
       props.onFieldClick(event, data.id, "field", field_name, row_data, data)
@@ -48,84 +44,21 @@ function RenderACSField(props) {
     }
   }
 
-  
   const FormWrap = form_wrap
   const {field_wrap:FieldWrap, field:Field=ACSTextField} = rab_component_model.field.components 
+
   if (!data) {return null}
   params.data = data 
-
+  // form params
+  params = {mode, formValues, form, autoFocus, onSubmit, onBlur, onChange} 
   
-  params.autoFocus = props.autoFocus
-  params.formValues = props.formValues
-  params.mode = props.mode
-  params.form = props.form
-  params.onSubmit = props.onSubmit 
-  params.onBlur = props.onFieldBlur 
-  params.onChange = props.onChange 
-  params.with_thumbnail = props.with_thumbnail
-//u.a(object_type, field_model.pretty_name, field_model.rab_component_model, field_name, field_display)
-  let col_span = props.col_span
+u.a(field_name, data)
+  return ( 
+    <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
+      <Field {...params} {...field_model} key={field_name+"field"}/>
+    </FormWrap>
+  )
 
-  switch (field_display) {
-    case "name_value_wrapped":
-    return (
-    <Fragment>
-      <FieldWrap key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}
-        onClick={handleFieldClick}  onMouseOver={handleMouseOver} align="right"><b>{field_model.pretty_name}: </b>
-       <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
-        <Field {...params}
-          data={data} key={form_field_name+"_field"}/>
-      </FormWrap>
-      </FieldWrap>
-    </Fragment>
-    )
-    break;
-    case "name_above_value":
-
-    return (
-    <Fragment>
-      <FieldWrap  cell_style={cell_style} emphasis={emphasis} key={field_name+"_wrap1"}
-        onClick={handleFieldClick}  onMouseOver={handleMouseOver} col_span={col_span}>
-        <b>{field_model.pretty_name}: </b><br/>
-       <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
-        <Field {...params} key={form_field_name+"_field"}/>
-      </FormWrap>
-      </FieldWrap>
-    </Fragment>
-    )
-    break;
-    case "name_value":
-
-    return (
-    <Fragment>
-      <div style={{marginTop:2, display:"flex", width:"100%"}}>
-      <FieldWrap key={field_name+"_wrap1"}
-        onClick={handleFieldClick}  onMouseOver={handleMouseOver}
-        col_span={col_span}
-        >
-        <div style={{display:"flex", direction:"row", width:"100%"}}>
-          <div style={{display:"flex", width:props.label_width}}><b>{field_model.pretty_name}: </b></div>
-          <div style={{display:"flex", flexGrow:2}}> 
-            <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
-              <Field {...params}  key={form_field_name+"_field"}/>
-            </FormWrap>
-          </div>
-        </div>
-      </FieldWrap>
-      </div>
-    </Fragment>
-    )
-    break;
-  default:
-//u.a("in default")
-      return (
-      <FieldWrap key={field_name+"_wrap1"}  cell_style={cell_style} emphasis={emphasis}
-        onClick={handleFieldClick}  onMouseOver={handleMouseOver} >
-         <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
-          <Field {...params}  key={field_name+"field"}/>
-        </FormWrap>
-      </FieldWrap>)
-  }
 }
 
 export default RenderACSField;
