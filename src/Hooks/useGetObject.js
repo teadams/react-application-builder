@@ -44,7 +44,7 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
               if (onData) {
                   onData(results)
               }
-              setState([true, object_type, id, field_list, api_options, results])
+              setState([true, object_type, id, field_list, api_options, true, results])
             }
           }
         })
