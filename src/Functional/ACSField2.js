@@ -30,7 +30,6 @@ function ACSField(input_props) {
   } else {
     object_models = default_object_type_models
   }
-
   // resolve field_names with dot notation (ie - core_address.name)
   let input_field_name = input_props.field_name
   let input_object_type = input_props.object_type
@@ -79,7 +78,6 @@ function ACSField(input_props) {
   // get data from api 
   // return params for render and data at the same time
   let [ready, object_type, id, field_name, api_options, data] = useGetObject(pre_fetch_object_type, pre_fetch_id,pre_fetch_field_name, pre_fetch_api_options, props_data, null, pre_fetch_object_type); 
-
 
   // form setup - if necessary
   const field_list = ["id", field_name]  
