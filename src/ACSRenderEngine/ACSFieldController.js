@@ -133,6 +133,7 @@ function ACSFieldController(input_props) {
     }
   }
 
+  
   return (
     <ACSFieldRenderer {...field_component_model.props}  
     data={data} 
@@ -158,7 +159,9 @@ function ACSFieldController(input_props) {
     toggleMoreDetail={toggleMoreDetail}
     form={form}
     rab_component_model={rab_component_model}
-    key={key_id+"_render_"+field_name}/>
+    key={key_id+"_render_"+field_name}
+    {...massaged_props}
+/>
   )
 }
 
