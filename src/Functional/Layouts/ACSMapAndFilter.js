@@ -184,7 +184,6 @@ function ACSMapAndFilter (props) {
       <Fragment>
         <MapOverlay filters={map_filters} filter_form_values={filter_form_values} handleFilterChange={handleFilterChange} create_marker_button_text={create_marker_button_text} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false} checked={filter_view} toggleFilterView={toggleFilterView}/>/>
         <div style={{width:400, paddingTop:60, height:"85%", zIndex:1, position:"absolute", backgroundColor:"white"}}>
-          <Typography>
             <ACSObjectView  object_type =  {object_type}
             id = {selected_place.id}
             data = {selected_place}
@@ -195,7 +194,7 @@ function ACSMapAndFilter (props) {
             num_columns={1}
             row_header_image_size="medium"
             handleMoreClick = {handleMoreClick}/>
-          </Typography>
+    
           <div style={{display:"flex", width:"100%", justifyContent:"space-evenly"}}>
             <ACSCreateDialogButton  require_authorization={false} ButtonComponent={ActionButton} DialogComponent={ActionComponent}  object_type={action_object_type} row_mode="create" row_form="true"  id={id}  action_props={action_props}/>
             <Button   onClick={handleMoreClick}>{more_button_text}</Button>
