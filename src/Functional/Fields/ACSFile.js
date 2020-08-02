@@ -13,20 +13,18 @@ import ACSImage from './ACSImage.js'
 import useGetModel from '../../Hooks/useGetModel.js'
 
 function ACSFile(props) {
-  const {mode, data, field_name, field_model={}, formdata, object_type, formValues, disable_underline=false, onChange, autoFocus, avatar, fullWidth=true, custom_width, custom_height} = props
-  let image_size = props.image_size?props.image_size:(field_model.image_size?field_model.image_size:"medium")
 
-  let image_size_list = props.image_size_list?props.image_size_list:(field_model.image_size_list?field_model.image_size_list:"tiny")
+  const {mode, data, prevent_edit, image_size="tiny", image_size_list="tiny", field_name, field_models, pretty_key, data_field, formdata, object_type, formValues, disable_underline=false, onChange, autoFocus, avatar, fullWidth=true, custom_width, custom_height, data_type, components} = props
 
-
-  const {data_type, field_component="", final_field_name=field_name} = field_model
-  const field_value = data[final_field_name]
+  const field_value = data[data_field]
   const object_type_model = useGetModel("object_types")[object_type]
-  const fields_model = useGetModel("fields")[object_type]
+
   let letters = ""
+
   if (!field_value && data_type === "image") {
     const pretty_key = object_type_model.pretty_key_id
-    const pretty_field_meta = fields_model[pretty_key]
+
+    const pretty_field_meta = field_models[object_type][pretty_key]
     const pretty_comp_name = pretty_field_meta.field_component
     const field_component = control.componentByName(pretty_comp_name?pretty_comp_name:"RABTextField")
     let pretty_name_text = ""
@@ -54,7 +52,7 @@ function ACSFile(props) {
             name={field_name} 
             key={field_name}
             InputProps={{disableUnderline:disable_underline}}
-            disabled={field_model.prevent_edit}
+            disabled={prevent_edit}
             type="file"
             onChange={onChange}
             />

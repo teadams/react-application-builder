@@ -147,6 +147,8 @@ function ACSFieldController(input_props) {
     form_field_name={form_field_name}
     data_field = {field_model.data_field}
     pretty_name = {field_model.pretty_name}
+    data_type = {field_model.data_type}
+    field_models={field_models}
 // mode and is this s afield form
     mode={mode}
     form={form}
