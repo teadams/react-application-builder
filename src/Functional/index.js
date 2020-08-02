@@ -12,8 +12,6 @@ import TreeItem from '@material-ui/lab/TreeItem';
 
 
 
-
-
 const functional_components = {
         Debug:Debug,
         ACSField:ACSField,

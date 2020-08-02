@@ -19,7 +19,9 @@ th {
   word-break: normal;
 }
 
-
+table {
+  table-layout: fixed;
+}
 
 
 .XXMuiTypography  {

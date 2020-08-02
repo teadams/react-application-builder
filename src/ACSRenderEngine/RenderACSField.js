@@ -24,9 +24,9 @@ const FormWrap =(props) => {
 }
 
 const Tag = (props) => {
-  const {Tag, style, css_class} = props
+  const {Tag, style, css_class, col_span} = props
   if (Tag) {
-    return (<Tag style={style} class={css_class}>{props.children}</Tag>)
+    return (<Tag colspan={col_span} style={style} className={css_class}>{props.children}</Tag>)
   } else {
     return (<Fragment>{props.children}</Fragment>)
   }
@@ -43,8 +43,8 @@ function RenderACSField(props) {
 
   // these come from rab_component_model props
   const {field_tag="div", field_pre_text, field_post_text, field_css_class, field_style,  //field
-        label=false, pretty_name, label_tag="div", label_pre_text, label_post_text, label_style, label_css_class, //label
-        wrap_css_class, wrap_style={display:"flex", flexDirection:"row"},  wrap_tag="div", // wrap
+        label=false, pretty_name, label_tag="", label_pre_text, label_post_text, label_style, label_css_class, //label
+        wrap_css_class, wrap_style={display:"flex", flexDirection:"row"},  wrap_tag="", // wrap
         col_span=1} = props  //Field component
 
   // everything regarding field presentation will be in field_model
@@ -61,7 +61,6 @@ function RenderACSField(props) {
   }
 
   const {field_wrap:FieldWrap, field:Field=ACSTextField} = components 
-
   if (mode !== "edit") {
     return (
       <FieldWrap key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}>
@@ -70,8 +69,8 @@ function RenderACSField(props) {
           <Tag Tag={label_tag} class={label_css_class} style={label_style}>
               {label_pre_text}{pretty_name}{label_post_text}
           </Tag>}
-           <Tag Tag={field_tag} style={field_style} class={field_css_class}>
-                {field_pre_text}<Field {...params}  key={field_name+"field"}/>{field_post_text}
+           <Tag Tag={field_tag} col_span={col_span} style={field_style} class={field_css_class}>
+              {field_pre_text}<Field {...params}  key={field_name+"field"}/>{field_post_text}
           </Tag>
         </Tag>
       </FieldWrap>

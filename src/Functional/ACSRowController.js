@@ -135,6 +135,7 @@ function ACSSectionHeader(props) {
 }
 
 function ACSRowController(input_props) {
+
   function handleSubmit(event, result, form_values, inserted_id) {
 
       if (input_props.onSubmit) {
@@ -142,6 +143,7 @@ function ACSRowController(input_props) {
       }
       handleFormClose()
   }
+
   const object_models =  useGetModel("object_types")
   const object_model = object_models?[input_props.object_type]:{}
   let field_models =  useGetModel("fields")
@@ -153,7 +155,7 @@ function ACSRowController(input_props) {
   const layout_models = useGetModel("layouts")
   const field_list_models = useGetModel("field_lists")
   // do not merge expensive, known unnecessary things
-  let {headless=false, data:input_props_data, form_open, key_id, onData="",action_props, action, form_title, no_header=false,...merging_props} = input_props
+  let {headless=false, data:input_props_data, row_type="table_row", form_open, key_id, onData="",action_props, action, form_title, no_header=false,...merging_props} = input_props
   let layout_model
   // treat layout as another dynamic input
   // props (usually from menu) takes
@@ -163,7 +165,7 @@ function ACSRowController(input_props) {
     merging_props = _.merge({},layout_model, merging_props)
   }
   // do not use base component
-  let row_component_model = _.merge({},rab_component_models.row)
+  let row_component_model = _.merge({},rab_component_models.table_row)
   row_component_model.row.components.row = ACSRow
   row_component_model.row.components.form_wrap =ACSFormWrap
   row_component_model.row.components.section_wrap =ACSSectionWrap
