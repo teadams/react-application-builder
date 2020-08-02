@@ -243,15 +243,106 @@ const rab_component_models = {
     },
     field:{
       names:{
-        field_wrap:"TableCell"
+        field_wrap:"Fragment"
       },
       components:{
       },
       default_mode:"click_to_edit",
       props:{
-        field_display:"name_value_wrapped"
-        //field_display:"name_above_value"
-        //field_display:"name_value"
+        label: true,
+        label_style:{fontWeight:"bold", align:"right", borderStyle:"dotted", width:"10%"},
+        label_post_text:":",
+        label_tag:"td",
+        field_tag:"td",
+        field_style:{borderStyle:"dotted"},
+
+      }
+    }
+  },
+  table_row: {
+    list: {
+      names:{},
+      components:{},
+      default_mode:"view",  
+      props:{}
+    },
+    row: {
+      names:{
+        header_wrap:"Fragment",
+        header:"RABObjectPrettyName",
+        row_body:"Fragment",
+        section_wrap:"Fragment",
+        section_header:"Fragment",
+        row_wrap:"Fragment",
+        field_chunk_wrap:"TableRow"
+      },
+      components:{},
+      default_mode:"view",
+      props:{
+        align:"left",
+        num_columns:2,
+        no_stripe:true
+      }
+    },
+    field:{
+      names:{
+        field_wrap:"Fragment"
+      },
+      components:{
+      },
+      default_mode:"click_to_edit",
+      props:{
+        label: true,
+        label_style:{fontWeight:"bold", align:"right", borderStyle:"dotted", width:"10%"},
+        label_post_text:":",
+        label_tag:"td",
+        field_tag:"td",
+        field_style:{borderStyle:"dotted"},
+
+      }
+    }
+  },
+  div_row: {
+    list: {
+      names:{},
+      components:{},
+      default_mode:"view",  
+      props:{}
+    },
+    row: {
+      names:{
+        header_wrap:"Fragment",
+        header:"RABObjectPrettyName",
+        row_body:"Fragment",
+        section_wrap:"Fragment",
+        section_header:"Fragment",
+        row_wrap:"Fragment",
+        field_chunk_wrap:"TableRow"
+      },
+      components:{},
+      default_mode:"view",
+      props:{
+        align:"left",
+        num_columns:1,
+        no_stripe:true
+      }
+    },
+    field:{
+      names:{
+        field_wrap:"Fragment"
+      },
+      components:{
+      },
+      default_mode:"click_to_edit",
+      props:{
+        label: true,
+        label_style:{fontWeight:"bold", align:"right", borderStyle:"dotted", width:"10%"},
+        label_post_text:":",
+        label_tag:"div",
+        field_tag:"div",
+        wrap_tag:"div",
+        field_style:{borderStyle:"dotted"},
+
       }
     }
   },
