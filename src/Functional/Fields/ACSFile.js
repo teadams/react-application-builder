@@ -14,7 +14,7 @@ import useGetModel from '../../Hooks/useGetModel.js'
 
 function ACSFile(props) {
 
-  const {mode, data, prevent_edit, image_size="tiny", image_size_list="tiny", field_name, field_models, pretty_key, data_field, formdata, object_type, formValues, disable_underline=false, onChange, autoFocus, avatar, fullWidth=true, custom_width, custom_height, data_type, components} = props
+  const {mode, data, prevent_edit, image_size="tiny", image_size_list="tiny", field_name, field_models, pretty_key, data_field, formdata, object_type, formValues, disable_underline=false, onChange, autoFocus, avatar, fullWidth=true, custom_width, custom_height, data_type, components, img_style} = props
 
   const field_value = data[data_field]
   const object_type_model = useGetModel("object_types")[object_type]
@@ -45,7 +45,7 @@ function ACSFile(props) {
     case "create":
       return (<Fragment>
           {mode==="edit" && data_type === "image" &&
-            <ACSImage letters={letters} image_object={field_value} letters={letters} size={image_size} avatar={avatar} custom_width={custom_width} custom_height={custom_height}/>
+            <ACSImage style={img_style} letters={letters} image_object={field_value} letters={letters} size={image_size} avatar={avatar} custom_width={custom_width} custom_height={custom_height}/>
           }
           <TextField 
             autoFocus={autoFocus}
@@ -64,7 +64,7 @@ function ACSFile(props) {
       break
     case "list":
       if (data_type === "image") {
-        return <ACSImage letters={letters} image_object={field_value} size={image_size_list}   avatar={avatar} custom_width={custom_width} custom_height={custom_height}/>
+        return <ACSImage style={img_style} letters={letters} image_object={field_value} size={image_size_list}   avatar={avatar}/>
       } else {
         return ("placeholder for file")
       }
@@ -72,7 +72,7 @@ function ACSFile(props) {
     default:
       // text, view, list
       if (data_type === "image") {
-        return <ACSImage letters={letters} avatar={avatar} image_object={field_value} size={image_size} custom_width={custom_width} custom_height={custom_height}/>
+        return <ACSImage style={img_style} letters={letters} avatar={avatar} image_object={field_value} size={image_size}/>
       } else {
         return ("placeholder for file")
       }
