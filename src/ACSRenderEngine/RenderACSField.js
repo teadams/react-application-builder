@@ -42,11 +42,10 @@ function RenderACSField(props) {
         more_detail, toggleMoreDetail} = props
 
   // these come from rab_component_model props
-  const {pre_text, post_text, css_class, style, 
-        tag, tag_style, tag_css_class,
-        label=false, pretty_name, label_pre_text, label_post_text=":", label_style, label_css_class,
-        wrap_css_class, wrap_style={display:"flex", flexDirection:"column",},
-        col_span=1} = props
+  const {field_tag, field_pre_text, field_post_text, field_css_class, field_style, 
+        label=false, pretty_name, label_tag, label_pre_text, label_post_text, label_style, label_css_class,
+        wrap_css_class, wrap_style={display:"flex", flexDirection:"row"},
+        wrap_tag="div", col_span=1} = props
   // everything regarding field presentation will be in field_model
   function handleFieldClick(event) {
     if (props.onFieldClick && event.target.name !== "more_link") {
@@ -65,17 +64,15 @@ function RenderACSField(props) {
   if (mode !== "edit") {
     return (
       <FieldWrap key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}>
-      <div class={wrap_css_class} style={wrap_style}>
+        <Tag Tag={wrap_tag} class={wrap_css_class} style={wrap_style}>
           {label && 
-          <div class={label_css_class} style={label_style}>
+          <Tag Tag={label_tag} class={label_css_class} style={label_style}>
               {label_pre_text}{pretty_name}{label_post_text}
-          </div>}
-          <div class={css_class} style={style}>
-            <Tag Tag={tag} style={tag_style} class={tag_css_class}>
-                {pre_text}<Field {...params}  key={field_name+"field"}/>{post_text}
-            </Tag>
-          </div>
-      </div>
+          </Tag>}
+           <Tag Tag={field_tag} style={field_style} class={field_css_class}>
+                {field_pre_text}<Field {...params}  key={field_name+"field"}/>{field_post_text}
+          </Tag>
+        </Tag>
       </FieldWrap>
     )
   
