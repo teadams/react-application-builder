@@ -31,7 +31,6 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
   let trigger_change_array = [object_type, id, dirty_data, param_data_exists]
   trigger_change_array = api.addAPIParams(trigger_change_array, api_options)
 
-
   useLayoutEffect( () => {
       isMountedRef.current = true;
       if (!param_data && (object_type && (id||api_options.filter_id||api_options.get_count))) {
@@ -59,17 +58,17 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
 // model to match. Otherwise, we will have a lot of weird debuggs
 // and flickering
   if (output_data || !prev_state) {
-    if ((object_type !== prev_object_type) || (param_data_exists !== prev_param_data_exists) || (JSON.stringify(field_list) !== JSON.stringify(prev_field_list))) {
-        setState([true, object_type, id, field_list, api_options, param_data_exists, output_data])
+    if (id !== prev_id || (object_type !== prev_object_type) || (param_data_exists !== prev_param_data_exists) || (JSON.stringify(field_list) !== JSON.stringify(prev_field_list))) {
+        setState([true, object_type, id, field_list, api_options, param_data_exists, param_data])
     }
-    return [true, object_type, id, field_list, api_options, output_data]
+    return [true, object_type, id, field_list, api_options,  output_data]
   } 
   // subtle use case example
   // menu has the same component twice but with 2 different
   // object types.  The whole DOM structure is going to change
   // so don't run render with the meta data from one object
   // type on data from another.  A mess of subtle bugs
-  if (object_type != prev_object_type || field_list != prev_field_list) { /// OR something else is different 
+  if (object_type != prev_object_type || field_list != prev_field_list || id !== prev_id || param_data_exists !== prev_param_data_exists) { /// OR something else is different 
       if(prev_state[0]) {
         setState([false, object_type, prev_id, prev_field_list, prev_api_options, prev_param_data_exists, output_data])
       }
