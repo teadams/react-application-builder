@@ -216,49 +216,7 @@ const rab_component_models = {
       }
     }
   },
-  row: {
-    list: {
-      names:{},
-      components:{},
-      default_mode:"view",  
-      props:{}
-    },
-    row: {
-      names:{
-        header_wrap:"Fragment",
-        header:"RABObjectPrettyName",
-        row_body:"Fragment",
-        section_wrap:"Fragment",
-        section_header:"Fragment",
-        row_wrap:"Fragment",
-        field_chunk_wrap:"TableRow"
-      },
-      components:{},
-      default_mode:"view",
-      props:{
-        align:"left",
-        num_columns:2,
-        no_stripe:true
-      }
-    },
-    field:{
-      names:{
-        field_wrap:"Fragment"
-      },
-      components:{
-      },
-      default_mode:"click_to_edit",
-      props:{
-        label: true,
-        label_style:{fontWeight:"bold", align:"right", borderStyle:"dotted", width:"10%"},
-        label_post_text:":",
-        label_tag:"td",
-        field_tag:"td",
-        field_style:{borderStyle:"dotted"},
 
-      }
-    }
-  },
   table_row: {
     list: {
       names:{},
@@ -329,19 +287,22 @@ const rab_component_models = {
     },
     field:{
       names:{
-        field_wrap:"Fragment"
+        field_wrap:"TableCell"
       },
       components:{
       },
       default_mode:"click_to_edit",
       props:{
         label: true,
-        label_style:{fontWeight:"bold", align:"right", borderStyle:"dotted", width:"10%"},
-        label_post_text:":",
+        label_style:{fontWeight:"bold", align:"right", display:"flex", flexGrow:0},
+        label_post_text:": ",
         label_tag:"div",
+
         field_tag:"div",
         wrap_tag:"div",
-        field_style:{borderStyle:"dotted"},
+        wrap_style:{width:"100%", flexDirection:"row", display:"flex", width:"100%"},
+
+        field_style:{ display:"flex", flexGrow:3},
 
       }
     }

@@ -38,13 +38,8 @@ function RABTextField(props) {
       more_link = <Link key="more_link" id="more_link" name="more_link" onClick={toggleMoreDetail}>(...less)</Link>
     }
   }
-  if (mode === "list") {
-    with_thumbnail = ""
-  } else {
-    with_thumbnail = with_thumbnail?with_thumbnail:field_model.with_thumbnail
-  }
 
-  with_url = with_url?with_url:field_model.with_url
+
 
   switch (mode) {
     case "edit":
@@ -74,30 +69,7 @@ function RABTextField(props) {
     case "text":
       return field_value
     default:
-      if (!with_thumbnail && (!with_url || (with_url && !data[with_url]))) {    
           return <Fragment>{field_value}{more_link}</Fragment>
-
-
-      } else if (!with_thumbnail && with_url) {
-        return (<Link href={data[with_url]}>test3{field_value}test3{more_link}</Link>)
-      } else {
-          const thumbnail = data[with_thumbnail]
-          let url = with_url?data[with_url]:""
-          if (thumbnail) { 
-            if (url) {
-              return (<div style={{display:"flex", alignItems:"center"}}> <ACSImage image_object={thumbnail} fix="width" size={image_size}/><Link href={url}>{field_value}{more_link}</Link></div>)
-            } else {
-              return (<div style={{display:"flex", alignItems:"center"}}> <ACSImage image_object={thumbnail} fix="width" size={image_size}/><div>test2{field_value}test2{more_link}</div></div>)
-            }
-          } else {
-            const letters = field_value?field_value.charAt(0):""
-            if (url) {
-              return (<div style={{display:"flex"}}><ACSImage letters={letters}  fix="width" size={image_size}/><Link href={url}>{field_value}{more_link}</Link></div>)    
-            } else {
-              return (<div style={{display:"flex"}}><ACSImage letters={letters}  fix="width" size={image_size}/>{field_value}test{more_link}test</div>)
-            }
-          }
-      }
   }
 }
 

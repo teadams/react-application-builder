@@ -229,13 +229,9 @@ function RABTableRow(props) {
 function RABTableCell(props) {
   const classes = useStyles();
   const {emphasis, cell_style} = props
-  let EmphasisTag = Fragment
-  if (emphasis) {
-      EmphasisTag = props.emphasis
-  }
 
   
-  return(<TableCell classes={{root:classes.table_cell}} onClick={props.onClick} style={{verticalAlign:"top"}} onMouseOver={props.onMouseOver} colSpan={props.col_span} key={props.key_id}><EmphasisTag><div style={cell_style}>{props.children}</div></EmphasisTag></TableCell>)
+  return(<TableCell classes={{root:classes.table_cell}} onClick={props.onClick} style={{verticalAlign:"top"}} onMouseOver={props.onMouseOver}  key={props.key_id}>{props.children}</TableCell>)
 }
 
 function RABFragment(props) {
