@@ -68,7 +68,7 @@ function RABList(list_props) {
 
   return (
     data.map((row, index) => {
-        return (<ACSRowController {...list_params} data={row} field_models={field_models} rab_component_model={rab_component_model} key={index+"Controller"} key_id={index}/>)
+        return (<ACSRowController row_type="table_list" {...list_params} data={row} field_models={field_models} rab_component_model={rab_component_model} key={index+"Controller"} key_id={index}/>)
     })
   )
 }
@@ -105,7 +105,7 @@ function ACSListController(input_props) {
   if (!data || (object_type && !object_model) || headless) return null
 
   return  (
-    <ACSListRenderer {...list_model.props} field_models={field_models} action={action} key={object_type+"list"}  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} action_props={action_props} rab_component_model={rab_component_model} />
+    <ACSListRenderer  {...list_model.props}  field_models={field_models} action={action} key={object_type+"list"}  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} action_props={action_props} rab_component_model={rab_component_model} />
   )
   
 }

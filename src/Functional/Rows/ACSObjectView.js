@@ -7,7 +7,7 @@ import UIContext from '../../Template/UIContext';
 
 
  function ACSObjectView(props)  {
-  const {object_type, id, api_options, layout, sections, field_list, num_columns, ...params} = props
+  const {object_type, id, api_options, layout, sections, field_list, num_columns, row_type="table_row", ...params} = props
   const dialog = useContext(UIContext).dialog
   let {form_open=props.row_form} = props
   if (!props.onClose) {
@@ -23,7 +23,7 @@ import UIContext from '../../Template/UIContext';
   }
 
   return ( 
-      <ACSRowController {...params} form_open={form_open} onClose={handleFormClose} object_type={object_type} id={id} layout={layout} sections={sections} field_list={field_list} api_options={api_options} num_columns={num_columns}  />
+      <ACSRowController {...params} row_type={row_type} form_open={form_open} onClose={handleFormClose} object_type={object_type} id={id} layout={layout} sections={sections} field_list={field_list} api_options={api_options} num_columns={num_columns}  />
   )
 }
 export default ACSObjectView;

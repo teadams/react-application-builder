@@ -165,7 +165,7 @@ function ACSRowController(input_props) {
     merging_props = _.merge({},layout_model, merging_props)
   }
   // do not use base component
-  let row_component_model = _.merge({},rab_component_models.table_row)
+  let row_component_model = _.merge({},rab_component_models[row_type])
   row_component_model.row.components.row = ACSRow
   row_component_model.row.components.form_wrap =ACSFormWrap
   row_component_model.row.components.section_wrap =ACSSectionWrap
@@ -291,7 +291,7 @@ function ACSRowController(input_props) {
     return null
   }
 
-  return  (<ACSRowRenderer {...row_model.props} field_models={field_models} mode={mode} form={form} object_type={object_type} action_props={action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} form_open={form_open} form_title={form_title} onClose={handleFormClose}
+  return  (<ACSRowRenderer {...row_model.props} row_type={row_type} field_models={field_models} mode={mode} form={form} object_type={object_type} action_props={action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} form_open={form_open} form_title={form_title} onClose={handleFormClose}
   handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} key={key_id+"Render"} key_id={key_id}/>)
 
 }
