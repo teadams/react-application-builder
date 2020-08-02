@@ -17,13 +17,10 @@ function RABTextField(props) {
 
   // XX field model passed due to referenced change. May 
   // be done server side later
-  let field_value=""
-
-
-  field_value = data[field_model.data_field?field_model.data_field:field_name]
+  let field_value = data[field_model.data_field?field_model.data_field:field_name]
 //u.a(field_name, field_value, data)
   if (!field_value && (field_value === null || field_value === undefined)) {
-      field_value =""
+      field_value ="&nbsp;"
   }
 
   const field_length = field_value.length 
@@ -72,13 +69,13 @@ function RABTextField(props) {
         )
       break
     case "csv":
-      return '"'+field_value.toString()+'""'
+      return '"'+field_value+'""'
       break
     case "text":
-      return field_value.toString()
+      return field_value
     default:
       if (!with_thumbnail && (!with_url || (with_url && !data[with_url]))) {    
-          return <Fragment>{field_value.toString()}{more_link}</Fragment>
+          return <Fragment>{field_value}{more_link}</Fragment>
 
 
       } else if (!with_thumbnail && with_url) {
