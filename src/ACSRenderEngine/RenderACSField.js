@@ -42,8 +42,8 @@ function RenderACSField(props) {
         more_detail, toggleMoreDetail} = props
 
   // these come from rab_component_model props
-  const {field_tag, field_pre_text, field_post_text, field_css_class, field_style, 
-        label=false, pretty_name, label_tag, label_pre_text, label_post_text, label_style, label_css_class,
+  const {field_tag="div", field_pre_text, field_post_text, field_css_class, field_style, 
+        label=false, pretty_name, label_tag="div", label_pre_text, label_post_text, label_style, label_css_class,
         wrap_css_class, wrap_style={display:"flex", flexDirection:"row"},
         wrap_tag="div", col_span=1} = props
   // everything regarding field presentation will be in field_model
