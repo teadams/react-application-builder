@@ -77,7 +77,7 @@ function RenderACSField(props) {
   //u.aa("n,datafield,path,field,d", field_name, data_field,props.data_path, Field,data)
 
   if (hide_if_empty && !data[data_field]) {
-      FieldWrap = ACSVoid
+     FieldWrap = ACSVoid
   }
 
   let show_thumbnail = false
