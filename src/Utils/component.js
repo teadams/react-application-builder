@@ -301,7 +301,7 @@ const rab_component_models = {
         field_tag:"div",
         wrap_tag:"div",
         wrap_style:{width:"100%", flexDirection:"row", display:"flex", width:"100%"},
-
+        hide_if_empty:true,
         field_style:{ display:"flex", flexGrow:3},
 
       }

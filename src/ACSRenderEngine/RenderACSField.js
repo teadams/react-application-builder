@@ -11,6 +11,10 @@ import useGetModel from '../Hooks/useGetModel';
 import {ACSTextField} from "../ACSLibrary";
 
 
+const ACSVoid = (props) => {
+  return <Fragment/>
+}
+
 const FormWrap =(props) => {
   // objects are always created at the row level
   // filters always use the filter component 
@@ -36,15 +40,18 @@ const Tag = (props) => {
 
 function RenderACSField(props) {
 
+  if (props.data === undefined) {
+      return null
+  }
   const {api_options, components:discard_components, ...params} = props
-  const {data, row_data, object_type, data_field,  field_name, form_field_name, components, 
+  const {data, row_data, object_type, data_field,  field_name, form_field_name, components,
         mode="view", form="true", formValues, autoFocus, onSubmit, onBlur, onChange, 
         more_detail, toggleMoreDetail} = props
   // these come from rab_component_model props
 
   const {field_tag="div", field_pre_text, field_post_text, field_css_class, field_style,  //field
         label=false, pretty_name, label_tag="", label_pre_text, label_post_text, label_style, label_css_class, //label
-        wrap_css_class, wrap_style={display:"flex", flexDirection:"row"},  wrap_tag=""} = props  //props
+        hide_if_empty, wrap_css_class, wrap_style={display:"flex", flexDirection:"row"},  wrap_tag=""} = props  //wrap
     let {col_span=1} = props
 
 
@@ -65,22 +72,26 @@ function RenderACSField(props) {
   if (label && col_span > 1) {
     col_span = 2*col_span -1
   }
-  const {field_wrap:FieldWrap, field:Field=ACSTextField} = components 
+  let {field_wrap:FieldWrap, field:Field=ACSTextField} = components 
   //u.aa("n,datafield,path,field,d", field_name, data_field,props.data_path, Field,data)
+
+  if (hide_if_empty && !data[data_field]) {
+      FieldWrap = ACSVoid
+  }
 
   if (mode !== "edit") {
 
     return (<Fragment>
       <FieldWrap key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}>
-        <Tag Tag={wrap_tag} class={wrap_css_class} style={wrap_style}>
-          {label && 
-          <Tag Tag={label_tag} class={label_css_class} style={label_style}>
-              {label_pre_text}{pretty_name}{label_post_text}
-          </Tag>}
-           <Tag Tag={field_tag} col_span={col_span} style={field_style} class={field_css_class}>
-              {field_pre_text}<Field {...params}  key={field_name+"field"}/>{field_post_text}
+          <Tag Tag={wrap_tag} class={wrap_css_class} style={wrap_style}>
+            {label && 
+            <Tag Tag={label_tag} class={label_css_class} style={label_style}>
+                {label_pre_text}{pretty_name}{label_post_text}
+            </Tag>}
+            <Tag Tag={field_tag} col_span={col_span} style={field_style} class={field_css_class}>
+                {field_pre_text}<Field {...params}  key={field_name+"field"}/>{field_post_text}
+            </Tag>
           </Tag>
-        </Tag>
       </FieldWrap></Fragment>
     )
   
