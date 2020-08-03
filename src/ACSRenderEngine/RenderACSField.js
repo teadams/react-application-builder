@@ -24,7 +24,9 @@ const FormWrap =(props) => {
 }
 
 const Tag = (props) => {
-  const {Tag, style, css_class, col_span} = props
+  const {Tag, style, css_class} = props
+  let {col_span} = props
+
   if (Tag) {
     return (<Tag colspan={col_span} style={style} className={css_class}>{props.children}</Tag>)
   } else {
@@ -41,8 +43,9 @@ function RenderACSField(props) {
   // these come from rab_component_model props
   const {field_tag="div", field_pre_text, field_post_text, field_css_class, field_style,  //field
         label=false, pretty_name, label_tag="", label_pre_text, label_post_text, label_style, label_css_class, //label
-        wrap_css_class, wrap_style={display:"flex", flexDirection:"row"},  wrap_tag="", // wrap
-        col_span=1} = props  //Field component
+        wrap_css_class, wrap_style={display:"flex", flexDirection:"row"},  wrap_tag=""} = props  //props
+    let {col_span=1} = props
+
 
   // everything regarding field presentation will be in field_model
   function handleFieldClick(event) {
@@ -57,9 +60,12 @@ function RenderACSField(props) {
     }
   }
 
+  if (label && col_span > 1) {
+    col_span = 2*col_span -1
+  }
   const {field_wrap:FieldWrap, field:Field=ACSTextField} = components 
   if (mode !== "edit") {
-//u.a(field_name,FieldWrap)
+
     return (<Fragment>
       <FieldWrap key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}>
         <Tag Tag={wrap_tag} class={wrap_css_class} style={wrap_style}>
