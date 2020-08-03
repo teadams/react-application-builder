@@ -32,7 +32,7 @@ const Tag = (props) => {
   let {col_span} = props
 
   if (Tag) {
-    return (<Tag colspan={col_span} style={style} className={css_class}>{props.children}</Tag>)
+    return (<Tag colSpan={col_span} style={style} className={css_class}>{props.children}</Tag>)
   } else {
     return (<Fragment>{props.children}</Fragment>)
   }
@@ -44,7 +44,7 @@ function RenderACSField(props) {
       return null
   }
   const {api_options, components:discard_components, ...params} = props
-  const {data, row_data, object_type, data_field,  field_name, form_field_name, components,
+  const {data, row_data, object_type, data_field,  field_name, form_field_name, components={},
         mode="view", form="true", formValues, autoFocus, onSubmit, onBlur, onChange, 
         more_detail, toggleMoreDetail} = props
   // these come from rab_component_model props
@@ -73,12 +73,9 @@ function RenderACSField(props) {
   if (label && col_span > 1) {
     col_span = 2*col_span -1
   }
-  let {field_wrap:FieldWrap, field:Field=ACSTextField} = components 
+  let {field_wrap:FieldWrap=Fragment, field:Field=ACSTextField} = components 
   //u.aa("n,datafield,path,field,d", field_name, data_field,props.data_path, Field,data)
 
-  if (hide_if_empty && !data[data_field]) {
-     FieldWrap = ACSVoid
-  }
 
   let show_thumbnail = false
   if (with_thumbnail && data[with_thumbnail]) {
@@ -86,7 +83,11 @@ function RenderACSField(props) {
   }
 
   if (mode !== "edit" && mode !== "create") {
+    if (hide_if_empty && !data[data_field]) {
+       FieldWrap = ACSVoid
+    }
 
+   
     return (<Fragment>
       <FieldWrap key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}>
           <Tag Tag={wrap_tag} class={wrap_css_class} style={wrap_style}>
