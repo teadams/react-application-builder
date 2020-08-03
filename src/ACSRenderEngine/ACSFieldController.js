@@ -96,7 +96,6 @@ function ACSFieldController(input_props) {
       data = row_data[field_model.data_path]
   }
 
-  u.a(field_name, field_model.data_path, data&&Object.keys(data))
 
   function toggleMoreDetail(event) {
     setMoreDetail(!more_detail)
