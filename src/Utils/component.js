@@ -256,7 +256,6 @@ const rab_component_models = {
         label_tag:"td",
         field_tag:"td",
         field_style:{borderStyle:"dotted"},
-
       }
     }
   },
