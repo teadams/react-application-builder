@@ -85,7 +85,7 @@ function RenderACSField(props) {
       show_thumbnail = true
   }
 
-  if (mode !== "edit") {
+  if (mode !== "edit" && mode !== "create") {
 
     return (<Fragment>
       <FieldWrap key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}>
@@ -111,10 +111,18 @@ function RenderACSField(props) {
     )
   
   } else {
-
     return ( 
       <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
-        <Field {...params} key={field_name+"field"}/>
+        <FieldWrap key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}>
+            <Tag Tag={wrap_tag} class={wrap_css_class} style={wrap_style}>
+              <Tag Tag={label_tag} class={label_css_class} style={label_style}>
+                  {label_pre_text}{pretty_name}{label_post_text}
+              </Tag>
+              <Tag Tag={field_tag} col_span={col_span} style={field_style} class={field_css_class}>
+                <Field {...params}  key={field_name+"field"}/>
+              </Tag>
+            </Tag>
+        </FieldWrap>
       </FormWrap>
     )
   }
