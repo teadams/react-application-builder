@@ -122,58 +122,63 @@ function buildRABModel(params) {
   /// but may have a better strategy to do this.
 
   if (!params) {return}
-  return   _.merge({},     
-      rab_component_models[params.rab_component_model_name], params.rab_component_model,
-      { list:{names:{list:params.list_component},
-              components:{},
-              props:{object_type:params.object_type,
-                     api_options:params.api_options,
-                     field_list:params.field_list,
-                     value:params.list_field_value,
-                     autoFocus:params.list_autoFocus,
-                     onSubmit:params.list_onSubmit,
-                     onChange:params.list_onChange,
-                     onBlur:params.list_onBlur,
-                     style:params.list_style,
-                     prevent_edit:params.list_prevent_edit,
-                     disable_underline:params.list_disable_underline,
-                     select_form_name:params.list_select_form_name,
-                     select_key_field:params.list_select_key_field,
-                     select_display_field:params.list_select_display_field}},
-        row:{names:{}, components:{},props:{
-              object_type:params.object_type,
-              api_options:params.api_options,
-              id:params.id,
-              field_list:params.field_list,
-              sections:params.sections,
-              layout:params.layout,
-              dialog_size:params.dialog_size,
-              num_columns:params.num_columns,
-              mode:params.row_mode?params.row_mode:params.mode,
-              form:params.row_form,
-              header_image_size:params.row_header_image_size,
-              no_stripe:params.row_no_stripe
-        }},
-        field:{names:{field:params.field_component},
-              components:{}, 
-              props:{
-                image_size:params.field_image_size,
-                image_size_list:params.field_image_size_list,
+
+  let flexible_params_model = _.merge({},rab_component_models.empty)
+  Object.keys(params).forEach(param_name=> {
+    const param_name_split = param_name.split("_")
+    switch (param_name_split[0]) {
+      case "field":
+        if (param_name !== "field_model") {
+          flexible_params_model.field.props[ param_name_split.slice(1).join("_")] = params[param_name]
+        }
+        break;
+      case "row":
+        flexible_params_model.row.props[ param_name_split.slice(1).join("_")] = params[param_name]
+        break;
+      case "list":
+        flexible_params_model.list.props[ param_name_split.slice(1).join("_")] = params[param_name]
+        break
+    }
+
+//    if (params.field_name === "email") {
+//      u.a(param_name, params_model.field)
+//    }
+  })
+
+  const fixed_params_model = { list:{names:{list:params.list_component},
+                components:{},
+                props:{object_type:params.object_type,
+                       api_options:params.api_options,
+                       field_list:params.field_list,
+                }},
+          row:{names:{}, components:{},props:{
                 object_type:params.object_type,
                 api_options:params.api_options,
+                id:params.id,
                 field_list:params.field_list,
-                field_name:params.field_name,
-                form_field_name:params.form_field_name,
-                onFieldClick:params.onFieldClick,
-                disable_underline:params.field_disable_underline,
-                click_to_edit:params.field_click_to_edit,
-                mouseover_to_edit:params.field_mouseover_to_edit,
-                field_display:params.field_display,
-                mode:params.field_mode,
-                form:params.field_form,
-                message:params.field_message}}
-      })
+                sections:params.sections,
+                layout:params.layout,
+                dialog_size:params.dialog_size,
+                num_columns:params.num_columns,
+                mode:params.row_mode?params.row_mode:params.mode,
+          }},
+          field:{names:{field:params.field_component},
+                components:{}, 
+                props:{
+                  object_type:params.object_type,
+                  api_options:params.api_options,
+                  field_list:params.field_list,
+                  field_name:params.field_name,
+                  form_field_name:params.form_field_name,
+                  onFieldClick:params.onFieldClick,
+              }}
+          }
+
+
+  return   _.merge({},    
+      rab_component_models[params.rab_component_model_name], params.rab_component_model, fixed_params_model, flexible_params_model)
 }
+
 
 function determineModelComponents(level, model) {
   // similar to buildRABModel, this could be precalculate
