@@ -8,7 +8,7 @@ import React, { Component, Fragment,  useState, useEffect} from 'react';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell } from '@material-ui/core';
 import useGetModel from '../Hooks/useGetModel';
-import {ACSTextField} from "../ACSLibrary";
+import {ACSTextField, ACSImage} from "../ACSLibrary";
 
 
 const ACSVoid = (props) => {
@@ -51,7 +51,8 @@ function RenderACSField(props) {
 
   const {field_tag="div", field_pre_text, field_post_text, field_css_class, field_style,  //field
         label=false, pretty_name, label_tag="", label_pre_text, label_post_text, label_style, label_css_class, //label
-        hide_if_empty, wrap_css_class, wrap_style={display:"flex", flexDirection:"row"},  wrap_tag=""} = props  //wrap
+        hide_if_empty, wrap_css_class, wrap_style={display:"flex", flexDirection:"row"},  wrap_tag="",
+        with_thumbnail, thumbnail_size="small"} = props  //wrap
     let {col_span=1} = props
 
 
@@ -79,6 +80,11 @@ function RenderACSField(props) {
       FieldWrap = ACSVoid
   }
 
+  let show_thumbnail = false
+  if (with_thumbnail && data[with_thumbnail]) {
+      show_thumbnail = true
+  }
+
   if (mode !== "edit") {
 
     return (<Fragment>
@@ -89,7 +95,16 @@ function RenderACSField(props) {
                 {label_pre_text}{pretty_name}{label_post_text}
             </Tag>}
             <Tag Tag={field_tag} col_span={col_span} style={field_style} class={field_css_class}>
-                {field_pre_text}<Field {...params}  key={field_name+"field"}/>{field_post_text}
+                {!show_thumbnail?
+                    <Fragment>
+                      {field_pre_text}<Field {...params}  key={field_name+"field"}/>{field_post_text}
+                    </Fragment>
+                  :<div style={{display:'flex', flexDirection:'row', alignItems:'center'}}>
+                    <ACSImage image_object={data[with_thumbnail]} size={thumbnail_size}/>            
+                    <div style={{paddingLeft:3}}>{field_pre_text}<Field {...params}  key={field_name+"field"}/>{field_post_text}</div>
+                  </div>
+              }
+
             </Tag>
           </Tag>
       </FieldWrap></Fragment>
