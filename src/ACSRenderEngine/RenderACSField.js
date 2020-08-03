@@ -34,13 +34,10 @@ const Tag = (props) => {
 
 function RenderACSField(props) {
 
-  if (!props.data) {return null}
-
   const {api_options, components:discard_components, ...params} = props
   const {data, row_data, object_type, data_field,  field_name, form_field_name, components, 
         mode="view", form="true", formValues, autoFocus, onSubmit, onBlur, onChange, 
         more_detail, toggleMoreDetail} = props
-
   // these come from rab_component_model props
   const {field_tag="div", field_pre_text, field_post_text, field_css_class, field_style,  //field
         label=false, pretty_name, label_tag="", label_pre_text, label_post_text, label_style, label_css_class, //label
@@ -62,7 +59,8 @@ function RenderACSField(props) {
 
   const {field_wrap:FieldWrap, field:Field=ACSTextField} = components 
   if (mode !== "edit") {
-    return (
+//u.a(field_name,FieldWrap)
+    return (<Fragment>
       <FieldWrap key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}>
         <Tag Tag={wrap_tag} class={wrap_css_class} style={wrap_style}>
           {label && 
@@ -73,11 +71,11 @@ function RenderACSField(props) {
               {field_pre_text}<Field {...params}  key={field_name+"field"}/>{field_post_text}
           </Tag>
         </Tag>
-      </FieldWrap>
+      </FieldWrap></Fragment>
     )
   
+  } else {
 
-} else {
     return ( 
       <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
         <Field {...params} key={field_name+"field"}/>

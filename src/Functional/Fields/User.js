@@ -12,7 +12,9 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 import ACSImage from "./ACSImage.js"
 
 function User(props) {
-  const {data, field_name, display, mode="view", field_model={}, image_size,  ...params} = props
+  const {row_data, data, field_name, form_field_name, formdata, formValues, display, mode="view", field_model={}, image_size,  ...params} = props
+
+
   const {with_thumbnail} = field_model
 
   let {size="tiny"} = props
@@ -44,8 +46,10 @@ function User(props) {
         } else {
           return (<Fragment>{first_name} {last_name}</Fragment>)
         }
-    }
-  }
+    } 
+  } else {
+    return null
+  } 
 }
 
 export default User;

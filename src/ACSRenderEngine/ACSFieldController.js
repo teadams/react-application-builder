@@ -33,7 +33,6 @@ function ACSFieldController(input_props) {
   let input_field_name = input_props.field_name
   let input_object_type = input_props.object_type
 
-
   if (!field_models[input_object_type][input_field_name]) {
       alert ("No field in model. Object Type: " + input_object_type + " Field: " + input_field_name)
   }
@@ -82,7 +81,7 @@ function ACSFieldController(input_props) {
   const field_list = ["id", field_name]  
   const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(object_type, form_field_name, data, handleSubmit, mode, form, "", field_list);
 
-  if (!data || (object_type && !field_model) || mode === "hidden" || field_model.hidden_on_form && initial_mode ==="edit" ||  (field_model.hidden_on_form || field_model.hidden_on_create_form) && initial_mode==="create") return null
+  if (data === undefined || (object_type && !field_model) || mode === "hidden" || field_model.hidden_on_form && initial_mode ==="edit" ||  (field_model.hidden_on_form || field_model.hidden_on_create_form) && initial_mode==="create") return null
 
   // ***************************************************//
   // Data and final values ready for render             //
@@ -96,6 +95,8 @@ function ACSFieldController(input_props) {
   if (data && field_model.data_path) {
       data = row_data[field_model.data_path]
   }
+
+  u.a(field_name, field_model.data_path, data&&Object.keys(data))
 
   function toggleMoreDetail(event) {
     setMoreDetail(!more_detail)
@@ -132,7 +133,6 @@ function ACSFieldController(input_props) {
       handleFormSubmit(event)
     }
   }
-  
   
 
   return (
