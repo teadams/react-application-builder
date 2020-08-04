@@ -15,6 +15,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   const object_models = useGetModel("object_types")
   const object_model =  useGetModel("object_types", object_type)
   const field_models =  useGetModel("fields")
+  const field_model =   field_models[object_type]
   const [prior_input_mask, setPriorInputMask] = useState(null)
   const [prior_user_id, setPriorUserId] = useState("")
 
@@ -34,43 +35,40 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     // props have changed, new form
     let defaults = {}
     field_list.forEach(field =>{
-      const [base_field_name, final_field_name, base_object_type, final_object_type, base_field_model, final_field_model] = meta.resolveFieldModel(object_type, field, object_models, field_models)
-
-      const references = final_field_model.references
-      if (final_field_model.input_type === "file") {
-        defaults[final_field_name] = ""
-      } else if ((final_field_name !== base_field_name) && mode==="edit" && data) {
+    
+      const references = field_model.references
+      if (field_model.input_type === "file") {
+        defaults[field_name] = ""
+      } else if ( mode==="edit" && data) {
       // data has been restructured
         let default_value
-        if (final_field_model.references) {
-          const references = final_field_model.references  
-          default_value=data[base_field_name][final_field_name][final_field_model["references_field"]]
+        if (field_model.data_path) {
+          // have to handle the extra . case
+          const data_path = field_model.data_path.split(".")
+          if (data_path.lenth = 1) {
+              default_value=data[field_model.data_path][field_name]
+          } else {
+            default_value=data[data_path[0]][data_path[1]][field_name]
+          }
         } else {
-          default_value=data[base_field_name][final_field_name]
+          default_value=data[field_name]?data[field_name]:""
         }
         if (default_value === undefined || default_value === null) {
           // base existed, but references did not
-          default_value = final_field_model.default?final_field_model.default:""
+          default_value = field_model.default?field_model.default:""
         }
         defaults[field] = default_value
-      } else if (data && mode === "edit") {
-//        u.a("final, base", final_field_name, base_field_name)
-        if (references) {
-          defaults[field] = data[field][base_field_model["references_field"]]?data[field][base_field_model["references_field"]]:""
-        } else {
-          defaults[field] = data[field]?data[field]:""
-        }
+
       } else if (mode === "create") {
           // take from field_models
-          let default_value = final_field_model.default?final_field_model.default:""
+          let default_value = field_model.default?field_model.default:""
           // take from context
-          if (context.user.id && references === "core_user" && final_field_model.use_context) {
+          if (context.user.id && references === "core_user" && field_model.use_context) {
               default_value = context.user.id
           } 
           default_value=default_values_prop[field]?default_values_prop[field]:default_value  
           
           defaults[field] = default_value
-
       }
             
     })
@@ -87,10 +85,8 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       // update context
     
       field_list.forEach(field => {
-        const [base_field_name, final_field_name, base_object_type, final_object_type, base_field_model, final_field_model] = meta.resolveFieldModel(object_type, field, object_models, field_models)
 
-
-        if (context.user.id  && final_field_model.use_context) {
+        if (context.user.id  && field_model.use_context) {
             setFormValues(formValues=>({...formValues,[field]:context.user.id}))
           }
       })
@@ -136,11 +132,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     } else {
       // only send file fields when changed
       Object.keys(formValues).forEach(form_field_name => {
-      //  u.a(form_field_name, Object.keys(field_models))
-        const [base_field_name, final_field_name, base_object_type, final_object_type, base_field_model, final_field_model] = meta.resolveFieldModel(object_type, form_field_name, object_models, field_models)
-
-        // user_id, core_subsite might not have field_model
-        if (final_field_model && final_field_model.input_type === "file" && !filesTouched.includes(form_field_name)) {
+        if (field_model && field_model.input_type === "file" && !filesTouched.includes(form_field_name)) {
             delete formValues[form_field_name]
         }
       })
@@ -179,14 +171,13 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     event.persist();
     console.log("handle form change")
     const name = event.target.name
-    const [base_field_name, final_field_name, base_object_type, final_object_type, base_field_model, final_field_model] = meta.resolveFieldModel(object_type, name, object_models, field_models)
     setLastTouched(name)
     if (event.target.type !== "file") {
       let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
-      if (final_field_model.dependency_data_field) {
-        let dependent_form_values_name = final_field_model.dependency_data_field
-        if (base_field_name !== final_field_name) {
-          dependent_form_values_name = base_field_name+"."+dependent_form_values_name
+      if (field_model.dependency_data_field) {
+        let dependent_form_values_name = field_model.dependency_data_field
+        if (field_name !== field_name) {
+          dependent_form_values_name = field_name+"."+dependent_form_values_name
         }
         console.log("set form values 1")
 
