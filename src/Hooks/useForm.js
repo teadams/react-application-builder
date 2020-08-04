@@ -14,8 +14,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   const context = useContext(AuthContext)
   const object_models = useGetModel("object_types")
   const object_model =  useGetModel("object_types", object_type)
-  const field_models =  useGetModel("fields")
-  const field_model =   field_models[object_type]
+  const field_models =  useGetModel("fields", object_type)
   const [prior_input_mask, setPriorInputMask] = useState(null)
   const [prior_user_id, setPriorUserId] = useState("")
 
@@ -35,7 +34,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     // props have changed, new form
     let defaults = {}
     field_list.forEach(field =>{
-    
+      const field_model=field_models[field]
       const references = field_model.references
       if (field_model.input_type === "file") {
         defaults[field_name] = ""
@@ -85,7 +84,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       // update context
     
       field_list.forEach(field => {
-
+        const field_model=field_models[field]
         if (context.user.id  && field_model.use_context) {
             setFormValues(formValues=>({...formValues,[field]:context.user.id}))
           }
@@ -108,7 +107,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       formValues.core_subsite = context.context_id
     }
     if (context.user && context.user.id) {
-      formValues.user_id = context.user.id 
+      formValues.creation_user = context.user.id 
     }
     if (!formValues[id_field]) {
       api.postData(object_type, formValues, {}, (insert_result, error) => { 
@@ -134,6 +133,8 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     } else {
       // only send file fields when changed
       Object.keys(formValues).forEach(form_field_name => {
+        const field_model=field_models[form_field_name]
+
         if (field_model && field_model.input_type === "file" && !filesTouched.includes(form_field_name)) {
             delete formValues[form_field_name]
         }
@@ -173,6 +174,8 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     event.persist();
     console.log("handle form change")
     const name = event.target.name
+    const field_model=field_models[name]
+
     setLastTouched(name)
     if (event.target.type !== "file") {
       let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
