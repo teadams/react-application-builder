@@ -40,6 +40,10 @@ const Tag = (props) => {
 
 function RenderACSField(props) {
 
+  if (props.object_type === "core_subsite" || props.object_type === "nwn_project") {    
+      u.a("after", props.field_name, props.object_type, props.data)
+  }
+
   if (props.data === undefined) {
       return null
   }
@@ -81,6 +85,8 @@ function RenderACSField(props) {
   if (with_thumbnail && data[with_thumbnail]) {
       show_thumbnail = true
   }
+
+
 
   if (mode !== "edit" && mode !== "create") {
     if (hide_if_empty && !data[data_field]) {

@@ -39,7 +39,7 @@ function ACSFieldController(input_props) {
   const field_model = field_models[input_object_type][input_field_name]
 
   // isolate input props to merge into model
-  const {data:input_data, override_meta_model=true, object_type:discard_object_type, field_name:discard_field_name, handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, key_id, autoFocus=false, ...merging_props} = input_props
+  const {data:input_data, override_meta_model=true, object_type:props_object_type, field_name:discard_field_name, handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, key_id, autoFocus=false, ...merging_props} = input_props
 
   // look for value if data was not provided
   let props_data = input_data
@@ -60,8 +60,10 @@ function ACSFieldController(input_props) {
   merging_props.field_name = input_props.field_name
   const form_field_name = input_props.field_name
 
+//u.a("before", input_props.field_name, input_props.object_type)
   // merge in props and field_model to get final component model
   const rab_component_model = control.getFinalModel("field", {...merging_props}, field_model, null, override_meta_model)
+
 
   const field_component_model = rab_component_model.field
   let massaged_props = field_component_model.props
@@ -69,6 +71,7 @@ function ACSFieldController(input_props) {
   // "pre" convention is before call to get data.
   // do not want to render page before final data and object_type, etc match
   const {object_type:pre_fetch_object_type, id:pre_fetch_id, field_name:pre_fetch_field_name,  api_options:pre_fetch_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form,  emphasis, ...params} = massaged_props
+
   // control of mode (view, edit, create, list)
   const [mode, setMode] = useState(initial_mode);
   const [more_detail, setMoreDetail]  = useState(false)
@@ -92,7 +95,7 @@ function ACSFieldController(input_props) {
     const row_data = data
   // references
 
-  if (data && field_model.data_path) {
+  if (data && field_model.data_path & mode !=="edit" && mode !== "create") {
       data = row_data[field_model.data_path]
   }
 
@@ -133,7 +136,6 @@ function ACSFieldController(input_props) {
     }
   }
   
-
   return (
     <ACSFieldRenderer {...field_component_model.props}  
 // data

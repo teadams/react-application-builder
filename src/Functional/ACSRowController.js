@@ -252,14 +252,11 @@ function ACSRowController(input_props) {
       let index = 0
       let col_count = 0
       field_list.forEach(field => {
-        let field_model
-        const split_field = field.split(".")
-        const [base_field_name, final_field_name, base_object_type, final_object_type, base_field_model, final_field_model] = meta.resolveFieldModel(object_type, field, object_models, field_models)
-
-//console.log(field, split_field, final_field_model)
-        const col_span = final_field_model.col_span
-        if ((final_field_model.hidden_on_form && ["create", "edit"].includes(mode)) ||
-            final_field_model.hidden_on_create_form && mode === "create") {
+        console.log({field,object_type})
+        const field_model = field_models[object_type][field]
+        const col_span = field_model.col_span
+        if ((field_model.hidden_on_form && ["create", "edit"].includes(mode)) ||
+            field_model.hidden_on_create_form && mode === "create") {
           chunked_field_list[index].push(field)
         } else if (col_count + col_span <= num_columns) {
             chunked_field_list[index].push(field)
