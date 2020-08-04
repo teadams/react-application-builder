@@ -95,9 +95,10 @@ function ACSFieldController(input_props) {
     const row_data = data
   // references
 
-  if (data && field_model.data_path & mode !=="edit" && mode !== "create") {
+  if (data && field_model.data_path && mode !=="edit" && mode !== "create") {
       data = row_data[field_model.data_path]
   }
+
 
 
   function toggleMoreDetail(event) {

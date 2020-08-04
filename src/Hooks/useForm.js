@@ -110,11 +110,11 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     if (context.user && context.user.id) {
       formValues.user_id = context.user.id 
     }
-
     if (!formValues[id_field]) {
       api.postData(object_type, formValues, {}, (insert_result, error) => { 
         // XX user_id, subsite
         //u.a("insert results", insert_result)
+        u.a(insert_result)
 
         if (error) {
           alert ('error is ' + error.message)
@@ -129,6 +129,8 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
           context.setDirty();
         }
       })     
+      u.a(formValues)
+
     } else {
       // only send file fields when changed
       Object.keys(formValues).forEach(form_field_name => {
