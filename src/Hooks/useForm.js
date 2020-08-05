@@ -33,41 +33,43 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   if (input_mask !== prior_input_mask) {
     // props have changed, new form
     let defaults = {}
-    field_list.forEach(field =>{
-      const field_model=field_models[field]
+    field_list.forEach(field_name =>{
+      const field_model=field_models[field_name]
       const references = field_model.references
       if (field_model.input_type === "file") {
         defaults[field_name] = ""
       } else if ( mode==="edit" && data) {
       // data has been restructured
         let default_value
+        const data_path = field_model.data_path?field_model.data_path.split("."):""
+        const db_data_field = field_model.db_data_field?field_model.db_data_field:field_model.field_name
         if (field_model.data_path) {
-          // have to handle the extra . case
-          const data_path = field_model.data_path.split(".")
-          if (data_path.lenth = 1) {
-              default_value=data[field_model.data_path][field_name]
-          } else {
-            default_value=data[data_path[0]][data_path[1]][field_name]
-          }
+          default_value=data[data_path[0]][db_data_field]
+          //u.a("datha path", field_name, data_path, field_model.db_data_field, default_value)
+          //u.a(default_value)
         } else {
-          default_value=data[field_name]?data[field_name]:""
+          default_value=data[db_data_field]?data[db_data_field]:""
         }
+
+//        u.a("after default", field_name, data_path, default_value)
         if (default_value === undefined || default_value === null) {
           // base existed, but references did not
           default_value = field_model.default?field_model.default:""
         }
-        defaults[field] = default_value
+
+        defaults[field_name] = default_value
 
       } else if (mode === "create") {
+
           // take from field_models
           let default_value = field_model.default?field_model.default:""
           // take from context
           if (context.user.id && references === "core_user" && field_model.use_context) {
               default_value = context.user.id
           } 
-          default_value=default_values_prop[field]?default_values_prop[field]:default_value  
+          default_value=default_values_prop[field_name]?default_values_prop[field_name]:default_value  
           
-          defaults[field] = default_value
+          defaults[field_name] = default_value
       }
             
     })
@@ -113,7 +115,6 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       api.postData(object_type, formValues, {}, (insert_result, error) => { 
         // XX user_id, subsite
         //u.a("insert results", insert_result)
-        u.a(insert_result)
 
         if (error) {
           alert ('error is ' + error.message)
@@ -128,7 +129,6 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
           context.setDirty();
         }
       })     
-      u.a(formValues)
 
     } else {
       // only send file fields when changed

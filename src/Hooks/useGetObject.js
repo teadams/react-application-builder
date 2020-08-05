@@ -28,13 +28,15 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
   api_options.user_id = context?context.user.id:"" 
   api_options.subsite_id = context?context.context_id:""
 
+
   let trigger_change_array = [object_type, id, dirty_data, param_data_exists]
   trigger_change_array = api.addAPIParams(trigger_change_array, api_options)
 
   useLayoutEffect( () => {
+
       isMountedRef.current = true;
       if (!param_data && (object_type && (id||api_options.filter_id||api_options.get_count))) {
-        api.getData (object_type, Object.assign({id:id},api_options), (results, error) => {         
+        api.getData (object_type, Object.assign({id:id},api_options), (results, error) => {  
           if (isMountedRef.current) {
             if (error) {
                 alert ("error retrieving object " + object_type + " " + id + ":" + error.message)
@@ -58,7 +60,7 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
 // model to match. Otherwise, we will have a lot of weird debuggs
 // and flickering
   if (output_data || !prev_state) {
-    if (id !== prev_id || (object_type !== prev_object_type) || (param_data_exists !== prev_param_data_exists) || (JSON.stringify(field_list) !== JSON.stringify(prev_field_list))) {
+    if (id !== prev_id || param_data !== output_data || (object_type !== prev_object_type) || (param_data_exists !== prev_param_data_exists) || (JSON.stringify(field_list) !== JSON.stringify(prev_field_list))) {
         setState([true, object_type, id, field_list, api_options, param_data_exists, param_data])
     }
     return [true, object_type, id, field_list, api_options,  output_data]
