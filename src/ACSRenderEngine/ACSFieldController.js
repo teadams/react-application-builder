@@ -94,7 +94,7 @@ function ACSFieldController(input_props) {
             if (error) {
                 alert ("error retrieving object " + references + " " + error.message)
             } else {
-              results = results[0]
+              results = results
               setValidValues(results)
             }
         })
@@ -176,6 +176,7 @@ function ACSFieldController(input_props) {
     field_name = {field_name}
     form_field_name={form_field_name}
     data_field = {field_model.data_field}
+    db_data_field = {field_model.db_data_field}
     pretty_name = {field_model.pretty_name}
     data_type = {field_model.data_type}
     col_span = {field_model.col_span}

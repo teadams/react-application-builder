@@ -11,13 +11,10 @@ import * as meta from '../../Utils/meta.js';
 
 
 function RABTextField(props) {
-  const {mode, row_data,  data, data_field, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values} = props
+  const {mode, row_data,  data, data_field, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values,  db_data_field, required} = props
 
-if (valid_values) {
-  u.a("valide values", field_name, valid_values)
-}
+
   let {with_thumbnail="", with_url="", more_detail=false, toggleMoreDetail} = props
-
 
   // XX field model passed due to referenced change. May 
   // be done server side later
@@ -46,7 +43,26 @@ if (valid_values) {
     }
   }
 
+// handle change
+// display field  
+// dependency, api_filters (in field 
+// force select (if not default, pick first one
+// Add any
 
+
+  function selectItems(valid_values) {
+      if (!valid_values) {
+        return null
+      }
+      return (
+        valid_values.map ((value, index) => {
+          return (<MenuItem key={index}  value={value[db_data_field]}>{value[data_field]}</MenuItem>)
+//            return(
+//              <MenuItem key={index}  value={row[select_key_field]}>{padding(row.tree_depth)}{field_component({data:row, field_name:select_display_field, mode:"text"})}</MenuItem>
+              //)
+          })
+      )
+  }
 
   switch (mode) {
     case "edit":
@@ -55,7 +71,22 @@ if (valid_values) {
       const multiline = field_model.multiline?true:false
       const rows = field_model.multiline?field_model.multiline:1
       if (model_valid_values) {
-        return (<Fragment>Select Application</Fragment>)
+        let value = formValues[form_field_name]
+        if (required && !value && valid_values) {
+            value = valid_values[0][db_data_field]
+        }
+        return (    <Select
+              id={form_field_name}
+              key={form_field_name}
+              name={form_field_name}
+              value={value}
+              autoFocus={autoFocus}
+              onBlur={props.onFieldBlur}
+              fullWidth={fullWidth}
+              disableUnderline = {disable_underline}
+              onChange={onChange}>
+              {valid_values  && selectItems(valid_values,value)}
+            </Select>)
       } else {
         return (
           <TextField 
