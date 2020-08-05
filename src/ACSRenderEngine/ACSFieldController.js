@@ -80,7 +80,8 @@ function ACSFieldController(input_props) {
   // etc.
   // Use values in massaged props below
 
-  const {object_type:pre_fetch_object_type, id:pre_fetch_id, field_name:pre_fetch_field_name,  api_options:pre_fetch_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form,  emphasis, valid_values:model_valid_values, select_api_options={}, ...params} = massaged_props
+  const {object_type:pre_fetch_object_type, id:pre_fetch_id, field_name:pre_fetch_field_name,  api_options:pre_fetch_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form,  emphasis, valid_values:model_valid_values, select_api_options={},
+  dependent_field, dependent_filter, ...params} = massaged_props
   const {references} = field_model
   // control of mode (view, edit, create, list)
   const [mode, setMode] = useState(initial_mode);
@@ -88,20 +89,6 @@ function ACSFieldController(input_props) {
   const [valid_values, setValidValues] = useState("")
 
   // fetch valid values
-  if (model_valid_values && !valid_values && ["edit", "create"].includes(mode)) {
-      if (model_valid_values === "object") {
-        api.getData (references,select_api_options, (results, error) => {         
-            if (error) {
-                alert ("error retrieving object " + references + " " + error.message)
-            } else {
-              results = results
-              setValidValues(results)
-            }
-        })
-      } else {
-        setValidValues(model_valid_values)
-      }
-  }
 
   // get data from ap
   // return params for render and data at the same time
@@ -110,6 +97,34 @@ function ACSFieldController(input_props) {
   // form setup - if necessary
   const field_list = ["id", field_name]  
   const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(object_type, form_field_name, data, handleSubmit, mode, form, "", field_list);
+
+  if (model_valid_values && !valid_values && ["edit", "create"].includes(mode)) {
+      if (model_valid_values === "object") {
+        const dependent_value = formValues[dependent_field]
+        if (dependent_field) {
+          if (!select_api_options.filter_id) {
+              select_api_options.filter_id = []
+              select_api_options.filter_field = []
+          } 
+          select_api_options.filter_id.push(dependent_value)
+          select_api_options.filter_field.push(dependent_filter)
+        }
+        
+        if (!dependent_field || dependent_value) {
+          api.getData (references,select_api_options, (results, error) => {         
+              if (error) {
+                  alert ("error retrieving object " + references + " " + error.message)
+              } else {
+                results = results
+                setValidValues(results)
+              }
+          })
+        }
+      } else {
+        setValidValues(model_valid_values)
+      }
+  }
+
 
   if (data === undefined || (object_type && !field_model) || mode === "hidden" || field_model.hidden_on_form && initial_mode ==="edit" ||  (field_model.hidden_on_form || field_model.hidden_on_create_form) && initial_mode==="create") return null
 
