@@ -17,11 +17,9 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 
 
 function RenderACSRow(props) {
-console.log("render acsc row")
   const { ...params} = props
   const {key_id, form, form_title, mode, form_open, data, rab_component_model, object_type, field_list, chunked_field_list, sections=[], handleFormChange, handleFormSubmit, formValues, onClose, header_image_size="small", num_columns, dialog_size} = props
   const {header_wrap:HeaderWrap, header:Header, section_wrap:SectionWrap, section_header:SectionHeader, section_body_wrap:SectionBodyWrap=Fragment, row_wrap:RowWrap,  row:RABRow, row_body:RowBody, form_wrap:FormWrap} = rab_component_model.row.components
-  u.a("render row", mode, form, data)
 
   if (data) {
       return (
