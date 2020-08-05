@@ -80,7 +80,7 @@ function ACSFieldController(input_props) {
   // etc.
   // Use values in massaged props below
 
-  const {object_type:pre_fetch_object_type, id:pre_fetch_id, field_name:pre_fetch_field_name,  api_options:pre_fetch_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form,  emphasis, valid_values:model_valid_values,  ...params} = massaged_props
+  const {object_type:pre_fetch_object_type, id:pre_fetch_id, field_name:pre_fetch_field_name,  api_options:pre_fetch_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form,  emphasis, valid_values:model_valid_values, select_api_options={}, ...params} = massaged_props
   const {references} = field_model
   // control of mode (view, edit, create, list)
   const [mode, setMode] = useState(initial_mode);
@@ -90,7 +90,7 @@ function ACSFieldController(input_props) {
   // fetch valid values
   if (model_valid_values && !valid_values && ["edit", "create"].includes(mode)) {
       if (model_valid_values === "object") {
-        api.getData (references,{}, (results, error) => {         
+        api.getData (references,select_api_options, (results, error) => {         
             if (error) {
                 alert ("error retrieving object " + references + " " + error.message)
             } else {
