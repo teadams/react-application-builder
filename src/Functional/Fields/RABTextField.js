@@ -11,8 +11,10 @@ import * as meta from '../../Utils/meta.js';
 
 
 function RABTextField(props) {
-  const {mode, row_data,  data, data_field, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values,  db_data_field, required} = props
-
+  const {mode, row_data,  data, object_type, data_field, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values,  db_data_field, required, select_display_field=data_field} = props
+if ( object_type === "nwn_project" || object_type === "core_subsite" && (field_name === "core_address_country")) {
+//  u.a(field_name,model_valid_values, valid_values)
+}
 
   let {with_thumbnail="", with_url="", more_detail=false, toggleMoreDetail} = props
 
@@ -49,14 +51,18 @@ function RABTextField(props) {
 // Add any
 
 
-  function selectItems(valid_values) {
+
+
+  function selectItems(valid_values, trace) {
+
     // XX todo Any option, calling field for display ( like full name), tree vuew
       if (!valid_values) {
         return null
       }
+
       return (
         valid_values.map ((value, index) => {
-          return (<MenuItem key={index}  value={value[db_data_field]}>{value[data_field]}</MenuItem>)
+          return (<MenuItem key={index}  value={value[db_data_field]}>{value[select_display_field]}</MenuItem>)
 //            return(
 //              <MenuItem key={index}  value={row[select_key_field]}>{padding(row.tree_depth)}{field_component({data:row, field_name:select_display_field, mode:"text"})}</MenuItem>
               //)
@@ -78,17 +84,22 @@ function RABTextField(props) {
     }
   }
 
+
   switch (mode) {
     case "edit":
     case "create":
     case "filter":
       const multiline = field_model.multiline?true:false
       const rows = field_model.multiline?field_model.multiline:1
+
       if (model_valid_values) {
         let value = formValues[form_field_name]
-        if (required && !value && valid_values) {
+
+        if ( !value && valid_values) {
+    
             value = valid_values[0][db_data_field]
         }
+  
         return (    <Select
               id={form_field_name}
               key={form_field_name}
@@ -99,7 +110,7 @@ function RABTextField(props) {
               fullWidth={fullWidth}
               disableUnderline = {disable_underline}
               onChange={handleSelectChange}>
-              {valid_values  && selectItems(valid_values,value)}
+              {selectItems(valid_values)}
             </Select>)
       } else {
         return (
