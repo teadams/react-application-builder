@@ -100,8 +100,7 @@ function ACSFieldController(input_props) {
         })
       } else {
         setValidValues(model_valid_values)
-      
-
+      }
   }
 
   // get data from ap
@@ -166,13 +165,15 @@ function ACSFieldController(input_props) {
   }
   
   return (
-    <ACSFieldRenderer {...field_component_model.props}  
+    <ACSFieldRenderer 
+    // destructured props from field_model
+    {...massaged_props}
+
     data={data} 
     row_data={row_data}
     formValues = {formValues}
     object_type={object_type} 
     field_name = {field_name}
-    valid_values = {valid_values}
     form_field_name={form_field_name}
     data_field = {field_model.data_field}
     pretty_name = {field_model.pretty_name}
@@ -180,6 +181,9 @@ function ACSFieldController(input_props) {
     col_span = {field_model.col_span}
     field_models={field_models}
     field_model={field_model}
+// specifics about the input field
+    model_valid_values={model_valid_values}
+    valid_values = {valid_values}
 // mode and is this s afield form
     mode={mode}
     form={form}
@@ -196,8 +200,6 @@ function ACSFieldController(input_props) {
     onFieldBlur = {handleOnFieldBlur} 
     // components
     components={rab_component_model.field.components}
-    // destructured props from field_model
-    {...massaged_props}
     key={key_id+"_render_"+field_name}
 
 />

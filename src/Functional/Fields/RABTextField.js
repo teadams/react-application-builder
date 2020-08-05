@@ -11,8 +11,11 @@ import * as meta from '../../Utils/meta.js';
 
 
 function RABTextField(props) {
-  const {mode, row_data,  data, data_field, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small"} = props
+  const {mode, row_data,  data, data_field, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values} = props
 
+if (valid_values) {
+  u.a("valide values", field_name, valid_values)
+}
   let {with_thumbnail="", with_url="", more_detail=false, toggleMoreDetail} = props
 
 
@@ -51,7 +54,10 @@ function RABTextField(props) {
     case "filter":
       const multiline = field_model.multiline?true:false
       const rows = field_model.multiline?field_model.multiline:1
-      return (
+      if (model_valid_values) {
+        return (<Fragment>Select Application</Fragment>)
+      } else {
+        return (
           <TextField 
             autoFocus={autoFocus}
             name={form_field_name} 
@@ -66,6 +72,7 @@ function RABTextField(props) {
             value={formValues[form_field_name]}
             onChange={onChange}/>
         )
+      }
       break
     case "csv":
       return '"'+field_value+'""'

@@ -40,9 +40,7 @@ const Tag = (props) => {
 
 function RenderACSField(props) {
 
-  if (props.object_type === "core_subsite" || props.object_type === "nwn_project") {    
-  //    u.a("after", props.field_name, props.object_type, props.data)
-  }
+
 
   if (props.data === undefined) {
       return null
@@ -51,7 +49,8 @@ function RenderACSField(props) {
   const {data, row_data, object_type, data_field,  field_name, form_field_name, components={},
         mode="view", form="true", formValues, autoFocus, onSubmit, onBlur, onChange, 
         more_detail, toggleMoreDetail} = props
-  // these come from rab_component_model props
+
+  // these come froprops.m rab_component_model props
 
   const {field_tag="div", field_pre_text, field_post_text, field_css_class, field_style,  //field
         label=false, pretty_name, label_tag="", label_pre_text, label_post_text, label_style, label_css_class, //label
