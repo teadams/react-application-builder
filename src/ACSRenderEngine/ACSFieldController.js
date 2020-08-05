@@ -17,6 +17,7 @@ import useGenerateFieldList from '../Hooks/useGenerateFieldList';
 function ACSFieldController(input_props) {
   const default_object_type_models = useGetModel("object_types")
   const default_field_models =  useGetModel("fields")
+
   // merge in mdoels from props
   let field_models, object_models
   if (input_props.field_models) { 
@@ -60,23 +61,42 @@ function ACSFieldController(input_props) {
   merging_props.field_name = input_props.field_name
   const form_field_name = input_props.field_name
 
-//u.a("before", input_props.field_name, input_props.object_type)
+  let trace = false 
+  if (input_props.field_name === "type" && (input_props.object_type === "nwn_project" || input_props.object_type === "core_subsite")) {
+      trace = true 
+  }
+  
   // merge in props and field_model to get final component model
-  const rab_component_model = control.getFinalModel("field", {...merging_props}, field_model, null, override_meta_model)
-
+  const rab_component_model = control.getFinalModel("field", {...merging_props}, field_model, null, override_meta_model, trace)
 
   const field_component_model = rab_component_model.field
   let massaged_props = field_component_model.props
   massaged_props.id = input_props.id
   // "pre" convention is before call to get data.
   // do not want to render page before final data and object_type, etc match
-  const {object_type:pre_fetch_object_type, id:pre_fetch_id, field_name:pre_fetch_field_name,  api_options:pre_fetch_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form,  emphasis, ...params} = massaged_props
+
+  // massaged_props has all the merged props from field_model, input,
+  // etc.
+  // Use values in massaged props below
+
+  const {object_type:pre_fetch_object_type, id:pre_fetch_id, field_name:pre_fetch_field_name,  api_options:pre_fetch_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form,  emphasis, valid_values:model_valid_values, ...params} = massaged_props
 
   // control of mode (view, edit, create, list)
   const [mode, setMode] = useState(initial_mode);
   const [more_detail, setMoreDetail]  = useState(false)
+  const [valid_values, setValidValues] = useState("")
 
-  // get data from api 
+  // fetch valid values
+  if (model_valid_values && !valid_values && ["edit", "create"].includes(mode)) {
+      if (model_valid_values === "object") {
+
+      } else {
+        setValidValues(model_values_values)
+      }
+
+  }
+
+  // get data from ap
   // return params for render and data at the same time
   let [ready, object_type, id, field_name, api_options, data] = useGetObject(pre_fetch_object_type, pre_fetch_id,pre_fetch_field_name, pre_fetch_api_options, props_data, input_props.onData); 
 
@@ -139,11 +159,9 @@ function ACSFieldController(input_props) {
   
   return (
     <ACSFieldRenderer {...field_component_model.props}  
-// data
     data={data} 
     row_data={row_data}
     formValues = {formValues}
-// model info
     object_type={object_type} 
     field_name = {field_name}
     form_field_name={form_field_name}
