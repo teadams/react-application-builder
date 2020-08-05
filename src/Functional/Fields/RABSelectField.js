@@ -91,6 +91,7 @@ function RABSelectList(props) {
           event.target.selected_data = row
           break
         }
+
     }
     if (props.onChange) {
       props.onChange(event)

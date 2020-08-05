@@ -64,6 +64,20 @@ function RABTextField(props) {
       )
   }
 
+  function handleSelectChange(event) {
+    const value=event.target.value
+    let row
+    for (row of valid_values) {
+        if (row[db_data_field] === value) {
+          event.target.selected_data = row
+          break
+        }
+    }
+    if (props.onChange) {
+      props.onChange(event)
+    }
+  }
+
   switch (mode) {
     case "edit":
     case "create":
@@ -84,7 +98,7 @@ function RABTextField(props) {
               onBlur={props.onFieldBlur}
               fullWidth={fullWidth}
               disableUnderline = {disable_underline}
-              onChange={onChange}>
+              onChange={handleSelectChange}>
               {valid_values  && selectItems(valid_values,value)}
             </Select>)
       } else {
