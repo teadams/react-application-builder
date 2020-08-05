@@ -54,10 +54,11 @@ const useStyles = makeStyles({
 // component_model - current component_running
 // metadata_model - current object_type/field/etc (name?)
 // input_props - current user input/result of upper layer
-export function getFinalModel(level, input_props={}, metadata_model={}, component_model, override_meta_model=false) {
+export function getFinalModel(level, input_props={}, metadata_model={}, component_model, override_meta_model=false, trace=false) {
 
   // XX could potentially determin metadata_model from 
   // object_type and field. then caller would not have to.
+
   // This would require getFinalModel to change to a React Function
   // (return string, one input object) and receive an object 
   // that would be mutated.
@@ -103,7 +104,8 @@ export function getFinalModel(level, input_props={}, metadata_model={}, componen
                             determineModelComponents(level, buildRABModel(metadata_model)))
  
   }
-  
+
+
   // only want a shallow merge! (state management in getObject/list)
   // XX  Want to do this in a clean way,
   // perhaps with a prefix and not blindly pass 

@@ -2,6 +2,7 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import * as u from '../Utils/utils.js';
 import * as meta from '../Utils/meta.js'
+import * as api from '../Utils/data.js'
 import _ from 'lodash/object'
 
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
@@ -79,8 +80,8 @@ function ACSFieldController(input_props) {
   // etc.
   // Use values in massaged props below
 
-  const {object_type:pre_fetch_object_type, id:pre_fetch_id, field_name:pre_fetch_field_name,  api_options:pre_fetch_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form,  emphasis, valid_values:model_valid_values, ...params} = massaged_props
-
+  const {object_type:pre_fetch_object_type, id:pre_fetch_id, field_name:pre_fetch_field_name,  api_options:pre_fetch_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form,  emphasis, valid_values:model_valid_values,  ...params} = massaged_props
+  const {references} = field_model
   // control of mode (view, edit, create, list)
   const [mode, setMode] = useState(initial_mode);
   const [more_detail, setMoreDetail]  = useState(false)
@@ -89,10 +90,17 @@ function ACSFieldController(input_props) {
   // fetch valid values
   if (model_valid_values && !valid_values && ["edit", "create"].includes(mode)) {
       if (model_valid_values === "object") {
-
+        api.getData (references,{}, (results, error) => {         
+            if (error) {
+                alert ("error retrieving object " + references + " " + error.message)
+            } else {
+              results = results[0]
+              setValidValues(results)
+            }
+        })
       } else {
-        setValidValues(model_values_values)
-      }
+        setValidValues(model_valid_values)
+      
 
   }
 
@@ -164,6 +172,7 @@ function ACSFieldController(input_props) {
     formValues = {formValues}
     object_type={object_type} 
     field_name = {field_name}
+    valid_values = {valid_values}
     form_field_name={form_field_name}
     data_field = {field_model.data_field}
     pretty_name = {field_model.pretty_name}
