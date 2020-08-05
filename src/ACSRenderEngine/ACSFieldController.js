@@ -98,20 +98,25 @@ function ACSFieldController(input_props) {
   const field_list = ["id", field_name]  
   const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(object_type, form_field_name, data, handleSubmit, mode, form, "", field_list);
 
-  if (model_valid_values && !valid_values && ["edit", "create"].includes(mode)) {
+  let current_dependent_value = dependent_field?formValues[dependent_field]:null
+  
+  const [dependent_value, setDependentValue] = useState(current_dependent_value)
+
+  if (model_valid_values && (!valid_values || (dependent_field && (current_dependent_value !== dependent_value))) && ["edit", "create"].includes(mode)) {
+      if (dependent_field && current_dependent_value !== dependent_value) {
+        setDependentValue(current_dependent_value)
+      }
       if (model_valid_values === "object") {
-        const dependent_value = formValues[dependent_field]
         if (dependent_field) {
           if (!select_api_options.filter_id) {
               select_api_options.filter_id = []
               select_api_options.filter_field = []
           } 
-          select_api_options.filter_id.push(dependent_value)
+          select_api_options.filter_id.push(current_dependent_value)
           select_api_options.filter_field.push(dependent_filter)
         }
-        
-        if (!dependent_field || dependent_value) {
-          api.getData (references,select_api_options, (results, error) => {         
+
+        api.getData (references,select_api_options, (results, error) => {         
               if (error) {
                   alert ("error retrieving object " + references + " " + error.message)
               } else {
@@ -119,7 +124,7 @@ function ACSFieldController(input_props) {
                 setValidValues(results)
               }
           })
-        }
+        
       } else {
         setValidValues(model_valid_values)
       }
