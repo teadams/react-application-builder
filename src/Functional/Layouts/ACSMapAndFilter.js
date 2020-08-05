@@ -134,7 +134,6 @@ function ACSMapAndFilter (props) {
 
   function redirectToMore(inserted_id) {
       window.scrollTo(0,0)
-u.a("stop")
       const redirect_id = inserted_id?inserted_id:selected_place.id
       if (object_model.name === "core_subsite" || object_model.extends_object === "core_subsite") {
           context.setContextId(redirect_id)
