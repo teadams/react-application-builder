@@ -43,14 +43,14 @@ function RABTextField(props) {
     }
   }
 
-// handle change
-// display field  
 // dependency, api_filters (in field 
 // force select (if not default, pick first one
+
 // Add any
 
 
   function selectItems(valid_values) {
+    // XX todo Any option, calling field for display ( like full name), tree vuew
       if (!valid_values) {
         return null
       }
