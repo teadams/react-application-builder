@@ -57,7 +57,7 @@ const useStyles = makeStyles({
 export function getFinalModel(level, input_props={}, metadata_model={}, component_model, override_meta_model=false) {
 
   // XX could potentially determin metadata_model from 
-  // object_type and field. then caller would not have to.
+  // object_type and field then caller would not have to.
   // This would require getFinalModel to change to a React Function
   // (return string, one input object) and receive an object 
   // that would be mutated.
@@ -75,7 +75,7 @@ export function getFinalModel(level, input_props={}, metadata_model={}, componen
   // models from a lower level
   let final_model
   if (override_meta_model) {
-    // imput parameters will prevail
+  // imput parameters will prevail
     final_model = _.merge({},
                             rab_component_models.shell,
                             determineModelComponents(level,
@@ -89,7 +89,6 @@ export function getFinalModel(level, input_props={}, metadata_model={}, componen
                             determineModelComponents(level, buildRABModel(input_props))
                             )
   } else {
-
     // objevt or field meta model will prevail
     final_model = _.merge({},
                             rab_component_models.shell,
@@ -100,7 +99,8 @@ export function getFinalModel(level, input_props={}, metadata_model={}, componen
                             component_model),
 
                             determineModelComponents(level, buildRABModel(input_props)),
-                            determineModelComponents(level, buildRABModel(metadata_model)))
+                            determineModelComponents(level, buildRABModel(metadata_model))
+                            )
  
   }
   
@@ -117,7 +117,7 @@ export function getFinalModel(level, input_props={}, metadata_model={}, componen
 
 }
 
-function buildRABModel(params) {
+function buildRABModel(params, trace) {
   /// XXBIG - items need completed
   /// but may have a better strategy to do this.
 
@@ -144,7 +144,6 @@ function buildRABModel(params) {
 //      u.a(param_name, params_model.field)
 //    }
   })
-
   const fixed_params_model = { list:{names:{list:params.list_component},
                 components:{},
                 props:{object_type:params.object_type,
