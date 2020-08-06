@@ -23,16 +23,23 @@ function shieldObject(object) {
 
 function Body(props) {
   const {selected_menu, object_type="", id="", field_name="", menu_type} = props
+  let {component_name} = props
   const menu_model =  useGetModel("menus")
   const app_params =  useGetModel("app_params")
   const context = useContext(AuthContext)
+  if (!selected_menu && !component_name ) {return null}
+  let selected_menu_model = ""
 
-  if (!selected_menu  ) {return null}
-  let selected_menu_model = menu_model.menu_items[selected_menu]
-  selected_menu_model.api_options = shieldObject(selected_menu_model.api_options)
-  let BodyComponent = control.componentByName(selected_menu_model.menu_component_name)
-//u.a("bdoy comp", BodyComponent)
-  if (selected_menu_model.with_context) {
+  if (selected_menu) {
+    selected_menu_model = menu_model.menu_items[selected_menu]
+    selected_menu_model.api_options = shieldObject(selected_menu_model.api_options)
+    component_name = selected_menu_model.menu_component_name
+
+  }
+u.a(component_name)
+  let BodyComponent = control.componentByName(component_name)
+
+  if (selected_menu_model && selected_menu_model.with_context) {
     if (selected_menu_model.object_type === "core_user") {
       selected_menu_model.id = context.user.id
     } else if (context.context_id) {
