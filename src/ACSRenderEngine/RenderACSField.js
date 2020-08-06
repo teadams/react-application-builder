@@ -95,27 +95,31 @@ function RenderACSField(props) {
        FieldWrap = ACSVoid
     }
 
+    const handleClickToEditSubmit = (event) => {
+        popup.close()
+    }
     const TestPop = (props) => {
 
         return (<Fragment>
           <div style={{margin:"20px"}}>
-          <ACSField object_type={object_type} field_name={field_name} 
+          <ACSField onSubmit={handleClickToEditSubmit} object_type={object_type} field_name={field_name} 
           data={data} field_mode="edit" field_form={true}/>
           </div>
         </Fragment>)
     }
+
     const handleFieldClick = (event) => {
         popup.open(event,TestPop)
     }
 
     return (<Fragment>
-      <FieldWrap key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}>
+      <FieldWrap  onClick={handleFieldClick} key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}>
           <Tag Tag={wrap_tag} class={wrap_css_class} style={wrap_style}>
             {label && 
             <Tag Tag={label_tag} class={label_css_class} style={label_style}>
                 {label_pre_text}{pretty_name}{label_post_text}
             </Tag>}
-            <Tag onClick={handleFieldClick} Tag={field_tag} col_span={col_span} style={field_style} class={field_css_class}>
+            <Tag Tag={field_tag} col_span={col_span} style={field_style} class={field_css_class}>
                 {!show_thumbnail?
                     <Fragment>
                       {field_pre_text}<Field {...params}  key={field_name+"field"}/>{field_post_text}

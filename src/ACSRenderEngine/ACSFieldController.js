@@ -96,6 +96,12 @@ function ACSFieldController(input_props) {
 
   // form setup - if necessary
   const field_list = ["id", field_name]  
+  
+  const handleSubmit= (event) => {
+    if (input_props.onSubmit) {
+        input_props.onSubmit(event)
+    }
+  }
   const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(object_type, form_field_name, data, handleSubmit, mode, form, "", field_list);
 
   let current_dependent_value = formValues?(dependent_field?formValues[dependent_field]:null):null
@@ -160,12 +166,12 @@ function ACSFieldController(input_props) {
     setMoreDetail(!more_detail)
   } 
 
-  function handleSubmit(event, result, form_values_object) {
-      setMode(initial_mode)  
-      if (input_props.onFieldSubmit) {
-        input_props.onFieldSubmit(event,result,form_values_object)
-      }
-  }
+  //function handleSubmit(event, result, form_values_object) {
+  //    setMode(initial_mode)  
+  //    if (input_props.onFieldSubmit) {
+  //      input_props.onFieldSubmit(event,result,form_values_object)
+  //    }
+//  }
 
   function toggleEditMode(event, id, type, field_name, row_data, field_data) {  
       if (form && click_to_edit && !field_model.prevent_edit && mode!=="create" && mode !=="edit") {
@@ -174,12 +180,13 @@ function ACSFieldController(input_props) {
   }
   
   function handleFieldClick(event, id, type, field_name, row_data, field_data) {
-  u.a("click on ", field_name)
     if (rab_component_model.field.props.onFieldClick) {
       rab_component_model.field.props.onFieldClick(event,id,type,field_name,row_data,field_data)
     }
     toggleEditMode(event,id,type,field_name, row_data, field_data)
   }
+
+
 
   function handleOnFieldBlur(event) {
     if (form) {
