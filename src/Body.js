@@ -36,13 +36,12 @@ function Body(props) {
     component_name = selected_menu_model.menu_component_name
 
   }
-u.a(component_name)
   let BodyComponent = control.componentByName(component_name)
 
   if (selected_menu_model && selected_menu_model.with_context) {
     if (selected_menu_model.object_type === "core_user") {
       selected_menu_model.id = context.user.id
-    } else if (context.context_id) {
+    } else if (context.context_id) { 
       selected_menu_model.api_options.filter_field = "core_subsite"
       selected_menu_model.api_options.filter_id = context.context_id
     } 

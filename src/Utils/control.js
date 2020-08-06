@@ -9,8 +9,12 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 import RABHeaderAndBodyText from '../Functional/Text/RABHeaderAndBodyText.js'
 import RABText from '../Functional/Text/RABText.js'
 import Message from "../RABComponents/Message.js"
+
+// Lists
 import ACSObjectTypeView from "../Functional/Lists/ACSObjectTypeView.js"
+import ACSChipObjectTypeView from "../Functional/Lists/ACSChipObjectTypeView.js"
 import ACSMappingView from "../Functional/Lists/ACSMappingView.js"
+
 
 import Debug from '../Debug.js'
 import User from '../Functional/Fields/User.js'
@@ -39,6 +43,8 @@ import RABObjectTypePrettyPlural from '../Functional/Text/RABObjectTypePrettyPlu
 import {Tab, Tabs, Menu, MenuItem, MenuList,List,ListItem,ListItemAvatar,ListItemIcon,ListItemSecondaryAction,ListItemText,ListSubheader,Table,TableBody,TableCell,TableContainer,TableFooter,TableHead,TablePagination,TableRow,} from '@material-ui/core';
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
+
+// layouts
 import ACSMap from '../Functional/Lists/ACSMap.js'
 import ACSMapAndFilter from '../Functional/Layouts/ACSMapAndFilter.js'
 
@@ -257,6 +263,7 @@ function componentPicker(name, source="not provided") {
     case "Message": return Message;
     case "ACSObjectTypeView": return ACSObjectTypeView;
     case "ACSMappingView": return ACSMappingView;
+    case "ACSChipObjectTypeView": return ACSChipObjectTypeView;
     case "Debug": return Debug;
     case "ACSField": return ACSField;
     case "ACSObjectView": return ACSObjectView;
