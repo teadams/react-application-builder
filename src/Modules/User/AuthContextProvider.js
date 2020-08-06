@@ -17,13 +17,16 @@ function AuthContextProvider(props) {
   }
 
   const handleRefreshContext = () => {
-    api.getUserContext (user.id,  (user_data, error) => {
-      if (error) {
-        alert ("error " + error.message)
-      } else {
-        setUser(user_data)
-      }
-    })
+    // only refresh if logged in
+    if (user.id) {
+      api.getUserContext (user.id,  (user_data, error) => {
+        if (error) {
+          alert ("error " + error.message)
+        } else {
+          setUser(user_data)
+        }
+      })
+    }
   }
 
   return (
