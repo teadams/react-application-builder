@@ -174,6 +174,7 @@ function ACSFieldController(input_props) {
   }
   
   function handleFieldClick(event, id, type, field_name, row_data, field_data) {
+  u.a("click on ", field_name)
     if (rab_component_model.field.props.onFieldClick) {
       rab_component_model.field.props.onFieldClick(event,id,type,field_name,row_data,field_data)
     }
@@ -193,7 +194,7 @@ function ACSFieldController(input_props) {
   }
   
   return (
-    <ACSFieldRenderer 
+     <ACSFieldRenderer 
     // destructured props from field_model
     {...massaged_props}
 
@@ -216,6 +217,7 @@ function ACSFieldController(input_props) {
 // mode and is this s afield form
     mode={mode}
     form={form}
+    click_to_edit={click_to_edit}
 // more detail functionality
     more_detail={more_detail}
     toggleMoreDetail={toggleMoreDetail}

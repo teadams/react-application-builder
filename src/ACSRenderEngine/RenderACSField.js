@@ -4,11 +4,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import * as u from '../Utils/utils.js';
 import useGetObject from '../Hooks/useGetObject';
 import { withStyles } from '@material-ui/core/styles';
-import React, { Component, Fragment,  useState, useEffect} from 'react';
+import React, { Component, Fragment, useContext,  useState, useEffect} from 'react';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell } from '@material-ui/core';
 import useGetModel from '../Hooks/useGetModel';
-import {ACSTextField, ACSImage} from "../ACSLibrary";
+import {ACSTextField, ACSField, ACSImage} from "../ACSLibrary";
+import UIContext from '../Template/UIContext.js';
 
 
 const ACSVoid = (props) => {
@@ -32,7 +33,7 @@ const Tag = (props) => {
   let {col_span} = props
 
   if (Tag) {
-    return (<Tag colSpan={col_span} style={style} className={css_class}>{props.children}</Tag>)
+    return (<Tag onClick={props.onClick} colSpan={col_span} style={style} className={css_class}>{props.children}</Tag>)
   } else {
     return (<Fragment>{props.children}</Fragment>)
   }
@@ -41,6 +42,7 @@ const Tag = (props) => {
 function RenderACSField(props) {
 
 
+  const popup = useContext(UIContext).popup   
 
   if (props.data === undefined) {
       return null
@@ -48,7 +50,7 @@ function RenderACSField(props) {
   const {api_options, components:discard_components, ...params} = props
   const {data, row_data, object_type, data_field,  field_name, form_field_name, components={},
         mode="view", form="true", formValues, autoFocus, onSubmit, onBlur, onChange, 
-        more_detail, toggleMoreDetail} = props
+        more_detail, toggleMoreDetail, click_to_edit} = props
 
   // these come froprops.m rab_component_model props
 
@@ -57,6 +59,7 @@ function RenderACSField(props) {
         hide_if_empty, wrap_css_class, wrap_style={display:"flex", flexDirection:"row"},  wrap_tag="",
         with_thumbnail, thumbnail_size="small"} = props  //wrap
     let {col_span=1} = props
+
 
 
 
@@ -92,7 +95,19 @@ function RenderACSField(props) {
        FieldWrap = ACSVoid
     }
 
-   
+    const TestPop = (props) => {
+
+        return (<Fragment>
+          <div style={{margin:"20px"}}>
+          <ACSField object_type={object_type} field_name={field_name} 
+          data={data} field_mode="edit" field_form={true}/>
+          </div>
+        </Fragment>)
+    }
+    const handleFieldClick = (event) => {
+        popup.open(event,TestPop)
+    }
+
     return (<Fragment>
       <FieldWrap key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}>
           <Tag Tag={wrap_tag} class={wrap_css_class} style={wrap_style}>
@@ -100,7 +115,7 @@ function RenderACSField(props) {
             <Tag Tag={label_tag} class={label_css_class} style={label_style}>
                 {label_pre_text}{pretty_name}{label_post_text}
             </Tag>}
-            <Tag Tag={field_tag} col_span={col_span} style={field_style} class={field_css_class}>
+            <Tag onClick={handleFieldClick} Tag={field_tag} col_span={col_span} style={field_style} class={field_css_class}>
                 {!show_thumbnail?
                     <Fragment>
                       {field_pre_text}<Field {...params}  key={field_name+"field"}/>{field_post_text}
@@ -124,7 +139,7 @@ function RenderACSField(props) {
               <Tag Tag={label_tag} class={label_css_class} style={label_style}>
                   {label_pre_text}{pretty_name}{label_post_text}
               </Tag>
-              <Tag Tag={field_tag} col_span={col_span} style={field_style} class={field_css_class}>
+              <Tag  Tag={field_tag} col_span={col_span} style={field_style} class={field_css_class}>
                 <Field {...params}  key={field_name+"field"}/>
               </Tag>
             </Tag>
