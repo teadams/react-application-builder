@@ -121,6 +121,14 @@ function ACSFieldController(input_props) {
                   alert ("error retrieving object " + references + " " + error.message)
               } else {
                 results = results
+                if (!field_model.field_required) {
+                    const db_data_field = field_model.db_data_field
+                    const select_display_field = field_model.field_select_display_field?field_model.field_select_display_field:field_model.data_field
+                    const new_value = {}
+                    new_value[db_data_field] = ""
+                    new_value[select_display_field] = "  *** Select ***"
+                    results.unshift(new_value)
+                }
                 setValidValues(results)
               }
           })

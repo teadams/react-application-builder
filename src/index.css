@@ -14,6 +14,10 @@ span {
   white-space:pre-wrap;
 }
 
+select.option {
+  white-space:pre
+}
+
 th {
   overflow-wrap: normal;
   word-break: normal;
