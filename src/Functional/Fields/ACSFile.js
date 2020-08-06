@@ -14,7 +14,7 @@ import useGetModel from '../../Hooks/useGetModel.js'
 
 function ACSFile(props) {
 
-  const {mode, data, prevent_edit, image_size="tiny", image_size_list="tiny", field_name, field_models, pretty_key, data_field, formdata, object_type, formValues, disable_underline=false, onChange, autoFocus, avatar, fullWidth=true, custom_width, custom_height, data_type, components, img_style} = props
+  const {mode, data, prevent_edit, image_size="tiny", image_size_list="tiny", field_name, field_models, pretty_key, data_field, formdata, object_type, formValues, disable_underline=false, onChange, autoFocus, avatar, fullWidth=true, custom_width, custom_height, data_type, components, img_style, list_img_style} = props
 
   const field_value = data[data_field]
   const object_type_model = useGetModel("object_types")[object_type]
@@ -39,7 +39,6 @@ function ACSFile(props) {
       }
     }
   }
-
   switch (mode) {
     case "edit":
     case "create":
@@ -64,7 +63,7 @@ function ACSFile(props) {
       break
     case "list":
       if (data_type === "image") {
-        return <ACSImage style={img_style} letters={letters} image_object={field_value} size={image_size_list}   avatar={avatar}/>
+        return <ACSImage style={list_img_style?list_img_style:img_style} letters={letters} image_object={field_value} size={image_size_list}   avatar={avatar}/>
       } else {
         return ("placeholder for file")
       }

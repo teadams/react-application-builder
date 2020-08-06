@@ -31,9 +31,12 @@ function get_image_dimensions (size="medium" ) {
 
 
 function ACSImage(props) {
-
   const {size="medium", letters="",  avatar=true} = props
+//u.a({size,letters,avatar})
   let {style} = props
+  if (style && Object.keys(style).length == 0) {
+    style = null
+  }
   let image_object=""
   if (props.image_object) {
     try {
