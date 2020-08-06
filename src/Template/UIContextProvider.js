@@ -17,13 +17,14 @@ function UIContextProvider(props) {
     horizontal: 'right',
   }})
 
+
   const [dialog_open, setDialogOpen] = useState(null)
   const [PopupComponent, setPopupComponent] = useState(null)
   const [DialogComponent, setDialogComponent] = useState(null)
 
   const handlePopupOpen = (event, Pcomponent) => {
       if (Pcomponent) {setPopupComponent(Pcomponent)}
-      if (origin) {setOrigin(origin)}
+      //if (origin) {setOrigin(origin)}
       setAnchorEl(event.currentTarget);
     };
 

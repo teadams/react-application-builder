@@ -39,6 +39,15 @@ const Tag = (props) => {
   }
 }
 
+const popup_origin = {
+    anchorOrigin:{vertical: 'top',
+    horizontal: 'center',
+    },
+    transformOrigin:{
+      vertical: 'bottom',
+      horizontal: 'center',
+    }}
+
 function RenderACSField(props) {
 
 
@@ -98,6 +107,7 @@ function RenderACSField(props) {
     const handleClickToEditSubmit = (event) => {
         popup.close()
     }
+
     const TestPop = (props) => {
 
         return (<Fragment>
@@ -109,6 +119,7 @@ function RenderACSField(props) {
     }
 
     const handleFieldClick = (event) => {
+        popup.setOrigin(popup_origin)
         popup.open(event,TestPop)
     }
 
