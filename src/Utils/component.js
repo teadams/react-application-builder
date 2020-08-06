@@ -159,6 +159,7 @@ const rab_component_models = {
       components:{},
       default_mode:"click_to_edit",
       props:{
+        hide_if_empty:false,
         field_display:"field"
       }
     }

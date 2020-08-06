@@ -32,15 +32,8 @@ const useGenerateFieldList = (object_type, field_name="", data, mode, form=true,
       field_list = []
       base_field_list.forEach(field => {
          const field_model = field_models[object_type][field] 
-          //put back server side
-         if (1===2 &&field_model.references && field_model.expand_results) {
-            const referenced_field_list = object_models[field_model.references].field_tags[lazy]
-            referenced_field_list.forEach( referenced_field =>{
-              field_list.push(field+"."+referenced_field)
-            })
-        } else {
-          field_list.push(field)
-        }
+        field_list.push(field)
+        
       })
     } else {
       if (data) {
