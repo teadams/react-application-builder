@@ -45,13 +45,10 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
         const db_data_field = field_model.db_data_field?field_model.db_data_field:field_model.field_name
         if (field_model.data_path) {
           default_value=data[data_path[0]][db_data_field]
-          //u.a("datha path", field_name, data_path, field_model.db_data_field, default_value)
-          //u.a(default_value)
         } else {
           default_value=data[db_data_field]?data[db_data_field]:""
         }
 
-//        u.a("after default", field_name, data_path, default_value)
         if (default_value === undefined || default_value === null) {
           // base existed, but references did not
           default_value = field_model.default?field_model.default:""
@@ -181,14 +178,14 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
       if (field_model.dependency_data_field) {
         let dependent_form_values_name = field_model.dependency_data_field
-        if (field_name !== field_name) {
-          dependent_form_values_name = field_name+"."+dependent_form_values_name
-        }
-        console.log("set form values 1")
+    //    if (field_name !== field_name) {
+    //      dependent_form_values_name = field_name+"."+dependent_form_values_name
+    //    }
+  //      console.log("set form values 1")
 
         setFormValues(formValues => ({...formValues, [name]:value, [dependent_form_values_name]:""}));
       } else {
-        console.log("set form values 2")
+    //    console.log("set form values 2")
 
         setFormValues(formValues => ({...formValues, [name]:value}));
       }
