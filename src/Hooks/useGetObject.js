@@ -25,8 +25,9 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
 
   const [data_ready, prev_object_type, prev_id, prev_field_list, prev_api_options, prev_param_data_exists, output_data] = prev_state
 
-  api_options.user_id = context?context.user.id:"" 
-  api_options.subsite_id = context?context.context_id:""
+
+  api_options.user_id = api_options.user_id?api_options.user_id:(context?context.user.id:"") 
+  api_options.subsite_id = api_options.subsite_id?api_options.subsite_id:(context?context.context_id:"")
 
   let trigger_change_array = [object_type, id, dirty_data, param_data_exists]
   trigger_change_array = api.addAPIParams(trigger_change_array, api_options)
