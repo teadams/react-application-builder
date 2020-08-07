@@ -89,7 +89,6 @@ function RenderACSField(props) {
     col_span = 2*col_span -1
   }
   let {field_wrap:FieldWrap=Fragment, field:Field=ACSTextField} = components 
-  //u.aa("n,datafield,path,field,d", field_name, data_field,props.data_path, Field,data)
 
 
   let show_thumbnail = false
@@ -123,12 +122,15 @@ function RenderACSField(props) {
         popup.open(event,TestPop)
     }
 
-    if (referred_by_object_type) {
+    if (referred_by_object_type === "nwn_project_need") {
       params={}
       params.object_type = referred_by_object_type
       params.api_options = {}
       params.api_options.filter_field= field_model.referred_by_field
       params.api_options.filter_id = data[field_model.referred_to_field]
+      if (field_model.referred_by_field === "core_subsite") {
+        params.api_options.subsite_id = data[field_model.referred_to_field]
+      }
     }
 
     return (<Fragment>

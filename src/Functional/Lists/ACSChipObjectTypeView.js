@@ -29,7 +29,6 @@ function ACSChipObjectTypeView(props)  {
   const {object_type, api_options, ...params} = props
   let {summary_field, description_field} = props
  
-u.a("chip", props)
   const rab_component_model = { 
       list:{
             names:{

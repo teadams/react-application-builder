@@ -66,7 +66,6 @@ function ACSRow(row_props) {
   return (
     <FieldChunk {...row_params} key={key_id+"chunk"}>
       {field_chunk.map( (field_name, ch_index) => {
-          //  u.a(field_name, field_chunk)
            const autoFocus = (f_index === 0 && s_index === 0 && ch_index === 0 )?true:false
            
            return <ACSFieldController field_mode={mode} field_models={field_models} field_form={!form} field_name={field_name}  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit}
@@ -281,7 +280,6 @@ function ACSRowController(input_props) {
   // where each section contains one or more fields 
   // (according to field_chunk and colspan rules examples: [field, field, field ]
 
-  //u.a("sectioned field list", object_type, section_field_lists, field_list)
 
   if (headless) {
     // XX authorize

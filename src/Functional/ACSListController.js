@@ -80,9 +80,7 @@ function ACSListController(input_props) {
   const object_models =  useGetModel("object_types")
   const object_model = object_models?object_models[input_props.object_type]:{}
 
-  if (input_props.object_type === "nwn_project_need") {
-  //  u.a(input_props.object_type, input_props.data)
-  }
+
   // XX BUG. will change the original 
   // Fix is to make RABList in the library and 
   // put it in the base. (which is actually the )
@@ -102,6 +100,7 @@ function ACSListController(input_props) {
   // important to use input_props.data as it is an array and useGetObjectList
   // see changes to an array's reference as a change
   let [object_type, api_options, data] = useGetObjectList(massaged_props.object_type, massaged_props.api_options, input_props.data, onData); 
+
 
 
   field_list = useGenerateFieldList(object_type, "", data, mode, false, field_list, lazy)

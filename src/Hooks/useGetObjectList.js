@@ -22,9 +22,9 @@ const useGetObjectList = (object_type, api_options={}, param_data, callback, onD
 
   const dirty_stamp = context.dirty_stamp;
 
-  // XX This will move to the session cookie
-  api_options.user_id = context.user.id
-  api_options.subsite_id = context.context_id
+
+  api_options.user_id = api_options.user_id?api_options.user_id:(context?context.user.id:"") 
+  api_options.subsite_id = api_options.subsite_id?api_options.subsite_id:(context?context.context_id:"")
 
 
   let return_state = prev_state.slice(1)
