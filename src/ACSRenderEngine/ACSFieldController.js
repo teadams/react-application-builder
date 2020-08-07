@@ -200,6 +200,7 @@ function ACSFieldController(input_props) {
     }
   }
   
+
   return (
      <ACSFieldRenderer 
     // destructured props from field_model
@@ -209,6 +210,7 @@ function ACSFieldController(input_props) {
     row_data={row_data}
     formValues = {formValues}
     object_type={object_type} 
+    referred_by_object_type = {field_model.referred_by_object_type}
     field_name = {field_name}
     form_field_name={form_field_name}
     data_field = {field_model.data_field}

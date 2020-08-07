@@ -254,6 +254,7 @@ function ACSRowController(input_props) {
       field_list.forEach(field => {
         console.log({field,object_type})
         const field_model = field_models[object_type][field]
+
         const col_span = field_model.col_span
         if ((field_model.hidden_on_form && ["create", "edit"].includes(mode)) ||
             field_model.hidden_on_create_form && mode === "create") {

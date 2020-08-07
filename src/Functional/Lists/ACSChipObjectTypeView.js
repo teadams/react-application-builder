@@ -14,7 +14,6 @@ function ChipRow(props) {
       const object_model = object_type_models[object_type]
       const pretty_key_field = object_model.pretty_key_id
       const summary_key_field = object_model.summary_key
-  
       const name=data[pretty_key_field]
       const summary=data[summary_key_field]
       return (<Fragment>
@@ -30,7 +29,7 @@ function ACSChipObjectTypeView(props)  {
   const {object_type, api_options, ...params} = props
   let {summary_field, description_field} = props
  
-
+u.a("chip", props)
   const rab_component_model = { 
       list:{
             names:{

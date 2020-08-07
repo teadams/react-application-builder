@@ -56,10 +56,10 @@ function RenderACSField(props) {
   if (props.data === undefined) {
       return null
   }
-  const {api_options, components:discard_components, ...params} = props
+  let {api_options, components:discard_components, ...params} = props
   const {data, row_data, object_type, data_field,  field_name, form_field_name, components={},
         mode="view", form="true", formValues, autoFocus, onSubmit, onBlur, onChange, 
-        more_detail, toggleMoreDetail, click_to_edit} = props
+        more_detail, toggleMoreDetail, click_to_edit, field_model, referred_by_object_type} = props
 
   // these come froprops.m rab_component_model props
 
@@ -121,6 +121,14 @@ function RenderACSField(props) {
     const handleFieldClick = (event) => {
         popup.setOrigin(popup_origin)
         popup.open(event,TestPop)
+    }
+
+    if (referred_by_object_type) {
+      params={}
+      params.object_type = referred_by_object_type
+      params.api_options = {}
+      params.api_options.filter_field= field_model.referred_by_field
+      params.api_options.filter_id = data[field_model.referred_to_field]
     }
 
     return (<Fragment>
