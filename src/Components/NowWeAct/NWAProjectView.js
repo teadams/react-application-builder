@@ -30,8 +30,6 @@ function NWAProjectView(props) {
   }
   
   const onData=(api_data) => {
-    console.log(api_data)
-u.a(api_data)
     setData(api_data)
   }
 

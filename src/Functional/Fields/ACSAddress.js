@@ -19,11 +19,11 @@ function ACSAddress(props) {
     const street_address = data.street_address?data.street_address:""
     let country = ""
     let state =""
-    if (data.country) {
-      country = data.country.name?data.country.name:""
+    if (data.data_country) {
+      country = data.data_country.name?data.data_country.name:""
     }
-    if (data.state) {
-      state = data.state.name?data.state.name:""
+    if (data.data_state) {
+      state = data.data_state.name?data.data_state.name:""
     }
     const zip_code = data.zip_code?data.zip_code:""
     switch (mode) {
