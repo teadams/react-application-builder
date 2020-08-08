@@ -128,7 +128,6 @@ function RenderACSField(props) {
     if (referred_by_object_type === "nwn_project_need") {
       const referred_by = field_model.referred_by_field
       const referred_to = field_model.referred_to_field
-      u.a(referred_to, row_data[referred_to])
       params={}
       params.object_type = referred_by_object_type
       params.api_options = {}
@@ -137,7 +136,6 @@ function RenderACSField(props) {
       if (referred_to === "core_subsite_id") {
         params.api_options.subsite_id = row_data[referred_to]
       }
-      u.aa("name, by, to field, api", field_name, referred_by, referred_to, params.api_options)
     }
 
     return (<Fragment>
