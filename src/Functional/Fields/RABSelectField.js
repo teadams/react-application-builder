@@ -50,13 +50,16 @@ function padding(num) {
 
 function selectItems(data, select_key_field, select_display_field, field_component, limit_value) {
     data=formTreeData(data)
+
     return (
       data.map ((row, index) => {
+//u.a("index, row)
         if (limit_value && limit_value !== row[select_key_field]) {
           return null
         } else {
+        //  u.a(row[select_key_field], row[select_display_field])
           return(
-            <MenuItem key={index}  value={row[select_key_field]}>{padding(row.tree_depth)}{field_component({data:row, field_name:select_display_field, mode:"text"})}</MenuItem>
+            <MenuItem key={index}  value={row[select_key_field]}>{padding(row.tree_depth)}{row[select_display_field]}</MenuItem>
             )
         }
       })
@@ -70,6 +73,7 @@ function RABSelectList(props) {
   }
   const {disable_underline=true, prevent_edit=false, select_key_field, select_display_field, object_type, add_none, data:props_data, dependent_filter} = props
 
+//u.a(object_type, select_key_field, select_display_field)
   let data = props_data
   if (add_none) {
     let any_row = [{[select_key_field]:"", [select_display_field]:add_none}]
@@ -164,10 +168,13 @@ function RABSelectField(props) {
   const final_field_name= field_model.render_field
   const data_field_value = data[field_model.data_field]
   // precedence: p"rops, field_model, keys
-  let {select_key_field = field_model.select_key_field, select_display_field = field_model.select_display_field, prevent_edit=field_model.prevent_edit} = props 
+//  let select_key_field = field_model.reference_field
+//  let select_display_field = field_model.display_field
+  let prevent_edit=field_model.prevent_edit
+ 
   
-  select_key_field = select_key_field?select_key_field:object_type_model.select_key_field
-  select_display_field = select_display_field?select_display_field:object_type_model.select_display_field
+  let select_key_field = object_type_model.select_key_field
+  let select_display_field = object_type_model.select_display_field
   // XX - make a "select" in the library
   let rab_component_model = rab_component_models.shell
   rab_component_model.list.components.list_wrap = RABSelectList
