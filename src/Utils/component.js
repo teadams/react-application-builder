@@ -252,11 +252,11 @@ const rab_component_models = {
       default_mode:"click_to_edit",
       props:{
         label: true,
-        label_style:{fontWeight:"bold", align:"right", borderStyle:"dotted", width:"10%"},
+        label_style:{fontWeight:"bold", align:"right",  width:"10%"},
         label_post_text:":",
         label_tag:"td",
         field_tag:"td",
-        field_style:{borderStyle:"dotted"},
+        field_style:{},
       }
     }
   },

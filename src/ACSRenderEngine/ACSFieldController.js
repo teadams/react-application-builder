@@ -155,12 +155,13 @@ function ACSFieldController(input_props) {
   // navigate to proper object for  references and dot notation
     const row_data = data
   // references
-
   if (data && field_model.data_path && mode !=="edit" && mode !== "create") {
-      data = row_data[field_model.data_path]
-  }
-
-
+      const data_path = field_model.data_path.split(".")
+      data = row_data[data_path[0]]
+      if (data_path[1]) {
+        data = data[data_path[1]]
+      }
+ }
 
   function toggleMoreDetail(event) {
     setMoreDetail(!more_detail)
