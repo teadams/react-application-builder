@@ -111,8 +111,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     if (!formValues[id_field]) {
       api.postData(object_type, formValues, {}, (insert_result, error) => { 
         // XX user_id, subsite
-        //u.a("insert results", insert_result)
-
+        
         if (error) {
           alert ('error is ' + error.message)
         } else {
