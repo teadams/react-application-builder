@@ -42,11 +42,17 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       // data has been restructured
         let default_value
         const data_path = field_model.data_path?field_model.data_path.split("."):""
-        const db_data_field = field_model.db_data_field?field_model.db_data_field:field_model.field_name
+        const data_field = field_model.data_field
         if (field_model.data_path) {
-          default_value=data[data_path[0]][db_data_field]
+          const data_path = field_model.data_path.split(".")
+          let final_data = data[data_path[0]]
+          if (data_path[1]) {
+              final_data = final_data[data_path[1]]
+          }
+          default_value=final_data[data_field]
+
         } else {
-          default_value=data[db_data_field]?data[db_data_field]:""
+          default_value=data[data_field]?data[data_field]:""
         }
 
         if (default_value === undefined || default_value === null) {
@@ -55,7 +61,6 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
         }
 
         defaults[field_name] = default_value
-
       } else if (mode === "create") {
 
           // take from field_models
@@ -111,7 +116,6 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     if (!formValues[id_field]) {
       api.postData(object_type, formValues, {}, (insert_result, error) => { 
         // XX user_id, subsite
-        
         if (error) {
           alert ('error is ' + error.message)
         } else {
@@ -135,8 +139,8 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
             delete formValues[form_field_name]
         }
       })
+
       api.putData(object_type, formValues, {}, (result, error) => { 
-      //  u.a("update results", result)
 
         if (error) {
           alert ('error is ' + error.message)
