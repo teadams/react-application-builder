@@ -11,7 +11,7 @@ import * as meta from '../../Utils/meta.js';
 
 
 function RABTextField(props) {
-  const {mode, row_data,  data, object_type, data_field, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values,  db_data_field, required, select_display_field=data_field} = props
+  const {mode, row_data,  data, object_type, data_field, display_field, references_field, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values,  db_data_field, required} = props
 if ( object_type === "nwn_project" || object_type === "core_subsite" && (field_name === "core_address_country")) {
 //  u.a(field_name,model_valid_values, valid_values)
 }
@@ -22,7 +22,7 @@ if ( object_type === "nwn_project" || object_type === "core_subsite" && (field_n
   // be done server side later
   let field_value
   if (data) {
-    field_value = data[field_model.data_field?field_model.data_field:field_name]
+    field_value = data[display_field]
   }
 
   if (!field_value && (field_value === null || field_value === undefined)) {
@@ -62,7 +62,7 @@ if ( object_type === "nwn_project" || object_type === "core_subsite" && (field_n
 
       return (
         valid_values.map ((value, index) => {
-          return (<MenuItem key={index}  value={value[db_data_field]}>{value[select_display_field]}</MenuItem>)
+          return (<MenuItem key={index}  value={value[references_field]}>{value[display_field]}</MenuItem>)
 //            return(
 //              <MenuItem key={index}  value={row[select_key_field]}>{padding(row.tree_depth)}{field_component({data:row, field_name:select_display_field, mode:"text"})}</MenuItem>
               //)
@@ -96,8 +96,7 @@ if ( object_type === "nwn_project" || object_type === "core_subsite" && (field_n
         let value = formValues[form_field_name]
 
         if ( !value && valid_values) {
-    
-            value = valid_values[0][db_data_field]
+            value = valid_values[0][references_field]
         }
   
         return (    <Select

@@ -215,7 +215,8 @@ function ACSFieldController(input_props) {
     field_name = {field_name}
     form_field_name={form_field_name}
     data_field = {field_model.data_field}
-    db_data_field = {field_model.db_data_field}
+    display_field = {field_model.display_field}
+    references_field = {field_model.references_field}
     pretty_name = {field_model.pretty_name}
     data_type = {field_model.data_type}
     col_span = {field_model.col_span}
