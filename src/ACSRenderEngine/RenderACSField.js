@@ -53,13 +53,16 @@ function RenderACSField(props) {
 
   const popup = useContext(UIContext).popup   
 
-  if (props.data === undefined) {
+  if (props.data === undefined && !props.referred_by_object_type) {
       return null
   }
+
   let {api_options, components:discard_components, ...params} = props
-  const {data, row_data, object_type, data_field,  dsiplay_field, references_field, field_name, form_field_name, components={},
+  const {data ={}, row_data, object_type, data_field,  dsiplay_field, references_field, field_name, form_field_name, components={},
         mode="view", form="true", formValues, autoFocus, onSubmit, onBlur, onChange, 
         more_detail, toggleMoreDetail, click_to_edit, field_model, referred_by_object_type} = props
+
+
 
   // these come froprops.m rab_component_model props
 
@@ -121,6 +124,7 @@ function RenderACSField(props) {
         popup.setOrigin(popup_origin)
         popup.open(event,TestPop)
     }
+
 
     if (referred_by_object_type === "nwn_project_need") {
       params={}
