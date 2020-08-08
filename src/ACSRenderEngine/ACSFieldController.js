@@ -122,7 +122,7 @@ function ACSFieldController(input_props) {
           select_api_options.filter_field.push(dependent_filter)
         }
 
-        api.getData (references,select_api_options, (results, error) => {         
+        api.getData (field_model.database_object_type,select_api_options, (results, error) => {         
               if (error) {
                   alert ("error retrieving object " + references + " " + error.message)
               } else {
