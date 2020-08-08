@@ -125,16 +125,19 @@ function RenderACSField(props) {
         popup.open(event,TestPop)
     }
 
-
     if (referred_by_object_type === "nwn_project_need") {
+      const referred_by = field_model.referred_by_field
+      const referred_to = field_model.referred_to_field
+      u.a(referred_to, row_data[referred_to])
       params={}
       params.object_type = referred_by_object_type
       params.api_options = {}
-      params.api_options.filter_field= field_model.referred_by_field
-      params.api_options.filter_id = data[field_model.referred_to_field]
-      if (field_model.referred_by_field === "core_subsite") {
-        params.api_options.subsite_id = data[field_model.referred_to_field]
+      params.api_options.filter_field= referred_by
+      params.api_options.filter_id = row_data[referred_to]
+      if (referred_to === "core_subsite_id") {
+        params.api_options.subsite_id = row_data[referred_to]
       }
+      u.aa("name, by, to field, api", field_name, referred_by, referred_to, params.api_options)
     }
 
     return (<Fragment>
