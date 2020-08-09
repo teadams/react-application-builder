@@ -20,8 +20,16 @@ const FormWrap =(props) => {
   // objects are always created at the row level
   // filters always use the filter component 
   if (props.form && (props.mode === "edit")) {
-    return (<form onSubmit={props.onSubmit}>
-      {props.children}
+    return (
+    <form onSubmit={props.onSubmit}>
+      <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
+        <div>
+        {props.children}
+        </div>
+        <div>
+          <Button onClick={props.onSubmit} style={{display:"flex", alignSelf:"center"}}>Save</Button>
+        </div>
+      </div>
     </form>)
   } else {
     return (<Fragment>{props.children}</Fragment>)
@@ -68,7 +76,7 @@ function RenderACSField(props) {
 
   const {field_tag="div", field_pre_text, field_post_text, field_css_class, field_style,  //field
         label=false, pretty_name, label_tag="", label_pre_text, label_post_text, label_style, label_css_class, //label
-        hide_if_empty, wrap_css_class, wrap_style={display:"flex", flexDirection:"row"},  wrap_tag="",
+        prevent_edit, hide_if_empty, wrap_css_class, wrap_style={display:"flex", flexDirection:"row"},  wrap_tag="",
         with_thumbnail, thumbnail_size="small"} = props  //wrap
     let {col_span=1} = props
 
@@ -106,7 +114,7 @@ function RenderACSField(props) {
         popup.close()
     }
 
-    const TestPop = (props) => {
+    const FieldEdit = (props) => {
 
         return (<Fragment>
           <div style={{margin:"20px"}}>
@@ -117,9 +125,9 @@ function RenderACSField(props) {
     }
 
     const handleFieldClick = (event) => {
-      if (event.target.name !== "more_link" && click_to_edit) {
+      if (!prevent_edit && click_to_edit && event.target.name !== "more_link") {
         popup.setOrigin(popup_origin)
-        popup.open(event,TestPop)
+        popup.open(event,FieldEdit)
       }
     }
 
