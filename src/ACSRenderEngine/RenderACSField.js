@@ -76,11 +76,7 @@ function RenderACSField(props) {
 
 
   // everything regarding field presentation will be in field_model
-  function handleFieldClick(event) {
-    if (props.onFieldClick && event.target.name !== "more_link") {
-       props.onFieldClick(event, data.id, "field", field_name, row_data, data)
-    }
-  }
+
 
   function handleMouseOver(event) {
     if (props.onMouseOver) {
@@ -121,8 +117,10 @@ function RenderACSField(props) {
     }
 
     const handleFieldClick = (event) => {
+      if (event.target.name !== "more_link" && click_to_edit) {
         popup.setOrigin(popup_origin)
         popup.open(event,TestPop)
+      }
     }
 
     if (referred_by_object_type === "nwn_project_need") {
