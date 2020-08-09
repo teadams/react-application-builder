@@ -185,7 +185,7 @@ function RenderACSField(props) {
         width="large"
     }
     let save_button = true
-    if (field_model.data_type="image") {
+    if (field_model.data_type==="image") {
       save_button = false
     }
     return ( 

@@ -49,6 +49,7 @@ function RABTableHeaders(props) {
        }
    }
   return (
+      <TableHead>
         <TableRow>
         {field_list.map(field=>{
           const split_field = field.split(".")
@@ -60,6 +61,7 @@ function RABTableHeaders(props) {
           }
         return(<TableCell className={classes.head} key={field+"header"}>{column_field_model.pretty_name}</TableCell>)})}
         </TableRow>
+    </TableHead>
         )
 }
 
