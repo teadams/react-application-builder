@@ -40,6 +40,10 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
             if (error) {
                 alert ("error retrieving object " + object_type + " " + id + ":" + error.message)
             } else {
+              if (results === "ERROR") {
+                alert ("database error")
+                return {}
+              }
               results = results[0]
               if (onData) {
                   onData(results)
