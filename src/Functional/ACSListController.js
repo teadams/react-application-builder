@@ -107,10 +107,16 @@ function ACSListController(input_props) {
 
   // important to use input_props.data as it is an array and useGetObjectList
   // see changes to an array's reference as a change
+  if (lazy) {
+    if (massaged_props.api_options) {
+      massaged_props.api_options.lazy = lazy
+    } else {
+      massaged_props.api_options = {lazy:lazy}
+    }
+  }
   let [object_type, api_options, data] = useGetObjectList(massaged_props.object_type, massaged_props.api_options, input_props.data, onData); 
 
-
-  field_list = useGenerateFieldList(object_type, "", data, mode, false, field_list, lazy)
+  field_list = useGenerateFieldList(object_type, "", data, mode, false, field_list, api_options.lazy) 
 
   if (!data || (object_type && !object_model) || headless) return null
 
