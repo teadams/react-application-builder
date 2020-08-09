@@ -19,12 +19,17 @@ const ACSVoid = (props) => {
 const FormWrap =(props) => {
   // objects are always created at the row level
   // filters always use the filter component 
+  const {width} = props 
+  let style={}
+  if (width=="large") {
+    style.width="500px"
+  }
   if (props.form && (props.mode === "edit")) {
     return (
     <form onSubmit={props.onSubmit}>
       <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
         <div onClick={props.onClose} style={{display:"flex", alignSelf:"flex-end"}}>X</div>
-        <div>
+        <div style={style}>
         {props.children}
         </div>
         <div>
@@ -118,7 +123,7 @@ function RenderACSField(props) {
 
     const FieldEdit = (props) => {
         return (<Fragment>
-          <div style={{margin:"20px"}}>
+          <div style={{padding:"20px", width:"100%"}}>
           <ACSField onSubmit={handleClickToEditSubmit} object_type={object_type} field_name={field_name} 
           data={row_data}  field_mode="edit" field_form={true}/>
           </div>
@@ -175,9 +180,12 @@ function RenderACSField(props) {
     const handleFieldClose = (event) => {
       popup.close()
     }
-
+    let width="auto"
+    if (field_model.multiline) {
+        width="large"
+    }
     return ( 
-      <FormWrap mode={mode} form={form} onSubmit={props.onSubmit} onClose={handleFieldClose} >
+      <FormWrap width={width} mode={mode} form={form} onSubmit={props.onSubmit} onClose={handleFieldClose} >
         <FieldWrap key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}>
             <Tag Tag={wrap_tag} class={wrap_css_class} style={wrap_style}>
               <Tag Tag={label_tag} class={label_css_class} style={label_style}>

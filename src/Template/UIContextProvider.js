@@ -3,10 +3,19 @@ import React, {useState, useContext, Fragment} from 'react';
 import UIContext from './UIContext.js'
 import { Popover, Button} from '@material-ui/core';
 import * as u from '../Utils/utils.js'
+import { makeStyles } from '@material-ui/core/styles';
 
+const useStyles = makeStyles({
+  root: {
+//    width: '400px',
+  },
+  paper: {
+//      width: '600px',
+  },
+});
 
 function UIContextProvider(props) {
-
+  const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [origin, setOrigin] = useState({anchorOrigin:{
     vertical: 'bottom',
@@ -81,6 +90,10 @@ function UIContextProvider(props) {
       }}>
         {popup_open &&
         <Popover 
+          classes={{
+             root: classes.root, // class name, e.g. `classes-nesting-root-x`
+             paper: classes.paper, // class name, e.g. `classes-nesting-label-x`
+           }}
             id={popup_id}
             open={popup_open}
             anchorEl={anchorEl}
