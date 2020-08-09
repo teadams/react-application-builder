@@ -275,14 +275,10 @@ function ACSRowController(input_props) {
     })
   }
 
-<<<<<<< HEAD
   // Sectiions
   // Final structure[[section], [section]]
   // where each section contains one or more fields 
   // (according to field_chunk and colspan rules examples: [field, field, field ]
-
-=======
->>>>>>> fc835b68ee630b2848e52961610b4fd26bd5d349
 
   if (headless) {
       return null

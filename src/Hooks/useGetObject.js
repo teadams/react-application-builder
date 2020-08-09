@@ -65,11 +65,7 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
 // model to match. Otherwise, we will have a lot of weird debuggs
 // and flickering
   if (output_data || !prev_state) {
-<<<<<<< HEAD
     if (id !== prev_id || (param_data_exists && (param_data !== output_data)) || (object_type !== prev_object_type) || (param_data_exists !== prev_param_data_exists) || (JSON.stringify(field_list) !== JSON.stringify(prev_field_list))) {
-=======
-    if (id !== prev_id || param_data !== output_data || (object_type !== prev_object_type) || (param_data_exists !== prev_param_data_exists) || (JSON.stringify(field_list) !== JSON.stringify(prev_field_list))) {
->>>>>>> fc835b68ee630b2848e52961610b4fd26bd5d349
         setState([true, object_type, id, field_list, api_options, param_data_exists, param_data])
     }
     return [true, object_type, id, field_list, api_options,  output_data]

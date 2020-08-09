@@ -63,12 +63,6 @@ const useStyles = makeStyles({
 export function getFinalModel(level, input_props={}, metadata_model={}, component_model, override_meta_model=false, trace=false) {
 
   // XX could potentially determin metadata_model from 
-<<<<<<< HEAD
-  // object_type and field. then caller would not have to.
-
-=======
-  // object_type and field then caller would not have to.
->>>>>>> fc835b68ee630b2848e52961610b4fd26bd5d349
   // This would require getFinalModel to change to a React Function
   // (return string, one input object) and receive an object 
   // that would be mutated.
