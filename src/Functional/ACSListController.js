@@ -117,7 +117,7 @@ function ACSListController(input_props) {
   let [object_type, api_options, data] = useGetObjectList(massaged_props.object_type, massaged_props.api_options, input_props.data, onData); 
 
   field_list = useGenerateFieldList(object_type, "", data, mode, false, field_list, api_options.lazy) 
-
+u.a(object_type, field_list)
   if (!data || (object_type && !object_model) || headless) return null
 
   // XX could calcuate server side
