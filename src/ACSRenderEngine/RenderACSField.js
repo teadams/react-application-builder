@@ -19,7 +19,7 @@ const ACSVoid = (props) => {
 const FormWrap =(props) => {
   // objects are always created at the row level
   // filters always use the filter component 
-  const {width} = props 
+  const {width, save_button=true} = props 
   let style={}
   if (width=="large") {
     style.width="500px"
@@ -32,9 +32,9 @@ const FormWrap =(props) => {
         <div style={style}>
         {props.children}
         </div>
-        <div>
+        {save_button && <div>
           <Button onClick={props.onSubmit} style={{display:"flex", alignSelf:"center"}}>Save</Button>
-        </div>
+        </div>}
       </div>
     </form>)
   } else {
@@ -184,8 +184,12 @@ function RenderACSField(props) {
     if (field_model.multiline) {
         width="large"
     }
+    let save_button = true
+    if (field_model.data_type="image") {
+      save_button = false
+    }
     return ( 
-      <FormWrap width={width} mode={mode} form={form} onSubmit={props.onSubmit} onClose={handleFieldClose} >
+      <FormWrap width={width} save_button={save_button} mode={mode} form={form} onSubmit={props.onSubmit} onClose={handleFieldClose} >
         <FieldWrap key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}>
             <Tag Tag={wrap_tag} class={wrap_css_class} style={wrap_style}>
               <Tag Tag={label_tag} class={label_css_class} style={label_style}>
