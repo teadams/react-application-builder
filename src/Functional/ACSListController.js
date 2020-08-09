@@ -30,7 +30,7 @@ function RABTableHeaders(props) {
     }
   });
   const classes = useStyles();
-  const {object_type, data, rab_component_model, ...list_params} = props
+  const {object_type, data, rab_component_model, total_width_units, ...list_params} = props
 
   let {field_list} = props
    let field_models =  useGetModel("fields")
@@ -48,13 +48,8 @@ function RABTableHeaders(props) {
          field_list = Object.keys(data)
        }
    }
-  // XX could calcuate server side
-  let total_width_units = 1
-  field_list.map (field => {
-      const column_field_model = field_models[object_type][field] 
-      const {list_grow=1} = column_field_model
-      total_width_units += list_grow
-  })
+
+
   return (
       <TableHead>
         <TableRow>
@@ -86,10 +81,13 @@ function RABList(list_props) {
 // Documentation - see comments in ACSRowController
 function ACSListController(input_props) {
   // do not merge expensive, known unnecessary things
-  const {data:input_props_data, action, target_menu_name, lazy="core", field_models, headless, action_props, onData, ...merging_props} = input_props
+  const {data:input_props_data, action, target_menu_name, lazy="core", field_models:input_field_models, headless, action_props, onData, ...merging_props} = input_props
   const object_models =  useGetModel("object_types")
-  const object_model = object_models?object_models[input_props.object_type]:{}
-
+  const object_model = object_models?object_models[input_props.object_type]:{} 
+  let field_models = useGetModel("fields")
+  if (input_field_models && Object.keys(input_field_models).length> 0) {
+      field_models =  input_field_models
+}
 
   // XX BUG. will change the original 
   // Fix is to make RABList in the library and 
@@ -112,13 +110,23 @@ function ACSListController(input_props) {
   let [object_type, api_options, data] = useGetObjectList(massaged_props.object_type, massaged_props.api_options, input_props.data, onData); 
 
 
-
   field_list = useGenerateFieldList(object_type, "", data, mode, false, field_list, lazy)
 
   if (!data || (object_type && !object_model) || headless) return null
 
+  // XX could calcuate server side
+  let total_width_units
+  if (object_type) {
+    total_width_units = 0
+    field_list.map (field => {
+      const column_field_model = field_models[object_type][field] 
+      const {list_grow=1} = column_field_model
+      total_width_units += list_grow
+    })
+  }
+
   return  (
-    <ACSListRenderer  {...list_model.props}  field_models={field_models} action={action} key={object_type+"list"}  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} action_props={action_props} rab_component_model={rab_component_model} />
+    <ACSListRenderer  {...list_model.props} total_width_units={total_width_units}  field_models={field_models} action={action} key={object_type+"list"}  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} action_props={action_props} rab_component_model={rab_component_model} />
   )
   
 }

@@ -211,7 +211,9 @@ function ACSTagWrap(props) {
 }
 
 function RABTableContainer(props) {
-  return(<TableContainer key={props.key_id}>{props.children}</TableContainer>)
+  let style
+  if (props.width) style={width:props.width}
+  return(<TableContainer style={style} key={props.key_id}>{props.children}</TableContainer>)
 }
 
 function RABTable(props) {

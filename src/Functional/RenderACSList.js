@@ -10,7 +10,7 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Chseckbox, Typography, Chip, Grid, MenuItem, TextField, TableContainer, TableHead, TableCell, TableRow, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, TablePagination, Button, Paper, Avatar, TableBody, Table } from '@material-ui/core';
 
 function RenderACSList(props) {
-  const {data, rab_component_model, field_models} = props
+  const {data, rab_component_model, field_models,total_width_units} = props
   const {pagination=false ,...params} = props
 
   const {header_wrap:HeaderWrap, header:Header, list_wrap:ListWrap, list_header_wrap:ListHeaderWrap, list_header:ListHeader, body_wrap:BodyWrap, list:RABList, footer_wrap:FooterWrap, footer:Footer,
@@ -37,6 +37,11 @@ function RenderACSList(props) {
       if (pagination && data.length === 0) {
         show_list = false
       }
+      
+      let table_width = total_width_units * 20
+      if (table_width > 100) {table_width = 100}
+      table_width = table_width.toString()+"%"
+    
       return ( 
         <Fragment>
           <HeaderWrap {...params}>
@@ -44,8 +49,8 @@ function RenderACSList(props) {
           </HeaderWrap>
           {show_list && 
             <Fragment> 
-            <ListContainer component={Paper} {...params} {...params.list_container}>
-            <ListWrap size="tiny" {...params} >
+            <ListContainer component={Paper} {...params} {...params.list_container} width={table_width}>
+            <ListWrap size="tiny" {...params} style={{width:"50%"}} >
               <ListHeaderWrap {...params}>
                 <ListHeader {...params}/>
               </ListHeaderWrap> 
