@@ -190,7 +190,7 @@ function ACSMapAndFilter (props) {
             field_mode = "view"
             field_list = {details_screen_field_list}
             no_header = {details_screen_no_header}
-            field_click_to_edit = {false}
+            row_field_click_to_edit = {false}
             num_columns={1}
             row_header_image_size="medium"
             handleMoreClick = {handleMoreClick}/>
