@@ -45,13 +45,6 @@ if ( object_type === "nwn_project" || object_type === "core_subsite" && (field_n
     }
   }
 
-// dependency, api_filters (in field 
-// force select (if not default, pick first one
-
-// Add any
-
-
-
 
   function selectItems(valid_values, trace) {
 
@@ -135,7 +128,11 @@ if ( object_type === "nwn_project" || object_type === "core_subsite" && (field_n
     case "text":
       return field_value
     default:
-          return <Fragment>{field_value}{more_link}</Fragment>
+          if (more_link) {
+            return <div>{field_value}{more_link}</div>  
+          } else {
+            return <Fragment>{field_value}</Fragment>
+          }
   }
 }
 
