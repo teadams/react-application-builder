@@ -42,6 +42,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       // data has been restructured
         let default_value
         const data_path = field_model.data_path?field_model.data_path.split("."):""
+<<<<<<< HEAD
         const data_field = field_model.data_field
         if (field_model.data_path) {
           const data_path = field_model.data_path.split(".")
@@ -55,10 +56,27 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
           default_value=data[data_field]?data[data_field]:""
         }
 
+=======
+        const db_data_field = field_model.db_data_field?field_model.db_data_field:field_model.field_name
+        if (field_model.data_path) {
+          default_value=data[data_path[0]][db_data_field]
+          //u.a("datha path", field_name, data_path, field_model.db_data_field, default_value)
+          //u.a(default_value)
+        } else {
+          default_value=data[db_data_field]?data[db_data_field]:""
+        }
+
+//        u.a("after default", field_name, data_path, default_value)
+>>>>>>> fc835b68ee630b2848e52961610b4fd26bd5d349
         if (default_value === undefined || default_value === null) {
           // base existed, but references did not
           default_value = field_model.default?field_model.default:""
         }
+<<<<<<< HEAD
+=======
+
+        defaults[field_name] = default_value
+>>>>>>> fc835b68ee630b2848e52961610b4fd26bd5d349
 
         defaults[field_name] = default_value
       } else if (mode === "create") {
@@ -116,6 +134,11 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     if (!formValues[id_field]) {
       api.postData(object_type, formValues, {}, (insert_result, error) => { 
         // XX user_id, subsite
+<<<<<<< HEAD
+=======
+        //u.a("insert results", insert_result)
+
+>>>>>>> fc835b68ee630b2848e52961610b4fd26bd5d349
         if (error) {
           alert ('error is ' + error.message)
         } else {

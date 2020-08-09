@@ -275,19 +275,19 @@ function ACSRowController(input_props) {
     })
   }
 
+<<<<<<< HEAD
   // Sectiions
   // Final structure[[section], [section]]
   // where each section contains one or more fields 
   // (according to field_chunk and colspan rules examples: [field, field, field ]
 
+=======
+>>>>>>> fc835b68ee630b2848e52961610b4fd26bd5d349
 
   if (headless) {
-    // XX authorize
-    // XX on data 
-    return null
+      return null
   }
-
-  return  (<ACSRowRenderer {...row_model.props} row_type={row_type} field_models={field_models} mode={mode} form={form} object_type={object_type} action_props={action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} form_open={form_open} form_title={form_title} onClose={handleFormClose}
+  return  (<ACSRowRenderer  {...row_model.props} row_type={row_type} field_models={field_models} mode={mode} form={form} object_type={object_type} action_props={action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} form_open={form_open} form_title={form_title} onClose={handleFormClose}
   handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} key={key_id+"Render"} key_id={key_id}/>)
 
 }
