@@ -201,7 +201,6 @@ function ACSFieldController(input_props) {
     }
   }
   
-
   return (
      <ACSFieldRenderer 
     // destructured props from field_model

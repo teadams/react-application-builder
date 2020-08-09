@@ -23,6 +23,7 @@ const FormWrap =(props) => {
     return (
     <form onSubmit={props.onSubmit}>
       <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
+        <div onClick={props.onClose} style={{display:"flex", alignSelf:"flex-end"}}>X</div>
         <div>
         {props.children}
         </div>
@@ -114,8 +115,8 @@ function RenderACSField(props) {
         popup.close()
     }
 
-    const FieldEdit = (props) => {
 
+    const FieldEdit = (props) => {
         return (<Fragment>
           <div style={{margin:"20px"}}>
           <ACSField onSubmit={handleClickToEditSubmit} object_type={object_type} field_name={field_name} 
@@ -131,6 +132,7 @@ function RenderACSField(props) {
       }
     }
 
+
     if (referred_by_object_type === "nwn_project_need") {
       const referred_by = field_model.referred_by_field
       const referred_to = field_model.referred_to_field
@@ -144,8 +146,9 @@ function RenderACSField(props) {
       }
     }
 
+
     return (<Fragment>
-      <FieldWrap  onClick={handleFieldClick} key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}>
+      <FieldWrap   onClick={handleFieldClick} key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}>
           <Tag Tag={wrap_tag} class={wrap_css_class} style={wrap_style}>
             {label && 
             <Tag Tag={label_tag} class={label_css_class} style={label_style}>
@@ -168,8 +171,13 @@ function RenderACSField(props) {
     )
   
   } else {
+
+    const handleFieldClose = (event) => {
+      popup.close()
+    }
+
     return ( 
-      <FormWrap mode={mode} form={form} onSubmit={props.onSubmit}>
+      <FormWrap mode={mode} form={form} onSubmit={props.onSubmit} onClose={handleFieldClose} >
         <FieldWrap key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}>
             <Tag Tag={wrap_tag} class={wrap_css_class} style={wrap_style}>
               <Tag Tag={label_tag} class={label_css_class} style={label_style}>
