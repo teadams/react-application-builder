@@ -16,7 +16,6 @@ const useGenerateFieldList = (object_type, field_name="", data, mode, form=true,
   const object_model = object_type?object_models[object_type]:{}
   if (layout || section) {
     return []
-  // form not needed or inputs not ready
   }
   const id_field = object_model.key_id
 

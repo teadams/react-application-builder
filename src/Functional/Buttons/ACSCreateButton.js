@@ -12,7 +12,6 @@ import useGetModel from '../../Hooks/useGetModel.js'
 function ACSCreateButton(props) {
 
   const {object_type, ButtonComponent, layout, sections, field_list, dialog_size, action_props, auth_action="create", require_authorization=true, text=""} = props
-
   const [create_dialog, setCreateDialog] = useState(false);
   const context = useContext(AuthContext)
   const context_id = context.context_id

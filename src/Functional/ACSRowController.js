@@ -212,6 +212,7 @@ function ACSRowController(input_props) {
   if (layout) {
       sections = layout_model.sections 
   }
+
   // XX for now, we are trusting that
   // layout, section and field_list are  
   // prescrubbed if provied.
