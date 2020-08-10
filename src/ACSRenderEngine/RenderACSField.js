@@ -64,7 +64,6 @@ const popup_origin = {
 
 function RenderACSField(props) {
 
-
   const popup = useContext(UIContext).popup   
 
   if (props.data === undefined && !props.referred_by_object_type) {
@@ -81,7 +80,7 @@ function RenderACSField(props) {
   // these come froprops.m rab_component_model props
 
   const {field_tag="div", field_pre_text, field_post_text, field_css_class, field_style,  //field
-        label=false, pretty_name, label_tag="", label_pre_text, label_post_text, label_style, label_css_class, //label
+        label=false, form_label=false, pretty_name, label_tag="", label_pre_text, label_post_text, label_style, label_css_class, //label
         prevent_edit, hide_if_empty, wrap_css_class, wrap_style={display:"flex", flexDirection:"row"},  wrap_tag="",
         with_thumbnail, thumbnail_size="small"} = props  //wrap
     let {col_span=1} = props
@@ -151,12 +150,11 @@ function RenderACSField(props) {
       }
     }
 
-
     return (<Fragment>
       <FieldWrap   onClick={handleFieldClick} key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}>
           <Tag Tag={wrap_tag} class={wrap_css_class} style={wrap_style}>
             {label && 
-            <Tag Tag={label_tag} class={label_css_class} style={label_style}>
+            <Tag Tag={label_tag} pretty_name={pretty_name} class={label_css_class} style={label_style}>
                 {label_pre_text}{pretty_name}{label_post_text}
             </Tag>}
             <Tag Tag={field_tag} col_span={col_span} style={field_style} class={field_css_class}>
@@ -188,15 +186,17 @@ function RenderACSField(props) {
     if (field_model.data_type==="image") {
       save_button = false
     }
+
+    params.placeholder = field_model.placeholder
+    params.required = field_model.required
+    params.helperText=field_model.helperText
+
     return ( 
       <FormWrap width={width} save_button={save_button} mode={mode} form={form} onSubmit={props.onSubmit} onClose={handleFieldClose} >
         <FieldWrap key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}>
             <Tag Tag={wrap_tag} class={wrap_css_class} style={wrap_style}>
-              <Tag Tag={label_tag} class={label_css_class} style={label_style}>
-                  {label_pre_text}{pretty_name}{label_post_text}
-              </Tag>
               <Tag  Tag={field_tag} col_span={col_span} style={field_style} class={field_css_class}>
-                <Field {...params}  key={field_name+"field"}/>
+                <Field {...params}  pretty_name={pretty_name}   key={field_name+"field"}/>
               </Tag>
             </Tag>
         </FieldWrap>

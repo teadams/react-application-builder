@@ -249,14 +249,15 @@ const rab_component_models = {
       },
       components:{
       },
-      default_mode:"click_to_edit",
       props:{
         label: true,
-        label_style:{fontWeight:"bold", align:"right",  width:"10%"},
+        form_label:false,
+        label_style:{fontWeight:"bold", textAlign:"right",  width:"10%",paddingTop:"10px"},
         label_post_text:":",
         label_tag:"td",
         field_tag:"td",
-        field_style:{},
+        field_style:{textAlign:"left",paddingLeft:"10px", paddingTop:"10px"},
+        variant:"outlined"
       }
     }
   },

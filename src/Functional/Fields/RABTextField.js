@@ -11,7 +11,9 @@ import * as meta from '../../Utils/meta.js';
 
 
 function RABTextField(props) {
-  const {mode, row_data,  data, object_type, data_field, display_field=props.field_name, references_field, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values,  db_data_field, required} = props
+  const {mode, row_data,  data, object_type, data_field, pretty_name, display_field=props.field_name, references_field, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values,  db_data_field, 
+  variant="outlined", required, helperText, placeholder} = props
+
 if ( object_type === "nwn_project" || object_type === "core_subsite" && (field_name === "core_address_country")) {
 //  u.a(field_name,model_valid_values, valid_values)
 }
@@ -84,43 +86,37 @@ if ( object_type === "nwn_project" || object_type === "core_subsite" && (field_n
     case "filter":
       const multiline = field_model.multiline?true:false
       const rows = field_model.multiline?field_model.multiline:1
-
+      let select = false 
+      let value = formValues[form_field_name]
       if (model_valid_values) {
-        let value = formValues[form_field_name]
-
         if ( !value && valid_values) {
             value = valid_values[0][references_field]
         }
-  
-        return (    <Select
-              id={form_field_name}
-              key={form_field_name}
-              name={form_field_name}
-              value={value}
-              autoFocus={autoFocus}
-              onBlur={props.onFieldBlur}
-              fullWidth={fullWidth}
-              disableUnderline = {disable_underline}
-              onChange={handleSelectChange}>
-              {selectItems(valid_values)}
-            </Select>)
-      } else {
+        select=true 
+       }
         return (
-          <TextField 
+        <TextField
+            select={select}
+            required={required} 
+            placeholder={placeholder}
             autoFocus={autoFocus}
-            name={form_field_name} 
+            name={form_field_name}
+            id = {form_field_name}
+            label = {pretty_name}
             key={form_field_name}
             fullWidth={fullWidth}
             multiline={multiline}
+            helperText={helperText}
+            variant={variant}
             rows={rows}
-            InputProps={{disableUnderline:disable_underline}}
             disabled={field_model.prevent_edit}
             type={field_model.input_type}
             onBlur={props.onFieldBlur}
-            value={formValues[form_field_name]}
-            onChange={onChange}/>
+            value={value}
+            onChange={onChange}>
+            {select && selectItems(valid_values)}
+          </TextField>
         )
-      }
       break
     case "csv":
       return '"'+field_value+'""'
