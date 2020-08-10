@@ -189,7 +189,7 @@ function RenderACSField(props) {
 
     params.placeholder = field_model.placeholder
     params.required = field_model.required
-    params.helperText=field_model.helperText
+    params.helperText=field_model.helperText?field_model.helperText:" "
 
     return ( 
       <FormWrap width={width} save_button={save_button} mode={mode} form={form} onSubmit={props.onSubmit} onClose={handleFieldClose} >

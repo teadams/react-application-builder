@@ -11,29 +11,39 @@ import * as meta from '../../Utils/meta.js';
 
 
 function ACSURLField(props) {
-  const {mode, data, field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small"} = props
+  const {mode, row_data,  data, object_type, data_field, pretty_name, display_field=props.field_name, references_field, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values,  db_data_field, 
+  variant="outlined", required, helperText, placeholder
+} = props
   let {with_thumbnail=""} = props
   // XX field model passed due to referenced change. May 
   // be done server side later
   let field_value=""
-  field_value = data[field_model.final_field_name?field_model.final_field_name:field_name]
+  field_value = data[display_field]
   with_thumbnail = with_thumbnail?with_thumbnail:field_model.with_thumbnail
                         
   switch (mode) {
     case "edit":
     case "create":
+      let value = formValues[form_field_name]
+
       return (
-          <TextField 
+        <TextField
+            required={required} 
+            placeholder={placeholder}
             autoFocus={autoFocus}
-            name={field_name} 
-            key={field_name}
+            name={form_field_name}
+            id = {form_field_name}
+            label = {pretty_name}
+            key={form_field_name}
             fullWidth={fullWidth}
-            InputProps={{disableUnderline:disable_underline}}
+            helperText={helperText}
+            variant={variant}
             disabled={field_model.prevent_edit}
             type={field_model.input_type}
             onBlur={props.onFieldBlur}
-            value={formValues[props.field_name]}
-            onChange={onChange}/>
+            value={value}
+            onChange={onChange}>
+          </TextField>
         )
       break
     case "csv":
