@@ -19,7 +19,7 @@ function ACSFilters(props) {
     default_form_values[filter.name] = default_filter_values[filter.name]?default_filter_values[filter.name]:filter.default_value
   })
   const [formValues, setFormValues] =useState(default_form_values)
-  const [api_options, setAPIOptions] = useState({filter_id:[], filter_field:[]})
+  const [api_options, setAPIOptions] = useState({"filter_id":[],"filter_field":[],"referenced_by":[],"filter_join":"AND"})
 
   const handleFilterChange = (event) => {
     
@@ -44,7 +44,6 @@ function ACSFilters(props) {
         }
     }
   })
-
 //  u.a(api_options, new_api_options)
 
   if (JSON.stringify(new_api_options) !== JSON.stringify(api_options)) {
@@ -52,7 +51,7 @@ function ACSFilters(props) {
       if (onChange) {
           onChange(new_api_options, formValues)
       }
-  }
+  } 
   
   return (
    <Fragment>

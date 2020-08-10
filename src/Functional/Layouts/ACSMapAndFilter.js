@@ -125,6 +125,8 @@ function ACSMapAndFilter (props) {
 
   if (!data) {loadData("")}
   const handleFilterChange = (api_options, filter_form_values) => {
+      u.a("filter change")
+      u.a(api_options, filter_form_values)
       setFilterFormValues(filter_form_values)
       loadData(api_options)
   }
