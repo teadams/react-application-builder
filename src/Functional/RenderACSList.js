@@ -41,7 +41,7 @@ function RenderACSList(props) {
       let table_width = total_width_units * 20
       if (table_width > 100) {table_width = 100}
       table_width = table_width.toString()+"%"
-    
+      
       return ( 
         <Fragment>
           <HeaderWrap {...params}>
@@ -50,7 +50,7 @@ function RenderACSList(props) {
           {show_list && 
             <Fragment> 
             <ListContainer component={Paper} {...params} {...params.list_container} width={table_width}>
-            <ListWrap size="tiny" {...params} style={{width:"50%"}} >
+            <ListWrap size="tiny" {...params}  >
               <ListHeaderWrap {...params}>
                 <ListHeader {...params}/>
               </ListHeaderWrap> 
