@@ -27,6 +27,7 @@ function RABObjectPrettyName(props) {
   }
   const field_component = control.componentByName(field_component_name?field_component_name:"RABTextField")
   const text = field_component({data:data, trace:true,field_model:field_model, field_name:pretty_field_name, mode:"view", image_size:image_size})
+
   return (<RABText {...props} header={header} text={text} variant={variant}/>)
 }
 export default RABObjectPrettyName

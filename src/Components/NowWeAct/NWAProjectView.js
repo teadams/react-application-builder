@@ -50,7 +50,7 @@ function NWAProjectView(props) {
 
       <div style={{width:"50%", paddingLeft:10}}>
         
-        <ACSObjectView {...props} data={data.leader}  row_no_stripe={true} field_display="name_value" num_columns={1} object_type="core_user" row_header_image_size="medium" rab_component_model={{row:{names:{row_body:"RABVoid"}}}} row_image_size="medium" />
+        <ACSObjectView {...props} data={data.data_leader}  row_no_stripe={true} field_display="name_value" num_columns={1} object_type="core_user" row_header_image_size="medium" rab_component_model={{row:{names:{row_body:"RABVoid"}}}} row_image_size="medium" />
       <div style={{marginTop:20, marginBottom:20,display:"flex", flexDirection:"column", }}>
 
         <ACSSummaryObjectTypeView action="map"   api_options={{filter_id:"true,Recruiting", filter_field:"role_name.accept_signups,status", filter_join:"AND"}}  description_field="role_name.description" action_props={{mapping_name:"mapping_values",filter_field:"role_name.accept_signups", filter_id:true}} object_type="nwn_project_need"/>
