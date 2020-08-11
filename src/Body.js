@@ -51,6 +51,10 @@ function Body(props) {
       id = context.context_id
   }
 
+  if (context && context.user.id && object_type === "core_user" && !id) {
+      id = context.user.id
+  }
+
   const { ...rest} = selected_menu_model
   // object_type in menu_model will override URL
   return (< BodyComponent object_type={object_type} id={id} field_name={field_name} {...rest}  />)  
