@@ -252,7 +252,6 @@ function ACSRowController(input_props) {
       let index = 0
       let col_count = 0
       field_list.forEach(field => {
-        console.log({field,object_type})
         const field_model = field_models[object_type][field]
 
         const col_span = field_model.col_span
