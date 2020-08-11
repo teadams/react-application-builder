@@ -145,6 +145,9 @@ function RenderACSField(props) {
       if (referred_to === "core_subsite_id") {
         params.api_options.subsite_id = row_data[referred_to]
       }
+      if (data) {
+        params.data = data
+      }
     }
 
     return (<Fragment>
