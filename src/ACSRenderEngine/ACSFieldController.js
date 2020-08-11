@@ -157,9 +157,20 @@ function ACSFieldController(input_props) {
   // references
   if (data && field_model.data_path && mode !=="edit" && mode !== "create") {
       const data_path = field_model.data_path.split(".")
-      data = row_data[data_path[0]]
-      if (data_path[1]) {
-        data = data[data_path[1]]
+
+      if (row_data.hasOwnProperty(data_path[0])) {
+        data = row_data[data_path[0]]
+      } else {
+        // query did not retrieve this data  
+        // example, referreed by that has not been expanded
+        data = null
+      }
+      if (data_path[1]  ) {
+        if (data.hasOwnProperty(data_path[0])) {
+         data = data[data_path[1]]
+        } else {
+          data = null
+        }
       }
  }
 

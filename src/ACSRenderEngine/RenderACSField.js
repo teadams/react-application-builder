@@ -137,6 +137,7 @@ function RenderACSField(props) {
     if (referred_by_object_type === "nwn_project_need") {
       const referred_by = field_model.referred_by_field
       const referred_to = field_model.referred_to_field
+      const data_path = field_model.data_path
       params={}
       params.object_type = referred_by_object_type
       params.api_options = {}
@@ -144,7 +145,7 @@ function RenderACSField(props) {
       params.api_options.filter_id = row_data[referred_to]
       if (referred_to === "core_subsite_id") {
         params.api_options.subsite_id = row_data[referred_to]
-      }
+      } 
       if (data) {
         params.data = data
       }
