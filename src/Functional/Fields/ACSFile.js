@@ -55,9 +55,9 @@ switch (mode) {
 //        let image_sizer = new Image()
 //        image_sizer.src = window.URL.createObjectURL(formValues[form_field_name])
 //        image_sizer.onload = () => {
-//           alert(image_sizer.width + " " + image_sizer.height);
+//           alert(image_sizer.width + " " + image_sizer.height);/        
 //        }
-//      }
+      }
       const border_style= {
         borderColor:"#000000",
         borderStyle: "solid",
