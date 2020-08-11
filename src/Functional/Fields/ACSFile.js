@@ -50,7 +50,14 @@ switch (mode) {
         img_exists = true
         img_src = URL.createObjectURL(formValues[form_field_name])
         img_name = formValues[form_field_name].name
-      }
+
+// If needed, this will get the image sizing
+//        let image_sizer = new Image()
+//        image_sizer.src = window.URL.createObjectURL(formValues[form_field_name])
+//        image_sizer.onload = () => {
+//           alert(image_sizer.width + " " + image_sizer.height);
+//        }
+//      }
       const border_style= {
         borderColor:"#000000",
         borderStyle: "solid",
