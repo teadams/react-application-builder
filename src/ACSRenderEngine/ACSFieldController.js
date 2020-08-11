@@ -190,14 +190,9 @@ function ACSFieldController(input_props) {
 
 
   function handleOnFieldBlur(event) {
-    if (form) {
-      setMode(initial_mode)
-    }
+  console.log ("blurring"+field_name)
     if (input_props.onBlur) {
       input_props.onBlur()
-    }
-    if (mode === "filter") {
-      handleFormSubmit(event)
     }
   }
   
