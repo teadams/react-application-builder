@@ -202,8 +202,6 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
             setFilesTouched(filesTouched.concat([name]))
         }
         //dependency_data_field
-        console.log("set form values 3")
-
         setFormValues(formValues => ({...formValues, [name]:value}));
       }
     }

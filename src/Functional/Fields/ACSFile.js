@@ -6,7 +6,7 @@ import * as control from '../../Utils/control.js';
 
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useEffect} from 'react';
-import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Select, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell,InputLabel } from '@material-ui/core';
+import { OutlinedInput, FormControl, FormHelperText, Input, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Select, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell,InputLabel } from '@material-ui/core';
 import ACSListController from '../ACSListController.js'
 import * as meta from '../../Utils/meta.js';
 import ACSImage from './ACSImage.js'
@@ -14,7 +14,9 @@ import useGetModel from '../../Hooks/useGetModel.js'
 
 function ACSFile(props) {
 
-  const {mode, data, prevent_edit, image_size="tiny", image_size_list="tiny", field_name, field_models, pretty_key, data_field, formdata, object_type, formValues, disable_underline=false, onChange, autoFocus, avatar, fullWidth=true, custom_width, custom_height, data_type, components, img_style, list_img_style} = props
+  const {mode, data, row_data, prevent_edit, image_size="tiny", image_size_list="tiny", field_name, field_models, pretty_key, pretty_name, data_field, formdata, object_type, formValues, disable_underline=false, onChange, autoFocus, avatar, fullWidth=true, custom_width, custom_height, data_type, components, img_style, list_img_style, display_field=props.field_name, references_field, form_field_name=props.field_name, field_model={},
+  variant="outlined", required, helperText, placeholder
+} = props
 
   const field_value = data[data_field]
   const object_type_model = useGetModel("object_types")[object_type]
@@ -39,23 +41,60 @@ function ACSFile(props) {
       }
     }
   }
-  switch (mode) {
+switch (mode) {
     case "edit":
     case "create":
+      let img_exists = false 
+      let img_src, img_name
+      if (formValues && Object.keys(formValues).length>0 &&formValues[form_field_name]) {
+        img_exists = true
+        img_src = URL.createObjectURL(formValues[form_field_name])
+        img_name = formValues[form_field_name].name
+      }
+      const border_style= {
+        borderColor:"#000000",
+        borderStyle: "solid",
+        borderWidth: "1px"
+      }
       return (<Fragment>
-          {mode==="edit" && data_type === "image" &&
-            <ACSImage style={img_style} letters={letters} image_object={field_value} letters={letters} size={image_size} avatar={avatar} custom_width={custom_width} custom_height={custom_height}/>
-          }
-          <TextField 
-            autoFocus={autoFocus}
-            name={field_name} 
-            key={field_name}
-            InputProps={{disableUnderline:disable_underline}}
-            disabled={prevent_edit}
-            type="file"
-            onChange={onChange}
-            />
-            </Fragment>
+        <div style={border_style}>
+          <div style={{display:"flex", flexDirectionn:"row", padding:"10px"}}>
+            <div>
+              {mode==="edit" && data_type === "image" && !img_exists &&
+                <ACSImage style={img_style} letters={letters} image_object={field_value} letters={letters} size={image_size} avatar={avatar} custom_width={custom_width} custom_height={custom_height}/>
+              }
+              {!img_exists && mode !== "edit" &&
+              <Fragment>
+                <ACSImage style={img_style} letters={letters} img_src="" letters={letters} size={image_size} avatar={avatar} custom_width={custom_width} custom_height={custom_height}/>
+              </Fragment>
+              }
+              {img_exists &&
+              <Fragment>
+                <ACSImage style={img_style} letters={letters} img_src={img_src} letters={letters} size={image_size} avatar={avatar} custom_width={custom_width} custom_height={custom_height}/><br/>
+                {img_name}
+              </Fragment>
+              }
+            </div>
+            <div style={{paddingLeft:"10px"}}>
+               <label htmlFor={form_field_name}>
+                {helperText} <br/>
+                 <Button style={{marginTop:"10px"}} color="primary" variant="outlined" component="span">
+                   Upload {pretty_name}
+                 </Button>
+                
+               </label>    
+               <input
+                 style={{ display: "none" }}
+                 id={form_field_name}
+                 name={form_field_name}
+                 key={form_field_name}
+                 type="file"
+                 onChange={onChange}
+               />
+            </div>
+            </div>
+          </div>
+        </Fragment>
         )
       break
     case "csv":

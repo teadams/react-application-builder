@@ -31,7 +31,7 @@ function get_image_dimensions (size="medium" ) {
 
 
 function ACSImage(props) {
-  const {size="medium", letters="",  avatar=true} = props
+  const {size="medium", letters="",  avatar=true, img_src} = props
   let {style} = props
   if (style && Object.keys(style).length == 0) {
     style = null
@@ -44,8 +44,7 @@ function ACSImage(props) {
     } catch {}
   }
 
-  const image_url = get_image_url(image_object)
-
+  const image_url = img_src?img_src:get_image_url(image_object)
   let image_dim = {}
   style = style?style:get_image_dimensions(size)
 
@@ -53,7 +52,7 @@ function ACSImage(props) {
   if (!avatar || avatar == "false") {
       variant = "square"
   }
-  if (!image_object  || !image_object.path || !image_object.name) {
+  if (!image_url) {
       style.verticalAlign='textTop'
       return (<Avatar variant={variant} style={style}>{letters}</Avatar>)
   } else if (avatar && avatar !=="false") {
