@@ -97,9 +97,6 @@ function RenderACSField(props) {
     }
   }
 
-  if (label && col_span > 1) {
-    col_span = 2*col_span -1
-  }
   let {field_wrap:FieldWrap=Fragment, field:Field=ACSTextField} = components 
 
 
@@ -151,13 +148,13 @@ function RenderACSField(props) {
     }
 
     return (<Fragment>
-      <FieldWrap   onClick={handleFieldClick} key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}>
+      <FieldWrap   onClick={handleFieldClick} key={field_name+"_wrap1"}   field_name={field_name}>
           <Tag Tag={wrap_tag} class={wrap_css_class} style={wrap_style}>
             {label && 
             <Tag Tag={label_tag} pretty_name={pretty_name} class={label_css_class} style={label_style}>
                 {label_pre_text}{pretty_name}{label_post_text}
             </Tag>}
-            <Tag Tag={field_tag} col_span={col_span} style={field_style} class={field_css_class}>
+            <Tag Tag={field_tag}  style={field_style} class={field_css_class}>
                 {!show_thumbnail?
                     <Fragment>
                       {field_pre_text}<Field {...params}  key={field_name+"field"}/>{field_post_text}

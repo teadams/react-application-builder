@@ -125,7 +125,10 @@ function ACSListController(input_props) {
     total_width_units = 0
     field_list.map (field => {
       const column_field_model = field_models[object_type][field] 
-      const {list_grow=1} = column_field_model
+      let list_grow =1
+      if (column_field_model) {
+        list_grow = column_field_model.list_grow
+      }
       total_width_units += list_grow
     })
   }

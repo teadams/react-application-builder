@@ -252,11 +252,11 @@ const rab_component_models = {
       props:{
         label: true,
         form_label:false,
-        label_style:{fontWeight:"bold", textAlign:"right",  width:"10%",paddingTop:"10px"},
+        label_style:{fontWeight:"bold", textAlign:"right",  verticalAlign:"top", width:"10%",paddingTop:"10px"},
         label_post_text:":",
         label_tag:"td",
         field_tag:"td",
-        field_style:{textAlign:"left",paddingLeft:"10px", paddingTop:"10px"},
+        field_style:{textAlign:"left",paddingLeft:"10px", verticalAlign:"top", paddingTop:"10px"},
         variant:"outlined"
       }
     }
