@@ -22,7 +22,8 @@ function shieldObject(object) {
 }
 
 function Body(props) {
-  const {selected_menu, object_type="", id="", field_name="", menu_type} = props
+  const {selected_menu, object_type="",  field_name="", menu_type} = props
+  let {id=""} = props
   let {component_name} = props
   const menu_model =  useGetModel("menus")
   const app_params =  useGetModel("app_params")
@@ -45,6 +46,9 @@ function Body(props) {
       selected_menu_model.api_options.filter_field = "core_subsite"
       selected_menu_model.api_options.filter_id = context.context_id
     } 
+  }
+  if (context && context.context_id && object_type === "core_subsite" && !id) {
+      id = context.context_id
   }
 
   const { ...rest} = selected_menu_model
