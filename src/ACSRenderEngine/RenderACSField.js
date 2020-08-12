@@ -76,7 +76,6 @@ function RenderACSField(props) {
         more_detail, toggleMoreDetail, click_to_edit, field_model, referred_by_object_type} = props
 
 
-
   // these come froprops.m rab_component_model props
 
   const {field_tag="div", field_pre_text, field_post_text, field_css_class, field_style,  //field
@@ -134,7 +133,7 @@ function RenderACSField(props) {
     }
 
 
-    if (referred_by_object_type === "nwn_project_need") {
+    if (referred_by_object_type) {
       const referred_by = field_model.referred_by_field
       const referred_to = field_model.referred_to_field
       const data_path = field_model.data_path

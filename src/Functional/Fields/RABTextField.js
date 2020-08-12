@@ -14,9 +14,6 @@ function RABTextField(props) {
   const {mode, row_data,  data, object_type, data_field, pretty_name, display_field=props.field_name, references_field, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values,  db_data_field, 
   variant="outlined", required, helperText, placeholder} = props
 
-if ( object_type === "nwn_project" || object_type === "core_subsite" && (field_name === "core_address_country")) {
-//  u.a(field_name,model_valid_values, valid_values)
-}
 
   let {with_thumbnail="", with_url="", more_detail=false, toggleMoreDetail} = props
 

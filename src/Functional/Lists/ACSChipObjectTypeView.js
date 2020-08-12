@@ -4,6 +4,8 @@ import * as u from '../../Utils/utils.js'
 import * as control from '../../Utils/control.js';
 import ACSObjectTypeView from './ACSObjectTypeView.js'
 import ACSField from '../Fields/ACSField.js'
+import ACSImage from '../Fields/ACSImage.js'
+
 import useGetModel from '../../Hooks/useGetModel.js'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import { Tooltip, Table, TableBody, TableRow, TableCell, Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
@@ -11,17 +13,59 @@ import { Tooltip, Table, TableBody, TableRow, TableCell, Typography, Chip, Grid,
 function ChipRow(props) {
       const {data, object_type} = props
       const object_type_models = useGetModel("object_types")
+      const field_models = useGetModel("fields")
+
       const object_model = object_type_models[object_type]
       const pretty_key_field = object_model.pretty_key_id
+      const pretty_key_field_model = field_models[object_type][pretty_key_field]
+      const pretty_key_data_path = pretty_key_field_model.data_path 
+      const pretty_key_data = data[pretty_key_data_path]
+      const pretty_key_field_component = pretty_key_field_model.field_component
+      let pretty_key_value = pretty_key_data[pretty_key_field_model.display_field]
+
+      if (pretty_key_field_component !== "RABTextField") {
+        const Field = control.componentByName(pretty_key_field_component)
+        pretty_key_value = Field({data:pretty_key_data, field_name:pretty_key_field_model.display_field, mode:"text"})
+      }
+
+      const avatar_field = object_model.thumbnail_key 
+      let show_blank = false
+      let avatar_object
+      if (avatar_field) {
+        const avatar_field_model = field_models[object_type][avatar_field]
+        const avatar_data_path = avatar_field_model.data_path 
+        const avatar_data = data[avatar_data_path]
+        show_blank = true
+        avatar_object = avatar_data[avatar_field_model.display_field]
+      }
+
+      // XX THIS SHOULD EXPAND OUT LIKE PRETTY KEY
       const summary_key_field = object_model.summary_key
-      const name=data[pretty_key_field]
-      const summary=data[summary_key_field]
+      let summary
+      if (summary_key_field) {
+        const summary_key_field_model = field_models[object_type][summary_key_field]
+        const summary_key_data_path = summary_key_field_model.data_path 
+        const summary_key_data = data[summary_key_data_path]
+        const summary_key_field_component = summary_key_field_model.field_component
+        summary = summary_key_data[summary_key_field_model.display_field]
+        if (summary_key_field_component !== "RABTextField") {
+          const Field = control.componentByName(pretty_key_field_component)
+          summary = Field({data:pretty_key_data, field_name:pretty_key_field_model.display_field, mode:"text"})
+        }
+
+      }
+
+      const label=pretty_key_value
       return (<Fragment>
-        <Tooltip title={summary} placement="top-end" arrow={true}>
-          <Chip   label={name} size="small"/>
-       </Tooltip>
-              </Fragment>
-              )
+          {summary? 
+          <Tooltip title={summary} placement="top-end" arrow={true}>
+            <Chip   variant="outlined" label={label} size="small" avatar={<ACSImage image_object={avatar_object} show_blank={show_blank} size="tiny"/>}/>
+          </Tooltip>
+          :
+            <Chip variant="outlined"   label={label} size="small" avatar={<ACSImage image_object={avatar_object} show_blank={show_blank} size="tiny"/>} />
+          }
+          </Fragment>
+        )
 }
 
 

@@ -157,7 +157,6 @@ function ACSFieldController(input_props) {
   // references
   if (data && field_model.data_path && mode !=="edit" && mode !== "create") {
       const data_path = field_model.data_path.split(".")
-
       if (row_data.hasOwnProperty(data_path[0])) {
         data = row_data[data_path[0]]
       } else {
