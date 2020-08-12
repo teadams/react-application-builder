@@ -143,7 +143,7 @@ function RenderACSField(props) {
       params.api_options = {}
       params.api_options.filter_field= referred_by
       params.api_options.filter_id = row_data[referred_to]
-      if (referred_to === "core_subsite_id") {
+      if (referred_to === "core_subsite") {
         params.api_options.subsite_id = row_data[referred_to]
       } 
       if (data) {

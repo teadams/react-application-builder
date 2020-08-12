@@ -191,8 +191,7 @@ function ACSChipObjectTypeView(props)  {
         rab_component_model.list.props.chip_show_blank_groups= params.field_model.chip_show_blank_groups 
 
       }
-
-  return (<ACSListController {...params}   rab_component_model={rab_component_model}  object_type={object_type} api_options={api_options}/> )
+  return (<ACSListController {...params} api_options={api_options}  rab_component_model={rab_component_model}  object_type={object_type} api_options={api_options}/> )
 }
 
 export default ACSChipObjectTypeView;
