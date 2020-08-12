@@ -1,6 +1,7 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import * as u from '../../Utils/utils.js'
+import * as api from '../../Utils/data.js'
 import * as control from '../../Utils/control.js';
 import {ACSListController} from '../../ACSRenderEngine'
 import ACSField from '../Fields/ACSField.js'
@@ -28,7 +29,7 @@ const ACSChip = (props) => {
 function field_text (field_models, object_type, field, data) {
   const field_model = field_models[object_type][field]
   const data_path = field_model.data_path 
-  const field_data = data[data_path]
+  const field_data = data_path?data[data_path]:data
   const field_component = field_model.field_component
   let value = field_data[field_model.display_field]
 
@@ -49,12 +50,6 @@ function field_text_for_key (object_models, field_models, object_type, key_type,
 }
 
 
-// Form group by data 
-//  -- lopp 1 - do the base 
-//  -- loop 2 - add the fields
-// Loop for group by
-// GROUP BY
-// NAME - CHIPS
 // Declare group by object type 
 // Get object type 
 // FOrm group by data
@@ -62,19 +57,42 @@ function field_text_for_key (object_models, field_models, object_type, key_type,
 
 
 function ChipGroupBy(props) {
-  const {row_data, data, object_type,  chip_group_by_field} = props
+  const {row_data, data, object_type,  chip_group_by_field, chip_group_by_object_type, chip_group_by_api_options, chip_group_by_object_type_key, chip_show_blank_groups=false} = props
+  const [group_by_key, setGroupByKey]= useState()
   const field_models = useGetModel("fields")
-  let group_by_key = {}
 
   // OR FROm DB
-  data.forEach(row=> {
-    const group_by_value = field_text (field_models, object_type, chip_group_by_field, row)
-    group_by_key[group_by_value] = {}
-    group_by_key[group_by_value].name = group_by_value 
-    group_by_key[group_by_value].chips = []
-  })
+  if (!group_by_key && !chip_group_by_object_type) {
+    let working_group_by_key = {}
+    data.forEach(row=> {
+      const group_by_value = field_text (field_models, object_type, chip_group_by_field, row)
+      working_group_by_key[group_by_value] = {}
+      working_group_by_key[group_by_value].name = group_by_value 
+      working_group_by_key[group_by_value].chips = []
+    })
+    setGroupByKey(working_group_by_key)
+  }
+  if (!group_by_key && chip_group_by_object_type) {
+    let working_group_by_key = {}
 
+    api.getData (chip_group_by_object_type,chip_group_by_api_options, (results, error) => {         
+          if (error) {
+              alert ("in chip" + chip_group_by_object_type + " " + error.message)
+          } else {
+            results.forEach(row => {
+              const group_by_value = field_text (field_models, chip_group_by_object_type, chip_group_by_object_type_key, row)
+              working_group_by_key[group_by_value] = {}
+              working_group_by_key[group_by_value].name = group_by_value 
+              working_group_by_key[group_by_value].chips = []
+            })
+            setGroupByKey(working_group_by_key)
+          }
+      })
+  }
 
+  if (!group_by_key || Object.keys(group_by_key).length===0) {
+    return null
+  }
   data.forEach(row=> {
     const group_by_value = field_text (field_models, object_type, chip_group_by_field, row)
     group_by_key[group_by_value].chips.push(row)    
@@ -83,13 +101,19 @@ function ChipGroupBy(props) {
 
    return (<div style={{display:"flex", flexDirection:"column"}}>
         {Object.keys(group_by_key).map(key=> {
-          return (<div style={{display:"flex", flexDirection:"row", }}>
+            if (chip_show_blank_groups || group_by_key[key].chips.length > 0) {
+              return (<div style={{display:"flex", flexDirection:"row", }}>
                     <div style={{marginRight:"10px"}}>{group_by_key[key].name}:</div>
                     <div>
-          {group_by_key[key].chips.map(chip=> {
-            return(<ChipRow data={chip} object_type={object_type}/>)
-          })}
-          </div></div>)
+        
+                    {group_by_key[key].chips.map(chip=> {
+                    return(<ChipRow data={chip} object_type={object_type}/>)
+                      })}
+                    </div></div>
+                )
+            } else {
+              return null
+            }      
         })}
         </div>) 
 }
@@ -161,6 +185,11 @@ function ACSChipObjectTypeView(props)  {
         rab_component_model.list.components.list = ChipGroupBy
       //rab_component_model.list_grouping_data = grouping_data
         rab_component_model.list.props.chip_group_by_field = params.field_model.chip_group_by_field  
+        rab_component_model.list.props.chip_group_by_object_type = params.field_model.chip_group_by_object_type
+        rab_component_model.list.props.chip_group_by_api_options = params.field_model.chip_group_by_api_options  
+        rab_component_model.list.props.chip_group_by_object_type_key = params.field_model.chip_group_by_object_type_key  
+        rab_component_model.list.props.chip_show_blank_groups= params.field_model.chip_show_blank_groups 
+
       }
 
   return (<ACSListController {...params}   rab_component_model={rab_component_model}  object_type={object_type} api_options={api_options}/> )
