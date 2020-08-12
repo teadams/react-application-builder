@@ -160,7 +160,6 @@ function ACSFieldController(input_props) {
       if (row_data.hasOwnProperty(data_path[0])) {
         data = row_data[data_path[0]]
       } else {
-        //u.a("no data path", field_name, data_path[0], data_path)
         // query did not retrieve this data  
         // example, referreed by that has not been expanded
         data = null
