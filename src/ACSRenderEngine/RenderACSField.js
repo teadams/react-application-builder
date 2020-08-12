@@ -138,6 +138,7 @@ function RenderACSField(props) {
       const referred_to = field_model.referred_to_field
       const data_path = field_model.data_path
       params={}
+      params.field_model = field_model
       params.object_type = referred_by_object_type
       params.api_options = {}
       params.api_options.filter_field= referred_by

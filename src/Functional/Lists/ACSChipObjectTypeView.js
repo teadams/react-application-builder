@@ -2,7 +2,7 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import * as u from '../../Utils/utils.js'
 import * as control from '../../Utils/control.js';
-import ACSObjectTypeView from './ACSObjectTypeView.js'
+import {ACSListController} from '../../ACSRenderEngine'
 import ACSField from '../Fields/ACSField.js'
 import ACSImage from '../Fields/ACSImage.js'
 
@@ -49,31 +49,6 @@ function field_text_for_key (object_models, field_models, object_type, key_type,
 }
 
 
-
-function ChipRow(props) {
-      const {data, object_type} = props
-      const object_models = useGetModel("object_types")
-      const field_models = useGetModel("fields")
-
-      const label = field_text_for_key (object_models, field_models, object_type, "pretty_key_id", data) 
-
-      const object_model = object_models[object_type]
-      const avatar_field = object_model.thumbnail_key 
-      let show_blank = false
-      let avatar_object
-      if (avatar_field) {
-        avatar_object = field_text (field_models, object_type, avatar_field, data)
-        show_blank = true
-      }
-
-      const summary = field_text_for_key (object_models, field_models, object_type, "summary_key", data) 
-
-      return (<ACSChip summary={summary} label={label} avatar_object={avatar_object} show_blank={show_blank}/>)
-}
-
-
-// Declare group by field
-// procify getting the field
 // Form group by data 
 //  -- lopp 1 - do the base 
 //  -- loop 2 - add the fields
@@ -86,12 +61,66 @@ function ChipRow(props) {
 //  -- loop 1 - get the query
 
 
+function ChipGroupBy(props) {
+  const {row_data, data, object_type,  chip_group_by_field} = props
+  const field_models = useGetModel("fields")
+  let group_by_key = {}
+
+  // OR FROm DB
+  data.forEach(row=> {
+    const group_by_value = field_text (field_models, object_type, chip_group_by_field, row)
+    group_by_key[group_by_value] = {}
+    group_by_key[group_by_value].name = group_by_value 
+    group_by_key[group_by_value].chips = []
+  })
+
+
+  data.forEach(row=> {
+    const group_by_value = field_text (field_models, object_type, chip_group_by_field, row)
+    group_by_key[group_by_value].chips.push(row)    
+  })
+
+
+   return (<div style={{display:"flex", flexDirection:"column"}}>
+        {Object.keys(group_by_key).map(key=> {
+          return (<div style={{display:"flex", flexDirection:"row", }}>
+                    <div style={{marginRight:"10px"}}>{group_by_key[key].name}:</div>
+                    <div>
+          {group_by_key[key].chips.map(chip=> {
+            return(<ChipRow data={chip} object_type={object_type}/>)
+          })}
+          </div></div>)
+        })}
+        </div>) 
+}
+
+
+function ChipRow(props) {
+      const {data, object_type} = props
+      const object_models = useGetModel("object_types")
+      const field_models = useGetModel("fields")
+      const label = field_text_for_key (object_models, field_models, object_type, "pretty_key_id", data) 
+      const object_model = object_models[object_type]
+      const avatar_field = object_model.thumbnail_key 
+      let show_blank = false
+      let avatar_object
+      if (avatar_field) {
+        avatar_object = field_text (field_models, object_type, avatar_field, data)
+        show_blank = true
+      }
+
+//      const chip_group_by_field = field_models[object_type][props.field_name].chip_group_by_field
+      const summary = field_text_for_key (object_models, field_models, object_type, "summary_key", data) 
+      return (<ACSChip summary={summary} label={label} avatar_object={avatar_object} show_blank={show_blank}/>)
+}
+
 
 function ACSChipObjectTypeView(props)  {
   const {object_type, api_options, ...params} = props
   let {summary_field, description_field} = props
   const rab_component_model = { 
       list:{
+            components:{},
             names:{
                   list_header_wrap:"RABVoid",
                   footer_wrap:"RABVoid",
@@ -104,7 +133,8 @@ function ACSChipObjectTypeView(props)  {
                   list_header_wrap:"Fragment",
                   list_header:"Fragment",
                   list_pagination:"RABVoid",
-                  body_wrap:"Fragment"}
+                  body_wrap:"Fragment"},
+          props:{}
       },
       row:{names:{
           header_wrap:"RABVoid",
@@ -126,8 +156,14 @@ function ACSChipObjectTypeView(props)  {
             field_wrap:"Fragment"
           },
       }}
+  
+      if (params.field_model.chip_group_by_field) { 
+        rab_component_model.list.components.list = ChipGroupBy
+      //rab_component_model.list_grouping_data = grouping_data
+        rab_component_model.list.props.chip_group_by_field = params.field_model.chip_group_by_field  
+      }
 
-  return (<ACSObjectTypeView {...params} rab_component_model={rab_component_model}  object_type={object_type} api_options={api_options}/> )
+  return (<ACSListController {...params}   rab_component_model={rab_component_model}  object_type={object_type} api_options={api_options}/> )
 }
 
 export default ACSChipObjectTypeView;
