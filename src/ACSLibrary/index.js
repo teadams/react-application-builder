@@ -26,6 +26,7 @@ import ACSMapeAndFilter from '../Functional/Layouts/ACSMapAndFilter.js';
 
 
 // Lists
+import ACSChipObjectType from '../Functional/Lists/ACSChipObjectTypeView.js';
 import ACSCommunicationObjectType from '../Functional/Lists/ACSCommunicationObjectTypeView.js';
 import ACSMap from '../Functional/Lists/ACSMap.js';
 import ACSMapping from '../Functional/Lists/ACSMappingView.js';
@@ -53,7 +54,7 @@ export {
   ACSField, // Field base
   ACSAddress, ACSFile, ACSImage, ACSReferenceField, ACSURLField,ACSYouTube,ACSSelectField,ACSTextField,
   ACSFilters, ACSSelectFilter, ACSTextFilter, // Field components
-  ACSObjectType, ACSCommunicationObjectType, ACSMap, ACSMapping,ACSSummaryObjectType, // object type view
+  ACSObjectType, ACSChipObjectType, ACSCommunicationObjectType, ACSMap, ACSMapping,ACSSummaryObjectType, // object type view
   ACSListMenu, // menus
   ACSHeadlessObject,ACSObjectView, // object view
   ACSObjectCount,ACSHeaderAndBodyText,ACSObjectPrettyName,ACSObjectTypePrettyPlural, ACSText // text views (headers)

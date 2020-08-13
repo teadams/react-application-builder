@@ -12,15 +12,15 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
 import { Tooltip, Table, TableBody, TableRow, TableCell, Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 
 const ACSChip = (props) => {
-  const {summary, label, avatar_object, show_blank} = props
+  const {summary, label, avatar_object, show_blank_avatar, variant="default", color="default"} = props
   return (
     <Fragment>
       {summary? 
       <Tooltip title={summary} placement="top-end" arrow={true}>
-        <Chip   variant="outlined" label={label} size="small" avatar={<ACSImage image_object={avatar_object} show_blank={show_blank} size="tiny"/>}/>
+        <Chip   style={{marginRight:"5px"}} variant={variant} label={label} size="small" color={color} avatar={<ACSImage image_object={avatar_object} show_blank={show_blank_avatar}  size="tiny"/>}/>
       </Tooltip>
       :
-        <Chip variant="outlined"   label={label} size="small" avatar={<ACSImage image_object={avatar_object} show_blank={show_blank} size="tiny"/>} />
+        <Chip style={{marginRight:"5px", marginTop:"5px"}} variant={variant}   label={label} size="small" color={color} avatar={<ACSImage image_object={avatar_object} show_blank={show_blank_avatar}  size="tiny"/>} />
       }
       </Fragment>
   )
@@ -29,6 +29,7 @@ const ACSChip = (props) => {
 function field_text (field_models, object_type, field, data) {
   const field_model = field_models[object_type][field]
   const data_path = field_model.data_path 
+//u.a(data_path, field)
   const field_data = data_path?data[data_path]:data
   const field_component = field_model.field_component
   let value = field_data[field_model.display_field]
@@ -81,6 +82,7 @@ function ChipGroupBy(props) {
           } else {
             results.forEach(row => {
               const group_by_value = field_text (field_models, chip_group_by_object_type, chip_group_by_object_type_key, row)
+
               working_group_by_key[group_by_value] = {}
               working_group_by_key[group_by_value].name = group_by_value 
               working_group_by_key[group_by_value].chips = []
@@ -102,10 +104,9 @@ function ChipGroupBy(props) {
    return (<div style={{display:"flex", flexDirection:"column"}}>
         {Object.keys(group_by_key).map(key=> {
             if (chip_show_blank_groups || group_by_key[key].chips.length > 0) {
-              return (<div style={{display:"flex", flexDirection:"row", }}>
-                    <div style={{marginRight:"10px"}}>{group_by_key[key].name}:</div>
-                    <div>
-        
+              return (<div style={{marginTop:"5px", display:"flex", flexDirection:"column" }}>
+                    <div style={{marginRight:"5px",fontWeight:"bold" }}>{group_by_key[key].name}:
+                    </div><div style={{marginLeft:"25px"}}>
                     {group_by_key[key].chips.map(chip=> {
                     return(<ChipRow data={chip} object_type={object_type}/>)
                       })}
@@ -126,16 +127,19 @@ function ChipRow(props) {
       const label = field_text_for_key (object_models, field_models, object_type, "pretty_key_id", data) 
       const object_model = object_models[object_type]
       const avatar_field = object_model.thumbnail_key 
-      let show_blank = false
+      const variant = data.variant?data.variant:"outlined"
+      const color = data.color?data.color:"default"
+      let show_blank_avatar = false
       let avatar_object
       if (avatar_field) {
         avatar_object = field_text (field_models, object_type, avatar_field, data)
-        show_blank = true
+        show_blank_avatar = true
       }
+      show_blank_avatar = data.hasOwnProperty("show_blank_avatar")?data.show_blank_avatar:show_blank_avatar
 
 //      const chip_group_by_field = field_models[object_type][props.field_name].chip_group_by_field
       const summary = field_text_for_key (object_models, field_models, object_type, "summary_key", data) 
-      return (<ACSChip summary={summary} label={label} avatar_object={avatar_object} show_blank={show_blank}/>)
+      return (<ACSChip summary={summary} label={label} variant={variant}  color={color} avatar_object={avatar_object} show_blank_avatar={show_blank_avatar}/>)
 }
 
 

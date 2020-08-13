@@ -14,7 +14,7 @@ import Message from "../RABComponents/Message.js"
 import ACSObjectTypeView from "../Functional/Lists/ACSObjectTypeView.js"
 import ACSChipObjectTypeView from "../Functional/Lists/ACSChipObjectTypeView.js"
 import ACSMappingView from "../Functional/Lists/ACSMappingView.js"
-
+import ACSPeopleAndOpportunitiesChip from "../Modules/User/ACSPeopleAndOpportunitiesChip.js"
 
 import Debug from '../Debug.js'
 import User from '../Functional/Fields/User.js'
@@ -268,6 +268,7 @@ function componentPicker(name, source="not provided") {
     case "ACSObjectView": return ACSObjectView;
     case "ACSRowController": return ACSRowController;
     case "ACSListController": return ACSListController;
+    case "ACSPeopleAndOpportunitiesChip": return ACSPeopleAndOpportunitiesChip;
     case "Tab": return Tab;
     case "Tabs": return Tabs;
     case "Menu": return Menu;

@@ -86,9 +86,10 @@ function RABTextField(props) {
       let select = false 
       let value = formValues[form_field_name]
       if (model_valid_values) {
-        if ( !value && valid_values) {
-            value = valid_values[0][references_field]
-        }
+//        if ( !value && valid_values) {
+      //      value = valid_values[0][references_field]
+  //      }
+//u.a(field_name, value)
         select=true 
        }
         return (
