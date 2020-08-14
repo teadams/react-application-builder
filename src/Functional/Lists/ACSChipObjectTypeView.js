@@ -71,6 +71,12 @@ function ChipGroupBy(props) {
       working_group_by_key[group_by_value].name = group_by_value 
       working_group_by_key[group_by_value].chips = []
     })
+
+    data.forEach(row=> {
+      const group_by_value = field_text (field_models, object_type, chip_group_by_field, row)
+      working_group_by_key[group_by_value].chips.push(row)    
+    })
+
     setGroupByKey(working_group_by_key)
   }
   if (!group_by_key && chip_group_by_object_type) {
@@ -87,6 +93,10 @@ function ChipGroupBy(props) {
               working_group_by_key[group_by_value].name = group_by_value 
               working_group_by_key[group_by_value].chips = []
             })
+            data.forEach(row=> {
+              const group_by_value = field_text (field_models, object_type, chip_group_by_field, row)
+              working_group_by_key[group_by_value].chips.push(row)    
+            })
             setGroupByKey(working_group_by_key)
           }
       })
@@ -95,12 +105,7 @@ function ChipGroupBy(props) {
   if (!group_by_key || Object.keys(group_by_key).length===0) {
     return null
   }
-  data.forEach(row=> {
-    const group_by_value = field_text (field_models, object_type, chip_group_by_field, row)
-    group_by_key[group_by_value].chips.push(row)    
-  })
-
-
+  
    return (<div style={{display:"flex", flexDirection:"column"}}>
         {Object.keys(group_by_key).map(key=> {
             if (chip_show_blank_groups || group_by_key[key].chips.length > 0) {
