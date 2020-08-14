@@ -5,7 +5,7 @@ import * as meta from '../Utils/meta.js'
 import * as api from '../Utils/data.js'
 import _ from 'lodash/object'
 
-import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
+import React, { Component, Fragment,  useRef, useState, useContext, useEffect} from 'react';
 import {ACSFieldRenderer} from '../ACSRenderEngine/'
 
 import useGetObject from '../Hooks/useGetObject';
@@ -18,7 +18,7 @@ import useGenerateFieldList from '../Hooks/useGenerateFieldList';
 function ACSFieldController(input_props) {
   const default_object_type_models = useGetModel("object_types")
   const default_field_models =  useGetModel("fields")
-
+  const ref_rab_component_model = useRef(null)
   // merge in mdoels from props
   let field_models, object_models
   if (input_props.field_models) { 
@@ -66,15 +66,23 @@ function ACSFieldController(input_props) {
   if (input_props.field_name === "type" && (input_props.object_type === "nwn_project" || input_props.object_type === "core_subsite")) {
       trace = true 
   }
-  
-  // merge in props and field_model to get final component model
-  const rab_component_model = control.getFinalModel("field", {...merging_props}, field_model, null, override_meta_model, trace)
+    
+  if (ref_rab_component_model.current === null) {
+    // merge in props and field_model to get final component model
+    //  u.a("calling model on", input_props.field_name)
+    ref_rab_component_model.current = control.getFinalModel("field", {...merging_props}, field_model, null, override_meta_model, trace)
+  }
+
+  const rab_component_model = ref_rab_component_model.current
+// the above it performance optimized. This impact is that objects inside rab_component_model can not be mutated.
+//  const rab_component_model = _.merge({},ref_rab_component_model.current)
+
 
   const field_component_model = rab_component_model.field
   let massaged_props = field_component_model.props
   massaged_props.id = input_props.id
   // "pre" convention is before call to get data.
-  // do not want to render page before final data and object_type, etc match
+  // do not rabwant to render page before final data and object_type, etc match
 
   // massaged_props has all the merged props from field_model, input,
   // etc.

@@ -124,9 +124,7 @@ export function getFinalModel(level, input_props={}, metadata_model={}, componen
 }
 
 function buildRABModel(params, trace) {
-  /// XXBIG - items need completed
-  /// but may have a better strategy to do this.
-
+  // if "built, retern"
   if (!params) {return}
 
   let flexible_params_model = _.merge({},rab_component_models.empty)

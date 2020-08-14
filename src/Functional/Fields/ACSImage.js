@@ -35,7 +35,7 @@ function ACSImage(props) {
   if (!show_blank && !img_src && !props.image_object) {
       return null
   }
-  let {style} = props
+  let style = Object.assign({},props.style)
   if (style && Object.keys(style).length == 0) {
     style = null
   }
