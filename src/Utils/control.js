@@ -125,7 +125,7 @@ export function getFinalModel(level, input_props={}, metadata_model={}, componen
 
 function buildRABModel(params, trace) {
   // if "built, retern"
-  if (!params) {return}
+  if (!params || params.built) {return}
 
   let flexible_params_model = _.merge({},rab_component_models.empty)
   Object.keys(params).forEach(param_name=> {
@@ -148,7 +148,8 @@ function buildRABModel(params, trace) {
 //      u.a(param_name, params_model.field)
 //    }
   })
-  const fixed_params_model = { list:{names:{list:params.list_component},
+  const fixed_params_model = {built:true,
+                list:{names:{list:params.list_component},
                 components:{},
                 props:{object_type:params.object_type,
                        api_options:params.api_options,
