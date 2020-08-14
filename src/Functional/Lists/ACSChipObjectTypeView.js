@@ -17,10 +17,10 @@ const ACSChip = (props) => {
     <Fragment>
       {summary? 
       <Tooltip title={summary} placement="top-end" arrow={true}>
-        <Chip   style={{marginRight:"5px"}} variant={variant} label={label} size="small" color={color} avatar={<ACSImage image_object={avatar_object} show_blank={show_blank_avatar}  size="tiny"/>}/>
+        <Chip   style={{marginLeft:"5px", marginBottom:"5px"}} variant={variant} label={label} size="small" color={color} avatar={<ACSImage image_object={avatar_object} show_blank={show_blank_avatar}  size="tiny"/>}/>
       </Tooltip>
       :
-        <Chip style={{marginRight:"5px", marginTop:"5px"}} variant={variant}   label={label} size="small" color={color} avatar={<ACSImage image_object={avatar_object} show_blank={show_blank_avatar}  size="tiny"/>} />
+        <Chip style={{marginLeft:"5px", marginBottom:"5px"}} variant={variant}   label={label} size="small" color={color} avatar={<ACSImage image_object={avatar_object} show_blank={show_blank_avatar}  size="tiny"/>} />
       }
       </Fragment>
   )
@@ -58,7 +58,7 @@ function field_text_for_key (object_models, field_models, object_type, key_type,
 
 
 function ChipGroupBy(props) {
-  const {row_data, data, object_type,  chip_group_by_field, chip_group_by_object_type, chip_group_by_api_options, chip_group_by_object_type_key, chip_show_blank_groups=false} = props
+  const {row_data, data, object_type,  chip_group_by_field, chip_group_by_object_type, chip_group_by_api_options, group_by_chip={}, chip_group_by_object_type_key, chip_show_blank_groups=false} = props
   const [group_by_key, setGroupByKey]= useState()
   const field_models = useGetModel("fields")
 
@@ -105,13 +105,14 @@ function ChipGroupBy(props) {
   if (!group_by_key || Object.keys(group_by_key).length===0) {
     return null
   }
-  
    return (<div style={{display:"flex", flexDirection:"column"}}>
         {Object.keys(group_by_key).map(key=> {
+          const group_by_chip_data = group_by_chip[key]
             if (chip_show_blank_groups || group_by_key[key].chips.length > 0) {
-              return (<div style={{marginTop:"5px", display:"flex", flexDirection:"column" }}>
-                    <div style={{marginRight:"5px",fontWeight:"bold" }}>{group_by_key[key].name}:
-                    </div><div style={{marginLeft:"25px"}}>
+              return (<div style={{marginTop:"5px", display:"flex", alignContent:"center",  flexDirection:"column" }}>
+                    <div style={{marginRight:"5px",marginTop:"5px", fontWeight:"bold"}}>{group_by_key[key].name}:
+                    {group_by_chip_data && <ChipRow data={group_by_chip_data} object_type={object_type}/>}
+                    </div><div style={{marginLeft:"25px", marginTop:"5px"}}>
                     {group_by_key[key].chips.map(chip=> {
                     return(<ChipRow data={chip} object_type={object_type}/>)
                       })}
