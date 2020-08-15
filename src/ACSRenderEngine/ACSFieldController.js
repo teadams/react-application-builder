@@ -21,11 +21,16 @@ function ACSFieldController(input_props) {
   const ref_rab_component_model = useRef(null)
   // merge in mdoels from props
   let field_models, object_models
-  if (input_props.field_models) { 
-    field_models =_.merge({}, input_props.field_models)
-  } else {
+  if (input_props.field_models) {
+    if (input_props.field_models_built) {
+      field_models = input_props.field_models
+    } else { 
+      field_models =_.merge({}, input_props.field_models)
+    }
+  } else if (!input_props.field_models) {
     field_models=_.merge({}, default_field_models)
-  }
+  } 
+
   if (input_props.object_type_models) {
     object_models = input_props.object_type_models
   } else {
@@ -63,10 +68,7 @@ function ACSFieldController(input_props) {
   const form_field_name = input_props.field_name
 
   let trace = false 
-  if (input_props.field_name === "type" && (input_props.object_type === "nwn_project" || input_props.object_type === "core_subsite")) {
-      trace = true 
-  }
-    
+
   if (ref_rab_component_model.current === null) {
     // merge in props and field_model to get final component model
     //  u.a("calling model on", input_props.field_name)
@@ -93,6 +95,7 @@ function ACSFieldController(input_props) {
   const {references} = field_model
   // control of mode (view, edit, create, list)
   const [mode, setMode] = useState(initial_mode);
+// move more detail to the field level
   const [more_detail, setMoreDetail]  = useState(false)
   const [valid_values, setValidValues] = useState("")
 
@@ -163,6 +166,7 @@ function ACSFieldController(input_props) {
   // navigate to proper object for  references and dot notation
     const row_data = data
   // references
+  // make a procedure
   if (data && field_model.data_path && mode !=="edit" && mode !== "create") {
       const data_path = field_model.data_path.split(".")
       if (row_data.hasOwnProperty(data_path[0])) {
