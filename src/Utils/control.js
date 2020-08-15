@@ -123,7 +123,7 @@ export function getFinalModel(level, input_props={}, metadata_model={}, componen
 
 }
 
-export function buildRABModel(params, trace) {
+function buildRABModel(params, trace) {
   // if "built, retern"
   if (!params || params.built) {return}
 
