@@ -20,7 +20,7 @@ import useGetModel from '../../Hooks/useGetModel.js'
 // default_value, object_type, label, 
 function ACSSelectFilter(props) {
   //XX could get default select field by object type from proc?
-  const {default_value, object_type, label, field_name, filter_name=props.object_type, onChange, api_options} = props
+  const {default_value, object_type, label, field_name, select_display_field, filter_name=props.object_type, onChange, api_options} = props
   const [value, setValue]= useState(default_value)
  
   const handleChange = (event) => {
@@ -34,6 +34,7 @@ function ACSSelectFilter(props) {
     }
   }
 
+
   return (
     <RABSelectField object_type = {object_type}
         mode="edit" form="true"
@@ -46,6 +47,7 @@ function ACSSelectFilter(props) {
         onChange={handleChange}
         noLabel= {true}
         api_options = {api_options}
+        select_display_field = {select_display_field}
         disable_underline={false}
       />
   )

@@ -13,7 +13,7 @@ import ACSTextFilter from './ACSTextFilter.js'
 
 // default_value, object_type, label, 
 function ACSFilters(props) {
-  const {filters={}, default_filter_values={}, onChange, label_direction="column", label_variant="subtitle1", filter_direction="column", label_width="70px", select_width="150px"} = props
+  const {filters={}, default_filter_values={}, onChange, label_direction="column", label_variant="subtitle1", filter_direction="column", label_width="70px", select_width="150px", select_display_field} = props
   let default_form_values = {}
   filters.forEach(filter => {
     default_form_values[filter.name] = default_filter_values[filter.name]?default_filter_values[filter.name]:filter.default_value
@@ -70,7 +70,7 @@ function ACSFilters(props) {
           {filter.label&&<div style={{marginRight:"10px", minWidth:label_width}}><Typography variant={label_variant}>{filter.label}:</Typography></div>}
           <div style={{alignSelf:"flex-start", minWidth:select_width}}>
             {filter.filter_type !== "Text" &&
-            <ACSSelectFilter key={filter.name} object_type={filter.object_type} filter_name={filter.name} field_name={filter.name} default_value={formValues[filter.name]} onChange={handleFilterChange} api_options={filter.select_api_options}/>}
+            <ACSSelectFilter key={filter.name} object_type={filter.object_type} filter_name={filter.name} field_name={filter.name} default_value={formValues[filter.name]} onChange={handleFilterChange} api_options={filter.select_api_options} select_display_field={filter.select_display_field}/>}
 
             {filter.filter_type === "Text" &&
             <ACSTextFilter key={filter.name} object_type={filter.object_type} filter_name={filter.name} field_name={filter.name} default_value={formValues[filter.name]} onChange={handleFilterChange}/>

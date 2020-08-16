@@ -50,7 +50,6 @@ function padding(num) {
 
 function selectItems(data, select_key_field, select_display_field, field_component, limit_value) {
     data=formTreeData(data)
-
     return (
       data.map ((row, index) => {
 //u.a("index, row)
@@ -71,7 +70,8 @@ function RABSelectList(props) {
   if (props.field_models) {
     field_models = props.field_models
   }
-  const {disable_underline=true, prevent_edit=false, select_key_field, select_display_field, object_type, add_none, data:props_data, dependent_filter} = props
+  const {disable_underline=true, prevent_edit=false, select_key_field, object_type, add_none, data:props_data, dependent_filter} = props
+  let {select_display_field} = props
 
 //u.a(object_type, select_key_field, select_display_field)
   let data = props_data
@@ -126,8 +126,8 @@ function RABSelectField(props) {
 // if RABSelect, the final model should be 
 ///    -- viewing - data_type, component, object_type - taken from references
 
-  const {mode, data=[], add_none, base_field_name, parent_field_name, base_object_type, parent_object_type,   formValues, onSubmit, onFieldBlur,  onChange, autoFocus, object_type, field_model={}, value="", display_value=" ", disable_underline, style, api_options={}} = props
-  let {form_field_name, field_name} = props
+  const {mode, data=[], add_none, base_field_name, parent_field_name, base_object_type, parent_object_type,   formValues, onSubmit, onFieldBlur,  onChange, autoFocus, object_type, field_model={}, value="", display_value=" ", disable_underline, style,  api_options={}} = props
+  let {form_field_name, field_name, select_display_field} = props
   const {field_name:discard_field_name, ...params} = props
 
   let {dependent_filter_field, dependent_data_field} = field_model
@@ -174,7 +174,7 @@ function RABSelectField(props) {
  
   
   let select_key_field = object_type_model.select_key_field
-  let select_display_field = object_type_model.select_display_field
+  select_display_field = select_display_field?select_display_field:object_type_model.select_display_field
   // XX - make a "select" in the library
   let rab_component_model = rab_component_models.shell
   rab_component_model.list.components.list_wrap = RABSelectList
