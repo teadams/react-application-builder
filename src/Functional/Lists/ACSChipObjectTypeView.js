@@ -108,7 +108,7 @@ function ChipGroupBy(props) {
    return (<div style={{display:"flex", flexDirection:"column"}}>
         {Object.keys(group_by_key).map(key=> {
           const group_by_chip_data = group_by_chip[key]
-            if (chip_show_blank_groups || group_by_key[key].chips.length > 0) {
+            if (chip_show_blank_groups || group_by_chip_data || group_by_key[key].chips.length > 0) {
               return (<div style={{marginTop:"5px", display:"flex", alignContent:"center",  flexDirection:"column" }}>
                     <div style={{marginRight:"5px",marginTop:"5px", fontWeight:"bold"}}>{group_by_key[key].name}:
                     {group_by_chip_data && <ChipRow data={group_by_chip_data} object_type={object_type}/>}

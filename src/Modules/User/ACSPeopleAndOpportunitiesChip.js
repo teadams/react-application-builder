@@ -12,7 +12,6 @@ function ACSPeopleAndOpportunitiesChip(props)  {
   const {object_type,  data:input_data, api_options, field_model, ...params} = props
   const {subsite_id} = api_options
   let list_group_by_chip = {}
-
   let need_api_options = field_model.need_api_options
   need_api_options.subsite_id = subsite_id 
   need_api_options.filter_join = "AND"
