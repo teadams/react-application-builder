@@ -60,11 +60,13 @@ function ACSMap (props) {
 
 
   if (!load_own_data && (map_data !== props_map_data)) {
+      setShowInfoWindow(false)
       setMapData(props_map_data)
   }
 
   if (load_own_data && (!map_data ||  JSON.stringify(prior_api_options)!==JSON.stringify(api_options))) {
     api.getData(object_type, api_options, (map_data, error) => {
+      setShowInfoWindow(false)
       setMapData(map_data)
       setPriorApiOptions(api_options)
     })
