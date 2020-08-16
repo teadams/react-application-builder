@@ -140,9 +140,18 @@ function RenderACSField(props) {
       params={}
       params.field_model = field_model
       params.object_type = referred_by_object_type
-      params.api_options = {}
-      params.api_options.filter_field= referred_by
-      params.api_options.filter_id = row_data[referred_to]
+      params.api_options = field_model.referenced_api_options?field_model.referenced_api_options:{}
+      if (!params.api_options.filter_field) {
+        params.api_options.filter_field= referred_by
+      } else {
+        params.api_options.filter_field.push(referred_by)
+
+      }
+      if (!params.api_options.filter_id) {
+        params.api_options.filter_id = row_data[referred_to]
+      } else {
+        params.api_options.filter_id.push(row_data[referred_to])
+      }
       if (referred_to === "core_subsite") {
         params.api_options.subsite_id = row_data[referred_to]
       } 
