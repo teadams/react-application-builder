@@ -252,7 +252,7 @@ const rab_component_models = {
       props:{
         label: true,
         form_label:false,
-        label_style:{fontWeight:"bold", textAlign:"right",  verticalAlign:"top", width:"10%",paddingTop:"10px"},
+        label_style:{width:"20%", fontWeight:"bold", textAlign:"right",  verticalAlign:"top", overflowWrap:"normal", wordBreak:"normal",paddingTop:"10px"},
         label_post_text:":",
         label_tag:"td",
         field_tag:"td",
@@ -295,7 +295,7 @@ const rab_component_models = {
       default_mode:"click_to_edit",
       props:{
         label: true,
-        label_style:{fontWeight:"bold", align:"right", display:"flex", flexGrow:0},
+        label_style:{minWidth:"max-content", overflowWrap:"normal", wordBreak:"normal", fontWeight:"bold", align:"right", display:"flex", flexGrow:0},
         label_post_text:": ",
         label_tag:"div",
 
