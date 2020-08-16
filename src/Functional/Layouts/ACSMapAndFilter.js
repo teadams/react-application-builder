@@ -84,10 +84,10 @@ const UpperRightControls = function(props) {
 const MapOverlay = function(props) {
 
   return (
-  <div style={{ zindex:2, position:"absolute",width:'95%', alignItems:"flex-start", display:"flex", flexDirection:"row"}}>
+  <div style={{ zindex:2, marginTop:"20px", position:"absolute",width:'90%', alignItems:"flex-start", display:"flex", flexDirection:"row"}}>
     <div  style={{zIndex:2, display:"flex", flexDirection:"row", alignItems:"center"}}><UpperLeftNavigation text={props.create_marker_button_text} object_type={props.object_type} layout={props.layout} sections={props.sections} dialog_size={props.dialog_size} onSubmit={props.onSubmit} create_action_props={props.create_action_props} require_authorization={false} checked={props.filter_view} onChange={props.toggleFilterView}/></div>
     <div style={{zIndex:2, display:"flex", flexGrow:2}}></div>
-    <div style={{zIndex:2, display:"flex", backgroundColor:"white", padding:10, marginTop:10}}><UpperRightControls filter_form_values={props.filter_form_values} filters={props.filters} handleFilterChange={props.handleFilterChange}/></div>
+    <div style={{zIndex:2, display:"flex", backgroundColor:"white", padding:10, marginTop:10}}><UpperRightControls  default_filter_values={props.filter_form_values} filter_form_values={props.filter_form_values} filters={props.filters} handleFilterChange={props.handleFilterChange}/></div>
   </div>)
 }
 
@@ -105,8 +105,7 @@ function ACSMapAndFilter (props) {
 
   // TODO select_api_options, addition_api_options, referenced_by, filter_field_name
 
-    
-
+  
   const classes = useStyles();
   const context = useContext(AuthContext)
   const history = useHistory({});
@@ -178,14 +177,16 @@ function ACSMapAndFilter (props) {
   const ActionButton = function(props) {
       return (<Button {...props}>{action_button_text}</Button>)
   }
-
+  let side_visibility = "hidden"
+  if (show_side_window) {side_visibility="visible"}
   return (
     <Fragment>
-      {show_side_window && 
+      {!filter_view &&
       <Fragment>
-        <MapOverlay filters={map_filters} filter_form_values={filter_form_values} create_action_props={create_action_props} handleFilterChange={handleFilterChange} create_marker_button_text={create_marker_button_text} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false} checked={filter_view} toggleFilterView={toggleFilterView}/>/>
-        <div style={{width:400, paddingTop:60, height:"85%", zIndex:1, position:"absolute", backgroundColor:"white"}}>
-            <ACSObjectView  row_type="div_row" object_type =  {object_type}
+        <MapOverlay filters={map_filters} filter_form_values={filter_form_values} create_action_props={create_action_props} handleFilterChange={handleFilterChange} create_marker_button_text={create_marker_button_text} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false} checked={filter_view} toggleFilterView={toggleFilterView}/>
+        <div style={{width:400, paddingTop:60, height:"85%", zIndex:1, position:"absolute", backgroundColor:"white", visibility:side_visibility}}>
+            {selected_place.id && 
+            <Fragment><ACSObjectView  row_type="div_row" object_type =  {object_type}
             id = {selected_place.id}
             data = {selected_place}
             field_mode = "view"
@@ -199,14 +200,10 @@ function ACSMapAndFilter (props) {
           <div style={{display:"flex", width:"100%", justifyContent:"space-evenly"}}>
             <ACSCreateDialogButton  require_authorization={false} ButtonComponent={ActionButton} DialogComponent={ActionComponent}  object_type={action_object_type} row_mode="create" row_form="true"  id={id}  action_props={action_props}/>
             <Button   onClick={handleMoreClick}>{more_button_text}</Button>
-          </div> 
+          </div> </Fragment>
+          }
         </div>
       </Fragment>}
-      {!show_side_window && !filter_view &&
-          <MapOverlay  filters={map_filters} create_action_props={create_action_props}
-          filter_form_values={filter_form_values}
-          handleFilterChange={handleFilterChange} create_marker_button_text={create_marker_button_text} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false} checked={filter_view} toggleFilterView={toggleFilterView}/>
-      }
       {filter_view &&
         <ACSMapAndFilterFilter
         UpperLeftNavagationComponent={UpperLeftNavigation} object_type={object_type} filters={finder_filters}
