@@ -29,7 +29,6 @@ const ACSChip = (props) => {
 function field_text (field_models, object_type, field, data) {
   const field_model = field_models[object_type][field]
   const data_path = field_model.data_path 
-//u.a(data_path, field)
   const field_data = data_path?data[data_path]:data
   const field_component = field_model.field_component
   let value = field_data[field_model.display_field]
@@ -58,11 +57,16 @@ function field_text_for_key (object_models, field_models, object_type, key_type,
 
 
 function ChipGroupBy(props) {
+
   const {row_data, data, object_type,  chip_group_by_field, chip_group_by_object_type, chip_group_by_api_options, group_by_chip={}, chip_group_by_object_type_key, chip_show_blank_groups=false} = props
   const [group_by_key, setGroupByKey]= useState()
+  const [prior_data, setPriorData] = useState(data)
   const field_models = useGetModel("fields")
-
   // OR FROm DB
+  if (prior_data !== data) {
+      setGroupByKey(null)
+      setPriorData(data)
+  }
   if (!group_by_key && !chip_group_by_object_type) {
     let working_group_by_key = {}
     data.forEach(row=> {
@@ -168,7 +172,9 @@ function ACSChipObjectTypeView(props)  {
                   list_header:"Fragment",
                   list_pagination:"RABVoid",
                   body_wrap:"Fragment"},
-          props:{}
+          props:{
+                pagination: false
+          }
       },
       row:{names:{
           header_wrap:"RABVoid",

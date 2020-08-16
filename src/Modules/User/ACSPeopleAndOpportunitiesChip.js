@@ -15,10 +15,8 @@ function ACSPeopleAndOpportunitiesChip(props)  {
   let need_api_options = field_model.need_api_options
   need_api_options.subsite_id = subsite_id 
   need_api_options.filter_join = "AND"
-
   const [data, setData] = useState(input_data); 
   const [need_data, setNeedData] = useState(null); 
-
   if (input_data && data!== input_data) {
         setData(input_data)
   }
@@ -27,7 +25,6 @@ function ACSPeopleAndOpportunitiesChip(props)  {
     setData(api_results)
   })
 
-//u.a(need_api_options)
   const onNeedData = (api_results => {
     setNeedData(api_results)
   })
@@ -52,7 +49,6 @@ function ACSPeopleAndOpportunitiesChip(props)  {
       } 
     })
   }
-
 
   return (
     <Fragment>

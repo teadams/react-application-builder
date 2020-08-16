@@ -41,6 +41,7 @@ function RenderACSList(props) {
       let table_width = total_width_units * 20
       if (table_width > 100) {table_width = 100}
       table_width = table_width.toString()+"%"
+
       return ( 
         <Fragment>
           <HeaderWrap {...params}>
