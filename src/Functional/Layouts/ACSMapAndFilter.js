@@ -184,7 +184,7 @@ function ACSMapAndFilter (props) {
       {!filter_view &&
       <Fragment>
         <MapOverlay filters={map_filters} filter_form_values={filter_form_values} create_action_props={create_action_props} handleFilterChange={handleFilterChange} create_marker_button_text={create_marker_button_text} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false} checked={filter_view} toggleFilterView={toggleFilterView}/>
-        <div style={{width:400, paddingTop:60, height:"85%", zIndex:1, position:"absolute", backgroundColor:"white", visibility:side_visibility}}>
+        <div style={{width:400, paddingTop:70, height:"85%", zIndex:1, position:"absolute", backgroundColor:"white", visibility:side_visibility}}>
             {selected_place.id && 
             <Fragment><ACSObjectView  row_type="div_row" object_type =  {object_type}
             id = {selected_place.id}
