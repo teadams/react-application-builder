@@ -84,7 +84,7 @@ const UpperRightControls = function(props) {
 const MapOverlay = function(props) {
 
   return (
-  <div style={{ zindex:2, marginTop:"20px", position:"absolute",width:'90%', alignItems:"flex-start", display:"flex", flexDirection:"row"}}>
+  <div style={{ zindex:2, marginTop:"0px", position:"absolute",width:'90%', alignItems:"flex-start", display:"flex", flexDirection:"row"}}>
     <div  style={{zIndex:2, display:"flex", flexDirection:"row", alignItems:"center"}}><UpperLeftNavigation text={props.create_marker_button_text} object_type={props.object_type} layout={props.layout} sections={props.sections} dialog_size={props.dialog_size} onSubmit={props.onSubmit} create_action_props={props.create_action_props} require_authorization={false} checked={props.filter_view} onChange={props.toggleFilterView}/></div>
     <div style={{zIndex:2, display:"flex", flexGrow:2}}></div>
     <div style={{zIndex:2, display:"flex", backgroundColor:"white", padding:10, marginTop:10}}><UpperRightControls  default_filter_values={props.filter_form_values} filter_form_values={props.filter_form_values} filters={props.filters} handleFilterChange={props.handleFilterChange}/></div>
@@ -184,7 +184,7 @@ function ACSMapAndFilter (props) {
       {!filter_view &&
       <Fragment>
         <MapOverlay filters={map_filters} filter_form_values={filter_form_values} create_action_props={create_action_props} handleFilterChange={handleFilterChange} create_marker_button_text={create_marker_button_text} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false} checked={filter_view} toggleFilterView={toggleFilterView}/>
-        <div style={{width:400, paddingTop:70, height:"85%", zIndex:1, position:"absolute", backgroundColor:"white", visibility:side_visibility}}>
+        <div style={{width:400, paddingTop:60, height:"85%", zIndex:1, position:"absolute", backgroundColor:"white", visibility:side_visibility}}>
             {selected_place.id && 
             <Fragment><ACSObjectView  row_type="div_row" object_type =  {object_type}
             id = {selected_place.id}
@@ -203,6 +203,32 @@ function ACSMapAndFilter (props) {
           </div> </Fragment>
           }
         </div>
+        <ACSMap 
+         map_data={data}
+         load_own_data={false}
+         icon_type_field={icon_type_field}
+         latitude={latitude}
+         longitude={longitude}
+         latitude_field={latitude_field} 
+         longitude_field={longitude_field}
+         show_popup_summary={show_popup_summary}
+         show_popup_description={show_popup_description}
+         show_popup_thumbnail={show_popup_thumbnail}
+         initial_zoom={initial_zoom}
+         onMouseover={onMouseover}
+         PopupComponent={PopupComponent}
+         centerAroundCurrentLocation={centerAroundCurrentLocation} 
+         maxPopoverWidth={maxPopoverWidth}
+         centerAroundSubsiteLocation={centerAroundSubsiteLocation} 
+         summary_cutoff={summary_cutoff}
+         description_cutoff={description_cutoff}
+         icon_type_field={icon_type_field} 
+         onMarkerClick={handleOnMarkerClick} 
+         onMapClick={handleOnMapClick} 
+         object_type={object_type} 
+         container_height="85%" 
+         container_width="98%"/>
+    
       </Fragment>}
       {filter_view &&
         <ACSMapAndFilterFilter
@@ -216,32 +242,7 @@ function ACSMapAndFilter (props) {
         ActionButton={ActionButton} ActionComponent={ActionComponent}
         onSubmit={handleCreateMarkerSubmit} filter_view={filter_view}/>
       }
-        {!filter_view  &&  <ACSMap 
-          map_data={data}
-          load_own_data={false}
-          icon_type_field={icon_type_field}
-          latitude={latitude}
-          longitude={longitude}
-          latitude_field={latitude_field} 
-          longitude_field={longitude_field}
-          show_popup_summary={show_popup_summary}
-          show_popup_description={show_popup_description}
-          show_popup_thumbnail={show_popup_thumbnail}
-          initial_zoom={initial_zoom}
-          onMouseover={onMouseover}
-          PopupComponent={PopupComponent}
-          centerAroundCurrentLocation={centerAroundCurrentLocation} 
-          maxPopoverWidth={maxPopoverWidth}
-          centerAroundSubsiteLocation={centerAroundSubsiteLocation} 
-          summary_cutoff={summary_cutoff}
-          description_cutoff={description_cutoff}
-          icon_type_field={icon_type_field} 
-          onMarkerClick={handleOnMarkerClick} 
-          onMapClick={handleOnMapClick} 
-          object_type={object_type} 
-          container_height="85%" 
-          container_width="98%"/>
-      }
+
     </Fragment>
     )
   }
