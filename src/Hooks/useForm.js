@@ -7,6 +7,7 @@ import {AuthContext} from '../Modules/User';
 import axios from 'axios';
 
 const _handleSubmit = ((event, formValues, mode, context, object_type, object_model, field_models, handleSubmit, id_field, filesTouched) => {
+
   if (context.context_id && object_model.with_context && mode === "create") {
     formValues.core_subsite = context.context_id
   }
@@ -73,6 +74,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   const id_field = object_model.key_id
 
 
+
   if ((mode !== "edit" && mode !=="create") || !form ||
       (mode === "edit" && !data) || 
       !object_model || !field_models) {
@@ -83,6 +85,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   if (input_mask !== prior_input_mask) {
     // props have changed, new form
     let defaults = {}
+
     field_list.forEach(field_name =>{
       const field_model=field_models[field_name]
       const references = field_model.references
@@ -90,16 +93,21 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
         defaults[field_name] = ""
       } else if ( mode==="edit" && data) {
       // data has been restructured
-        let default_value
+        let default_value 
+
         const data_path = field_model.data_path?field_model.data_path.split("."):""
         const data_field = field_model.data_field
+
         if (field_model.data_path) {
           const data_path = field_model.data_path.split(".")
           let final_data = data[data_path[0]]
           if (data_path[1]) {
               final_data = final_data[data_path[1]]
           }
-          default_value=final_data[data_field]
+
+          if (final_data) {
+            default_value=final_data[data_field]
+          }
 
         } else {
           default_value=data[data_field]?data[data_field]:""
