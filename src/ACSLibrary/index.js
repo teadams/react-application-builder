@@ -22,7 +22,8 @@ import ACSSelectFilter from '../Functional/Filters/ACSSelectFilter.js';
 import ACSTextFilter from '../Functional/Filters/ACSTextFilter.js';
 
 // Layouts
-import ACSMapeAndFilter from '../Functional/Layouts/ACSMapAndFilter.js';
+import ACSMapAndFilter from '../Functional/Layouts/ACSMapAndFilter.js';
+import ACSWizard from './Layouts/ACSWizard.js';
 
 
 // Lists
