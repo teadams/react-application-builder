@@ -10,6 +10,7 @@ import * as meta from '../Utils/meta.js';
 import React, {Fragment, useState} from 'react';
 
 import {ACSFieldController, ACSRowRenderer} from '../ACSRenderEngine/'
+import {DelayedAuth} from '../Modules/User/index.js';
 
 import {  TableBody, TableRow, TableCell, Table, TableHead } from '@material-ui/core';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
@@ -90,25 +91,44 @@ function ACSFormWrap(props) {
     const object_type_model = object_types[object_type]
     const object_type_pretty_name = object_type_model.pretty_name
     const form_message = (props.mode==="create")?object_type_model.create_message:object_type_model.edit_message
-    return (
-      <Dialog fullWidth={true} maxWidth={dialog_size} open={Boolean(props.open)} onClose={handleOnClose} aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title">{form_title?form_title:(u.capitalize(props.mode) + u.capitalize(object_type_pretty_name))}</DialogTitle>
-        <DialogContent>
-          {form_message && 
-          <DialogContentText>{form_message}</DialogContentText>}
-          <form onSubmit={props.onSubmit}>
-          {props.children}
-          <DialogActions>
-           <Button onClick={props.onSubmit} color="primary">
-             {props.mode}
-           </Button>
+    if (props.dialog_center) {
+        return (
+          <DialogContent>
+            <form onSubmit={props.onSubmit}>
+            {props.children}
+            <DialogActions>
+            <DelayedAuth onClick={props.onSubmit} object_type={object_type} auth_action={props.mode} color="primary">
+              {props.mode}
+            </DelayedAuth>
             <Button onClick={handleOnClose} color="primary">
-             Cancel
+              Cancel
            </Button>
-        </DialogActions>  
-        </form>
-        </DialogContent>
+          </DialogActions>  
+          </form>
+          < /DialogContent>
+        )
+
+    } else {
+      return (
+        <Dialog fullWidth={true} maxWidth={dialog_size} open={Boolean(props.open)} onClose={handleOnClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">{form_title?form_title:(u.capitalize(props.mode) + u.capitalize(object_type_pretty_name))}</DialogTitle>
+          <DialogContent>
+            {form_message && 
+            <DialogContentText>{form_message}</DialogContentText>}
+            <form onSubmit={props.onSubmit}>
+            {props.children}
+            <DialogActions>
+            <DelayedAuth onClick={props.onSubmit} object_type={object_type} auth_action={props.mode} color="primary">
+              {props.mode}
+            </DelayedAuth>
+            <Button onClick={handleOnClose} color="primary">
+              Cancel
+           </Button>
+          </DialogActions>  
+          </form>
+        < /DialogContent>
       </Dialog>)
+    }
   } else {
     return (<Fragment>{props.children}</Fragment>)
   }
@@ -154,7 +174,7 @@ function ACSRowController(input_props) {
   const layout_models = useGetModel("layouts")
   const field_list_models = useGetModel("field_lists")
   // do not merge expensive, known unnecessary things
-  let {headless=false, data:input_props_data, row_type="table_row", form_open, key_id, onData="",action_props, action, form_title, no_header=false,...merging_props} = input_props
+  let {headless=false, data:input_props_data, row_type="table_row", form_open, key_id, onData="",action_props, action, form_title, no_header=false, ...merging_props} = input_props
   let layout_model
   // treat layout as another dynamic input
   // props (usually from menu) takes
