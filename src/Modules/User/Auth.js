@@ -18,7 +18,7 @@ function Auth(props) {
   const object_type_meta = useGetModel("object_types", object_type)
   const app_params  = useGetModel("app_params")
   const context = useContext(AuthContext)
-
+  
   // shwo butotn regardless
   if (!require_authorization) {
       return (
@@ -69,6 +69,7 @@ function Auth(props) {
   }
   
   const authorized = auth.authorized({context_id:context.context_id, user:context.user}, auth_scope, auth_priv, object_type_meta, data)
+
 
   if (login_form && !context.user) {
     return ( 

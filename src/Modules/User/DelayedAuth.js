@@ -10,6 +10,7 @@ import * as u from "../../Utils/utils.js"
 function DelayedAuth(props) {
   const [auth_tag, setAuthTag] = useState(false)
   const {onClick,...auth_props} = props
+
   function handleOnClick(event) {
     setAuthTag(true)
   }
