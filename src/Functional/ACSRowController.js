@@ -93,7 +93,6 @@ function ACSFormWrap(props) {
     const form_message = (props.mode==="create")?object_type_model.create_message:object_type_model.edit_message
     if (props.dialog_center) {
         return (
-          <DialogContent>
             <form onSubmit={props.onSubmit}>
             {props.children}
             <DialogActions>
@@ -105,7 +104,6 @@ function ACSFormWrap(props) {
            </Button>
           </DialogActions>  
           </form>
-          < /DialogContent>
         )
 
     } else {
@@ -180,7 +178,6 @@ function ACSRowController(input_props) {
   if (merging_props.mode === "create" && (merging_props.id || (input_props_data && input_props_data.id))) {
       merging_props.mode = "edit"
       merging_props.id = merging_props.id?merging_props.id:(input_props_data?input_props_data.id:"")
-
   }
 
   let layout_model
