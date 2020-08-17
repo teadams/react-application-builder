@@ -46,6 +46,7 @@ import TreeItem from '@material-ui/lab/TreeItem';
 // layouts
 import ACSMap from '../Functional/Lists/ACSMap.js'
 import ACSMapAndFilter from '../Functional/Layouts/ACSMapAndFilter.js'
+import {ACSWizard} from '../ACSLibrary/index.js'
 
 const useStyles = makeStyles({
   table_cell: {
@@ -303,6 +304,7 @@ function componentPicker(name, source="not provided") {
     case "RABObjectTypePrettyPlural": return RABObjectTypePrettyPlural;
     case "ACSMap": return ACSMap;
     case "ACSMapAndFilter": return ACSMapAndFilter;
+    case "ACSWizard": return ACSWizard;
     case "NWAProjectView": return NWAProjectView;
     case "SubsiteApply": return SubsiteApply;
     default:  { 
