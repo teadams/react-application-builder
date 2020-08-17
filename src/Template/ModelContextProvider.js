@@ -42,7 +42,8 @@ function ModelContextProvider(props) {
         menus: meta_model.menus,
         sections: meta_model.sections,
         layouts:meta_model.layouts,
-        field_lists:meta_model.field_lists
+        field_lists:meta_model.field_lists,
+        wizards:meta_model.wizards
         }}>
         {props.children}
       </ModelContext.Provider>)
