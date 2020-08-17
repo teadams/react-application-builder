@@ -157,7 +157,7 @@ function ACSMap (props) {
                 const path = thumbnail.path
                 const url = get_image_url(thumbnail)
                 icon = {url:url, 
-                        scaledSize:{"width":20,"height":20}}
+                        scaledSize:{"width":20,"height":32}}
               }  else  {
                 icon = ""
               }
