@@ -38,18 +38,19 @@ import useGetModel from '../../Hooks/useGetModel'
 //    <Auth auth_action="create" object_type="core_subsite" onClose={onClose} data={data}>
   function handleButton (event) {
   }
+
   return (
       <Fragment>
       <Dialog open={true} fullWidth={true} maxWidth="xl">
-        <Stepper activeStep={current_step_number}>  
+      <DialogTitle>{wizard_title}</DialogTitle>
+        <Stepper style={{padding:"0px 10px"}} activeStep={current_step_number}>  
           <Step> <StepLabel>One</StepLabel> </Step>
           <Step completed={true} disabled={false}> <StepButton  onClick={handleButton}> <StepLabel>Two</StepLabel></StepButton> </Step>
           <Step completed={true}><StepLabel> What happens now </StepLabel> </Step>
         </Stepper>
         <DialogContent>
-          <div style={{fontSize:"22px"}}>{wizard_title}</div>
-          {title}
-          {instructions}
+          <div style={{fontSize:"22px"}}>{title}</div>
+          <div>{instructions}</div>
           <WizardComponent data={data} object_type={object_type} id={id} row_delayed_auth={true} row_form={true} no_header={true} row_dialog_center={true} onClose={handleFormClose} {...wizard_props}/>
     </DialogContent>
         </Dialog>

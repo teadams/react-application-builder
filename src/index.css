@@ -36,3 +36,11 @@ table {
     letter-spacing: 0.02857em;
     text-transform:'lowercase'
 }
+
+.MuiStep-root {
+  padding:0px;
+}
+
+.test_class {
+ paddingBottom:0px;
+}
