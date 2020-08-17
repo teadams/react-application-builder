@@ -1,12 +1,12 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
-import * as data from './Utils/data.js';
-import * as meta from './Utils/meta.js';
-import * as utils from './Utils/utils.js';
-import useGetModel from './Hooks/useGetModel';
+import * as data from '../Utils/data.js';
+import * as meta from '../Utils/meta.js';
+import * as utils from '../Utils/utils.js';
+import useGetModel from '../Hooks/useGetModel';
 
 import React, { Component, Fragment, useState, useContext, useEffect} from 'react';
-import {AuthContext} from './Modules/User';
+import {AuthContext} from '../Modules/User';
 import {Container, Box, Grid, Typography, TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
 
 const container_style = { 

@@ -5,23 +5,23 @@ import React, { Component, Fragment, useState, useContext} from 'react';
 import MenuIcon from '@material-ui/icons/Menu';
 import Badge from '@material-ui/core/Badge';
 import IconButton from '@material-ui/core/IconButton';
-import TabMenu from './RABComponents/TabMenu';
+import TabMenu from '../RABComponents/TabMenu';
 import MailIcon from '@material-ui/icons/Mail';
-import DrawerMenu from './RABComponents/DrawerMenu';
+import DrawerMenu from '../RABComponents/DrawerMenu';
 import {Grid} from 'material-ui'
-import ACSObjectCount from './Functional/Text/ACSObjectCount.js'
-import ACSObjectTypeView from './Functional/Lists/ACSObjectTypeView.js'
-import ACSObjectView from './Functional/Rows/ACSObjectView.js'
-import ACSField from './Functional/ACSField2.js'
-import {ContextSelect, AuthToggleLink, AuthContext, AuthContextProvider, Auth} from './Modules/User';
+import ACSObjectCount from '../Functional/Text/ACSObjectCount.js'
+import ACSObjectTypeView from '../Functional/Lists/ACSObjectTypeView.js'
+import ACSObjectView from '../Functional/Rows/ACSObjectView.js'
+import ACSField from '../Functional/ACSField2.js'
+import {ContextSelect, AuthToggleLink, AuthContext, AuthContextProvider, Auth} from '../Modules/User';
 import Body from "./Body"
 import Debug from "./Debug.js"
-import * as meta from './Utils/meta.js'
-import * as u from './Utils/utils.js'
-import * as api from './Utils/data.js'
+import * as meta from '../Utils/meta.js'
+import * as u from '../Utils/utils.js'
+import * as api from '../Utils/data.js'
 
 import {Container, AppBar, Toolbar, Typography, Paper, Popover, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button} from '@material-ui/core';
-import useGetModel from "./Hooks/useGetModel.js"
+import useGetModel from "../Hooks/useGetModel.js"
 
 
 function MessageIcon(props) {

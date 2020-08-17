@@ -2,11 +2,10 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
 import React, { Component, Fragment, useContext} from 'react';
-import * as meta from './Utils/meta.js'
-import * as u from './Utils/utils.js'
-import * as control from './Utils/control.js'
-import useGetModel from "./Hooks/useGetModel.js"
-import AuthContext from './Modules/User/AuthContext';
+import * as u from '../Utils/utils.js';
+import * as control from '../Utils/control.js';
+import useGetModel from "../Hooks/useGetModel.js";
+import AuthContext from '../Modules/User/AuthContext';
 
 function shieldObject(object) {
   // ensure object exists

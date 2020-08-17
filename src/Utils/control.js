@@ -16,7 +16,6 @@ import ACSChipObjectTypeView from "../Functional/Lists/ACSChipObjectTypeView.js"
 import ACSMappingView from "../Functional/Lists/ACSMappingView.js"
 import ACSPeopleAndOpportunitiesChip from "../Modules/User/ACSPeopleAndOpportunitiesChip.js"
 
-import Debug from '../Debug.js'
 import User from '../Functional/Fields/User.js'
 import ACSAddress from '../Functional/Fields/ACSAddress.js'
 
@@ -262,7 +261,6 @@ function componentPicker(name, source="not provided") {
     case "ACSObjectTypeView": return ACSObjectTypeView;
     case "ACSMappingView": return ACSMappingView;
     case "ACSChipObjectTypeView": return ACSChipObjectTypeView;
-    case "Debug": return Debug;
     case "ACSField": return ACSField;
     case "ACSObjectView": return ACSObjectView;
     case "ACSRowController": return ACSRowController;

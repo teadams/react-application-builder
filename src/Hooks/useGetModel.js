@@ -4,7 +4,7 @@ import * as api from '../Utils/data.js';
 import * as meta from '../Utils/meta.js';
 import * as log from '../Utils/log.js';
 import * as u from '../Utils/utils.js';
-import ModelContext from '../ModelContext.js';
+import ModelContext from '../Template/ModelContext.js';
 
 
 const useGetModel = (type, object_type="") => {

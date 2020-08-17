@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import ModelContext from "./ModelContext.js"
-import * as meta from "./Utils/meta.js"
-import * as u from "./Utils/utils.js"
-import * as control from "./Utils/control.js"
+import * as meta from "../Utils/meta.js"
+import * as u from "../Utils/utils.js"
+import * as control from "../Utils/control.js"
 
 function ModelContextProvider(props) {
   const [meta_model, setMetaModel] = useState("");

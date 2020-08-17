@@ -5,7 +5,7 @@ import 'typeface-roboto';
 import React from 'react';
 import {render}  from 'react-dom';
 import App from "./App.js";
-import Body from "./Body.js"
+import Body from "./Template/Body.js"
 import './index.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
