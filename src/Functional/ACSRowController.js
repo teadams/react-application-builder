@@ -175,6 +175,14 @@ function ACSRowController(input_props) {
   const field_list_models = useGetModel("field_lists")
   // do not merge expensive, known unnecessary things
   let {headless=false, data:input_props_data, row_type="table_row", form_open, key_id, onData="",action_props, action, form_title, no_header=false, ...merging_props} = input_props
+
+  // if mode is create and there is ad id, we should move to 
+  if (merging_props.mode === "create" && (merging_props.id || (input_props_data && input_props_data.id))) {
+      merging_props.mode = "edit"
+      merging_props.id = merging_props.id?merging_props.id:(input_props_data?input_props_data.id:"")
+
+  }
+
   let layout_model
   // treat layout as another dynamic input
   // props (usually from menu) takes
@@ -207,10 +215,12 @@ function ACSRowController(input_props) {
     row_component_model.row.names.header_wrap = "RABVoid"
     row_component_model.row.names.header = "RABVoid"
   }
+
   const rab_component_model = control.getFinalModel("row", {...merging_props}, object_model, row_component_model)
   const row_model = rab_component_model.row
   const massaged_props = row_model.props
   const {object_type: props_object_type, id: props_id, field_list:props_field_list, layout,  api_options:props_api_options, num_columns="", mode="view", form=false,  ...params} = massaged_props
+
   let {sections} = massaged_props
   function handleFormClose() {
       if (input_props.onClose) {
