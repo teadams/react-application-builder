@@ -97,7 +97,7 @@ function ACSFormWrap(props) {
             {props.children}
             <DialogActions>
             <DelayedAuth onClick={props.onSubmit} object_type={object_type} auth_action={props.mode} color="primary">
-              {props.mode}
+              {props.mode==="edit"?"save":props.mode}
             </DelayedAuth>
             <Button onClick={handleOnClose} color="primary">
               Cancel

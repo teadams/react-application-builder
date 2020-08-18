@@ -48,7 +48,6 @@ import useGetModel from '../../Hooks/useGetModel'
   // will refresh from the database each time.
   // do not cause flickering
   const handleOnData = (api_results) => {
-      u.a("stting api", api_results)
       setDataElements([next_step_number, api_results, transition_id, undefined, undefined])
   }
 
@@ -74,7 +73,6 @@ import useGetModel from '../../Hooks/useGetModel'
           <WizardComponent onSubmit={handleStepSubmit} data={data} object_type={object_type} id={id} row_delayed_auth={true} row_form={true} no_header={true} row_dialog_center={true} onClose={handleFormClose} {...wizard_props}/>
          </DialogContent>
          </Dialog>}
-  
       </Fragment>
       )
 }
