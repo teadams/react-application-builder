@@ -171,6 +171,8 @@ function ACSRowController(input_props) {
   const section_models = useGetModel("sections")
   const layout_models = useGetModel("layouts")
   const field_list_models = useGetModel("field_lists")
+
+
   // do not merge expensive, known unnecessary things
   let {headless=false, data:input_props_data, row_type="table_row", form_open, key_id, onData="",action_props, action, form_title, no_header=false, ...merging_props} = input_props
 
@@ -228,7 +230,10 @@ function ACSRowController(input_props) {
   // getting new data (all needs clean up).
   // layout->sections-field_list all apply to 
   // "prescrubbed"
-  let [ready, object_type, id, prescrubbed_field_list, api_options, data] =  useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data, onData);
+
+  let [object_type, id, prescrubbed_field_list, api_options, data] =  useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data, onData);
+
+
   if (!input_props_data && !id && data) {
     // lookup was by filter, not id
     id = data.id

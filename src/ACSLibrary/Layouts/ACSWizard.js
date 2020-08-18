@@ -2,9 +2,9 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import * as u from '../../Utils/utils.js';
 import * as control from '../../Utils/control.js';
-import {ACSRowController} from '../../ACSRenderEngine/index.js'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import {AuthContext, Auth, LoginForm} from '../../Modules/User/index.js';
+import {ACSHeadlessObject} from '../../ACSLibrary';
 
 import { Stepper, Step, StepLabel, StepButton, FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
@@ -13,48 +13,68 @@ import UIContext from '../../Template/UIContext';
 import useGetModel from '../../Hooks/useGetModel'
 
  function ACSWizard(props)  {
-  const {wizard,id,  ...params} = props
+  const {wizard,  ...params} = props
 
-
-  const [data, setData] = useState({id:55})
+  //const [data, setData] = useState(props.data)
+  //const [id, setId] = useState()
+//  const [transition_id, setTransitionId] = useState(props.id)
+  const [data_elements, setDataElements] = useState([0, props.data, undefined, props.id, undefined])
+  const [current_step_number, data, id, transition_id, next_step_number] = data_elements 
 
   const wizard_models = useGetModel("wizards")
   const wizard_model = wizard_models[wizard]
   const {steps, wizard_title} = wizard_model
-
-  const [current_step_number, setCurrentStepNumber] = useState(0)
   const current_step_name = steps[current_step_number]
+  
   function handleFormClose() {
     if (props.onClose) {
       props.onClose()
     } 
   }
+
   const {component_name, title, instructions, object_type} = wizard_model[current_step_name]
   const {...wizard_props}= wizard_model[current_step_name].props;
   const WizardComponent = control.componentByName(component_name);
+  const handleStepSubmit = (event, result, form_values, inserted_id) => {
+      let next_step_number = current_step_number + 1
+      if (result === "created") {
+        setDataElements([current_step_number, data, id, inserted_id, next_step_number])
+      }  else {
+        setDataElements([current_step_number, data, id, id, next_step_number])
+      }
+  }
 
-  //<Dialog fullWidth={true} maxWidth={dialog_size} open={Boolean(props.open)} onClose={handleOnClose} aria-labelledby="form-dialog-title">
-  //<DialogTitle id="form-dialog-title">{form_title?form_title:(u.capitalize(props.mode) + u.capitalize(object_type_pretty_name))}</DialogTitle>
-//    <Auth auth_action="create" object_type="core_subsite" onClose={onClose} data={data}>
+
+  // will refresh from the database each time.
+  // do not cause flickering
+  const handleOnData = (api_results) => {
+      u.a("stting api", api_results)
+      setDataElements([next_step_number, api_results, transition_id, undefined, undefined])
+  }
+
   function handleButton (event) {
   }
 
+// Headless
   return (
       <Fragment>
-      <Dialog open={true} fullWidth={true} maxWidth="xl">
-      <DialogTitle>{wizard_title}</DialogTitle>
-        <Stepper style={{padding:"0px 10px"}} activeStep={current_step_number}>  
-          <Step> <StepLabel>One</StepLabel> </Step>
-          <Step completed={true} disabled={false}> <StepButton  onClick={handleButton}> <StepLabel>Two</StepLabel></StepButton> </Step>
-          <Step completed={true}><StepLabel> What happens now </StepLabel> </Step>
-        </Stepper>
-        <DialogContent>
+      {transition_id && <ACSHeadlessObject id={transition_id} object_type={object_type}  onData={handleOnData}/>}
+       <Dialog open={true} fullWidth={true} maxWidth="xl">
+        <DialogTitle>{wizard_title}</DialogTitle>
+         <Stepper style={{padding:"0px 10px"}} activeStep={current_step_number}>  
+           <Step> <StepLabel>One</StepLabel> </Step>
+           <Step completed={true} disabled={false}> <StepButton  onClick={handleButton}> <StepLabel>Two</StepLabel></StepButton> </Step>
+           <Step completed={true}><StepLabel> What happens now </StepLabel> </Step>
+         </Stepper>
+         <DialogContent dividers={false}>
+            <DialogContentText>
           <div style={{fontSize:"22px"}}>{title}</div>
           <div>{instructions}</div>
-          <WizardComponent data={data} object_type={object_type} id={id} row_delayed_auth={true} row_form={true} no_header={true} row_dialog_center={true} onClose={handleFormClose} {...wizard_props}/>
-    </DialogContent>
-        </Dialog>
-    
+          </DialogContentText>
+          <WizardComponent onSubmit={handleStepSubmit} data={data} object_type={object_type} id={id} row_delayed_auth={true} row_form={true} no_header={true} row_dialog_center={true} onClose={handleFormClose} {...wizard_props}/>
+         </DialogContent>
+         </Dialog>}
+  
       </Fragment>
       )
 }

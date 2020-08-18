@@ -16,10 +16,13 @@ import * as control from "../Utils/control.js"
 import useGenerateFieldList from '../Hooks/useGenerateFieldList';
 
 function ACSFieldController(input_props) {
+
   const default_object_type_models = useGetModel("object_types")
   const default_field_models =  useGetModel("fields")
   const ref_rab_component_model = useRef(null)
   // merge in mdoels from props
+
+  // XX make a proc - send input props, also layouts
   let field_models, object_models
   if (input_props.field_models) {
     if (input_props.field_models_built) {
@@ -71,29 +74,27 @@ function ACSFieldController(input_props) {
 
   if (ref_rab_component_model.current === null) {
     // merge in props and field_model to get final component model
-    //  u.a("calling model on", input_props.field_name)
     ref_rab_component_model.current = control.getFinalModel("field", {...merging_props}, field_model, null, override_meta_model, trace)
   }
-
+  // Performance optimized. This impact is that objects inside rab_component_model can not be mutated.
   const rab_component_model = ref_rab_component_model.current
-// the above it performance optimized. This impact is that objects inside rab_component_model can not be mutated.
-//  const rab_component_model = _.merge({},ref_rab_component_model.current)
 
 
   const field_component_model = rab_component_model.field
   let massaged_props = field_component_model.props
   massaged_props.id = input_props.id
+
   // "pre" convention is before call to get data.
   // do not rabwant to render page before final data and object_type, etc match
 
-  // massaged_props has all the merged props from field_model, input,
-  // etc.
+  // massaged_props has all the merged props from field_model, input, etc.
   // Use values in massaged props below
 
   const {object_type:pre_fetch_object_type, id:pre_fetch_id, field_name:pre_fetch_field_name,  api_options:pre_fetch_api_options, component, click_to_edit=true, mouseover_to_edit=false, mode:initial_mode, form,  emphasis, valid_values:model_valid_values, select_api_options={},
   dependent_field, dependent_filter, ...params} = massaged_props
   const {references} = field_model
   // control of mode (view, edit, create, list)
+// Con remove
   const [mode, setMode] = useState(initial_mode);
 // move more detail to the field level
   const [more_detail, setMoreDetail]  = useState(false)
@@ -103,7 +104,8 @@ function ACSFieldController(input_props) {
 
   // get data from ap
   // return params for render and data at the same time
-  let [ready, object_type, id, field_name, api_options, data] = useGetObject(pre_fetch_object_type, pre_fetch_id,pre_fetch_field_name, pre_fetch_api_options, props_data, input_props.onData); 
+  // FOR ROWS
+  let [object_type, id, field_name, api_options, data] = useGetObject(pre_fetch_object_type, pre_fetch_id,pre_fetch_field_name, pre_fetch_api_options, props_data, input_props.onData); 
 
   // form setup - if necessary
   const field_list = ["id", field_name]  
@@ -113,6 +115,7 @@ function ACSFieldController(input_props) {
         input_props.onSubmit(event)
     }
   }
+  // for ROWS
   const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(object_type, form_field_name, data, handleSubmit, mode, form, "", field_list);
 
   let current_dependent_value = formValues?(dependent_field?formValues[dependent_field]:null):null
