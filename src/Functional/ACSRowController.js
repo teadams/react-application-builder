@@ -174,7 +174,7 @@ function ACSRowController(input_props) {
 
 
   // do not merge expensive, known unnecessary things
-  let {headless=false, data:input_props_data, row_type="table_row", form_open, key_id, onData="",action_props, action, form_title, no_header=false, ...merging_props} = input_props
+  let {headless=false, data:input_props_data, row_type="table_row", form_open, key_id, onData="",action_props, action, form_title, no_header=false, sections, ...merging_props} = input_props
 
   // if mode is create and there is ad id, we should move to 
   if (merging_props.mode === "create" && (merging_props.id || (input_props_data && input_props_data.id))) {
@@ -220,7 +220,6 @@ function ACSRowController(input_props) {
   const massaged_props = row_model.props
   const {object_type: props_object_type, id: props_id, field_list:props_field_list, layout,  api_options:props_api_options, num_columns="", mode="view", form=false,  ...params} = massaged_props
 
-  let {sections} = massaged_props
   function handleFormClose() {
       if (input_props.onClose) {
         input_props.onClose()
@@ -266,6 +265,7 @@ function ACSRowController(input_props) {
   }
 
   let {formValues, lastTouched, handleFormChange, handleFormSubmit,} = useForm(object_type, "", data, handleSubmit, mode, form, merging_props,field_list);
+  
   //// wall /////
   if (!field_models) {return null}
   const field_model = field_models[object_type]

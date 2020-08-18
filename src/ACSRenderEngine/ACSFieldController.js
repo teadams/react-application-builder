@@ -121,7 +121,6 @@ function ACSFieldController(input_props) {
   let current_dependent_value = formValues?(dependent_field?formValues[dependent_field]:null):null
   
   const [dependent_value, setDependentValue] = useState(current_dependent_value)
-
   if (model_valid_values && (!valid_values || (dependent_field && (current_dependent_value !== dependent_value))) && ["edit", "create"].includes(mode)) {
       if (dependent_field && current_dependent_value !== dependent_value) {
         setDependentValue(current_dependent_value)

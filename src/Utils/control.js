@@ -160,7 +160,6 @@ function buildRABModel(params, trace) {
                 api_options:params.api_options,
                 id:params.id,
                 field_list:params.field_list,
-                sections:params.sections,
                 layout:params.layout,
                 dialog_size:params.dialog_size,
                 num_columns:params.num_columns,
