@@ -34,7 +34,6 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
 
 
   useLayoutEffect( () => {
-      if (param_data) return null
       isMountedRef.current = true;
       if (!param_data && (object_type && (id||api_options.filter_id||api_options.get_count))) {
         api.getData (object_type, Object.assign({id:id},api_options), (results, error) => {  
