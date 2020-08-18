@@ -165,15 +165,7 @@ function buildRABModel(params, trace) {
                 num_columns:params.num_columns,
                 mode:params.row_mode?params.row_mode:params.mode,
           }},
-          field:{names:{field:params.field_component},
-                components:{}, 
-                props:{
-                  object_type:params.object_type,
-                  api_options:params.api_options,
-                  field_list:params.field_list,
-                  form_field_name:params.form_field_name,
-                  onFieldClick:params.onFieldClick,
-              }}
+          field:{names:{field:params.field_component}}
           }
 
 
