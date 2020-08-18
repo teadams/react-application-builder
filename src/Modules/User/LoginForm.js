@@ -102,7 +102,7 @@ function LoginForm(props) {
                   <ACSField
                   object_type = "core_user"
                   field_name = "email"  
-                  field_mode="edit"
+                  mode="edit"
                   field_display="name_value"
                   field_form={false}
                   label_width="15%"
@@ -122,7 +122,7 @@ function LoginForm(props) {
                 <ACSField
                 object_type = "core_credential"
                 field_name = "credential"  
-                field_mode="edit"
+                mode="edit"
                 label_width="15%"
                 field_display="name_value"
                 field_form={false} 
