@@ -171,7 +171,6 @@ function buildRABModel(params, trace) {
                   object_type:params.object_type,
                   api_options:params.api_options,
                   field_list:params.field_list,
-                  field_name:params.field_name,
                   form_field_name:params.form_field_name,
                   onFieldClick:params.onFieldClick,
               }}

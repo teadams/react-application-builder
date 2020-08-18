@@ -67,8 +67,8 @@ function ACSRow(row_props) {
   return (
     <FieldChunk {...row_params} key={key_id+"chunk"}>
       {field_chunk.map( (field_name, ch_index) => {
+
            const autoFocus = (f_index === 0 && s_index === 0 && ch_index === 0 )?true:false
-           
            return <ACSFieldController field_mode={mode} field_models={field_models} field_form={!form} field_name={field_name}  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit}
            override_meta_model={false}
            autoFocus ={autoFocus}
