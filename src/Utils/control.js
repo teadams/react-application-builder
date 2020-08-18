@@ -144,9 +144,7 @@ function buildRABModel(params, trace) {
         break
     }
 
-//    if (params.field_name === "email") {
-//      u.a(param_name, params_model.field)
-//    }
+
   })
   const fixed_params_model = {built:true,
                 list:{names:{list:params.list_component},
@@ -165,6 +163,7 @@ function buildRABModel(params, trace) {
                 num_columns:params.num_columns,
                 mode:params.row_mode?params.row_mode:params.mode,
           }},
+          // build this server side
           field:{names:{field:params.field_component}}
           }
 

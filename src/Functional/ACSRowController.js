@@ -285,7 +285,6 @@ function ACSRowController(input_props) {
       let col_count = 0
       field_list.forEach(field => {
         const field_model = field_models[object_type][field]
-
         let col_span = 1
         if (["create", "edit"].includes(mode)) {
           col_span = field_model.col_span

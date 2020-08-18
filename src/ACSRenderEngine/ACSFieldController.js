@@ -169,7 +169,6 @@ function ACSFieldController(input_props) {
       onBlur()
     }
   }
-  
   return (
      <ACSFieldRenderer 
     {...field_model_props}
