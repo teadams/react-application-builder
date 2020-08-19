@@ -27,7 +27,7 @@ import useGetModel from '../../Hooks/useGetModel'
   const {steps, wizard_title} = wizard_model
   const current_step_name = steps[current_step_number]
   const {component_name, title, instructions, object_type} = wizard_model[current_step_name]
-  const {...wizard_props}= wizard_model[current_step_name].props;
+  const {mode, ...wizard_props}= wizard_model[current_step_name].props;
 
 //wizard_model.steps.
   const [steps_state, setStepsState] = useState(null)
@@ -47,7 +47,7 @@ import useGetModel from '../../Hooks/useGetModel'
             initial_step_state[step].disabled = false
           }
 
-          if (mode === "edit" && !id) {
+          if (["edit","view"].includes(mode) && !id) {
             // can not edit if there is no id 
             initial_step_state[step].disabled = true
           }
@@ -59,7 +59,7 @@ import useGetModel from '../../Hooks/useGetModel'
     setDataElements([step, data, id, null, next_step_number])
    };
 
-  function handleFormClose() {
+  function handleFormClosed() {
     if (props.onClose) {
       props.onClose()
     } 
@@ -110,8 +110,13 @@ import useGetModel from '../../Hooks/useGetModel'
             <DialogContentText>
           <div >{instructions}</div>
           </DialogContentText>
-          <WizardComponent onSubmit={handleStepSubmit} data={data} object_type={object_type} id={id} row_delayed_auth={true} row_form={true} no_header={true} row_dialog_center={true} onClose={handleFormClose} {...wizard_props}/>
+          <WizardComponent onSubmit={handleStepSubmit} data={data} object_type={object_type} id={id} onClose={handleFormClosed} row_delayed_auth={true} row_form={true} no_header={true} row_dialog_center={true} mode={mode}  {...wizard_props}/>
          </DialogContent>
+         <DialogActions>
+         {mode === "view" && <Button  onClick={handleFormClosed} color="primary">
+           Close
+        </Button>}
+       </DialogActions> 
          </Dialog>}
       </Fragment>
       )

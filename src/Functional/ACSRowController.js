@@ -82,11 +82,7 @@ function ACSFormWrap(props) {
   const {object_type, dialog_size="sm", form_title} = props
   const object_types = useGetModel("object_types")
   if (!object_types) {return null}
-  function handleOnClose() {
-    if (props.onClose) {
-        props.onClose()
-    }
-  }
+
   if (props.form && (props.mode === "edit" || props.mode === "create")) {
     const object_type_model = object_types[object_type]
     const object_type_pretty_name = object_type_model.pretty_name
@@ -99,16 +95,16 @@ function ACSFormWrap(props) {
             <DelayedAuth onClick={props.onSubmit} object_type={object_type} auth_action={props.mode} color="primary">
               {props.mode==="edit"?"save":props.mode}
             </DelayedAuth>
-            <Button onClick={handleOnClose} color="primary">
-              Cancel
-           </Button>
+            {props.onClose && <Button onClick={props.onClose} color="primary">
+              Close
+           </Button>}
           </DialogActions>  
           </form>
         )
 
     } else {
       return (
-        <Dialog fullWidth={true} maxWidth={dialog_size} open={Boolean(props.open)} onClose={handleOnClose} aria-labelledby="form-dialog-title">
+        <Dialog fullWidth={true} maxWidth={dialog_size} open={Boolean(props.open)} onClose={props.onClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">{form_title?form_title:(u.capitalize(props.mode) + u.capitalize(object_type_pretty_name))}</DialogTitle>
           <DialogContent>
             {form_message && 
@@ -119,9 +115,9 @@ function ACSFormWrap(props) {
             <DelayedAuth onClick={props.onSubmit} object_type={object_type} auth_action={props.mode} color="primary">
               {props.mode}
             </DelayedAuth>
-            <Button onClick={handleOnClose} color="primary">
-              Cancel
-           </Button>
+            {props.onClose && <Button onClick={props.onClose} color="primary">
+              Close
+           </Button>}
           </DialogActions>  
           </form>
         < /DialogContent>
@@ -154,11 +150,12 @@ function ACSSectionHeader(props) {
 function ACSRowController(input_props) {
 
   function handleSubmit(event, result, form_values, inserted_id) {
-
       if (input_props.onSubmit) {
         input_props.onSubmit(event, result, form_values, inserted_id)
       }
-      handleFormClose()
+      if (input_props.onClose) {
+        input_props.onClose()
+      }
   }
 
   const object_models =  useGetModel("object_types")
@@ -220,11 +217,6 @@ function ACSRowController(input_props) {
   const massaged_props = row_model.props
   const {object_type: props_object_type, id: props_id, field_list:props_field_list, layout,  api_options:props_api_options, num_columns="", mode="view", form=false,  ...params} = massaged_props
 
-  function handleFormClose() {
-      if (input_props.onClose) {
-        input_props.onClose()
-      } 
-  }
   // XX later sections, layout used to trigger 
   // getting new data (all needs clean up).
   // layout->sections-field_list all apply to 
@@ -317,7 +309,7 @@ function ACSRowController(input_props) {
   if (headless) {
       return null
   }
-  return  (<ACSRowRenderer  {...row_model.props} row_type={row_type} field_models={field_models} mode={mode} form={form} object_type={object_type} action_props={action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} form_open={form_open} form_title={form_title} onClose={handleFormClose}
+  return  (<ACSRowRenderer  {...row_model.props} row_type={row_type} field_models={field_models} mode={mode} form={form} object_type={object_type} action_props={action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} form_open={form_open} form_title={form_title} onClose={input_props.onClose}
   handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} key={key_id+"Render"} key_id={key_id}/>)
 
 }
