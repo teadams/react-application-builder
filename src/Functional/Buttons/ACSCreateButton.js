@@ -5,17 +5,19 @@ import React, {Fragment, useState, useContext} from 'react';
 import {IconButton} from '@material-ui/core';
 import IconCreate from "@material-ui/icons/Add";
 import * as u from '../../Utils/utils.js'
+import * as control from '../../Utils/control.js'
 import ACSObjectView from '../Rows/ACSObjectView.js'
 import {Auth, AuthContext} from '../../Modules/User/index.js';
 import useGetModel from '../../Hooks/useGetModel.js'
 
 function ACSCreateButton(props) {
 
-  const {object_type, ButtonComponent, layout, sections, field_list, dialog_size, action_props, auth_action="create", require_authorization=true, text=""} = props
+  const {object_type, ButtonComponent, layout, sections, field_list, dialog_size, action_props, auth_action="create", require_authorization=true, text="", menu="ObjectView"} = props
   const [create_dialog, setCreateDialog] = useState(false);
   const context = useContext(AuthContext)
   const context_id = context.context_id
   const object_model = useGetModel("object_types", object_type)
+  const menu_model =  useGetModel("menus")
 
   if (object_model.with_context && !context_id && object_type !== "core_subsite" && object_model.extends_object !== "core_subsite") {
     return null
@@ -33,6 +35,7 @@ function ACSCreateButton(props) {
     }
   }
 
+
   const handleOnSubmit = (event,action, form_values, inserted_id) => {
     if (props.onSubmit) {
       props.onSubmit(event,action, form_values, inserted_id)
@@ -40,6 +43,13 @@ function ACSCreateButton(props) {
   }
 
   const float=props.float?props.float:'none'
+
+// get menu, menu can get the component
+  const selected_menu_model = menu_model.menu_items[menu]
+  const component_name = selected_menu_model.menu_component_name
+  let ActionComponent = control.componentByName(component_name)
+  const { ...menu_props} = selected_menu_model
+
 
  return (
       <Fragment>
@@ -51,7 +61,7 @@ function ACSCreateButton(props) {
       </IconButton>
       }
       {create_dialog  &&
-      <ACSObjectView row_delayed_auth={true} object_type={object_type} row_mode="create" row_form="true" layout={layout} sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} field_list={field_list} dialog_size={dialog_size} {...action_props}/> }
+      <ActionComponent row_delayed_auth={true} object_type={object_type} row_mode="create" row_form="true" layout={layout} sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} field_list={field_list} dialog_size={dialog_size} {...menu_props} {...action_props}/> }
       </Auth>
       </Fragment>
       )
