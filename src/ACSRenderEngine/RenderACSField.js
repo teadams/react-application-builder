@@ -120,7 +120,7 @@ function RenderACSField(props) {
         return (<Fragment>
           <div style={{padding:"20px", width:"100%"}}>
           <ACSField onSubmit={handleClickToEditSubmit} object_type={object_type} field_name={field_name} 
-          data={row_data}  field_mode="edit" field_form={true}/>
+          data={row_data}  mode="edit" field_form={true}/>
           </div>
         </Fragment>)
     }
