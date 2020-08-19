@@ -1,4 +1,4 @@
-import 'react-app-polyfill/ie9';
+summaryimport 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import * as u from '../../Utils/utils.js';
 import * as control from '../../Utils/control.js';
@@ -23,9 +23,9 @@ import useGetModel from '../../Hooks/useGetModel'
   const [current_step_number, data, id, transition_id, next_step_number] = data_elements 
   const wizard_models = useGetModel("menus")
   const wizard_model = wizard_models.menus[menu]
-  const {items:steps, title} = wizard_model
+  const {items:steps, wizard_summary} = wizard_model
   const current_step_name = steps[current_step_number]
-  const {menu_component_name, label, header_text, object_type} = wizard_models.menu_items[current_step_name]
+  const {menu_component_name, pretty_name, summary, object_type} = wizard_models.menu_items[current_step_name]
   const {mode, ...wizard_props}= wizard_models.menu_items[current_step_name].props;
 
 //wizard_model.steps.
@@ -34,7 +34,7 @@ import useGetModel from '../../Hooks/useGetModel'
   if (!steps_state) {
     let initial_step_state ={}
       steps.forEach((step,index) => {
-      const {label, completed, available, subtitle, dependencies} = wizard_models.menu_items[step]
+      const {pretty_name, completed, available, subtitle, dependencies} = wizard_models.menu_items[step]
       const {mode} = wizard_models.menu_items[step].props
 
           initial_step_state[step] ={}
@@ -95,13 +95,13 @@ import useGetModel from '../../Hooks/useGetModel'
       <Fragment>
       {transition_id && <ACSHeadlessObject id={transition_id} object_type={object_type}  onData={handleOnData}/>}
        <Dialog open={true} fullWidth={true} maxWidth="xl">
-        <DialogTitle>{title}</DialogTitle>
+        <DialogTitle>{wizard_summary}</DialogTitle>
          <Stepper nonLinear alternativeLabel style={{padding:"0px 10px"}} activeStep={current_step_number}>  
           {steps.map ((step,index) => {
-              const {label} = wizard_models.menu_items[step]
+              const {pretty_name} = wizard_models.menu_items[step]
               const step_state = steps_state?steps_state[step]:{}
               return (
-                <Step key={label} completed={step_state.completed} disabled={step_state.disabled}><StepButton  onClick={handleStep(index)} optional={step_state.subtitle}>{title}</StepButton></Step>
+                <Step key={pretty_name} completed={step_state.completed} disabled={step_state.disabled}><StepButton  onClick={handleStep(index)} optional={step_state.subtitle}>{pretty_name}</StepButton></Step>
               )
             })}
          </Stepper>

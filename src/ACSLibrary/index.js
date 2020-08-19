@@ -23,7 +23,10 @@ import ACSTextFilter from '../Functional/Filters/ACSTextFilter.js';
 
 // Layouts
 import ACSMapAndFilter from '../Functional/Layouts/ACSMapAndFilter.js';
-import ACSWizard from './Layouts/ACSWizard.js';
+
+// menus
+import ACSWizard from './Menus/ACSWizard.js';
+
 
 
 // Lists
