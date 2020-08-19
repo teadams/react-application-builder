@@ -15,28 +15,27 @@ import UIContext from '../../Template/UIContext';
 import useGetModel from '../../Hooks/useGetModel'
 
  function ACSWizard(props)  {
-  const {wizard,  ...params} = props
-
+  const {menu,  ...params} = props
   //const [data, setData] = useState(props.data)
   //const [id, setId] = useState()
 //  const [transition_id, setTransitionId] = useState(props.id)
   const [data_elements, setDataElements] = useState([0, props.data, undefined, props.id, undefined])
   const [current_step_number, data, id, transition_id, next_step_number] = data_elements 
-  const wizard_models = useGetModel("wizards")
-  const wizard_model = wizard_models[wizard]
-  const {steps, wizard_title} = wizard_model
+  const wizard_models = useGetModel("menus")
+  const wizard_model = wizard_models.menus[menu]
+  const {items:steps, title} = wizard_model
   const current_step_name = steps[current_step_number]
-  const {component_name, title, instructions, object_type} = wizard_model[current_step_name]
-  const {mode, ...wizard_props}= wizard_model[current_step_name].props;
+  const {menu_component_name, label, header_text, object_type} = wizard_models.menu_items[current_step_name]
+  const {mode, ...wizard_props}= wizard_models.menu_items[current_step_name].props;
 
 //wizard_model.steps.
   const [steps_state, setStepsState] = useState(null)
   
   if (!steps_state) {
     let initial_step_state ={}
-    wizard_model.steps.forEach((step,index) => {
-      const {title, completed, available, subtitle, dependencies} = wizard_model[step]
-      const {mode} = wizard_model[step].props
+      steps.forEach((step,index) => {
+      const {label, completed, available, subtitle, dependencies} = wizard_models.menu_items[step]
+      const {mode} = wizard_models.menu_items[step].props
 
           initial_step_state[step] ={}
           initial_step_state[step].completed = completed?completed:false
@@ -65,17 +64,17 @@ import useGetModel from '../../Hooks/useGetModel'
     } 
   }
 
-  const WizardComponent = control.componentByName(component_name);
+  const WizardComponent = control.componentByName(menu_component_name);
   const handleStepSubmit = (event, result, form_values, inserted_id) => {
       let next_step_number = current_step_number + 1
-      const current_steps = wizard_model.steps[current_step_number]
+      const current_steps = steps[current_step_number]
       let new_steps_state = _.merge({}, steps_state)
       new_steps_state[steps[current_step_number]].completed = true
 
           
       if (result === "created") {
         setDataElements([current_step_number, data, id, inserted_id, next_step_number])
-        wizard_model.steps.forEach((step,index) => {
+        steps.forEach((step,index) => {
           new_steps_state[steps[index]].disabled = false
         })
       }  else {
@@ -96,19 +95,19 @@ import useGetModel from '../../Hooks/useGetModel'
       <Fragment>
       {transition_id && <ACSHeadlessObject id={transition_id} object_type={object_type}  onData={handleOnData}/>}
        <Dialog open={true} fullWidth={true} maxWidth="xl">
-        <DialogTitle>{wizard_title}</DialogTitle>
+        <DialogTitle>{title}</DialogTitle>
          <Stepper nonLinear alternativeLabel style={{padding:"0px 10px"}} activeStep={current_step_number}>  
-          {wizard_model.steps.map ((step,index) => {
-              const {title} = wizard_model[step]
+          {steps.map ((step,index) => {
+              const {label} = wizard_models.menu_items[step]
               const step_state = steps_state?steps_state[step]:{}
               return (
-                <Step key={title} completed={step_state.completed} disabled={step_state.disabled}><StepButton  onClick={handleStep(index)} optional={step_state.subtitle}>{title}</StepButton></Step>
+                <Step key={label} completed={step_state.completed} disabled={step_state.disabled}><StepButton  onClick={handleStep(index)} optional={step_state.subtitle}>{title}</StepButton></Step>
               )
             })}
          </Stepper>
          <DialogContent dividers={false}>
             <DialogContentText>
-          <div >{instructions}</div>
+          <div >{header_text}</div>
           </DialogContentText>
           <WizardComponent onSubmit={handleStepSubmit} data={data} object_type={object_type} id={id} onClose={handleFormClosed} row_delayed_auth={true} row_form={true} no_header={true} row_dialog_center={true} mode={mode}  {...wizard_props}/>
          </DialogContent>
