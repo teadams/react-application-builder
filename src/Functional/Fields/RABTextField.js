@@ -13,8 +13,7 @@ import * as meta from '../../Utils/meta.js';
 function RABTextField(props) {
   const {mode, row_data,  data, object_type, data_field, pretty_name, display_field=props.field_name, references_field, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values,  db_data_field, 
   variant="outlined", required, helperText, placeholder} = props
-
-
+  const [test_state, setTestState] = useState("foo")
   let {with_thumbnail="", with_url="", more_detail=false, toggleMoreDetail} = props
 
   // XX field model passed due to referenced change. May 

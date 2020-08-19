@@ -65,6 +65,7 @@ const popup_origin = {
 function RenderACSField(props) {
 
   const popup = useContext(UIContext).popup   
+  const [more_detail, setMoreDetail]  = useState(false)
 
   if (props.data === undefined && !props.referred_by_object_type) {
       return null
@@ -72,8 +73,7 @@ function RenderACSField(props) {
 
   let {api_options, components:discard_components, ...params} = props
   const {data ={}, row_data, object_type, data_field,  dsiplay_field, references_field, field_name, form_field_name, components={},
-        mode="view", form="true", formValues, autoFocus, onSubmit, onBlur, onChange, 
-        more_detail, toggleMoreDetail, click_to_edit, field_model, referred_by_object_type} = props
+        mode="view", form="true", formValues, autoFocus, onSubmit, onBlur, onChange,  click_to_edit, field_model, referred_by_object_type} = props
 
 
   // these come froprops.m rab_component_model props
@@ -81,11 +81,13 @@ function RenderACSField(props) {
   const {field_tag="div", field_pre_text, field_post_text, field_css_class, field_style,  //field
         label=false, form_label=false, pretty_name, label_tag="", label_pre_text, label_post_text, label_style, label_css_class, //label
         prevent_edit, hide_if_empty, wrap_css_class, wrap_style={display:"flex", flexDirection:"row"},  wrap_tag="",
-        with_thumbnail, thumbnail_size="small"} = props  //wrap
+        with_thumbnail, thumbnail_size="small", thumbnail_avatar=true, thumbnail_style} = props  //wrap
     let {col_span=1} = props
 
 
-
+    function toggleMoreDetail(event) {
+      setMoreDetail(!more_detail)
+    } 
 
   // everything regarding field presentation will be in field_model
 
@@ -160,6 +162,8 @@ function RenderACSField(props) {
       }
     }
 
+
+
     return (<Fragment>
       <FieldWrap   onClick={handleFieldClick} key={field_name+"_wrap1"}   field_name={field_name}>
           <Tag Tag={wrap_tag} class={wrap_css_class} style={wrap_style}>
@@ -170,10 +174,10 @@ function RenderACSField(props) {
             <Tag Tag={field_tag}  style={field_style} class={field_css_class}>
                 {!show_thumbnail?
                     <Fragment>
-                      {field_pre_text}<Field {...params}  key={field_name+"field"}/>{field_post_text}
+                      {field_pre_text}<Field {...params}  more_detail={more_detail} toggleMoreDetail={toggleMoreDetail} key={field_name+"field"}/>{field_post_text}
                     </Fragment>
                   :<div style={{display:'flex', flexDirection:'row', alignItems:'center'}}>
-                    <ACSImage image_object={data[with_thumbnail]} size={thumbnail_size}/>            
+                    <ACSImage avatar={thumbnail_avatar} style={thumbnail_style} image_object={data[with_thumbnail]} size={thumbnail_size}/>            
                     <div style={{paddingLeft:3}}>{field_pre_text}<Field {...params}  key={field_name+"field"}/>{field_post_text}</div>
                   </div>
               }
