@@ -44,7 +44,6 @@ import useGetModel from '../../Hooks/useGetModel'
       }
   }
 
-
   // will refresh from the database each time.
   // do not cause flickering
   const handleOnData = (api_results) => {
@@ -54,16 +53,22 @@ import useGetModel from '../../Hooks/useGetModel'
   function handleButton (event) {
   }
 
+//           <Step completed={true} disabled={false}> <StepButton  onClick={handleButton}> <StepLabel>Two</StepLabel></StepButton> </Step>
+//           <Step completed={true}><StepLabel> What happens now </StepLabel> </Step>
+
 // Headless
   return (
       <Fragment>
       {transition_id && <ACSHeadlessObject id={transition_id} object_type={object_type}  onData={handleOnData}/>}
        <Dialog open={true} fullWidth={true} maxWidth="xl">
         <DialogTitle>{wizard_title}</DialogTitle>
-         <Stepper style={{padding:"0px 10px"}} activeStep={current_step_number}>  
-           <Step> <StepLabel>One</StepLabel> </Step>
-           <Step completed={true} disabled={false}> <StepButton  onClick={handleButton}> <StepLabel>Two</StepLabel></StepButton> </Step>
-           <Step completed={true}><StepLabel> What happens now </StepLabel> </Step>
+         <Stepper alternativeLabel style={{padding:"0px 10px"}} activeStep={current_step_number}>  
+          {wizard_model.steps.map ((step,index) => {
+              const {title} = wizard_model[step]
+              return (
+                <Step><StepLabel>{title}</StepLabel></Step>
+              )
+            })}
          </Stepper>
          <DialogContent dividers={false}>
             <DialogContentText>
