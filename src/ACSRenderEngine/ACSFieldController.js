@@ -21,7 +21,6 @@ function ACSFieldController(original_props) {
   
   const default_object_type_models = useGetModel("object_types")
   const default_field_models =  useGetModel("fields")
-//  const ref_rab_component_model = useRef(null)
 
   // Will make this s paoc
   let field_models, object_models
@@ -50,37 +49,26 @@ function ACSFieldController(original_props) {
 
   const field_model = field_models[original_props.object_type][original_props.field_name]
 
-
+  const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, data:input_data, onData:props_onData,
+  handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, onBlur, onFieldClick,  
+  mode="view", key_id, autoFocus=false, rab_component_model, onSubmit, ...merging_props} = original_props
     //// *** NOW HAVE APPROPRIATE MODELS *****
   let input_props;
   if (original_props.built) {
-    input_props = original_props;
+    input_props = merging_props
   } else {
-   const level_rab = rab_component_models["field"]
-  const shell_rab =   rab_component_models.shell;
-    // Get rid of these on server, everything will be flat
-    if (!field_model.rab_component_model) field_model.rab_component_model = {}
-    if (!field_model.rab_component_model.field) field_model.rab_component_model.field = {}
-// Flatten rab_component_mode 
-// Figure out what to do with the field component 
-// Decide on the the wraps (Fragment, tag)
-// Default props ?? 
-/// This could be build before
-// DO I have to send an rab_component-Model from the upper level or can I just send the props?
+  // merge? - take out core props 
+  // page does not Submit 
+  // type autofocuse
+  // Type called 3 times
     if (original_props.rab_component_model) {   
-
-      input_props = { ...original_props.rab_component_model.field.props, ...original_props.rab_component_model.field.names, ...field_model.rab_component_model.field.props, ...field_model, ...original_props}
-
-//      input_props = {...field_model.rab_component_model.field.props, ...original_props.rab_component_model.field.props, ...field_model, ...original_props}
+      input_props = { ...rab_component_model.field.props, ...rab_component_model.field.names, ...field_model, ...merging_props}
     } else {
-      input_props = {...field_model.rab_component_model.field.props, ...field_model, ...original_props}
+      input_props = {...field_model, ...merging_props}
     }
   }
 
 
-  const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, data:input_data, onData:props_onData,
-  handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, onBlur, onFieldClick,  
-  mode="view", key_id, override_meta_model=true, autoFocus=false, ...merging_props} = input_props
 
   // Data may be provided in prop field in addition to data object
   let props_data = input_data
@@ -94,26 +82,24 @@ function ACSFieldController(original_props) {
   ////// ***** DATA and MODEL INPUTS ARE NOW ALIGNED *********
 
   // XX make a proc - send input props, also layouts
-  
+  /// XXX do not change field model
   field_model.formValues_name = field_name
   const form_field_name = field_name
 
 /// ** BASE MODELS ARE NOW DETERMINED **** ///
 
-  const {form, valid_values:model_valid_values, select_api_options={}, dependent_field, dependent_filter, ...params} = input_props
-  const {references} = field_model
+  const {hidden_on_form, hidden_on_create_form, references, form, valid_values:model_valid_values, select_api_options={}, dependent_field, dependent_filter} = input_props
 
   const [valid_values, setValidValues] = useState("")
   const field_list = ["id", field_name]  
   
   const handleSubmit= (event) => {
-    if (input_props.onSubmit) {
-        input_props.onSubmit(event)
+    if (onSubmit) {
+        onSubmit(event)
     }
   }
   // for ROWS
   const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(object_type, form_field_name, data, handleSubmit, mode, form, "", field_list);
-
   let current_dependent_value = formValues?(dependent_field?formValues[dependent_field]:null):null
   
   const [dependent_value, setDependentValue] = useState(current_dependent_value)
@@ -151,8 +137,7 @@ function ACSFieldController(original_props) {
       }
   }
 
-
-  if (data === undefined || (object_type && !field_model) || mode === "hidden" || field_model.hidden_on_form && mode ==="edit" ||  (field_model.hidden_on_form || field_model.hidden_on_create_form) && mode==="create") return null
+  if (data === undefined || (object_type && !field_model) || mode === "hidden" || hidden_on_form && mode ==="edit" ||  (hidden_on_form || hidden_on_create_form) && mode==="create") return null
 
   // XX Make a proc
   const row_data = data
@@ -188,7 +173,6 @@ function ACSFieldController(original_props) {
   }
   return (
      <ACSFieldRenderer 
-    {...field_model}
     {...input_props}
     data={data} 
     row_data={row_data}

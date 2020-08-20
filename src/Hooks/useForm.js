@@ -14,6 +14,7 @@ const _handleSubmit = ((event, formValues, mode, context, object_type, object_mo
   if (context.user && context.user.id) {
     formValues.creation_user = context.user.id 
   }
+
   if (!formValues[id_field]) {
     api.postData(object_type, formValues, {}, (insert_result, error) => { 
       // XX user_id, subsite
@@ -72,8 +73,6 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   // form not needed or inputs not ready
 
   const id_field = object_model.key_id
-
-
 
   if ((mode !== "edit" && mode !=="create") || !form ||
       (mode === "edit" && !data) || 
@@ -163,6 +162,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     if (event) {
       event.preventDefault();
     }
+
     _handleSubmit (event, formValues, mode, context, object_type, object_model, field_models, handleSubmit, id_field, filesTouched) 
   })
   // single field edit, submits on change
@@ -181,9 +181,9 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
 
   const handleFormChange = ((event) => {
     event.persist();
+
     const name = event.target.name
     const field_model=field_models[name]
-
     setLastTouched(name)
     if (event.target.type !== "file") {
       let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
