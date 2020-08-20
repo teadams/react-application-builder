@@ -160,7 +160,7 @@ function RenderACSField(props) {
       if (referred_to === "core_subsite") {
         params.api_options.subsite_id = row_data[referred_to]
       } 
-      if (data) {
+      if (data !== undefined) {
         params.data = data
       }
     }

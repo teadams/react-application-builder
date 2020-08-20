@@ -110,7 +110,8 @@ const rab_component_models = {
       components:{},
       default_mode:"click_to_edit",
       props:{
-        field_display:"field"
+        click_to_edit:true
+
       }
     }
   },
