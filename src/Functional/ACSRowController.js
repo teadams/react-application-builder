@@ -113,7 +113,7 @@ function ACSFormWrap(props) {
             {props.children}
             <DialogActions>
             <DelayedAuth onClick={props.onSubmit} object_type={object_type} auth_action={props.mode} color="primary">
-              {props.mode}
+              {props.mode==="edit"?"save":props.mode}
             </DelayedAuth>
             {props.onClose && <Button onClick={props.onClose} color="primary">
               Close
@@ -152,8 +152,7 @@ function ACSRowController(input_props) {
   function handleSubmit(event, result, form_values, inserted_id) {
       if (input_props.onSubmit) {
         input_props.onSubmit(event, result, form_values, inserted_id)
-      }
-      if (input_props.onClose) {
+      } else if (input_props.onClose) {
         input_props.onClose()
       }
   }

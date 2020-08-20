@@ -31,7 +31,7 @@ const Wizard = (props) => {
   
   function handleFormClosed() {
     if (props.onClose) {
-    props.onClose()
+      props.onClose()
     } 
  }
 
