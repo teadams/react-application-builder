@@ -157,6 +157,7 @@ function ACSRowController(input_props) {
       }
   }
 
+  // Proc, and if build, 
   const object_models =  useGetModel("object_types")
   const object_model = object_models?[input_props.object_type]:{}
   let field_models =  useGetModel("fields")
@@ -170,9 +171,10 @@ function ACSRowController(input_props) {
 
 
   // do not merge expensive, known unnecessary things
-  let {headless=false, data:input_props_data, row_type="table_row", form_open, key_id, onData="",action_props, action, form_title, no_header=false, sections, ...merging_props} = input_props
+  let {layout, headless=false, data:input_props_data, row_type="table_row", form_open, key_id, onData="",action_props, action, form_title, no_header=false, sections, ...merging_props} = input_props
 
-  // if mode is create and there is ad id, we should move to 
+  // if mode is create and there is ad id, change mode to edit.
+  // Use Case - Wizard when user goes back to the create step
   if (merging_props.mode === "create" && (merging_props.id || (input_props_data && input_props_data.id))) {
       merging_props.mode = "edit"
       merging_props.id = merging_props.id?merging_props.id:(input_props_data?input_props_data.id:"")
@@ -187,6 +189,7 @@ function ACSRowController(input_props) {
     merging_props = _.merge({},layout_model, merging_props)
   }
   // do not use base component
+  // Make a ref?
   let row_component_model = _.merge({},rab_component_models[row_type])
   row_component_model.row.components.row = ACSRow
   row_component_model.row.components.form_wrap =ACSFormWrap
@@ -195,33 +198,33 @@ function ACSRowController(input_props) {
   row_component_model.row.components.section_body_wrap =ACSSectionBodyWrap
 
 
-//  row_component_model.row.names.header_wrap = "RABVoid"
-
+  // What is form open?
+// pre merge thse or put in component model
   if (form_open) {
-  // XX somthing is changing the base row_component_models
     row_component_model.row.components.header_wrap=""
     row_component_model.row.names.header_wrap = "RABVoid"
     row_component_model.row.names.header = "RABVoid"
     row_component_model.field.props.disable_underline = true
   }
 
+  // XX pre merge these
   if (no_header) {
     row_component_model.row.components.header_wrap=""
     row_component_model.row.names.header_wrap = "RABVoid"
     row_component_model.row.names.header = "RABVoid"
   }
 
+// row _componene_mode is built, could get rid of build model compoennts
+// nothing in object model needs build
+// woudl only need if model should override mreging props
   const rab_component_model = control.getFinalModel("row", {...merging_props}, object_model, row_component_model)
   const row_model = rab_component_model.row
+
   const massaged_props = row_model.props
-  const {object_type: props_object_type, id: props_id, field_list:props_field_list, layout,  api_options:props_api_options, num_columns="", mode="view", form=false,  ...params} = massaged_props
+  const { num_columns="", mode="view", form=false,  ...params} = massaged_props
 
-  // XX later sections, layout used to trigger 
-  // getting new data (all needs clean up).
-  // layout->sections-field_list all apply to 
-  // "prescrubbed"
 
-  let [object_type, id, prescrubbed_field_list, api_options, data] =  useGetObject(props_object_type, props_id, props_field_list, props_api_options, input_props_data, onData);
+  let [object_type, id, prescrubbed_field_list, api_options, data] =  useGetObject(input_props.object_type, input_props.id, input_props.field_list, input_props.api_options, input_props.data, onData);
 
 
   if (!input_props_data && !id && data) {
@@ -229,6 +232,7 @@ function ACSRowController(input_props) {
     id = data.id
   }
 
+// definitely save this
   let field_list = useGenerateFieldList(object_type, "", data, mode, form, prescrubbed_field_list, "core", layout, sections)
   let section_field_lists =[] 
   if (layout) {
@@ -308,7 +312,7 @@ function ACSRowController(input_props) {
   if (headless) {
       return null
   }
-  return  (<ACSRowRenderer  {...row_model.props} row_type={row_type} field_models={field_models} mode={mode} form={form} object_type={object_type} action_props={action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options} num_columns={num_columns} formValues={formValues} form_open={form_open} form_title={form_title} onClose={input_props.onClose}
+  return  (<ACSRowRenderer {...merging_props} {...row_model.props} row_type={row_type} field_models={field_models} form={form} object_type={object_type} action_props={action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options}  formValues={formValues} form_open={form_open} form_title={form_title} onClose={input_props.onClose}
   handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} key={key_id+"Render"} key_id={key_id}/>)
 
 }

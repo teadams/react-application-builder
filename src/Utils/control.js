@@ -154,11 +154,6 @@ function buildRABModel(params, trace) {
                        field_list:params.field_list,
                 }},
           row:{names:{}, components:{},props:{
-                object_type:params.object_type,
-                api_options:params.api_options,
-                id:params.id,
-                field_list:params.field_list,
-                layout:params.layout,
                 dialog_size:params.dialog_size,
                 num_columns:params.num_columns,
                 mode:params.row_mode?params.row_mode:params.mode,
