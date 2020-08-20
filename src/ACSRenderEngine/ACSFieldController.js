@@ -53,18 +53,18 @@ function ACSFieldController(original_props) {
   handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, onBlur, onFieldClick,  
   mode="view", key_id, autoFocus=false, rab_component_model, onSubmit, ...merging_props} = original_props
     //// *** NOW HAVE APPROPRIATE MODELS *****
-  let input_props;
+  let final_props;
   if (original_props.built) {
-    input_props = merging_props
+    final_props = merging_props
   } else {
-  // merge? - take out core props 
+  // fix up references to field model
   // page does not Submit 
   // type autofocuse
   // Type called 3 times
     if (original_props.rab_component_model) {   
-      input_props = { ...rab_component_model.field.props, ...rab_component_model.field.names, ...field_model, ...merging_props}
+      final_props = { ...rab_component_model.field.props, ...rab_component_model.field.names, ...field_model, ...merging_props}
     } else {
-      input_props = {...field_model, ...merging_props}
+      final_props = {...field_model, ...merging_props}
     }
   }
 
@@ -72,8 +72,8 @@ function ACSFieldController(original_props) {
 
   // Data may be provided in prop field in addition to data object
   let props_data = input_data
-  if (!props_data && input_props.value) {
-      props_data = {[input_props.field_name]:input_props.value}
+  if (!props_data && final_props.value) {
+      props_data = {[final_props.field_name]:final_props.value}
   } 
 
   // useGetObject has a buffer so that everything changes when the data chnages
@@ -88,9 +88,9 @@ function ACSFieldController(original_props) {
 
 /// ** BASE MODELS ARE NOW DETERMINED **** ///
 
-  const {hidden_on_form, hidden_on_create_form, references, form, valid_values:model_valid_values, select_api_options={}, dependent_field, dependent_filter} = input_props
+  const {hidden_on_form, hidden_on_create_form, references, form, valid_values:model_valid_values, select_api_options={}, dependent_field, dependent_filter} = final_props
 
-  const [valid_values, setValidValues] = useState("")
+  const [valid_values, setValidValues] = useState(final_props.valid_values?(final_props.valid_values!=="object"?final_props.valid_values:""):"")
   const field_list = ["id", field_name]  
   
   const handleSubmit= (event) => {
@@ -107,7 +107,8 @@ function ACSFieldController(original_props) {
       if (dependent_field && current_dependent_value !== dependent_value) {
         setDependentValue(current_dependent_value)
       }
-      if (model_valid_values === "object") {
+      if (model_valid_values === "object" && valid_values !== "transition") {
+        setValidValues("transition")
         if (dependent_field) {
           if (!select_api_options.filter_id) {
               select_api_options.filter_id = []
@@ -133,7 +134,9 @@ function ACSFieldController(original_props) {
           })
         
       } else {
-        setValidValues(model_valid_values)
+        if (valid_values !== model_valid_values) {
+          setValidValues(model_valid_values)
+        }
       }
   }
 
@@ -173,7 +176,7 @@ function ACSFieldController(original_props) {
   }
   return (
      <ACSFieldRenderer 
-    {...input_props}
+    {...final_props}
     data={data} 
     row_data={row_data}
     formValues = {formValues}
