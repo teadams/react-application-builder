@@ -6,7 +6,6 @@ import * as control from "../Utils/control.js"
 
 function ModelContextProvider(props) {
   const [meta_model, setMetaModel] = useState("");
-
   if (!meta_model) {
     meta.load("all", model_results => {
         // Object.keys(model_results.fields).forEach(object_type => {

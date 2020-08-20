@@ -46,7 +46,7 @@ const _handleSubmit = ((event, formValues, mode, context, object_type, object_mo
       if (error) {
         alert ('error is ' + error.message)
       } else { 
-        if (object_type === "core_user" || object_type=== "core_subsite" || object_model.extends_object === "core_user" || object_model.extends_object === "core_subsite") {
+        if (object_type === "core_user",  object_model.extends_object === "core_user") {
           context.refreshUserContext()
         }
         context.setDirty();

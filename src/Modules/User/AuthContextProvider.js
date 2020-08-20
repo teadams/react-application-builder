@@ -35,13 +35,15 @@ function AuthContextProvider(props) {
       user: user,
       context_id: context_id,
       dirty_stamp: dirty_stamp,
-      setDirty: () => {setDirtyData(Date.now())},
+      setDirty: () => {
+        setDirtyData(Date.now())},
       logout: ()=> {setUser("")},  
-      refreshUserContext: () => {handleRefreshContext()},
+      refreshUserContext: () => {
+        handleRefreshContext()},
       login: (user)=> {
       setUser(user)},    
       setContextId:  (context_id)=> {
-      setContextId(context_id)    
+        setContextId(context_id)    
       }}}>
         {props.children}
       </AuthContext.Provider>)
