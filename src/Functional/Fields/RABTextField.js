@@ -30,7 +30,7 @@ function RABTextField(props) {
   const field_length = field_value.length 
   let more_link = ""
   let less_link = ""
-  const final_more_link_cutoff = more_link_cutoff
+  let final_more_link_cutoff = more_link_cutoff
   if (mode === "list") {
     final_more_link_cutoff = more_link_list_cutoff?more_link_list_cutoff:more_link_cutoff
   }
