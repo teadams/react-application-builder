@@ -57,18 +57,15 @@ function ACSFieldController(original_props) {
   if (original_props.built) {
     final_props = merging_props
   } else {
-  // fix up references to field model
-  // page does not Submit 
-  // type autofocuse
-  // Type called 3 times
+    // XX decide if this should be a merge (deep) or not
+    // XX decide if not everything gets extracted out of field_model
+    // type autofocuse
     if (original_props.rab_component_model) {   
       final_props = { ...rab_component_model.field.props, ...rab_component_model.field.names, ...field_model, ...merging_props}
     } else {
       final_props = {...field_model, ...merging_props}
     }
   }
-
-
 
   // Data may be provided in prop field in addition to data object
   let props_data = input_data
@@ -81,27 +78,24 @@ function ACSFieldController(original_props) {
 
   ////// ***** DATA and MODEL INPUTS ARE NOW ALIGNED *********
 
-  // XX make a proc - send input props, also layouts
-  /// XXX do not change field model
-  field_model.formValues_name = field_name
   const form_field_name = field_name
+  const {hidden_on_form, hidden_on_create_form, references, form, valid_values:model_valid_values, select_api_options={}, dependent_field, dependent_filter, references_object_type, field_required, references_field, display_field} = final_props
+  let {data_path} = final_props
 
-/// ** BASE MODELS ARE NOW DETERMINED **** ///
 
-  const {hidden_on_form, hidden_on_create_form, references, form, valid_values:model_valid_values, select_api_options={}, dependent_field, dependent_filter, references_object_type, field_required, references_field, display_field, data_path} = final_props
-
-  const [valid_values, setValidValues] = useState(final_props.valid_values?(final_props.valid_values!=="object"?final_props.valid_values:""):"")
-  const field_list = ["id", field_name]  
-  
+  /// *** set up form or connect to row form ***/// 
   const handleSubmit= (event) => {
     if (onSubmit) {
         onSubmit(event)
     }
   }
-  // for ROWS
+  const field_list = ["id", field_name]  
   const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(object_type, form_field_name, data, handleSubmit, mode, form, "", field_list);
   let current_dependent_value = formValues?(dependent_field?formValues[dependent_field]:null):null
-  
+
+  // ** get data for select lists ***//
+  const [valid_values, setValidValues] = useState(final_props.valid_values?(final_props.valid_values!=="object"?final_props.valid_values:""):"")
+    
   const [dependent_value, setDependentValue] = useState(current_dependent_value)
   if (model_valid_values && (!valid_values || (dependent_field && (current_dependent_value !== dependent_value))) && ["edit", "create"].includes(mode)) {
       if (dependent_field && current_dependent_value !== dependent_value) {
@@ -142,10 +136,10 @@ function ACSFieldController(original_props) {
 
   if (data === undefined || (object_type && !field_model) || mode === "hidden" || hidden_on_form && mode ==="edit" ||  (hidden_on_form || hidden_on_create_form) && mode==="create") return null
 
-  // XX Make a proc
+  // *** align data ***/// 
   const row_data = data
   if (data && data_path && mode !=="edit" && mode !== "create") {
-      const data_path = data_path.split(".")
+      data_path = data_path.split(".")
       if (row_data.hasOwnProperty(data_path[0])) {
         data = row_data[data_path[0]]
       } else {

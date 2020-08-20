@@ -12,7 +12,7 @@ import * as meta from '../../Utils/meta.js';
 
 function RABTextField(props) {
   const {mode, row_data,  data, object_type, data_field, pretty_name, display_field=props.field_name, references_field, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values,  db_data_field, 
-  variant="outlined", required, helperText, placeholder} = props
+  variant="outlined", required, helperText, placeholder, multiline=false, more_link_cutoff="", more_link_list_cutoff=props.more_link_cutoff, prevent_edit, input_type} = props
   const [test_state, setTestState] = useState("foo")
   let {with_thumbnail="", with_url="", more_detail=false, toggleMoreDetail} = props
 
@@ -30,13 +30,13 @@ function RABTextField(props) {
   const field_length = field_value.length 
   let more_link = ""
   let less_link = ""
-  let more_link_cutoff = field_model.more_link_cutoff?field_model.more_link_cutoff:""
+  const final_more_link_cutoff = more_link_cutoff
   if (mode === "list") {
-    more_link_cutoff = field_model.more_link_list_cutoff?field_model.more_link_list_cutoff:more_link_cutoff
+    final_more_link_cutoff = more_link_list_cutoff?more_link_list_cutoff:more_link_cutoff
   }
-  if (toggleMoreDetail && more_link_cutoff && field_value.length > more_link_cutoff) {
+  if (toggleMoreDetail && final_more_link_cutoff && field_value.length > final_more_link_cutoff) {
     if (!more_detail) {
-      field_value = field_value.substr(0, more_link_cutoff)
+      field_value = field_value.substr(0, final_more_link_cutoff)
       more_link = <Link key="more_link" id="more_link" name="more_link" onClick={toggleMoreDetail}>(...more)</Link>
     } else {
       more_link = <Link key="more_link" id="more_link" name="more_link" onClick={toggleMoreDetail}>(...less)</Link>
@@ -80,8 +80,7 @@ function RABTextField(props) {
     case "edit":
     case "create":
     case "filter":
-      const multiline = field_model.multiline?true:false
-      const rows = field_model.multiline?field_model.multiline:1
+      const rows = multiline?multiline:1
       let select = false 
       let value = formValues[form_field_name]
       if (model_valid_values) {
@@ -106,8 +105,8 @@ function RABTextField(props) {
             helperText={helperText}
             variant={variant}
             rows={rows}
-            disabled={field_model.prevent_edit}
-            type={field_model.input_type}
+            disabled={prevent_edit}
+            type={input_type}
             onBlur={props.onFieldBlur}
             value={value}
             onChange={onChange}>
