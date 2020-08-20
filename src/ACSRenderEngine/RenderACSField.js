@@ -100,12 +100,8 @@ function RenderACSField(props) {
   }
 
 
-// Fix this up here
-//  let {field_wrap:FieldWrap=Fragment, field:Field=ACSTextField} = components 
-//let {field_wrap:FieldWrap=Fragment} = components 
-
-  let Field = control.componentByName(props.field_component)
-  let FieldWrap = control.componentByName(props.field_wrap)
+  let Field = control.componentByName(props.field_component?props.field_component:"ACSTextField")
+  let FieldWrap = control.componentByName(props.field_wrap?props.field_wrap:"Fragment")
 
 
   let show_thumbnail = false
