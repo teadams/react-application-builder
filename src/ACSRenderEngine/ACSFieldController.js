@@ -88,7 +88,7 @@ function ACSFieldController(original_props) {
 
 /// ** BASE MODELS ARE NOW DETERMINED **** ///
 
-  const {hidden_on_form, hidden_on_create_form, references, form, valid_values:model_valid_values, select_api_options={}, dependent_field, dependent_filter} = final_props
+  const {hidden_on_form, hidden_on_create_form, references, form, valid_values:model_valid_values, select_api_options={}, dependent_field, dependent_filter, references_object_type, field_required, references_field, display_field, data_path} = final_props
 
   const [valid_values, setValidValues] = useState(final_props.valid_values?(final_props.valid_values!=="object"?final_props.valid_values:""):"")
   const field_list = ["id", field_name]  
@@ -118,15 +118,15 @@ function ACSFieldController(original_props) {
           select_api_options.filter_field.push(dependent_filter)
         }
 
-        api.getData (field_model.references_object_type,select_api_options, (results, error) => {         
+        api.getData (references_object_type,select_api_options, (results, error) => {         
               if (error) {
                   alert ("error retrieving object " + references + " " + error.message)
               } else {
                 results = results
-                if (!field_model.field_required) {
+                if (!field_required) {
                     const new_value = {}
-                    new_value[field_model.references_field] = ""
-                    new_value[field_model.display_field] = "  *** Select ***"
+                    new_value[references_field] = ""
+                    new_value[display_field] = "  *** Select ***"
                     results.unshift(new_value)
                 }
                 setValidValues(results)
@@ -144,8 +144,8 @@ function ACSFieldController(original_props) {
 
   // XX Make a proc
   const row_data = data
-  if (data && field_model.data_path && mode !=="edit" && mode !== "create") {
-      const data_path = field_model.data_path.split(".")
+  if (data && data_path && mode !=="edit" && mode !== "create") {
+      const data_path = data_path.split(".")
       if (row_data.hasOwnProperty(data_path[0])) {
         data = row_data[data_path[0]]
       } else {
