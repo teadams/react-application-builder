@@ -109,7 +109,7 @@ function RenderACSField(props) {
 
 
   if (mode !== "edit" && mode !== "create") {
-    if (hide_if_empty && !data[data_field]) {
+    if (hide_if_empty && data && !data[data_field]) {
        FieldWrap = ACSVoid
     }
 

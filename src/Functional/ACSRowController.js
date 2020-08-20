@@ -69,10 +69,10 @@ function ACSRow(row_props) {
       {field_chunk.map( (field_name, ch_index) => {
 
            const autoFocus = (f_index === 0 && s_index === 0 && ch_index === 0 )?true:false
-           return <ACSFieldController field_mode={mode} field_models={field_models} field_form={!form} field_name={field_name}  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit}
+           return <ACSFieldController {...row_params} field_mode={mode} field_models={field_models} field_form={!form} field_name={field_name}  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit}
            override_meta_model={false}
            autoFocus ={autoFocus}
-           formValues={formValues} {...row_params} key={ch_index+"field_name"} key_id={ch_index}/>
+           formValues={formValues} key={ch_index+"field_name"} key_id={ch_index}/>
       })}
     </FieldChunk>
   )
@@ -171,7 +171,7 @@ function ACSRowController(input_props) {
 
 
   // do not merge expensive, known unnecessary things
-  let {layout, headless=false, data:input_props_data, row_type="table_row", form_open, key_id, onData="",action_props, action, form_title, no_header=false, sections, ...merging_props} = input_props
+  let {layout, headless=false, data:input_props_data, row_type="table_row", form_open, key_id, onData="",action_props, action, form_title, no_header=false, sections,  override_meta_model, ...merging_props} = input_props
 
   // if mode is create and there is ad id, change mode to edit.
   // Use Case - Wizard when user goes back to the create step
@@ -217,7 +217,7 @@ function ACSRowController(input_props) {
 // row _componene_mode is built, could get rid of build model compoennts
 // nothing in object model needs build
 // woudl only need if model should override mreging props
-  const rab_component_model = control.getFinalModel("row", {...merging_props}, object_model, row_component_model)
+  const rab_component_model = control.getFinalModel("row", {...merging_props}, object_model, row_component_model, override_meta_model)
   const row_model = rab_component_model.row
 
   const massaged_props = row_model.props
@@ -312,7 +312,7 @@ function ACSRowController(input_props) {
   if (headless) {
       return null
   }
-  return  (<ACSRowRenderer {...merging_props} {...row_model.props} row_type={row_type} field_models={field_models} form={form} object_type={object_type} action_props={action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options}  formValues={formValues} form_open={form_open} form_title={form_title} onClose={input_props.onClose}
+  return  (<ACSRowRenderer {...row_model.props} row_type={row_type} field_models={field_models} form={form} object_type={object_type} action_props={action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options}  formValues={formValues} form_open={form_open} form_title={form_title} onClose={input_props.onClose}
   handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} key={key_id+"Render"} key_id={key_id}/>)
 
 }

@@ -154,15 +154,28 @@ function buildRABModel(params, trace) {
                        field_list:params.field_list,
                 }},
           row:{names:{}, components:{},props:{
-                dialog_size:params.dialog_size,
-                num_columns:params.num_columns,
-                mode:params.row_mode?params.row_mode:params.mode,
-          }},
-          // build this server side
-          field:{names:{field:params.field_component}}
-          }
-
-
+                    object_type:params.object_type,
+                    api_options:params.api_options,
+                    id:params.id,
+                    field_list:params.field_list,
+                    sections:params.sections,
+                    layout:params.layout,
+                    dialog_size:params.dialog_size,
+                    num_columns:params.num_columns,
+                    mode:params.row_mode?params.row_mode:params.mode,
+              }},
+              field:{names:{field:params.field_component},
+                    components:{}, 
+                    props:{
+                      object_type:params.object_type,
+                      api_options:params.api_options,
+                      field_list:params.field_list,
+                      field_name:params.field_name,
+                      form_field_name:params.form_field_name,
+                      onFieldClick:params.onFieldClick,
+                  }}
+              }
+          
   return   _.merge({},    
       rab_component_models[params.rab_component_model_name], params.rab_component_model, fixed_params_model, flexible_params_model)
 }
