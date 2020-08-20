@@ -21,7 +21,6 @@ function ACSFieldController(input_props) {
   const default_field_models =  useGetModel("fields")
   const ref_rab_component_model = useRef(null)
 
-
   //// *** NOW HAVE APPROPRIATE MODELS *****
   const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, data:input_data, onData:props_onData,
   handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, onBlur, onFieldClick,  
@@ -81,7 +80,7 @@ function ACSFieldController(input_props) {
   const field_component_model = rab_component_model.field
   let field_model_props = field_component_model.props
 
-  const {component, click_to_edit=true, mouseover_to_edit=false, form,  emphasis, valid_values:model_valid_values, select_api_options={}, dependent_field, dependent_filter, ...params} = field_model_props
+  const {form, valid_values:model_valid_values, select_api_options={}, dependent_field, dependent_filter, ...params} = field_model_props
   const {references} = field_model
 
   const [valid_values, setValidValues] = useState("")
@@ -169,29 +168,23 @@ function ACSFieldController(input_props) {
   }
   return (
      <ACSFieldRenderer 
+    {...field_model}
     {...field_model_props}
     data={data} 
     row_data={row_data}
     formValues = {formValues}
     object_type={object_type} 
-    referred_by_object_type = {field_model.referred_by_object_type}
     field_name = {field_name}
     form_field_name={form_field_name}
-    data_field = {field_model.data_field}
-    display_field = {field_model.display_field}
-    references_field = {field_model.references_field}
-    pretty_name = {field_model.pretty_name}
-    data_type = {field_model.data_type}
-    col_span = {field_model.col_span}
+
     field_models={field_models}
     field_model={field_model}
-// specifics about the input field
+    // specifics about the input field
     model_valid_values={model_valid_values}
     valid_values = {valid_values}
 // mode and is this s afield form
     mode={mode}
     form={form}
-    click_to_edit={click_to_edit}
 // form
     onChange={handleFormChange}
     onSubmit={handleFormSubmit}
