@@ -104,7 +104,7 @@ function LoginForm(props) {
                   field_name = "email"  
                   mode="edit"
                   field_display="name_value"
-                  field_form={false}
+                  form={false}
                   label_width="15%"
                   value={formValues["email"]}
                   data={formValues}
@@ -125,7 +125,7 @@ function LoginForm(props) {
                 mode="edit"
                 label_width="15%"
                 field_display="name_value"
-                field_form={false} 
+                form={false} 
                 data={formValues}
                 formValues={formValues}
                 disableUnderline={false}

@@ -85,8 +85,8 @@ function ChipGroupBy(props) {
   }
   if (!group_by_key && chip_group_by_object_type) {
     let working_group_by_key = {}
-
     api.getData (chip_group_by_object_type,chip_group_by_api_options, (results, error) => {         
+
           if (error) {
               alert ("in chip" + chip_group_by_object_type + " " + error.message)
           } else {

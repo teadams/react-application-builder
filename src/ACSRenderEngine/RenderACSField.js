@@ -2,6 +2,7 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import { makeStyles } from '@material-ui/core/styles';
 import * as u from '../Utils/utils.js';
+import * as control from '../Utils/control.js';
 import useGetObject from '../Hooks/useGetObject';
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment, useContext,  useState, useEffect} from 'react';
@@ -98,7 +99,13 @@ function RenderACSField(props) {
     }
   }
 
-  let {field_wrap:FieldWrap=Fragment, field:Field=ACSTextField} = components 
+
+// Fix this up here
+//  let {field_wrap:FieldWrap=Fragment, field:Field=ACSTextField} = components 
+//let {field_wrap:FieldWrap=Fragment} = components 
+
+  let Field = control.componentByName(props.field_component)
+  let FieldWrap = control.componentByName(props.field_wrap)
 
 
   let show_thumbnail = false

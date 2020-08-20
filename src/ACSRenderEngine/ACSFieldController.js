@@ -14,14 +14,70 @@ import useForm from '../Hooks/useForm';
 
 import * as control from "../Utils/control.js"
 import useGenerateFieldList from '../Hooks/useGenerateFieldList';
+import rab_component_models from '../Utils/component.js'
 
-function ACSFieldController(input_props) {
 
+function ACSFieldController(original_props) {
+  
   const default_object_type_models = useGetModel("object_types")
   const default_field_models =  useGetModel("fields")
-  const ref_rab_component_model = useRef(null)
+//  const ref_rab_component_model = useRef(null)
 
-  //// *** NOW HAVE APPROPRIATE MODELS *****
+  // Will make this s paoc
+  let field_models, object_models
+  if (original_props.field_models) {
+    if (original_props.field_models_built) {
+      field_models = original_props.field_models
+    } else { 
+      field_models = original_props.field_models
+
+/// Fix this here
+//      field_models =_.merge({}, original_props.field_models)
+    }
+  } else if (!original_props.field_models) {
+    field_models=_.merge({}, default_field_models)
+  } 
+
+
+  if (original_props.object_type_models) {
+    object_models = original_props.object_type_models
+  } else {
+    object_models = default_object_type_models
+  }
+  if (!field_models[original_props.object_type][original_props.field_name]) {
+      alert ("No field in model. Object Type: " + original_props.object_type + " Field: " + original_props.field_name)
+  }
+
+  const field_model = field_models[original_props.object_type][original_props.field_name]
+
+
+    //// *** NOW HAVE APPROPRIATE MODELS *****
+  let input_props;
+  if (original_props.built) {
+    input_props = original_props;
+  } else {
+   const level_rab = rab_component_models["field"]
+  const shell_rab =   rab_component_models.shell;
+    // Get rid of these on server, everything will be flat
+    if (!field_model.rab_component_model) field_model.rab_component_model = {}
+    if (!field_model.rab_component_model.field) field_model.rab_component_model.field = {}
+// Flatten rab_component_mode 
+// Figure out what to do with the field component 
+// Decide on the the wraps (Fragment, tag)
+// Default props ?? 
+/// This could be build before
+// DO I have to send an rab_component-Model from the upper level or can I just send the props?
+    if (original_props.rab_component_model) {   
+
+      input_props = { ...original_props.rab_component_model.field.props, ...original_props.rab_component_model.field.names, ...field_model.rab_component_model.field.props, ...field_model, ...original_props}
+
+//      input_props = {...field_model.rab_component_model.field.props, ...original_props.rab_component_model.field.props, ...field_model, ...original_props}
+    } else {
+      input_props = {...field_model.rab_component_model.field.props, ...field_model, ...original_props}
+    }
+  }
+
+
   const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, data:input_data, onData:props_onData,
   handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, onBlur, onFieldClick,  
   mode="view", key_id, override_meta_model=true, autoFocus=false, ...merging_props} = input_props
@@ -39,48 +95,12 @@ function ACSFieldController(input_props) {
 
   // XX make a proc - send input props, also layouts
   
-  let field_models, object_models
-  if (input_props.field_models) {
-    if (input_props.field_models_built) {
-      field_models = input_props.field_models
-    } else { 
-      field_models =_.merge({}, input_props.field_models)
-    }
-  } else if (!input_props.field_models) {
-    field_models=_.merge({}, default_field_models)
-  } 
-
-
-  if (input_props.object_type_models) {
-    object_models = input_props.object_type_models
-  } else {
-    object_models = default_object_type_models
-  }
-  if (!field_models[input_props.object_type][input_props.field_name]) {
-      alert ("No field in model. Object Type: " + input_props.object_type + " Field: " + input_props.field_name)
-  }
-
-  const field_model = field_models[object_type][field_name]
   field_model.formValues_name = field_name
   const form_field_name = field_name
 
 /// ** BASE MODELS ARE NOW DETERMINED **** ///
 
-/// ** BUILD FINAL MODEL ***///
-  if (ref_rab_component_model.current === null || ref_rab_component_model.current.field_name !== field_name) {
-    // merge in props and field_model to get final component model
-    ref_rab_component_model.current = control.getFinalModel("field", {...merging_props}, field_model, null, override_meta_model)
-    ref_rab_component_model.current.field_name =field_name
-  }
-  // Performance optimized. This impact is that objects inside rab_component_model can not be mutated.
-  const rab_component_model = ref_rab_component_model.current
-
-  // ** Extract other props from model **//
-
-  const field_component_model = rab_component_model.field
-  let field_model_props = field_component_model.props
-
-  const {form, valid_values:model_valid_values, select_api_options={}, dependent_field, dependent_filter, ...params} = field_model_props
+  const {form, valid_values:model_valid_values, select_api_options={}, dependent_field, dependent_filter, ...params} = input_props
   const {references} = field_model
 
   const [valid_values, setValidValues] = useState("")
@@ -169,7 +189,7 @@ function ACSFieldController(input_props) {
   return (
      <ACSFieldRenderer 
     {...field_model}
-    {...field_model_props}
+    {...input_props}
     data={data} 
     row_data={row_data}
     formValues = {formValues}
@@ -193,7 +213,7 @@ function ACSFieldController(input_props) {
     onFieldClick={handleFieldClick} 
     onFieldBlur = {handleOnFieldBlur} 
     // components
-    components={rab_component_model.field.components}
+    //components={rab_component_model.field.components}
     key={key_id+"_render_"+field_name}
 
 />
