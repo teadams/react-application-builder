@@ -11,7 +11,7 @@ import * as meta from '../../Utils/meta.js';
 
 
 function RABTextField(props) {
-  const {mode, row_data,  data, object_type, data_field, pretty_name, display_field=props.field_name, references_field, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values,  db_data_field, 
+  const {mode, row_data,  data, object_type, data_field, pretty_name, display_field=props.field_name, references_field, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values, 
   variant="outlined", required, helperText, placeholder, multiline=false, more_link_cutoff="", more_link_list_cutoff=props.more_link_cutoff, prevent_edit, input_type} = props
   const [test_state, setTestState] = useState("foo")
   let {with_thumbnail="", with_url="", more_detail=false, toggleMoreDetail} = props
@@ -65,7 +65,7 @@ function RABTextField(props) {
     const value=event.target.value
     let row
     for (row of valid_values) {
-        if (row[db_data_field] === value) {
+        if (row[data_field] === value) {
           event.target.selected_data = row
           break
         }

@@ -60,7 +60,6 @@ function ACSFieldController(original_props) {
     // XX decide if this should be a merge (deep) or not
     // XX decide if not everything gets extracted out of field_model
     // type autofocuse
-    // click to edit 
     if (original_props.rab_component_model) {   
       final_props = { ...rab_component_model.field.props, ...rab_component_model.field.names, ...field_model, ...merging_props}
     } else {

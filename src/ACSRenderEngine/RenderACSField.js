@@ -74,7 +74,7 @@ function RenderACSField(props) {
 
   let {api_options, components:discard_components, ...params} = props
   const {data ={}, row_data, object_type, data_field,  dsiplay_field, references_field, field_name, form_field_name, components={},
-        mode="view", form="true", formValues, autoFocus, onSubmit, onBlur, onChange,  click_to_edit, field_model, referred_by_object_type} = props
+        mode="view", form="true", formValues, autoFocus, onSubmit, onBlur, onChange,  click_to_edit, field_model, referred_by_object_type, click_to_edit_field} = props
 
 
   // these come froprops.m rab_component_model props
@@ -121,10 +121,11 @@ function RenderACSField(props) {
     }
 
 
+///XXX HERE = FIELD NAME SHOULD BE SOMETHING ELSE for SELECT - role_name_name
     const FieldEdit = (props) => {
         return (<Fragment>
           <div style={{padding:"20px", width:"100%"}}>
-          <ACSField onSubmit={handleClickToEditSubmit} object_type={object_type} field_name={field_name} 
+          <ACSField onSubmit={handleClickToEditSubmit} object_type={object_type} field_name={click_to_edit_field} 
           data={row_data}  mode="edit" field_form={true}/>
           </div>
         </Fragment>)
@@ -164,7 +165,6 @@ function RenderACSField(props) {
         params.data = data
       }
     }
-
 
 
     return (<Fragment>
