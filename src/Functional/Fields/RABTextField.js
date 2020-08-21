@@ -50,12 +50,10 @@ function RABTextField(props) {
       if (!valid_values || valid_values === "transition") {
         return null
       }
+      const value_field = references_field?references_field:"value"
       return (
         valid_values.map ((value, index) => {
-          return (<MenuItem key={index}  value={value[references_field]}>{value[display_field]}</MenuItem>)
-//            return(
-//              <MenuItem key={index}  value={row[select_key_field]}>{padding(row.tree_depth)}{field_component({data:row, field_name:select_display_field, mode:"text"})}</MenuItem>
-              //)
+          return (<MenuItem key={index}  value={value[value_field]}>{value[display_field]}</MenuItem>)
           })
       )
   }
