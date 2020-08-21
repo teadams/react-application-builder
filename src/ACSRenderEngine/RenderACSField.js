@@ -6,7 +6,7 @@ import * as control from '../Utils/control.js';
 import useGetObject from '../Hooks/useGetObject';
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment, useContext,  useState, useEffect} from 'react';
-import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
+import { Popup, FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell } from '@material-ui/core';
 import useGetModel from '../Hooks/useGetModel';
 import {ACSTextField, ACSField, ACSImage} from "../ACSLibrary";
@@ -20,22 +20,25 @@ const ACSVoid = (props) => {
 const FormWrap =(props) => {
   // objects are always created at the row level
   // filters always use the filter component 
-  const {width, save_button=true} = props 
-  let style={}
+  const {width, save_button=true, form_wrap_style={}} = props 
+
   if (width=="large") {
-    style.width="500px"
+    form_wrap_style.width="500px"
   }
   if (props.form && (props.mode === "edit")) {
     return (
     <form onSubmit={props.onSubmit}>
-      <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
-        <div onClick={props.onClose} style={{display:"flex", alignSelf:"flex-end"}}>X</div>
-        <div style={style}>
+      <div style={{ display:"flex", flexDirection:"column", alignItems:"center"}}>
+        <div style={form_wrap_style}>
         {props.children}
         </div>
-        {save_button && <div>
-          <Button onClick={props.onSubmit} style={{display:"flex", alignSelf:"center"}}>Save</Button>
-        </div>}
+          <div style={{width:"100%", diplay:"flex", alignContent:"flex-end"}}>
+          <DialogActions>
+          {save_button &&
+            <Button onClick={props.onSubmit}>Save</Button>}
+            <Button onClick={props.onClose}>Close</Button>
+          </DialogActions>
+        </div>
       </div>
     </form>)
   } else {
@@ -82,7 +85,7 @@ function RenderACSField(props) {
   const {field_tag="div", field_pre_text, field_post_text, field_css_class, field_style,  //field
         label=false, form_label=false, pretty_name, label_tag="", label_pre_text, label_post_text, label_style, label_css_class, //label
         prevent_edit, hide_if_empty, wrap_css_class, wrap_style={display:"flex", flexDirection:"row"},  wrap_tag="",
-        with_thumbnail, thumbnail_size="small", thumbnail_avatar=true, thumbnail_style} = props  //wrap
+        with_thumbnail, thumbnail_size="small", thumbnail_avatar=true, thumbnail_style, form_wrap_style} = props  //wrap
     let {col_span=1} = props
 
 
@@ -124,8 +127,8 @@ function RenderACSField(props) {
 ///XXX HERE = FIELD NAME SHOULD BE SOMETHING ELSE for SELECT - role_name_name
     const FieldEdit = (props) => {
         return (<Fragment>
-          <div style={{padding:"20px", width:"100%"}}>
-          <ACSField onSubmit={handleClickToEditSubmit} object_type={object_type} field_name={click_to_edit_field} 
+          <div style={{width:"100%", minWidth:"400px"}}>
+          <ACSField form_wrap_style={{padding:"20px 20px 0px 20px"}} onSubmit={handleClickToEditSubmit} object_type={object_type} field_name={click_to_edit_field} 
           data={row_data}  mode="edit" field_form={true}/>
           </div>
         </Fragment>)
@@ -209,7 +212,7 @@ function RenderACSField(props) {
     params.helperText=field_model.helperText?field_model.helperText:" "
 
     return ( 
-      <FormWrap width={width} save_button={save_button} mode={mode} form={form} onSubmit={props.onSubmit} onClose={handleFieldClose} >
+      <FormWrap width={width} form_wrap_style={form_wrap_style} save_button={save_button} mode={mode} form={form} onSubmit={props.onSubmit} onClose={handleFieldClose} >
         <FieldWrap key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}>
             <Tag Tag={wrap_tag} class={wrap_css_class} style={wrap_style}>
               <Tag  Tag={field_tag} col_span={col_span} style={field_style} class={field_css_class}>

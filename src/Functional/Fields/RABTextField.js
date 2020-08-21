@@ -90,6 +90,7 @@ function RABTextField(props) {
         }
        }
         return (
+      <div style={{minWidth:"20em"}}>
         <TextField
             select={select}
             required={required} 
@@ -99,18 +100,17 @@ function RABTextField(props) {
             id = {form_field_name}
             label = {pretty_name}
             key={form_field_name}
-            fullWidth={fullWidth}
             multiline={multiline}
             helperText={helperText}
             variant={variant}
             rows={rows}
+            fullWidth={true}
             disabled={prevent_edit}
             type={input_type}
             onBlur={props.onFieldBlur}
             value={value}
-            onChange={onChange}>
-            {select && selectItems(valid_values)}
-          </TextField>
+            onChange={onChange}>{select && selectItems(valid_values)}</TextField>
+</div>
         )
       break
     case "csv":
