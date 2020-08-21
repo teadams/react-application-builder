@@ -13,7 +13,7 @@ import ACSTextFilter from './ACSTextFilter.js'
 
 // default_value, object_type, label, 
 function ACSFilters(props) {
-  const {filters={}, default_filter_values={}, onChange, label_direction="column", label_variant="subtitle1", filter_direction="column", label_width="70px", select_width="150px", select_display_field} = props
+  const {filters={}, default_filter_values={}, onChange, label_direction="column", label_variant="subtitle1", filter_direction="column", label_width="70px", select_width="240px", select_display_field} = props
   let default_form_values = {}
   filters.forEach(filter => {
     default_form_values[filter.name] = default_filter_values[filter.name]?default_filter_values[filter.name]:filter.default_value
