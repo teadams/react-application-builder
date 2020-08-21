@@ -131,6 +131,7 @@ function RenderACSField(props) {
         return (<Fragment>
           <div style={{width:"100%", minWidth:"400px"}}>
           <ACSField form_wrap_style={{padding:"20px 20px 0px 20px"}} onSubmit={handleClickToEditSubmit} object_type={object_type} field_name={click_to_edit_field} 
+          autofocus={true}
           data={row_data}  mode="edit" field_form={true}/>
           </div>
         </Fragment>)

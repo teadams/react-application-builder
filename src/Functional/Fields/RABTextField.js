@@ -12,7 +12,7 @@ import * as meta from '../../Utils/meta.js';
 
 function RABTextField(props) {
   const {mode, row_data,  data, object_type, data_field, pretty_name, display_field=props.field_name, references_field, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values, 
-  variant="outlined", required, helperText, placeholder, multiline=false, more_link_cutoff="", more_link_list_cutoff=props.more_link_cutoff, prevent_edit, input_type} = props
+  variant="outlined", required, helperText, placeholder, multiline=false, more_link_cutoff="", more_link_list_cutoff=props.more_link_cutoff, prevent_edit, input_type, data_type} = props
   const [test_state, setTestState] = useState("foo")
   let {with_thumbnail="", with_url="", more_detail=false, toggleMoreDetail} = props
 
@@ -56,6 +56,7 @@ function RABTextField(props) {
           return (<MenuItem key={index}  value={value[value_field]}>{value[display_field]}</MenuItem>)
           })
       )
+
   }
 
   function handleSelectChange(event) {
@@ -86,7 +87,7 @@ function RABTextField(props) {
           return null
         }
        }
-        return (
+      return (
       <div style={{minWidth:"20em"}}>
         <TextField
             select={select}
@@ -116,6 +117,9 @@ function RABTextField(props) {
     case "text":
       return field_value
     default:
+          if (data_type == "boolean") {
+              field_value = field_value?"Yes":"No"
+          }
           if (more_link) {
             return <div>{field_value}{more_link}</div>  
           } else {

@@ -106,10 +106,12 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
 
           if (final_data) {
             default_value=final_data[data_field]
+            default_value=(default_value===null||default_value===undefined)?"":default_value
           }
 
         } else {
-          default_value=data[data_field]?data[data_field]:""
+
+          default_value=(data[data_field]!==null&&data[data_field]!==undefined)?data[data_field]:""
         }
 
         if (default_value === undefined || default_value === null) {
