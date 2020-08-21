@@ -10,6 +10,8 @@ import ACSObjectCount from '../../Functional/Text/ACSObjectCount.js'
 import ACSCreateButton from '../../Functional/Buttons/ACSCreateButton.js'
 import ACSCreateDialogButton from '../../Functional/Buttons/ACSCreateDialogButton.js'
 import ACSObjectView from '../../Functional/Rows/ACSObjectView.js'
+import ACObjectTypeView from '../../Functional/Lists/ACSObjectTypeView.js'
+
 // XX TODO
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import useGetModel from '../../Hooks/useGetModel';
@@ -94,7 +96,7 @@ const MapOverlay = function(props) {
 
 function ACSMapAndFilter (props) {
   // params - map view
-  const { object_type, api_options, details_screen_field_list, details_screen_no_header=false, create_field_list, layout, sections, dialog_size, more_path="ProjectOne", more_button_text="Learn More", action_button_text="Apply", action_component_name="ACSObjectView", action_link_field="id", action_object_type="job_application", create_marker_button_text="Create Job Listing", map_filters=[], finder_filters=[], create_action_props={}, create_action_menu} = props
+  const { object_type,  details_screen_field_list, details_screen_no_header=false, create_field_list, layout, sections, dialog_size, more_path="ProjectOne", more_button_text="Learn More", action_button_text="Apply", action_component_name="ACSObjectView", action_link_field="id", action_object_type="job_application", create_marker_button_text="Create Job Listing", map_filters=[], finder_filters=[], create_action_props={}, create_action_menu} = props
 
   // params - fitler filter_view 
   const {more_field_list, list_field_list} = props
@@ -116,16 +118,15 @@ function ACSMapAndFilter (props) {
   const [selected_place, setSelectedPlace]= useState({subsite_data:{}})
   const [filter_view, setFilterView] = useState(false)
   const [filter_form_values, setFilterFormValues] = useState()
-  function loadData(api_options="") {
-    api.getData(object_type, api_options, (api_data, error) => {
-      setData(api_data)
-    })
+  const [api_options, setApiOptions] = useState(props.api_options)
+
+  function loadData(api_results) {
+    setData(api_results)
   }
 
-  if (!data) {loadData("")}
   const handleFilterChange = (api_options, filter_form_values) => {
+      setApiOptions(api_options)
       setFilterFormValues(filter_form_values)
-      loadData(api_options)
   }
 
   function toggleFilterView(event) {
@@ -181,6 +182,7 @@ function ACSMapAndFilter (props) {
   if (show_side_window) {side_visibility="visible"}
   return (
     <Fragment>
+      <ACObjectTypeView headless={true} object_type={object_type} api_options={api_options} onData={loadData}/>
       {!filter_view &&
       <Fragment>
         <MapOverlay filters={map_filters} filter_form_values={filter_form_values} create_action_props={create_action_props} create_action_menu={create_action_menu} handleFilterChange={handleFilterChange} create_marker_button_text={create_marker_button_text} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false} checked={filter_view} toggleFilterView={toggleFilterView}/>
