@@ -29,6 +29,7 @@ import ACSListController from '../Functional/ACSListController.js'
 
 /// fields
 import RABTextField from '../Functional/Fields/RABTextField.js'
+
 import ACSURLField from '../Functional/Fields/ACSURLField.js'
 import ACSYouTube from '../Functional/Fields/ACSYouTube.js'
 import RABSelectField from '../Functional/Fields/RABSelectField.js'
@@ -46,7 +47,7 @@ import TreeItem from '@material-ui/lab/TreeItem';
 // layouts
 import ACSMap from '../Functional/Lists/ACSMap.js'
 import ACSMapAndFilter from '../Functional/Layouts/ACSMapAndFilter.js'
-import {ACSWizard} from '../ACSLibrary/index.js'
+import {ACSWizard, ACSTextField} from '../ACSLibrary/index.js'
 
 const useStyles = makeStyles({
   table_cell: {
@@ -253,6 +254,7 @@ function RABVoid(props) {
 function componentPicker(name, source="not provided") {
   if (!name) {alert ("No component provided in componentPicker:source "+ source);return Fragment}
   switch (name) {
+    case "ACSTextField":  return ACSTextField;
     case "RABHeaderAndBodyText": return RABHeaderAndBodyText;
     case "RABText": return RABText;
     case "Message": return Message;

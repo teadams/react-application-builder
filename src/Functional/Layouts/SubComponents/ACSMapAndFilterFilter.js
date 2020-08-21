@@ -37,9 +37,7 @@ function ACSMapAndFilterFilter(props) {
   }
   
   const field_models = {[object_type]:{
-                        more:{pretty_name:"More",
-                          rab_component_model:{field:{components:{field:HandleMoreInfo}}}
-                          }
+                        more:{pretty_name:"More", field_component_component:HandleMoreInfo}
                         }}
 
 

@@ -102,8 +102,10 @@ function RenderACSField(props) {
     }
   }
 
-
-  let Field = control.componentByName(props.field_component?props.field_component:"ACSTextField")
+  let Field = props.field_component_component
+  if (!props.field_component_component) {
+    Field = control.componentByName(props.field_component?props.field_component:"ACSTextField")
+  }
   let FieldWrap = control.componentByName(props.field_wrap?props.field_wrap:"Fragment")
 
 

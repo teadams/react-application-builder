@@ -43,7 +43,7 @@ function ACSSelectFilter(props) {
         form_field_name={filter_name}
         value = {value}
         name = {filter_name}
-        style = {{width:"90%"}}
+        style = {{width:"100%"}}
         onChange={handleChange}
         noLabel= {true}
         api_options = {api_options}
