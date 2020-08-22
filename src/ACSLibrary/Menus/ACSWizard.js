@@ -104,7 +104,7 @@ const Wizard = (props) => {
         </Stepper>
         <DialogContent dividers={false}>
            <DialogContentText>
-         <div >{pretty_name}: {summary}</div>
+         <div  >{pretty_name}: {summary}</div>
          </DialogContentText>
          <WizardComponent onSubmit={handleStepSubmit} data={data} object_type={object_type} id={id} onClose={handleFormClosed} row_delayed_auth={true} row_form={true} no_header={true} row_dialog_center={true} mode={mode}  {...wizard_props}/>
         </DialogContent>

@@ -6,6 +6,8 @@ import ACSMapButton from '../Functional/Buttons/ACSMapButton';
 
 // fields
 import ACSField from '../Functional/Fields/ACSField.js';
+import ACSComboField from './Fields/ACSComboField.js';
+
 
 import ACSAddress from '../Functional/Fields/ACSAddress.js';
 import ACSFile from '../Functional/Fields/ACSFile.js';
@@ -56,7 +58,7 @@ import ACSText from '../Functional/Text/RABText.js';
 export {
   
  ACSCreateButton, ACSCreateDialogButton, ACSEditButton, ACSMapButton, // buttons
-  ACSField, // Field base
+  ACSField, ACSComboField, // Field base
   ACSAddress, ACSFile, ACSImage, ACSReferenceField, ACSURLField,ACSYouTube,ACSSelectField,ACSTextField,
   ACSFilters, ACSSelectFilter, ACSTextFilter, // Field components
   ACSObjectType, ACSChipObjectType, ACSCommunicationObjectType, ACSMap, ACSMapping,ACSSummaryObjectType, // object type view

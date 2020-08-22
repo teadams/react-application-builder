@@ -47,7 +47,7 @@ import TreeItem from '@material-ui/lab/TreeItem';
 // layouts
 import ACSMap from '../Functional/Lists/ACSMap.js'
 import ACSMapAndFilter from '../Functional/Layouts/ACSMapAndFilter.js'
-import {ACSWizard, ACSTextField} from '../ACSLibrary/index.js'
+import {ACSWizard, ACSComboField, ACSTextField} from '../ACSLibrary/index.js'
 
 const useStyles = makeStyles({
   table_cell: {
@@ -254,7 +254,8 @@ function RABVoid(props) {
 function componentPicker(name, source="not provided") {
   if (!name) {alert ("No component provided in componentPicker:source "+ source);return Fragment}
   switch (name) {
-    case "ACSTextField":  return ACSTextField;
+    case "ACSTextField":  return ACSTextField; 
+    case "ACSComboField": return ACSComboField;
     case "RABHeaderAndBodyText": return RABHeaderAndBodyText;
     case "RABText": return RABText;
     case "Message": return Message;
