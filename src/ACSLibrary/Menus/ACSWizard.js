@@ -109,7 +109,7 @@ const Wizard = (props) => {
          <WizardComponent onSubmit={handleStepSubmit} data={data} object_type={object_type} id={id} onClose={handleFormClosed} row_delayed_auth={true} row_form={true} no_header={true} row_dialog_center={true} mode={mode}  {...wizard_props}/>
         </DialogContent>
         <DialogActions>
-        {mode === "view" && <Button  onClick={handleFormClosed} color="primary">
+        {(!mode || mode === "view") && <Button  onClick={handleFormClosed} color="primary">
           Close
        </Button>}
       </DialogActions> 

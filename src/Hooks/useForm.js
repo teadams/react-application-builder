@@ -106,7 +106,9 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
 
           if (final_data) {
             default_value=final_data[data_field]
-            default_value=(default_value===null||default_value===undefined)?"":default_value
+            if (default_value===null||default_value===undefined) {
+              default_value = field_model.default?field_model.default:""
+            }
           }
 
         } else {
