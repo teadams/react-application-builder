@@ -23,7 +23,7 @@ const FormWrap =(props) => {
   const {width, save_button=true, form_wrap_style={}} = props 
 
   if (width=="large") {
-    form_wrap_style.width="500px"
+    form_wrap_style.width="700px"
   }
   if (props.form && (props.mode === "edit")) {
     return (
