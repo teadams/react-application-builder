@@ -206,7 +206,7 @@ function ACSMapAndFilter (props) {
           }
         </div>
         <ACSMap 
-         map_data={data}
+         data={data}
          load_own_data={false}
          icon_type_field={icon_type_field}
          latitude={latitude}
