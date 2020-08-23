@@ -19,6 +19,7 @@ const Wizard = (props) => {
   const [data_elements, setDataElements] = useState([0, props.data, undefined, props.id, undefined])
   const [current_step_number, data, id, transition_id, next_step_number] = data_elements 
   const {menu_model, items:steps, item_data:step_data, pretty_name:wizard_summary} = props
+  const context = useContext(AuthContext)
 
   const current_step_key = steps[current_step_number]
   const current_step_data = step_data[current_step_key]
@@ -87,6 +88,8 @@ const Wizard = (props) => {
          new_steps_state[steps[index]].disabled = false
        })
        setStepsState(new_steps_state)
+       context.setDirty();
+
    }
 
    return (
@@ -107,7 +110,7 @@ const Wizard = (props) => {
            <DialogContentText>
          <div  >{pretty_name}: {summary}</div>
          </DialogContentText>
-         <WizardComponent onSubmit={handleStepSubmit} data={data} object_type={object_type} id={id} onClose={handleFormClosed} row_delayed_auth={true} row_form={true} no_header={true} row_dialog_center={true} mode={mode}  {...wizard_props}/>
+         <WizardComponent onSubmit={handleStepSubmit} data={data} object_type={object_type} id={id} onClose={handleFormClosed} row_delayed_auth={true} row_form={true} no_header={true} row_dialog_center={true} mode={mode}  delay_dirty={true} {...wizard_props}/>
         </DialogContent>
         <DialogActions>
         {(!mode || mode === "view") && <Button  onClick={handleFormClosed} color="primary">

@@ -6,7 +6,7 @@ import useGetModel from '../Hooks/useGetModel';
 import {AuthContext} from '../Modules/User';
 import axios from 'axios';
 
-const _handleSubmit = ((event, formValues, mode, context, object_type, object_model, field_models, handleSubmit, id_field, filesTouched) => {
+const _handleSubmit = ((event, formValues, mode, context, object_type, object_model, field_models, handleSubmit, id_field, filesTouched, delay_dirty=false) => {
 
   if (context.context_id && object_model.with_context && mode === "create") {
     formValues.core_subsite = context.context_id
@@ -28,7 +28,9 @@ const _handleSubmit = ((event, formValues, mode, context, object_type, object_mo
         if (object_type === "core_user" || object_type=== "core_subsite" || object_model.extends_object === "core_user" || object_model.extends_object === "core_subsite") {
           context.refreshUserContext()
         }
-        context.setDirty();
+        if (!delay_dirty) {
+          context.setDirty();
+        }
       }
     })     
 
@@ -47,19 +49,21 @@ const _handleSubmit = ((event, formValues, mode, context, object_type, object_mo
       if (error) {
         alert ('error is ' + error.message)
       } else { 
+        if (handleSubmit) {
+          handleSubmit(event,'updated', formValues);
+        }
         if (object_type === "core_user",  object_model.extends_object === "core_user") {
           context.refreshUserContext()
         }
-        context.setDirty();
-        if (handleSubmit) {
-          handleSubmit(event,'updated', formValues);
+        if (!delay_dirty) {
+          context.setDirty();
         }
       }
     })
   }
 })
 
-const useForm = (object_type, field_name="", data, handleSubmit, mode="view", form=true, default_values_prop={}, field_list) => {
+const useForm = (object_type, field_name="", data, handleSubmit, mode="view", form=true, default_values_prop={}, field_list, delay_dirty=false) => {
   const [formValues, setFormValues] = useState({});
   const [lastTouched,setLastTouched] = useState(false)
   const [filesTouched,setFilesTouched] = useState([])
@@ -167,7 +171,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       event.preventDefault();
     }
 
-    _handleSubmit (event, formValues, mode, context, object_type, object_model, field_models, handleSubmit, id_field, filesTouched) 
+    _handleSubmit (event, formValues, mode, context, object_type, object_model, field_models, handleSubmit, id_field, filesTouched, delay_dirty) 
   })
   // single field edit, submits on change
   const handleFileEditSubmit = (event, name, file) => {
