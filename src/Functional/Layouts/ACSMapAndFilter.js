@@ -103,7 +103,7 @@ function ACSMapAndFilter (props) {
   const ActionComponent = control.componentByName(action_component_name)
 
   // map params
-  const {icon_type_field="job_type", onClick, latitude, longitude, latitude_field="core_address_latitude", longitude_field="core_address_longitude", initial_zoom=9, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff="", show_popup_summary=true, show_popup_thumbnail=true, show_popup_description=false} = props
+  const {icon_type_field="job_type", onClick, latitude, longitude, latitude_field="core_address_latitude", longitude_field="core_address_longitude", initial_zoom=9, onMarkerClick, onMapClick, onMouseover, PopupComponent,  maxPopoverWidth=250, map_center="current", summary_cutoff=100, description_cutoff="", show_popup_summary=true, show_popup_thumbnail=true, show_popup_description=false} = props
 
   // TODO select_api_options, addition_api_options, referenced_by, filter_field_name
 
@@ -219,9 +219,8 @@ function ACSMapAndFilter (props) {
          initial_zoom={initial_zoom}
          onMouseover={onMouseover}
          PopupComponent={PopupComponent}
-         centerAroundCurrentLocation={centerAroundCurrentLocation} 
+         map_center={map_center}
          maxPopoverWidth={maxPopoverWidth}
-         centerAroundSubsiteLocation={centerAroundSubsiteLocation} 
          summary_cutoff={summary_cutoff}
          description_cutoff={description_cutoff}
          icon_type_field={icon_type_field} 

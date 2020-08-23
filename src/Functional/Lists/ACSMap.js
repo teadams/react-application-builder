@@ -25,7 +25,7 @@ function get_image_url (image_object) {
 }
 
 function ACSMap (props) {
-  const {object_type, api_options, icon_type_field="",  latitude, longitude, latitude_field="core_address_latitude", longitude_field="core_address_longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, centerAroundCurrentLocation=false, maxPopoverWidth=250, centerAroundSubsiteLocation=true, summary_cutoff=100, description_cutoff="", container_height="75%", container_width="75%", load_own_data=true} = props
+  const {object_type, api_options, icon_type_field="",  latitude, longitude, latitude_field="core_address_latitude", longitude_field="core_address_longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, map_center="location", maxPopoverWidth=250, summary_cutoff=100, description_cutoff="", container_height="75%", container_width="75%", load_own_data=true} = props
   let {data:props_map_data} = props
 
   if (props_map_data !== null && props_map_data !== undefined && !Array.isArray(props_map_data)) {
@@ -82,17 +82,21 @@ function ACSMap (props) {
     return null
   }
   // take initial center from subsite
-  if (map_data && !subsite_data && context.context_id && centerAroundSubsiteLocation && !centerAroundCurrentLocation) {
+  if (map_data && !subsite_data && context.context_id && map_center ==="subsite")  {
     api.getData("core_subsite", {id:context.context_id}, (api_subsite_data, error) => {
       if(api_subsite_data[0]) {
         setSubsiteData(api_subsite_data[0])
         if  (api_subsite_data[0].latitude && api_subsite_data[0].longitude)  {
-          setCenter({lat:api_subsite_data[0].latitude,	lng:api_subsite_data[0].longitude});
+          setCenter({lat:api_subsite_data[0][latitude_field],	lng:api_subsite_data[0][longitude_field]});
         }
       }
     })
   }
+  if (map_data && map_data.length>0 && map_center === "first" && (!center || Object.keys(center).length === 0) ) {
+      u.a("centering around first data", map_data[0][latitude_field], map_data[0][longitude_field])
 
+      setCenter( {lat:map_data[0][latitude_field],	lng:map_data[0][longitude_field]} );
+  }
 
 
   // Handles latitude and longitude changing from props 
@@ -154,7 +158,7 @@ function ACSMap (props) {
 
   return (
       <Fragment> 
-      <Map   const containerStyle = {{position: 'absolute',  width:container_width,height: container_height}} style = {{position: 'absolute',  width: '100%', height: '100%'}} google={props.google}  onClick={handleMapClick} zoom={initial_zoom} center={center}  centerAroundCurrentLocation={centerAroundCurrentLocation}  mapTypeControl={false} fullscreenControl={false} streetViewControl={false}>
+      <Map   const containerStyle = {{position: 'absolute',  width:container_width,height: container_height}} style = {{position: 'absolute',  width: '100%', height: '100%'}} google={props.google}  onClick={handleMapClick} zoom={initial_zoom} center={center}   mapTypeControl={false} fullscreenControl={false} streetViewControl={false}>
             {map_data.map(marker => {
               var icon
               if (marker[icon_type_field] && marker["data_"+ icon_type_field][icon_thumbnail_field]) {
