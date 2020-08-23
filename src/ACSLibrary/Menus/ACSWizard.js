@@ -71,6 +71,7 @@ const Wizard = (props) => {
        if (result === "created") {
          setDataElements([current_step_number, data, id, inserted_id, next_step_number])
        }  else {
+        // XX right now assume every step gets new data
          setDataElements([current_step_number, data, id, id, next_step_number])
        }
        setStepsState(new_steps_state) 
