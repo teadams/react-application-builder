@@ -18,7 +18,6 @@ import useGetModel from '../../Hooks/useGetModel'
 const Wizard = (props) => {
   const [data_elements, setDataElements] = useState([0, props.data, undefined, props.id, undefined])
   const [current_step_number, data, id, transition_id, next_step_number] = data_elements 
-
   const {menu_model, items:steps, item_data:step_data, pretty_name:wizard_summary} = props
 
   const current_step_key = steps[current_step_number]
@@ -26,7 +25,7 @@ const Wizard = (props) => {
 
   const {menu_component_name, pretty_name, summary, object_type} = current_step_data
   const {mode, ...wizard_props}= current_step_data.props;
-
+  // XX?? move up a level
   const [steps_state, setStepsState] = useState(null)
   
   function handleFormClosed() {
@@ -69,23 +68,24 @@ const Wizard = (props) => {
        const current_steps = steps[current_step_number]
        let new_steps_state = _.merge({}, steps_state)
        new_steps_state[steps[current_step_number]].completed = true
- 
-                    if (result === "created") {
+       if (result === "created") {
          setDataElements([current_step_number, data, id, inserted_id, next_step_number])
-         steps.forEach((step,index) => {
-           new_steps_state[steps[index]].disabled = false
-         })
        }  else {
          setDataElements([current_step_number, data, id, id, next_step_number])
        }
- 
-       setStepsState(new_steps_state)
+       setStepsState(new_steps_state) 
    }
  
    // will refresh from the database each time.
    // do not cause flickering
    const handleOnData = (api_results) => {
        setDataElements([next_step_number, api_results, transition_id, undefined, undefined])
+       let new_steps_state = _.merge({}, steps_state)
+      // should follow dependency rules
+       steps.forEach((step,index) => {
+         new_steps_state[steps[index]].disabled = false
+       })
+       setStepsState(new_steps_state)
    }
 
    return (
