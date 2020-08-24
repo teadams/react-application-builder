@@ -131,7 +131,6 @@ function ACSListController(input_props) {
       total_width_units += list_grow
     })
   }
-
   return  (
     <ACSListRenderer  {...list_model.props} total_width_units={total_width_units}  field_models={field_models} action={action} key={object_type+"list"}  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} action_props={action_props} rab_component_model={rab_component_model} />
   )

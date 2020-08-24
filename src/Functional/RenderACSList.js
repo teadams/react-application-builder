@@ -45,7 +45,7 @@ function RenderACSList(props) {
       return ( 
         <Fragment>
           <HeaderWrap {...params}>
-            <Header {...params}/>
+            <Header {...params} action_props={rab_component_model.row.props} />
           </HeaderWrap>
           {show_list && 
             <Fragment> 
