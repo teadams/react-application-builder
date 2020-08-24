@@ -40,6 +40,7 @@ function ACSCreateButton(props) {
     if (props.onSubmit) {
       props.onSubmit(event,action, form_values, inserted_id)
     }
+    handleOnClose(event)
   }
 
   const float=props.float?props.float:'none'
