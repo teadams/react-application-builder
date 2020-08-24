@@ -45,7 +45,6 @@ function RABTextField(props) {
 
 
   function selectItems(valid_values, trace) {
-
     // XX todo Any option, calling field for display ( like full name), tree vuew
       if (!valid_values || valid_values === "transition") {
         return null

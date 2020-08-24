@@ -179,7 +179,6 @@ function ACSRowController(input_props) {
       merging_props.mode = "edit"
       merging_props.id = merging_props.id?merging_props.id:(input_props_data?input_props_data.id:"")
   }
-
   let layout_model
   // treat layout as another dynamic input
   // props (usually from menu) takes

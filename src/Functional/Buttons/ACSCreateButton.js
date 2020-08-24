@@ -51,7 +51,6 @@ function ACSCreateButton(props) {
   let ActionComponent = control.componentByName(component_name)
   const { ...menu_props} = selected_menu_model
 
-
  return (
       <Fragment>
       <Auth require_authorization={require_authorization} auth_action={auth_action} object_type={object_type} prompt_login={false}>
@@ -62,7 +61,7 @@ function ACSCreateButton(props) {
       </IconButton>
       }
       {create_dialog  &&
-      <ActionComponent row_delayed_auth={true} object_type={object_type} row_mode="create" row_form="true" layout={layout} sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} field_list={field_list} dialog_size={dialog_size} {...menu_props} {...action_props}/> }
+      <ActionComponent row_delayed_auth={true} object_type={object_type} num_columns={1} row_mode="create" row_form="true" layout={layout} sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} field_list={field_list} dialog_size={dialog_size} {...menu_props} {...action_props}/> }
       </Auth>
       </Fragment>
       )
