@@ -80,8 +80,12 @@ function LoginForm(props) {
     setFormValues(formValues => ({...formValues, [event.target.name]:value}));
   })
 
+  let width="sm"
+  if (activeTab ===1 ) {
+    width = "md"
+  }
   return   (
-    <Dialog fullWidth={true}  open={props.open} onClose={handleClose} aria-labelledby="form-dialog-title">
+    <Dialog fullWidth={true}  maxWidth={width} open={props.open} onClose={handleClose} aria-labelledby="form-dialog-title">
     <Tabs 
       onChange={handleTabChange} 
       value={activeTab} 
@@ -159,9 +163,8 @@ function LoginForm(props) {
                     <ACSField
                     object_type = "core_user"
                     field_name = "first_name"  
-                    field_mode="create"
-                    field_display="name_value"
-                    field_form={false}
+                    mode="create"
+                    form={false}
                     value={formValues["first_name"]}
                     data={formValues}
                     formValues={formValues}
@@ -177,9 +180,8 @@ function LoginForm(props) {
                 <ACSField
                 object_type = "core_user"
                 field_name = "last_name"  
-                field_mode="create"
-                field_display="name_value"
-                field_form={false}
+                mode="create"
+                form={false}
                 value={formValues["last_name"]}
                 data={formValues}
                 formValues={formValues}
@@ -195,9 +197,8 @@ function LoginForm(props) {
                 <ACSField
                 object_type = "core_user"
                 field_name = "email"  
-                field_mode="create"
-                field_display="name_value"
-                field_form={false}
+                mode="create"
+                form={false}
                 value={formValues["email"]}
                 data={formValues}
                 formValues={formValues}
@@ -213,9 +214,8 @@ function LoginForm(props) {
                 <ACSField
                 object_type = "core_credential"
                 field_name = "credential"  
-                field_mode="create"
-                field_display="name_value"
-                field_form={false} 
+                mode="create"
+                form={false} 
                 data={formValues}
                 formValues={formValues}
                 disableUnderline={false}
@@ -229,9 +229,8 @@ function LoginForm(props) {
                 <ACSField
                 object_type = "core_credential"
                 field_name = "credential_confirm"  
-                field_mode="edit"
-                field_display="name_value"
-                field_form={false} 
+                mode="edit"
+                form={false} 
                 data={formValues}
                 formValues={formValues}
                 disableUnderline={false}
