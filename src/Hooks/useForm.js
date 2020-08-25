@@ -63,7 +63,23 @@ const _handleSubmit = ((event, formValues, mode, context, object_type, object_mo
   }
 })
 
+const expand_combos_field_list = (field_list, field_models) => {
+  let expanded_field_list = []
+  field_list.forEach(field => {
+    const field_model = field_models[field]
+    if (!field_model.combo_fields) {
+        expanded_field_list.push(field)
+    } else {
+        const recurse_list = expand_combos_field_list(field_model.combo_fields, field_models)
+        expanded_field_list = expanded_field_list.concat(recurse_list)
+    }
+  })
+  return expanded_field_list
+
+}
+
 const useForm = (object_type, field_name="", data, handleSubmit, mode="view", form=true, default_values_prop={}, field_list, delay_dirty=false) => {
+// XX Have to be passed field_models
   const [formValues, setFormValues] = useState({});
   const [lastTouched,setLastTouched] = useState(false)
   const [filesTouched,setFilesTouched] = useState([])
@@ -89,6 +105,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     // props have changed, new form
     let defaults = {}
 
+    field_list = expand_combos_field_list(field_list, field_models)
     field_list.forEach(field_name =>{
       const field_model=field_models[field_name]
       const references = field_model.references
