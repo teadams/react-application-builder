@@ -100,11 +100,16 @@ function RABTextField(props) {
           return null
         }
        }
+
       if (widget_type === "radio") {
+  
         return (
-          <RadioGroup aria-label={field_name} name={field_name} value={value} onChange={onChange}>  
+        <FormControl>
+         <FormLabel>{pretty_name}</FormLabel>
+          <RadioGroup row={props.radio_row} aria-label={field_name} name={field_name} value={value} onChange={onChange}>  
             {radioItems(valid_values)}
            </RadioGroup>
+        </FormControl>
         )
       } else {
         return (

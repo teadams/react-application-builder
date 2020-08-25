@@ -79,7 +79,7 @@ function ACSFieldController(original_props) {
   ////// ***** DATA and MODEL INPUTS ARE NOW ALIGNED *********
 
   const form_field_name = field_name
-  const {hidden_on_form, hidden_on_create_form, references, form, valid_values:model_valid_values, select_api_options={}, dependent_field, dependent_filter, references_object_type, field_required, references_field, display_field} = final_props
+  const {hidden_on_form, hidden_on_create_form, references, form, valid_values:model_valid_values, select_api_options={}, dependent_field, dependent_filter, references_object_type, field_required, references_field, display_field, input_type} = final_props
   let {data_path} = final_props
 
 
@@ -117,7 +117,7 @@ function ACSFieldController(original_props) {
                   alert ("error retrieving object " + references + " " + error.message)
               } else {
                 results = results
-                if (!field_required) {
+                if (!field_required && input_type !== "radio") {
                     const new_value = {}
                     new_value[references_field] = ""
                     new_value[display_field] = "  *** Select ***"
