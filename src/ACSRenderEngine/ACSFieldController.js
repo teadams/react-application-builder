@@ -177,7 +177,7 @@ function ACSFieldController(original_props) {
     object_type={object_type} 
     field_name = {field_name}
     form_field_name={form_field_name}
-
+    object_models={object_models}
     field_models={field_models}
     field_model={field_model}
     // specifics about the input field

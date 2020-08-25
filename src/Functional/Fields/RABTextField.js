@@ -9,9 +9,14 @@ import ACSImage from './ACSImage.js'
 import ACSListController from '../ACSListController.js'
 import * as meta from '../../Utils/meta.js';
 
+const RadioLabel = (props=> {
+  const {value, display_field, summary_key, description_key} = props
+
+  return (<div> {value[display_field]} {value[summary_key]}</div>)
+})
 
 function RABTextField(props) {
-  const {mode, row_data,  data, object_type, data_field, pretty_name, display_field=props.field_name, references_field, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values, 
+  const {mode, row_data,  data, object_type, data_field, pretty_name, display_field=props.field_name, references_field, field_name, form_field_name=props.field_name, field_model={}, object_models, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values, 
   variant="outlined", required, helperText, placeholder, multiline=false, more_link_cutoff="", more_link_list_cutoff=props.more_link_cutoff, prevent_edit, input_type, data_type} = props
   const [test_state, setTestState] = useState("foo")
   let {with_thumbnail="", with_url="", more_detail=false, toggleMoreDetail} = props
@@ -57,15 +62,22 @@ function RABTextField(props) {
       )
   }
 
-  
   function radioItems(valid_values) {
     if (!valid_values || valid_values === "transition") {
       return null
     }
+
     const value_field = references_field?references_field:"value"
+    let summary_key = ""
+    let description_key = ""
+    const object_model = field_model.references?object_models[field_model.references]:object_models[object_type]
+    if (field_model.references) {
+        summary_key = object_model.summary_key
+        description_key = object_model.description_key
+    }
     return (
       valid_values.map ((value, index) => {
-        return (<FormControlLabel value={value[value_field]} control={<Radio />} label={value[display_field]}/>)
+        return (<FormControlLabel value={value[value_field]} control={<Radio />} label={<RadioLabel value={value} display_field={display_field} summary_key={summary_key} description_key={description_key}/>}> {value[summary_key]}</FormControlLabel>)
         })
       )
    }
