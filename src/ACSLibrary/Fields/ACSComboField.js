@@ -21,14 +21,21 @@ const Tag = (props) => {
 }
 
 function ACSComboField(props) {
-  const {mode, row_data,  data, data_field, field_name, object_type, id,  combo_wrap_tag="div", combo_wrap_tag_style, combo_fields,
-    combo_field_wraps, combo_field_wrap_styles, combo_field_wrap_props } = props
+  const {mode, row_data,  data, data_field, field_name, object_type, id,  combo_wrap_tag="div", combo_wrap_tag_style={}, combo_fields=[],
+    combo_field_wraps=[], combo_field_wrap_styles=[], combo_field_wrap_props=[], field_models, handleFormChange, handleFormSubmit, formValues } = props
+    u.a(formValues)
 
-return (<Tag Tag={combo_wrap_tag} style={combo_wrap_tag_style}>
+    return (<Tag Tag={combo_wrap_tag} style={combo_wrap_tag_style}>
         {combo_fields.map((field_name,index) => {
             return (
-          <Tag Tag={combo_field_wraps[index]}  style={combo_field_wrap_styles[index]}>
-              <ACSFieldController object_type={object_type} id={id} data={data} field_name={field_name} {...combo_field_wrap_props[index]}/>
+          <Tag Tag={combo_field_wraps[index]?combo_field_wraps[index]:"div"}  style={combo_field_wrap_styles[index]}>
+              <Fragment>
+              {(mode === "view")?  
+              <ACSFieldController  object_type={object_type} id={id} mode={mode}  data={data} field_name={field_name} {...combo_field_wrap_props[index]}/>
+              :
+              <ACSFieldController   handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} formValues={formValues}  field_models={field_models}  object_type={object_type} id={id} mode={mode}  data={data} field_name={field_name} {...combo_field_wrap_props[index]}/>
+              }
+              </Fragment>
           </Tag>)
         })}
       </Tag>)
