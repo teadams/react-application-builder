@@ -10,6 +10,8 @@ import * as meta from '../Utils/meta.js';
 import React, {Fragment, useState} from 'react';
 
 import {ACSFieldController, ACSRowRenderer} from '../ACSRenderEngine/'
+import {ACSComboField} from '../ACSLibrary/'
+
 import {DelayedAuth} from '../Modules/User/index.js';
 
 import {  TableBody, TableRow, TableCell, Table, TableHead } from '@material-ui/core';
@@ -67,12 +69,19 @@ function ACSRow(row_props) {
   return (
     <FieldChunk {...row_params} key={key_id+"chunk"}>
       {field_chunk.map( (field_name, ch_index) => {
-
            const autoFocus = (f_index === 0 && s_index === 0 && ch_index === 0 )?true:false
-           return <ACSFieldController {...row_params} mode={mode} field_models={field_models} form={!form} field_name={field_name}  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit}
-           override_meta_model={false}
-           autoFocus ={autoFocus}
-           formValues={formValues} key={ch_index+"field_name"} key_id={ch_index}/>
+           const field_model = field_models[row_props.object_type][field_name]
+           if (field_model.combo_fields) {
+             return <ACSComboField {...row_params}  {...field_model} mode={mode} field_models={field_models} form={!form} field_name={field_name}  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit}
+             override_meta_model={false}
+             autoFocus ={autoFocus}
+             formValues={formValues} key={ch_index+"field_name"} key_id={ch_index} />
+           } else {
+            return <ACSFieldController {...row_params}  {...field_model} mode={mode} field_models={field_models} form={!form} field_name={field_name}  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit}
+            override_meta_model={false}
+            autoFocus ={autoFocus}
+            formValues={formValues} key={ch_index+"field_name"} key_id={ch_index} />
+          }
       })}
     </FieldChunk>
   )

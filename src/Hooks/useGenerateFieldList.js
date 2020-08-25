@@ -17,7 +17,7 @@ const include_field = (field_model, mode, form) => {
 }
 
 const useGenerateFieldList = (object_type, field_name="", data, mode, form=true,  field_list=[], lazy="core", layout, section, field_models, object_models) => {
-
+// XX Maybe always pass field and object models
   const default_object_models = useGetModel("object_types")
   const default_field_models =  useGetModel("fields")
   if (!field_models) {

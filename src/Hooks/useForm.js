@@ -187,7 +187,6 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     if (event) {
       event.preventDefault();
     }
-
     _handleSubmit (event, formValues, mode, context, object_type, object_model, field_models, handleSubmit, id_field, filesTouched, delay_dirty) 
   })
   // single field edit, submits on change
@@ -214,15 +213,8 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
       if (field_model.dependency_data_field) {
         let dependent_form_values_name = field_model.dependency_data_field
-    //    if (field_name !== field_name) {
-    //      dependent_form_values_name = field_name+"."+dependent_form_values_name
-    //    }
-  //      console.log("set form values 1")
-
         setFormValues(formValues => ({...formValues, [name]:value, [dependent_form_values_name]:""}));
       } else {
-    //    console.log("set form values 2")
-
         setFormValues(formValues => ({...formValues, [name]:value}));
       }
     } else {
