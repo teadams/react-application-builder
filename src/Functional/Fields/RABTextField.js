@@ -126,6 +126,7 @@ function RABTextField(props) {
       } else {
         return (
         <div style={{minWidth:"20em"}}>
+          {field_model.summary &&  <div style={{marginBottom:"5px"}}>{field_model.summary}</div>}
           <TextField
             select={widget_type==="select"?true:false}
             required={required} 
