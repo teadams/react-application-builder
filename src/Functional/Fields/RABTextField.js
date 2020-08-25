@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import * as u from '../../Utils/utils.js';
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useEffect} from 'react';
-import {Link, FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Select, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell,InputLabel } from '@material-ui/core';
+import {Link, FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Select, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell,InputLabel,RadioGroup,Radio } from '@material-ui/core';
 import ACSImage from './ACSImage.js'
 import ACSListController from '../ACSListController.js'
 import * as meta from '../../Utils/meta.js';
@@ -55,8 +55,21 @@ function RABTextField(props) {
           return (<MenuItem key={index}  value={value[value_field]}>{value[display_field]}</MenuItem>)
           })
       )
-
   }
+
+  
+  function radioItems(valid_values) {
+    if (!valid_values || valid_values === "transition") {
+      return null
+    }
+    const value_field = references_field?references_field:"value"
+    return (
+      valid_values.map ((value, index) => {
+        return (<FormControlLabel value={value[value_field]} control={<Radio />} label={value[display_field]}/>)
+        })
+      )
+   }
+
 
   function handleSelectChange(event) {
     const value=event.target.value
@@ -78,18 +91,26 @@ function RABTextField(props) {
     case "create":
     case "filter":
       const rows = multiline?multiline:1
-      let select = false 
+      let widget_type = "text" 
       let value = formValues[form_field_name]
       if (model_valid_values) {
-        select=true 
+        widget_type=input_type?input_type:"select"
+
         if (valid_values === "transition") {
           return null
         }
        }
-      return (
-      <div style={{minWidth:"20em"}}>
-        <TextField
-            select={select}
+      if (widget_type === "radio") {
+        return (
+          <RadioGroup aria-label={field_name} name={field_name} value={value} onChange={onChange}>  
+            {radioItems(valid_values)}
+           </RadioGroup>
+        )
+      } else {
+        return (
+        <div style={{minWidth:"20em"}}>
+          <TextField
+            select={widget_type==="select"?true:false}
             required={required} 
             placeholder={placeholder}
             autoFocus={autoFocus}
@@ -106,9 +127,10 @@ function RABTextField(props) {
             type={input_type}
             onBlur={props.onFieldBlur}
             value={value}
-            onChange={onChange}>{select && selectItems(valid_values)}</TextField>
-</div>
+            onChange={onChange}>{(widget_type==="select") && selectItems(valid_values)}</TextField>
+        </div>
         )
+      }
       break
     case "csv":
       return '"'+field_value+'""'

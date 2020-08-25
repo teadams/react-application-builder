@@ -141,9 +141,9 @@ function ACSSectionBodyWrap(props) {
 function ACSSectionHeader(props) {
     const section_models = useGetModel("sections")
     const {section, num_columns} = props
-    const {title} =section?section_models[section]:""
+    const {title,pretty_name} =section?section_models[section]:""
     return (<Fragment>
-        {title && <Typography variant="h6" style={{paddingTop:0, paddingBottom:0}}>{title}:</Typography>}
+        {(title||pretty_name) && <Typography variant="h6" style={{paddingTop:0, paddingBottom:0}}>{title}{pretty_name}:</Typography>}
         </Fragment>)
 }
 

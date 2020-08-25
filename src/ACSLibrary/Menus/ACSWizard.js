@@ -24,7 +24,7 @@ const Wizard = (props) => {
   const current_step_key = steps[current_step_number]
   const current_step_data = step_data[current_step_key]
 
-  const {menu_component_name, pretty_name, summary, object_type} = current_step_data
+  const {menu_component_name, pretty_name, summary, description, object_type, step_summary_style, step_description_style} = current_step_data
   const {mode, ...wizard_props}= current_step_data.props;
   // XX?? move up a level
   const [steps_state, setStepsState] = useState(null)
@@ -38,7 +38,7 @@ const Wizard = (props) => {
   if (!steps_state) {
     let initial_step_state ={}
       steps.forEach((step,index) => {
-      const {pretty_name, completed, available, subtitle, dependencies} = step_data[step]
+      const {pretty_name, summary, description, completed, available, subtitle, dependencies} = step_data[step]
       const {mode} = step_data[step].props
 
           initial_step_state[step] ={}
@@ -92,6 +92,7 @@ const Wizard = (props) => {
 
    }
 
+
    return (
      <Fragment>
        {transition_id && <ACSHeadlessObject id={transition_id} object_type={object_type}  onData={handleOnData}/>}
@@ -99,7 +100,7 @@ const Wizard = (props) => {
        <DialogTitle>{wizard_summary}</DialogTitle>
         <Stepper nonLinear alternativeLabel style={{padding:"0px 10px"}} activeStep={current_step_number}>  
          {steps.map ((step,index) => {
-             const {pretty_name} = step_data[step]
+             const {pretty_name, summary,description} = step_data[step]
              const step_state = steps_state?steps_state[step]:{}
              return (
                <Step key={pretty_name} completed={step_state.completed} disabled={step_state.disabled}><StepButton  onClick={handleStep(index)} optional={step_state.subtitle}>{pretty_name}</StepButton></Step>
@@ -107,9 +108,9 @@ const Wizard = (props) => {
            })}
         </Stepper>
         <DialogContent dividers={false}>
-           <DialogContentText>
-         <div  >{pretty_name}: {summary}</div>
-         </DialogContentText>
+            <div style={step_summary_style}>{summary}{description && <Fragment>:</Fragment>}</div>
+            {description && <div style={step_description_style}> {description}</div>}
+            <p/>
          <WizardComponent onSubmit={handleStepSubmit} data={data} object_type={object_type} id={id} onClose={handleFormClosed} row_delayed_auth={true} row_form={true} no_header={true} row_dialog_center={true} mode={mode}  delay_dirty={true} {...wizard_props}/>
         </DialogContent>
         <DialogActions>
