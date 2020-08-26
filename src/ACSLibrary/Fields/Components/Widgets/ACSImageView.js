@@ -1,8 +1,8 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import React, {Fragment} from 'react';
-import {Paper, Typography, Avatar} from '@material-ui/core';
-import * as u from '../../../../Utils/utils.js';
+import { Avatar} from '@material-ui/core';
+//import * as u from '../../../../Utils/utils.js';
 
 // special case 
 // called directly (example from ACSFile) 
@@ -35,7 +35,7 @@ function ACSImageView(props) {
       return null
   }
   let style = Object.assign({},props.style)
-  if (style && Object.keys(style).length == 0) {
+  if (style && Object.keys(style).length === 0) {
     style = null
   }
   let image_object=""
@@ -47,13 +47,13 @@ function ACSImageView(props) {
   }
 
   const image_url = img_src?img_src:get_image_url(image_object)
-  let image_dim = {}
   style = style?style:get_image_dimensions(size)
 
   let variant="circle"
-  if (!avatar || avatar == "false") {
+  if (!avatar || avatar === "false") {
       variant = "square"
   }
+
   if (!image_url) {
       style.verticalAlign='textTop'
       return (<Avatar variant={variant} style={style}>{letters}</Avatar>)

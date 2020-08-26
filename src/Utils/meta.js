@@ -3,9 +3,6 @@ import 'react-app-polyfill/stable';
 
 import * as log from './log.js';
 import * as data from './data.js';
-import * as u from './utils.js';
-const custom_model="HealthMe"
-let app_params = ""
 let metadata_fields = ""
 let metadata_object_types = ""
 let metadata_sections = {}

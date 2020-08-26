@@ -4,20 +4,16 @@ import 'react-app-polyfill/stable';
 import _ from 'lodash'
 
 import * as u from '../Utils/utils.js';
-import * as meta from '../Utils/meta.js';
 
-
-import React, {Fragment, useState} from 'react';
+import React, {Fragment} from 'react';
 
 import {ACSFieldController, ACSRowRenderer} from '../ACSRenderEngine/'
 import {ACSComboField} from '../ACSLibrary/'
 
 import {DelayedAuth} from '../Modules/User/index.js';
 
-import {  TableBody, TableRow, TableCell, Table, TableHead } from '@material-ui/core';
-import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
-, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
-
+import {   Table, TableBody, Typography } from '@material-ui/core';
+import {Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, } from '@material-ui/core';
 
 import useGetObject from '../Hooks/useGetObject';
 import useGetModel from '../Hooks/useGetModel';
@@ -281,7 +277,7 @@ function ACSRowController(input_props) {
   // XX will be expanded to deal with col_spans
 
   
-  if (num_columns && num_columns !="all" && mode !== "list" )  {
+  if (num_columns && num_columns !== "all" && mode !== "list" )  {
     section_field_lists.forEach ((field_list, section_index) => {
       let chunked_field_list = [[]]
       let index = 0

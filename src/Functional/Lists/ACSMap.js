@@ -4,10 +4,8 @@ import 'react-app-polyfill/stable';
 import React, {useState, useContext, Fragment} from 'react';
 import {Typography} from '@material-ui/core';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
-import * as log from '../../Utils/log.js'
-import * as meta from '../../Utils/meta.js';
 import * as api from '../../Utils/data.js';
-import * as u from '../../Utils/utils.js'
+//import * as u from '../../Utils/utils.js'
 import * as google_map from './api.js'
 
 import {AuthContext} from '../../Modules/User';

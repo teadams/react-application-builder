@@ -4,7 +4,7 @@ import 'react-app-polyfill/stable';
 import React, {Fragment, useState} from 'react';
 import {IconButton} from '@material-ui/core';
 import IconEdit from "@material-ui/icons/Edit";
-import * as u from '../../Utils/utils.js'
+//import * as u from '../../Utils/utils.js'
 import ACSMappingView from '../Lists/ACSMappingView.js'
 import {Auth} from '../../Modules/User/index.js';
 
@@ -27,8 +27,6 @@ function ACSMappingButton(props) {
   }
 
 
-
-  const float=props.float?props.float:'none'
  return (
       <Fragment>
       <Auth auth_action="create" object_type={object_type} prompt_login={false}>

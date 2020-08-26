@@ -4,15 +4,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import TabMenu from './TabMenu';
-import * as log from '../Utils/log.js'
-import * as meta from '../Utils/meta.js'
-import * as data from '../Utils/data.js';
-import * as u from '../Utils/utils.js';
-import useGetModel from "../Hooks/useGetModel.js"
-import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
-import {  BrowserRouter as Router,  Switch,  Route,  Link,  Redirect, useHistory } from "react-router-dom";
+import React, {  Fragment,  useState} from 'react';
 
-import {AppBar,Toolbar, Typography, IconButton, Button, Paper, Tabs, Tab, Drawer, Divider,List, Menu, MenuItem, ListItem, ListItemText} from '@material-ui/core';
+import { IconButton, Drawer, Divider} from '@material-ui/core';
 
 const drawerWidth = 150;
 

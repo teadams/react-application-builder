@@ -2,11 +2,10 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
 import React,  {useContext, useState, Fragment} from 'react';
-import {Paper,  Switch, Typography, Button, Grid, Popover} from '@material-ui/core';
+import {Switch,  Button} from '@material-ui/core';
 //import * as meta from '../../Utils/meta.js'
 import {AuthContext} from '../../Modules/User';
 
-import ACSObjectCount from '../../Functional/Text/ACSObjectCount.js'
 import ACSCreateButton from '../../Functional/Buttons/ACSCreateButton.js'
 import ACSCreateDialogButton from '../../Functional/Buttons/ACSCreateDialogButton.js'
 import ACSObjectView from '../../Functional/Rows/ACSObjectView.js'
@@ -16,15 +15,11 @@ import ACObjectTypeView from '../../Functional/Lists/ACSObjectTypeView.js'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import useGetModel from '../../Hooks/useGetModel';
 
-import * as log from '../../Utils/log.js'
-import * as meta from '../../Utils/meta.js';
-import * as api from '../../Utils/data.js';
-import * as u from '../../Utils/utils.js'
+//import * as u from '../../Utils/utils.js'
 import { useHistory } from "react-router-dom";
 import ACSMap from "../Lists/ACSMap.js"
 import ACSMapAndFilterFilter from "./SubComponents/ACSMapAndFilterFilter.js"
 import ACSFilters from "../Filters/ACSFilters.js"
-import ACSSelectFilter from "../Filters/ACSSelectFilter.js"
 import * as control from '../../Utils/control.js'
 
 
