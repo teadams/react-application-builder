@@ -9,7 +9,7 @@ import React, { Component, Fragment, useContext,  useState, useEffect} from 'rea
 import { Popup, FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell } from '@material-ui/core';
 import useGetModel from '../Hooks/useGetModel';
-import {ACSTextField, ACSField, ACSImage} from "../ACSLibrary";
+import {ACSTextField, ACSField, ACSImageView} from "../ACSLibrary";
 import UIContext from '../Template/UIContext.js';
 
 
@@ -186,7 +186,7 @@ function RenderACSField(props) {
                       {field_pre_text}<Field {...params}  more_detail={more_detail} toggleMoreDetail={toggleMoreDetail} key={field_name+"field"}/>{field_post_text}
                     </Fragment>
                   :<div style={{display:'flex', flexDirection:'row', alignItems:'center'}}>
-                    <ACSImage avatar={thumbnail_avatar} style={thumbnail_style} image_object={data[with_thumbnail]} size={thumbnail_size}/>            
+                    <ACSImageView avatar={thumbnail_avatar} style={thumbnail_style} image_object={data[with_thumbnail]} size={thumbnail_size}/>            
                     <div style={{paddingLeft:3}}>{field_pre_text}<Field {...params}  key={field_name+"field"}/>{field_post_text}</div>
                   </div>
               }

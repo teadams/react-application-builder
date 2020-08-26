@@ -12,7 +12,8 @@ import {Grid} from 'material-ui'
 import ACSObjectCount from '../Functional/Text/ACSObjectCount.js'
 import ACSObjectTypeView from '../Functional/Lists/ACSObjectTypeView.js'
 import ACSObjectView from '../Functional/Rows/ACSObjectView.js'
-import ACSField from '../Functional/ACSField2.js'
+import {ACSFieldController} from '../ACSRenderEngine'
+
 import {ContextSelect, AuthToggleLink, AuthContext, AuthContextProvider, Auth} from '../Modules/User';
 import Body from "./Body"
 import Debug from "./Debug.js"
@@ -102,20 +103,20 @@ function MessageIcon(props) {
       <Fragment>
         {field_list.map(field_name =>{
           const emphasis = data.read_p?"":"bold"
-          return <ACSField onFieldClick={handleMessageClick} field_mode={mode} field_form={false} field_name={field_name} emphasis={emphasis} {...row_params} key={field_name} key_id={field_name}/>
+          return <ACSFieldController onFieldClick={handleMessageClick} field_mode={mode} field_form={false} field_name={field_name} emphasis={emphasis} {...row_params} key={field_name} key_id={field_name}/>
         })}
         {message_open && (!message_open.applicant_subsite_role || message_open.applicant_subsite_role.status !== "Applied" || role_data) &&
         <Dialog fullWidth={true} open={message_open} onClose={handleMessageClose} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">{message_open.subject}</DialogTitle>
             <DialogContent>
               <div style={{display:'flex'}}>
-                <div><Typography>From:&nbsp;</Typography></div><div><Typography><ACSField data={message_open} object_type="core_message" field_mode="view" field_model={{with_thumbnail:false}} field_form={false} with_thumbnail={false} field_name="from_user" key="from_user" key_id="from_user"/></Typography></div>
+                <div><Typography>From:&nbsp;</Typography></div><div><Typography><ACSFieldController data={message_open} object_type="core_message" field_mode="view" field_model={{with_thumbnail:false}} field_form={false} with_thumbnail={false} field_name="from_user" key="from_user" key_id="from_user"/></Typography></div>
                 <div style={{flexGrow:1}}/>
-                <div><Typography>Date: <ACSField data={message_open} object_type="core_message" field_mode="view" field_form={false} field_name="last_updated_date" key="last_updated_date" key_id="last_updated_date"/>  </Typography></div>
+                <div><Typography>Date: <ACSFieldController data={message_open} object_type="core_message" field_mode="view" field_form={false} field_name="last_updated_date" key="last_updated_date" key_id="last_updated_date"/>  </Typography></div>
               
               </div>
               <div style={{paddingBottom:20}}/><Typography style={{paddingBottom:20}}>
-              <ACSField data={message_open} object_type="core_message" field_mode="view" field_form={false} field_name="body" key="body" key_id="body"/></Typography>
+              <ACSFieldController data={message_open} object_type="core_message" field_mode="view" field_form={false} field_name="body" key="body" key_id="body"/></Typography>
               {role_data &&
                   <Typography><i>This message is an application for the role <b>role_data.name}</b> in <b>{message_open.core_subsite.name}</b>.  To accept, click "Approve". Otherwise, click "Close".</i></Typography>
               }
