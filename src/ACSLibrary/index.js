@@ -61,7 +61,7 @@ export {
   
  ACSCreateButton, ACSCreateDialogButton, ACSEditButton, ACSMapButton, // buttons
   ACSField, ACSComboField, // Field base
-  ACSAddress, ACSFile, ACSImage, ACSReferenceField, ACSURLField,ACSYouTube,ACSSelectField,ACSTextField,
+  ACSAddress, ACSFile, ACSImage, ACSImageView, ACSReferenceField, ACSURLField,ACSYouTube,ACSSelectField,ACSTextField,
   ACSFilters, ACSSelectFilter, ACSTextFilter, // Field components
   ACSObjectType, ACSChipObjectType, ACSCommunicationObjectType, ACSMap, ACSMapping,ACSSummaryObjectType, // object type view
   ACSMapAndFilter, ACSWizard, // layouts

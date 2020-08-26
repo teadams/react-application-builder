@@ -9,7 +9,6 @@ import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
-import ACSImage from "./ACSImage.js"
 
 function User(props) {
   const {row_data, data, field_name, form_field_name, formdata, formValues, display, mode="view", field_model={}, image_size,  ...params} = props

@@ -4,8 +4,7 @@ import * as u from '../../Utils/utils.js'
 import * as api from '../../Utils/data.js'
 import * as control from '../../Utils/control.js';
 import {ACSListController} from '../../ACSRenderEngine'
-import ACSField from '../Fields/ACSField.js'
-import ACSImage from '../Fields/ACSImage.js'
+import {ACSField, ACSImageView} from '../../ACSLibrary'
 
 import useGetModel from '../../Hooks/useGetModel.js'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
@@ -17,10 +16,10 @@ const ACSChip = (props) => {
     <Fragment>
       {summary? 
       <Tooltip title={summary} placement="top-end" arrow={true}>
-        <Chip   style={{marginLeft:"5px", marginBottom:"5px"}} variant={variant} label={label} size="small" color={color} avatar={<ACSImage image_object={avatar_object} show_blank={show_blank_avatar}  size="tiny"/>}/>
+        <Chip   style={{marginLeft:"5px", marginBottom:"5px"}} variant={variant} label={label} size="small" color={color} avatar={<ACSImageView image_object={avatar_object} show_blank={show_blank_avatar}  size="tiny"/>}/>
       </Tooltip>
       :
-        <Chip style={{marginLeft:"5px", marginBottom:"5px"}} variant={variant}   label={label} size="small" color={color} avatar={<ACSImage image_object={avatar_object} show_blank={show_blank_avatar}  size="tiny"/>} />
+        <Chip style={{marginLeft:"5px", marginBottom:"5px"}} variant={variant}   label={label} size="small" color={color} avatar={<ACSImageView image_object={avatar_object} show_blank={show_blank_avatar}  size="tiny"/>} />
       }
       </Fragment>
   )

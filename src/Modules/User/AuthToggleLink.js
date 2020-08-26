@@ -3,10 +3,7 @@ import 'react-app-polyfill/stable';
 import * as u from '../../Utils/utils.js'
 import React, {useState, useContext, Fragment} from 'react';
 import {Typography, Button, IconButton, Popover, Tabs, Tab, Divider} from '@material-ui/core';
-import ACSImage from "../../Functional/Fields/ACSImage.js"
-import ACSObjectTypeView from "../../Functional/Lists/ACSObjectTypeView.js"
-import ACSField from "../../Functional/ACSField2.js"
-import ListMenu from "../../Functional/Menus/ListMenu.js"
+import {ACSObjectTypeView, ACSField, ACSListMenu, ACSImageView} from "../../ACSLibrary"
 import AuthContext from './AuthContext';
 import UIContext from '../../Template/UIContext.js';
 import LoginForm from './LoginForm'
@@ -34,7 +31,7 @@ function AuthToggleLink(props) {
       <Fragment>
       <div style={{margin:10, display:"flex",flexDirection:"row", alignItems:"center"}}>
         <div style={{display:"flex",flexDirection:"row", marginRight:10}}>
-          <ACSImage letters={context.user.first_name.charAt(0)+context.user.last_name.charAt(0)} image_object={context.user.thumbnail}/>
+          <ACSImageView letters={context.user.first_name.charAt(0)+context.user.last_name.charAt(0)} image_object={context.user.thumbnail}/>
         </div>
         <div>
           <div style={{display:"flex", flexDirection:"column"}}>
@@ -47,7 +44,7 @@ function AuthToggleLink(props) {
       </div>
     </div>
     <Divider/>
-    <ListMenu menu_type="user_profile" onChange={handleMenuChange}/>
+    <ACSListMenu menu_type="user_profile" onChange={handleMenuChange}/>
     </Fragment>)
   }
 
@@ -59,7 +56,7 @@ function AuthToggleLink(props) {
     return (
       <Fragment>  
         <Button color="inherit" onClick={context.logout}>Logout</Button>
-        <ACSImage image_object={context.user.thumbnail} letters={context.user.initials} size="small"/> &nbsp; 
+        <ACSImageView image_object={context.user.thumbnail} letters={context.user.initials} size="small"/> &nbsp; 
         <Button onClick={handlePopup} color="inherit">{context.user.first_name}
         {popup.isOpen?<ExpandLessIcon size="small"/>:<ExpandMoreIcon size="small"/>}
         </Button>

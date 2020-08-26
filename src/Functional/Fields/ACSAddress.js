@@ -9,7 +9,6 @@ import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
-import ACSImage from "./ACSImage.js"
 
 function ACSAddress(props) {
   const {data, field_name,display, mode="view", ...params} = props

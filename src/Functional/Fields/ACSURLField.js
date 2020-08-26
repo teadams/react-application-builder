@@ -5,10 +5,8 @@ import * as u from '../../Utils/utils.js';
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useEffect} from 'react';
 import {Link, FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Select, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell,InputLabel } from '@material-ui/core';
-import ACSImage from './ACSImage.js'
-import ACSListController from '../ACSListController.js'
 import * as meta from '../../Utils/meta.js';
-
+import {ACSImageView} from '../../ACSLibrary'
 
 function ACSURLField(props) {
   const {mode, row_data,  data, object_type, data_field, pretty_name, display_field=props.field_name, references_field, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values,  db_data_field, 
@@ -57,11 +55,11 @@ function ACSURLField(props) {
       } else {
           const thumbnail = data[with_thumbnail]
           if (thumbnail) {  
-            return (<div style={{display:"flex"}}> <ACSImage image_object={thumbnail} fix="width" size={image_size}/>&nbsp; 
+            return (<div style={{display:"flex"}}> <ACSImageView image_object={thumbnail} fix="width" size={image_size}/>&nbsp; 
             <Link href={field_value}>{field_value}</Link></div>)
           } else {
             const letters = field_value?field_value.charAt(0):""
-            return (<div style={{display:"flex"}}><ACSImage letters={letters}  fix="width" size={image_size}/>&nbsp;  <Link href={field_value}>{field_value}</Link>
+            return (<div style={{display:"flex"}}><ACSImageView letters={letters}  fix="width" size={image_size}/>&nbsp;  <Link href={field_value}>{field_value}</Link>
           </div>)
           }
       }
