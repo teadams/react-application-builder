@@ -7,12 +7,11 @@ import * as control from '../../Utils/control.js';
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useEffect} from 'react';
 import { OutlinedInput, FormControl, FormHelperText, Input, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Select, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell,InputLabel } from '@material-ui/core';
-import ACSListController from '../ACSListController.js'
-import * as meta from '../../Utils/meta.js';
-import ACSImage from './ACSImage.js'
-import useGetModel from '../../Hooks/useGetModel.js'
+import * as meta from '../../../Utils/meta.js';
+import ACSViewImage from './Widgets/ACSViewImage.js'
+import useGetModel from '../../../Hooks/useGetModel.js'
 
-function ACSFile(props) {
+function ACSImage(props) {
 
   const {mode, data, row_data, prevent_edit, image_size="tiny", image_size_list="tiny", field_name, field_models, pretty_key, pretty_name, data_field, formdata, object_type, formValues, disable_underline=false, onChange, autoFocus, avatar, fullWidth=true, custom_width, custom_height, data_type, components, img_style, list_img_style, display_field=props.field_name, references_field, form_field_name=props.field_name, field_model={},
   variant="outlined", required, helperText, placeholder
@@ -51,33 +50,33 @@ switch (mode) {
         img_src = URL.createObjectURL(formValues[form_field_name])
         img_name = formValues[form_field_name].name
 
-// If needed, this will get the image sizing
-//        let image_sizer = new Image()
-//        image_sizer.src = window.URL.createObjectURL(formValues[form_field_name])
-//        image_sizer.onload = () => {
-//           alert(image_sizer.width + " " + image_sizer.height);/        
-//        }
       }
       const border_style= {
-        borderColor:"#000000",
+        borderColor:"rgba(0, 0, 0, 0.24)",
         borderStyle: "solid",
-        borderWidth: "1px"
+        borderWidth: "1px",
+        display:"flex",
+        flexDirection:"row",
+        padding:"10px",
+        height:"100%",
+        lineHeight:"1.1876em"
       }
       return (<Fragment>
-        <div style={border_style}>
-          <div style={{display:"flex", flexDirectionn:"row", padding:"10px"}}>
+        <div>
+        {field_model.summary &&  <div style={{marginBottom:"5px"}}>{field_model.summary}</div>}
+          <div style={border_style}>
             <div>
               {mode==="edit" && data_type === "image" && !img_exists &&
-                <ACSImage style={img_style} letters={letters} image_object={field_value} letters={letters} size={image_size} avatar={avatar} custom_width={custom_width} custom_height={custom_height}/>
+                <ACSViewImage style={img_style} letters={letters} image_object={field_value} letters={letters} size={image_size} avatar={avatar} custom_width={custom_width} custom_height={custom_height}/>
               }
-              {!img_exists && mode !== "edit" &&
+              { mode !== "edit" &&  data_type === "image" && !img_exists &&
               <Fragment>
-                <ACSImage style={img_style} letters={letters} img_src="" letters={letters} size={image_size} avatar={avatar} custom_width={custom_width} custom_height={custom_height}/>
+                <ACSViewImage style={img_style} letters={letters} img_src="" letters={letters} size={image_size} avatar={avatar} custom_width={custom_width} custom_height={custom_height}/>
               </Fragment>
               }
-              {img_exists &&
+              {img_exists && 
               <Fragment>
-                <ACSImage style={img_style} letters={letters} img_src={img_src} letters={letters} size={image_size} avatar={avatar} custom_width={custom_width} custom_height={custom_height}/><br/>
+                <ACSViewImage style={img_style} letters={letters} img_src={img_src} letters={letters} size={image_size} avatar={avatar} custom_width={custom_width} custom_height={custom_height}/><br/>
                 {img_name}
               </Fragment>
               }
@@ -108,20 +107,11 @@ switch (mode) {
       return '"'+field_value+'""'
       break
     case "list":
-      if (data_type === "image") {
-        return <ACSImage style={list_img_style?list_img_style:img_style} letters={letters} image_object={field_value} size={image_size_list}   avatar={avatar}/>
-      } else {
-        return ("placeholder for file")
-      }
+        return <ACSViewImage style={list_img_style?list_img_style:img_style} letters={letters} image_object={field_value} size={image_size_list}   avatar={avatar}/>
       break
     default:
-      // text, view, list
-      if (data_type === "image") {
-        return <ACSImage style={img_style} letters={letters} avatar={avatar} image_object={field_value} size={image_size}/>
-      } else {
-        return ("placeholder for file")
-      }
+        return <ACSViewImage style={img_style} letters={letters} avatar={avatar} image_object={field_value} size={image_size}/>
   }
 }
 
-export default ACSFile;
+export default ACSImage;

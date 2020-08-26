@@ -7,11 +7,13 @@ import ACSMapButton from '../Functional/Buttons/ACSMapButton';
 // fields
 import ACSField from '../Functional/Fields/ACSField.js';
 import ACSComboField from './Fields/ACSComboField.js';
-
+// components
 
 import ACSAddress from '../Functional/Fields/ACSAddress.js';
-import ACSFile from '../Functional/Fields/ACSFile.js';
-import ACSImage from '../Functional/Fields/ACSImage.js';
+import ACSImage from './Fields/Components/ACSImage.js';
+import ACSImageView from './Fields/Components/Widgets/ACSImage.js';
+import ACSFile from  './Fields/Components/ACSFile.js'
+
 import ACSReferenceField from '../Functional/Fields/ACSReferencesField.js';
 import ACSURLField from '../Functional/Fields/ACSURLField.js';
 import ACSYouTube from '../Functional/Fields/ACSYouTube.js';

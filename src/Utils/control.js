@@ -33,7 +33,6 @@ import RABTextField from '../Functional/Fields/RABTextField.js'
 import ACSURLField from '../Functional/Fields/ACSURLField.js'
 import ACSYouTube from '../Functional/Fields/ACSYouTube.js'
 import RABSelectField from '../Functional/Fields/RABSelectField.js'
-import ACSFile from '../Functional/Fields/ACSFile.js'
 import ACSReferencesField from '../Functional/Fields/ACSReferencesField.js'
 
 // rows
@@ -47,7 +46,7 @@ import TreeItem from '@material-ui/lab/TreeItem';
 // layouts
 import ACSMap from '../Functional/Lists/ACSMap.js'
 import ACSMapAndFilter from '../Functional/Layouts/ACSMapAndFilter.js'
-import {ACSWizard, ACSComboField, ACSTextField} from '../ACSLibrary/index.js'
+import {ACSWizard, ACSComboField, ACSTextField, ACSFile, ACSImage} from '../ACSLibrary/index.js'
 
 const useStyles = makeStyles({
   table_cell: {
@@ -296,7 +295,10 @@ function componentPicker(name, source="not provided") {
     case "RABTextField":  return RABTextField;
     case "ACSURLField":  return ACSURLField;
     case "RABSelectField":  return RABSelectField;
+
     case "ACSFile":  return ACSFile;
+    case "ACSImage":  return ACSImage;
+
     case "ACSReferencesField" : return  ACSReferencesField;
     case "ACSYouTube":  return ACSYouTube;
     case "RABVoid": return RABVoid;
