@@ -4,9 +4,8 @@ import 'react-app-polyfill/stable';
 import React, {Fragment, useState, useContext} from 'react';
 import {IconButton} from '@material-ui/core';
 import IconCreate from "@material-ui/icons/Add";
-import * as u from '../../Utils/utils.js'
+//import * as u from '../../Utils/utils.js'
 import * as control from '../../Utils/control.js'
-import ACSObjectView from '../Rows/ACSObjectView.js'
 import {Auth, AuthContext} from '../../Modules/User/index.js';
 import useGetModel from '../../Hooks/useGetModel.js'
 
@@ -42,8 +41,6 @@ function ACSCreateButton(props) {
     }
     handleOnClose(event)
   }
-
-  const float=props.float?props.float:'none'
 
 // get menu, menu can get the component
   const selected_menu_model = menu_model.menu_items[menu]
