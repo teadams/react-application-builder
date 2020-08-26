@@ -1,9 +1,8 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
-import React, { Component, Fragment} from 'react';
-import { Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
-import * as u from '../../Utils/utils.js'
+import React, {  Fragment} from 'react';
+//import * as u from '../../Utils/utils.js'
 import ACSCommunicationRow from '../Rows/Rows/ACSCommunicationRow.js'
 import ACSObjectTypeView from './ACSObjectTypeView.js'
 

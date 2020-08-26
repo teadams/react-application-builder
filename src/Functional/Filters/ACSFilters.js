@@ -1,13 +1,9 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
-import * as u from '../../Utils/utils.js'
-import * as meta from '../../Utils/meta.js';
-import * as data from '../../Utils/data.js';
-import { withStyles } from '@material-ui/core/styles';
-import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
-import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
-import {Link, Container, Box, Card, TableHead, TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
-import useGetModel from '../../Hooks/useGetModel.js'
+//import * as u from '../../Utils/utils.js'
+import React, {  Fragment,  useState} from 'react';
+import {Typography } from '@material-ui/core';
+import { TableContainer} from '@material-ui/core';
 import ACSSelectFilter from './ACSSelectFilter.js'
 import ACSTextFilter from './ACSTextFilter.js'
 

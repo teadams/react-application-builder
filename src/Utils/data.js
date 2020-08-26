@@ -1,7 +1,7 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
-import * as u from './utils.js';
+//import * as u from './utils.js';
 import * as log from './log.js';
 import axios from 'axios';
 import * as meta from './meta.js';
@@ -128,17 +128,7 @@ export function createAccount (data_object, callback)   {
   callAPI ("auth/create-account", {}, data_object, "post", callback) 
 }
 
-// deprecated
-export async function getCount (object_type, options={}, callback)   {
-alert ("deprecated funcction getcount")
-  options.get_count=true
-  const count_result = await callAPI (object_type, getParamsObject(options, ["filter_id", "filter_field", "filter_join", "get_count"]), {}, "get")
-  if (callback) {
-      return callback("88")
-  } else {
-      return 40
-  }
-}
+
 
 
 /// UPDATES

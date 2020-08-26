@@ -1,29 +1,22 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
-import { fade, withStyles, makeStyles } from '@material-ui/core/styles';
-import React, { Component, Fragment, useState, useContext} from 'react';
-import MenuIcon from '@material-ui/icons/Menu';
-import Badge from '@material-ui/core/Badge';
-import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from '@material-ui/core/styles';
+import React, { useContext} from 'react';
 import TabMenu from '../RABComponents/TabMenu';
-import MailIcon from '@material-ui/icons/Mail';
 import DrawerMenu from '../RABComponents/DrawerMenu';
-import {Grid} from 'material-ui'
-import {ContextSelect, Auth, AuthToggleLink, AuthContext, AuthContextProvider} from '../Modules/User';
+import {ContextSelect, Auth, AuthToggleLink} from '../Modules/User';
 import Body from "./Body"
 import MessageIcon from "./MessageIcon.js"
 import Debug from "./Debug.js"
-import * as meta from '../Utils/meta.js'
-import * as u from '../Utils/utils.js'
+//import * as u from '../Utils/utils.js'
 
-import {AppBar,Toolbar, Typography, Paper} from '@material-ui/core';
+import {AppBar,Toolbar, Typography} from '@material-ui/core';
 import useGetModel from "../Hooks/useGetModel.js"
 
 function Template(props) {
 
   const app_params =  useGetModel("app_params")
   const menu_model = useGetModel("menus")
-  const context = useContext(AuthContext)
 
   const useStyles = makeStyles((theme) => ({
     grow: {
