@@ -6,8 +6,7 @@ import * as meta from '../../Utils/meta.js'
 import * as data from '../../Utils/data.js';
 import * as u from '../../Utils/utils.js';
 import useGetModel from "../../Hooks/useGetModel.js"
-import ACSRowController from '../ACSRowController.js'
-import ACSListController from '../ACSListController.js'
+import {ACSListController} from '../../ACSRenderEngine'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import {  BrowserRouter as Router,  Switch,   Route,  Link,  Redirect, useHistory } from "react-router-dom";
 import * as auth from '../../Utils/auth.js'

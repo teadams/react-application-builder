@@ -9,7 +9,7 @@ import {AuthContext, Auth, LoginForm} from '../../Modules/User/index.js';
 
 import useForm from '../../Hooks/useForm';
 import useGetObject  from '../../Hooks/useGetObject';
-import ACSRowController from '../../Functional/ACSRowController.js'
+import {ACSRowController} from '../../ACSRenderEngine'
 import ACSHeadlessObjectView from '../../Functional/Rows/ACSHeadlessObjectView.js'
 import RABSelectField from '../../Functional/Fields/RABSelectField.js'
 import RABTextField from '../../Functional/Fields/RABTextField.js'
