@@ -1,9 +1,9 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
-import * as u from '../../Utils/utils.js'
+//import * as u from '../../Utils/utils.js'
 import React, {useState, useContext, Fragment} from 'react';
-import {Typography, Button, IconButton, Popover, Tabs, Tab, Divider} from '@material-ui/core';
-import {ACSObjectTypeView, ACSField, ACSListMenu, ACSImageView} from "../../ACSLibrary"
+import { Button,  Divider} from '@material-ui/core';
+import {ACSField, ACSListMenu, ACSImageView} from "../../ACSLibrary"
 import AuthContext from './AuthContext';
 import UIContext from '../../Template/UIContext.js';
 import LoginForm from './LoginForm'

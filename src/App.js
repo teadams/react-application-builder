@@ -1,6 +1,6 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
-import React, { Component, Fragment, useContext} from 'react';
+import React, {} from 'react';
 
 import Template from "./Template/Template.js"
 import {AuthContextProvider} from './Modules/User';
