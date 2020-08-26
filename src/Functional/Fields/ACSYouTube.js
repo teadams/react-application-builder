@@ -1,9 +1,8 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
-import { withStyles } from '@material-ui/core/styles';
-import React, { Component, Fragment,  useState, useEffect} from 'react';
-import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Select, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell,InputLabel } from '@material-ui/core';
+import React, { Fragment} from 'react';
+import { TextField,  Paper, Avatar, TableCell,InputLabel } from '@material-ui/core';
 
 
 function getYouTubeURL (initial_url) {

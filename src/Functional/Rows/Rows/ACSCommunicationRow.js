@@ -1,12 +1,10 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
-import React, { Component, Fragment} from 'react';
-import { Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
-import * as u from '../../../Utils/utils.js'
+import React, {  Fragment} from 'react';
+import { Typography} from '@material-ui/core';
+//import * as u from '../../../Utils/utils.js'
 
-import ACSYouTube from "../../Fields/ACSYouTube.js"
-import ACSImage from "../../Fields/ACSYouTube.js"
 import ACSField from "../../Fields/ACSField.js"
 import useGetModel from '../../../Hooks/useGetModel.js'
 
