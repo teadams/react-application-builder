@@ -11,7 +11,7 @@ import ACSComboField from './Fields/ACSComboField.js';
 
 import ACSAddress from '../Functional/Fields/ACSAddress.js';
 import ACSImage from './Fields/Components/ACSImage.js';
-import ACSImageView from './Fields/Components/Widgets/ACSImage.js';
+import ACSImageView from './Fields/Components/Widgets/ACSImageView.js';
 import ACSFile from  './Fields/Components/ACSFile.js'
 
 import ACSReferenceField from '../Functional/Fields/ACSReferencesField.js';

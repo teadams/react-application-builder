@@ -2,8 +2,7 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import React, {Fragment} from 'react';
 import {Paper, Typography, Avatar} from '@material-ui/core';
-import * as u from '../../Utils/utils.js';
-import useGetModel from '../../Hooks/useGetModel.js'
+import * as u from '../../../../Utils/utils.js';
 
 // special case 
 // called directly (example from ACSFile) 

@@ -1,8 +1,8 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import { makeStyles } from '@material-ui/core/styles';
-import * as u from '../../Utils/utils.js';
-import * as control from '../../Utils/control.js';
+import * as u from '../../../Utils/utils.js';
+import * as control from '../../../Utils/control.js';
 
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useEffect} from 'react';
