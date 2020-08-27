@@ -73,7 +73,7 @@ function ACSDate(props) {
       return field_value
       break
     default:
-            return <Fragment>{field_value}</Fragment>
+      return <Fragment>{field_value}</Fragment>
   }
 }
 
