@@ -44,7 +44,7 @@ import TreeItem from '@material-ui/lab/TreeItem';
 // layouts
 import ACSMap from '../Functional/Lists/ACSMap.js'
 import ACSMapAndFilter from '../Functional/Layouts/ACSMapAndFilter.js'
-import {ACSWizard, ACSComboField, ACSTextField, ACSFile, ACSImage} from '../ACSLibrary/index.js'
+import {ACSWizard, ACSComboField, ACSTextField, ACSFile, ACSImage, ACSDate} from '../ACSLibrary/index.js'
 
 const useStyles = makeStyles({
   table_cell: {
@@ -293,6 +293,7 @@ function componentPicker(name, source="not provided") {
 
     case "ACSFile":  return ACSFile;
     case "ACSImage":  return ACSImage;
+    case "ACSDate":  return ACSDate;
 
     case "ACSReferencesField" : return  ACSReferencesField;
     case "ACSYouTube":  return ACSYouTube;
