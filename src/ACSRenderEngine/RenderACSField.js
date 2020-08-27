@@ -92,7 +92,6 @@ function RenderACSField(props) {
     function toggleMoreDetail(event) {
       setMoreDetail(!more_detail)
     } 
-
   // everything regarding field presentation will be in field_model
 
 
