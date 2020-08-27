@@ -6,9 +6,8 @@ import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useEffect} from 'react';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Select, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell,InputLabel } from '@material-ui/core';
 import * as meta from '../../Utils/meta.js';
-import ACSCreateButton from '../Buttons/ACSCreateButton.js'
-import ACSEditButton from '../Buttons/ACSEditButton.js'
-import ACSMapButton from '../Buttons/ACSMapButton.js'
+
+import {ACSCreateButton, ACSEditButton,ACSMapButton} from '../../ACSLibrary'
 
 
 function RABText(props) {

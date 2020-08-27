@@ -5,10 +5,7 @@ import * as meta from '../../../Utils/meta.js';
 import * as api from '../../../Utils/data.js';
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
-import ACSObjectTypeView from "../../../Functional/Lists/ACSObjectTypeView.js"
-import ACSObjectView from '../../../Functional/Rows/ACSObjectView.js'
-import ACSFilters from "../../../Functional/Filters/ACSFilters.js"
-import ACSCreateDialogButton from '../../../Functional/Buttons/ACSCreateDialogButton.js'
+import {ACSObjectType, ACSObjectView, ACSFilters, ACSCreateDialogButton} from '../../../ACSLibrary'
 
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 import {Link, Container, Box, Card, TableHead, TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
@@ -85,7 +82,7 @@ function ACSMapAndFilterFilter(props) {
             <ACSCreateDialogButton  require_authorization={false} ButtonComponent={ActionButton} DialogComponent={ActionComponent} object_type={object_type} row_mode="create" row_form="true"  id={data[0].id}  action_props={action_link_field?{[action_link_field]:data[0].id}:{}}/>
           </Card>}
           {data.length >1 &&
-            <ACSObjectTypeView data={data} field_click_to_edit={false} rab_component_model={{list:{names:{header_wrap:"RABVoid"}}}} field_models={field_models} field_list={list_field_list} object_type={object_type} mode="view" num_columns={1}  />
+            <ACSObjectType data={data} field_click_to_edit={false} rab_component_model={{list:{names:{header_wrap:"RABVoid"}}}} field_models={field_models} field_list={list_field_list} object_type={object_type} mode="view" num_columns={1}  />
           }
          </div>
      </div>

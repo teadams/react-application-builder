@@ -6,10 +6,7 @@ import {Switch,  Button} from '@material-ui/core';
 //import * as meta from '../../Utils/meta.js'
 import {AuthContext} from '../../Modules/User';
 
-import ACSCreateButton from '../../Functional/Buttons/ACSCreateButton.js'
-import ACSCreateDialogButton from '../../Functional/Buttons/ACSCreateDialogButton.js'
-import ACSObjectView from '../../Functional/Rows/ACSObjectView.js'
-import ACObjectTypeView from '../../Functional/Lists/ACSObjectTypeView.js'
+import {ACSCreateButton, ACSCreateDialogButton , ACSObjectView, ACSObjectType} from '../../ACSLibrary'
 
 // XX TODO
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
@@ -177,7 +174,7 @@ function ACSMapAndFilter (props) {
   if (show_side_window) {side_visibility="visible"}
   return (
     <Fragment>
-      <ACObjectTypeView headless={true} object_type={object_type} api_options={api_options} onData={loadData}/>
+      <ACSObjectType headless={true} object_type={object_type} api_options={api_options} onData={loadData}/>
       {!filter_view &&
       <Fragment>
         <MapOverlay filters={map_filters} filter_form_values={filter_form_values} create_action_props={create_action_props} create_action_menu={create_action_menu} handleFilterChange={handleFilterChange} create_marker_button_text={create_marker_button_text} object_type={object_type} layout={layout} sections={sections} dialog_size={dialog_size} onSubmit={handleCreateMarkerSubmit} require_authorization={false} checked={filter_view} toggleFilterView={toggleFilterView}/>
