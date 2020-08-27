@@ -204,8 +204,9 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   } 
 
   const handleFormChange = ((event) => {
-    event.persist();
-
+    if (event.target.type) {  
+      event.persist();
+    }
     const name = event.target.name
     const field_model=field_models[name]
     setLastTouched(name)

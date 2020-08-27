@@ -5,7 +5,11 @@ import * as u from '../../../Utils/utils.js';
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useEffect} from 'react';
 import {Link, FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Select, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell,InputLabel,RadioGroup,Radio } from '@material-ui/core';
-import * as meta from '../../../Utils/meta.js';
+import MomentUtils from '@date-io/moment';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 
 function ACSDate(props) {
@@ -15,6 +19,14 @@ function ACSDate(props) {
   let {with_thumbnail="", with_url="", more_detail=false, toggleMoreDetail} = props
 
 
+  const  handleDateChange = (date => {
+    let date_event = {}
+    date_event.target = {name:field_name, value:date}
+    if(onChange) {
+        onChange(date_event)
+    }
+  })
+
   // XX field model passed due to referenced change. May 
   // be done server side later
   let field_value
@@ -22,8 +34,12 @@ function ACSDate(props) {
     field_value = data[display_field]
   }
 
-  if (!field_value && (field_value === null || field_value === undefined)) {
-      field_value =" "
+  if (!field_value) {
+      field_value = null
+  }
+
+  if (field_value === "now()") {
+      field_value = new Date()
   }
 
 
@@ -32,36 +48,46 @@ function ACSDate(props) {
     case "create":
     case "filter":
 
-    const today= new Date()
+//    const today= new Date()
 //u.a(today)
-   const value = today.getFullYear()+'-'+today.getUTCMonth().toString().padStart(2, '0')+'-'+today.getDate();
+ //const value = today.getFullYear()+'-'+(today.getUTCMonth()+1).toString().padStart(2, '0')+'-'+today.getDate();
+  // const value = (today.getUTCMonth()+1).toString().padStart(2, '0')+'/'+today.getDate() + '/'+ today.getFullYear()
+//const value=today
+//u.a(field_value)
     const shrink=input_type==="date"?true:false
-
      return (
         <div style={{minWidth:"20em"}}>
           {field_model.summary &&  <div style={{marginBottom:"5px"}}>{field_model.summary}</div>}
-          <TextField
-            required={required} 
-            placeholder={placeholder}
-            autoFocus={autoFocus}
-            name={form_field_name}
-            id = {form_field_name}
-            label = {pretty_name}
-            key={form_field_name}
-            multiline={multiline}
-            helperText={helperText}
-            variant={variant}
-            fullWidth={true}
-            disabled={prevent_edit}
-            type={input_type}
- 
-            onBlur={props.onFieldBlur}
-            value={value}
-            //value={value}
-            InputLabelProps={{
-               shrink: true,
-             }}
-            onChange={onChange}></TextField>
+          <MuiPickersUtilsProvider utils={MomentUtils}>
+              <KeyboardDatePicker
+                disableToolbar
+                autoOk
+                required={false}
+                clearable={true}
+                placeholder={placeholder}
+                autoFocus={autoFocus}
+                helperText={helperText}
+                variant="inline"
+                inputVariant="outlined"
+                format="MM/DD/yyyy"
+                margin="normal"
+                name={form_field_name}
+                id = {form_field_name}
+                label = {pretty_name}
+                key={form_field_name}
+                value={field_value}
+                fullWidth={true}
+                disabled={prevent_edit}
+                onChange={handleDateChange}
+                InputLabelProps={{
+                   shrink: true,
+                 }}
+
+                KeyboardButtonProps={{
+                  'aria-label': 'change date',
+                }}
+              />
+          </MuiPickersUtilsProvider>
         </div>
         )
       
