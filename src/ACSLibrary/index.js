@@ -1,8 +1,8 @@
 //  Button
-import ACSCreateButton from '../Functional/Buttons/ACSCreateButton.js';
-import ACSCreateDialogButton from '../Functional/Buttons/ACSCreateDialogButton';
-import ACSEditButton from '../Functional/Buttons/ACSEditButton';
-import ACSMapButton from '../Functional/Buttons/ACSMapButton';
+import ACSCreateButton from './Buttons/ACSCreateButton.js';
+import ACSCreateDialogButton from './Buttons/ACSCreateDialogButton';
+import ACSEditButton from './Buttons/ACSEditButton';
+import ACSMapButton from './Buttons/ACSMapButton';
 
 // fields
 import ACSField from '../Functional/Fields/ACSField.js';
