@@ -32,7 +32,6 @@ const Wizard = (props) => {
   
   function handleFormClose() {
     if (props.onClose) {
-u.a(props.onClose)
       props.onClose()
     } 
  }
@@ -68,6 +67,10 @@ u.a(props.onClose)
 
    const handleStepSubmit = (event, result, form_values, inserted_id) => {
        let next_step_number = current_step_number + 1
+       if (next_step_number >= steps.length) {
+          handleFormClose()
+          return
+       }
        const current_steps = steps[current_step_number]
        let new_steps_state = _.merge({}, steps_state)
        new_steps_state[steps[current_step_number]].completed = true
@@ -120,7 +123,7 @@ u.a(props.onClose)
           Close
        </Button>}
       </DialogActions> 
-        </Dialog>}
+        </Dialog>
        </Fragment>
      ) 
 } 

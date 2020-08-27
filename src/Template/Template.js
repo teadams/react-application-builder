@@ -105,7 +105,7 @@ function Template(props) {
       </Toolbar>
       </AppBar>
       <TabMenu menu_type="app_menu" selected_menu={selected_menu} object_type={object_type} id={id} onChange={handleChange} />
-      <Body  selected_menu={selected_menu} open={open} onClose={handleClose} component_name={component_name} object_type={object_type} id={id} field_name={field_name} menu_type={menu_type} />
+      <Body  selected_menu={selected_menu} open={open} onClose={handleClose} component_name={component_name} object_type={object_type} id={id} field_name={field_name} menu_type={menu_type}/>
     <Debug/> 
     </div>
 
