@@ -18,7 +18,8 @@ import useGetModel from '../../Hooks/useGetModel'
 const Wizard = (props) => {
   const [data_elements, setDataElements] = useState([0, props.data, undefined, props.id, undefined])
   const [current_step_number, data, id, transition_id, next_step_number] = data_elements 
-  const {menu_model, items:steps, item_data:step_data, pretty_name:wizard_summary} = props
+
+  const {menu_model, items:steps, item_data:step_data, pretty_name:wizard_summary, open=true} = props
   const context = useContext(AuthContext)
 
   const current_step_key = steps[current_step_number]
@@ -29,8 +30,9 @@ const Wizard = (props) => {
   // XX?? move up a level
   const [steps_state, setStepsState] = useState(null)
   
-  function handleFormClosed() {
+  function handleFormClose() {
     if (props.onClose) {
+u.a(props.onClose)
       props.onClose()
     } 
  }
@@ -96,7 +98,7 @@ const Wizard = (props) => {
    return (
      <Fragment>
        {transition_id && <ACSHeadlessObject id={transition_id} object_type={object_type}  onData={handleOnData}/>}
-      <Dialog open={true} fullWidth={true} maxWidth="xl">
+      <Dialog open={open} fullWidth={true} maxWidth="xl">
        <DialogTitle>{wizard_summary}</DialogTitle>
         <Stepper nonLinear alternativeLabel style={{padding:"0px 10px"}} activeStep={current_step_number}>  
          {steps.map ((step,index) => {
@@ -111,10 +113,10 @@ const Wizard = (props) => {
             <div style={step_summary_style}>{summary}{description && <Fragment>:</Fragment>}</div>
             {description && <div style={step_description_style}> {description}</div>}
             <p/>
-         <WizardComponent onSubmit={handleStepSubmit} data={data} object_type={object_type} id={id} onClose={handleFormClosed} row_delayed_auth={true} row_form={true} no_header={true} row_dialog_center={true} mode={mode}  delay_dirty={true} {...wizard_props}/>
+         <WizardComponent onSubmit={handleStepSubmit} data={data} object_type={object_type} id={id} onClose={handleFormClose} row_delayed_auth={true} row_form={true} no_header={true} row_dialog_center={true} mode={mode}  delay_dirty={true} {...wizard_props}/>
         </DialogContent>
         <DialogActions>
-        {(!mode || mode === "view") && <Button  onClick={handleFormClosed} color="primary">
+        {(!mode || mode === "view") && <Button  onClick={handleFormClose} color="primary">
           Close
        </Button>}
       </DialogActions> 
@@ -123,10 +125,10 @@ const Wizard = (props) => {
      ) 
 } 
 
- function ACSWizard(props)  {
+function ACSWizard(props)  {
     return (
     <ACSMenuController {...props}>
-        <Wizard another="test"/>
+        <Wizard/>
     </ACSMenuController>
     )
 }

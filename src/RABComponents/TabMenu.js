@@ -38,6 +38,7 @@ function TabMenu(props)  {
     const {data, field_list} = props
     const [value, setValue] = React.useState(props.value);
     function handleOnChange(event,new_value) {
+u.a("handle on change")
       window.scrollTo(0,0)
       setValue(new_value)
       let path = `/${new_value}`

@@ -1,14 +1,14 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useContext} from 'react';
+import React, { useContext, useState} from 'react';
 import TabMenu from '../RABComponents/TabMenu';
 import DrawerMenu from '../RABComponents/DrawerMenu';
 import {ContextSelect, Auth, AuthToggleLink} from '../Modules/User';
 import Body from "./Body"
 import MessageIcon from "./MessageIcon.js"
 import Debug from "./Debug.js"
-//import * as u from '../Utils/utils.js'
+import * as u from '../Utils/utils.js'
 
 import {AppBar,Toolbar, Typography} from '@material-ui/core';
 import useGetModel from "../Hooks/useGetModel.js"
@@ -17,6 +17,7 @@ function Template(props) {
 
   const app_params =  useGetModel("app_params")
   const menu_model = useGetModel("menus")
+  const [open,setOpen] = useState(true)
 
   const useStyles = makeStyles((theme) => ({
     grow: {
@@ -70,7 +71,13 @@ function Template(props) {
      },
   }))
   const classes = useStyles();
+  const handleClose = (event => {
+        setOpen(false)
+  })
 
+  const handleChange = (event => {
+        setOpen(true)
+  })
 
   let {component_name, selected_menu, object_type, id, menu_type, field_name } = props.match.params
   if (!selected_menu && !component_name) {
@@ -97,8 +104,8 @@ function Template(props) {
               </div>
       </Toolbar>
       </AppBar>
-      <TabMenu menu_type="app_menu" selected_menu={selected_menu} object_type={object_type} id={id} />
-      <Body  selected_menu={selected_menu} component_name={component_name} object_type={object_type} id={id} field_name={field_name} menu_type={menu_type} />
+      <TabMenu menu_type="app_menu" selected_menu={selected_menu} object_type={object_type} id={id} onChange={handleChange} />
+      <Body  selected_menu={selected_menu} open={open} onClose={handleClose} component_name={component_name} object_type={object_type} id={id} field_name={field_name} menu_type={menu_type} />
     <Debug/> 
     </div>
 
