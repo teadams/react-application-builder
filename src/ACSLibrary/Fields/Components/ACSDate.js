@@ -43,6 +43,11 @@ function ACSDate(props) {
   }
 
 
+  const date_view = (value) => {
+    let date = new Date(Date.parse(value))
+    return (date.getMonth()+1 + "/"+ date.getDate() +"/"+ date.getFullYear())
+  }
+
   switch (mode) {
     case "edit":
     case "create":
@@ -93,13 +98,13 @@ function ACSDate(props) {
       
       break
     case "csv":
-      return '"'+field_value+'""'
+      return '"'+date_view(field_value)+'""'
       break
     case "text":
-      return field_value
+      return date_view(field_value)
       break
     default:
-      return <Fragment>{field_value}</Fragment>
+      return <Fragment>{date_view(field_value)}</Fragment>
   }
 }
 
