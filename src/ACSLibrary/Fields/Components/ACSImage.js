@@ -5,7 +5,7 @@ import * as control from '../../../Utils/control.js';
 
 import React, { Fragment} from 'react';
 import { Button } from '@material-ui/core';
-import ACSViewImage from './Widgets/ACSImageView.js'
+import ACSImageView from './Widgets/ACSImageView.js'
 import useGetModel from '../../../Hooks/useGetModel.js'
 
 function ACSImage(props) {
@@ -63,16 +63,16 @@ switch (mode) {
           <div style={border_style}>
             <div>
               {mode==="edit" && data_type === "image" && !img_exists &&
-                <ACSViewImage style={img_style} letters={letters} image_object={field_value} letters={letters} size={image_size} avatar={avatar} custom_width={custom_width} custom_height={custom_height}/>
+                <ACSImageView style={img_style} letters={letters} image_object={field_value} letters={letters} size={image_size} avatar={avatar} custom_width={custom_width} custom_height={custom_height}/>
               }
               { mode !== "edit" &&  data_type === "image" && !img_exists &&
               <Fragment>
-                <ACSViewImage style={img_style} letters={letters} img_src="" letters={letters} size={image_size} avatar={avatar} custom_width={custom_width} custom_height={custom_height}/>
+                <ACSImageView style={img_style} letters={letters} img_src="" letters={letters} size={image_size} avatar={avatar} custom_width={custom_width} custom_height={custom_height}/>
               </Fragment>
               }
               {img_exists && 
               <Fragment>
-                <ACSViewImage style={img_style} letters={letters} img_src={img_src} letters={letters} size={image_size} avatar={avatar} custom_width={custom_width} custom_height={custom_height}/><br/>
+                <ACSImageView style={img_style} letters={letters} img_src={img_src} letters={letters} size={image_size} avatar={avatar} custom_width={custom_width} custom_height={custom_height}/><br/>
                 {img_name}
               </Fragment>
               }
@@ -103,10 +103,10 @@ switch (mode) {
       return '"'+field_value+'""'
       break
     case "list":
-        return <ACSViewImage style={list_img_style?list_img_style:img_style} letters={letters} image_object={field_value} size={image_size_list}   avatar={avatar}/>
+        return <ACSImageView style={list_img_style?list_img_style:img_style} letters={letters} image_object={field_value} size={image_size_list}   avatar={avatar}/>
       break
     default:
-        return <ACSViewImage style={img_style} letters={letters} avatar={avatar} image_object={field_value} size={image_size}/>
+        return <ACSImageView style={img_style} letters={letters} avatar={avatar} image_object={field_value} size={image_size}/>
   }
 }
 
