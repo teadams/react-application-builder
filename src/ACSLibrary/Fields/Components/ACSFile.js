@@ -43,10 +43,14 @@ switch (mode) {
     case "create":
       let file_exists = false 
       let file_src, file_name
-      if (formValues && Object.keys(formValues).length>0 &&formValues[form_field_name]) {
+//u.a(formValues, object_type, field_value)
+      if (mode === "create" && formValues && Object.keys(formValues).length>0 &&formValues[form_field_name]) {
         file_exists = true
         file_src = URL.createObjectURL(formValues[form_field_name])
         file_name = formValues[form_field_name].name
+      }
+      if (mode === "edit") {
+        file_name = field_value.name
       }
       const border_style= {
         borderColor:"rgba(0, 0, 0, 0.24)",
@@ -66,21 +70,20 @@ switch (mode) {
             <Fragment>Filename: {file_name}</Fragment>
             </div>}
             <div style={{paddingLeft:"10px"}}>
-               <label htmlFor={form_field_name}>
+               <label htmlFor={form_field_name+"_form"}>
                 {helperText} <br/>
                  <Button style={{marginTop:"10px"}} color="primary" variant="outlined" component="span">
                    Upload {pretty_name}
-                 </Button>
-                
+                 </Button>                
                </label>    
                <input
                  style={{ display: "none" }}
-                 id={form_field_name}
+                 id={form_field_name+"_form"}
                  name={form_field_name}
                  key={form_field_name}
                  type="file"
                  onChange={onChange}
-               />
+               /> 
             </div>
             </div>
           </div>
@@ -96,14 +99,14 @@ switch (mode) {
       break
     case "list":
       if (field_value) {
-        return ( <Link key={field_name} id={field_name} target="_blank" rel="noopener" href={file_url}>LINK{field_value.name}</Link>)
+        return ( <Fragment><Link name="url_link" key={field_name} id={field_name} target="_blank" rel="noopener" href={file_url}>{field_value.name}</Link> (<Link>edit</Link>)</Fragment>)
       } else {
         return ""
       }
       break;
     default:
       if (field_value) {
-        return (field_value.name + " + " + file_url)
+        return ( <Fragment><Link name="url_link" key={field_name} id={field_name} target="_blank" rel="noopener" href={file_url}>{field_value.name}</Link></Fragment>)
       } else {
         return ""
       }

@@ -137,7 +137,7 @@ function RenderACSField(props) {
     }
 
     const handleFieldClick = (event) => {
-      if (!prevent_edit && click_to_edit && event.target.name !== "more_link") {
+      if (!prevent_edit && click_to_edit && event.target.name !== "more_link" && event.target.name !=="url_link") {
         popup.setOrigin(popup_origin)
         popup.open(event,FieldEdit)
       }
