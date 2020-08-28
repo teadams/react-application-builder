@@ -6,15 +6,16 @@ import * as control from '../../../Utils/control.js';
 
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useEffect} from 'react';
-import { OutlinedInput, FormControl, FormHelperText, Input, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Select, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell,InputLabel } from '@material-ui/core';
+import {Link, OutlinedInput, FormControl, FormHelperText, Input, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Select, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell,InputLabel } from '@material-ui/core';
 import * as meta from '../../../Utils/meta.js';
 import useGetModel from '../../../Hooks/useGetModel.js'
 
 function get_file_url (file_object) {
     if (!file_object) {return null}
-    const file_base = (process.env.NODE_ENV ==="production")? "https://storage.googleapis.com/acs_full_stack/":"/"
+    const file_base = (process.env.NODE_ENV ==="production")? "https://storage.googleapis.com/acs_full_stack/":"http://localhost:8080/"
+    const separator = (process.env.NODE_ENV ==="production")? "/":"-"
     if (file_object && file_object.path && file_object.name) {
-      return (file_base  + file_object.path +"/"+ file_object.name)
+      return (file_base  + file_object.path + separator + file_object.name)
     } else {
       return ""
     }     
@@ -30,31 +31,13 @@ const object_type_model = useGetModel("object_types")[object_type]
   let field_value = data[data_field]
   if (field_value && Object.keys(field_value).length>0) {
       field_value = JSON.parse(field_value)
-  }
+  } else {
+      field_value = ""
+ }
 
   const file_url =get_file_url(field_value)
 
 
-  let letters = ""
-
-  if (!field_value && data_type === "image") {
-    const pretty_key = object_type_model.pretty_key_id
-
-    const pretty_field_meta = field_models[object_type][pretty_key]
-    const pretty_comp_name = pretty_field_meta.field_component
-    const field_component = control.componentByName(pretty_comp_name?pretty_comp_name:"RABTextField")
-    let pretty_name_text = ""
-    if (data[pretty_key]) {
-      pretty_name_text  = field_component({data:data, field_name:pretty_key, mode:"text"})
-    }
-
-    let word = ""
-    if (pretty_name_text) {
-      for (word of pretty_name_text.split(" ")) {
-        letters += word.charAt(0)
-      }
-    }
-  }
 switch (mode) {
     case "edit":
     case "create":
@@ -105,16 +88,25 @@ switch (mode) {
         )
       break
     case "csv":
-      return '"'+ field_value.name+" - " + file_url +'""'
+      if (field_value) {
+        return '"'+ field_value.name+" - " + file_url +'""'
+      } else {
+        return ""
+      }
       break
     case "list":
-
-        return (field_value.name + " + " + file_url)
+      if (field_value) {
+        return ( <Link key={field_name} id={field_name} target="_blank" rel="noopener" href={file_url}>LINK{field_value.name}</Link>)
+      } else {
+        return ""
+      }
       break;
     default:
-      
-      return (field_value.name + " + " + file_url)
-
+      if (field_value) {
+        return (field_value.name + " + " + file_url)
+      } else {
+        return ""
+      }
       // text, view, list
   }
 }
