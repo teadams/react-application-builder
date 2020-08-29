@@ -6,7 +6,7 @@ import useGetModel from '../Hooks/useGetModel';
 import {AuthContext} from '../Modules/User';
 import axios from 'axios';
 
-const _handleSubmit = ((event, formValues, mode, context, object_type, object_model, field_models, handleSubmit, id_field, filesTouched, delay_dirty=false) => {
+const _handleSubmit = ((event, formValues, mode, context, object_type, object_model, field_models, handleSubmit, id_field="id", filesTouched, delay_dirty=false) => {
 
   if (context.context_id && object_model.with_context && ["create","list_create"].includes(mode)) {
     formValues.core_subsite = context.context_id
@@ -80,7 +80,7 @@ const expand_combos_field_list = (field_list, field_models) => {
 
 }
 
-const useForm = (object_type, field_name="", data, handleSubmit, mode="view", form=true, default_values_prop={}, field_list, delay_dirty=false) => {
+const useForm = (object_type, field_name="", data, handleSubmit, mode="view", form=true, default_values_prop={}, field_list, delay_dirty=false,  list_formValues, list_lastTouched, index) => {
 // XX Have to be passed field_models
   const [formValues, setFormValues] = useState({});
   const [lastTouched,setLastTouched] = useState(false)
@@ -236,6 +236,10 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       }
     }
   })
+  if (list_formValues) {
+    list_formValues.current[index] = formValues
+    list_lastTouched.current[index] = lastTouched
+  }
    return {formValues, lastTouched, handleFormSubmit, handleFormChange};
 
 }

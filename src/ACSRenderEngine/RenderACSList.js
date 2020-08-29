@@ -3,26 +3,46 @@ import 'react-app-polyfill/stable';
 import * as log from '../Utils/log.js'
 import * as meta from '../Utils/meta.js'
 import * as u from '../Utils/utils.js';
+import * as api from '../Utils/data.js';
+
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import {DelayedAuth} from '../Modules/User/index.js';
 
 
-import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
+import React, { Component, Fragment,  useRef, useState, useContext, useEffect} from 'react';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Chseckbox, Typography, Chip, Grid, MenuItem, TextField, TableContainer, TableHead, TableCell, TableRow, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, TablePagination, Button, Paper, Avatar, TableBody, Table } from '@material-ui/core';
 
 function RenderACSList(props) {
-  const {data, mode,rab_component_model, field_models,total_width_units} = props
+  const {data, mode,rab_component_model, field_models,total_width_units, object_type} = props
   const {pagination=false ,...params} = props
   const {header_wrap:HeaderWrap, header:Header, list_wrap:ListWrap, list_header_wrap:ListHeaderWrap, list_header:ListHeader, body_wrap:BodyWrap, list:RABList, footer_wrap:FooterWrap, footer:Footer,
   list_container:ListContainer, list_pagination:ListPagination} = rab_component_model.list.components 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [list_formValues, setListFormValues] = useState({})
+  const list_formValues= useRef({})
+  const list_lastTouched = useRef({})
 
   if (["list_edit","list_create"].includes(mode)) {
       params.list_formValues = list_formValues
-      params.setListFormValues = setListFormValues
+      params.list_lastTouched = list_lastTouched
   }
 
+  const handleSubmit=(event) => {
+    Object.keys(list_lastTouched.current).forEach(row_index=>{
+      if(list_lastTouched.current[row_index]) {
+        api.putData(object_type, list_formValues.current[row_index], {}, (result, error) => {       
+          if (error) {
+            alert ('error is ' + error.message)
+          } else { 
+            u.a('subbe')
+          }
+       })
+    }
+    })
+    if (props.onSubmit) {
+      props.onSubmit(event)
+    }
+  }
   const handleChangePage = (event, newPage) => {
      setPage(newPage);
    };
@@ -63,6 +83,14 @@ function RenderACSList(props) {
               </BodyWrap>
              </ListWrap>
           </ListContainer>
+          {["list_edit","list_create"].includes(mode) && 
+            <DialogActions>
+              <DelayedAuth onClick={handleSubmit} object_type={object_type} auth_action="edit" color="primary">save</DelayedAuth>
+              {props.onClose && <Button onClick={props.onClose} color="primary">
+                Close
+              </Button>}
+            </DialogActions> 
+          }
           {pagination &&<ListPagination
              rowsPerPageOptions={[10, 20, 30]}
              component="div"
