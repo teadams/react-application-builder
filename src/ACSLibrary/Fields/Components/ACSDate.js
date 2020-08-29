@@ -27,8 +27,6 @@ function ACSDate(props) {
     }
   })
 
-  // XX field model passed due to referenced change. May 
-  // be done server side later
   let field_value
   if (data) {
     field_value = data[display_field]
@@ -42,6 +40,8 @@ function ACSDate(props) {
       field_value = new Date()
   }
 
+  // XX field model passed due to referenced change. May 
+  // be done server side later
 
   const date_view = (value) => {
     let date = new Date(Date.parse(value))
@@ -52,13 +52,13 @@ function ACSDate(props) {
     case "edit":
     case "create":
     case "filter":
-
-//    const today= new Date()
-//u.a(today)
- //const value = today.getFullYear()+'-'+(today.getUTCMonth()+1).toString().padStart(2, '0')+'-'+today.getDate();
-  // const value = (today.getUTCMonth()+1).toString().padStart(2, '0')+'/'+today.getDate() + '/'+ today.getFullYear()
-//const value=today
-//u.a(field_value)
+    let value = formValues[form_field_name]
+    if (value === "now()") {
+        value = new Date()
+    }
+    if (!value) {
+        value = null
+    }
     const shrink=input_type==="date"?true:false
      return (
         <div style={{minWidth:"20em"}}>
@@ -80,7 +80,7 @@ function ACSDate(props) {
                 id = {form_field_name}
                 label = {pretty_name}
                 key={form_field_name}
-                value={field_value}
+                value={value}
                 fullWidth={true}
                 disabled={prevent_edit}
                 onChange={handleDateChange}

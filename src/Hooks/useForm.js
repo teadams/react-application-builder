@@ -16,8 +16,10 @@ const _handleSubmit = ((event, formValues, mode, context, object_type, object_mo
   }
 
   if (!formValues[id_field]) {
+
     api.postData(object_type, formValues, {}, (insert_result, error) => { 
       // XX user_id, subsite
+
       if (error) {
         alert ('error is ' + error.message)
       } else {
@@ -133,7 +135,6 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
           }
 
         } else {
-
           default_value=(data[data_field]!==null&&data[data_field]!==undefined)?data[data_field]:""
         }
 
