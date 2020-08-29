@@ -51,7 +51,6 @@ function RABTableHeaders(props) {
 
 
   return (
-      <TableHead>
         <TableRow>
         {field_list.map(field=>{
             const column_field_model = field_models[object_type][field] 
@@ -64,7 +63,6 @@ function RABTableHeaders(props) {
             }
             return(<TableCell className={classes.head} style={style} key={field+"header"}>{pretty_name}</TableCell>)})}
         </TableRow>
-    </TableHead>
         )
 }
 
@@ -81,7 +79,7 @@ function RABList(list_props) {
 // Documentation - see comments in ACSRowController
 function ACSListController(input_props) {
   // do not merge expensive, known unnecessary things
-  const {data:input_props_data, action, target_menu_name, lazy="core", field_models:input_field_models, headless, action_props, onData, ...merging_props} = input_props
+  const {data:input_props_data, action, target_menu_name, lazy="core", field_models:input_field_models, headless, action_props, no_header=false, onData, ...merging_props} = input_props
   const object_models =  useGetModel("object_types")
   const object_model = object_models?object_models[input_props.object_type]:{} 
   let field_models = useGetModel("fields")
@@ -95,9 +93,20 @@ function ACSListController(input_props) {
   // same effect so it's not "really" a a bug
   let list_component_model = _.merge({},rab_component_models.list)
   list_component_model.list.components.list = RABList
+  if (no_header) {
+    list_component_model.list.names.header = "RABVoid"
+    list_component_model.list.names.header_wrap = "RABVoid" 
+  } 
+
   list_component_model.list.components.list_header = RABTableHeaders
   list_component_model.list.names.list_header_wrap = "TableHead" 
+//  u.a("list", list_component_model.list.names.header_wrap)
+//  u.a("component", list_component_model.list.components.header_wrap)
+
+  //u.a("object model", object_model)
+
   const rab_component_model = control.getFinalModel("list", {...merging_props}, object_model, list_component_model )
+//u.a("rab", rab_component_model.list.components.header_wrap)
   const list_model = rab_component_model.list
   const list_components = list_model.components
   const massaged_props = list_model.props

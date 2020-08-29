@@ -183,6 +183,7 @@ function determineModelComponents(level, model) {
   // similar to buildRABModel, this could be precalculate
   // on load of the metadata.  
   if (!model) {return null}
+  model = _.merge({},model)
   Object.keys(model[level].names).forEach(name =>{
     if (model[level].names[name] && !model[level].components[name]) {
       model[level].components[name] = componentByName(model[level].names[name],"control")
