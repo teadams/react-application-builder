@@ -22,7 +22,7 @@ const expand_combos_field_list = (field_list, field_models) => {
 
 }
 
-const useForm = (object_type, field_name="", data, handleSubmit, mode="view", form=true, default_values_prop={}, field_list, delay_dirty=false,  list_formValues, list_lastTouched, index) => {
+const useForm = (object_type, field_name="", data, handleSubmit, mode="view", form=true, default_values_prop={}, field_list, delay_dirty=false,  list_formValues, list_lastTouched, index,trace) => {
 // XX Have to be passed field_models
   const [formValues, setFormValues] = useState({});
   const [lastTouched,setLastTouched] = useState(false)
@@ -44,9 +44,12 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
           return {undefined, undefined, undefined, undefined}
     }
 
-
-  const input_mask = object_type+","+field_name+mode+field_list.toString()
-
+  let input_mask 
+  if (data) {
+    input_mask = object_type+","+field_name+mode+field_list.toString()+data.id
+  } else {
+    input_mask = object_type+","+field_name+mode+field_list.toString()
+  }
   if (input_mask !== prior_input_mask) {
     // props have changed, new form
     let defaults = {}
@@ -108,6 +111,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
         if (context.user) {
           setPriorUserId(context.user.id)
         }
+        setLastTouched(false)
         setFormValues(defaults)
     }
   } else if (context.user && ["create","list_create"].includes(mode) && context.user.id !== prior_user_id) {

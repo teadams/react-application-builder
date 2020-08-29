@@ -67,13 +67,15 @@ function RABTableHeaders(props) {
 
 function RABList(list_props) {
   const {data, field_models, rab_component_model, mode, ...list_params} = list_props
+  let last_index
   return (
     <Fragment>
       {data.map((row, index) => {
-          return (<ACSRowController row_type="table_list" {...list_params} data={row} index={index} mode={mode} field_models={field_models} rab_component_model={rab_component_model} key={index+"Controller"} key_id={index}/>)
+          last_index = index
+          return (<ACSRowController row_type="table_list" {...list_params} data={row} index={row.id} mode={mode} field_models={field_models} rab_component_model={rab_component_model} key={row.id+"Controller"} key_id={row.id}/>)
       })}
       {mode === "list_edit" &&
-          <ACSRowController row_type="table_list" {...list_params}  index="create_1" mode="list_create" field_models={field_models} rab_component_model={rab_component_model} key={"Controller-Create"} key_id="create_1"/>
+          <ACSRowController row_type="table_list" {...list_params}  index={last_index+1} mode="list_create" field_models={field_models} rab_component_model={rab_component_model} key={"Controller-Create"+last_index+1} key_id={"controller"+last_index+1}/>
       }
     </Fragment>
   )
@@ -132,6 +134,9 @@ function ACSListController(input_props) {
     }
   }
   let [object_type, api_options, data] = useGetObjectList(input_props.object_type, input_api_options, input_props.data, onData); 
+
+  list_lastTouched.current = {}
+  list_formValues.current = {}
 
   const field_list = useGenerateFieldList(object_type, "", data, mode, false, input_props.field_list, api_options.lazy) 
   if (!data || (object_type && !object_model) || headless) return null

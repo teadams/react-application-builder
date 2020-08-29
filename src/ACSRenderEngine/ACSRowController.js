@@ -176,7 +176,6 @@ function ACSRowController(input_props) {
 
   // do not merge expensive, known unnecessary things
   let {layout, headless=false, data:input_props_data, row_type="table_row", form_open, key_id, onData="",action_props, action, form_title, no_header=false, sections,  override_meta_model, delay_dirty=false,setListFormValues, list_formValues, setListLastTouched, list_lastTouched, index, mode, ...merging_props} = input_props
-
   // if mode is create and there is ad id, change mode to edit.
   // Use Case - Wizard when user goes back to the create step
   if (["create","list_create"].includes(mode) && (merging_props.id || (input_props_data && input_props_data.id))) {
@@ -226,10 +225,15 @@ function ACSRowController(input_props) {
   const massaged_props = row_model.props
   const { num_columns="",  form=false,  ...params} = massaged_props
 
+if (form===true) {
+//  u.a(input_props.data)
+}
 
   let [object_type, id, prescrubbed_field_list, api_options, data] =  useGetObject(input_props.object_type, input_props.id, input_props.field_list, input_props.api_options, input_props.data, onData);
 
-
+if (form===true) {
+//  u.a(data)
+}
   if (!input_props_data && !id && data) {
     // lookup was by filter, not id
     id = data.id
