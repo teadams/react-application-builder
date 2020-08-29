@@ -79,7 +79,7 @@ function RABList(list_props) {
 // Documentation - see comments in ACSRowController
 function ACSListController(input_props) {
   // do not merge expensive, known unnecessary things
-  const {data:input_props_data, action, target_menu_name, lazy="core", field_models:input_field_models, headless, action_props, no_header=false, onData, ...merging_props} = input_props
+  const {data:input_props_data, action, target_menu_name, lazy="core", field_models:input_field_models, headless, action_props, no_header=false, onData, api_options:discard_api_options, field_list:discard_field_list, ...merging_props} = input_props
   const object_models =  useGetModel("object_types")
   const object_model = object_models?object_models[input_props.object_type]:{} 
   let field_models = useGetModel("fields")
@@ -112,19 +112,21 @@ function ACSListController(input_props) {
   const massaged_props = list_model.props
   const {list_wrap, body_wrap, list} = list_components
     // XX thinking about the role of field list/field tags in lazy loading, lazy reference loading
-  let {mode="list", field_list=""} = massaged_props
+  let {mode="list"} = massaged_props
 
   // important to use input_props.data as it is an array and useGetObjectList
   // see changes to an array's reference as a change
+  let input_api_options = _.merge({}, input_props.api_options)
   if (lazy) {
-    if (massaged_props.api_options) {
-      massaged_props.api_options.lazy = lazy
+    if (input_api_options) {
+      input_api_options.lazy = lazy
     } else {
-      massaged_props.api_options = {lazy:lazy}
+      input_api_options = {lazy:lazy}
     }
   }
-  let [object_type, api_options, data] = useGetObjectList(massaged_props.object_type, massaged_props.api_options, input_props.data, onData); 
-  field_list = useGenerateFieldList(object_type, "", data, mode, false, field_list, api_options.lazy) 
+  let [object_type, api_options, data] = useGetObjectList(input_props.object_type, input_api_options, input_props.data, onData); 
+
+  const field_list = useGenerateFieldList(object_type, "", data, mode, false, input_props.field_list, api_options.lazy) 
   if (!data || (object_type && !object_model) || headless) return null
 
   // XX could calcuate server side
@@ -140,6 +142,7 @@ function ACSListController(input_props) {
       total_width_units += list_grow
     })
   }
+u.a(list_model.props)
   return  (
     <ACSListRenderer  {...list_model.props} total_width_units={total_width_units}  field_models={field_models} action={action} key={object_type+"list"}  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} action_props={action_props} rab_component_model={rab_component_model} />
   )
