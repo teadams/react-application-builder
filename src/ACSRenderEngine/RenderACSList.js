@@ -86,7 +86,7 @@ function RenderACSList(props) {
           </ListContainer>
           {["list_edit","list_create"].includes(mode) && 
             <DialogActions>
-              <DelayedAuth onClick={handleSubmit} object_type={object_type} auth_action="edit" color="primary">save</DelayedAuth>
+              <DelayedAuth  object_type={object_type} auth_action="edit" color="primary"><Button onClick={handleSubmit}>save</Button></DelayedAuth>
               {props.onClose && <Button onClick={props.onClose} color="primary">
                 Close
               </Button>}
