@@ -95,14 +95,14 @@ function RABTextField(props) {
     }
   }
 
-
+  const rows = multiline?multiline:1
+  let value
   switch (mode) {
     case "edit":
     case "create":
     case "filter":
-      const rows = multiline?multiline:1
       let widget_type = "text" 
-      let value = formValues[form_field_name]
+      value = formValues[form_field_name]
       if (model_valid_values) {
         widget_type=input_type?input_type:"select"
 
@@ -148,9 +148,23 @@ function RABTextField(props) {
         )
       }
       break
+    case "list_edit":
+    case "list_create":
+      value = formValues[form_field_name]
+      return (
+        <TextField
+          name={form_field_name}
+          id = {form_field_name}
+          key={form_field_name}
+          fullWidth={false}
+          type={input_type}
+          value={value}
+          onChange={onChange}></TextField>
+      )
+      break;
     case "csv":
       return '"'+field_value+'""'
-      break
+      break;
     case "text":
       return field_value
     default:
