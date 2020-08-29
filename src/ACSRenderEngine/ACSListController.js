@@ -9,7 +9,7 @@ import {Tab, Tabs, Menu, MenuItem, MenuList,List,ListItem,ListItemAvatar,ListIte
 
 // Responsible 
 // chosing model, component
-// storing state of forms?
+// storinKg state of forms?
 // Decided the mode?
 import useGetObjectList from '../Hooks/useGetObjectList';
 import useGetModel from '../Hooks/useGetModel';
@@ -71,7 +71,7 @@ function RABList(list_props) {
 
   return (
     data.map((row, index) => {
-        return (<ACSRowController row_type="table_list" {...list_params} data={row} field_models={field_models} rab_component_model={rab_component_model} key={index+"Controller"} key_id={index}/>)
+        return (<ACSRowController row_type="table_list" {...list_params} data={row} index={index} field_models={field_models} rab_component_model={rab_component_model} key={index+"Controller"} key_id={index}/>)
     })
   )
 }

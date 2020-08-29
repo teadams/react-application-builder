@@ -176,7 +176,7 @@ function ACSRowController(input_props) {
 
 
   // do not merge expensive, known unnecessary things
-  let {layout, headless=false, data:input_props_data, row_type="table_row", form_open, key_id, onData="",action_props, action, form_title, no_header=false, sections,  override_meta_model, delay_dirty=false,...merging_props} = input_props
+  let {layout, headless=false, data:input_props_data, row_type="table_row", form_open, key_id, onData="",action_props, action, form_title, no_header=false, sections,  override_meta_model, delay_dirty=false,setListFormValues, list_formValues,index, ...merging_props} = input_props
 
   // if mode is create and there is ad id, change mode to edit.
   // Use Case - Wizard when user goes back to the create step
@@ -264,6 +264,9 @@ function ACSRowController(input_props) {
   }
 
   let {formValues, lastTouched, handleFormChange, handleFormSubmit,} = useForm(object_type, "", data, handleSubmit, mode, form, merging_props,field_list, delay_dirty);
+  if (setListFormValues && !list_formValues[index]) {
+        setListFormValues(list_formValues=>({...list_formValues,[index]:formValues}))
+  }
   //// wall /////
   if (!field_models) {return null}
   const field_model = field_models[object_type]

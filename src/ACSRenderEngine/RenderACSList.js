@@ -16,6 +16,12 @@ function RenderACSList(props) {
   list_container:ListContainer, list_pagination:ListPagination} = rab_component_model.list.components 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [list_formValues, setListFormValues] = useState({})
+
+  if (["list_edit","list_create"].includes(mode)) {
+      params.list_formValues = list_formValues
+      params.setListFormValues = setListFormValues
+  }
 
   const handleChangePage = (event, newPage) => {
      setPage(newPage);
@@ -53,7 +59,7 @@ function RenderACSList(props) {
                 <ListHeader {...params}/>
               </ListHeaderWrap> 
               <BodyWrap {...params}>
-                 <RABList {...params}/>
+                 <RABList  {...params}/>
               </BodyWrap>
              </ListWrap>
           </ListContainer>
