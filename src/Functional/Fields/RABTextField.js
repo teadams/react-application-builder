@@ -157,6 +157,7 @@ function RABTextField(props) {
           id = {form_field_name}
           key={form_field_name}
           fullWidth={false}
+          disabled={prevent_edit}
           type={input_type}
           value={value}
           onChange={onChange}></TextField>
