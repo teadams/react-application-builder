@@ -264,21 +264,20 @@ function ACSRowController(input_props) {
   }
 
   let {formValues, lastTouched, handleFormChange, handleFormSubmit,} = useForm(object_type, "", data, handleSubmit, mode, form, merging_props,field_list, delay_dirty);
-  
   //// wall /////
   if (!field_models) {return null}
   const field_model = field_models[object_type]
 
-  if ((mode !== "create" && !data) || (object_type && !object_model) || (object_type && !field_model) || field_list.length === 0) return null
+  if ((!["create","list_create"].includes(mode) && !data) || (object_type && !object_model) || (object_type && !field_model) || field_list.length === 0) return null
 
   //XX TODO - have to restructure references defaults
-  if (mode==="create") {data = formValues}
+  if (["create","list_create"].includes(mode)) {data = formValues}
   /// XX Will be expanded to deal with sections
   // XX will be expanded to deal with col_spans
 
   
   if (num_columns && num_columns !== "all" && 
-    (mode !== "list" && mode !== "list_edit"))  {
+    (!["list","list_edit","list_create"].includes(mode)))  {
     section_field_lists.forEach ((field_list, section_index) => {
       let chunked_field_list = [[]]
       let index = 0

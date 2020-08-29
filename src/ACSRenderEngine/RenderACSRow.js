@@ -22,7 +22,6 @@ function RenderACSRow(props) {
   const {header_wrap:HeaderWrap, header:Header, section_wrap:SectionWrap, section_header:SectionHeader, section_body_wrap:SectionBodyWrap=Fragment, row_wrap:RowWrap,  row:RABRow, row_body:RowBody, form_wrap:FormWrap} = rab_component_model.row.components
 
 
-
   if (data) {
     return (
       <Auth require_authorization={!delayed_auth} auth_action={mode} object_type={object_type} onClose={onClose} data={data}>
