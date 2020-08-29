@@ -14,6 +14,9 @@ function Auth(props) {
   let {auth_scope="", auth_priv="", auth_action="read", object_type, prompt_login=true, require_authorization=true, data=""} = props
   // for safety making this explicit instead of defaulting
   if (["view","csv","list"].includes(auth_action)) {auth_action="read"}
+  if (["list_edit"].includes(auth_action)) {auth_action="edit"}
+  if (["list_create"].includes(auth_action)) {auth_action="create"}
+
   const [login_form, setLoginForm] = useState(false)
   const object_type_meta = useGetModel("object_types", object_type)
   const app_params  = useGetModel("app_params")

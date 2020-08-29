@@ -277,7 +277,8 @@ function ACSRowController(input_props) {
   // XX will be expanded to deal with col_spans
 
   
-  if (num_columns && num_columns !== "all" && mode !== "list" )  {
+  if (num_columns && num_columns !== "all" && 
+    (mode !== "list" && mode !== "list_edit"))  {
     section_field_lists.forEach ((field_list, section_index) => {
       let chunked_field_list = [[]]
       let index = 0
