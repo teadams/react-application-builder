@@ -66,12 +66,16 @@ function RABTableHeaders(props) {
 }
 
 function RABList(list_props) {
-  const {data, field_models, rab_component_model, ...list_params} = list_props
-
+  const {data, field_models, rab_component_model, mode, ...list_params} = list_props
   return (
-    data.map((row, index) => {
-        return (<ACSRowController row_type="table_list" {...list_params} data={row} index={index} field_models={field_models} rab_component_model={rab_component_model} key={index+"Controller"} key_id={index}/>)
-    })
+    <Fragment>
+      {data.map((row, index) => {
+          return (<ACSRowController row_type="table_list" {...list_params} data={row} index={index} mode={mode} field_models={field_models} rab_component_model={rab_component_model} key={index+"Controller"} key_id={index}/>)
+      })}
+      {mode === "list_edit" &&
+          <ACSRowController row_type="table_list" {...list_params}  index="create_1" mode="list_create" field_models={field_models} rab_component_model={rab_component_model} key={"Controller-Create"} key_id="create_1"/>
+      }
+    </Fragment>
   )
 }
 

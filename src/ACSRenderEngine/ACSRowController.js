@@ -174,14 +174,13 @@ function ACSRowController(input_props) {
   const layout_models = useGetModel("layouts")
   const field_list_models = useGetModel("field_lists")
 
-
   // do not merge expensive, known unnecessary things
-  let {layout, headless=false, data:input_props_data, row_type="table_row", form_open, key_id, onData="",action_props, action, form_title, no_header=false, sections,  override_meta_model, delay_dirty=false,setListFormValues, list_formValues, setListLastTouched, list_lastTouched, index, ...merging_props} = input_props
+  let {layout, headless=false, data:input_props_data, row_type="table_row", form_open, key_id, onData="",action_props, action, form_title, no_header=false, sections,  override_meta_model, delay_dirty=false,setListFormValues, list_formValues, setListLastTouched, list_lastTouched, index, mode, ...merging_props} = input_props
 
   // if mode is create and there is ad id, change mode to edit.
   // Use Case - Wizard when user goes back to the create step
-  if (merging_props.mode === "create" && (merging_props.id || (input_props_data && input_props_data.id))) {
-      merging_props.mode = "edit"
+  if (["create","list_create"].includes(mode) && (merging_props.id || (input_props_data && input_props_data.id))) {
+      mode = "edit"
       merging_props.id = merging_props.id?merging_props.id:(input_props_data?input_props_data.id:"")
   }
   let layout_model
@@ -225,7 +224,7 @@ function ACSRowController(input_props) {
   const row_model = rab_component_model.row
 
   const massaged_props = row_model.props
-  const { num_columns="", mode="view", form=false,  ...params} = massaged_props
+  const { num_columns="",  form=false,  ...params} = massaged_props
 
 
   let [object_type, id, prescrubbed_field_list, api_options, data] =  useGetObject(input_props.object_type, input_props.id, input_props.field_list, input_props.api_options, input_props.data, onData);
@@ -235,6 +234,7 @@ function ACSRowController(input_props) {
     // lookup was by filter, not id
     id = data.id
   }
+
 
 // definitely save this
   let field_list = useGenerateFieldList(object_type, "", data, mode, form, prescrubbed_field_list, "core", layout, sections)
@@ -316,7 +316,7 @@ function ACSRowController(input_props) {
   if (headless) {
       return null
   }
-  return  (<ACSRowRenderer {...row_model.props} row_type={row_type} field_models={field_models} form={form} object_type={object_type} action_props={action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options}  formValues={formValues} form_open={form_open} form_title={form_title} onClose={input_props.onClose}
+  return  (<ACSRowRenderer {...row_model.props} mode={mode} row_type={row_type} field_models={field_models} form={form} object_type={object_type} action_props={action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options}  formValues={formValues} form_open={form_open} form_title={form_title} onClose={input_props.onClose}
   handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} key={key_id+"Render"} key_id={key_id}/>)
 
 }

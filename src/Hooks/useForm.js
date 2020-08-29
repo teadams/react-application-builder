@@ -34,7 +34,6 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   const [prior_input_mask, setPriorInputMask] = useState(null)
   const [prior_user_id, setPriorUserId] = useState("")
 
-
   // form not needed or inputs not ready
 
   const id_field = object_model.key_id
@@ -44,6 +43,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       !object_model || !field_models) {
           return {undefined, undefined, undefined, undefined}
     }
+
 
   const input_mask = object_type+","+field_name+mode+field_list.toString()
 
@@ -87,7 +87,8 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
           default_value = field_model.default?field_model.default:""
         }
         defaults[field_name] = default_value
-      } else if (["create","list_create"].includes(mode) === "create") {
+      } else if (["create","list_create"].includes(mode)) {
+
 
           // take from field_models
           let default_value = field_model.default?field_model.default:""
