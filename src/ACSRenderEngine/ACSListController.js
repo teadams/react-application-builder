@@ -3,14 +3,13 @@ import 'react-app-polyfill/stable';
 import * as u from '../Utils/utils.js';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import _ from 'lodash/object'
+import * as api from '../Utils/data.js';
+import {AuthContext} from '../Modules/User';
 
-import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
+
+import React, { Component, Fragment,  useState, useContext, useEffect, useRef} from 'react';
 import {Tab, Tabs, Menu, MenuItem, MenuList,List,ListItem,ListItemAvatar,ListItemIcon,ListItemSecondaryAction,ListItemText,ListSubheader,Table,TableBody,TableCell,TableContainer,TableFooter,TableHead,TablePagination,TableRow,} from '@material-ui/core';
 
-// Responsible 
-// chosing model, component
-// storinKg state of forms?
-// Decided the mode?
 import useGetObjectList from '../Hooks/useGetObjectList';
 import useGetModel from '../Hooks/useGetModel';
 import useGenerateFieldList from '../Hooks/useGenerateFieldList';
@@ -80,12 +79,17 @@ function RABList(list_props) {
 function ACSListController(input_props) {
   // do not merge expensive, known unnecessary things
   const {data:input_props_data, action, target_menu_name, lazy="core", field_models:input_field_models, headless, action_props, no_header=false, onData, api_options:discard_api_options, field_list:discard_field_list, ...merging_props} = input_props
+  const context = useContext(AuthContext)
+
   const object_models =  useGetModel("object_types")
   const object_model = object_models?object_models[input_props.object_type]:{} 
   let field_models = useGetModel("fields")
   if (input_field_models && Object.keys(input_field_models).length> 0) {
       field_models =  input_field_models
-}
+  }
+  const list_formValues= useRef({})
+  const list_lastTouched = useRef({})
+
 
   // XX BUG. will change the original 
   // Fix is to make RABList in the library and 
@@ -141,8 +145,23 @@ function ACSListController(input_props) {
       total_width_units += list_grow
     })
   }
+
+  const handleSubmit=(event) => {
+    Object.keys(list_lastTouched.current).forEach(row_index=>{
+      if(list_lastTouched.current[row_index]) {
+        api.handleSubmit (event, list_formValues.current[row_index], mode, context, object_type, object_models[object_type], field_models, "", "id", {}, false) 
+       }
+    })
+  }
+
+  let list_form_params = {}
+  if (["list_edit","list_create"].includes(mode)) {
+      list_form_params.list_formValues = list_formValues
+      list_form_params.list_lastTouched = list_lastTouched
+  }
+
   return  (
-    <ACSListRenderer  {...list_model.props} total_width_units={total_width_units}  field_models={field_models} action={action} key={object_type+"list"}  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} action_props={action_props} rab_component_model={rab_component_model} />
+    <ACSListRenderer  {...list_model.props} {...list_form_params} onSubmit={handleSubmit} total_width_units={total_width_units}  field_models={field_models} action={action} key={object_type+"list"}  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} action_props={action_props} rab_component_model={rab_component_model} />
   )
   
 }
