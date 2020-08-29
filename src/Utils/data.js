@@ -128,9 +128,6 @@ export function createAccount (data_object, callback)   {
   callAPI ("auth/create-account", {}, data_object, "post", callback) 
 }
 
-
-
-
 /// UPDATES
 export function putData (object_type, data_object, options, callback)   {
   let path =  object_type;
@@ -148,4 +145,63 @@ export function deleteData (object_type, data_object, options, callback)   {
   callAPI (path, data_object, "delete", callback) 
 }
 
+
+export function handleSubmit (event, formValues, mode, context, object_type, object_model, field_models, handleSubmit, id_field="id", filesTouched, delay_dirty=false) {
+
+  if (context.context_id && object_model.with_context && ["create","list_create"].includes(mode)) {
+    formValues.core_subsite = context.context_id
+  }
+  if (context.user && context.user.id) {
+    formValues.creation_user = context.user.id 
+  }
+
+  if (!formValues[id_field]) {
+
+    postData(object_type, formValues, {}, (insert_result, error) => { 
+      // XX user_id, subsite
+
+      if (error) {
+        alert ('error is ' + error.message)
+      } else {
+        var inserted_id = insert_result.rows[0][id_field] 
+        if (handleSubmit) {
+          handleSubmit(event,'created', formValues, inserted_id);
+        }
+        if (object_type === "core_user" || object_type=== "core_subsite" || object_model.extends_object === "core_user" || object_model.extends_object === "core_subsite") {
+          context.refreshUserContext()
+        }
+        if (!delay_dirty) {
+          context.setDirty();
+        }
+      }
+    })     
+
+  } else {
+    // only send file fields when changed
+    Object.keys(formValues).forEach(form_field_name => {
+      const field_model=field_models[form_field_name]
+
+      if (field_model && field_model.input_type === "file" && !filesTouched.includes(form_field_name)) {
+          delete formValues[form_field_name]
+      }
+    })
+
+    putData(object_type, formValues, {}, (result, error) => { 
+
+      if (error) {
+        alert ('error is ' + error.message)
+      } else { 
+        if (handleSubmit) {
+          handleSubmit(event,'updated', formValues);
+        }
+        if (object_type === "core_user",  object_model.extends_object === "core_user") {
+          context.refreshUserContext()
+        }
+        if (!delay_dirty) {
+          context.setDirty();
+        }
+      }
+    })
+  }
+}
 
