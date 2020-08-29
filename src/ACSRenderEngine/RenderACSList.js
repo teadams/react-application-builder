@@ -22,9 +22,10 @@ function RenderACSList(props) {
   const list_formValues= useRef({})
   const list_lastTouched = useRef({})
 
+  let list_form_params = {}
   if (["list_edit","list_create"].includes(mode)) {
-      params.list_formValues = list_formValues
-      params.list_lastTouched = list_lastTouched
+      list_form_params.list_formValues = list_formValues
+      list_form_params.list_lastTouched = list_lastTouched
   }
 
   const handleSubmit=(event) => {
@@ -79,7 +80,7 @@ function RenderACSList(props) {
                 <ListHeader {...params}/>
               </ListHeaderWrap> 
               <BodyWrap {...params}>
-                 <RABList  {...params}/>
+                 <RABList  {...params} {...list_form_params}/>
               </BodyWrap>
              </ListWrap>
           </ListContainer>
