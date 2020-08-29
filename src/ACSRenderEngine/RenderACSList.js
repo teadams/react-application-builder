@@ -12,7 +12,6 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Chseckbox, Typogra
 function RenderACSList(props) {
   const {data, mode,rab_component_model, field_models,total_width_units} = props
   const {pagination=false ,...params} = props
-
   const {header_wrap:HeaderWrap, header:Header, list_wrap:ListWrap, list_header_wrap:ListHeaderWrap, list_header:ListHeader, body_wrap:BodyWrap, list:RABList, footer_wrap:FooterWrap, footer:Footer,
   list_container:ListContainer, list_pagination:ListPagination} = rab_component_model.list.components 
   const [page, setPage] = useState(0);
@@ -58,7 +57,7 @@ function RenderACSList(props) {
               </BodyWrap>
              </ListWrap>
           </ListContainer>
-          <ListPagination
+          {pagination &&<ListPagination
              rowsPerPageOptions={[10, 20, 30]}
              component="div"
              count={count}
@@ -66,7 +65,7 @@ function RenderACSList(props) {
              page={page}
              onChangePage={handleChangePage}
              onChangeRowsPerPage={handleChangeRowsPerPage}
-           />
+           />}
             </Fragment>
           }
 
