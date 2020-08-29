@@ -8,7 +8,7 @@ import axios from 'axios';
 
 const _handleSubmit = ((event, formValues, mode, context, object_type, object_model, field_models, handleSubmit, id_field, filesTouched, delay_dirty=false) => {
 
-  if (context.context_id && object_model.with_context && mode === "create") {
+  if (context.context_id && object_model.with_context && ["create","list_create"].includes(mode)) {
     formValues.core_subsite = context.context_id
   }
   if (context.user && context.user.id) {
@@ -92,15 +92,17 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   const [prior_input_mask, setPriorInputMask] = useState(null)
   const [prior_user_id, setPriorUserId] = useState("")
 
+
   // form not needed or inputs not ready
 
   const id_field = object_model.key_id
 
-  if ((mode !== "edit" && mode !=="create") || !form ||
-      (mode === "edit" && !data) || 
+  if ((!["edit","create","list_edit","list_create"].includes(mode)) || !form ||
+      (["edit","list_edit"].includes(mode) && !data) || 
       !object_model || !field_models) {
           return {undefined, undefined, undefined, undefined}
     }
+
   const input_mask = object_type+","+field_name+mode+field_list.toString()
 
   if (input_mask !== prior_input_mask) {
@@ -113,7 +115,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       const references = field_model.references
       if (field_model.input_type === "file") {
         defaults[field_name] = ""
-      } else if ( mode==="edit" && data) {
+      } else if ( ["edit","list_edit"].includes(mode) && data) {
       // data has been restructured
         let default_value 
 
@@ -143,7 +145,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
           default_value = field_model.default?field_model.default:""
         }
         defaults[field_name] = default_value
-      } else if (mode === "create") {
+      } else if (["create","list_create"].includes(mode) === "create") {
 
           // take from field_models
           let default_value = field_model.default?field_model.default:""
@@ -165,7 +167,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
         }
         setFormValues(defaults)
     }
-  } else if (context.user && mode === "create" && context.user.id !== prior_user_id) {
+  } else if (context.user && ["create","list_create"].includes(mode) && context.user.id !== prior_user_id) {
       // user logs in after starting to fill out the form 
       // update context
     
