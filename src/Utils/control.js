@@ -306,7 +306,7 @@ function componentPicker(name, source="not provided") {
     case "NWAProjectView": return NWAProjectView;
     case "SubsiteApply": return SubsiteApply;
     default:  { 
-      alert("Menu Model Issues - no component for " + name) 
+      alert("Menu Model Issues - no component for" + name ) 
       return Fragment;
     }
   }
