@@ -47,7 +47,6 @@ function RenderACSList(props) {
       let table_width = total_width_units * 20
       if (table_width > 100) {table_width = 100}
       table_width = table_width.toString()+"%"
-
       return ( 
         <Fragment>
           <HeaderWrap {...params}>
@@ -64,7 +63,6 @@ function RenderACSList(props) {
                  <RABList  {...params} {...list_form_params}/>
               </BodyWrap>
              </ListWrap>
-          </ListContainer>
           {["list_edit","list_create"].includes(mode) && 
             <DialogActions>
               <DelayedAuth  object_type={object_type} auth_action="edit" color="primary">
@@ -76,6 +74,8 @@ function RenderACSList(props) {
               </Button>}
             </DialogActions> 
           }
+          </ListContainer>
+
           {pagination &&<ListPagination
              rowsPerPageOptions={[10, 20, 30]}
              component="div"
