@@ -74,7 +74,7 @@ function RABList(list_props) {
   for (i = 1; i <= num_add; i++) {
     add_on_array.push(i);
   }
-  
+  u.a(data,mode)
   return (
     <Fragment>
       {data.map((row, index) => {

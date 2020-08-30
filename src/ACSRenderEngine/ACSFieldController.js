@@ -138,7 +138,7 @@ function ACSFieldController(original_props) {
 
   // *** align data ***/// 
   const row_data = data
-  if (data && data_path && mode !=="edit" && mode !== "create") {
+  if (data && data_path && (!["edit","create"].includes(mode) ||  (field_model.referred_by_object_type && field_model.cardinality === "many_to_one"))) {
       data_path = data_path.split(".")
       if (row_data.hasOwnProperty(data_path[0])) {
         data = row_data[data_path[0]]

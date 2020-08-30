@@ -77,7 +77,7 @@ function RenderACSField(props) {
 
   let {api_options, components:discard_components, ...params} = props
   const {data ={}, row_data, object_type, data_field,  dsiplay_field, references_field, field_name, form_field_name, components={},
-        mode="view", form="true", formValues, autoFocus, onSubmit, onBlur, onChange,  click_to_edit, field_model, referred_by_object_type, click_to_edit_field} = props
+        mode="view", form="true", formValues, autoFocus, onSubmit, onBlur, onChange,  click_to_edit, field_model, referred_by_object_type, click_to_edit_field, cardinality} = props
 
 
   // these come froprops.m rab_component_model props
@@ -113,9 +113,37 @@ function RenderACSField(props) {
       show_thumbnail = true
   }
 
+  if (referred_by_object_type && (!["edit","create"].includes(mode) || (referred_by_object_type && cardinality === "many_to_one"))) {
+    const referred_by = field_model.referred_by_field
+    const referred_to = field_model.referred_to_field
+    const data_path = field_model.data_path
+
+    params={}
+    params.field_model = field_model
+    params.object_type = referred_by_object_type
+    params.api_options = field_model.referenced_api_options?field_model.referenced_api_options:{}
+    if (!params.api_options.filter_field) {
+      params.api_options.filter_field= referred_by
+    } else {
+      params.api_options.filter_field.push(referred_by)
+
+    }
+    if (!params.api_options.filter_id) {
+      params.api_options.filter_id = row_data[referred_to]
+    } else {
+      params.api_options.filter_id.push(row_data[referred_to])
+    }
+    if (referred_to === "core_subsite") {
+      params.api_options.subsite_id = row_data[referred_to]
+    } 
+    if (data !== undefined) {
+      params.data = data
+    }
+  }
 
 
-  if (mode !== "edit" && mode !== "create") {
+
+  if (!["edit","create"].includes(mode)) {
     if (hide_if_empty && data && !data[data_field]) {
        FieldWrap = ACSVoid
     }
@@ -123,7 +151,6 @@ function RenderACSField(props) {
     const handleClickToEditSubmit = (event) => {
         popup.close()
     }
-
 
 ///XXX HERE = FIELD NAME SHOULD BE SOMETHING ELSE for SELECT - role_name_name
     const FieldEdit = (props) => {
@@ -142,34 +169,8 @@ function RenderACSField(props) {
         popup.open(event,FieldEdit)
       }
     }
-
-
-    if (referred_by_object_type) {
-      const referred_by = field_model.referred_by_field
-      const referred_to = field_model.referred_to_field
-      const data_path = field_model.data_path
-      params={}
-      params.field_model = field_model
-      params.object_type = referred_by_object_type
-      params.api_options = field_model.referenced_api_options?field_model.referenced_api_options:{}
-      if (!params.api_options.filter_field) {
-        params.api_options.filter_field= referred_by
-      } else {
-        params.api_options.filter_field.push(referred_by)
-
-      }
-      if (!params.api_options.filter_id) {
-        params.api_options.filter_id = row_data[referred_to]
-      } else {
-        params.api_options.filter_id.push(row_data[referred_to])
-      }
-      if (referred_to === "core_subsite") {
-        params.api_options.subsite_id = row_data[referred_to]
-      } 
-      if (data !== undefined) {
-        params.data = data
-      }
-    }
+   
+//u.a(field_name, referred_by_object_type)
 
 
     return (<Fragment>
