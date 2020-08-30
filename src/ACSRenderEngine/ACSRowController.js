@@ -181,7 +181,7 @@ function ACSRowController(input_props) {
 
   function handleSubmit(event, result, form_values, inserted_id) {
       Object.keys(reference_lastTouched.current).forEach(field_name=>{
-        u.a(field_name)
+        u.a(field_name, object_type)
         Object.keys(reference_lastTouched.current[field_name]).forEach(row_index=> {
           u.a(row_index)
           if (reference_lastTouched.current[field_name][row_index]) {
@@ -252,7 +252,7 @@ function ACSRowController(input_props) {
   const { num_columns="",  form=false,  ...params} = massaged_props
 
 
-
+// "NEED TO PASS MODE"
   let [object_type, id, prescrubbed_field_list, api_options, data] =  useGetObject(input_props.object_type, input_props.id, input_props.field_list, input_props.api_options, input_props.data, onData);
 
 
@@ -297,7 +297,10 @@ function ACSRowController(input_props) {
   if ((!["create","list_create"].includes(mode) && !data) || (object_type && !object_model) || (object_type && !field_model) || field_list.length === 0) return null
 
   //XX TODO - have to restructure references defaults
-  if (["create","list_create"].includes(mode)) {data = formValues}
+  if (["create","list_create"].includes(mode)) {
+    if (!formValues || Object.keys(formValues).length === 0) {return null}
+    data = formValues
+  }
   /// XX Will be expanded to deal with sections
   // XX will be expanded to deal with col_spans
 

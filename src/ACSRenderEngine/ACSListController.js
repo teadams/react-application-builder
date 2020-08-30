@@ -143,7 +143,7 @@ function ACSListController(input_props) {
       input_api_options = {lazy:lazy}
     }
   }
-  let [object_type, api_options, data] = useGetObjectList(input_props.object_type, input_api_options, input_props.data, onData); 
+  let [object_type, api_options, data] = useGetObjectList(input_props.object_type, input_api_options, input_props.data, onData,"","list"); 
 
   list_lastTouched.current = {}
   list_formValues.current = {}

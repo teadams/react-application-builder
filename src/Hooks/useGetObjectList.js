@@ -11,7 +11,7 @@ import * as u from '../Utils/utils.js';
 // Lay out test cases nicely
 // Later - extend to work with changes of values in api_options (object issues)
 
-const useGetObjectList = (object_type, api_options={}, param_data, callback, onData="") => {
+const useGetObjectList = (object_type, api_options={}, param_data, callback, onData="", trace) => {
   const [prev_state, setState] = useState([false, object_type, api_options, param_data]);
 
   if (!param_data && !object_type) {
@@ -29,7 +29,7 @@ const useGetObjectList = (object_type, api_options={}, param_data, callback, onD
 
   let return_state = prev_state.slice(1)
   const trigger_change_array = api.addAPIParams([object_type, dirty_stamp], api_options)
-
+  console.log(object_type+trigger_change_array)
   function markStateReady(object_type, api_options, api_results) {
     setState([true, object_type,  api_options, api_results])
   }
@@ -39,9 +39,12 @@ const useGetObjectList = (object_type, api_options={}, param_data, callback, onD
   }
   // put the direct flag in the call?  How does that interact with trigger change array. 
   // think about it, it is reall about API_options
+
   useLayoutEffect( () => {
     isMountedRef.current = true;
+
       if (!param_data && object_type) {
+
         api.getData (object_type,  api_options, (api_results, error) => { 
           if (isMountedRef.current) {
             if (error) {

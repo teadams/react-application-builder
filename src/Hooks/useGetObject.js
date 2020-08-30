@@ -15,6 +15,7 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
   if (param_data && Object.keys(param_data).length >0 ) {
       param_data_exists = true
   }
+  // XX pass thruogh if param data eixsts or mode is create
 
   //object_type, id, field_list, api_options, param_data
   const [state, setState] = useState(null);
@@ -34,8 +35,10 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
 
 
   useLayoutEffect( () => {
+
       isMountedRef.current = true;
       if (!param_data && (object_type && (id||api_options.filter_id||api_options.get_count))) {
+
         api.getData (object_type, Object.assign({id:id},api_options), (results, error) => {  
           if (isMountedRef.current) {
             if (error) {
