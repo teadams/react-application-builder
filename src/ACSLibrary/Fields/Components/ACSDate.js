@@ -110,6 +110,7 @@ function ACSDate(props) {
           <KeyboardDatePicker
             disableToolbar
             autoOk
+            view={["year", "date", "month"]}
             inputProps={{style:{paddingTop:"0px"}}}
             clearable={true}
             variant="inline"
