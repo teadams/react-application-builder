@@ -184,6 +184,10 @@ function ACSRowController(input_props) {
           const submit_field_model = field_models[object_type][field_name]
           if (reference_lastTouched.current[field_name][row_index]) {
             const submit_object_type = submit_field_model.referred_by_object_type
+            const referred_by = submit_field_model.referred_by_field
+            if (inserted_id) {
+                reference_formValues.current[field_name][row_index][referred_by] = inserted_id
+            }
             api.handleSubmit (event, reference_formValues.current[field_name][row_index], mode, context, submit_object_type, object_models[object_type], field_models, "", "id", {}, false) 
           }
         })
