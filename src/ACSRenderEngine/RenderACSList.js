@@ -23,6 +23,10 @@ function RenderACSList(props) {
   const handleChangePage = (event, newPage) => {
      setPage(newPage);
    };
+
+  const handleAddRow= (event) => {
+        setNumAdd(num_add+1)
+  }
  
   const handleChangeRowsPerPage = (event) => {
      setRowsPerPage(parseInt(event.target.value, 10));
@@ -63,7 +67,10 @@ function RenderACSList(props) {
           </ListContainer>
           {["list_edit","list_create"].includes(mode) && 
             <DialogActions>
-              <DelayedAuth  object_type={object_type} auth_action="edit" color="primary"><Button onClick={onSubmit}>save</Button></DelayedAuth>
+              <DelayedAuth  object_type={object_type} auth_action="edit" color="primary">
+                <Button onClick={handleAddRow}>Add Row</Button>
+                <Button onClick={onSubmit}>save</Button>
+              </DelayedAuth>
               {props.onClose && <Button onClick={props.onClose} color="primary">
                 Close
               </Button>}
