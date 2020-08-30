@@ -5,10 +5,11 @@ import _ from 'lodash'
 
 import * as u from '../Utils/utils.js';
 
-import React, {Fragment,useRef} from 'react';
+import React, {Fragment,useRef,useContext} from 'react';
 
 import {ACSFieldController, ACSRowRenderer} from '../ACSRenderEngine/'
 import {ACSComboField} from '../ACSLibrary/'
+import {AuthContext} from '../Modules/User';
 
 import {DelayedAuth} from '../Modules/User/index.js';
 
@@ -21,6 +22,8 @@ import useForm from '../Hooks/useForm';
 import useGenerateFieldList from '../Hooks/useGenerateFieldList';
 
 import * as control from "../Utils/control.js"
+import * as api from '../Utils/data.js';
+
 import rab_component_models from '../Utils/component.js'
 
 // Will use the current inputs (object_type, data, id) until the 
@@ -33,7 +36,7 @@ import rab_component_models from '../Utils/component.js'
 //    but a mess of subtile and hard to find bugs.
 
 // Conventions
-// a) input props - raw input props
+// a) input props - raw input propsK!
 //     -- those that are used are immediated casted to input_props_xxx
 // b) massaged props - props that have been merged according to 
 //        precedence with the rab_component_model. Potentailly expensive
@@ -42,7 +45,7 @@ import rab_component_models from '../Utils/component.js'
 //        things.
 //          1. The result of getFinalModel, which takes all the components
 //               models, other inputs and uses precedence rules to 
-//               determine the final compoent model to use for the 
+//               determine the fiK!nal compoent model to use for the 
 //               rest of the function.
 //          2. Individual manipulations
 //  
@@ -157,13 +160,6 @@ function ACSSectionHeader(props) {
 
 function ACSRowController(input_props) {
 
-  function handleSubmit(event, result, form_values, inserted_id) {
-      if (input_props.onSubmit) {
-        input_props.onSubmit(event, result, form_values, inserted_id)
-      } else if (input_props.onClose) {
-        input_props.onClose()
-      }
-  }
 
   // Proc, and if build, 
   const object_models =  useGetModel("object_types")
@@ -176,11 +172,32 @@ function ACSRowController(input_props) {
   const section_models = useGetModel("sections")
   const layout_models = useGetModel("layouts")
   const field_list_models = useGetModel("field_lists")
+  const context = useContext(AuthContext)
 
   const reference_formValues= useRef({})
   const reference_lastTouched = useRef({})
   reference_formValues.current = {}
   reference_lastTouched.current = {}
+
+  function handleSubmit(event, result, form_values, inserted_id) {
+      Object.keys(reference_lastTouched.current).forEach(field_name=>{
+        u.a(field_name)
+        Object.keys(reference_lastTouched.current[field_name]).forEach(row_index=> {
+          u.a(row_index)
+          if (reference_lastTouched.current[field_name][row_index]) {
+            u.a("submitting", reference_formValues.current[field_name][row_index])
+            api.handleSubmit (event, reference_formValues.current[field_name][row_index], mode, context, object_type, object_models[object_type], field_models, "", "id", {}, false) 
+          }
+        })
+      })
+
+      if (input_props.onSubmit) {
+        input_props.onSubmit(event, result, form_values, inserted_id)
+      } else if (input_props.onClose) {
+        input_props.onClose()
+      }
+
+  }
   
   // do not merge expensive, known unnecessary things
   let {layout, headless=false, data:input_props_data, row_type="table_row", form_open, key_id, onData="",action_props, action, form_title, no_header=false, sections,  override_meta_model, delay_dirty=false,setListFormValues, list_form_params, index, mode, ...merging_props} = input_props

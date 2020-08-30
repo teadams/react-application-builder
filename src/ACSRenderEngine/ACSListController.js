@@ -98,7 +98,7 @@ function RABList(list_props) {
 // Documentation - see comments in ACSRowController
 function ACSListController(input_props) {
   // do not merge expensive, known unnecessary things
-  const {data:input_props_data, action, target_menu_name, lazy="core", field_models:input_field_models, headless, action_props, no_header=false, onData, api_options:discard_api_options, field_list:discard_field_list, allow_add=false, num_add, reference_formValues, reference_lastTouched, reference_field_name, ...merging_props} = input_props
+  const {data:input_props_data, action, target_menu_name, lazy="core", field_models:input_field_models, headless, action_props, no_header=false, onData, api_options:discard_api_options, field_list:discard_field_list, allow_add=false, num_add, reference_formValues, reference_lastTouched, reference_field_name, referenced_object_type, referenced_id, ...merging_props} = input_props
   const context = useContext(AuthContext)
 
   const object_models =  useGetModel("object_types")
@@ -175,13 +175,16 @@ function ACSListController(input_props) {
 
   let list_form_params = {}
   if (["list_edit","list_create"].includes(mode)) {
+      // use list ref is stand alone, passed if reference if a field on a form
       list_form_params.formValues = reference_formValues?reference_formValues:list_formValues
       list_form_params.lastTouched = reference_lastTouched?reference_lastTouched:list_lastTouched
       list_form_params.reference_field_name = reference_field_name?reference_field_name:""
+      list_form_params.referenced_object_type = referenced_object_type?referenced_object_type:""
+      list_form_params.referenced_id = referenced_id?referenced_id:""
   }
 
   return  (
-    <ACSListRenderer  {...list_model.props} list_form_params={list_form_params} num_add={num_add} allow_add={allow_add} onSubmit={handleSubmit} total_width_units={total_width_units}  field_models={field_models} action={action} key={object_type+"list"}  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} action_props={action_props} rab_component_model={rab_component_model} />
+    <ACSListRenderer  {...list_model.props} list_form_params={list_form_params} num_add={num_add} allow_add={allow_add} onSubmit={handleSubmit} total_width_units={total_width_units}  field_models={field_models} action={action} key={object_type+"list"}  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} action_props={action_props}  rab_component_model={rab_component_model} />
   )
   
 }

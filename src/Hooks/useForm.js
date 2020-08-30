@@ -59,6 +59,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     if (!field_list.includes("id")) {
         field_list.push("id")
     }
+
     field_list.forEach(field_name =>{
       const field_model=field_models[field_name]
       const references = field_model.references
@@ -109,6 +110,15 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       }
             
     })
+
+    if (["create","list_create"].includes(mode) && list_form_params) {
+      if (list_form_params.referenced_object_type && !field_list.includes(list_form_params.referenced_object_type)) {
+        defaults["referenced_object_type"] = list_form_params.referenced_object_type
+      }
+      if (list_form_params.referenced_id && !field_list.includes(list_form_params.referenced_id)) {
+        defaults["referenced_id"] = list_form_params.referenced_id
+      }
+    }
 
     if (Object.keys(defaults).length > 0) {
         setPriorInputMask(input_mask)
