@@ -253,7 +253,7 @@ function ACSRowController(input_props) {
 
 
 // "NEED TO PASS MODE"
-  let [object_type, id, prescrubbed_field_list, api_options, data] =  useGetObject(input_props.object_type, input_props.id, input_props.field_list, input_props.api_options, input_props.data, onData);
+  let [object_type, id, prescrubbed_field_list, api_options, data] =  useGetObject(input_props.object_type, input_props.id, input_props.field_list, input_props.api_options, input_props.data, onData, mode);
 
 
   if (!input_props_data && !id && data) {

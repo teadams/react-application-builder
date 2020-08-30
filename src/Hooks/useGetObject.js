@@ -9,11 +9,17 @@ import * as u from '../Utils/utils.js';
 
 
 //  const [db_object_data, setDbResults] = useState();
-const useGetObject = (object_type, id, field_list, api_options={}, param_data, onData) => {
+const useGetObject = (object_type, id, field_list, api_options={}, param_data, onData, mode) => {
   // XX - think not neeed
+  let passthrough  = false
   let param_data_exists = false
   if (param_data && Object.keys(param_data).length >0 ) {
       param_data_exists = true
+      passthrough = true
+  }
+
+  if (["create", "list_create"].includes(mode)) {
+      passthrough = true
   }
   // XX pass thruogh if param data eixsts or mode is create
 
@@ -37,7 +43,7 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
   useLayoutEffect( () => {
 
       isMountedRef.current = true;
-      if (!param_data && (object_type && (id||api_options.filter_id||api_options.get_count))) {
+      if (!passthrough && !param_data && (object_type && (id||api_options.filter_id||api_options.get_count))) {
 
         api.getData (object_type, Object.assign({id:id},api_options), (results, error) => {  
           if (isMountedRef.current) {
@@ -62,7 +68,7 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
     return () => isMountedRef.current = false;
   }, trigger_change_array);
 
-  if (param_data_exists) {
+  if (passthrough) {
       return [object_type, id, field_list, api_options, param_data]
       if (state !== null) {
         setState(null)
