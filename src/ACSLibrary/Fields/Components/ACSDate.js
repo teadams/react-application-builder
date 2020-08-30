@@ -12,6 +12,12 @@ import {
 } from '@material-ui/pickers';
 
 
+const date_view = (value) => {
+  if (!value) return ""
+  let date = new Date(Date.parse(value))
+  return (date.getMonth()+1 + "/"+ date.getDate() +"/"+ date.getFullYear())
+}
+
 function ACSDate(props) {
   const {mode, row_data,  data, object_type, data_field, pretty_name, display_field=props.field_name, references_field, field_name, form_field_name=props.field_name, field_model={}, object_models, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values, 
   variant="outlined", required, helperText, placeholder, multiline=false, more_link_cutoff="", more_link_list_cutoff=props.more_link_cutoff, prevent_edit, input_type, data_type, key_id, openTo="date"} = props
@@ -32,21 +38,20 @@ function ACSDate(props) {
     field_value = data[display_field]
   }
 
-  if (!field_value) {
-      field_value = null
+  if (!field_value ) {
+      field_value = ""
   }
 
   if (field_value === "now()") {
       field_value = new Date()
   }
 
+  //alert(field_value)
   // XX field model passed due to referenced change. May 
   // be done server side later
 
-  const date_view = (value) => {
-    let date = new Date(Date.parse(value))
-    return (date.getMonth()+1 + "/"+ date.getDate() +"/"+ date.getFullYear())
-  }
+
+
   let value
   switch (mode) {
     case "edit":
