@@ -74,7 +74,6 @@ function RenderACSList(props) {
               </Button>}
             </DialogActions> 
           }
-          </ListContainer>
 
           {pagination &&<ListPagination
              rowsPerPageOptions={[10, 20, 30]}
@@ -85,6 +84,8 @@ function RenderACSList(props) {
              onChangePage={handleChangePage}
              onChangeRowsPerPage={handleChangeRowsPerPage}
            />}
+           </ListContainer>
+
             </Fragment>
           }
 
