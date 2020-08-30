@@ -11,8 +11,9 @@ import * as u from '../Utils/utils.js';
 // Lay out test cases nicely
 // Later - extend to work with changes of values in api_options (object issues)
 
-const useGetObjectList = (object_type, api_options={}, param_data, callback, onData="", trace) => {
+const useGetObjectList = (object_type, api_options={}, param_data, callback="", trace) => {
   const [prev_state, setState] = useState([false, object_type, api_options, param_data]);
+
 
   if (!param_data && !object_type) {
       alert ("Error in useGetObjectList. Either data or object_type must be provided.")
@@ -44,16 +45,12 @@ const useGetObjectList = (object_type, api_options={}, param_data, callback, onD
     isMountedRef.current = true;
 
       if (!param_data && object_type) {
-
         api.getData (object_type,  api_options, (api_results, error) => { 
           if (isMountedRef.current) {
             if (error) {
                 alert ("error retrieving object list " + object_type + ":" + error.message)
             } else {
-                markStateReady(object_type,  api_options, api_results)
-                if (onData) {
-                    onData(api_results)
-                }
+                markStateReady(object_type, api_options, api_results)
             }
             if (callback) {
                 callback(api_results, error)

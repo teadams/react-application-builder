@@ -3,6 +3,7 @@ import 'react-app-polyfill/stable';
 
 //import * as u from './utils.js';
 import * as log from './log.js';
+import * as u from './utils.js'
 import axios from 'axios';
 import * as meta from './meta.js';
 
@@ -102,12 +103,15 @@ export function getURL (url, params, callback)   {
 
 export function getData (object_type, options={}, callback)   {
   // in get data
+
   var path = options.path?options.path:object_type
   if (options.id) {
     path += '/'+options.id
   }
   if (object_type==="core_subsite") {
 }
+
+
   callAPI (path, getParamsObject(options), "", "get", callback) 
 }
 

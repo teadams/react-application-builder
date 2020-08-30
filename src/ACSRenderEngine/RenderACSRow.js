@@ -8,7 +8,6 @@ import * as u from '../Utils/utils.js';
 import { withStyles } from '@material-ui/core/styles';
 import { ACSListController} from '../ACSRenderEngine/'
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
-import useGetObjectList from '../Hooks/useGetObjectList';
 import useGetModel from '../Hooks/useGetModel';
 import {AuthContext, Auth, LoginForm} from '../Modules/User/index.js';
 

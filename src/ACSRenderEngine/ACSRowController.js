@@ -181,7 +181,6 @@ function ACSRowController(input_props) {
 
   function handleSubmit(event, result, form_values, inserted_id) {
       Object.keys(reference_lastTouched.current).forEach(field_name=>{
-        u.a(field_name, object_type)
         Object.keys(reference_lastTouched.current[field_name]).forEach(row_index=> {
           const submit_field_model = field_models[object_type][field_name]
           if (reference_lastTouched.current[field_name][row_index]) {
