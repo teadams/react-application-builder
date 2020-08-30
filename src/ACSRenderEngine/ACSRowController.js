@@ -183,10 +183,10 @@ function ACSRowController(input_props) {
       Object.keys(reference_lastTouched.current).forEach(field_name=>{
         u.a(field_name, object_type)
         Object.keys(reference_lastTouched.current[field_name]).forEach(row_index=> {
-          u.a(row_index)
+          const submit_field_model = field_models[object_type][field_name]
           if (reference_lastTouched.current[field_name][row_index]) {
-            u.a("submitting", reference_formValues.current[field_name][row_index])
-            api.handleSubmit (event, reference_formValues.current[field_name][row_index], mode, context, object_type, object_models[object_type], field_models, "", "id", {}, false) 
+            const submit_object_type = submit_field_model.referred_by_object_type
+            api.handleSubmit (event, reference_formValues.current[field_name][row_index], mode, context, submit_object_type, object_models[object_type], field_models, "", "id", {}, false) 
           }
         })
       })
