@@ -23,7 +23,7 @@ const expand_combos_field_list = (field_list, field_models) => {
 
 }
 
-const useForm = (object_type, field_name="", data, handleSubmit, mode="view", form=true, default_values_prop={}, field_list, delay_dirty=false,  list_formValues, list_lastTouched, index,trace) => {
+const useForm = (object_type, field_name="", data, handleSubmit, mode="view", form=true, default_values_prop={}, field_list, delay_dirty=false,  list_form_params={}, index,trace) => {
 // XX Have to be passed field_models
   const [formValues, setFormValues] = useState({});
   const [lastTouched,setLastTouched] = useState(false)
@@ -187,9 +187,14 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       }
     }
   })
-  if (list_formValues) {
-    list_formValues.current[index] = formValues
-    list_lastTouched.current[index] = lastTouched
+  if (list_form_params.formValues) {
+    if (list_form_params.reference_field_name) {
+      list_form_params.formValues.current[list_form_params.reference_field_name][index] = formValues
+      list_form_params.lastTouched.current[list_form_params.reference_field_name][index] = lastTouched
+    } else {
+      list_form_params.formValues.current[index] = formValues
+      list_form_params.lastTouched.current[index] = lastTouched
+    }
   }
    return {formValues, lastTouched, handleFormSubmit, handleFormChange};
 

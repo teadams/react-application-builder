@@ -51,7 +51,7 @@ function ACSFieldController(original_props) {
 
   const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, data:input_data, onData:props_onData,
   handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, onBlur, onFieldClick,  
-  mode="view", key_id, autoFocus=false, rab_component_model, onSubmit, ...merging_props} = original_props
+  mode="view", key_id, autoFocus=false, rab_component_model, onSubmit, reference_formValues, reference_lastTouched,...merging_props} = original_props
     //// *** NOW HAVE APPROPRIATE MODELS *****
   let final_props;
   if (original_props.built) {
@@ -180,6 +180,8 @@ function ACSFieldController(original_props) {
     object_models={object_models}
     field_models={field_models}
     field_model={field_model}
+    reference_formValues= {reference_formValues}
+    reference_lastTouched = {reference_lastTouched}
     // specifics about the input field
     model_valid_values={model_valid_values}
     valid_values = {valid_values}

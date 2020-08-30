@@ -60,7 +60,7 @@ function RenderACSList(props) {
                 <ListHeader {...params}/>
               </ListHeaderWrap> 
               <BodyWrap {...params}>
-                 <RABList  {...params} {...list_form_params}/>
+                 <RABList  {...params} list_form_params={list_form_params}/>
               </BodyWrap>
              </ListWrap>
           {["list_edit","list_create"].includes(mode) && 

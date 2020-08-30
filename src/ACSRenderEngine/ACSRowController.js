@@ -5,7 +5,7 @@ import _ from 'lodash'
 
 import * as u from '../Utils/utils.js';
 
-import React, {Fragment} from 'react';
+import React, {Fragment,useRef} from 'react';
 
 import {ACSFieldController, ACSRowRenderer} from '../ACSRenderEngine/'
 import {ACSComboField} from '../ACSLibrary/'
@@ -59,7 +59,7 @@ import rab_component_models from '../Utils/component.js'
 //   The rest is just prep
 
 function ACSRow(row_props) {
-  const {mode, form, field_chunk, field_models, data, field, rab_component_model, handleFormChange, handleFormSubmit, formValues, key_id, s_index, f_index} = row_props
+  const {mode, form, field_chunk, field_models, data, field, rab_component_model, handleFormChange, handleFormSubmit, formValues, key_id, s_index, f_index,reference_formValues, reference_lastTouched} = row_props
   const {...row_params} = row_props
   const {field_chunk_wrap:FieldChunk} = rab_component_model.row.components
   return (
@@ -76,7 +76,10 @@ function ACSRow(row_props) {
             return <ACSFieldController {...row_params}  {...field_model} mode={mode} field_models={field_models} form={!form} field_name={field_name}  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit}
             override_meta_model={false}
             autoFocus ={autoFocus}
-            formValues={formValues} key={ch_index+"field_name"} key_id={ch_index} />
+            formValues={formValues} key={ch_index+"field_name"} key_id={ch_index}
+            reference_formValues= {reference_formValues}
+            reference_lastTouched = {reference_lastTouched}
+          />
           }
       })}
     </FieldChunk>
@@ -174,8 +177,14 @@ function ACSRowController(input_props) {
   const layout_models = useGetModel("layouts")
   const field_list_models = useGetModel("field_lists")
 
+  const reference_formValues= useRef({})
+  const reference_lastTouched = useRef({})
+  reference_formValues.current = {}
+  reference_lastTouched.current = {}
+  
   // do not merge expensive, known unnecessary things
-  let {layout, headless=false, data:input_props_data, row_type="table_row", form_open, key_id, onData="",action_props, action, form_title, no_header=false, sections,  override_meta_model, delay_dirty=false,setListFormValues, list_formValues, setListLastTouched, list_lastTouched, index, mode, ...merging_props} = input_props
+  let {layout, headless=false, data:input_props_data, row_type="table_row", form_open, key_id, onData="",action_props, action, form_title, no_header=false, sections,  override_meta_model, delay_dirty=false,setListFormValues, list_form_params, index, mode, ...merging_props} = input_props
+
   // if mode is create and there is ad id, change mode to edit.
   // Use Case - Wizard when user goes back to the create step
   if (["create","list_create"].includes(mode) && (merging_props.id || (input_props_data && input_props_data.id))) {
@@ -225,15 +234,11 @@ function ACSRowController(input_props) {
   const massaged_props = row_model.props
   const { num_columns="",  form=false,  ...params} = massaged_props
 
-if (form===true) {
-//  u.a(input_props.data)
-}
+
 
   let [object_type, id, prescrubbed_field_list, api_options, data] =  useGetObject(input_props.object_type, input_props.id, input_props.field_list, input_props.api_options, input_props.data, onData);
 
-if (form===true) {
-//  u.a(data)
-}
+
   if (!input_props_data && !id && data) {
     // lookup was by filter, not id
     id = data.id
@@ -267,7 +272,7 @@ if (form===true) {
       section_field_lists.push(field_list)
   }
 
-  let {formValues, lastTouched, handleFormChange, handleFormSubmit,} = useForm(object_type, "", data, handleSubmit, mode, form, merging_props,field_list, delay_dirty, list_formValues, list_lastTouched, index);
+  let {formValues, lastTouched, handleFormChange, handleFormSubmit,} = useForm(object_type, "", data, handleSubmit, mode, form, merging_props,field_list, delay_dirty, list_form_params, index);
   //// wall /////
   if (!field_models) {return null}
   const field_model = field_models[object_type]
@@ -321,7 +326,8 @@ if (form===true) {
       return null
   }
   return  (<ACSRowRenderer {...row_model.props} mode={mode} row_type={row_type} field_models={field_models} form={form} object_type={object_type} action_props={action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options}  formValues={formValues} form_open={form_open} form_title={form_title} onClose={input_props.onClose}
-  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} key={key_id+"Render"} key_id={key_id}/>)
+  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} key={key_id+"Render"} key_id={key_id}   reference_formValues= {reference_formValues}
+    reference_lastTouched = {reference_lastTouched}/>)
 
 }
 
