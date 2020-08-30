@@ -121,6 +121,7 @@ function RenderACSField(props) {
     params={}
     params.field_model = field_model
     params.object_type = referred_by_object_type
+    params.mode = mode
     params.api_options = field_model.referenced_api_options?field_model.referenced_api_options:{}
     if (!params.api_options.filter_field) {
       params.api_options.filter_field= referred_by
@@ -170,7 +171,6 @@ function RenderACSField(props) {
       }
     }
    
-//u.a(field_name, referred_by_object_type)
 
 
     return (<Fragment>
