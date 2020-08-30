@@ -15,7 +15,7 @@ const RadioLabel = (props=> {
 
 function RABTextField(props) {
   const {mode, row_data,  data, object_type, data_field, pretty_name, display_field=props.field_name, references_field, field_name, form_field_name=props.field_name, field_model={}, object_models, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values, 
-  variant="outlined", required, helperText, placeholder, multiline=false, more_link_cutoff="", more_link_list_cutoff=props.more_link_cutoff, prevent_edit, input_type, data_type} = props
+  variant="outlined", required, helperText, placeholder, multiline=false, more_link_cutoff="", more_link_list_cutoff=props.more_link_cutoff, prevent_edit, input_type, data_type, key_id} = props
   const [test_state, setTestState] = useState("foo")
   let {with_thumbnail="", with_url="", more_detail=false, toggleMoreDetail} = props
 
@@ -131,9 +131,9 @@ function RABTextField(props) {
             placeholder={placeholder}
             autoFocus={autoFocus}
             name={form_field_name}
-            id = {form_field_name}
+            id={form_field_name+"_"+key_id}
+            key={form_field_name+"_"+key_id}
             label = {pretty_name}
-            key={form_field_name}
             multiline={multiline}
             helperText={helperText}
             variant={variant}
@@ -154,8 +154,8 @@ function RABTextField(props) {
       return (
         <TextField
           name={form_field_name}
-          id = {form_field_name}
-          key={form_field_name}
+          id={form_field_name+"_"+key_id}
+          key={form_field_name+"_"+key_id}
           fullWidth={false}
           disabled={prevent_edit}
           type={input_type}

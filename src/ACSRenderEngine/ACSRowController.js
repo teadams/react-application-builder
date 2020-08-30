@@ -74,12 +74,12 @@ function ACSRow(row_props) {
              return <ACSComboField {...row_params}  {...field_model} mode={mode} field_models={field_models} form={!form} field_name={field_name}  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit}
              override_meta_model={false}
              autoFocus ={autoFocus}
-             formValues={formValues} key={ch_index+"field_name"} key_id={ch_index} />
+             formValues={formValues} key={ch_index+"field_name"} key_id={key_id+ch_index} />
            } else {
             return <ACSFieldController {...row_params}  {...field_model} mode={mode} field_models={field_models} form={!form} field_name={field_name}  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit}
             override_meta_model={false}
             autoFocus ={autoFocus}
-            formValues={formValues} key={ch_index+"field_name"} key_id={ch_index}
+            formValues={formValues} key={ch_index+"field_name"} key_id={key_id+ch_index}
             reference_formValues= {reference_formValues}
             reference_lastTouched = {reference_lastTouched}
           />
@@ -159,7 +159,6 @@ function ACSSectionHeader(props) {
 }
 
 function ACSRowController(input_props) {
-
 
   // Proc, and if build, 
   const object_models =  useGetModel("object_types")
@@ -344,7 +343,7 @@ function ACSRowController(input_props) {
   if (headless) {
       return null
   }
-  return  (<ACSRowRenderer {...row_model.props} mode={mode} row_type={row_type} field_models={field_models} form={form} object_type={object_type} action_props={action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options}  formValues={formValues} form_open={form_open} form_title={form_title} onClose={input_props.onClose}
+  return  (<ACSRowRenderer {...row_model.props} mode={mode} row_type={row_type} field_models={field_models} form={form} object_type={object_type} action_props={ action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options}  formValues={formValues} form_open={form_open} form_title={form_title} onClose={input_props.onClose}
   handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} key={key_id+"Render"} key_id={key_id}   reference_formValues= {reference_formValues}
     reference_lastTouched = {reference_lastTouched}/>)
 

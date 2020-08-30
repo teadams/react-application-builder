@@ -67,7 +67,8 @@ function RABTableHeaders(props) {
 
 function RABList(list_props) {
   const {data, field_models, rab_component_model, mode, num_add, ...list_params} = list_props
-  let last_index
+  let last_index= 0
+  let next_index
 
   let add_on_array = []
   let i;
@@ -83,8 +84,8 @@ function RABList(list_props) {
       {mode === "list_edit" &&
         <Fragment>
           {add_on_array.map(add_index => {
-            const next_index = last_index+1
-            const key="controller-create"+next_index+"+"+add_index
+            next_index = last_index+1 
+            const key="add_row_"+next_index+"+"+add_index+"_"
             return (
               <ACSRowController row_type="table_list" {...list_params}  index={key} mode="list_create" field_models={field_models} rab_component_model={rab_component_model} key={key} key_id={key}/>
             )
