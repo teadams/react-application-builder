@@ -11,6 +11,7 @@ const expand_combos_field_list = (field_list, field_models) => {
   let expanded_field_list = []
   field_list.forEach(field => {
     const field_model = field_models[field]
+
     if (!field_model.combo_fields) {
         expanded_field_list.push(field)
     } else {
@@ -137,7 +138,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     if (event) {
       event.preventDefault();
     }
-    data.handleSubmit (event, formValues, mode, context, object_type, object_model, field_models, handleSubmit, id_field, filesTouched, delay_dirty) 
+    api.handleSubmit (event, formValues, mode, context, object_type, object_model, field_models, handleSubmit, id_field, filesTouched, delay_dirty) 
   })
   // single field edit, submits on change
   const handleFileEditSubmit = (event, name, file) => {
