@@ -66,8 +66,15 @@ function RABTableHeaders(props) {
 }
 
 function RABList(list_props) {
-  const {data, field_models, rab_component_model, mode, ...list_params} = list_props
+  const {data, field_models, rab_component_model, mode, num_add, ...list_params} = list_props
   let last_index
+
+  let add_on_array = []
+  let i;
+  for (i = 1; i <= num_add; i++) {
+    add_on_array.push(i);
+  }
+  
   return (
     <Fragment>
       {data.map((row, index) => {
@@ -75,7 +82,15 @@ function RABList(list_props) {
           return (<ACSRowController row_type="table_list" {...list_params} data={row} index={row.id} mode={mode} field_models={field_models} rab_component_model={rab_component_model} key={row.id+"Controller"} key_id={row.id}/>)
       })}
       {mode === "list_edit" &&
-          <ACSRowController row_type="table_list" {...list_params}  index={last_index+1} mode="list_create" field_models={field_models} rab_component_model={rab_component_model} key={"Controller-Create"+last_index+1} key_id={"controller"+last_index+1}/>
+        <Fragment>
+          {add_on_array.map(add_index => {
+            const next_index = last_index+1
+            const key="controller-create"+next_index+"+"+add_index
+            return (
+              <ACSRowController row_type="table_list" {...list_params}  index={key} mode="list_create" field_models={field_models} rab_component_model={rab_component_model} key={key} key_id={key}/>
+            )
+          })}
+        </Fragment>
       }
     </Fragment>
   )
@@ -84,7 +99,7 @@ function RABList(list_props) {
 // Documentation - see comments in ACSRowController
 function ACSListController(input_props) {
   // do not merge expensive, known unnecessary things
-  const {data:input_props_data, action, target_menu_name, lazy="core", field_models:input_field_models, headless, action_props, no_header=false, onData, api_options:discard_api_options, field_list:discard_field_list, ...merging_props} = input_props
+  const {data:input_props_data, action, target_menu_name, lazy="core", field_models:input_field_models, headless, action_props, no_header=false, onData, api_options:discard_api_options, field_list:discard_field_list, allow_add=false, num_add,  ...merging_props} = input_props
   const context = useContext(AuthContext)
 
   const object_models =  useGetModel("object_types")
@@ -110,13 +125,9 @@ function ACSListController(input_props) {
 
   list_component_model.list.components.list_header = RABTableHeaders
   list_component_model.list.names.list_header_wrap = "TableHead" 
-//  u.a("list", list_component_model.list.names.header_wrap)
-//  u.a("component", list_component_model.list.components.header_wrap)
-
-  //u.a("object model", object_model)
 
   const rab_component_model = control.getFinalModel("list", {...merging_props}, object_model, list_component_model )
-//u.a("rab", rab_component_model.list.components.header_wrap)
+
   const list_model = rab_component_model.list
   const list_components = list_model.components
   const massaged_props = list_model.props
@@ -170,7 +181,7 @@ function ACSListController(input_props) {
   }
 
   return  (
-    <ACSListRenderer  {...list_model.props} {...list_form_params} onSubmit={handleSubmit} total_width_units={total_width_units}  field_models={field_models} action={action} key={object_type+"list"}  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} action_props={action_props} rab_component_model={rab_component_model} />
+    <ACSListRenderer  {...list_model.props} {...list_form_params} num_add={num_add} allow_add={allow_add} onSubmit={handleSubmit} total_width_units={total_width_units}  field_models={field_models} action={action} key={object_type+"list"}  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} action_props={action_props} rab_component_model={rab_component_model} />
   )
   
 }
