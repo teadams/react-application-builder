@@ -12,7 +12,7 @@ import React, { Component, Fragment,  useRef, useState, useContext, useEffect} f
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Chseckbox, Typography, Chip, Grid, MenuItem, TextField, TableContainer, TableHead, TableCell, TableRow, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, TablePagination, Button, Paper, Avatar, TableBody, Table } from '@material-ui/core';
 
 function RenderACSList(props) {
-  const {data, mode,rab_component_model, field_models,total_width_units,  object_type, list_form_params, onSubmit} = props
+  const {data, mode,rab_component_model, field_models,total_width_units,  object_type, list_form_params, onSubmit, allow_add=true, allow_save=false} = props
   const {pagination=false,  ...params} = props
   const {header_wrap:HeaderWrap, header:Header, list_wrap:ListWrap, list_header_wrap:ListHeaderWrap, list_header:ListHeader, body_wrap:BodyWrap, list:RABList, footer_wrap:FooterWrap, footer:Footer,
   list_container:ListContainer, list_pagination:ListPagination} = rab_component_model.list.components 
@@ -66,8 +66,8 @@ function RenderACSList(props) {
           {["list_edit","list_create"].includes(mode) && 
             <DialogActions>
               <DelayedAuth  object_type={object_type} auth_action="edit" color="primary">
-                <Button onClick={handleAddRow}>Add Row</Button>
-                <Button onClick={onSubmit}>save</Button>
+                {allow_add && <Button onClick={handleAddRow}>Add Row</Button>}
+                {allow_save && <Button onClick={onSubmit}>save</Button>}
               </DelayedAuth>
               {props.onClose && <Button onClick={props.onClose} color="primary">
                 Close
