@@ -56,6 +56,9 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     let defaults = {}
 
     field_list = expand_combos_field_list(field_list, field_models)
+    if (!field_list.includes("id")) {
+        field_list.push("id")
+    }
     field_list.forEach(field_name =>{
       const field_model=field_models[field_name]
       const references = field_model.references

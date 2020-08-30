@@ -122,6 +122,7 @@ function RenderACSField(props) {
     params.field_model = field_model
     params.object_type = referred_by_object_type
     params.mode = mode
+    params.field_list = field_model.referenced_field_list
     params.api_options = field_model.referenced_api_options?field_model.referenced_api_options:{}
     if (!params.api_options.filter_field) {
       params.api_options.filter_field= referred_by
