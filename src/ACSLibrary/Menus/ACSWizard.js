@@ -39,7 +39,7 @@ const Wizard = (props) => {
   if (!steps_state) {
     let initial_step_state ={}
       steps.forEach((step,index) => {
-      const {pretty_name, summary, description, completed, available, subtitle, dependencies} = step_data[step]
+      const {pretty_name, summary, description, completed, available, subtitle, force_refresh=true, dependencies} = step_data[step]
       const {mode} = step_data[step].props
 
           initial_step_state[step] ={}
@@ -59,8 +59,13 @@ const Wizard = (props) => {
     setStepsState(initial_step_state)
   }
 
-  const handleStep = (step) => () => {
-    setDataElements([step, data, id, null, next_step_number])
+  const handleStep = (step, force_refresh) => () => {
+
+    if (force_refresh) {
+      setDataElements([current_step_number, data, id, id, step])
+    } else {
+      setDataElements([step, data, id, null, null])
+    }
    };
 
 
@@ -95,7 +100,6 @@ const Wizard = (props) => {
        })
        setStepsState(new_steps_state)
        context.setDirty();
-
    }
 
    return (
@@ -105,10 +109,10 @@ const Wizard = (props) => {
        <DialogTitle>{wizard_summary}</DialogTitle>
         <Stepper nonLinear alternativeLabel style={{padding:"0px 10px"}} activeStep={current_step_number}>  
          {steps.map ((step,index) => {
-             const {pretty_name, summary,description} = step_data[step]
+             const {pretty_name, summary,description, force_refresh=false} = step_data[step]
              const step_state = steps_state?steps_state[step]:{}
              return (
-               <Step key={pretty_name} completed={step_state.completed} disabled={step_state.disabled}><StepButton  onClick={handleStep(index)} optional={step_state.subtitle}>{pretty_name}</StepButton></Step>
+               <Step key={pretty_name} completed={step_state.completed} disabled={step_state.disabled}><StepButton  onClick={handleStep(index, force_refresh)} optional={step_state.subtitle}>{pretty_name}</StepButton></Step>
              )
            })}
         </Stepper>
