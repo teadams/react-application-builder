@@ -159,7 +159,6 @@ function ACSSectionHeader(props) {
 }
 
 function ACSRowController(input_props) {
-
   // Proc, and if build, 
   const object_models =  useGetModel("object_types")
   const object_model = object_models?[input_props.object_type]:{}
@@ -177,7 +176,6 @@ function ACSRowController(input_props) {
   const reference_lastTouched = useRef({})
   reference_formValues.current = {}
   reference_lastTouched.current = {}
-
   function handleSubmit(event, result, form_values, inserted_id) {
       Object.keys(reference_lastTouched.current).forEach(field_name=>{
         Object.keys(reference_lastTouched.current[field_name]).forEach(row_index=> {
@@ -202,8 +200,7 @@ function ACSRowController(input_props) {
   }
   
   // do not merge expensive, known unnecessary things
-  let {layout, headless=false, data:input_props_data, row_type="table_row", form_open, key_id, onData="",action_props, action, form_title, no_header=false, sections,  override_meta_model, delay_dirty=false,setListFormValues, list_form_params, index, mode, ...merging_props} = input_props
-
+  let {layout, headless=false, data:input_props_data, row_type="table_row", form_open, key_id, onData="",action_props, action, form_title, no_header=false, sections,  override_meta_model, delay_dirty=false,setListFormValues, list_form_params, index, mode, dialog_size, num_columns=1, ...merging_props} = input_props
   // if mode is create and there is ad id, change mode to edit.
   // Use Case - Wizard when user goes back to the create step
   if (["create","list_create"].includes(mode) && (merging_props.id || (input_props_data && input_props_data.id))) {
@@ -251,7 +248,7 @@ function ACSRowController(input_props) {
   const row_model = rab_component_model.row
 
   const massaged_props = row_model.props
-  const { num_columns="",  form=false,  ...params} = massaged_props
+  const { form=false,  ...params} = massaged_props
 
 
 // "NEED TO PASS MODE"
@@ -347,7 +344,7 @@ function ACSRowController(input_props) {
   if (headless) {
       return null
   }
-  return  (<ACSRowRenderer {...row_model.props} mode={mode} row_type={row_type} field_models={field_models} form={form} object_type={object_type} action_props={ action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options}  formValues={formValues} form_open={form_open} form_title={form_title} onClose={input_props.onClose}
+  return  (<ACSRowRenderer {...row_model.props} mode={mode} row_type={row_type} field_models={field_models} form={form} object_type={object_type} action_props={ action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options}  formValues={formValues} form_open={form_open} form_title={form_title} onClose={input_props.onClose} dialog_size={dialog_size} num_columns={num_columns}
   handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} key={key_id+"Render"} key_id={key_id}   reference_formValues= {reference_formValues}
     reference_lastTouched = {reference_lastTouched}/>)
 

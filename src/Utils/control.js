@@ -147,17 +147,6 @@ function buildRABModel(params, trace) {
   })
   const fixed_params_model = {built:true,
                 list:{names:{list:params.list_component}},
-          row:{names:{}, components:{},props:{
-                    object_type:params.object_type,
-                    api_options:params.api_options,
-                    id:params.id,
-                    field_list:params.field_list,
-                    sections:params.sections,
-                    layout:params.layout,
-                    dialog_size:params.dialog_size,
-                    num_columns:params.num_columns,
-                    mode:params.row_mode?params.row_mode:params.mode,
-              }},
               field:{names:{field:params.field_component},
                     components:{}, 
                     props:{
