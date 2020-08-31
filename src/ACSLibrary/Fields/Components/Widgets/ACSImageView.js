@@ -12,7 +12,11 @@ function get_image_url (image_object) {
 
     const image_base = (process.env.NODE_ENV ==="production")? "https://storage.googleapis.com/acs_full_stack/":"/"
     if (image_object && image_object.path && image_object.name) {
-      return (image_base  + image_object.path +"/"+ image_object.name)
+      if (process.env.NODE_ENV ==="production") {
+        return (image_base  + image_object.path +"/"+ image_object.name)
+      } else {
+        return (image_base  + image_object.path +"-"+ image_object.name)
+      }
     } else {
       return ""
     }     
