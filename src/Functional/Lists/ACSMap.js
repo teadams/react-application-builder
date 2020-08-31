@@ -171,6 +171,7 @@ function ACSMap (props) {
               var position = {}
               position.lat = marker[latitude_field]
               position.lng = marker[longitude_field]
+              if (!position.lat || !position.lng) {return null}
               return (
               <Marker 
               onMouseover={handleMouseover}
