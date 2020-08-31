@@ -5,7 +5,7 @@ import ACSEditButton from './Buttons/ACSEditButton';
 import ACSMapButton from './Buttons/ACSMapButton';
 
 // fields
-import ACSField from '../Functional/Fields/ACSField.js';
+import ACSField from './Fields/ACSField.js';
 import ACSComboField from './Fields/ACSComboField.js';
 // components
 

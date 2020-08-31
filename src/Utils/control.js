@@ -45,7 +45,7 @@ import TreeItem from '@material-ui/lab/TreeItem';
 // layouts
 import ACSMap from '../Functional/Lists/ACSMap.js'
 import ACSMapAndFilter from '../Functional/Layouts/ACSMapAndFilter.js'
-import {ACSWizard, ACSComboField, ACSTextField, ACSFile, ACSImage, ACSDate, ACSReferencesList} from '../ACSLibrary/index.js'
+import {ACSWizard, ACSComboField, ACSField, ACSTextField, ACSFile, ACSImage, ACSDate, ACSReferencesList} from '../ACSLibrary/index.js'
 
 const useStyles = makeStyles({
   table_cell: {
@@ -250,6 +250,7 @@ function componentPicker(name, source="not provided") {
   switch (name) {
     case "ACSTextField":  return ACSTextField; 
     case "ACSComboField": return ACSComboField;
+    case "ACSField": return ACSField;
     case "RABHeaderAndBodyText": return RABHeaderAndBodyText;
     case "RABText": return RABText;
     case "Message": return Message;
@@ -304,7 +305,7 @@ function componentPicker(name, source="not provided") {
     case "NWAProjectView": return NWAProjectView;
     case "SubsiteApply": return SubsiteApply;
     default:  { 
-      alert("Menu Model Issues - no component for" + name ) 
+      alert("Menu Model Issues - no component for " + name ) 
       return Fragment;
     }
   }

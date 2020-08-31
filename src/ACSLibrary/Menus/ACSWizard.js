@@ -63,6 +63,7 @@ const Wizard = (props) => {
     setDataElements([step, data, id, null, next_step_number])
    };
 
+
    const WizardComponent = control.componentByName(menu_component_name);
 
    const handleStepSubmit = (event, result, form_values, inserted_id) => {
@@ -96,7 +97,6 @@ const Wizard = (props) => {
        context.setDirty();
 
    }
-
 
    return (
      <Fragment>

@@ -28,8 +28,7 @@ function DelayedAuth(props) {
   }
 
   const require_authorization=auth_tag?true:false 
-
-  return (<Auth {...auth_props} require_authorization={require_authorization} onAuthorized={handleOnClickAuth}  onClose={handleOnClose}>{props.children}</Auth>)
+  return (<Auth {...auth_props} require_authorization={require_authorization} onAuthorized={handleOnClickAuth}  onClose={handleOnClose}><span onClick={handleOnClick}>{props.children}</span></Auth>)
 
 }
 

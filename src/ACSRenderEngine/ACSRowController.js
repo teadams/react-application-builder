@@ -103,8 +103,8 @@ function ACSFormWrap(props) {
             <form onSubmit={props.onSubmit}>
             {props.children}
             <DialogActions>
-            <DelayedAuth  object_type={object_type} auth_action={props.mode} color="primary">
-              <Button onClick={props.onSubmit} color="primary">{props.mode==="edit"?"save":props.mode}</Button>
+            <DelayedAuth   onClick={props.onSubmit} object_type={object_type} auth_action={props.mode} color="primary">
+              <Button color="primary">{props.mode==="edit"?"save":props.mode}</Button>
             </DelayedAuth>
             {props.onClose && <Button onClick={props.onClose} color="primary">
               Close
@@ -123,8 +123,8 @@ function ACSFormWrap(props) {
             <form onSubmit={props.onSubmit}>
             {props.children}
             <DialogActions>
-            <DelayedAuth  object_type={object_type} auth_action={props.mode}>
-            <Button onClick={props.onSubmit} color="primary">{props.mode==="edit"?"save":props.mode}</Button>
+            <DelayedAuth onClick={props.onSubmit} object_type={object_type} auth_action={props.mode}>
+            <Button  color="primary">{props.mode==="edit"?"save":props.mode}</Button>
             </DelayedAuth>
             {props.onClose && <Button onClick={props.onClose} color="primary">
               Close
