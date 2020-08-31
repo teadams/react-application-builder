@@ -22,6 +22,24 @@ function get_image_url (image_object) {
     }     
 }
 
+class CustomMarker extends Marker {
+  componentDidUpdate(prevProps) {
+    if(
+      this.props.map !== prevProps.map || 
+      (this.props.icon && ( this.props.icon.url !== prevProps.icon.url )) || 
+      (
+        this.props.position.lat !== prevProps.position.lat || 
+        this.props.position.lng !== prevProps.position.lng
+      )
+    ) {
+      if(this.marker) {
+        this.marker.setMap(null);
+      }
+      this.renderMarker();
+    }
+  }
+}
+
 function ACSMap (props) {
   const {object_type, api_options, icon_type_field="",  latitude, longitude, latitude_field="core_address_latitude", longitude_field="core_address_longitude", initial_zoom=3, onMarkerClick, onMapClick, onMouseover, PopupComponent, map_center="location", maxPopoverWidth=250, summary_cutoff=100, description_cutoff="", container_height="75%", container_width="75%", load_own_data=true} = props
   let {data:props_map_data} = props
@@ -173,7 +191,7 @@ function ACSMap (props) {
               position.lng = marker[longitude_field]
               if (!position.lat || !position.lng) {return null}
               return (
-              <Marker 
+              <CustomMarker
               onMouseover={handleMouseover}
               onClick={handleMarkerClick}
               name={marker[name_field]}
@@ -181,7 +199,7 @@ function ACSMap (props) {
               icon = {icon}
               id = {marker.id}
               key = {marker.id}
-              position={position}></Marker>
+              position={position}></CustomMarker>
               )
             })}
             <InfoWindow
