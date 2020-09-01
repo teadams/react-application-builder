@@ -25,7 +25,7 @@ const expand_combos_field_list = (field_list, field_models) => {
 
 const useForm = (object_type, field_name="", data, handleSubmit, mode="view", form=true, default_values_prop={}, field_list, delay_dirty=false,  list_form_params={}, index,trace) => {
 // XX Have to be passed field_models
-  const [formValues, setFormValues] = useState({});
+  const [formAttributes, setFormAttributes] = useState([{},{},{}]);
   const [lastTouched,setLastTouched] = useState(false)
   const [filesTouched,setFilesTouched] = useState([])
   const context = useContext(AuthContext)
@@ -34,7 +34,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   const field_models =  useGetModel("fields", object_type)
   const [prior_input_mask, setPriorInputMask] = useState(null)
   const [prior_user_id, setPriorUserId] = useState("")
-
+  let [formValues, formVisibility, formValidated] = formAttributes
   // form not needed or inputs not ready
 
   const id_field = object_model.key_id
@@ -126,7 +126,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
           setPriorUserId(context.user.id)
         }
         setLastTouched(false)
-        setFormValues(defaults)
+        setFormAttributes([defaults,{},{}])
     }
   } else if (context.user && ["create","list_create"].includes(mode) && context.user.id !== prior_user_id) {
       // user logs in after starting to fill out the form 
@@ -135,7 +135,8 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       field_list.forEach(field => {
         const field_model=field_models[field]
         if (context.user.id  && field_model.use_context) {
-            setFormValues(formValues=>({...formValues,[field]:context.user.id}))
+// formValues, formVisible, formValidated
+            setFormAttributes([formValues=>({...formValues,[field]:context.user.id}),{},{}])
           }
       })
       setPriorUserId(context.user.id)
@@ -178,9 +179,9 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
       if (field_model.dependency_data_field) {
         let dependent_form_values_name = field_model.dependency_data_field
-        setFormValues(formValues => ({...formValues, [name]:value, [dependent_form_values_name]:""}));
+        setFormAttributes(formAttributes => ([{...formValues, [name]:value, [dependent_form_values_name]:""},{},{}]));
       } else {
-        setFormValues(formValues => ({...formValues, [name]:value}));
+        setFormAttributes(formAttributes =>  ([{...formValues, [name]:value},{},{}]));
       }
     } else {
       let value = event.target.files[0];
@@ -193,20 +194,21 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
             setFilesTouched(filesTouched.concat([name]))
         }
         //dependency_data_field
-        setFormValues(formValues => ({...formValues, [name]:value}));
+        setFormAttributes([formValues => ({...formValues, [name]:value}),{},{}]);
       }
     }
   })
-  if (list_form_params.formValues) {
+  if (list_form_params.formAttributes) {
     if (list_form_params.reference_field_name) {
-      list_form_params.formValues.current[list_form_params.reference_field_name][index] = formValues
+      list_form_params.formAttributes.current[list_form_params.reference_field_name][index] = [formValues,{},{}]
       list_form_params.lastTouched.current[list_form_params.reference_field_name][index] = lastTouched
     } else {
-      list_form_params.formValues.current[index] = formValues
+      list_form_params.formAttributes.current[index] = [formValues,{},{}]
       list_form_params.lastTouched.current[index] = lastTouched
     }
   }
-   return {formValues, lastTouched, handleFormSubmit, handleFormChange};
+
+   return {formAttributes, lastTouched, handleFormSubmit, handleFormChange};
 
 }
 

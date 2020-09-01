@@ -99,7 +99,7 @@ function RABList(list_props) {
 // Documentation - see comments in ACSRowController
 function ACSListController(input_props) {
   // do not merge expensive, known unnecessary things
-  const {data:input_props_data, action, target_menu_name, lazy="core", field_models:input_field_models, headless, action_props, no_header=false, onData, api_options:discard_api_options, field_list:discard_field_list, allow_add=false, allow_save=false, num_add=3, reference_formValues, reference_lastTouched, reference_field_name, referenced_object_type, referenced_id, ...merging_props} = input_props
+  const {data:input_props_data, action, target_menu_name, lazy="core", field_models:input_field_models, headless, action_props, no_header=false, onData, api_options:discard_api_options, field_list:discard_field_list, allow_add=false, allow_save=false, num_add=3, reference_formAttributes, reference_lastTouched, reference_field_name, referenced_object_type, referenced_id, ...merging_props} = input_props
   const context = useContext(AuthContext)
 
   const object_models =  useGetModel("object_types")
@@ -108,7 +108,7 @@ function ACSListController(input_props) {
   if (input_field_models && Object.keys(input_field_models).length> 0) {
       field_models =  input_field_models
   }
-  const list_formValues= useRef({})
+  const list_formAttributes = useRef({})
   const list_lastTouched = useRef({})
 
 
@@ -147,7 +147,7 @@ function ACSListController(input_props) {
   let [object_type, api_options, data] = useGetObjectList(input_props.object_type, input_api_options, input_props.data, onData,"","list"); 
 
   list_lastTouched.current = {}
-  list_formValues.current = {}
+  list_formAttributes.current = {}
 
   const field_list = useGenerateFieldList(object_type, "", data, mode, false, input_props.field_list, api_options.lazy) 
   if (!data || (object_type && !object_model) || headless) return null
@@ -169,7 +169,7 @@ function ACSListController(input_props) {
   const handleSubmit=(event) => {
     Object.keys(list_lastTouched.current).forEach(row_index=>{
       if(list_lastTouched.current[row_index]) {
-        api.handleSubmit (event, list_formValues.current[row_index], mode, context, object_type, object_models[object_type], field_models, "", "id", {}, false) 
+        api.handleSubmit (event, list_formAttributes.current[row_index][0], mode, context, object_type, object_models[object_type], field_models, "", "id", {}, false) 
        }
     })
   }
@@ -177,7 +177,7 @@ function ACSListController(input_props) {
   let list_form_params = {}
   if (["list_edit","list_create"].includes(mode)) {
       // use list ref is stand alone, passed if reference if a field on a form
-      list_form_params.formValues = reference_formValues?reference_formValues:list_formValues
+      list_form_params.formAttributes = reference_formAttributes?reference_formAttributes:list_formAttributes
       list_form_params.lastTouched = reference_lastTouched?reference_lastTouched:list_lastTouched
       list_form_params.reference_field_name = reference_field_name?reference_field_name:""
       list_form_params.referenced_object_type = referenced_object_type?referenced_object_type:""

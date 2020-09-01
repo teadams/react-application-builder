@@ -52,8 +52,8 @@ function ACSFieldController(original_props) {
   const field_model = field_models[original_props.object_type][original_props.field_name]
 
   const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, data:input_data, onData:props_onData,
-  handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formValues:props_formValues, lastTouched:props_lastTouched, onBlur, onFieldClick,  
-  mode="view", key_id, autoFocus=false, rab_component_model, onSubmit, reference_formValues, reference_lastTouched,...merging_props} = original_props
+  handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formAttributes:props_formAttributes, lastTouched:props_lastTouched, onBlur, onFieldClick,  
+  mode="view", key_id, autoFocus=false, rab_component_model, onSubmit, reference_formAttributes, reference_lastTouched,...merging_props} = original_props
     //// *** NOW HAVE APPROPRIATE MODELS *****
   let final_props;
   if (original_props.built) {
@@ -92,7 +92,9 @@ function ACSFieldController(original_props) {
     }
   }
   const field_list = ["id", field_name]  
-  const {formValues=props_formValues, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(object_type, form_field_name, data, handleSubmit, mode, form, "", field_list);
+  const {formAttributes=props_formAttributes, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(object_type, form_field_name, data, handleSubmit, mode, form, "", field_list);
+  const [formValues, formVisibility, formValidated] = formAttributes
+
   let current_dependent_value = formValues?(dependent_field?formValues[dependent_field]:null):null
 
   // ** get data for select lists ***//
@@ -175,14 +177,14 @@ function ACSFieldController(original_props) {
     {...final_props}
     data={data} 
     row_data={row_data}
-    formValues = {formValues}
+    formAttributes = {formAttributes}
     object_type={object_type} 
     field_name = {field_name}
     form_field_name={form_field_name}
     object_models={object_models}
     field_models={field_models}
     field_model={field_model}
-    reference_formValues= {reference_formValues}
+    reference_formAttributes= {reference_formAttributes}
     reference_lastTouched = {reference_lastTouched}
     // specifics about the input field
     model_valid_values={model_valid_values}

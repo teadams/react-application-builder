@@ -17,8 +17,10 @@ function getYouTubeURL (initial_url) {
   }
 
 function ACSYouTube(props) {
-  const {mode, data, field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small"} = props
+  const {mode, data, field_name, field_model={}, formdata, formAttributes, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small"} = props
   const field_value = data[field_model.final_field_name?field_model.final_field_name:field_name]
+  const [formValues, formVisibility, formValidated] = formAttributes
+
   const url = getYouTubeURL(field_value)
   switch (mode) {
     case "edit":

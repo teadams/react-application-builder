@@ -9,10 +9,12 @@ import * as meta from '../../Utils/meta.js';
 import {ACSImageView} from '../../ACSLibrary'
 
 function ACSURLField(props) {
-  const {mode, row_data,  data, object_type, data_field, pretty_name, display_field=props.field_name, references_field, field_name, form_field_name=props.field_name, field_model={}, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values,  db_data_field, 
+  const {mode, row_data,  data, object_type, data_field, pretty_name, display_field=props.field_name, references_field, field_name, form_field_name=props.field_name, field_model={}, formdata, formAttributes, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values,  db_data_field, 
   variant="outlined", required, helperText, placeholder
 } = props
   let {with_thumbnail=""} = props
+  const [formValues, formVisibility, formValidated] = formAttributes
+
   // XX field model passed due to referenced change. May 
   // be done server side later
   let field_value=""

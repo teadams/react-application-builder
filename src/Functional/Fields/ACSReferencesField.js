@@ -14,9 +14,11 @@ import _ from 'lodash/object'
 
 
 function ACSReferencesField(props) {
-  const {mode, data=[], add_none, base_field_name, parent_field_name, base_object_type, parent_object_type, field_name, formValues, onSubmit, onChange, object_type, field_model={}} = props
+  const {mode, data=[], add_none, base_field_name, parent_field_name, base_object_type, parent_object_type, field_name, formAttributes, onSubmit, onChange, object_type, field_model={}} = props
   let {form_field_name, list_display="div"} = props
   const {...params} = props
+  const [formValues, formVisibility, formValidated] = formAttributes
+
 
   if (field_model.list_display) {
       list_display = field_model.list_display

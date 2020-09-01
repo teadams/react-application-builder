@@ -9,10 +9,11 @@ import ACSImageView from './Widgets/ACSImageView.js'
 import useGetModel from '../../../Hooks/useGetModel.js'
 
 function ACSImage(props) {
-  const {mode, data, row_data, prevent_edit, image_size="tiny", image_size_list="tiny", field_name, field_models, pretty_key, pretty_name, data_field, formdata, object_type, formValues, disable_underline=false, onChange, autoFocus, avatar, fullWidth=true, custom_width, custom_height, data_type, components, img_style, list_img_style, display_field=props.field_name, references_field, form_field_name=props.field_name, field_model={},
+  const {mode, data, row_data, prevent_edit, image_size="tiny", image_size_list="tiny", field_name, field_models, pretty_key, pretty_name, data_field, formdata, object_type, formAttributes, disable_underline=false, onChange, autoFocus, avatar, fullWidth=true, custom_width, custom_height, data_type, components, img_style, list_img_style, display_field=props.field_name, references_field, form_field_name=props.field_name, field_model={},
   variant="outlined", required, helperText, placeholder
 } = props
 
+  const [formValues, formVisibility, formValidated] = formAttributes
   const field_value = data[data_field]
   const object_type_model = useGetModel("object_types")[object_type]
 

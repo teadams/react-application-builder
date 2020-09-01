@@ -75,9 +75,9 @@ function RenderACSField(props) {
       return null
   }
 
-  let {api_options, components:discard_components,reference_formValues, reference_lastTouched, ...params} = props
+  let {api_options, components:discard_components,reference_formAttributes, reference_lastTouched, ...params} = props
   const {data ={}, row_data, object_type, data_field,  dsiplay_field, references_field, field_name, form_field_name, components={},
-        mode="view", form="true", formValues, autoFocus, onSubmit, onBlur, onChange,  click_to_edit, field_model, referred_by_object_type, click_to_edit_field, cardinality} = props
+        mode="view", form="true", formAttributes, autoFocus, onSubmit, onBlur, onChange,  click_to_edit, field_model, referred_by_object_type, click_to_edit_field, cardinality} = props
 
 
   // these come froprops.m rab_component_model props
@@ -122,9 +122,9 @@ function RenderACSField(props) {
     params.field_model = field_model
     params.object_type = referred_by_object_type
     params.mode = mode
-    reference_formValues.current[field_name] ={}
+    reference_formAttributes.current[field_name][0] ={}
     reference_lastTouched.current[field_name] ={}
-    params.reference_formValues= reference_formValues
+    params.reference_formAttributes= reference_formAttributes
     params.reference_lastTouched = reference_lastTouched
     params.field_name = field_name
     params.field_list = field_model.referenced_field_list

@@ -62,7 +62,8 @@ import rab_component_models from '../Utils/component.js'
 //   The rest is just prep
 
 function ACSRow(row_props) {
-  const {mode, form, field_chunk, field_models, data, field, rab_component_model, handleFormChange, handleFormSubmit, formValues, key_id, s_index, f_index,reference_formValues, reference_lastTouched} = row_props
+  const {mode, form, field_chunk, field_models, data, field, rab_component_model, handleFormChange, handleFormSubmit, formAttributes, key_id, s_index, f_index,reference_formAttributes, reference_lastTouched} = row_props 
+  const [formValues, formVisibility, formValidated] = formAttributes
   const {...row_params} = row_props
   const {field_chunk_wrap:FieldChunk} = rab_component_model.row.components
   return (
@@ -74,13 +75,13 @@ function ACSRow(row_props) {
              return <ACSComboField {...row_params}  {...field_model} mode={mode} field_models={field_models} form={!form} field_name={field_name}  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit}
              override_meta_model={false}
              autoFocus ={autoFocus}
-             formValues={formValues} key={ch_index+"field_name"} key_id={key_id+ch_index} />
+             formAttributes={formAttributes} key={ch_index+"field_name"} key_id={key_id+ch_index} />
            } else {
             return <ACSFieldController {...row_params}  {...field_model} mode={mode} field_models={field_models} form={!form} field_name={field_name}  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit}
             override_meta_model={false}
             autoFocus ={autoFocus}
-            formValues={formValues} key={ch_index+"field_name"} key_id={key_id+ch_index}
-            reference_formValues= {reference_formValues}
+            formAttributes={formAttributes} key={ch_index+"field_name"} key_id={key_id+ch_index}
+            reference_formAttributes = {reference_formAttributes}
             reference_lastTouched = {reference_lastTouched}
           />
           }
@@ -172,10 +173,11 @@ function ACSRowController(input_props) {
   const field_list_models = useGetModel("field_lists")
   const context = useContext(AuthContext)
 
-  const reference_formValues= useRef({})
+  const reference_formAttributes = useRef({})
   const reference_lastTouched = useRef({})
-  reference_formValues.current = {}
-  reference_lastTouched.current = {}
+  reference_formAttributes.current = {}
+  reference_lastTouched.current =""
+
   function handleSubmit(event, result, form_values, inserted_id) {
       Object.keys(reference_lastTouched.current).forEach(field_name=>{
         Object.keys(reference_lastTouched.current[field_name]).forEach(row_index=> {
@@ -184,9 +186,9 @@ function ACSRowController(input_props) {
             const submit_object_type = submit_field_model.referred_by_object_type
             const referred_by = submit_field_model.referred_by_field
             if (inserted_id) {
-                reference_formValues.current[field_name][row_index][referred_by] = inserted_id
+                reference_formAttributes.current[field_name][row_index][0][referred_by] = inserted_id
             }
-            api.handleSubmit (event, reference_formValues.current[field_name][row_index], mode, context, submit_object_type, object_models[object_type], field_models, "", "id", {}, false) 
+            api.handleSubmit (event, reference_formAttributes.current[field_name][row_index][0], mode, context, submit_object_type, object_models[object_type], field_models, "", "id", {}, false) 
           }
         })
       })
@@ -200,7 +202,7 @@ function ACSRowController(input_props) {
   }
   
   // do not merge expensive, known unnecessary things
-  let {layout, headless=false, data:input_props_data, row_type="table_row", form_open, key_id, onData="",action_props, action, form_title, no_header=false, sections,  override_meta_model, delay_dirty=false,setListFormValues, list_form_params, index, mode, dialog_size, num_columns=1, ...merging_props} = input_props
+  let {layout, headless=false, data:input_props_data, row_type="table_row", form_open, key_id, onData="",action_props, action, form_title, no_header=false, sections,  override_meta_model, delay_dirty=false,setListFormAttributes, list_form_params, index, mode, dialog_size, num_columns=1, ...merging_props} = input_props
   // if mode is create and there is ad id, change mode to edit.
   // Use Case - Wizard when user goes back to the create step
   if (["create","list_create"].includes(mode) && (merging_props.id || (input_props_data && input_props_data.id))) {
@@ -288,11 +290,12 @@ function ACSRowController(input_props) {
       section_field_lists.push(field_list)
   }
 
-  let {formValues, lastTouched, handleFormChange, handleFormSubmit,} = useForm(object_type, "", data, handleSubmit, mode, form, merging_props,field_list, delay_dirty, list_form_params, index);
+  let {formAttributes, lastTouched, handleFormChange, handleFormSubmit} = useForm(object_type, "", data, handleSubmit, mode, form, merging_props,field_list, delay_dirty, list_form_params, index);
+
+  const [formValues, formVisibility, formValidated] = formAttributes?formAttributes:[undefined,undefined,undefined]
   //// wall /////
   if (!field_models) {return null}
   const field_model = field_models[object_type]
-
   if ((!["create","list_create"].includes(mode) && !data) || (object_type && !object_model) || (object_type && !field_model) || field_list.length === 0) return null
 
   //XX TODO - have to restructure references defaults
@@ -344,8 +347,8 @@ function ACSRowController(input_props) {
   if (headless) {
       return null
   }
-  return  (<ACSRowRenderer {...row_model.props} mode={mode} row_type={row_type} field_models={field_models} form={form} object_type={object_type} action_props={ action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options}  formValues={formValues} form_open={form_open} form_title={form_title} onClose={input_props.onClose} dialog_size={dialog_size} num_columns={num_columns}
-  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} key={key_id+"Render"} key_id={key_id}   reference_formValues= {reference_formValues}
+  return  (<ACSRowRenderer {...row_model.props} mode={mode} row_type={row_type} field_models={field_models} form={form} object_type={object_type} action_props={ action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options}  formAttributes={formAttributes} form_open={form_open} form_title={form_title} onClose={input_props.onClose} dialog_size={dialog_size} num_columns={num_columns}
+  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} key={key_id+"Render"} key_id={key_id}   reference_formAttributes= {reference_formAttributes}
     reference_lastTouched = {reference_lastTouched}/>)
 
 }

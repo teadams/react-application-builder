@@ -14,10 +14,12 @@ const RadioLabel = (props=> {
 })
 
 function RABTextField(props) {
-  const {mode, row_data,  data, object_type, data_field, pretty_name, display_field=props.field_name, references_field, field_name, form_field_name=props.field_name, field_model={}, object_models, formdata, formValues, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values, 
+  const {mode, row_data,  data, object_type, data_field, pretty_name, display_field=props.field_name, references_field, field_name, form_field_name=props.field_name, field_model={}, object_models, formdata, formAttributes, disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values, 
   variant="outlined", required, helperText, placeholder, multiline=false, more_link_cutoff="", more_link_list_cutoff=props.more_link_cutoff, prevent_edit, input_type, data_type, key_id} = props
   const [test_state, setTestState] = useState("foo")
   let {with_thumbnail="", with_url="", more_detail=false, toggleMoreDetail} = props
+
+  const [formValues, formVisibility, formValidated] = formAttributes
 
   // XX field model passed due to referenced change. May 
   // be done server side later
