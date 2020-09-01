@@ -122,7 +122,7 @@ function RenderACSField(props) {
     params.field_model = field_model
     params.object_type = referred_by_object_type
     params.mode = mode
-    reference_formAttributes.current[field_name][0] ={}
+    reference_formAttributes.current[field_name] =[{},{},{}]
     reference_lastTouched.current[field_name] ={}
     params.reference_formAttributes= reference_formAttributes
     params.reference_lastTouched = reference_lastTouched

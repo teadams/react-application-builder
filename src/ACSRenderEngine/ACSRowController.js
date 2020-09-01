@@ -176,7 +176,7 @@ function ACSRowController(input_props) {
   const reference_formAttributes = useRef({})
   const reference_lastTouched = useRef({})
   reference_formAttributes.current = {}
-  reference_lastTouched.current =""
+  reference_lastTouched.current = {}
 
   function handleSubmit(event, result, form_values, inserted_id) {
       Object.keys(reference_lastTouched.current).forEach(field_name=>{
