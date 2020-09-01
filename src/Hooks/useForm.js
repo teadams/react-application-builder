@@ -62,12 +62,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     field_list.forEach(field_name =>{
       const field_model=field_models[field_name]
       const references = field_model.references
-      formVisibility[field_name] = "visible"
-      if (field_model.dependent_visible_field) {
-        if (!data || !data[field_model.dependent_visible_field]) {
-          formVisibility[field_name] = "hidden"            
-        }
-      }
+      
       if (field_model.input_type === "file") {
         defaults[field_name] = ""
       } else if ( ["edit","list_edit"].includes(mode) && data) {
@@ -113,7 +108,18 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
           
           defaults[field_name] = default_value
       }
-            
+
+      formVisibility[field_name] = "visible"
+
+    })
+
+    field_list.forEach(field_name =>{
+      const field_model=field_models[field_name]
+      if (field_model.dependent_visible_field) {
+        if ( !defaults[field_model.dependent_visible_field] || (field_model.dependent_visible_value && (field_model.dependent_visible_value !==defaults[field_model.dependent_visible_field] ))) {
+          formVisibility[field_name] = "hidden"            
+        }
+      }
     })
 
     if (["create","list_create"].includes(mode) && list_form_params) {
@@ -188,9 +194,12 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
           new_formValues[field_model.dependency_data_field]=""
       }
       if (field_model.dependency_visible_fields && field_model.dependency_visible_fields.length >0) {
-          const new_visibility=value?"visible":"hidden"
-        
             field_model.dependency_visible_fields.forEach(dependency_visible_field => {
+              let new_visibility=value?"visible":"hidden"
+              const dependent_field_model = field_models[dependency_visible_field]
+              if (dependent_field_model.dependent_visible_value) {
+                new_visibility=(value===dependent_field_model.dependent_visible_value)?"visible":"hidden"
+              }
               new_formValues[dependency_visible_field]=""
               new_formVisibility[dependency_visible_field]=new_visibility
             })
