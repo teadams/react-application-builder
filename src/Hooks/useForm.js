@@ -63,6 +63,11 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       const field_model=field_models[field_name]
       const references = field_model.references
       formVisibility[field_name] = "visible"
+      if (field_model.dependent_visible_field) {
+        if (!data || !data[field_model.dependent_visible_field]) {
+          formVisibility[field_name] = "hidden"            
+        }
+      }
       if (field_model.input_type === "file") {
         defaults[field_name] = ""
       } else if ( ["edit","list_edit"].includes(mode) && data) {
@@ -177,12 +182,21 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     setLastTouched(name)
     if (event.target.type !== "file") {
       let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+      let new_formValues = {[name]:value}
+      let new_formVisibility = {}
       if (field_model.dependency_data_field) {
-        let dependent_form_values_name = field_model.dependency_data_field
-        setFormAttributes(formAttributes => ([{...formValues, [name]:value, [dependent_form_values_name]:""},formVisibility,{}]));
-      } else {
-        setFormAttributes(formAttributes =>  ([{...formValues, [name]:value},formVisibility,{}]));
+          new_formValues[field_model.dependency_data_field]=""
       }
+      if (field_model.dependency_visible_fields && field_model.dependency_visible_fields.length >0) {
+          const new_visibility=value?"visible":"hidden"
+        
+            field_model.dependency_visible_fields.forEach(dependency_visible_field => {
+              new_formValues[dependency_visible_field]=""
+              new_formVisibility[dependency_visible_field]=new_visibility
+            })
+          
+      }
+      setFormAttributes(formAttributes =>  ([{...formValues, ...new_formValues},{...formVisibility,...new_formVisibility},{}]));
     } else {
       let value = event.target.files[0];
       if (mode==="edit" && form && field_name) {
