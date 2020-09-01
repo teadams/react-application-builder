@@ -62,7 +62,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     field_list.forEach(field_name =>{
       const field_model=field_models[field_name]
       const references = field_model.references
-      formVisibility[field_name] = "hidden"
+      formVisibility[field_name] = "visible"
       if (field_model.input_type === "file") {
         defaults[field_name] = ""
       } else if ( ["edit","list_edit"].includes(mode) && data) {

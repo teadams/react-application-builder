@@ -20,7 +20,7 @@ function RABTextField(props) {
   let {with_thumbnail="", with_url="", more_detail=false, toggleMoreDetail} = props
 
   const [formValues, formVisibility, formValidated] = formAttributes
-
+  const visibility = formVisibility[field_name]
   // XX field model passed due to referenced change. May 
   // be done server side later
   let field_value
@@ -125,11 +125,12 @@ function RABTextField(props) {
         )
       } else {
         return (
-        <div style={{minWidth:"20em"}}>
+        <div style={{minWidth:"20em", visibility:visibility}}>
           {field_model.summary &&  <div style={{marginBottom:"5px"}}>{field_model.summary}</div>}
           <TextField
             select={widget_type==="select"?true:false}
             required={required} 
+            inputProps={{style:{visibilty:visibility}}}
             placeholder={placeholder}
             autoFocus={autoFocus}
             name={form_field_name}
