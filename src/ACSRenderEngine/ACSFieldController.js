@@ -54,6 +54,7 @@ function ACSFieldController(original_props) {
   const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, data:input_data, onData:props_onData,
   handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formAttributes:props_formAttributes, lastTouched:props_lastTouched, onBlur, onFieldClick,  
   mode="view", key_id, autoFocus=false, rab_component_model, onSubmit, reference_formAttributes, reference_lastTouched,...merging_props} = original_props
+
     //// *** NOW HAVE APPROPRIATE MODELS *****
   let final_props;
   if (original_props.built) {
@@ -93,6 +94,7 @@ function ACSFieldController(original_props) {
   }
   const field_list = ["id", field_name]  
   const {formAttributes=props_formAttributes, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(object_type, form_field_name, data, handleSubmit, mode, form, "", field_list);
+
   const [formValues, formVisibility, formValidated] = formAttributes
 
   let current_dependent_value = formValues?(dependent_field?formValues[dependent_field]:null):null

@@ -42,7 +42,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   if ((!["edit","create","list_edit","list_create"].includes(mode)) || !form ||
       (["edit","list_edit"].includes(mode) && !data) || 
       !object_model || !field_models) {
-          return {undefined, undefined, undefined, undefined}
+       return {}
     }
 
   let input_mask 

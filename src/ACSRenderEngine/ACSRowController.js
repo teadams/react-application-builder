@@ -66,6 +66,7 @@ function ACSRow(row_props) {
   const [formValues, formVisibility, formValidated] = formAttributes
   const {...row_params} = row_props
   const {field_chunk_wrap:FieldChunk} = rab_component_model.row.components
+
   return (
     <FieldChunk {...row_params} key={key_id+"chunk"}>
       {field_chunk.map( (field_name, ch_index) => {
@@ -291,7 +292,6 @@ function ACSRowController(input_props) {
   }
 
   let {formAttributes, lastTouched, handleFormChange, handleFormSubmit} = useForm(object_type, "", data, handleSubmit, mode, form, merging_props,field_list, delay_dirty, list_form_params, index);
-
   const [formValues, formVisibility, formValidated] = formAttributes?formAttributes:[undefined,undefined,undefined]
   //// wall /////
   if (!field_models) {return null}

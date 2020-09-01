@@ -20,7 +20,7 @@ function RABTextField(props) {
   let {with_thumbnail="", with_url="", more_detail=false, toggleMoreDetail} = props
 
   const [formValues, formVisibility, formValidated] = formAttributes
-  const visibility = formVisibility[field_name]
+  const visibility = formVisibility?formVisibility[field_name]:"visible"
   // XX field model passed due to referenced change. May 
   // be done server side later
   let field_value
