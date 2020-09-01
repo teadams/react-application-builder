@@ -54,7 +54,6 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
   if (input_mask !== prior_input_mask) {
     // props have changed, new form
     let defaults = {}
-
     field_list = expand_combos_field_list(field_list, field_models)
     if (!field_list.includes("id")) {
         field_list.push("id")
@@ -63,6 +62,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     field_list.forEach(field_name =>{
       const field_model=field_models[field_name]
       const references = field_model.references
+      formVisibility[field_name] = "hidden"
       if (field_model.input_type === "file") {
         defaults[field_name] = ""
       } else if ( ["edit","list_edit"].includes(mode) && data) {
@@ -126,7 +126,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
           setPriorUserId(context.user.id)
         }
         setLastTouched(false)
-        setFormAttributes([defaults,{},{}])
+        setFormAttributes([defaults,formVisibility,{}])
     }
   } else if (context.user && ["create","list_create"].includes(mode) && context.user.id !== prior_user_id) {
       // user logs in after starting to fill out the form 
@@ -136,7 +136,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
         const field_model=field_models[field]
         if (context.user.id  && field_model.use_context) {
 // formValues, formVisible, formValidated
-            setFormAttributes([formValues=>({...formValues,[field]:context.user.id}),{},{}])
+            setFormAttributes([formValues=>({...formValues,[field]:context.user.id}),formVisibility,{}])
           }
       })
       setPriorUserId(context.user.id)
@@ -179,9 +179,9 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
       let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
       if (field_model.dependency_data_field) {
         let dependent_form_values_name = field_model.dependency_data_field
-        setFormAttributes(formAttributes => ([{...formValues, [name]:value, [dependent_form_values_name]:""},{},{}]));
+        setFormAttributes(formAttributes => ([{...formValues, [name]:value, [dependent_form_values_name]:""},formVisibility,{}]));
       } else {
-        setFormAttributes(formAttributes =>  ([{...formValues, [name]:value},{},{}]));
+        setFormAttributes(formAttributes =>  ([{...formValues, [name]:value},formVisibility,{}]));
       }
     } else {
       let value = event.target.files[0];
