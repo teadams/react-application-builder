@@ -25,7 +25,7 @@ const Wizard = (props) => {
   const current_step_key = steps[current_step_number]
   const current_step_data = step_data[current_step_key]
 
-  const {menu_component_name, pretty_name, summary, description, object_type, step_summary_style, step_description_style} = current_step_data
+  const {menu_component_name, pretty_name, summary, description, object_type, step_summary_style, step_description_style, wizard_review=false} = current_step_data
   const {mode, ...wizard_props}= current_step_data.props;
   // XX?? move up a level
   const [steps_state, setStepsState] = useState(null)
@@ -120,7 +120,31 @@ const Wizard = (props) => {
             <div style={step_summary_style}>{summary}{description && <Fragment>:</Fragment>}</div>
             {description && <div style={step_description_style}> {description}</div>}
             <p/>
-         <WizardComponent onSubmit={handleStepSubmit} data={data} object_type={object_type} id={id} onClose={handleFormClose} row_delayed_auth={true} row_form={true} no_header={true} row_dialog_center={true} mode={mode}  delay_dirty={true} {...wizard_props}/>
+        {!wizard_review 
+          ?
+            <WizardComponent onSubmit={handleStepSubmit} data={data} object_type={object_type} id={id} onClose={handleFormClose} row_delayed_auth={true} row_form={true} no_header={true} row_dialog_center={true} mode={mode}  delay_dirty={true} {...wizard_props}/>
+          :
+          <Fragment>
+           {steps.map ((step,index) => {
+              if (index === current_step_number) {return null}
+               const {pretty_name, summary,description, force_refresh=false} = step_data[step]
+               const {mode, ...wizard_props}= step_data[step].props;
+
+               const step_state = steps_state?steps_state[step]:{}
+
+               return (
+                <Fragment>
+                  <Step key={pretty_name} completed={step_state.completed} disabled={step_state.disabled}><StepButton  onClick={handleStep(index, force_refresh)} optional={step_state.subtitle}>{pretty_name}</StepButton>
+                  </Step>
+                  <div style={step_summary_style}>{summary}{description && <Fragment>:</Fragment>}</div>
+                  {description && <div style={step_description_style}> {description}</div>}
+                  <p/>
+                  <WizardComponent onSubmit={handleStepSubmit} data={data} object_type={object_type} id={id} onClose={handleFormClose} row_delayed_auth={true} row_form={true} no_header={true} row_dialog_center={true} mode={mode}  delay_dirty={true} {...wizard_props}/>
+                </Fragment>
+               )
+             })}
+          </Fragment>
+          }
         </DialogContent>
         <DialogActions>
         {(!mode || mode === "view") && <Button  onClick={handleFormClose} color="primary">
