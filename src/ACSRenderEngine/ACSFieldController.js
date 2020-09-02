@@ -95,7 +95,8 @@ function ACSFieldController(original_props) {
   const field_list = ["id", field_name]  
   const {formAttributes=props_formAttributes, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(object_type, form_field_name, data, handleSubmit, mode, form, "", field_list);
 
-  const [formValues, formVisibility, formValidated] = formAttributes
+  const [formValues, formVisibility, formValidated] = formAttributes?formAttributes:[undefined,undefined,undefined]
+
 
   let current_dependent_value = formValues?(dependent_field?formValues[dependent_field]:null):null
 

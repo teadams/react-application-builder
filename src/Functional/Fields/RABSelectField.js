@@ -126,9 +126,9 @@ function RABSelectField(props) {
 // if RABSelect, the final model should be 
 ///    -- viewing - data_type, component, object_type - taken from references
 
-  const {mode, data=[], add_none, base_field_name, parent_field_name, base_object_type, parent_object_type,   formAttributes, onSubmit, onFieldBlur,  onChange, autoFocus, object_type, field_model={}, value="", display_value=" ", disable_underline, style,  api_options={}} = props
-
+  const {mode, data=[], add_none, base_field_name, parent_field_name, base_object_type, parent_object_type,   formAttributes=[], onSubmit, onFieldBlur,  onChange, autoFocus, object_type, field_model={}, value="", display_value=" ", disable_underline, style,  api_options={}} = props
   const [formValues, formVisibility, formValidated] = formAttributes
+
 
   let {form_field_name, field_name, select_display_field} = props
   const {field_name:discard_field_name, ...params} = props

@@ -139,7 +139,7 @@ const Wizard = (props) => {
                   <div style={step_summary_style}>{summary}{description && <Fragment>:</Fragment>}</div>
                   {description && <div style={step_description_style}> {description}</div>}
                   <p/>
-                  <WizardComponent onSubmit={handleStepSubmit} data={data} object_type={object_type} id={id} onClose={handleFormClose} row_delayed_auth={true} row_form={true} no_header={true} row_dialog_center={true} mode={mode}  delay_dirty={true} {...wizard_props}/>
+                  <WizardComponent field_autoFocus={false} onSubmit={handleStepSubmit} data={data} object_type={object_type} id={id} onClose={handleFormClose} row_delayed_auth={true} row_form={true} no_header={true} row_dialog_center={true} mode={mode}  delay_dirty={true} {...wizard_props}/>
                 </Fragment>
                )
              })}

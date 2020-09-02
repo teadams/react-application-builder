@@ -15,6 +15,7 @@ import AuthContext from './AuthContext';
 function LoginForm(props) {
   const [activeTab, setActiveTab] = useState(0)
   const [formValues, setFormValues] = useState({email:"", credential:"", credential_confirm:"", first_name:"", last_name:""})
+  const formAttributes = [formValues,{},{}]
   const core_user_object_meta = useGetModel("object_types", "core_user")
   const context = useContext(AuthContext)
   function handleTabChange(event, index) {
@@ -108,7 +109,7 @@ function LoginForm(props) {
                   label_width="15%"
                   value={formValues["email"]}
                   data={formValues}
-                  formValues={formValues}
+                  formAttributes={formAttributes}
                   disableUnderline={false}
                   handleFormChange={handleChange}
                   id = "email"
@@ -127,7 +128,7 @@ function LoginForm(props) {
                 field_display="name_value"
                 form={false} 
                 data={formValues}
-                formValues={formValues}
+                formAttributes={formAttributes}
                 disableUnderline={false}
                 handleFormChange={handleChange}
                 id = "credential"
@@ -163,7 +164,7 @@ function LoginForm(props) {
                     form={false}
                     value={formValues["first_name"]}
                     data={formValues}
-                    formValues={formValues}
+                    formAttributes={formAttributes}
                     disableUnderline={false}
                     handleFormChange={handleChange}
                     id = "first_name"
@@ -180,7 +181,7 @@ function LoginForm(props) {
                 form={false}
                 value={formValues["last_name"]}
                 data={formValues}
-                formValues={formValues}
+                formAttributes={formAttributes}
                 disableUnderline={false}
                 handleFormChange={handleChange}
                 id = "last_name"
@@ -197,7 +198,7 @@ function LoginForm(props) {
                 form={false}
                 value={formValues["email"]}
                 data={formValues}
-                formValues={formValues}
+                formAttributes={formAttributes}
                 disableUnderline={false}
                 handleFormChange={handleChange}
                 id = "email"
@@ -213,7 +214,7 @@ function LoginForm(props) {
                 mode="create"
                 form={false} 
                 data={formValues}
-                formValues={formValues}
+                formAttributes={formAttributes}
                 disableUnderline={false}
                 handleFormChange={handleChange}
                 id = "credential"
@@ -228,7 +229,7 @@ function LoginForm(props) {
                 mode="edit"
                 form={false} 
                 data={formValues}
-                formValues={formValues}
+                formAttributes={formAttributes}
                 disableUnderline={false}
                 handleFormChange={handleChange}
                 id = "credential_confirm"
