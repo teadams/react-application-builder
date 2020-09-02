@@ -62,7 +62,7 @@ import rab_component_models from '../Utils/component.js'
 //   The rest is just prep
 
 function ACSRow(row_props) {
-  const {mode, form, field_chunk, field_models, data, field, rab_component_model, handleFormChange, handleFormSubmit, formAttributes, key_id, s_index, f_index,reference_formAttributes, reference_lastTouched} = row_props 
+  const {mode, form, field_chunk, field_models, data, field, rab_component_model, handleFormChange, handleFormSubmit, formAttributes=[], key_id, s_index, f_index,reference_formAttributes, reference_lastTouched} = row_props 
   const [formValues, formVisibility, formValidated] = formAttributes
   const {...row_params} = row_props
   const {field_chunk_wrap:FieldChunk} = rab_component_model.row.components
