@@ -147,10 +147,14 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
         const field_model=field_models[field]
         if (context.user.id  && field_model.use_context) {
 // formValues, formVisible, formValidated
-            setFormAttributes([formValues=>({...formValues,[field]:context.user.id}),formVisibility,{}])
-          }
-      })
+            setFormAttributes(formAttributes=> {
+                  const [prior_formValues, prior_formVisibility, prior_formValidated] = formAttributes
+                  return ( [{...prior_formValues, [field]:context.user.id}, prior_formVisibility, prior_formValidated] )
+              })
+          
+      }
       setPriorUserId(context.user.id)
+      })
   }
 
   const handleFormSubmit = (event => {
@@ -205,7 +209,10 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
             })
           
       }
-      setFormAttributes(formAttributes =>  ([{...formValues, ...new_formValues},{...formVisibility,...new_formVisibility},{}]));
+      setFormAttributes(formAttributes => {
+          let [prior_formValues, prior_formVisibility, prior_formValidated] = formAttributes
+          return ([{...prior_formValues, ...new_formValues},{...prior_formVisibility,...new_formVisibility},prior_formValidated])
+        });
     } else {
       let value = event.target.files[0];
       if (mode==="edit" && form && field_name) {
@@ -217,7 +224,10 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
             setFilesTouched(filesTouched.concat([name]))
         }
         //dependency_data_field
-        setFormAttributes([formValues => ({...formValues, [name]:value}),{},{}]);
+        setFormAttributes(formAttributes => {
+          const [prior_formValues, prior_formVisibility, prior_formValidated] = formAttributes;
+          return ([{...prior_formValues, [name]:value}, prior_formVisibility, prior_formValidated])
+        })
       }
     }
   })

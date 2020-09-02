@@ -24,7 +24,6 @@ function ACSComboField(props) {
   const {mode, row_data,  data, data_field, field_name, object_type, id,  combo_wrap_tag="div", combo_wrap_tag_style={}, combo_fields=[],
     combo_field_wraps=[], combo_field_wrap_styles=[], combo_field_wrap_props=[], field_models, handleFormChange, handleFormSubmit, formAttributes, form, rab_component_model } = props
 
-    const [formValues, formVisibility, formValidated] = formAttributes
 
     return (<Tag Tag={combo_wrap_tag} style={combo_wrap_tag_style}>
         {combo_fields.map((field_name,index) => {
