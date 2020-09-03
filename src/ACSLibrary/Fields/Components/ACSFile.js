@@ -38,13 +38,12 @@ function ACSFile(props) {
 
   const file_url =get_file_url(field_value)
 
+let file_exists, file_src, file_name, new_file_name
 
 switch (mode) {
     case "edit":
     case "create":
-      let file_exists = false 
-      let file_src, file_name
-//u.a(formValues, object_type, field_value)
+      file_exists = false 
       if (mode === "create" && formValues && Object.keys(formValues).length>0 &&formValues[form_field_name]) {
         file_exists = true
         file_src = URL.createObjectURL(formValues[form_field_name])
@@ -91,6 +90,39 @@ switch (mode) {
         </Fragment>
         )
       break
+      case "list_create":
+      case "list_edit":
+        file_exists = false 
+    //u.a(formValues, object_type, field_value)
+        if (formValues && Object.keys(formValues).length>0 &&formValues[form_field_name]) {
+          file_exists = true
+          file_src = URL.createObjectURL(formValues[form_field_name])
+          new_file_name = formValues[form_field_name].name
+        }
+        file_name = field_value.name
+
+        return (<Fragment>
+          <div>
+              {(file_name || new_file_name) &&
+              <Fragment>{new_file_name?new_file_name:file_name} </Fragment>
+              }
+                 <label htmlFor={form_field_name+"_form"}>
+                   <Button size="small" color="primary" variant="outlined" component="span">
+                     Upload
+                   </Button>                
+                 </label>    
+                 <input
+                   style={{ display: "none" }}
+                   id={form_field_name+"_form"}
+                   name={form_field_name}
+                   key={form_field_name}
+                   type="file"
+                   onChange={onChange}
+                 /> 
+            </div>
+          </Fragment>
+          )
+        break
     case "csv":
       if (field_value) {
         return '"'+ field_value.name+" - " + file_url +'""'
