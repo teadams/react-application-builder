@@ -63,6 +63,7 @@ import rab_component_models from '../Utils/component.js'
 
 function ACSRow(row_props) {
   const {mode, form, field_chunk, field_models, data, field, rab_component_model, handleFormChange, handleFormSubmit, formAttributes=[], key_id, s_index, f_index,reference_formAttributes, reference_lastTouched} = row_props 
+  let {autoFocus} = row_props
   const [formValues, formVisibility, formValidated] = formAttributes
   const {...row_params} = row_props
   const {field_chunk_wrap:FieldChunk} = rab_component_model.row.components
@@ -70,7 +71,9 @@ function ACSRow(row_props) {
   return (
     <FieldChunk {...row_params} key={key_id+"chunk"}>
       {field_chunk.map( (field_name, ch_index) => {
-           const autoFocus = (f_index === 0 && s_index === 0 && ch_index === 0 )?true:false
+          if (autoFocus !== false) {
+            autoFocus = (f_index === 0 && s_index === 0 && ch_index === 0 )?true:false
+          }
            const field_model = field_models[row_props.object_type][field_name]
            if (field_model.combo_fields) {
              return <ACSComboField {...row_params}  {...field_model} mode={mode} field_models={field_models} form={!form} field_name={field_name}  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit}
