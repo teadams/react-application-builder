@@ -138,8 +138,6 @@ const Wizard = (props) => {
 
                return (
                 <Fragment>
-                  <Step key={pretty_name} completed={step_state.completed} disabled={step_state.disabled}><StepButton  onClick={handleStep(index, force_refresh)} optional={step_state.subtitle}>{pretty_name}</StepButton>
-                  </Step>
                   <div style={step_summary_style}>{summary}{description && <Fragment>:</Fragment>}</div>
                   {description && <div style={step_description_style}> {description}</div>}
                   <p/>
