@@ -27,6 +27,8 @@ const Wizard = (props) => {
 
   const {menu_component_name, pretty_name, summary, description, object_type, step_summary_style, step_description_style, wizard_review=false} = current_step_data
   const {mode, ...wizard_props}= current_step_data.props;
+//  u.a("parent subsite", wizard_props)
+
   // XX?? move up a level
   const [steps_state, setStepsState] = useState(null)
   

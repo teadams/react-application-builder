@@ -18,10 +18,13 @@ function ACSMenuController(props) {
   let item_data = {}
   items.forEach((item,index) => {
     // add authentication, expand based on item
+    // expand out items like subsites
     item_data[item] = menu_models.menu_items[item]
     item_data[item].key = item
     item_data[item].index = index
   })
+
+  // handle change
 
   
   return (

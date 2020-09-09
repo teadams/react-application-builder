@@ -35,7 +35,7 @@ import ACSMapAndFilter from '../Functional/Layouts/ACSMapAndFilter.js';
 
 // menus
 import ACSWizard from './Menus/ACSWizard.js';
-
+import ACSTabMenu from './Menus/ACSTabMenu.js';
 
 
 // Lists
@@ -69,7 +69,7 @@ export {
   ACSAddress, ACSFile, ACSImage, ACSImageView, ACSDate, ACSReferencesList, ACSReferenceField, ACSMapping, ACSURLField,ACSYouTube,ACSSelectField,ACSTextField,
   ACSFilters, ACSSelectFilter, ACSTextFilter, // Field components
   ACSObjectType, ACSChipObjectType, ACSCommunicationObjectType, ACSMap,ACSSummaryObjectType, // object type view
-  ACSMapAndFilter, ACSWizard, // layouts
+  ACSMapAndFilter, ACSWizard,  ACSTabMenu,// layouts
   ACSListMenu, // menus
   ACSHeadlessObject,ACSObjectView, // object view
   ACSObjectCount,ACSHeaderAndBodyText,ACSObjectPrettyName,ACSObjectTypePrettyPlural, ACSText, // text views (headers)
