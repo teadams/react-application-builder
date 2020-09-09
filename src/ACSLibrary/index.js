@@ -13,6 +13,8 @@ import ACSImage from './Fields/Components/ACSImage.js';
 import ACSImageView from './Fields/Components/Widgets/ACSImageView.js';
 import ACSDate from './Fields/Components/ACSDate.js';
 import ACSReferencesList from './Fields/Components/ACSReferencesList.js';
+import ACSMapping from './Fields/Components/ACSMapping.js';
+
 
 import ACSAddress from '../Functional/Fields/ACSAddress.js';
 import ACSFile from  './Fields/Components/ACSFile.js'
@@ -40,7 +42,7 @@ import ACSWizard from './Menus/ACSWizard.js';
 import ACSChipObjectType from '../Functional/Lists/ACSChipObjectTypeView.js';
 import ACSCommunicationObjectType from '../Functional/Lists/ACSCommunicationObjectTypeView.js';
 import ACSMap from '../Functional/Lists/ACSMap.js';
-import ACSMapping from '../Functional/Lists/ACSMappingView.js';
+//import ACSMapping from '../Functional/Lists/ACSMappingView.js';
 import ACSObjectType  from '../Functional/Lists/ACSObjectTypeView.js';
 import ACSSummaryObjectType from '../Functional/Lists/ACSSummaryObjectTypeView.js';
 
@@ -64,9 +66,9 @@ export {
   
  ACSCreateButton, ACSCreateDialogButton, ACSEditButton, ACSMapButton, // buttons
   ACSField, ACSComboField, // Field base
-  ACSAddress, ACSFile, ACSImage, ACSImageView, ACSDate, ACSReferencesList, ACSReferenceField, ACSURLField,ACSYouTube,ACSSelectField,ACSTextField,
+  ACSAddress, ACSFile, ACSImage, ACSImageView, ACSDate, ACSReferencesList, ACSReferenceField, ACSMapping, ACSURLField,ACSYouTube,ACSSelectField,ACSTextField,
   ACSFilters, ACSSelectFilter, ACSTextFilter, // Field components
-  ACSObjectType, ACSChipObjectType, ACSCommunicationObjectType, ACSMap, ACSMapping,ACSSummaryObjectType, // object type view
+  ACSObjectType, ACSChipObjectType, ACSCommunicationObjectType, ACSMap,ACSSummaryObjectType, // object type view
   ACSMapAndFilter, ACSWizard, // layouts
   ACSListMenu, // menus
   ACSHeadlessObject,ACSObjectView, // object view
