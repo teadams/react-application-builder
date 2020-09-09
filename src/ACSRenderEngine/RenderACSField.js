@@ -135,7 +135,6 @@ function RenderACSField(props) {
       params.api_options.filter_field= referred_by
     } else {
       params.api_options.filter_field.push(referred_by)
-
     }
     if (!params.api_options.filter_id) {
       params.api_options.filter_id = row_data[referred_to]

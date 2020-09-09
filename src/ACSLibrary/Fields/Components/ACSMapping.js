@@ -51,7 +51,7 @@ function field_text_for_key (object_models, field_models, object_type, key_type,
 
 
 function MappedList(props) {
-  const {mapping_base_data, data, object_type} = props
+  const {mapping_base_data, data, object_type, ...params} = props
   const object_models = useGetModel("object_types")
   const object_model = object_models[object_type]
   const {mapping_base_object_type, mapping_base_link, mapping_table_link,status_column, positive_status, negative_status} = object_model.mapping_values
@@ -66,7 +66,7 @@ function MappedList(props) {
       return (
         <div style={{marginTop:"5px", display:"flex", alignContent:"center",  flexDirection:"row" }}>                 
           <div style={{marginRight:"5px",marginTop:"5px", fontWeight:"bold"}}>
-              <MappingRow data={map_row} object_type={object_type} mapping_values={mapping_values} mapping_base_object_type={mapping_base_object_type}/>
+              <MappingRow {...params} data={map_row} object_type={object_type} mapping_values={mapping_values} mapping_base_object_type={mapping_base_object_type}/>
           </div>
         </div>)
       })}
@@ -81,7 +81,7 @@ function MappingRow(props) {
       const field_models = useGetModel("fields")
       const context = useContext(AuthContext)
 
-      const {mapping_base_object_type, mapping_base_link, mapping_table_link,status_column, positive_status, negative_status} = object_model.mapping_values
+      const {root_column, mapping_base_object_type, mapping_base_link, mapping_table_link,status_column, positive_status, negative_status} = object_model.mapping_values
       const mapped_data = mapping_values[data[mapping_base_link]]
 
       const label = field_text_for_key (object_models, field_models, mapping_base_object_type, "pretty_key_id", data) 
@@ -92,6 +92,10 @@ function MappingRow(props) {
         let mode="create"
         let formValues = {}
         formValues[mapping_table_link] = data[mapping_base_link]
+        if (props[root_column]) {
+          formValues[root_column] = props[root_column]
+        }
+
         if (mapped_data) {
           mode="edit"
           formValues.id = mapped_data.id
@@ -105,6 +109,7 @@ function MappingRow(props) {
         }
         api.handleSubmit (event, formValues, mode, context, object_type, object_model, field_models, "", "id", "", false) 
       }
+
       let variant = "outlined"
       if (mapped_data) {
         if (positive_status === mapped_data[status_column]) {
@@ -126,13 +131,13 @@ function MappingRow(props) {
 
 function ACSMapping(props)  {
   const {object_type, api_options, ...params} = props
-  let {summary_field, description_field} = props
   const [mapping_base_data, setMappingBaseData] = useState(props.mapping_base_data)
   const [mapping_data, setMappingData] = useState(props.mapping_data)
 
   const object_models = useGetModel("object_types")
   const object_model = object_models[object_type]
   const {mapping_base_object_type, mapping_base_api_options} = object_model.mapping_values
+
 
   const handleMappingBaseData = (api_results) => {
     setMappingBaseData(api_results)
@@ -146,7 +151,7 @@ function ACSMapping(props)  {
   <Fragment>
     <ACSListController headless={true} data={mapping_base_data} onData={handleMappingBaseData} object_type={mapping_base_object_type} api_options={mapping_base_api_options}/>
     <ACSListController headless={true} {...params} onData={handleMappingData} api_options={api_options} object_type={object_type}/>
-    {mapping_data && mapping_base_data && <MappedList data={mapping_data} object_type={object_type} mapping_base_data={mapping_base_data} />}
+    {mapping_data && mapping_base_data && <MappedList {...params} data={mapping_data} object_type={object_type} mapping_base_data={mapping_base_data} />}
   </Fragment>
  )
 }

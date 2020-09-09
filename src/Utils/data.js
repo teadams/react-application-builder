@@ -152,7 +152,7 @@ export function deleteData (object_type, data_object, options, callback)   {
 
 export function handleSubmit (event, formValues, mode, context, object_type, object_model, field_models, handleSubmit, id_field="id", filesTouched, delay_dirty=false) {
 
-  if (context.context_id && object_model.with_context && ["create","list_create"].includes(mode)) {
+  if (context.context_id && object_model.with_context && ["create","list_create"].includes(mode) && !formValues.core_subsite) {
     formValues.core_subsite = context.context_id
   }
   if (context.user && context.user.id) {
