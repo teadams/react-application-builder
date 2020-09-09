@@ -98,6 +98,10 @@ function ACSFormWrap(props) {
   const {object_type, dialog_size="sm", form_title} = props
   const object_types = useGetModel("object_types")
   if (!object_types) {return null}
+  let form_submit_word = props.form_submit_word 
+  if (!form_submit_word) {
+    form_submit_word = props.mode==="edit"?"save":props.mode
+  }
 
   if (props.form && (props.mode === "edit" || props.mode === "create")) {
     const object_type_model = object_types[object_type]
@@ -109,7 +113,7 @@ function ACSFormWrap(props) {
             {props.children}
             <DialogActions>
             <DelayedAuth   onClick={props.onSubmit} object_type={object_type} auth_action={props.mode} color="primary">
-              <Button color="primary">{props.mode==="edit"?"save":props.mode}</Button>
+              <Button color="primary">{form_submit_word}</Button>
             </DelayedAuth>
             {props.onClose && <Button onClick={props.onClose} color="primary">
               Close
