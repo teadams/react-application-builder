@@ -4,7 +4,7 @@ import * as u from '../Utils/utils.js';
 import * as meta from '../Utils/meta.js'
 import * as api from '../Utils/data.js'
 import _ from 'lodash/object'
-import useGetModel from '../Hooks/useGetModel'
+import useGetModel from '../Hooks/useGetModel
 
 
 import React, { Component, Fragment,  useRef, useState, useContext, useEffect} from 'react';
