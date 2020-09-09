@@ -97,12 +97,15 @@ const Wizard = (props) => {
    // do not cause flickering
    const handleOnData = (api_results) => {
        setDataElements([next_step_number, api_results, transition_id, undefined, undefined])
-       let new_steps_state = _.merge({}, steps_state)
-      // should follow dependency rules
+       let new_steps_state = {}
+
        steps.forEach((step,index) => {
-         new_steps_state[steps[index]].disabled = false
+         new_steps_state[steps[index]] ={disabled:false}
        })
-       setStepsState(new_steps_state)
+
+       setStepsState(steps_state => { 
+          return(_.merge({}, steps_state, new_steps_state))
+      })
        context.setDirty();
    }
 
@@ -116,7 +119,7 @@ const Wizard = (props) => {
              const {pretty_name, summary,description, force_refresh=false} = step_data[step]
              const step_state = steps_state?steps_state[step]:{}
              return (
-               <Step key={pretty_name} completed={step_state.completed} disabled={step_state.disabled}><StepButton  onClick={handleStep(index, force_refresh)} optional={step_state.subtitle}>{pretty_name}</StepButton></Step>
+               <Step key={pretty_name} completed={step_state.completed} disabled={false}><StepButton  onClick={handleStep(index, force_refresh)} optional={step_state.subtitle}>{pretty_name}</StepButton></Step>
              )
            })}
         </Stepper>
