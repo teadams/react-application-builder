@@ -20,7 +20,7 @@ const TabMenu = (props) => {
   const [current_tab, setCurrentTab] = useState(0)
   const context = useContext(AuthContext)
   const current_tab_data = item_data[items[current_tab]]
-  const {menu_component_name, pretty_name, summary, description, object_type, menu_item_summary_style, menu_item_description_style} = current_tab_data
+  const {menu_component_name, pretty_name, summary, description, object_type, menu_item_summary_style, menu_item_description_style, id} = current_tab_data
 
   function handleClose() {
     if (props.onClose) {
@@ -58,7 +58,7 @@ const TabMenu = (props) => {
            {description && <div style={menu_item_description_style}> {description}</div>}
            <p/>
 
-      <TabComponent  onClose={dialog?handleClose:""} row_dialog_center={!dialog} row_delayed_auth={true} object_type={object_type} row_form={true} form_open={open} {...current_tab_data.props}/>
+      <TabComponent  onClose={dialog?handleClose:""} row_dialog_center={!dialog} row_delayed_auth={true} object_type={object_type} id={id} row_form={true} form_open={open} {...current_tab_data.props}/>
     
     </Fragment>
      ) 

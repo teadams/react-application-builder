@@ -17,6 +17,7 @@ function NWAProjectView(props) {
   const [showVolunteerDialog, setShowVolunteerDialog] = useState(false)
 
   const {id, api_options} = props
+u.a(id)
   // if admin, add applied
   let volunteer_options = {filter_id:api_options.filter_id+",Accepted",
                            filter_field:api_options.filter_field+",Status,"}
