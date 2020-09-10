@@ -23,9 +23,10 @@ import UIContext from '../../Template/UIContext';
       dialog.close()
     }
   }
+  const onClose=(props.onClose||dialog.close())?handleFormClose:""
   
   return ( 
-      <ACSRowController {...params} override_meta_model={true} row_type={row_type} form_open={form_open} onClose={handleFormClose} object_type={object_type} id={id} layout={layout} sections={sections} field_list={field_list} api_options={api_options} num_columns={num_columns}  />
+      <ACSRowController {...params} override_meta_model={true} row_type={row_type} form_open={form_open} onClose={onClose} object_type={object_type} id={id} layout={layout} sections={sections} field_list={field_list} api_options={api_options} num_columns={num_columns}  />
   )
 }
 export default ACSObjectView;
