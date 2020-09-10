@@ -16,10 +16,11 @@ import UIContext from '../../Template/UIContext';
 import useGetModel from '../../Hooks/useGetModel'
 
 const TabMenu = (props) => {
-  const [current_tab, setCurrentTab] = useState(0)
   const {menu_model, items, item_data, open=true} = props
+  const [current_tab, setCurrentTab] = useState(0)
   const context = useContext(AuthContext)
-  const current_tab_data = item_data[current_tab]
+  u.a(item_data[items[current_tab]])
+  const current_tab_data = item_data[items[current_tab]]
   const {menu_component_name, pretty_name, summary, description, object_type, step_summary_style, step_description_style} = current_tab_data
   
   function handleFormClose() {
@@ -55,7 +56,7 @@ const TabMenu = (props) => {
 function ACSTabMenu(props)  {
     return (
     <ACSMenuController {...props}>
-        <TabMenu {...props}/>
+        <TabMenu/>
     </ACSMenuController>
     )
 }

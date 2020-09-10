@@ -10,7 +10,7 @@ import useGetModel from '../Hooks/useGetModel'
 import React, { Component, Fragment,  useRef, useState, useContext, useEffect} from 'react';
 import * as control from "../Utils/control.js"
 
-function ACSMenuController(props) { 
+const ACSMenuController = (props) => { 
   const {menu,  ...params} = props
   const menu_models = useGetModel("menus")
   const menu_model = menu_models.menus[menu]
@@ -25,7 +25,6 @@ function ACSMenuController(props) {
   })
 
   // handle change
-
   
   return (
     <Fragment>

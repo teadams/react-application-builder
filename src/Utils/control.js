@@ -293,7 +293,7 @@ function componentPicker(name, source="not provided") {
     case "ACSMap": return ACSMap;
     case "ACSMapAndFilter": return ACSMapAndFilter;
     case "ACSWizard": return ACSWizard;
-    case "ACSWizard": return ACSTabMenu;
+    case "ACSTabMenu": return ACSTabMenu;
     case "NWAProjectView": return NWAProjectView;
     case "SubsiteApply": return SubsiteApply;
     default:  { 
