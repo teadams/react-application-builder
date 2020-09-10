@@ -11,7 +11,8 @@ import UIContext from '../../Template/UIContext';
 
   const dialog = useContext(UIContext).dialog
   let {form_open=props.row_form} = props
-  if (!props.onClose) {
+
+  if (!props.onClose && !props.row_dialog_center) {
       // using the context, not the parent
       form_open=dialog.isOpen
   }
@@ -22,6 +23,7 @@ import UIContext from '../../Template/UIContext';
       dialog.close()
     }
   }
+  
   return ( 
       <ACSRowController {...params} override_meta_model={true} row_type={row_type} form_open={form_open} onClose={handleFormClose} object_type={object_type} id={id} layout={layout} sections={sections} field_list={field_list} api_options={api_options} num_columns={num_columns}  />
   )
