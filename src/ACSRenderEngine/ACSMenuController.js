@@ -50,12 +50,14 @@ const ACSMenuController = (props) => {
       }
     }
 
-
-    if (context && context.context_id && item_data[item].object_type === "core_subsite" && !item_data[item].id) {
+    if (id) {
+      item_data[item].id = id
+    }
+    if (context && context.context_id && item_data[item].object_type === "core_subsite" && !item_data[item].id && !id) {
         item_data[item].id = context.context_id
     }
   
-    if (context && context.user.id && item_data[item].object_type === "core_user" && !item_data[item].id) {
+    if (context && context.user.id && item_data[item].object_type === "core_user" && !item_data[item].id && !id) {
         item_data[item].id = context.user.id
     }
 
