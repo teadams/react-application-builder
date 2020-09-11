@@ -41,11 +41,15 @@ function Body(props) {
   if (selected_menu_model && selected_menu_model.with_context) {
     if (selected_menu_model.object_type === "core_user") {
       selected_menu_model.id = context.user.id
-    } else if (context.context_id) { 
+    } else if (context.context_id && (selected_menu_model.object_type !== "core_subsite" || !id)) { 
       selected_menu_model.api_options.filter_field = "core_subsite"
       selected_menu_model.api_options.filter_id = context.context_id
-    } 
+    }  else if (selected_menu_model.object_type === "core_subsite" && id) {
+    selected_menu_model.api_options.filter_field = "core_subsite"
+    selected_menu_model.api_options.filter_id = id
+    }
   }
+
   if (context && context.context_id && object_type === "core_subsite" && !id) {
       id = context.context_id
   }
