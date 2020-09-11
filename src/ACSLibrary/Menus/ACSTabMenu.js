@@ -57,8 +57,11 @@ const TabMenu = (props) => {
         <div style={menu_item_summary_style}>{summary}{description && <Fragment>:</Fragment>}</div>
            {description && <div style={menu_item_description_style}> {description}</div>}
            <p/>
+      {["edit","create"].includes(current_tab_data.mode) ?
+          <TabComponent  onClose={dialog?handleClose:""} row_dialog_center={!dialog} row_delayed_auth={true} object_type={object_type} id={id} row_form={true} form_open={open} {...current_tab_data.props}/>
+       :
+       <TabComponent  onClose={dialog?handleClose:""}  object_type={object_type} id={id} {...current_tab_data.props}/>}
 
-      <TabComponent  onClose={dialog?handleClose:""} row_dialog_center={!dialog} row_delayed_auth={true} object_type={object_type} id={id} row_form={true} form_open={open} {...current_tab_data.props}/>
     
     </Fragment>
      ) 
