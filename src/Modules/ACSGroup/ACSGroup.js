@@ -6,11 +6,12 @@ import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useEffect} from 'react';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Select, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell,InputLabel } from '@material-ui/core';
 import * as meta from '../../Utils/meta.js';
+import {ACSTabMenu} from '../../ACSLibrary'
 
 
 function ACSGroup(props) {
   const {object_type,id} = props
-  return "GROUP"
+  return <ACSTabMenu menu="core_subsite_admin"/>
 }
 
 export default ACSGroup
