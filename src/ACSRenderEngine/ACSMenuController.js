@@ -23,7 +23,7 @@ const ACSMenuController = (props) => {
   items.forEach((item,index) => {
     // add authentication, expand based on item
     // expand out items like subsites
-    item_data[item] = menu_models.menu_items[item]
+    item_data[item] = _.merge({},menu_models.menu_items[item])
     item_data[item].key = item
     item_data[item].index = index
     if (!item_data[item].props) {
@@ -50,6 +50,8 @@ const ACSMenuController = (props) => {
     if (context && context.user.id && item_data[item].object_type === "core_user" && !item_data[item].id) {
         item_data[item].id = context.user.id
     }
+
+
   })
 
   // handle change
