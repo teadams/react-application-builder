@@ -12,7 +12,7 @@ import React, { Component, Fragment,  useRef, useState, useContext, useEffect} f
 import * as control from "../Utils/control.js"
 
 const ACSMenuController = (props) => { 
-  const {menu,  ...params} = props
+  const {menu, id,  ...params} = props
   const menu_models = useGetModel("menus")
   const menu_model = menu_models.menus[menu]
   const context = useContext(AuthContext);
@@ -40,9 +40,17 @@ const ACSMenuController = (props) => {
     }
 
     if (item_data[item].with_context && context.context_id) { 
+
+      if (item_data[item].object_type !== "core_subsite" || !id) {
         item_data[item].props.api_options.filter_field.push("core_subsite")
         item_data[item].props.api_options.filter_id.push(context.context_id) 
+      }  else if (item_data[item].object_type === "core_subsite" && id) {
+        item_data[item].props.api_options.filter_field.push("core_subsite")
+        item_data[item].props.api_options.filter_id.push(id) 
+      }
     }
+
+
     if (context && context.context_id && item_data[item].object_type === "core_subsite" && !item_data[item].id) {
         item_data[item].id = context.context_id
     }
