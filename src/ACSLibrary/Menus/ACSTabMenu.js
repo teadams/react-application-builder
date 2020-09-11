@@ -16,11 +16,11 @@ import UIContext from '../../Template/UIContext';
 import useGetModel from '../../Hooks/useGetModel'
 
 const TabMenu = (props) => {
-  const {menu_model, items, item_data, open=true, orientation="horizonta", dialog=false} = props
+  const {menu_model, items, item_data, open=true, orientation="horizontal", dialog=false} = props
   const [current_tab, setCurrentTab] = useState(0)
   const context = useContext(AuthContext)
   const current_tab_data = item_data[items[current_tab]]
-  const {menu_component_name, pretty_name, summary, description, object_type, menu_item_summary_style, menu_item_description_style, id} = current_tab_data
+  const {menu_component_name, pretty_name, summary, description, object_type, mode, menu_item_summary_style, menu_item_description_style, id} = current_tab_data
 
   function handleClose() {
     if (props.onClose) {
@@ -57,7 +57,7 @@ const TabMenu = (props) => {
         <div style={menu_item_summary_style}>{summary}{description && <Fragment>:</Fragment>}</div>
            {description && <div style={menu_item_description_style}> {description}</div>}
            <p/>
-      {["edit","create"].includes(current_tab_data.mode) ?
+      {["edit","create"].includes(current_tab_data.props.mode) ?
           <TabComponent  onClose={dialog?handleClose:""} row_dialog_center={!dialog} row_delayed_auth={true} object_type={object_type} id={id} row_form={true} form_open={open} {...current_tab_data.props}/>
        :
        <TabComponent  onClose={dialog?handleClose:""}  object_type={object_type} id={id} {...current_tab_data.props}/>}

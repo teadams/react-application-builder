@@ -5,7 +5,7 @@ import React, {useState, useContext, Fragment} from 'react';
 import {Typography} from '@material-ui/core';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import * as api from '../../Utils/data.js';
-//import * as u from '../../Utils/utils.js'
+import * as u from '../../Utils/utils.js'
 import * as google_map from './api.js'
 
 import {AuthContext} from '../../Modules/User';
@@ -13,7 +13,7 @@ import useGetModel from '../../Hooks/useGetModel';
 
 
 function get_image_url (image_object) {
-    const image_base = (process.env.NODE_ENV ==="production")? "https://storage.googleapis.com/acs_full_stack/":""
+    const image_base = (process.env.NODE_ENV ==="production")? "https://storage.googleapis.com/acs_full_stack/":"/"
 
     if (image_object && image_object.path && image_object.name) {
       if (process.env.NODE_ENV ==="production") {
@@ -185,6 +185,7 @@ function ACSMap (props) {
                 const icon_name = thumbnail.name
                 const path = thumbnail.path
                 const url = get_image_url(thumbnail)
+//u.a(url)
                 icon = {url:url, 
                         scaledSize:{"width":20,"height":32}}
               }  else  {
