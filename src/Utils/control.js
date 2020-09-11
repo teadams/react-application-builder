@@ -6,6 +6,7 @@ import _ from 'lodash/object'
 import React, {Component,Fragment} from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 
+import ACSGroup from "../Modules/ACSGroup/ACSGroup.js"
 //import Text from "../Functional/Text/Text.js"
 import RABHeaderAndBodyText from '../Functional/Text/RABHeaderAndBodyText.js'
 import RABText from '../Functional/Text/RABText.js'
@@ -243,6 +244,7 @@ function componentPicker(name, source="not provided") {
     case "RABHeaderAndBodyText": return RABHeaderAndBodyText;
     case "RABText": return RABText;
     case "Message": return Message;
+    case "ACSGroup": return ACSGroup;
     case "ACSObjectTypeView": return ACSObjectTypeView;
     case "ACSMappingView": return ACSMappingView;
     case "ACSChipObjectTypeView": return ACSChipObjectTypeView;
