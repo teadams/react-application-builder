@@ -57,16 +57,16 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const CreateMarkerButton = function(props) {
-    return (<Button variant="contained" color="primary" style={{margin:10}} {...props}>{props.text}</Button>)
+    return (<Button variant="contained" color="primary" style={{margin:10, borderRadius: '25px'}} {...props}>{props.text}</Button>)
 }
 
 const ListViewButton = function(props) {
-  return (<Button onClick={props.onChange} variant="contained" color="primary" style={{margin:10}}>View Projects as a List</Button>)
+  return (<Button onClick={props.onChange} variant="contained" color="primary" style={{margin:10,   borderRadius: '25px'}}>View Projects as a List</Button>)
 
 }
 
 const MapViewButton = function(props) {
-  return (<Button onClick={props.onChange} variant="contained" color="primary" style={{margin:10}}>View Projects on a Map</Button>)
+  return (<Button onClick={props.onChange} variant="contained" color="primary" style={{margin:10,   borderRadius: '25px'}}>View Projects on a Map</Button>)
 
 }
 
@@ -74,14 +74,15 @@ const MapViewButton = function(props) {
 const UpperLeftNavigation = function(props) {
 
   return (<Fragment>
- <ACSCreateButton   ButtonComponent={CreateMarkerButton} text={props.text} object_type={props.object_type} layout={props.layout} sections={props.sections} dialog_size={props.dialog_size} onSubmit={props.onSubmit} require_authorization={false} action_props={props.create_action_props} menu={props.create_action_menu}/>
 <MapViewButton checked={props.filter_view} onChange={props.onChange} size="small"  color="default" name="view" /> 
+ <ACSCreateButton   ButtonComponent={CreateMarkerButton} text={props.text} object_type={props.object_type} layout={props.layout} sections={props.sections} dialog_size={props.dialog_size} onSubmit={props.onSubmit} require_authorization={false} action_props={props.create_action_props} menu={props.create_action_menu}/>
+
 </Fragment>)
 }
 
 const CreateButton = function(props) {
   return (<Fragment>
- <ACSCreateButton   ButtonComponent={CreateMarkerButton} text={props.text} object_type={props.object_type} layout={props.layout} sections={props.sections} dialog_size={props.dialog_size} onSubmit={props.onSubmit} require_authorization={false} action_props={props.create_action_props} menu={props.create_action_menu}/> 
+ <ACSCreateButton   ButtonComponent={CreateMarkerButton} text={props.text}  object_type={props.object_type} layout={props.layout} sections={props.sections} dialog_size={props.dialog_size} onSubmit={props.onSubmit} require_authorization={false} action_props={props.create_action_props} menu={props.create_action_menu}/> 
 </Fragment>)
 
 }
