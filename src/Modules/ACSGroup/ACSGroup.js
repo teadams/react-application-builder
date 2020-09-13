@@ -14,8 +14,9 @@ import AuthContext from '../../Modules/User/AuthContext';
 function ACSGroup(props) {
   const {object_type,id} = props
   const context = useContext(AuthContext)
-  context.setContextId(id)
-
+  if (id) {
+    context.setContextId(id)
+  }
   return <ACSTabMenu menu_type="core_subsite_admin"/>
 }
 
