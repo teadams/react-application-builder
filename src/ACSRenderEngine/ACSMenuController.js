@@ -15,7 +15,11 @@ import * as control from "../Utils/control.js"
 
 
 const ACSMenuController = (props) => { 
-  const {menu_type, selected_menu, object_type, field_name, open, onClose, id,  ...params} = props
+  const [open_state, setOpen] = useState(false)
+  // open is provided in parent
+  const open = props.hasOwnProperty("open")?props.open:open_state 
+  const {open:discard_open, menu_type, selected_menu, object_type, field_name,  onClose, id,  ...params} = props
+
   const menu_models = useGetModel("menus")
   const menu_model = menu_models.menus[menu_type]
   const context = useContext(AuthContext);
@@ -95,10 +99,18 @@ const ACSMenuController = (props) => {
       default_index = final_items.indexOf(selected_menu)      
   }
 
+  const handleClose = (event => {
+      if (!props.hasOwnProperty("open")) {setOpen(false)}
+      if (props.onClose) { 
+        props.onClose(event)
+      }
+  })
+
   const handleClick = ((index) => {
     window.scrollTo(0,0)
     const clicked_item =  item_data[final_items[index]]
     let path = final_items[index]
+    if (!open && !props.hasOwnProperty("open")) {setOpen(true)}
     if (clicked_item.link) {
       path = clicked_item.link  
     }
@@ -107,10 +119,11 @@ const ACSMenuController = (props) => {
   // handle change
   return (
     <Fragment>
-    {React.cloneElement(props.children, {onClick:handleClick, default_index:default_index, menu_model:menu_model, items:final_items, item_data:item_data, default_menu:default_menu, num_visible_items:num_visible_items, ...props, ...menu_model_rest })}
+    {React.cloneElement(props.children, {...props, ...menu_model_rest, onClick:handleClick, onClose:handleClose, default_index:default_index, menu_model:menu_model, items:final_items, item_data:item_data, default_menu:default_menu, num_visible_items:num_visible_items, open:open })}
     </Fragment>
   )
 
-}
+
+u.a(open)}
 
 export default ACSMenuController

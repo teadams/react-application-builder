@@ -107,7 +107,7 @@ function Template(props) {
       </Toolbar>
       </AppBar>
 
-      <ACSTabMenu menu_type="app_menu_two" selected_menu={selected_menu} object_type={object_type} id={id} onChange={handleChange} component_name={component_name} field_name={field_name} />
+      <ACSTabMenu menu_type="app_menu" selected_menu={selected_menu} object_type={object_type} id={id} onChange={handleChange} component_name={component_name} field_name={field_name} />
 
     <Debug/> 
     </div>
