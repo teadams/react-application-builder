@@ -21,7 +21,7 @@ function AuthContextProvider(props) {
       if (error) {
         alert ("error " + error.message)
       } else {
-        setSubsite(subsite_data)
+        setSubsite(subsite_data[0])
       }
     })
   }

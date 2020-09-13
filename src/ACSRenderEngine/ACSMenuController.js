@@ -21,7 +21,6 @@ const ACSMenuController = (props) => {
   const {items, ...menu_model_rest} = menu_model
   let item_data = {}
 
-
   items.forEach((item,index) => {
     // add authentication, expand based on item
     // expand out items like subsites
@@ -62,6 +61,9 @@ const ACSMenuController = (props) => {
     }
     if (context && context.user.id && menu_item.object_type === "core_user" && !menu_item.id && !id) {
         menu_item.id = context.user.id
+    }
+    if (menu_item.pretty_name === "_context_name") {
+        menu_item.pretty_name = context.subsite.name
     }
 
     item_data[item] = menu_item
