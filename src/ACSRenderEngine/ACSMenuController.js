@@ -32,7 +32,6 @@ const ACSMenuController = (props) => {
 
     const authorized = auth.authorized({context_id:context.context_id, user:context.user}, auth_scope, auth_priv)
     if (!authorized) {return}
-
     menu_item.key = item
     menu_item.index = index
     if (!menu_item.props) {
@@ -68,7 +67,6 @@ const ACSMenuController = (props) => {
 
     item_data[item] = menu_item
   })
-
   // handle change
   
   return (

@@ -32,11 +32,10 @@ const TabMenu = (props) => {
     setCurrentTab(index)
     // parent 
   };
-
    const TabComponent = control.componentByName(menu_component_name);
    return (
      <Fragment>
-    {Object.keys(item_data).length > 1 &&
+    {(Object.keys(item_data).length > 1 || !menu_model.hide_single_menu) &&
        <Tabs 
           value={current_tab}
           orientation={orientation}
