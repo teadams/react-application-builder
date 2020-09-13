@@ -17,7 +17,7 @@ import useGetModel from '../../Hooks/useGetModel'
 
 
 const TabMenu = (props) => {
-  const {menu_model, items, item_data, onClick, open, orientation="horizontal",  default_index=0, num_visible_items} = props
+  const {menu_model, items, item_data, prevent_content=false, onClick, open, orientation="horizontal",  default_index=0, num_visible_items} = props
   const [controlled_tab, setControlledTab] = useState(default_index)
   const [current_tab, setCurrentTab] = useState(default_index)
   const context = useContext(AuthContext)
@@ -69,14 +69,17 @@ const TabMenu = (props) => {
 
         </Tabs>
       }
-      {summary && <div style={menu_item_summary_style}>{summary}{description && <Fragment>:</Fragment>}</div>}
-      {description && <div style={menu_item_description_style}> {description}</div>}
+      {!prevent_content && 
+        <Fragment>
+          {summary && <div style={menu_item_summary_style}>{summary}{description && <Fragment>:</Fragment>}</div>}
+          {description && <div style={menu_item_description_style}> {description}</div>}
 
-      {["edit","create"].includes(current_tab_data.props.mode) ?
-          <TabComponent  onClose={handleClose} row_dialog_center={!dialog}   row_delayed_auth={true} object_type={object_type} id={id} row_form={true} form_open={open} open={open} {...current_tab_data.props}/>
-       :
-       <TabComponent  onClose={handleClose}  open={open} object_type={object_type} id={id} {...current_tab_data.props}/>}
-
+          {["edit","create"].includes(current_tab_data.props.mode) ?
+            <TabComponent  onClose={handleClose} row_dialog_center={!dialog}   row_delayed_auth={true} object_type={object_type} id={id} row_form={true} form_open={open} open={open} {...current_tab_data.props}/>
+          :
+          <TabComponent  onClose={handleClose}  open={open} object_type={object_type} id={id} {...current_tab_data.props}/>}
+        </Fragment>
+      }
     
     </Fragment>
      ) 

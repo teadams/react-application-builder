@@ -3,7 +3,7 @@ import 'react-app-polyfill/stable';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import TabMenu from './TabMenu';
+import {ACSTabMenu} from '../ACSLibrary';
 import React, {  Fragment,  useState} from 'react';
 
 import { IconButton, Drawer, Divider} from '@material-ui/core';
@@ -52,8 +52,8 @@ function DrawerMenu(props)  {
             <IconButton onClick={toggleDrawer}><ChevronLeftIcon/></IconButton>
           </div>
           <Divider />  
-          <TabMenu menu_type="hamburger"  orientation="vertical" selected_menu={selected_menu} selected_menu_type={selected_menu_type} 
-          onChange={toggleDrawer}
+          <ACSTabMenu menu_type="hamburger"  orientation="vertical" selected_menu={selected_menu} selected_menu_type={selected_menu_type} 
+          onChange={toggleDrawer} prevent_content={true}
           type="drawer"/>
         </Drawer> 
       </div>
