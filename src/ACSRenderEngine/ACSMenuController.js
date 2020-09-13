@@ -20,7 +20,6 @@ const ACSMenuController = (props) => {
   const menu_model = menu_models.menus[menu_type]
   const context = useContext(AuthContext);
   const history = useHistory({});
-
   const {items:discard_items, ...menu_model_rest} = menu_model
   let items= [...menu_model.items]
   let hidden_item = ""
@@ -31,7 +30,7 @@ const ACSMenuController = (props) => {
   let item_data = {}
   let default_index = 0
   let final_items = []
-
+  let num_visible_items = 0
   items.forEach((item,index) => {
     // add authentication, expand based on item
     // expand out items like subsites
@@ -39,6 +38,8 @@ const ACSMenuController = (props) => {
     if (!menu_item) { alert ("no menu for " + item)}
     if (item === hidden_item) {
         menu_item.hidden  = true
+    } else {
+      num_visible_items += 1
     }
     const auth_scope = menu_item.auth_scope
     const auth_priv = menu_item.auth_priv
@@ -106,7 +107,7 @@ const ACSMenuController = (props) => {
   // handle change
   return (
     <Fragment>
-    {React.cloneElement(props.children, {onClick:handleClick, default_index:default_index, menu_model:menu_model, items:final_items, item_data:item_data, default_menu:default_menu, ...props, ...menu_model_rest })}
+    {React.cloneElement(props.children, {onClick:handleClick, default_index:default_index, menu_model:menu_model, items:final_items, item_data:item_data, default_menu:default_menu, num_visible_items:num_visible_items, ...props, ...menu_model_rest })}
     </Fragment>
   )
 

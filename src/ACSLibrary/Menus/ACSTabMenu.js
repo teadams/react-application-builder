@@ -17,10 +17,21 @@ import useGetModel from '../../Hooks/useGetModel'
 
 
 const TabMenu = (props) => {
-  const {menu_model, items, item_data, onClick, open=true, orientation="horizontal", dialog=false, default_index=0} = props
+  const {menu_model, items, item_data, onClick, open=true, orientation="horizontal", dialog=false, default_index=0, num_visible_items} = props
+  const [controlled_tab, setControlledTab] = useState(default_index)
   const [current_tab, setCurrentTab] = useState(default_index)
   const context = useContext(AuthContext)
-  const current_tab_data = item_data[items[current_tab]]
+
+  let current_tab_data
+  if (default_index !== controlled_tab) {
+      // tab was changed from parent
+      setControlledTab(default_index)
+      setCurrentTab(default_index)
+      current_tab_data = item_data[items[default_index]]
+  } else {
+    current_tab_data = item_data[items[current_tab]]
+  }
+
   const {menu_component_name, pretty_name, summary, description, object_type, mode, menu_item_summary_style, menu_item_description_style, id} = current_tab_data
 
   function handleClose() {
@@ -36,7 +47,7 @@ const TabMenu = (props) => {
    const TabComponent = control.componentByName(menu_component_name);
    return (
      <Fragment>
-    {(Object.keys(item_data).length > 1 || !menu_model.hide_single_menu) &&
+    {(num_visible_items > 1 || !menu_model.hide_single_menu) &&
        <Tabs 
           value={current_tab}
           orientation={orientation}
