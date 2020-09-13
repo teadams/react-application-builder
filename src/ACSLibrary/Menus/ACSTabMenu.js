@@ -36,27 +36,28 @@ const TabMenu = (props) => {
    const TabComponent = control.componentByName(menu_component_name);
    return (
      <Fragment>
-     <Tabs 
-        value={current_tab}
-        orientation={orientation}
-        onChange={handleClick}
-        indicatorColor="primary"
-        textColor="primary"
-        variant="scrollable"
-        scrollButtons="auto"
-      //  style={tabs_style}
-       > 
+    {Object.keys(item_data).length > 1 &&
+       <Tabs 
+          value={current_tab}
+          orientation={orientation}
+          onChange={handleClick}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="scrollable"
+          scrollButtons="auto"
+        //  style={tabs_style}
+         > 
 
-      {Object.keys(item_data).map ((item,index) => {
-             const {pretty_name, summary,description, force_refresh=false} = item_data[item]
-             return (<Tab value={index} key={index}  label={pretty_name} />)
-      })}
+        {Object.keys(item_data).map ((item,index) => {
+               const {pretty_name, summary,description, force_refresh=false} = item_data[item]
+               return (<Tab value={index} key={index}  label={pretty_name} />)
+        })}
 
-      </Tabs>
+        </Tabs>
+      }
+      {summary && <div style={menu_item_summary_style}>{summary}{description && <Fragment>:</Fragment>}</div>}
+      {description && <div style={menu_item_description_style}> {description}</div>}
 
-        <div style={menu_item_summary_style}>{summary}{description && <Fragment>:</Fragment>}</div>
-           {description && <div style={menu_item_description_style}> {description}</div>}
-           <p/>
       {["edit","create"].includes(current_tab_data.props.mode) ?
           <TabComponent  onClose={dialog?handleClose:""} row_dialog_center={!dialog} row_delayed_auth={true} object_type={object_type} id={id} row_form={true} form_open={open} {...current_tab_data.props}/>
        :
