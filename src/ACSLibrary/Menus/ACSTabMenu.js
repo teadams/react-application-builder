@@ -47,7 +47,7 @@ const TabMenu = (props) => {
       //  style={tabs_style}
        > 
 
-      {items.map ((item,index) => {
+      {Object.keys(item_data).map ((item,index) => {
              const {pretty_name, summary,description, force_refresh=false} = item_data[item]
              return (<Tab value={index} key={index}  label={pretty_name} />)
       })}
