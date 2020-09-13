@@ -20,6 +20,7 @@ const ACSMenuController = (props) => {
   const context = useContext(AuthContext);
   const {items, ...menu_model_rest} = menu_model
   let item_data = {}
+  let default_index = 0
 
   items.forEach((item,index) => {
     // add authentication, expand based on item
@@ -65,14 +66,16 @@ const ACSMenuController = (props) => {
     if (menu_item.pretty_name === "_context_name") {
         menu_item.pretty_name = context.subsite.name
     }
-
+    if (menu_model.default_item === item) {
+        default_index = index
+    }
     item_data[item] = menu_item
   })
   // handle change
-  
+  u.a(default_index)
   return (
     <Fragment>
-    {React.cloneElement(props.children, {menu_model:menu_model, items:items, item_data:item_data, ...props, ...menu_model_rest })}
+    {React.cloneElement(props.children, {default_index:default_index, menu_model:menu_model, items:items, item_data:item_data, ...props, ...menu_model_rest })}
     </Fragment>
   )
 

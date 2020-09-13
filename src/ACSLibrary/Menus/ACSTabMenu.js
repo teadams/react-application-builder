@@ -16,8 +16,8 @@ import UIContext from '../../Template/UIContext';
 import useGetModel from '../../Hooks/useGetModel'
 
 const TabMenu = (props) => {
-  const {menu_model, items, item_data, open=true, orientation="horizontal", dialog=false} = props
-  const [current_tab, setCurrentTab] = useState(0)
+  const {menu_model, items, item_data, open=true, orientation="horizontal", dialog=false, default_index=0} = props
+  const [current_tab, setCurrentTab] = useState(default_index)
   const context = useContext(AuthContext)
   const current_tab_data = item_data[items[current_tab]]
   const {menu_component_name, pretty_name, summary, description, object_type, mode, menu_item_summary_style, menu_item_description_style, id} = current_tab_data
