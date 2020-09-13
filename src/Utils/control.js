@@ -236,7 +236,7 @@ function RABVoid(props) {
 }
 
 function componentPicker(name, source="not provided") {
-  if (!name) {alert ("No component provided in componentPicker:source "+ source);return Fragment}
+  if (!name) {return Fragment}
   switch (name) {
     case "ACSTextField":  return ACSTextField; 
     case "ACSComboField": return ACSComboField;

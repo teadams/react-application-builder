@@ -16,7 +16,7 @@ import UIContext from '../../Template/UIContext';
 import useGetModel from '../../Hooks/useGetModel'
 
 const TabMenu = (props) => {
-  const {menu_model, items, item_data, open=true, orientation="horizontal", dialog=false, default_index=0} = props
+  const {menu_model, items, item_data, onClick, open=true, orientation="horizontal", dialog=false, default_index=0} = props
   const [current_tab, setCurrentTab] = useState(default_index)
   const context = useContext(AuthContext)
   const current_tab_data = item_data[items[current_tab]]
@@ -30,9 +30,11 @@ const TabMenu = (props) => {
 
   const handleClick = (event, index) => {
     setCurrentTab(index)
-    // parent 
+    onClick(index)
   };
+
    const TabComponent = control.componentByName(menu_component_name);
+
    return (
      <Fragment>
     {(Object.keys(item_data).length > 1 || !menu_model.hide_single_menu) &&
@@ -49,7 +51,7 @@ const TabMenu = (props) => {
 
         {Object.keys(item_data).map ((item,index) => {
                const {pretty_name, summary,description, force_refresh=false} = item_data[item]
-               return (<Tab value={index} key={index}  label={pretty_name} />)
+               return (<Tab  value={index} key={index}  label={pretty_name} />)
         })}
 
         </Tabs>

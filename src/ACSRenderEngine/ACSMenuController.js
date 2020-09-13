@@ -8,7 +8,7 @@ import * as auth from '../Utils/auth.js'
 
 import useGetModel from '../Hooks/useGetModel'
 import {AuthContext} from '../Modules/User/index.js';
-
+import {useHistory } from "react-router-dom";
 
 import React, { Component, Fragment,  useRef, useState, useContext, useEffect} from 'react';
 import * as control from "../Utils/control.js"
@@ -18,9 +18,12 @@ const ACSMenuController = (props) => {
   const menu_models = useGetModel("menus")
   const menu_model = menu_models.menus[menu]
   const context = useContext(AuthContext);
+  const history = useHistory({});
+
   const {items, ...menu_model_rest} = menu_model
   let item_data = {}
   let default_index = 0
+  let final_items = []
 
   items.forEach((item,index) => {
     // add authentication, expand based on item
@@ -70,12 +73,22 @@ const ACSMenuController = (props) => {
         default_index = index
     }
     item_data[item] = menu_item
+    final_items.push(item)
+  })
+
+  const handleClick = ((index) => {
+    window.scrollTo(0,0)
+    const clicked_item =  item_data[final_items[index]]
+    let path = final_items[index]
+    if (clicked_item.link) {
+      path = clicked_item.link  
+    }
+    history.push(path);
   })
   // handle change
-  u.a(default_index)
   return (
     <Fragment>
-    {React.cloneElement(props.children, {default_index:default_index, menu_model:menu_model, items:items, item_data:item_data, ...props, ...menu_model_rest })}
+    {React.cloneElement(props.children, {onClick:handleClick, default_index:default_index, menu_model:menu_model, items:final_items, item_data:item_data, ...props, ...menu_model_rest })}
     </Fragment>
   )
 
