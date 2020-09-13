@@ -99,14 +99,14 @@ const MapOverlay = function(props) {
     </div>
     <div style={{zIndex:2, display:"flex", flexGrow:50}}></div>
     <div style={{zIndex:2, display:"flex", flexGrow:0, flexBasis:"5px", flexDirection:"column"}}>
-      <div style={{zIndex:2, display:"flex", flexDirection:"column", backgroundColor:"#feffea",  borderRadius:"25px", padding:"15px", marginTop:"10px", boxShadow:"5px 10px 18px #888888"}}>
+      <div style={{zIndex:2, display:"flex", flexDirection:"column", backgroundColor:"#fffffa",  borderRadius:"25px", padding:"15px", marginTop:"10px", boxShadow:"5px 10px 18px #888888"}}>
       <div style={{fontSize:"20px", marginBottom:"10px", fontWeight:"bold", color:"#3f51b5"}}>Join a Project</div>
         <div>Find a project and get involved today.</div>
         <div><UpperRightControls  default_filter_values={props.filter_form_values} filter_form_values={props.filter_form_values} filters={props.filters} handleFilterChange={props.handleFilterChange}/></div>
         <div style={{marginTop:"20px"}}>Do you prefer a text-based listing of projects instead of a map? </div> 
         <div style={{alignSelf:"center"}}><ListViewButton onChange={props.toggleFilterView}/></div>
       </div>
-      <div style={{zIndex:2, display:"flex", flexDirection:"column", backgroundColor:"#feffea", padding:"15px",borderRadius:"25px", marginTop:"10px", boxShadow:"5px 10px 18px #888888"}}>
+      <div style={{zIndex:2, display:"flex", flexDirection:"column", backgroundColor:"#fffffa", padding:"15px",borderRadius:"25px", marginTop:"10px", boxShadow:"5px 10px 18px #888888"}}>
         <div style={{fontSize:"20px", marginBottom:"10px", fontWeight:"bold", color:"#3f51b5", }}>Project Leaders</div>
         <div>The Now We Act Community will help you recruit volunteers and succeed in your cause.</div>
         <div style={{alignSelf:"center"}}><CreateButton text={props.create_marker_button_text} object_type={props.object_type} layout={props.layout} sections={props.sections} dialog_size={props.dialog_size} onSubmit={props.onSubmit} create_action_props={props.create_action_props} create_action_menu={props.create_action_menu} require_authorization={false} checked={props.filter_view} onChange={props.toggleFilterView}/></div>
