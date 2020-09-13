@@ -60,14 +60,22 @@ const CreateMarkerButton = function(props) {
     return (<Button variant="contained" color="primary" style={{margin:10}} {...props}>{props.text}</Button>)
 }
 
+const ListViewButton = function(props) {
+  return (<Button onClick={props.onChange} variant="contained" color="primary" style={{margin:10}}>View Projects as a List</Button>)
 
+}
+
+const MapViewButton = function(props) {
+  return (<Button onClick={props.onChange} variant="contained" color="primary" style={{margin:10}}>View Projects on a Map</Button>)
+
+}
 
 
 const UpperLeftNavigation = function(props) {
 
   return (<Fragment>
- <ACSCreateButton   ButtonComponent={CreateMarkerButton} text={props.text} object_type={props.object_type} layout={props.layout} sections={props.sections} dialog_size={props.dialog_size} onSubmit={props.onSubmit} require_authorization={false} action_props={props.create_action_props} menu={props.create_action_menu}/> 
- Map <Switch checked={props.filter_view} onChange={props.onChange} size="small"  color="default" name="view" /> Filter
+ <ACSCreateButton   ButtonComponent={CreateMarkerButton} text={props.text} object_type={props.object_type} layout={props.layout} sections={props.sections} dialog_size={props.dialog_size} onSubmit={props.onSubmit} require_authorization={false} action_props={props.create_action_props} menu={props.create_action_menu}/>
+<MapViewButton checked={props.filter_view} onChange={props.onChange} size="small"  color="default" name="view" /> 
 </Fragment>)
 }
 
@@ -86,12 +94,21 @@ const MapOverlay = function(props) {
 
   return (
   <div style={{ zindex:2, marginTop:"0px", position:"absolute",width:'97%', alignItems:"flex-start", display:"flex", flexDirection:"row"}}>
-    <div  style={{zIndex:2, display:"flex", flexDirection:"row", alignItems:"center"}}><UpperLeftNavigation text={props.create_marker_button_text} object_type={props.object_type} layout={props.layout} sections={props.sections} dialog_size={props.dialog_size} onSubmit={props.onSubmit} create_action_props={props.create_action_props} create_action_menu={props.create_action_menu} require_authorization={false} checked={props.filter_view} onChange={props.toggleFilterView}/></div>
-    <div style={{zIndex:2, display:"flex", flexGrow:2}}></div>
-    <div style={{display:"flex", flexDirection:"column"}}>
-      <div style={{zIndex:2, display:"flex", backgroundColor:"white", padding:10, marginTop:10}}><UpperRightControls  default_filter_values={props.filter_form_values} filter_form_values={props.filter_form_values} filters={props.filters} handleFilterChange={props.handleFilterChange}/></div>
-      <div style={{zIndex:2, display:"flex", backgroundColor:"white", padding:10, marginTop:10}}>
-      <CreateButton text={props.create_marker_button_text} object_type={props.object_type} layout={props.layout} sections={props.sections} dialog_size={props.dialog_size} onSubmit={props.onSubmit} create_action_props={props.create_action_props} create_action_menu={props.create_action_menu} require_authorization={false} checked={props.filter_view} onChange={props.toggleFilterView}/>
+    <div  style={{zIndex:2, display:"flex", flexDirection:"row", alignItems:"center"}}>
+    </div>
+    <div style={{zIndex:2, display:"flex", flexGrow:50}}></div>
+    <div style={{zIndex:2, display:"flex", flexGrow:0, flexBasis:"5px", flexDirection:"column"}}>
+      <div style={{zIndex:2, display:"flex", flexDirection:"column", backgroundColor:"white", padding:10, marginTop:10}}>
+      <div style={{fontSize:"20px", marginBottom:"10px", fontWeight:"bold", color:"#3f51b5"}}>Join a Project</div>
+        <div>Find a proejct and get involved today.</div>
+        <div><UpperRightControls  default_filter_values={props.filter_form_values} filter_form_values={props.filter_form_values} filters={props.filters} handleFilterChange={props.handleFilterChange}/></div>
+        <div style={{marginTop:"20px"}}>Do you prefer a text-based listing of projects instead of a map? </div> 
+        <div style={{alignSelf:"center"}}><ListViewButton onChange={props.toggleFilterView}/></div>
+      </div>
+      <div style={{zIndex:2, display:"flex", flexDirection:"column", backgroundColor:"white", padding:10, marginTop:10}}>
+        <div style={{fontSize:"20px", marginBottom:"10px", fontWeight:"bold", color:"#3f51b5"}}>Project Leaders</div>
+        <div>The Now We Act Community will help you recruit volunteers and succeed in your cause.</div>
+        <div style={{alignSelf:"center"}}><CreateButton text={props.create_marker_button_text} object_type={props.object_type} layout={props.layout} sections={props.sections} dialog_size={props.dialog_size} onSubmit={props.onSubmit} create_action_props={props.create_action_props} create_action_menu={props.create_action_menu} require_authorization={false} checked={props.filter_view} onChange={props.toggleFilterView}/></div>
       </div>
     
     </div>
