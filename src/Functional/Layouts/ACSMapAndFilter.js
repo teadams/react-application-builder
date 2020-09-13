@@ -132,7 +132,6 @@ function ACSMapAndFilter (props) {
       let path = `/${more_path}/${redirect_id}/`
       if (object_model.name === "core_subsite" || object_model.extends_object === "core_subsite") {
           context.setContextId(redirect_id)
-          path = `/${more_path}/context/`
      }
       history.push(path);
   }
