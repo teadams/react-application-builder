@@ -95,7 +95,8 @@ function ACSRow(row_props) {
 }
 
 function ACSFormWrap(props) {
-  const {object_type, dialog_size="sm", form_title} = props
+  const {object_type, dialog_size="sm", form_title, close_action=true} = props
+
   const object_types = useGetModel("object_types")
   if (!object_types) {return null}
   let form_submit_word = props.form_submit_word 
@@ -115,7 +116,7 @@ function ACSFormWrap(props) {
             <DelayedAuth   onClick={props.onSubmit} object_type={object_type} auth_action={props.mode} color="primary">
               <Button color="primary">{form_submit_word}</Button>
             </DelayedAuth>
-            {props.onClose && <Button onClick={props.onClose} color="primary">
+            {close_action && props.onClose && <Button onClick={props.onClose} color="primary">
               Close
            </Button>}
           </DialogActions>  

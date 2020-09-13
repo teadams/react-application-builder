@@ -73,7 +73,7 @@ const TabMenu = (props) => {
       {description && <div style={menu_item_description_style}> {description}</div>}
 
       {["edit","create"].includes(current_tab_data.props.mode) ?
-          <TabComponent  onClose={handleClose} row_dialog_center={!dialog} row_delayed_auth={true} object_type={object_type} id={id} row_form={true} form_open={open} open={open} {...current_tab_data.props}/>
+          <TabComponent  onClose={handleClose} row_dialog_center={!dialog}   row_delayed_auth={true} object_type={object_type} id={id} row_form={true} form_open={open} open={open} {...current_tab_data.props}/>
        :
        <TabComponent  onClose={handleClose}  open={open} object_type={object_type} id={id} {...current_tab_data.props}/>}
 
