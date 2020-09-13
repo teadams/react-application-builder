@@ -6,14 +6,13 @@ import * as u from '../../Utils/utils.js';
 
 
 function AuthContextProvider(props) {
-  const [user, setUser] = useState("");
-  const [subsite, setSubsite] = useState("");
-  const [context_id, setContextId] = useState("");
-  const [dirty_stamp, setDirtyData] = useState(Date.now());
-
   const app_params =  useGetModel("app_params")
   const default_context =app_params["context_default_object"]
 
+  const [user, setUser] = useState("");
+  const [subsite, setSubsite] = useState("");
+  const [context_id, setContextId] = useState(default_context);
+  const [dirty_stamp, setDirtyData] = useState(Date.now());
 
 
   const handleRefreshSubsiteContext = (context_id) => {
@@ -39,11 +38,6 @@ function AuthContextProvider(props) {
     }
   }
 
-  if (!context_id && default_context) {
-    setContextId(default_context)
-    handleRefreshSubsiteContext(default_context)
-    return null
-  }
 
   return (
     <AuthContext.Provider
@@ -59,9 +53,13 @@ function AuthContextProvider(props) {
         handleRefreshContext()},
       login: (user)=> {
       setUser(user)},    
-      setContextId:  (context_id)=> {
-        setContextId(context_id)    
-        handleRefreshSubsiteContext(context_id)
+      setContextId:  (new_context_id)=> {
+        if (context_id !== new_context_id) {
+          setContextId(new_context_id)    
+          handleRefreshSubsiteContext(new_context_id)
+        } else if (!subsite) {
+          handleRefreshSubsiteContext(new_context_id)
+        }
       }}}>
         {props.children}
       </AuthContext.Provider>)

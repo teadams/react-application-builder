@@ -29,7 +29,6 @@ function Body(props) {
   const context = useContext(AuthContext)
   if (!selected_menu && !component_name ) {return null}
   let selected_menu_model = ""
-
   if (selected_menu) {
     selected_menu_model = menu_model.menu_items[selected_menu]
     selected_menu_model.api_options = shieldObject(selected_menu_model.api_options)

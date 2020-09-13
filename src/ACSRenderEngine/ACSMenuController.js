@@ -13,10 +13,11 @@ import {useHistory } from "react-router-dom";
 import React, { Component, Fragment,  useRef, useState, useContext, useEffect} from 'react';
 import * as control from "../Utils/control.js"
 
+
 const ACSMenuController = (props) => { 
-  const {menu, id,  ...params} = props
+  const {menu_type, selected_menu, object_type, field_name, open, onClose, id,  ...params} = props
   const menu_models = useGetModel("menus")
-  const menu_model = menu_models.menus[menu]
+  const menu_model = menu_models.menus[menu_type]
   const context = useContext(AuthContext);
   const history = useHistory({});
 
@@ -75,6 +76,10 @@ const ACSMenuController = (props) => {
     item_data[item] = menu_item
     final_items.push(item)
   })
+
+  if (selected_menu && final_items.indexOf(selected_menu) !== -1) {
+      default_index = final_items.indexOf(selected_menu)
+  }
 
   const handleClick = ((index) => {
     window.scrollTo(0,0)
