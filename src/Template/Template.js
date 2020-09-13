@@ -3,6 +3,8 @@ import 'react-app-polyfill/stable';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useContext, useState} from 'react';
 import TabMenu from '../RABComponents/TabMenu';
+import {ACSTabMenu} from '../ACSLibrary';
+
 import DrawerMenu from '../RABComponents/DrawerMenu';
 import {ContextSelect, Auth, AuthToggleLink} from '../Modules/User';
 import Body from "./Body"
@@ -104,13 +106,18 @@ function Template(props) {
               </div>
       </Toolbar>
       </AppBar>
-      <TabMenu menu_type="app_menu" selected_menu={selected_menu} object_type={object_type} id={id} onChange={handleChange} />
-      <Body  selected_menu={selected_menu} open={open} onClose={handleClose} component_name={component_name} object_type={object_type} id={id} field_name={field_name} menu_type={menu_type}/>
+
+      <ACSTabMenu menu_type="app_menu_two" selected_menu={selected_menu} object_type={object_type} id={id} onChange={handleChange} component_name={component_name} field_name={field_name} />
+
     <Debug/> 
     </div>
 
   )
 }
+
+//<TabMenu menu_type="app_menu" selected_menu={selected_menu} object_type={object_type} id={id} onChange={handleChange} />
+//<Body  selected_menu={selected_menu} open={open} onClose={handleClose} component_name={component_name} object_type={object_type} id={id} field_name={field_name} menu_type={menu_type}/>
+
 
 export default Template;
 

@@ -21,7 +21,13 @@ const ACSMenuController = (props) => {
   const context = useContext(AuthContext);
   const history = useHistory({});
 
-  const {items, ...menu_model_rest} = menu_model
+  const {items:discard_items, ...menu_model_rest} = menu_model
+  let items= [...menu_model.items]
+  let hidden_item = ""
+  if (selected_menu && items.indexOf(selected_menu) === -1) {
+    hidden_item = selected_menu
+    items.push(selected_menu)
+  }
   let item_data = {}
   let default_index = 0
   let final_items = []
@@ -31,6 +37,9 @@ const ACSMenuController = (props) => {
     // expand out items like subsites
     const menu_item = _.merge({},menu_models.menu_items[item])
     if (!menu_item) { alert ("no menu for " + item)}
+    if (item === hidden_item) {
+        menu_item.hidden  = true
+    }
     const auth_scope = menu_item.auth_scope
     const auth_priv = menu_item.auth_priv
     const authorized = auth.authorized({context_id:context.context_id, user:context.user}, auth_scope, auth_priv)
@@ -77,8 +86,12 @@ const ACSMenuController = (props) => {
     final_items.push(item)
   })
 
+  let default_menu = final_items[0]
+  if (selected_menu) {
+    default_menu = selected_menu
+  }
   if (selected_menu && final_items.indexOf(selected_menu) !== -1) {
-      default_index = final_items.indexOf(selected_menu)
+      default_index = final_items.indexOf(selected_menu)      
   }
 
   const handleClick = ((index) => {
@@ -93,7 +106,7 @@ const ACSMenuController = (props) => {
   // handle change
   return (
     <Fragment>
-    {React.cloneElement(props.children, {onClick:handleClick, default_index:default_index, menu_model:menu_model, items:final_items, item_data:item_data, ...props, ...menu_model_rest })}
+    {React.cloneElement(props.children, {onClick:handleClick, default_index:default_index, menu_model:menu_model, items:final_items, item_data:item_data, default_menu:default_menu, ...props, ...menu_model_rest })}
     </Fragment>
   )
 

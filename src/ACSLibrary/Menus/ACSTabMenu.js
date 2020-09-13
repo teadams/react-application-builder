@@ -28,14 +28,12 @@ const TabMenu = (props) => {
       props.onClose()
     } 
  }
-
   const handleClick = (event, index) => {
     setCurrentTab(index)
     onClick(index)
   };
 
    const TabComponent = control.componentByName(menu_component_name);
-
    return (
      <Fragment>
     {(Object.keys(item_data).length > 1 || !menu_model.hide_single_menu) &&
@@ -51,7 +49,8 @@ const TabMenu = (props) => {
          > 
 
         {Object.keys(item_data).map ((item,index) => {
-               const {pretty_name, summary,description, force_refresh=false} = item_data[item]
+               const {pretty_name, summary,description, force_refresh=false, hidden=false} = item_data[item]
+               if (hidden) {return null}
                return (<Tab  value={index} key={index}  label={pretty_name} />)
         })}
 
