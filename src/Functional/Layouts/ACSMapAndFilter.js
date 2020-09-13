@@ -130,9 +130,9 @@ function ACSMapAndFilter (props) {
       window.scrollTo(0,0)
       const redirect_id = inserted_id?inserted_id:selected_place.id
       let path = `/${more_path}/${redirect_id}/`
-      if (object_model.name === "core_subsite" || object_model.extends_object === "core_subsite") {
-          context.setContextId(redirect_id)
-     }
+    //  if (object_model.name === "core_subsite" || object_model.extends_object === "core_subsite") {
+    //      context.setContextId(redirect_id)
+    // }
       history.push(path);
   }
 
