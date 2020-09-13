@@ -71,6 +71,13 @@ const UpperLeftNavigation = function(props) {
 </Fragment>)
 }
 
+const CreateButton = function(props) {
+  return (<Fragment>
+ <ACSCreateButton   ButtonComponent={CreateMarkerButton} text={props.text} object_type={props.object_type} layout={props.layout} sections={props.sections} dialog_size={props.dialog_size} onSubmit={props.onSubmit} require_authorization={false} action_props={props.create_action_props} menu={props.create_action_menu}/> 
+</Fragment>)
+
+}
+
 const UpperRightControls = function(props) {
   return (<Fragment><ACSFilters filters={props.filters} default_filter_values={props.filter_form_values} label_direction="row" label_variant="subtitle1" onChange={props.handleFilterChange}/></Fragment>)
 }
