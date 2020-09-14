@@ -5,8 +5,6 @@ import * as meta from '../../Utils/meta.js';
 import * as api from '../../Utils/data.js';
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
-import ACSObjectTypeView from "../../Functional/Lists/ACSObjectTypeView.js"
-import RABSelectField from '../../Functional/Fields/RABSelectField.js'
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
@@ -77,17 +75,4 @@ function ACSSelectFilter(props) {
 
 export default ACSSelectFilter;
 
-// <RABSelectField object_type = {object_type}
-//     mode="edit" form="true"
-//     add_none="Any"
-//     key={filter_name}
-//     form_field_name={filter_name}
-//     value = {value}
-//     name = {filter_name}
-//     style = {{width:"100%"}}
-//     onChange={handleChange}
-//     noLabel= {true}
-//     api_options = {api_options}
-//     select_display_field = {select_display_field}
-//     disable_underline={false}
-//   />
+

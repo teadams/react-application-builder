@@ -32,7 +32,6 @@ import RABTextField from '../Functional/Fields/RABTextField.js'
 
 import ACSURLField from '../Functional/Fields/ACSURLField.js'
 import ACSYouTube from '../Functional/Fields/ACSYouTube.js'
-import RABSelectField from '../Functional/Fields/RABSelectField.js'
 import ACSReferencesField from '../Functional/Fields/ACSReferencesField.js'
 
 // rows
@@ -278,7 +277,6 @@ function componentPicker(name, source="not provided") {
     case "ACSAddress":  return ACSAddress;
     case "RABTextField":  return RABTextField;
     case "ACSURLField":  return ACSURLField;
-    case "RABSelectField":  return RABSelectField;
 
     case "ACSFile":  return ACSFile;
     case "ACSImage":  return ACSImage;
