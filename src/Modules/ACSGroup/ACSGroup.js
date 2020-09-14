@@ -18,7 +18,8 @@ function ACSGroup(props) {
     context.setContextId(id)
     return null
   }
-  return <ACSTabMenu menu_type="core_subsite_admin"/>
+  const root_path = "/ACSGroup/core_subsite/"+id
+  return <ACSTabMenu root_path={root_path} menu_type="core_subsite_admin"/>
 }
 
 export default ACSGroup

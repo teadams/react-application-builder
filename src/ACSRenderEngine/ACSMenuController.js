@@ -18,7 +18,7 @@ const ACSMenuController = (props) => {
   const [open_state, setOpen] = useState(false)
   // open is provided in parent
   const open = props.hasOwnProperty("open")?props.open:open_state 
-  const {open:discard_open, menu_type, selected_menu, object_type, field_name,  onClose, id,  ...params} = props
+  const {open:discard_open, menu_type, selected_menu, object_type, field_name,  onClose, id, root_path="",  ...params} = props
 
   const menu_models = useGetModel("menus")
   const menu_model = menu_models.menus[menu_type]
@@ -109,7 +109,7 @@ const ACSMenuController = (props) => {
   const handleClick = ((index) => {
     window.scrollTo(0,0)
     const clicked_item =  item_data[final_items[index]]
-    let path = final_items[index]
+    let path = root_path + "/" + final_items[index]
     if (!open && !props.hasOwnProperty("open")) {setOpen(true)}
     if (clicked_item.link) {
       path = clicked_item.link  
