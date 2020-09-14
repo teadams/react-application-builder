@@ -27,9 +27,7 @@ function UIContextProvider(props) {
   }})
 
 
-  const [dialog_open, setDialogOpen] = useState(null)
   const [PopupComponent, setPopupComponent] = useState(null)
-  const [DialogComponent, setDialogComponent] = useState(null)
 
   const handlePopupOpen = (event, Pcomponent) => {
       if (Pcomponent) {setPopupComponent(Pcomponent)}
@@ -37,12 +35,6 @@ function UIContextProvider(props) {
       setAnchorEl(event.currentTarget);
     };
 
-  const handleDialogOpen = (event, Dcomponent) => {
-      if (Dcomponent) {
-        setDialogComponent(Dcomponent)
-        setDialogOpen(true)
-      }
-  };
   
   const PopupC = (props) => {
         if (PopupComponent) {
@@ -52,21 +44,11 @@ function UIContextProvider(props) {
         }
   }
 
-  const DialogC = (props) => {
-        if (DialogComponent) {
-          return (DialogComponent)
-        } else {
-          return null
-        }
-  }
 
   const handlePopupClose = () => {
       setAnchorEl(null);
   };
 
-  const handleDialogClose = () => {
-      setDialogOpen(false);
-  };
 
 
   const popup_open = Boolean(anchorEl);
@@ -75,18 +57,13 @@ function UIContextProvider(props) {
   return (
     <UIContext.Provider
       value={{
-          dialog: {
-            isOpen: dialog_open,
-            open: (event, component)=> handleDialogOpen(event, component),
-            close:() => handleDialogClose(),
-          },
           popup: {
             isOpen: popup_open,
             setOrigin: (origin) => {setOrigin(origin)},
             setPopupComponent: (component) => {setPopupComponent(component)},
             open: (event, component) => handlePopupOpen(event, component, origin),
             close: () => handlePopupClose()
-        }
+          }
       }}>
         {popup_open &&
         <Popover 
@@ -102,9 +79,6 @@ function UIContextProvider(props) {
             anchorOrigin={origin.anchorOrigin}
             transformOrigin={origin.transformOrigin}
         ></Popover>}
-        {dialog_open &&
-          <DialogC/>
-        }
         {props.children}
      </UIContext.Provider>)
 }
