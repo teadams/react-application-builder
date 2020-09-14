@@ -263,6 +263,7 @@ function ACSRowController(input_props) {
 
 
 // "NEED TO PASS MODE"
+
   let [object_type, id, prescrubbed_field_list, api_options, data] =  useGetObject(input_props.object_type, input_props.id, input_props.field_list, input_props.api_options, input_props.data, onData, mode);
 
 
@@ -298,13 +299,14 @@ function ACSRowController(input_props) {
   } else {
       section_field_lists.push(field_list)
   }
-
   let {formAttributes, lastTouched, handleFormChange, handleFormSubmit} = useForm(object_type, "", data, handleSubmit, mode, form, merging_props,field_list, delay_dirty, list_form_params, index);
   const [formValues, formVisibility, formValidated] = formAttributes?formAttributes:[undefined,undefined,undefined]
   //// wall /////
   if (!field_models) {return null}
   const field_model = field_models[object_type]
+
   if ((!["create","list_create"].includes(mode) && !data) || (object_type && !object_model) || (object_type && !field_model) || field_list.length === 0) return null
+
 
   //XX TODO - have to restructure references defaults
   if (["create","list_create"].includes(mode)) {

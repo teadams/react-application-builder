@@ -48,8 +48,15 @@ const ListMenu = (props) => {
         </List>
       }
     <Dialog open={open} fullWidth={true} maxWidth="xl">
-    <DialogTitle>Test Title</DialogTitle>
+    <DialogTitle>{summary}</DialogTitle>
+      <DialogContent>
+        {description && <div style={menu_item_description_style}> {current_item_data.description}</div>}
 
+        {["edit","create"].includes(current_item_data.props.mode) ?
+        <ListComponent  onClose={handleClose} row_dialog_center={true}   row_delayed_auth={true} object_type={object_type} id={id} row_form={true} form_open={open} open={open} {...current_item_data.props}/>
+          :
+          <ListComponent  onClose={handleClose}  open={open} object_type={object_type} id={id} {...current_item_data.props}/>}
+      </DialogContent>
     </Dialog>
     </Fragment>
      ) 

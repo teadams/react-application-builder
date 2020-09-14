@@ -64,23 +64,19 @@ const ACSMenuController = (props) => {
     if (!menu_item.props.api_options.filter_id) {
       menu_item.props.api_options.filter_id =[]
     }
-    if (menu_item.with_context && context.context_id) { 
-      if (menu_item.object_type !== "core_subsite" || !id) {
-        menu_item.props.api_options.filter_field.push("core_subsite")
-        menu_item.props.api_options.filter_id.push(context.context_id) 
-      }  else if (menu_item.object_type === "core_subsite" && id) {
-        menu_item.props.api_options.filter_field.push("core_subsite")
-        menu_item.props.api_options.filter_id.push(id) 
-      }
-    }
     if (id) {
       menu_item.id = id
     }
-    if (context && context.context_id && menu_item.object_type === "core_subsite" && !menu_item.id && !id) {
-        menu_item.id = context.context_id
-    }
-    if (context && context.user.id && menu_item.object_type === "core_user" && !menu_item.id && !id) {
-        menu_item.id = context.user.id
+    if (menu_item.with_context) {
+      if (["core_user","core_credential"].includes(menu_item.object_type)) {
+          menu_item.id = context.user.id 
+      }  else if (context.context_id) {
+          menu_item.props.api_options.filter_field.push("core_subsite")
+          menu_item.props.api_options.filter_id.push(context.context_id)
+          if (menu_item.object_type === "core_subsite") {
+            menu_item.id = context.context_id
+          }
+      }
     }
     if (menu_item.pretty_name === "_context_name") {
         menu_item.pretty_name = context.subsite.name
