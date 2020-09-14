@@ -6,6 +6,8 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
 import {AuthContext, Auth, LoginForm} from '../../Modules/User/index.js';
 import {ACSHeadlessObject} from '../../ACSLibrary';
 import {ACSMenuController} from '../../ACSRenderEngine';
+import { withStyles } from '@material-ui/core/styles';
+
 
 import _ from 'lodash/object'
 
@@ -14,7 +16,6 @@ import { Tabs, Tab, Stepper, Step, StepLabel, StepButton, FormControl, FormLabel
 
 import UIContext from '../../Template/UIContext';
 import useGetModel from '../../Hooks/useGetModel'
-
 
 const TabMenu = (props) => {
   const {menu_model, items, item_data, prevent_content=false, onClick, open, orientation="horizontal",  default_index=0, num_visible_items} = props
@@ -44,7 +45,11 @@ const TabMenu = (props) => {
     onClick(index)
   };
 
-
+  let StyledTab = Tab
+  let tabs_style={}
+  if (orientation==="vertical") {
+      StyledTab = withStyles({  wrapper: {alignItems:"flex-start" }, root:{paddingTop:0, paddingBottom:0, minHeight:0}})(Tab)
+  }  
 
    const TabComponent = control.componentByName(menu_component_name);
    return (
@@ -58,13 +63,13 @@ const TabMenu = (props) => {
           textColor="primary"
           variant="scrollable"
           scrollButtons="auto"
-        //  style={tabs_style}
+//          style={tabs_style}
          > 
 
         {Object.keys(item_data).map ((item,index) => {
                const {pretty_name, summary,description, force_refresh=false, hidden=false} = item_data[item]
                if (hidden) {return null}
-               return (<Tab  value={index} key={index}  label={pretty_name} />)
+               return (<StyledTab  value={index} key={index}  label={pretty_name} />)
         })}
 
         </Tabs>
