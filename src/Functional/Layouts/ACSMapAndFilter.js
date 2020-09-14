@@ -5,7 +5,7 @@ import React,  {useContext, useState, Fragment} from 'react';
 import {Switch,  Button} from '@material-ui/core';
 //import * as meta from '../../Utils/meta.js'
 import {AuthContext} from '../../Modules/User';
-
+import {ACSFilterController} from '../../ACSRenderEngine'
 import {ACSCreateButton, ACSCreateDialogButton , ACSObjectView, ACSObjectType} from '../../ACSLibrary'
 
 // XX TODO
@@ -16,7 +16,6 @@ import useGetModel from '../../Hooks/useGetModel';
 import { useHistory } from "react-router-dom";
 import ACSMap from "../Lists/ACSMap.js"
 import ACSMapAndFilterFilter from "./SubComponents/ACSMapAndFilterFilter.js"
-import ACSFilters from "../Filters/ACSFilters.js"
 import * as control from '../../Utils/control.js'
 
 
@@ -88,7 +87,7 @@ const CreateButton = function(props) {
 }
 
 const UpperRightControls = function(props) {
-  return (<Fragment><ACSFilters filters={props.filters} default_filter_values={props.filter_form_values} label_direction="row" label_variant="subtitle1" onChange={props.handleFilterChange}/></Fragment>)
+  return (<Fragment><ACSFilterController filters={props.filters} default_filter_values={props.filter_form_values} label_direction="row" label_variant="subtitle1" onChange={props.handleFilterChange}/></Fragment>)
 }
 
 const MapOverlay = function(props) {

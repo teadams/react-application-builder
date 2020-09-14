@@ -4,6 +4,7 @@ import ACSFieldController from './ACSFieldController.js';
 import ACSRowController from './ACSRowController';
 import ACSListController from './ACSListController';
 import ACSMenuController from './ACSMenuController';
+import ACSFilterController from './ACSFilterController';
 // Renders
 // Used only by Controllers
 
@@ -13,6 +14,6 @@ import ACSListRenderer  from './RenderACSList';
 
 
 export {
-    ACSFieldController, ACSRowController, ACSListController, ACSMenuController,
+    ACSFieldController, ACSRowController, ACSListController, ACSMenuController, ACSFilterController,
     ACSFieldRenderer, ACSRowRenderer, ACSListRenderer
 }

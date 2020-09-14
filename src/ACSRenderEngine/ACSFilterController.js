@@ -4,11 +4,10 @@ import 'react-app-polyfill/stable';
 import React, {  Fragment,  useState} from 'react';
 import {Typography } from '@material-ui/core';
 import { TableContainer} from '@material-ui/core';
-import ACSSelectFilter from './ACSSelectFilter.js'
-import ACSTextFilter from './ACSTextFilter.js'
+import {ACSSelectFilter, ACSTextFilter} from '../ACSLibrary'
 
 // default_value, object_type, label, 
-function ACSFilters(props) {
+function ACSFilterController(props) {
   const {filters={}, default_filter_values={}, onChange, label_direction="column", label_variant="subtitle1", filter_direction="column", label_width="70px", select_width="240px", select_display_field} = props
   let default_form_values = {}
   filters.forEach(filter => {
@@ -80,5 +79,5 @@ function ACSFilters(props) {
 
 }
 
-export default ACSFilters;
+export default ACSFilterController;
 

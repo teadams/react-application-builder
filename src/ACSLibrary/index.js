@@ -8,6 +8,8 @@ import ACSMapButton from './Buttons/ACSMapButton';
 import ACSField from './Fields/ACSField.js';
 import ACSComboField from './Fields/ACSComboField.js';
 // components
+import ACSSelectFilter from './Filters/ACSSelectFilter.js'
+import ACSTextFilter from './Filters/ACSTextFilter.js'
 
 import ACSImage from './Fields/Components/ACSImage.js';
 import ACSImageView from './Fields/Components/Widgets/ACSImageView.js';
@@ -26,9 +28,9 @@ import ACSSelectField from '../Functional/Fields/RABSelectField.js';
 import ACSTextField from '../Functional/Fields/RABTextField.js';
 
 // filterF
-import ACSFilters from '../Functional/Filters/ACSFilters.js';
-import ACSSelectFilter from '../Functional/Filters/ACSSelectFilter.js';
-import ACSTextFilter from '../Functional/Filters/ACSTextFilter.js';
+//import ACSFilters from '../Functional/Filters/ACSFilters.js';
+//import ACSSelectFilter from '../Functional/Filters/ACSSelectFilter.js';
+//import ACSTextFilter from '../Functional/Filters/ACSTextFilter.js';
 
 // Layouts
 import ACSMapAndFilter from '../Functional/Layouts/ACSMapAndFilter.js';
@@ -67,7 +69,7 @@ export {
  ACSCreateButton, ACSCreateDialogButton, ACSEditButton, ACSMapButton, // buttons
   ACSField, ACSComboField, // Field base
   ACSAddress, ACSFile, ACSImage, ACSImageView, ACSDate, ACSReferencesList, ACSReferenceField, ACSMapping, ACSURLField,ACSYouTube,ACSSelectField,ACSTextField,
-  ACSFilters, ACSSelectFilter, ACSTextFilter, // Field components
+  ACSSelectFilter, ACSTextFilter, // Field components
   ACSObjectType, ACSChipObjectType, ACSCommunicationObjectType, ACSMap,ACSSummaryObjectType, // object type view
   ACSMapAndFilter, ACSWizard,  ACSTabMenu,// layouts
   ACSListMenu, // menus
