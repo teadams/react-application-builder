@@ -19,7 +19,7 @@ function AuthToggleLink(props) {
   const handleClose= (event) => {
     setLoginForm(false)
   }
-  const handleMenuChange= (event) => {
+  const handleMenuClose= (event) => {
       popup.close()
   }
 
@@ -44,7 +44,7 @@ function AuthToggleLink(props) {
       </div>
     </div>
     <Divider/>
-    <ACSListMenu menu_type="user_profile" onChange={handleMenuChange}/>
+    <ACSListMenu menu_type="user_profile" onClose={handleMenuClose}/>
     </Fragment>)
   }
 

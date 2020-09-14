@@ -30,7 +30,7 @@ const ListMenu = (props) => {
       props.onClose()
     } 
  }
-  const handleClick = (event, index) => {
+  const handleOnClick = (event, item, index) => {
     setCurrentItem(index)
     onClick(index)
   };
@@ -43,10 +43,14 @@ const ListMenu = (props) => {
         {Object.keys(item_data).map ((item,index) => {
                const {pretty_name, summary,description, force_refresh=false, hidden=false} = item_data[item]
                if (hidden) {return null}
-               return (<ListItem key={index} value={item}>{pretty_name}</ListItem>)
+               return (<ListItem onClick={(event) => handleOnClick(event, item, index)} key={index} value={item} name={item}>{pretty_name}</ListItem>)
         })}
         </List>
-      }    
+      }
+    <Dialog open={open} fullWidth={true} maxWidth="xl">
+    <DialogTitle>Test Title</DialogTitle>
+
+    </Dialog>
     </Fragment>
      ) 
 } 

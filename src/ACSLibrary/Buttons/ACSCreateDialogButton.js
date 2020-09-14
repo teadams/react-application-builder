@@ -21,9 +21,7 @@ function ACSCreateDialogButton(props) {
   }
   const handleOnClick = event => {
     setCreateDialog(true)
-u.a('button 1')
     if (props.onClick) {
-u.a('button 2')
       props.onClick(event);
     }
   }

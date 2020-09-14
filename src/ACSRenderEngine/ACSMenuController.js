@@ -115,7 +115,9 @@ const ACSMenuController = (props) => {
     if (clicked_item.link) {
       path = clicked_item.link  
     }
-    history.push(path);
+    if (!clicked_item.prevent_history_push) {
+      history.push(path);
+    }
     if (props.onChange) {
       props.onChange(index)
     }
