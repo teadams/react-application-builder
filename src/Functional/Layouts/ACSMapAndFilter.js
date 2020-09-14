@@ -57,16 +57,16 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const CreateMarkerButton = function(props) {
-    return (<Button variant="contained" color="primary" style={{margin:10, borderRadius: '25px'}} {...props}>{props.text}</Button>)
+    return (<Button variant="contained" color="primary" style={{margin:10, borderRadius: '12px'}} {...props}>{props.text}</Button>)
 }
 
 const ListViewButton = function(props) {
-  return (<Button onClick={props.onChange} variant="contained" color="primary" style={{margin:10,   borderRadius: '25px'}}>View Projects as a List</Button>)
+  return (<Button onClick={props.onChange} variant="contained" color="primary" style={{margin:10,   borderRadius: '12px'}}>View Projects as a List</Button>)
 
 }
 
 const MapViewButton = function(props) {
-  return (<Button onClick={props.onChange} variant="contained" color="primary" style={{margin:10,   borderRadius: '25px'}}>View Projects on a Map</Button>)
+  return (<Button onClick={props.onChange} variant="contained" color="primary" style={{margin:10,   borderRadius: '12px'}}>View Projects on a Map</Button>)
 
 }
 
@@ -107,7 +107,7 @@ const MapOverlay = function(props) {
         <div style={{alignSelf:"center"}}><ListViewButton onChange={props.toggleFilterView}/></div>
       </div>
       <div style={{zIndex:2, display:"flex", flexDirection:"column", backgroundColor:"#fffffa", padding:"15px",borderRadius:"25px", marginTop:"10px", boxShadow:"5px 10px 18px #888888"}}>
-        <div style={{fontSize:"20px", marginBottom:"10px", fontWeight:"bold", color:"#3f51b5", }}>Project Leaders</div>
+        <div style={{fontSize:"20px", marginBottom:"10px", fontWeight:"bold", color:"#3f51b5", }}>Do you lead a project?</div>
         <div>The Now We Act Community will help you recruit volunteers and succeed in your cause.</div>
         <div style={{alignSelf:"center"}}><CreateButton text={props.create_marker_button_text} object_type={props.object_type} layout={props.layout} sections={props.sections} dialog_size={props.dialog_size} onSubmit={props.onSubmit} create_action_props={props.create_action_props} create_action_menu={props.create_action_menu} require_authorization={false} checked={props.filter_view} onChange={props.toggleFilterView}/></div>
       </div>
