@@ -43,8 +43,7 @@ const Wizard = (props) => {
       steps.forEach((step,index) => {
       const {pretty_name, summary, description, completed, available, subtitle, force_refresh=true, dependencies} = step_data[step]
       const {mode} = step_data[step].props
-
-          initial_step_state[step] ={}
+          initial_step_state[step] = step_data[step]
           initial_step_state[step].completed = completed?completed:false
           initial_step_state[step].subtitle = subtitle?subtitle:""
           initial_step_state[step].disabled = available?!available:true
@@ -57,6 +56,7 @@ const Wizard = (props) => {
             // can not edit if there is no id 
             initial_step_state[step].disabled = true
           }
+
     })
     setStepsState(initial_step_state)
   }
@@ -102,7 +102,7 @@ const Wizard = (props) => {
        let new_steps_state = {}
 
        steps.forEach((step,index) => {
-         new_steps_state[steps[index]] ={disabled:false}
+          new_steps_state[steps[index]] ={disabled:false}
        })
 
        setStepsState(steps_state => { 
@@ -113,15 +113,15 @@ const Wizard = (props) => {
 
    return (
      <Fragment>
-       {transition_id && <ACSHeadlessObject id={transition_id} object_type={object_type}  onData={handleOnData}/>}
-      <Dialog open={open} fullWidth={true} maxWidth="xl">
+       {transition_id  && <ACSHeadlessObject id={transition_id} object_type={object_type}  onData={handleOnData}/>}
+      {steps_state && <Dialog open={open} fullWidth={true} maxWidth="xl">
        <DialogTitle>{wizard_summary}</DialogTitle>
         <Stepper nonLinear alternativeLabel style={{padding:"0px 10px"}} activeStep={current_step_number}>  
          {steps.map ((step,index) => {
-             const {pretty_name, summary,description, force_refresh=false} = step_data[step]
+             const {pretty_name, disabled, summary,description, force_refresh=false} = steps_state[step]
              const step_state = steps_state?steps_state[step]:{}
              return (
-               <Step key={pretty_name} completed={step_state.completed} disabled={false}><StepButton  onClick={handleStep(index, force_refresh)} optional={step_state.subtitle}>{pretty_name}</StepButton></Step>
+               <Step key={pretty_name} completed={step_state.completed} disabled={disabled}><StepButton  onClick={handleStep(index, force_refresh)} optional={step_state.subtitle}>{pretty_name}</StepButton></Step>
              )
            })}
         </Stepper>
@@ -158,7 +158,7 @@ const Wizard = (props) => {
           Close
        </Button>}
       </DialogActions> 
-        </Dialog>
+        </Dialog>}
        </Fragment>
      ) 
 } 
