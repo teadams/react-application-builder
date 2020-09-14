@@ -21,7 +21,6 @@ import ACSPeopleAndOpportunitiesChip from "../Modules/User/ACSPeopleAndOpportuni
 import User from '../Functional/Fields/User.js'
 import ACSAddress from '../Functional/Fields/ACSAddress.js'
 
-import NWAProjectView from '../Components/NowWeAct/NWAProjectView.js'
 import SubsiteApply from '../Components/NowWeAct/SubsiteApply.js'
 
 // Engine
@@ -294,7 +293,6 @@ function componentPicker(name, source="not provided") {
     case "ACSMapAndFilter": return ACSMapAndFilter;
     case "ACSWizard": return ACSWizard;
     case "ACSTabMenu": return ACSTabMenu;
-    case "NWAProjectView": return NWAProjectView;
     case "SubsiteApply": return SubsiteApply;
     default:  { 
       alert("Menu Model Issues - no component for " + name ) 
