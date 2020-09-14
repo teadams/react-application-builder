@@ -15,7 +15,7 @@ import {Link, Container, Box, Card, TableHead, TableContainer, Table, TableBody,
 // default_value, object_type, label, 
 function ACSTextFilter(props) {
   //XX could get default select field by object type from proc?
-  const {default_value, object_type, label, field_name, filter_name=props.object_type, onChange, api_options} = props
+  const {default_value, object_type, label, field_name, filter_name=props.object_type, onChange, api_options, helper_text} = props
   const [value, setValue]= useState(default_value)
  
   const handleChange = (event) => {
@@ -44,6 +44,8 @@ function ACSTextFilter(props) {
       key={field_name}
       fullWidth={false}
       disabled={false}
+      helperText={helper_text}
+      label={label}
 //      onBlur={props.onFieldBlur}
       value={value}
       onChange={handleChange}/>
