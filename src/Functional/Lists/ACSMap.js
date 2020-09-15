@@ -49,8 +49,8 @@ function ACSMap (props) {
 //  let {data:props_map_data} = props
 
   let props_map_data = props.data
-  if (props_map_data !== null && props_map_data !== undefined && !Array.isArray(props_map_data)) {
-    // alow a row to be shown on the map 
+  if (props_map_data !== null && props_map_data !== "" && props_map_data !== undefined && !Array.isArray(props_map_data)) {
+    // alow a row to be shown on the map
     props_map_data  = [props_map_data]
   }
 
@@ -87,7 +87,7 @@ function ACSMap (props) {
 
 
   if (!load_own_data && (map_data !== props_map_data)) {
-      setShowInfoWindow(false)
+    //  setShowInfoWindow(false)
       setMapData(props_map_data)
   }
 

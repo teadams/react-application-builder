@@ -4,7 +4,6 @@ import 'react-app-polyfill/stable';
 import React,  {useContext, useState, Fragment} from 'react';
 import {Switch,  Button} from '@material-ui/core';
 //import * as meta from '../../Utils/meta.js'
-import {AuthContext} from '../../Modules/User';
 import {ACSFilterController} from '../../ACSRenderEngine'
 import {ACSCreateButton, ACSCreateDialogButton , ACSObjectView, ACSObjectType} from '../../ACSLibrary'
 
@@ -12,7 +11,7 @@ import {ACSCreateButton, ACSCreateDialogButton , ACSObjectView, ACSObjectType} f
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import useGetModel from '../../Hooks/useGetModel';
 
-//import * as u from '../../Utils/utils.js'
+import * as u from '../../Utils/utils.js'
 import { useHistory } from "react-router-dom";
 import ACSMap from "../Lists/ACSMap.js"
 import ACSMapAndFilterFilter from "./SubComponents/ACSMapAndFilterFilter.js"
@@ -131,7 +130,6 @@ function ACSMapAndFilter (props) {
 
   
   const classes = useStyles();
-  const context = useContext(AuthContext)
   const history = useHistory({});
   const object_model = useGetModel("object_types", object_type)
   const [data, setData] = useState("")
@@ -161,7 +159,7 @@ function ACSMapAndFilter (props) {
       const redirect_id = inserted_id?inserted_id:selected_place.id
       let path = `/${more_path}/${redirect_id}/`
       if (object_model.name === "core_subsite" || object_model.extends_object === "core_subsite") {
-          context.setContextId(redirect_id)
+    //      context.setContextId(redirect_id)
       }
       history.push(path);
   }
