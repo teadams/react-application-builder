@@ -2,6 +2,7 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import * as u from '../../Utils/utils.js';
 
+import {useHistory } from "react-router-dom";
 
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import AuthContext from './AuthContext';
@@ -37,13 +38,16 @@ function ContextSelect () {
   const app_params = useGetModel("app_params")
   const subsite_id = context.context_id
   const user = context.user
+  const history = useHistory({});
   
   function handleContextChange(event) {
     const value = event.target.value 
     if (value !== "_none_") {
         context.setContextId(value)  
+        history.push("/ACSGroup/core_subsite/"+value)
     } else {
-      context.setContextId(0)        
+      context.setContextId(0)
+      history.push("/ACSMapAndFilter")
     }
    }
 
