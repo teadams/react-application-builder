@@ -48,11 +48,18 @@ function ContextSelect () {
         history.push("/ACSGroup/core_subsite/"+value)
     } else {
       context.setContextId(0)
-      history.push("/ACSMapAndFilter")
+      history.push("/")
     }
    }
 
    const value= (context.context_id === 0)?"_none_":context.context_id
+  let select_data 
+  if (!context.user.site_admin) {
+    select_data = []
+    Object.keys(context.user.authorization_object).forEach((subsite_id) => {
+      select_data.push ({id:subsite_id, name:context.user.authorization_object[subsite_id].Name})
+    })
+  }
     if (context.user.id && app_params.layout.context_switcher ) { 
           return (<div style={{display:"flex", flexDirection:"row", alignItems:"center"}}>
             <div><Button  color="inherit">Your Projects:</Button></div>
@@ -66,6 +73,7 @@ function ContextSelect () {
               select_style = {context_style}
               onChange={handleContextChange}
               disable_underline={true}
+              data = {select_data}
               api_options={{parent_field:"parent_subsite"}}/>
               </div>
             </div>

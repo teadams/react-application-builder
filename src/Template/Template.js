@@ -97,7 +97,7 @@ function Template(props) {
           <div className={classes.grow} />
 
           <div className={classes.context}>
-          <Auth auth_scope="site" auth_priv="admin" prompt_login={false}>
+          <Auth auth_scope="site" auth_priv="member" prompt_login={false}>
             <ContextSelect/>
           </Auth>
           </div>

@@ -51,7 +51,10 @@ function SubsiteApply(props) {
   const field_models = useGetModel("fields", "core_subsite")
   const project_field_model = field_models["name"]
 
-  const {formValues, lastTouched, handleFormChange, handleFormSubmit} = useForm("core_subsite_role", "", "", "", "create", "true", {email_perm:true, status:"Applied"}, ["id", "core_subsite", "core_role", "status", "message", "email_perm"]);
+
+  const {formAttributes, lastTouched, handleFormChange, handleFormSubmit} = useForm("core_subsite_role", "", "", "", "create", "true", {email_perm:true, status:"Applied"}, ["id", "core_subsite", "core_role", "status", "message", "email_perm"]);
+  const [formValues, formVisibility, formValidated] = formAttributes?formAttributes:[undefined,undefined,undefined]
+
 
   let show_needs = subsite_data?true:false
 
