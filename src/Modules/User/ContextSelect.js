@@ -9,6 +9,7 @@ import AuthContext from './AuthContext';
 import {ACSSelectFilter} from '../../ACSLibrary'
 import useGetModel from '../../Hooks/useGetModel.js'
 import * as meta from '../../Utils/meta.js';
+import {Button} from '@material-ui/core';
 
 const context_style = {
  //display: 'block',
@@ -54,7 +55,7 @@ function ContextSelect () {
    const value= (context.context_id === 0)?"_none_":context.context_id
     if (context.user.id && app_params.layout.context_switcher ) { 
           return (<div style={{display:"flex", flexDirection:"row", alignItems:"center"}}>
-            <div>Your Projects:</div>
+            <div><Button  color="inherit">Your Projects:</Button></div>
             <div>
             <ACSSelectFilter object_type = "core_subsite"
               value = {value}
