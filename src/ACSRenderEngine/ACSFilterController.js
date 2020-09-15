@@ -39,7 +39,6 @@ function ACSFilterController(props) {
         }
     }
   })
-//  u.a(api_options, new_api_options)
 
   if (JSON.stringify(new_api_options) !== JSON.stringify(api_options)) {
       setAPIOptions(new_api_options)

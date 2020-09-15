@@ -25,7 +25,7 @@ function selectItems(select_options, value_field="value", display_field) {
 // default_value, object_type, label, 
 function ACSSelectFilter(props) {
   //XX could get default select field by object type from proc?
-  const {default_value, object_type, label, field_name, select_display_field, select_value_field="id", filter_name=props.object_type, onChange, api_options, any_display_label="Any"} = props
+  const {default_value, object_type, label, field_name, select_display_field, select_value_field="id", filter_name=props.object_type, onChange, api_options, any_display_label="Any", select_style, disable_underline=true} = props
   const [value, setValue]= useState(default_value)
   const [select_options, setSelectOptions] = useState(props.data)
 
@@ -67,6 +67,10 @@ function ACSSelectFilter(props) {
         label={label}
         fullWidth={true}
         value={value}
+        style={select_style}
+        SelectProps={{
+          disableUnderline:true
+        }}
         onChange={handleChange}>
         {select_options && selectItems(select_options,select_value_field,select_display_field)}
         </TextField>

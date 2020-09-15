@@ -5,7 +5,7 @@ import * as u from '../../Utils/utils.js';
 
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import AuthContext from './AuthContext';
-import RABSelectField from '../../Functional/Fields/RABSelectField.js'
+import {ACSSelectFilter} from '../../ACSLibrary'
 import useGetModel from '../../Hooks/useGetModel.js'
 import * as meta from '../../Utils/meta.js';
 
@@ -42,26 +42,22 @@ function ContextSelect () {
         context.setContextId(event.target.value)  
    }
 
-    if (context.user.id && app_params.layout.context_switcher ) {     
+    if (context.user.id && app_params.layout.context_switcher ) { 
           return (
-            <RABSelectField object_type = "core_subsite"
-              mode="edit" form="true"
+            <ACSSelectFilter object_type = "core_subsite"
               value = {context.context_id}
-              style = {context_style}
+              default_value = {context.context_id}
+              key="context_filter"  filter_name="content_filter" 
+              onChange={handleContextChange} select_display_field="name" any_display_label="Your Projects" select_value_field="id"
+              select_style = {context_style}
               onChange={handleContextChange}
-              noLabel= {true}
               disable_underline={true}
-              api_options={{parent_field:"parent_subsite"}}
-             />
+              api_options={{parent_field:"parent_subsite"}}/>
+            
           );
-      }  else {
-          if (context.context_name) {
-              return (<Fragment>{context.context.name}</Fragment>)
-        } else {  
-              return(null)
-        }
-      }
-  
+    }  else {
+        return(null)
+    }      
 }
 
 export default ContextSelect
