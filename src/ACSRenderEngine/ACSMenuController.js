@@ -118,6 +118,9 @@ const ACSMenuController = (props) => {
     if (clicked_item.link) {
       path = clicked_item.link  
     }
+    if (clicked_item.set_subsite_id &&  clicked_item.set_subsite_id !== context.context_id) {
+        context.setContextId(clicked_item.set_subsite_id)
+    }
     if (!clicked_item.prevent_history_push) {
       history.push(path);
     }
