@@ -82,7 +82,11 @@ const ACSMenuController = (props) => {
       menu_item.props.api_options.filter_id.push(context.context_id)
     }
     if (menu_item.pretty_name === "_context_name") {
-        menu_item.pretty_name = context.subsite.name
+        if (context.subsite) {
+          menu_item.pretty_name = context.subsite.name
+        } else {
+          menu_item.pretty_name = ""
+        }
     }
     if (menu_model.default_item === item) {
         default_index = index

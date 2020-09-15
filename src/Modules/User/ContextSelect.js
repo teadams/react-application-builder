@@ -47,8 +47,7 @@ function ContextSelect () {
     }
    }
 
-   const value= (context.context_id === 0)?"":context.context_id
-u.a(value)
+   const value= (context.context_id === 0)?"_none_":context.context_id
     if (context.user.id && app_params.layout.context_switcher ) { 
           return (
             <ACSSelectFilter object_type = "core_subsite"

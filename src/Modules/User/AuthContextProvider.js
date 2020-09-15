@@ -20,7 +20,6 @@ function AuthContextProvider(props) {
       if (error) {
         alert ("error " + error.message)
       } else {
-u.a("setting subsite data", subsite_data)
         setSubsite(subsite_data[0])
       }
     })
@@ -55,9 +54,7 @@ u.a("setting subsite data", subsite_data)
       login: (user)=> {
       setUser(user)},    
       setContextId:  (new_context_id)=> {
-u.a("new contxt id is ", new_context_id)
         if (context_id !== new_context_id) {
-u.a("setting context id to", new_context_id)
           setContextId(new_context_id)    
           handleRefreshSubsiteContext(new_context_id)
         } else if (!subsite) {
