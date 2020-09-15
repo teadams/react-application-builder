@@ -19,6 +19,11 @@ function AuthToggleLink(props) {
   const handleClose= (event) => {
     setLoginForm(false)
   }
+  const handleLogout = (event) => {
+      setLoginForm(false)
+      popup.close()
+      context.logout()
+  }
   const handleMenuClose= (event) => {
       popup.close()
   }
@@ -44,6 +49,10 @@ function AuthToggleLink(props) {
       </div>
     </div>
     <Divider/>
+    <div style={{margin:10, display:"flex",flexDirection:"row", alignItems:"center"}}>
+    <Button color="inherit" onClick={handleLogout}>Logout</Button>
+
+    </div>
     <ACSListMenu menu_type="user_profile" onClose={handleMenuClose}/>
     </Fragment>)
   }
@@ -55,7 +64,6 @@ function AuthToggleLink(props) {
   if (context.user) {
     return (
       <Fragment>  
-        <Button color="inherit" onClick={context.logout}>Logout</Button>
         <ACSImageView image_object={context.user.thumbnail} letters={context.user.initials} size="small"/> &nbsp; 
         <Button onClick={handlePopup} color="inherit">{context.user.first_name}
         {popup.isOpen?<ExpandLessIcon size="small"/>:<ExpandMoreIcon size="small"/>}
