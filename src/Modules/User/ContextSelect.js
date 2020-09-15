@@ -74,6 +74,7 @@ function ContextSelect () {
               onChange={handleContextChange}
               disable_underline={true}
               data = {select_data}
+              tree_options={true}
               api_options={{parent_field:"parent_subsite"}}/>
               </div>
             </div>

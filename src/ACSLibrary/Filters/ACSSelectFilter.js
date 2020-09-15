@@ -10,6 +10,30 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 import {Link, Container, Box, Card, TableHead, TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
 
+
+function formTreeData(data, tree_depth=0) {
+  let tree_data = []
+  data.map(row => {
+      row.tree_depth = tree_depth
+      tree_data.push(row)
+      if (row.children && row.children.length >0) {
+          tree_data = tree_data.concat(formTreeData(row.children, tree_depth+1))
+      }
+  })
+  return tree_data
+}
+
+
+function padding(num) {
+  if (!num) {return ""}
+  let i;  
+  let padding = ""
+  for (i = 0; i < num; i++) {
+    padding = padding + ".."
+  }  
+  return <Fragment>{padding}</Fragment>
+}
+
 function selectItems(select_options, value_field="value", display_field) {
   // XX todo Any option, calling field for display ( like full name), tree vuew
     if (!select_options) {
@@ -17,7 +41,7 @@ function selectItems(select_options, value_field="value", display_field) {
     }
     return (
       select_options.map ((value, index) => {
-        return (<MenuItem key={index}  value={value[value_field]}>{value[display_field]}</MenuItem>)
+        return (<MenuItem key={index}  value={value[value_field]}>{padding(value.tree_depth)}{value[display_field]}</MenuItem>)
         })
     )
 }
@@ -25,7 +49,7 @@ function selectItems(select_options, value_field="value", display_field) {
 // default_value, object_type, label, 
 function ACSSelectFilter(props) {
   //XX could get default select field by object type from proc?
-  const {default_value, object_type, label, field_name, select_display_field, select_value_field="id", filter_name=props.object_type, onChange, api_options, any_item=true, any_display_label="Any", select_style, disable_underline=true} = props
+  const {default_value, object_type, label, field_name, select_display_field, select_value_field="id", filter_name=props.object_type, onChange, api_options, any_item=true, any_display_label="Any", select_style, disable_underline=true, tree_options=false} = props
   const [_value, setValue]= useState(default_value)
   const value = props.hasOwnProperty("value")?props.value:_value
   const [select_options, setSelectOptions] = useState(props.data)
@@ -41,7 +65,11 @@ function ACSSelectFilter(props) {
                 new_value[select_display_field] = any_display_label
                 results.unshift(new_value)
               }
+              if (tree_options) {
+                setSelectOptions(formTreeData(results))
+              } else {
                 setSelectOptions(results)
+              }
           }
       })
   }

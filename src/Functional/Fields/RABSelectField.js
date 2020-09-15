@@ -39,7 +39,9 @@ function formTreeData(data, tree_depth=0) {
   return tree_data
 }
 
+
 function padding(num) {
+  if (!num) {return null}
   let i;  
   let padding = ""
   for (i = 0; i < num; i++) {
