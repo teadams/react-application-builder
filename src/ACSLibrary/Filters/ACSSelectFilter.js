@@ -27,7 +27,7 @@ function ACSSelectFilter(props) {
   //XX could get default select field by object type from proc?
   const {default_value, object_type, label, field_name, select_display_field, select_value_field="id", filter_name=props.object_type, onChange, api_options, any_display_label="Any", select_style, disable_underline=true} = props
   const [_value, setValue]= useState(default_value)
-  const value = props.value?props.value:_value
+  const value = props.hasOwnProperty("value")?props.value:_value
   const [select_options, setSelectOptions] = useState(props.data)
 
   if (!select_options) {

@@ -105,7 +105,7 @@ export function getData (object_type, options={}, callback)   {
   // in get data
 
   var path = options.path?options.path:object_type
-  if (options.id) {
+  if (options.id || options.id === 0) {
     path += '/'+options.id
   }
   if (object_type==="core_subsite") {

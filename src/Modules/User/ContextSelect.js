@@ -39,13 +39,20 @@ function ContextSelect () {
   const user = context.user
   
   function handleContextChange(event) {
-        context.setContextId(event.target.value)  
+    const value = event.target.value 
+    if (value !== "_none_") {
+        context.setContextId(value)  
+    } else {
+      context.setContextId(0)        
+    }
    }
 
+   const value= (context.context_id === 0)?"":context.context_id
+u.a(value)
     if (context.user.id && app_params.layout.context_switcher ) { 
           return (
             <ACSSelectFilter object_type = "core_subsite"
-              value = {context.context_id}
+              value = {value}
               default_value = {context.context_id}
               key="context_filter"  filter_name="content_filter" 
               onChange={handleContextChange} select_display_field="name" any_display_label="Your Projects" select_value_field="id"
