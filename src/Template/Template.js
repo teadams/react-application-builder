@@ -37,6 +37,7 @@ function Template(props) {
     },
     context: {
        position: 'relative',
+       display:'flex',
        borderRadius: theme.shape.borderRadius,
        width: '100%',
        [theme.breakpoints.up('sm')]: {
@@ -93,12 +94,13 @@ function Template(props) {
             <DrawerMenu menu_type="hamburger" selected_menu={selected_menu} />
           </Auth>
           <Typography className={classes.title} variant="h6" noWrap>{app_params.name}</Typography>
+          <div className={classes.grow} />
+
           <div className={classes.context}>
           <Auth auth_scope="site" auth_priv="admin" prompt_login={false}>
             <ContextSelect/>
           </Auth>
           </div>
-          <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
               <MessageIcon/>
               <AuthToggleLink></AuthToggleLink>
