@@ -56,7 +56,7 @@ function ContextSelect () {
   let select_data 
   if (!context.user.site_admin) {
     select_data = []
-    Object.keys(context.user.authorization_object).forEach((subsite_id) => {
+    context.user.context_list.forEach((subsite_id) => {
       select_data.push ({id:subsite_id, name:context.user.authorization_object[subsite_id].Name})
     })
   }
