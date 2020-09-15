@@ -25,7 +25,7 @@ function selectItems(select_options, value_field="value", display_field) {
 // default_value, object_type, label, 
 function ACSSelectFilter(props) {
   //XX could get default select field by object type from proc?
-  const {default_value, object_type, label, field_name, select_display_field, select_value_field="id", filter_name=props.object_type, onChange, api_options, any_display_label="Any", select_style, disable_underline=true} = props
+  const {default_value, object_type, label, field_name, select_display_field, select_value_field="id", filter_name=props.object_type, onChange, api_options, any_item=true, any_display_label="Any", select_style, disable_underline=true} = props
   const [_value, setValue]= useState(default_value)
   const value = props.hasOwnProperty("value")?props.value:_value
   const [select_options, setSelectOptions] = useState(props.data)
@@ -35,14 +35,12 @@ function ACSSelectFilter(props) {
           if (error) {
               alert ("error retrieving object in filter" + object_type + " " + error.message)
           } else {
-                let new_value = {}
+              if (any_item) {
+               let new_value = {}
                 new_value.id = "_none_"
                 new_value[select_display_field] = any_display_label
                 results.unshift(new_value)
-            //    new_value = {}
-            //    new_value.id = "_none_"
-            //    new_value[select_display_field] = `** Filter by ${label} **`
-            //    results.unshift(new_value)
+              }
                 setSelectOptions(results)
           }
       })

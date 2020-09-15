@@ -53,17 +53,21 @@ function ContextSelect () {
 
    const value= (context.context_id === 0)?"_none_":context.context_id
     if (context.user.id && app_params.layout.context_switcher ) { 
-          return (
+          return (<div style={{display:"flex", flexDirection:"row", alignItems:"center"}}>
+            <div>Your Projects:</div>
+            <div>
             <ACSSelectFilter object_type = "core_subsite"
               value = {value}
               default_value = {context.context_id}
               key="context_filter"  filter_name="content_filter" 
-              onChange={handleContextChange} select_display_field="name" any_display_label="Your Projects" select_value_field="id"
+              onChange={handleContextChange} select_display_field="name"
+              any_item={false} select_value_field="id"
               select_style = {context_style}
               onChange={handleContextChange}
               disable_underline={true}
               api_options={{parent_field:"parent_subsite"}}/>
-            
+              </div>
+            </div>
           );
     }  else {
         return(null)
