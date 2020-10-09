@@ -220,7 +220,7 @@ function ACSMapAndFilter (props) {
             handleMoreClick = {handleMoreClick}/>
     
           <div style={{display:"flex", width:"100%", justifyContent:"space-evenly"}}>
-            <ACSCreateDialogButton  require_authorization={false} ButtonComponent={ActionButton} DialogComponent={ActionComponent}  object_type={action_object_type} row_mode="create" row_form="true"  id={id}  action_props={action_props}/>
+            {1==2 && <ACSCreateDialogButton  require_authorization={false} ButtonComponent={ActionButton} DialogComponent={ActionComponent}  object_type={action_object_type} row_mode="create" row_form="true"  id={id}  action_props={action_props}/>}
             <Button   onClick={handleMoreClick}>{more_button_text}</Button>
           </div> </Fragment>
           }
