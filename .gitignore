@@ -2,6 +2,9 @@
 node_modules
 mui-datatables
 build
+logs
+logsTest
+log*
 
 # Model data
 SModels

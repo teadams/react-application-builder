@@ -22,16 +22,19 @@ const ACSMenuController = (props) => {
 
   const menu_models = useGetModel("menus")
   const menu_model = menu_models.menus[menu_type]
-
   const context = useContext(AuthContext);
   const history = useHistory({});
   const {items:discard_items, ...menu_model_rest} = menu_model
   let items= [...menu_model.items]
+
   let hidden_item = ""
+  // allow for rails, show components that are  
+  // explicitly on the menu
   if (selected_menu && items.indexOf(selected_menu) === -1) {
     hidden_item = selected_menu
     items.push(selected_menu)
   }
+
   let item_data = {}
   let default_index = 0
   let final_items = []
@@ -50,6 +53,7 @@ const ACSMenuController = (props) => {
     const auth_priv = menu_item.auth_priv
     const authorized = auth.authorized({context_id:context.context_id, user:context.user}, auth_scope, auth_priv)
     if (!authorized) {return}
+
     menu_item.key = item
     menu_item.index = index
     if (!menu_item.props) {
