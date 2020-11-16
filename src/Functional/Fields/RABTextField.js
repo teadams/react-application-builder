@@ -14,7 +14,7 @@ const RadioLabel = (props=> {
 })
 
 function RABTextField(props) {
-  const {mode, row_data,  data, object_type, data_field, pretty_name, display_field=props.field_name, references_field, field_name, form_field_name=props.field_name, field_model={}, object_models, formdata, formAttributes=[], disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values, 
+  const {mode, row_data,  data, object_type, data_field, pretty_name, description_text, display_field=props.field_name, references_field, field_name, form_field_name=props.field_name, field_model={}, object_models, formdata, formAttributes=[], disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values, 
   variant="outlined", required, helperText, placeholder, multiline=false, more_link_cutoff="", more_link_list_cutoff=props.more_link_cutoff, prevent_edit, input_type, data_type, key_id} = props
 
   let {with_thumbnail="", with_url="", more_detail=false, toggleMoreDetail} = props
@@ -125,8 +125,9 @@ function RABTextField(props) {
       } else {
         return (
         <div style={{minWidth:"20em", visibility:visibility}}>
-          {field_model.summary &&  <div style={{marginBottom:"5px"}}>{field_model.summary}</div>}
-          <TextField
+          {field_model.summary &&  <div style={{marginBottom:"5px"}} dangerouslySetInnerHTML={{__html: field_model.summary}} 
+      />}
+        <TextField
             select={widget_type==="select"?true:false}
             required={required} 
             inputProps={{style:{visibilty:visibility}}}

@@ -107,7 +107,6 @@ function RenderACSField(props) {
   }
   let FieldWrap = control.componentByName(props.field_wrap?props.field_wrap:"Fragment")
 
-
   let show_thumbnail = false
   if (with_thumbnail && data[with_thumbnail]) {
       show_thumbnail = true
