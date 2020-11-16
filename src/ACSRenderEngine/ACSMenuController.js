@@ -49,6 +49,10 @@ const ACSMenuController = (props) => {
     } else {
       num_visible_items += 1
     }
+    if (!menu_item.object_type) {
+      // take object type from the URL 
+      menu_item.object_type = object_type
+    }
     const auth_scope = menu_item.auth_scope
     const auth_priv = menu_item.auth_priv
     const authorized = auth.authorized({context_id:context.context_id, user:context.user}, auth_scope, auth_priv)
