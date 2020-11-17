@@ -75,7 +75,8 @@ function ACSRow(row_props) {
             autoFocus = (f_index === 0 && s_index === 0 && ch_index === 0 )?true:false
           }
            const field_model = field_models[row_props.object_type][field_name]
-           if (field_model.combo_fields) {
+// ## TODO - extract proper field model
+           if (field_model && field_model.combo_fields) {
              return <ACSComboField {...row_params}  {...field_model} mode={mode} field_models={field_models} form={!form} field_name={field_name}  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit}
              override_meta_model={false}
              autoFocus ={autoFocus}

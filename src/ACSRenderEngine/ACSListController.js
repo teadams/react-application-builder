@@ -53,7 +53,13 @@ function RABTableHeaders(props) {
         <TableRow>
         {field_list.map(field=>{
             const column_field_model = field_models[object_type][field] 
-            const {list_grow=1, pretty_name} = column_field_model
+            let list_grow =1
+            let pretty_name = field
+//## TODO get proper header for subobjects
+            if (column_field_model) {
+              list_grow = column_field_model.list_grow?column_field_model.list_grow: list_grow
+              pretty_name = column_field_model.pretty_name
+            }
             let style
             if (list_grow && list_grow >1) {
                 const width = list_grow * (100/total_width_units)
