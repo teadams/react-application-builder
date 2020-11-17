@@ -20,6 +20,7 @@ const ACSMenuController = (props) => {
   const open = props.hasOwnProperty("open")?props.open:open_state 
   const {open:discard_open, menu_type, selected_menu, object_type, field_name,  onClose, id, root_path="",  ...params} = props
 
+
   const menu_models = useGetModel("menus")
   const menu_model = menu_models.menus[menu_type]
   const context = useContext(AuthContext);

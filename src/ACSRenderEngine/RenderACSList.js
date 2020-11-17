@@ -13,6 +13,7 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Chseckbox, Typogra
 
 function RenderACSList(props) {
   const {data, mode,rab_component_model, field_models,total_width_units,  object_type, list_form_params, onSubmit, allow_add=true, allow_save=false} = props
+
   const {pagination=false,  ...params} = props
   const {header_wrap:HeaderWrap, header:Header, list_wrap:ListWrap, list_header_wrap:ListHeaderWrap, list_header:ListHeader, body_wrap:BodyWrap, list:RABList, footer_wrap:FooterWrap, footer:Footer,
   list_container:ListContainer, list_pagination:ListPagination} = rab_component_model.list.components 
@@ -27,7 +28,7 @@ function RenderACSList(props) {
   const handleAddRow= (event) => {
         setNumAdd(num_add+1)
   }
- 
+
   const handleChangeRowsPerPage = (event) => {
      setRowsPerPage(parseInt(event.target.value, 10));
      setPage(0);
@@ -43,14 +44,13 @@ function RenderACSList(props) {
       if (pagination && data.length === 0) {
         show_list = false
       }
-      
       let table_width = total_width_units * 20
       if (table_width > 100) {table_width = 100}
       table_width = table_width.toString()+"%"
       return ( 
         <Fragment>
           <HeaderWrap {...params}>
-           <Header {...params} action_props={rab_component_model.row.props} />
+           <Header {...params} action_props={props.action_props?props.action_props:rab_component_model.row.props} />
           </HeaderWrap>
           {show_list && 
             <Fragment> 

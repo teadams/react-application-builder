@@ -1,6 +1,6 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
-//import * as u from '../../Utils/utils.js';
+import * as u from '../../Utils/utils.js';
 import React, { } from 'react';
 import useGetModel from '../../Hooks/useGetModel';
 import RABText from './RABText.js';

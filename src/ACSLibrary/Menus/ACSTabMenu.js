@@ -33,7 +33,6 @@ const TabMenu = (props) => {
     current_tab_data = item_data[items[current_tab]]
   }
   const {menu_component_name, pretty_name, summary, description, object_type, mode, menu_item_summary_style, menu_item_description_style, id, dialog=false} = current_tab_data
-
   function handleClose() {
     if (props.onClose) {
       props.onClose()

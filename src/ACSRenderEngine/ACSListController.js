@@ -98,6 +98,7 @@ function RABList(list_props) {
 
 // Documentation - see comments in ACSRowController
 function ACSListController(input_props) {
+
   // do not merge expensive, known unnecessary things
   const {data:input_props_data, action, target_menu_name, lazy="core", field_models:input_field_models, headless, action_props, no_header=false, onData, api_options:discard_api_options, field_list:discard_field_list, allow_add=false, allow_save=false, num_add=3, reference_formAttributes, reference_lastTouched, reference_field_name, referenced_object_type, referenced_id, ...merging_props} = input_props
   const context = useContext(AuthContext)
@@ -183,7 +184,6 @@ function ACSListController(input_props) {
       list_form_params.referenced_object_type = referenced_object_type?referenced_object_type:""
       list_form_params.referenced_id = referenced_id?referenced_id:""
   }
-
   return  (
     <ACSListRenderer  {...list_model.props} list_form_params={list_form_params} num_add={num_add} allow_add={allow_add} allow_save={allow_save} onSubmit={handleSubmit} total_width_units={total_width_units}  field_models={field_models} action={action} key={object_type+"list"}  object_type={object_type} field_list={field_list}  data={data} api_options={api_options} action_props={action_props}  rab_component_model={rab_component_model} />
   )
