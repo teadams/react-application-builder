@@ -45,11 +45,13 @@ function ACSFieldController(original_props) {
   } else {
     object_models = default_object_type_models
   }
+  let field_model
   if (!field_models[original_props.object_type][original_props.field_name]) {
-      alert ("No field in model. Object Type: " + original_props.object_type + " Field: " + original_props.field_name)
+//      alert ("No field in model. Object Type: " + original_props.object_type + " Field: " + original_props.field_name)
+// ## TODO - dealing with subobjects
+  } else {
+      field_model = field_models[original_props.object_type][original_props.field_name]
   }
-
-  const field_model = field_models[original_props.object_type][original_props.field_name]
 
   const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, data:input_data, onData:props_onData,
   handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formAttributes:props_formAttributes, lastTouched:props_lastTouched, onBlur, onFieldClick,  

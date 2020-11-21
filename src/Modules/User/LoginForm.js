@@ -34,6 +34,8 @@ function LoginForm(props) {
           } else { 
             var inserted_id = result[core_user_object_meta.key_id] 
             const user_data = Object.assign(formValues, {id:inserted_id})
+            delete user_data.credential
+            delete user_data.credential_confirm
             context.login(user_data)
             if (props.onLogin) {
               props.onLogin()
