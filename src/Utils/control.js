@@ -1,3 +1,4 @@
+// Copyright Teadams Holding Compnay 2019
 //import * as u from './utils.js'
 import rab_component_models from './component.js'
 import * as u from './utils.js'
@@ -7,6 +8,8 @@ import React, {Component,Fragment} from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 
 import ACSGroup from "../Modules/ACSGroup/ACSGroup.js"
+import Membership from "../Modules/ACSGroup/Membership.js"
+
 //import Text from "../Functional/Text/Text.js"
 import RABHeaderAndBodyText from '../Functional/Text/RABHeaderAndBodyText.js'
 import RABText from '../Functional/Text/RABText.js'
@@ -243,6 +246,7 @@ function componentPicker(name, source="not provided") {
     case "RABText": return RABText;
     case "Message": return Message;
     case "ACSGroup": return ACSGroup;
+    case "Membership": return Membership;
     case "ACSObjectTypeView": return ACSObjectTypeView;
     case "ACSMappingView": return ACSMappingView;
     case "ACSChipObjectTypeView": return ACSChipObjectTypeView;

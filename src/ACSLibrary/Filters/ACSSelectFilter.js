@@ -1,3 +1,6 @@
+// ACS React Application Builder
+// Copyright 2019 - Teadams Holding Company
+
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import * as u from '../../Utils/utils.js'
@@ -55,7 +58,7 @@ function ACSSelectFilter(props) {
   const [select_options, setSelectOptions] = useState(props.data)
 
   if (!select_options) {
-    api.getData (object_type, api_options, (results, error) => {         
+    api.getData (object_type, api_options, (results, error) => {  
           if (error) {
               alert ("error retrieving object in filter" + object_type + " " + error.message)
           } else {
