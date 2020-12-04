@@ -16,12 +16,16 @@ import AuthContext from '../../Modules/User/AuthContext';
 function ACSGroup(props) {
   const {object_type,id} = props
   const context = useContext(AuthContext)
-  if (id && id !=context.context_id && id !== "context") {
+  if (id && id !==context.context_id && id !== "context") {
     context.setContextId(id)
     return null
   }
   const root_path = "/ACSGroup/core_subsite/"+id
-  return <ACSTabMenu root_path={root_path} menu_type="core_subsite_admin"/>
+  if (context.subsite) {
+    return <ACSTabMenu root_path={root_path} menu_type="core_subsite_admin"/>
+  } else {
+    return null
+  }
 }
 
 export default ACSGroup

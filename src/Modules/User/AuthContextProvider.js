@@ -20,7 +20,8 @@ function AuthContextProvider(props) {
       if (error) {
         alert ("error " + error.message)
       } else {
-        if (subsite_data[0]) {
+        if (subsite_data[0]) { 
+          setContextId(context_id)    
           setSubsite(subsite_data[0])
         } else {
           setSubsite({})
@@ -59,7 +60,6 @@ function AuthContextProvider(props) {
       setUser(user)},    
       setContextId:  (new_context_id)=> {
         if (context_id !== new_context_id) {
-          setContextId(new_context_id)    
           handleRefreshSubsiteContext(new_context_id)
         } else if (!subsite) {
           handleRefreshSubsiteContext(new_context_id)
