@@ -48,6 +48,8 @@ function ACSFilterController(props) {
           let filter_api_options = {}
           filter_api_options.filter_field =  new_api_options.filter_field.slice()
           filter_api_options.filter_id =  new_api_options.filter_id.slice()
+          filter_api_options.filter_join = new_api_options.filter_join
+          filter_api_options.referenced_by = new_api_options.referenced_by.slice()
           onChange(filter_api_options, formValues)
       }
   } 
