@@ -29,7 +29,7 @@ function ACSComboField(props) {
         {combo_fields.map((field_name,index) => {
             const combo_field_model= field_models[object_type][field_name]
             return (
-          <Tag Tag={combo_field_wraps[index]?combo_field_wraps[index]:"div"}  style={combo_field_wrap_styles[index]}>
+          <Tag key={index} Tag={combo_field_wraps[index]?combo_field_wraps[index]:"div"}  style={combo_field_wrap_styles[index]}>
               <Fragment>
               {combo_field_model.combo_fields && 
                 <ACSComboField  key={field_name+"_combo"} rab_component_model={rab_component_model} handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} formAttributes={formAttributes}  field_models={field_models}   object_type={object_type} id={id} mode={mode}  form={form} data={data} field_name={field_name} {...combo_field_wrap_props[index]}/>

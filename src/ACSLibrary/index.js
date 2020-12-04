@@ -20,6 +20,8 @@ import ACSMapping from './Fields/Components/ACSMapping.js';
 
 import ACSAddress from '../Functional/Fields/ACSAddress.js';
 import ACSFile from  './Fields/Components/ACSFile.js'
+import ACSUser from  '../Functional/Fields/User.js'
+
 
 import ACSReferenceField from '../Functional/Fields/ACSReferencesField.js';
 import ACSURLField from '../Functional/Fields/ACSURLField.js';
@@ -67,7 +69,7 @@ export {
   
  ACSCreateButton, ACSCreateDialogButton, ACSEditButton, ACSMapButton, // buttons
   ACSField, ACSComboField, // Field base
-  ACSAddress, ACSFile, ACSImage, ACSImageView, ACSDate, ACSReferencesList, ACSReferenceField, ACSMapping, ACSURLField,ACSYouTube, ACSTextField,
+  ACSUser, ACSAddress, ACSFile, ACSImage, ACSImageView, ACSDate, ACSReferencesList, ACSReferenceField, ACSMapping, ACSURLField,ACSYouTube, ACSTextField,
   ACSSelectFilter, ACSTextFilter, // Field components
   ACSObjectType, ACSChipObjectType, ACSCommunicationObjectType, ACSMap,ACSSummaryObjectType, // object type view
   ACSMapAndFilter, ACSWizard,  ACSTabMenu,// layouts

@@ -8,7 +8,8 @@ import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import { ListItem, FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Select, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell,InputLabel } from '@material-ui/core';
 import * as meta from '../../Utils/meta.js';
-import {ACSTabMenu, ACSObjectType} from '../../ACSLibrary'
+import UserRoles from './UserRoles.js'
+import {ACSField, ACSText, ACSTabMenu, ACSObjectType} from '../../ACSLibrary'
 import {ACSFilterController} from '../../ACSRenderEngine'
 import AuthContext from '../../Modules/User/AuthContext';
 
@@ -30,10 +31,6 @@ function Membership(props) {
     context.setContextId(id)
     return null
   }
-  // Get the roles 
-  const handleOnData = (api_results) => {
-      setCoreRoles(api_results)
-  }
 
   const handleFilterChange = (props) => {
     const api_options = Object.assign({},props)
@@ -50,6 +47,10 @@ function Membership(props) {
   const handleOnClick = (event, member_data, index) => {
     setCurrentMember(member_data)
   }; 
+  let member_name =""
+  if (current_member) {
+      member_name = current_member.first_name + " " + current_member.last_name
+  }
 
   const filter_style = {paddingRight:"40px"}
   return (
@@ -57,11 +58,11 @@ function Membership(props) {
     <div style={{display:"flex", flexDirection:"column"}}>
       <div style={{display:"flex", flexDirection:"row"}}>
         <div style={{display:"flex", alignSelf:"flex-end", width:"200px"}}>
-          <Typography color="primary" variant="subtitle">Members</Typography>
+          <Typography color="primary" variant="subtitle1">Members</Typography>
         </div>
         <div style={{display:"flex", alignItems:"center"}}>
           <div style={{display:"flex", marginTop:"10px", alignItems:"center", marginRight:"25px"}}>
-              <Typography color="primary" variant="subtitle">Filter Membere By:</Typography>
+              <Typography color="primary" variant="subtitle1">Filter Membere By:</Typography>
           </div>
         </div>
         <div>
@@ -81,14 +82,21 @@ function Membership(props) {
             <Fragment>
               {members.map ((member_data,index) => {
                 const member = member_data.data_core_user
-                return (<ListItem  onClick={(event) => handleOnClick(event, member, index)} key={index} value={index} name={index}>{member.first_name} {member.last_name}</ListItem>)
+                return (<ListItem  onClick={(event) => handleOnClick(event, member_data, index)} key={index} value={index} name={index}><ACSField image_size="tiny" object_type="core_subsite_role" data={member_data} field_name="core_user" /></ListItem>
+)
               })}
             </Fragment>
           }
         </div>
         <div>
           {current_member && 
-            <div> WE HAVE A CURRENT MEMBERR {current_member.first_name} {current_member.last_name}</div>
+          <div style={{display:"flex", flexDirection:"row"}}>
+            <div> <ACSField object_type="core_subsite_role" data={current_member} field_name="core_user" />
+            </div>
+            <div>
+            <UserRoles core_user={current_member.data_core_user.id} core_subsite={context.context_id}/>
+            </div>
+          </div>
           }
         </div>
       </div>

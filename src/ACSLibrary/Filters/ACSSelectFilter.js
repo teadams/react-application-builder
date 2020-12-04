@@ -106,7 +106,8 @@ function ACSSelectFilter(props) {
       onChange(event)
     }
   }
-  return (
+  if (select_options) {
+    return (
       <TextField
         select={true}
         name={filter_name}
@@ -122,7 +123,11 @@ function ACSSelectFilter(props) {
         onChange={handleChange}>
         {select_options && selectItems(select_options,select_value_field,select_display_field)}
         </TextField>
-  )
+     )
+    } else {
+        return null
+    }
+  
 }
 
 export default ACSSelectFilter;
