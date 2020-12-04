@@ -1,3 +1,5 @@
+// Copyright Teadams Holding Company 2019
+
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import { makeStyles } from '@material-ui/core/styles';

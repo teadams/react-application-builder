@@ -1,3 +1,5 @@
+// Copyright Teadams Holding Company 2019
+
 const rab_component_models = {
   empty: {
     list: {
