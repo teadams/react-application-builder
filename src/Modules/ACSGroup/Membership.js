@@ -67,6 +67,10 @@ function Membership(props) {
         <div>
           <ACSFilterController filter_style={filter_style} label_width="50px" select_width="100px" label_direction="row" filter_direction="row" filters={filters} default_value={3} alingSelf="flex-start" label_direction="row" label_variant="subtitle1" onChange={handleFilterChange}/>
         </div>
+        <div style={{display:"flex", marginTop:"10px",  alignItems:"flex-end", marginRight:"10px"}}>
+        <Button size="small">Add a Member</Button> 
+
+        </div>
       </div>
       <div>
         <Divider/>
