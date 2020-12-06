@@ -23,8 +23,10 @@ function AddRoleForm(props) {
 
   let field_list = useGenerateFieldList("core_subsite_role", "", data, "create", true)
 
-  let {formAttributes, lastTouched, handleFormChange, handleFormSubmit} = useForm("core_subsite_role", "", data, handleEditRoleSubmit, "create", true, {status:"Accepter"}, field_list)
-
+  let options={}
+  options.path = "auth/create-subsite-role"
+  options.field_list = field_list
+  let {formAttributes, lastTouched, handleFormChange, handleFormSubmit} = useForm("core_subsite_role", "", data, handleAddRoleSubmit, "create", true, options)
 
   function handleClose(event) {
       if (props.onClose) {
@@ -32,29 +34,37 @@ function AddRoleForm(props) {
       }
   }
 
-
   return   (
            <form onSubmit={handleFormSubmit}>
             <Grid container>
+            <Grid item style={{padding:10}} sm={12}>
+                <ACSField
+                object_type = "core_subsite_role"
+                field_name = "core_user"  
+                mode="create"
+                field_display="name_value"
+                label_width="15%"
+                formAttributes={formAttributes}
+                handleFormChange={handleFormChange}
+                autoFocus={true}
+              />
+            </Grid>
               <Grid item style={{padding:10}} sm={12}>
                   <ACSField
                   object_type = "core_subsite_role"
                   field_name = "core_role"  
-                  mode="add"
+                  mode="create"
                   field_display="name_value"
                   label_width="15%"
                   formAttributes={formAttributes}
                   handleFormChange={handleFormChange}
-                  autoFocus={true}
                 />
               </Grid>
-            </Grid>
-            <Grid container>
               <Grid item style={{padding:10}} sm={12}>
                 <ACSField
                 object_type = "core_subsite_role"
                 field_name = "status"  
-                mode="add"
+                mode="create"
                 label_width="15%"
                 field_display="name_value"
                 form={false} 
@@ -62,7 +72,7 @@ function AddRoleForm(props) {
                 handleFormChange={handleFormChange}
               /> 
                 </Grid>
-              </Grid>
+            </Grid>
         <DialogActions>
             <Button onClick={handleFormSubmit} color="primary">
                  Submit
@@ -76,4 +86,4 @@ function AddRoleForm(props) {
   
 }
 
-export default EditRoleForm;
+export default AddRoleForm;

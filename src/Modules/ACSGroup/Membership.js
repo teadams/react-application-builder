@@ -12,12 +12,15 @@ import UserRoles from './UserRoles.js'
 import {ACSEditButton, ACSField, ACSText, ACSTabMenu, ACSObjectType} from '../../ACSLibrary'
 import {ACSFilterController} from '../../ACSRenderEngine'
 import AuthContext from '../../Modules/User/AuthContext';
+import AddRoleForm from "./AddRoleForm.js"
+
 
 function Membership(props) {
   const {id} = props
   const [members, setMembers] = useState([])
   const [current_member, setCurrentMember] = useState(null)
 
+  const [add_dialog, setAddDialog] = useState(false);
 
   const context = useContext(AuthContext)
 
@@ -32,7 +35,7 @@ function Membership(props) {
   }
 
   const handleAddRole = (props) => {
-
+    setAddDialog(true)
   }
 
   const handleFilterChange = (props) => {
@@ -46,6 +49,12 @@ function Membership(props) {
     })
     
   }
+
+  const handleOnAddClose= event => {
+    setAddDialog(false)
+  }
+
+
 
   const handleOnClick = (event, member_data, index) => {
     setCurrentMember(member_data)
@@ -104,6 +113,16 @@ function Membership(props) {
           }
       </div>
     </div>
+    {add_dialog && 
+  <Dialog open={true}>
+    <DialogTitle>Create Role</DialogTitle>
+    <DialogContent>
+    <AddRoleForm open={true}    onClose={handleOnAddClose} dialog_size="lg"/>
+  
+    </DialogContent>
+  </Dialog>
+    }
+
     </Fragment>
 
   )

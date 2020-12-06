@@ -29,7 +29,7 @@ function EditRoleForm(props) {
   let field_list = useGenerateFieldList("core_subsite_role", "", data, "edit", true)
 
   let options={}
-  options.path = "THISISTEST"
+  options.path = "auth/update-subsite-role"
   options.field_list = field_list
   let {formAttributes, lastTouched, handleFormChange, handleFormSubmit} = useForm("core_subsite_role", "", data, handleEditRoleSubmit, "edit", true, options)
 

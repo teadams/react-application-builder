@@ -9,11 +9,14 @@ import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
+import RABTextField from './RABTextField.js';
 
 function User(props) {
+  if (["edit","create"].includes(props.mode)) {
+    return RABTextField(props)
+  }
   const {row_data, data, field_name, form_field_name, formdata, formAttributes=[], display, mode="view", field_model={}, image_size,  ...params} = props
   const [formValues, formVisibility, formValidated] = formAttributes
-
   const {with_thumbnail} = field_model
 
   let {size="tiny"} = props
@@ -34,6 +37,7 @@ function User(props) {
         return (first_name + " " + last_name)
         break;
       default:  
+
           return (<Fragment>{first_name} {last_name}</Fragment>)
     } 
   } else {

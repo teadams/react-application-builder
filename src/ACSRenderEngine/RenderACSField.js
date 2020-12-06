@@ -79,7 +79,6 @@ function RenderACSField(props) {
   const {data ={}, row_data, object_type, data_field,  dsiplay_field, references_field, field_name, form_field_name, components={},
         mode="view", form="true", formAttributes, autoFocus, onSubmit, onBlur, onChange,  click_to_edit, field_model, referred_by_object_type, click_to_edit_field, cardinality} = props
 
-
   // these come froprops.m rab_component_model props
 
   const {field_tag="div", field_pre_text, field_post_text, field_css_class, field_style,  //field
@@ -100,6 +99,7 @@ function RenderACSField(props) {
         props.onMouseOver(event, data.id, "field", field_name, row_data, data)
     }
   }
+
 
   let Field = props.field_component_component
   if (!props.field_component_component) {
@@ -150,6 +150,7 @@ function RenderACSField(props) {
 
 
 
+
   if (!["edit","create"].includes(mode)) {
     if (hide_if_empty && data && !data[data_field]) {
        FieldWrap = ACSVoid
@@ -158,6 +159,7 @@ function RenderACSField(props) {
     const handleClickToEditSubmit = (event) => {
         popup.close()
     }
+
 
 ///XXX HERE = FIELD NAME SHOULD BE SOMETHING ELSE for SELECT - role_name_name
     const FieldEdit = (props) => {
@@ -204,6 +206,7 @@ function RenderACSField(props) {
   
   } else {
 
+    
     const handleFieldClose = (event) => {
       popup.close()
     }
@@ -222,6 +225,7 @@ function RenderACSField(props) {
       // if on row form, have helper text consistent
       params.helperText=field_model.helperText?field_model.helperText:" "
     }
+
 
     return ( 
       <FormWrap width={width} form_wrap_style={form_wrap_style} save_button={save_button} mode={mode} form={form} onSubmit={props.onSubmit} onClose={handleFieldClose} >

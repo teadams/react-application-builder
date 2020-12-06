@@ -64,6 +64,7 @@ function ACSFieldController(original_props) {
   handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formAttributes:props_formAttributes, lastTouched:props_lastTouched, onBlur, onFieldClick,  
   mode="view", key_id, autoFocus=false, rab_component_model, onSubmit, reference_formAttributes, reference_lastTouched,...merging_props} = original_props
 
+
     //// *** NOW HAVE APPROPRIATE MODELS *****
   let final_props;
   if (original_props.built) {
@@ -87,6 +88,7 @@ function ACSFieldController(original_props) {
 
   // useGetObject has a buffer so that everything changes when the data chnages
   let [object_type, id, field_name, api_options, data] = useGetObject(props_object_type, props_id, props_field_name, props_api_options, props_data, props_onData); 
+
 
   ////// ***** DATA and MODEL INPUTS ARE NOW ALIGNED *********
 
@@ -114,6 +116,7 @@ function ACSFieldController(original_props) {
 
   // ** get data for select lists ***//
   const [valid_values, setValidValues] = useState(final_props.valid_values?(final_props.valid_values!=="object"?final_props.valid_values:""):"")
+
     
   const [dependent_value, setDependentValue] = useState(current_dependent_value)
   if (model_valid_values && (!valid_values || (dependent_field && (current_dependent_value !== dependent_value))) && ["edit", "create"].includes(mode)) {
@@ -153,7 +156,10 @@ function ACSFieldController(original_props) {
       }
   }
 
+
+
   if (data === undefined || (object_type && !field_model) || mode === "hidden" || hidden_on_form && mode ==="edit" ||  (hidden_on_form || hidden_on_create_form) && mode==="create") return null
+
 
   // *** align data ***/// 
   const row_data = data
@@ -187,6 +193,7 @@ function ACSFieldController(original_props) {
       onBlur()
     }
   }
+
   return (
      <ACSFieldRenderer 
     {...final_props}
