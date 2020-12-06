@@ -300,7 +300,16 @@ function ACSRowController(input_props) {
   } else {
       section_field_lists.push(field_list)
   }
-  let {formAttributes, lastTouched, handleFormChange, handleFormSubmit} = useForm(object_type, "", data, handleSubmit, mode, form, merging_props,field_list, delay_dirty, list_form_params, index);
+
+  let options ={}
+  options.default_values_prop=merging_props;
+  options.field_list= field_list;
+  options.delay_dirty=delay_dirty 
+  options.list_form_params=list_form_params
+  options.index = index
+
+  let {formAttributes, lastTouched, handleFormChange, handleFormSubmit} = useForm(object_type, "", data, handleSubmit, mode, form, options);
+
   const [formValues, formVisibility, formValidated] = formAttributes?formAttributes:[undefined,undefined,undefined]
   //// wall /////
   if (!field_models) {return null}

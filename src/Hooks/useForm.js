@@ -23,7 +23,9 @@ const expand_combos_field_list = (field_list, field_models) => {
 
 }
 
-const useForm = (object_type, field_name="", data, handleSubmit, mode="view", form=true, default_values_prop={}, field_list, delay_dirty=false,  list_form_params={}, index,trace) => {
+const useForm = (object_type, field_name="", data, handleSubmit, mode="view", form=true, form_options={}) => {
+
+let {default_values_prop={}, field_list, delay_dirty=false, list_form_params={}, index, path=""} = form_options
 // XX Have to be passed field_models
   const [formAttributes, setFormAttributes] = useState([{},{},{}]);
   const [lastTouched,setLastTouched] = useState(false)
@@ -167,7 +169,11 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
     if (event) {
       event.preventDefault();
     }
-    api.handleSubmit (event, formValues, mode, context, object_type, object_model, field_models, handleSubmit, id_field, filesTouched, delay_dirty) 
+
+    let options = {}
+    options.path = path
+
+    api.handleSubmit (event, formValues, mode, context, object_type, object_model, field_models, handleSubmit, id_field, filesTouched, delay_dirty, options) 
   })
   // single field edit, submits on change
   const handleFileEditSubmit = (event, name, file) => {

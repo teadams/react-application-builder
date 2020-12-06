@@ -150,7 +150,7 @@ export function deleteData (object_type, data_object, options, callback)   {
 }
 
 
-export function handleSubmit (event, formValues, mode, context, object_type, object_model, field_models, handleSubmit, id_field="id", filesTouched, delay_dirty=false) {
+export function handleSubmit (event, formValues, mode, context, object_type, object_model, field_models, handleSubmit, id_field="id", filesTouched, delay_dirty=false, options={}) {
 
   if (context.context_id && object_model.with_context && ["create","list_create"].includes(mode) && !formValues.core_subsite) {
     formValues.core_subsite = context.context_id
@@ -159,9 +159,11 @@ export function handleSubmit (event, formValues, mode, context, object_type, obj
     formValues.creation_user = context.user.id 
   }
 
+  const path= options.path?options.path:object_type
+
   if (!formValues[id_field]) {
 
-    postData(object_type, formValues, {}, (insert_result, error) => { 
+    postData(path, formValues, {}, (insert_result, error) => { 
       // XX user_id, subsite
 
       if (error) {
@@ -190,7 +192,7 @@ export function handleSubmit (event, formValues, mode, context, object_type, obj
       }
     })
 
-    putData(object_type, formValues, {}, (result, error) => { 
+    putData(path, formValues, {}, (result, error) => { 
 
       if (error) {
         alert ('error is ' + error.message)
