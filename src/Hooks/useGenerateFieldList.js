@@ -4,13 +4,14 @@ import * as u from '../Utils/utils.js';
 import * as meta from '../Utils/meta.js';
 import useGetModel from '../Hooks/useGetModel';
 
-const include_field = (field_model, mode, form) => {
+const include_field = (field_model, form, mode) => {
+
   if (!field_model.prevent_view && !(mode==="view" && field_model.not_on_view) &&
           !(field_model.not_on_list && mode==="list")
           && !(form && field_model.not_on_row_form)
           && !(form && mode==="create" && field_model.not_on_create_form)
           && !(form && mode==="edit" && field_model.not_on_edit_form)) {
-                return true
+        return true
     } else {
       return false
     }
@@ -70,6 +71,7 @@ const useGenerateFieldList = (object_type, field_name="", data, mode, form=true,
   }
  
   let scrubbed_field_list = []
+
   field_list.forEach(field => {
     const field_model = field_models[object_type][field]
     if (include_field(field_model, form, mode))  { 
