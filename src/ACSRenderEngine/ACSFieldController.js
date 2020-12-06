@@ -53,7 +53,14 @@ function ACSFieldController(original_props) {
       field_model = field_models[original_props.object_type][original_props.field_name]
   }
 
-  const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options, data:input_data, onData:props_onData,
+  let input_data
+  if (original_props.data) {
+    input_data = original_props.data    
+  } else if (original_props.formAttributes && original_props.formAttributes.length>1) {
+    input_data = original_props.formAttributes[0]
+  }
+
+  const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options,  onData:props_onData,
   handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formAttributes:props_formAttributes, lastTouched:props_lastTouched, onBlur, onFieldClick,  
   mode="view", key_id, autoFocus=false, rab_component_model, onSubmit, reference_formAttributes, reference_lastTouched,...merging_props} = original_props
 
@@ -84,7 +91,7 @@ function ACSFieldController(original_props) {
   ////// ***** DATA and MODEL INPUTS ARE NOW ALIGNED *********
 
   const form_field_name = field_name
-  const {hidden_on_form, hidden_on_create_form, references, form, valid_values:model_valid_values, select_api_options={}, dependent_field, dependent_filter, references_object_type, field_required, references_field, display_field, input_type} = final_props
+  const {hidden_on_form, hidden_on_create_form, references, form=false, valid_values:model_valid_values, select_api_options={}, dependent_field, dependent_filter, references_object_type, field_required, references_field, display_field, input_type} = final_props
   let {data_path} = final_props
 
 

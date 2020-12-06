@@ -53,16 +53,10 @@ function EditRoleForm(props) {
                   field_name = "core_role"  
                   mode="edit"
                   field_display="name_value"
-                  form={false}
                   label_width="15%"
-                  value={formAttributes[0]["core_role"]}
-                  data={formAttributes[0]}
                   formAttributes={formAttributes}
-                  disableUnderline={false}
                   handleFormChange={handleFormChange}
-                  id = "core_role"
                   autoFocus={true}
-                  key="core_role" key_id="core_role"
                 />
               </Grid>
             </Grid>
@@ -72,17 +66,11 @@ function EditRoleForm(props) {
                 object_type = "core_subsite_role"
                 field_name = "status"  
                 mode="edit"
-                value={formAttributes[0]["status"]}
                 label_width="15%"
                 field_display="name_value"
                 form={false} 
-                data={formAttributes[0]}
                 formAttributes={formAttributes}
-                disableUnderline={false}
                 handleFormChange={handleFormChange}
-                id = "status"
-                autoFocus={false}            
-                key="status" key_id="status"
               /> 
                 </Grid>
               </Grid>

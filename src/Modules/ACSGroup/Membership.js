@@ -22,13 +22,17 @@ function Membership(props) {
   const context = useContext(AuthContext)
 
   const filters = [
-    {label:"Role", name:"key", default_value:1, object_type:"core_role",  select_field_name:"name", filter_field_name:"core_role", any_display_label:"Any"},
+    {label:"Role", name:"key", default_value:2, object_type:"core_role",  select_field_name:"name", filter_field_name:"core_role", any_display_label:"Any"},
     {label:"Status", name:"status", default_value:"Accepted", object_type:"core_subsite_role",  select_field_name:"status", filter_field_name:"status", any_display_label:"Any"}
     ]
 
   if (id && id !=context.context_id && id !== "context") {
     context.setContextId(id)
     return null
+  }
+
+  const handleAddRole = (props) => {
+
   }
 
   const handleFilterChange = (props) => {
@@ -58,18 +62,17 @@ function Membership(props) {
     <div style={{display:"flex", flexDirection:"column"}}>
       <div style={{display:"flex", flexDirection:"row"}}>
         <div style={{display:"flex", alignSelf:"flex-end", width:"200px"}}>
-          <Typography color="primary" variant="subtitle1">Members</Typography>
         </div>
         <div style={{display:"flex", alignItems:"center"}}>
           <div style={{display:"flex", marginTop:"10px", alignItems:"center", marginRight:"25px"}}>
-              <Typography color="primary" variant="subtitle1">Filter Membere By:</Typography>
+              <Typography color="primary" variant="subtitle1">Filter Members By:</Typography>
           </div>
         </div>
-        <div>
+        <div style={{display:"flex", alignItems:"center"}}>
           <ACSFilterController filter_style={{paddingRight:"40px"}} label_width="50px" select_width="100px" label_direction="row" filter_direction="row" filters={filters} default_value={3} alingSelf="flex-start" label_direction="row" label_variant="subtitle1" onChange={handleFilterChange}/>
         </div>
-        <div style={{display:"flex", marginTop:"10px",  alignItems:"flex-end", marginRight:"10px"}}>
-        <Button size="small">Add a Member</Button> 
+        <div style={{display:"flex", marginTop:"10px",  alignItems:"center", marginRight:"10px"}}>
+        <Button onClick={handleAddRole} size="small" variant="outlined" color="primary" style={{margin:5, borderRadius: '12px'}}>Add a Member</Button>
 
         </div>
       </div>
@@ -78,6 +81,8 @@ function Membership(props) {
       </div>
       <div style={{display:"flex", flexDirection:"row"}}>
         <div style={{width:"200px"}}>
+          <Typography color="primary" variant="subtitle1">Members</Typography>
+
           {context.context_id &&
             <Fragment>
               {members.map ((member_data,index) => {
