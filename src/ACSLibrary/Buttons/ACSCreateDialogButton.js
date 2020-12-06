@@ -50,7 +50,7 @@ function ACSCreateDialogButton(props) {
       </IconButton>
       }
       {create_dialog  &&
-      <DialogComponent object_type={object_type} id={id} row_mode={row_mode} row_form={row_form} layout={layout} sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} field_list={field_list} dialog_size={dialog_size} {...action_props}/> }
+      <DialogComponent object_type={object_type} id={id} mode={row_mode} row_form={row_form} layout={layout} sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} field_list={field_list} dialog_size={dialog_size} {...action_props}/> }
       </Auth>
       </Fragment>
       )

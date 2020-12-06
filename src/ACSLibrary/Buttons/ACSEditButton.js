@@ -6,7 +6,7 @@ import 'react-app-polyfill/stable';
 import React, {Fragment, useState} from 'react';
 import {IconButton} from '@material-ui/core';
 import IconEdit from "@material-ui/icons/Edit";
-//import * as u from '../../Utils/utils.js'
+import * as u from '../../Utils/utils.js'
 import {ACSObjectView} from '../index.js'
 import {Auth} from '../../Modules/User/index.js';
 
@@ -19,6 +19,7 @@ function ACSEditButton(props) {
       props.onClick(event);
     }
   }
+
   const handleOnClose= event => {
     setCreateDialog(false)
     if (props.onClose) {
@@ -43,7 +44,7 @@ function ACSEditButton(props) {
         </IconButton>
         }
         {create_dialog  &&
-        <ACSObjectView  object_type={object_type} data={data} id={id} row_mode="edit" row_form="true"  sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} field_list={field_list} dialog_size={dialog_size} {...action_props} trace={true}/> }
+        <ACSObjectView  object_type={object_type} data={data} id={id} mode="edit" row_form="true"  sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} field_list={field_list} dialog_size={dialog_size} {...action_props} trace={true}/> }
       </Auth>
       </Fragment>
       )

@@ -8,8 +8,8 @@ import {ACSSelectFilter, ACSTextFilter} from '../ACSLibrary'
 
 // default_value, object_type, label, 
 function ACSFilterController(props) {
-  const {filters={}, filter_style={}, default_filter_values={}, onChange, label_direction="column", label_variant="subtitle1", filter_direction="column", label_width="70px", select_width="250px", select_display_field, label_position="select", any_display_label} = props
-
+  const {filters={},  default_filter_values={}, onChange, label_direction="column", label_variant="subtitle1", filter_direction="column", label_width="70px", select_width="250px", select_display_field, label_position="select", any_display_label} = props
+  let filter_style = Object.assign({}, props.filter_style)
   let default_form_values = {}
   const alignSelf = props.alignSelf?props.alignSelf:"flex-end"
   filters.forEach(filter => {
@@ -54,6 +54,9 @@ function ACSFilterController(props) {
           onChange(filter_api_options, formValues)
       }
   } 
+
+  filter_style.alignSelf="flex-start"
+  filter_style.minWidth=select_width
   
   return (
    <Fragment>
@@ -72,9 +75,6 @@ function ACSFilterController(props) {
               filter.select_display_field = "name"
             }
         }
-
-        filter_style.aligntSelf="flex-start"
-        filter_style.minWidth=select_width
 
         return (
           <div key={"div1-"+filter.name} style={{display:"flex", marginTop:"10px", alignSelf:{alignSelf}, flexDirection:label_direction, alignItems:"center"}}>

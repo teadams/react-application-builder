@@ -9,13 +9,12 @@ import React, { Component, Fragment,  useState, useContext, useEffect} from 'rea
 import { ListItem, FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Select, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell,InputLabel } from '@material-ui/core';
 import * as meta from '../../Utils/meta.js';
 import UserRoles from './UserRoles.js'
-import {ACSField, ACSText, ACSTabMenu, ACSObjectType} from '../../ACSLibrary'
+import {ACSEditButton, ACSField, ACSText, ACSTabMenu, ACSObjectType} from '../../ACSLibrary'
 import {ACSFilterController} from '../../ACSRenderEngine'
 import AuthContext from '../../Modules/User/AuthContext';
 
 function Membership(props) {
   const {id} = props
-  const [core_roles, setCoreRoles] = useState([])
   const [members, setMembers] = useState([])
   const [current_member, setCurrentMember] = useState(null)
 
@@ -52,7 +51,8 @@ function Membership(props) {
       member_name = current_member.first_name + " " + current_member.last_name
   }
 
-  const filter_style = {paddingRight:"40px"}
+  let  filter_style = {paddingRight:"40px"}
+
   return (
     <Fragment>
     <div style={{display:"flex", flexDirection:"column"}}>
@@ -66,7 +66,7 @@ function Membership(props) {
           </div>
         </div>
         <div>
-          <ACSFilterController filter_style={filter_style} label_width="50px" select_width="100px" label_direction="row" filter_direction="row" filters={filters} default_value={3} alingSelf="flex-start" label_direction="row" label_variant="subtitle1" onChange={handleFilterChange}/>
+          <ACSFilterController filter_style={{paddingRight:"40px"}} label_width="50px" select_width="100px" label_direction="row" filter_direction="row" filters={filters} default_value={3} alingSelf="flex-start" label_direction="row" label_variant="subtitle1" onChange={handleFilterChange}/>
         </div>
         <div style={{display:"flex", marginTop:"10px",  alignItems:"flex-end", marginRight:"10px"}}>
         <Button size="small">Add a Member</Button> 
@@ -88,17 +88,15 @@ function Membership(props) {
             </Fragment>
           }
         </div>
-        <div>
           {current_member && 
-          <div style={{display:"flex", flexDirection:"row"}}>
-            <div> <ACSField object_type="core_subsite_role" data={current_member} field_name="core_user" />
-            </div>
-            <div>
+            <div style={{display:"flex", alignItems:"center"}}>
+              <div style={{display:"flex", marginRight:"30px"}}> <ACSField object_type="core_subsite_role" data={current_member} field_name="core_user" />
+              </div>
+              <div  style={{display:"flex", alignItems:"center"}}>
             <UserRoles core_user={current_member.data_core_user.id} core_subsite={context.context_id}/>
+              </div>
             </div>
-          </div>
           }
-        </div>
       </div>
     </div>
     </Fragment>
