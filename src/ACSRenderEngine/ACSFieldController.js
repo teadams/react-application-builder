@@ -143,6 +143,7 @@ function ACSFieldController(original_props) {
                     const new_value = {}
                     new_value[references_field] = ""
                     new_value[display_field] = "  *** Select ***"
+                    new_value.added_value = true
                     results.unshift(new_value)
                 }
                 setValidValues(results)

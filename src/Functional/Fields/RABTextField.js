@@ -2,6 +2,7 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import { makeStyles } from '@material-ui/core/styles';
 import * as u from '../../Utils/utils.js';
+import * as control from '../../Utils/control.js';
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useEffect} from 'react';
 import {Link, FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Select, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar, TableCell,InputLabel,RadioGroup,Radio } from '@material-ui/core';
@@ -54,9 +55,18 @@ function RABTextField(props) {
         return null
       }
       const value_field = references_field?references_field:"value"
+      const field_component  = field_model.field_component
+      let Field
+      if (field_component !== "RABTextField")  {
+          Field = control.componentByName(field_component)
+      }
       return (
         valid_values.map ((value, index) => {
-          return (<MenuItem key={index}  value={value[value_field]}>{value[display_field]}</MenuItem>)
+          let display_value = value[display_field]  
+          if (field_component !== "RABTextField" && !value.added_value)  {
+              display_value = Field({data:value, mode:"text"})
+          }
+          return (<MenuItem key={index}  value={value[value_field]}>{display_value}</MenuItem>)
           })
       )
   }
