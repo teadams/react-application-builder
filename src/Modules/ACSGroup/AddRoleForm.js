@@ -14,21 +14,16 @@ import useGenerateFieldList from "../../Hooks/useGenerateFieldList.js"
 
 import AuthContext from '../../Modules/User/AuthContext';
 
-// pass corrct values 
-// investigate using userForm 
-// pass in API 
-// Pretty up
-
-function EditRoleForm(props) {
+function AddRoleForm(props) {
   const {data, id} = props
 
-  function handleEditRoleSubmit(event) {
+  function handleAddRoleSubmit(event) {
       handleClose(event)
   }
 
-  let field_list = useGenerateFieldList("core_subsite_role", "", data, "edit", true)
+  let field_list = useGenerateFieldList("core_subsite_role", "", data, "create", true)
 
-  let {formAttributes, lastTouched, handleFormChange, handleFormSubmit} = useForm("core_subsite_role", "", data, handleEditRoleSubmit, "edit", true, {status:"Accepter"}, field_list)
+  let {formAttributes, lastTouched, handleFormChange, handleFormSubmit} = useForm("core_subsite_role", "", data, handleEditRoleSubmit, "create", true, {status:"Accepter"}, field_list)
 
 
   function handleClose(event) {
@@ -45,7 +40,7 @@ function EditRoleForm(props) {
                   <ACSField
                   object_type = "core_subsite_role"
                   field_name = "core_role"  
-                  mode="edit"
+                  mode="add"
                   field_display="name_value"
                   label_width="15%"
                   formAttributes={formAttributes}
@@ -59,7 +54,7 @@ function EditRoleForm(props) {
                 <ACSField
                 object_type = "core_subsite_role"
                 field_name = "status"  
-                mode="edit"
+                mode="add"
                 label_width="15%"
                 field_display="name_value"
                 form={false} 
