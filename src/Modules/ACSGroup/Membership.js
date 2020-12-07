@@ -18,6 +18,8 @@ import AddRoleForm from "./AddRoleForm.js"
 function Membership(props) {
   const {id} = props
   const [members, setMembers] = useState([])
+  const [member_api_options, setMemberAPIOptions] = useState([])
+
   const [current_member, setCurrentMember] = useState(null)
 
   const [add_dialog, setAddDialog] = useState(false);
@@ -40,20 +42,19 @@ function Membership(props) {
 
   const handleFilterChange = (props) => {
     const api_options = Object.assign({},props)
-    const object_type = "core_subsite_role"
     api_options.filter_field.push("core_subsite")
     api_options.filter_id.push(context.context_id)
     api_options.filter_join="AND"
-    api.getData(object_type, api_options, (api_data, error) => {
-      setMembers(api_data)
-    })
-    
+    setMemberAPIOptions(api_options)    
   }
 
+  const handleMembersData=(props) => {
+    setMembers(props)
+  
+  }
   const handleOnAddClose= event => {
     setAddDialog(false)
   }
-
 
 
   const handleOnClick = (event, member_data, index) => {
@@ -68,6 +69,7 @@ function Membership(props) {
 
   return (
     <Fragment>
+    <ACSObjectType onData={handleMembersData} headless={true} object_type="core_subsite_role" api_options={member_api_options}/>
     <div style={{display:"flex", flexDirection:"column"}}>
       <div style={{display:"flex", flexDirection:"row"}}>
         <div style={{display:"flex", alignSelf:"flex-end", width:"200px"}}>
@@ -103,7 +105,7 @@ function Membership(props) {
           }
         </div>
           {current_member && 
-            <div style={{display:"flex", alignItems:"center"}}>
+            <div style={{display:"flex", alignItems:"flex-start"}}>
               <div style={{display:"flex", marginRight:"30px"}}> <ACSField object_type="core_subsite_role" data={current_member} field_name="core_user" />
               </div>
               <div  style={{display:"flex", alignItems:"center"}}>
