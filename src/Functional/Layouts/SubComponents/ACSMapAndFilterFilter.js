@@ -16,7 +16,7 @@ import {Link, Container, Box, Card, TableHead, TableContainer, Table, TableBody,
 
 function ACSMapAndFilterFilter(props) {
   //XX could get default select field by object type from proc?
-  const {UpperLeftNavagationComponent, data:props_data=[], object_type="core_subsite", toggleFilterView, filter_form_values, setFilterFormValues, ActionButton, ActionComponent, action_link_field} = props
+  const {UpperLeftNavagationComponent, data:props_data=[], object_type="core_subsite", toggleFilterView, filter_form_values, setFilterFormValues, ActionButton, ActionComponent, action_link_field, create_action_menu} = props
 
   const {more_field_list, list_field_list} = props
 
@@ -67,7 +67,9 @@ function ACSMapAndFilterFilter(props) {
         </DialogContent>
       </Dialog>}
       <div  style={{ display:"block"}}>
-      <UpperLeftNavagationComponent onChange={toggleFilterView} text={props.text} object_type={props.object_type} layout={props.layout} sections={props.sections} dialog_size={props.dialog_size} onSubmit={props.onSubmit} filter_view={props.filter_view}/>
+      <UpperLeftNavagationComponent onChange={toggleFilterView} create_action_menu={create_action_menu}
+      text={props.text} object_type={props.object_type} layout={props.layout} sections={props.sections} dialog_size={props.dialog_size} onSubmit={props.onSubmit} filter_view={props.filter_view}/>
+      
       </div>
       <div style={{paddingLeft:20, paddingRight:40, paddingTop:10,  display:'flex', width:'100%'}}>       
         <div style={{display:'flex', paddingRight:40}}>

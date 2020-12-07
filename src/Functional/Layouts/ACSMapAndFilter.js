@@ -70,10 +70,9 @@ const MapViewButton = function(props) {
 
 
 const UpperLeftNavigation = function(props) {
-
   return (<Fragment>
-<MapViewButton checked={props.filter_view} onChange={props.onChange} size="small"  color="default" name="view" /> 
- <ACSCreateButton   ButtonComponent={CreateMarkerButton} text={props.text} object_type={props.object_type} layout={props.layout} sections={props.sections} dialog_size={props.dialog_size} onSubmit={props.onSubmit} require_authorization={false} action_props={props.create_action_props} menu={props.create_action_menu}/>
+<MapViewButton checked={props.filter_view} onChange={props.onChange} size="small"  color="default" name="view" />
+<ACSCreateButton   ButtonComponent={CreateMarkerButton} text={props.text}  object_type={props.object_type} layout={props.layout} sections={props.sections} dialog_size={props.dialog_size} onSubmit={props.onSubmit} require_authorization={false} action_props={props.create_action_props} menu={props.create_action_menu}/> 
 
 </Fragment>)
 }
@@ -253,7 +252,9 @@ function ACSMapAndFilter (props) {
       </Fragment>}
       {filter_view &&
         <ACSMapAndFilterFilter
-        UpperLeftNavagationComponent={UpperLeftNavigation} object_type={object_type} filters={finder_filters}
+        UpperLeftNavagationComponent={UpperLeftNavigation}
+        create_action_menu={props.create_action_menu}
+        object_type={object_type} filters={finder_filters}
         filter_form_values={filter_form_values}
         setFilterFormValues={setFilterFormValues}
         more_field_list = {more_field_list}
