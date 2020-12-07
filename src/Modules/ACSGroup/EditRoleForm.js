@@ -22,7 +22,6 @@ import AuthContext from '../../Modules/User/AuthContext';
 function EditRoleForm(props) {
   const {data, id} = props
 
-u.a(id)
   function handleEditRoleSubmit(event) {
       handleClose(event)
   }
