@@ -22,6 +22,7 @@ import AuthContext from '../../Modules/User/AuthContext';
 function EditRoleForm(props) {
   const {data, id} = props
 
+u.a(id)
   function handleEditRoleSubmit(event) {
       handleClose(event)
   }
@@ -32,7 +33,7 @@ function EditRoleForm(props) {
   options.path = "auth/update-subsite-role"
   options.field_list = field_list
   let {formAttributes, lastTouched, handleFormChange, handleFormSubmit} = useForm("core_subsite_role", "", data, handleEditRoleSubmit, "edit", true, options)
-
+  formAttributes[0].core_user = ""
 
   function handleClose(event) {
       if (props.onClose) {

@@ -15,7 +15,7 @@ import useGenerateFieldList from "../../Hooks/useGenerateFieldList.js"
 import AuthContext from '../../Modules/User/AuthContext';
 
 function AddRoleForm(props) {
-  const {data, id} = props
+  const {data, core_subsite, id} = props
 
   function handleAddRoleSubmit(event) {
       handleClose(event)

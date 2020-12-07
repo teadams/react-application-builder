@@ -81,7 +81,7 @@ function Membership(props) {
           <ACSFilterController filter_style={{paddingRight:"40px"}} label_width="50px" select_width="100px" label_direction="row" filter_direction="row" filters={filters} default_value={3} alingSelf="flex-start" label_direction="row" label_variant="subtitle1" onChange={handleFilterChange}/>
         </div>
         <div style={{display:"flex", marginTop:"10px",  alignItems:"center", marginRight:"10px"}}>
-        <Button onClick={handleAddRole} size="small" variant="outlined" color="primary" style={{margin:5, borderRadius: '12px'}}>Add a Member</Button>
+        <Button onClick={handleAddRole}  size="small" variant="outlined" color="primary" style={{margin:5, borderRadius: '12px'}}>Add a Member</Button>
 
         </div>
       </div>
@@ -117,7 +117,7 @@ function Membership(props) {
   <Dialog open={true}>
     <DialogTitle>Create Role</DialogTitle>
     <DialogContent>
-    <AddRoleForm open={true}    onClose={handleOnAddClose} dialog_size="lg"/>
+    <AddRoleForm open={true} core_subsite={context.context_id}  onClose={handleOnAddClose} dialog_size="lg"/>
   
     </DialogContent>
   </Dialog>

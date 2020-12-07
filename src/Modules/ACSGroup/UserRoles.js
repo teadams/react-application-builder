@@ -20,7 +20,9 @@ function UserRoles(props) {
   const [edit_dialog, setEditDialog] = useState(false);
   const [edit_role, setEditRole] = useState(null)
 
-  const api_options = {core_user:core_user, core_subsite:core_subsite}
+  const filter_field = ["core_user", "core_subsite"]
+  const filter_id = [core_user, core_subsite]
+  const api_options = {filter_field:filter_field, filter_id:filter_id }
   const handleOnData = (api_results) => {
       setUserRoles(api_results)
   }
@@ -37,7 +39,7 @@ function UserRoles(props) {
 
 
   return (<Fragment> 
-  <ACSObjectType object_type="core_subsite_role" data={data} api_option={api_options} onData={handleOnData} headless={true}/>
+  <ACSObjectType object_type="core_subsite_role" data={data} api_options={api_options} onData={handleOnData} headless={true}/>
   {user_roles && 
   user_roles.map((user_role,index)=> {
     return (<Fragment key={index}>{user_role.data_core_role.name} ({user_role.status})
