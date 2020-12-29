@@ -28,6 +28,20 @@ function RABTextField(props) {
     field_value = data[display_field]
   }
 
+  if (data_type == "boolean") {
+      field_value = field_value?"Yes":"No"
+  }
+  if (valid_values) {
+      let valid_values_object = {}
+      // TODO - move this to initial, display_value?
+      // Because this is not efficient to do each 
+      // time this is hit on a list
+      valid_values.forEach(valid_value => {
+        valid_values_object[valid_value.value] = valid_value[field_name]
+      })
+      field_value = valid_values_object[field_value]
+  }
+
   if (!field_value && (field_value === null || field_value === undefined)) {
       field_value =" "
   }
@@ -183,9 +197,6 @@ function RABTextField(props) {
     case "text":
       return field_value
     default:
-          if (data_type == "boolean") {
-              field_value = field_value?"Yes":"No"
-          }
           if (more_link) {
             return <div>{field_value}{more_link}</div>  
           } else {
