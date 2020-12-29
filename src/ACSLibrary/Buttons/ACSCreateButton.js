@@ -12,7 +12,6 @@ import {Auth, AuthContext} from '../../Modules/User/index.js';
 import useGetModel from '../../Hooks/useGetModel.js'
 
 function ACSCreateButton(props) {
-
   const {object_type, ButtonComponent, layout, sections, field_list, dialog_size, action_props, auth_action="create", require_authorization=true, text="", menu="ObjectView"} = props
   const [create_dialog, setCreateDialog] = useState(false);
   const context = useContext(AuthContext)
@@ -49,7 +48,6 @@ function ACSCreateButton(props) {
   const component_name = selected_menu_model.menu_component_name
   let ActionComponent = control.componentByName(component_name)
   const { ...menu_props} = selected_menu_model
-
 
 
  return (

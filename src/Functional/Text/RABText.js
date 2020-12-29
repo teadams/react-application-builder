@@ -27,7 +27,6 @@ function RABText(props) {
   }
   const {header=false, variant=header?"h5":"body1", text} = props
   let {style} = props
-  
   style = Object.assign({display:"flex",alignItems:"center"}, style)
   return (<Typography  variant={variant} style={style}>{text}{action && <ActionButton {...props} style={{paddingTop:0}} />}</Typography>)
 }

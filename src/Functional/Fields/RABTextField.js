@@ -60,6 +60,7 @@ function RABTextField(props) {
       if (field_component !== "RABTextField")  {
           Field = control.componentByName(field_component)
       }
+
       return (
         valid_values.map ((value, index) => {
           let display_value = value[display_field]  

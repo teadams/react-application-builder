@@ -5,8 +5,7 @@ import * as meta from '../Utils/meta.js';
 import useGetModel from '../Hooks/useGetModel';
 
 const include_field = (field_model, form, mode) => {
-
-  if (!field_model.prevent_view && !(mode==="view" && field_model.not_on_view) &&
+  if (!field_model.hide & !field_model.prevent_view && !(mode==="view" && field_model.not_on_view) &&
           !(field_model.not_on_list && mode==="list")
           && !(form && field_model.not_on_row_form)
           && !(form && mode==="create" && field_model.not_on_create_form)

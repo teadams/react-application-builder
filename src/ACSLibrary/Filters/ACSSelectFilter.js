@@ -16,6 +16,9 @@ import useGetModel from '../../Hooks/useGetModel';
 
 
 function formTreeData(data, tree_depth=0) {
+  if (!data || data.length === 0) {
+    return []
+  }
   let tree_data = []
   data.map(row => {
       row.tree_depth = tree_depth
