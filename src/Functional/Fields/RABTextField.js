@@ -28,20 +28,6 @@ function RABTextField(props) {
     field_value = data[display_field]
   }
 
-  if (data_type == "boolean") {
-      field_value = field_value?"Yes":"No"
-  }
-  if (valid_values) {
-      let valid_values_object = {}
-      // TODO - move this to initial, display_value?
-      // Because this is not efficient to do each 
-      // time this is hit on a list
-      valid_values.forEach(valid_value => {
-        valid_values_object[valid_value.value] = valid_value[field_name]
-      })
-      field_value = valid_values_object[field_value]
-  }
-
   if (!field_value && (field_value === null || field_value === undefined)) {
       field_value =" "
   }
@@ -192,16 +178,37 @@ function RABTextField(props) {
       )
       break;
     case "csv":
-      return '"'+field_value+'""'
-      break;
     case "text":
-      return field_value
-    default:
+    case "view":
+    case "list":
+      if (data_type == "boolean") {
+        field_value = field_value?"Yes":"No"
+      }
+      if (valid_values && valid_values !== "object" && valid_values !== "transition" && data_type !== "boolean") {
+        let valid_values_object = {}
+        // TODO - move this to initial, display_value?
+        // Because this is not efficient to do each 
+        // time this is hit on a list
+        valid_values.forEach(valid_value => {
+          valid_values_object[valid_value.value] = valid_value[field_name]
+        })
+        field_value = valid_values_object[field_value]
+    }
+  
+    switch (mode) {
+      case "csv":
+        return '"'+field_value+'""'
+        break;
+      case "text":
+        return field_value
+        break;
+      default:
           if (more_link) {
             return <div>{field_value}{more_link}</div>  
           } else {
             return <Fragment>{field_value}</Fragment>
           }
+      }
   }
 }
 
