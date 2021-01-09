@@ -139,7 +139,7 @@ function ACSFieldController(original_props) {
                   alert ("error retrieving object " + references + " " + error.message)
               } else {
                 results = results
-                if (!field_required && !["radio","checkbox"].includes(input_type)) {
+                if (!field_required && !["radio","checkbox"].includes(field_model.input_type)) {
                     const new_value = {}
                     new_value[references_field] = ""
                     new_value[display_field] = "  *** Select ***"
