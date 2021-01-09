@@ -226,7 +226,6 @@ function RenderACSField(props) {
       params.helperText=field_model.helperText?field_model.helperText:" "
     }
 
-
     return ( 
       <FormWrap width={width} form_wrap_style={form_wrap_style} save_button={save_button} mode={mode} form={form} onSubmit={props.onSubmit} onClose={handleFieldClose} >
         <FieldWrap key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}>
