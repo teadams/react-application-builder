@@ -274,9 +274,7 @@ function ACSRowController(input_props) {
 
 
 // definitely save this
-u.a("pre", prescrubbed_field_list)
   let field_list = useGenerateFieldList(object_type, "", data, mode, form, prescrubbed_field_list, "core", layout, sections)
-  u.a(field_list)
   let section_field_lists =[] 
   if (layout) {
       sections = layout_model.sections 

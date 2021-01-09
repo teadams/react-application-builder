@@ -123,6 +123,7 @@ function ACSFieldController(original_props) {
       if (dependent_field && current_dependent_value !== dependent_value) {
         setDependentValue(current_dependent_value)
       }
+
       if (model_valid_values === "object" && valid_values !== "transition") {
         setValidValues("transition")
         if (dependent_field) {
@@ -133,13 +134,12 @@ function ACSFieldController(original_props) {
           select_api_options.filter_id.push(current_dependent_value)
           select_api_options.filter_field.push(dependent_filter)
         }
-
         api.getData (references_object_type,select_api_options, (results, error) => {         
               if (error) {
                   alert ("error retrieving object " + references + " " + error.message)
               } else {
                 results = results
-                if (!field_required && input_type !== "radio") {
+                if (!field_required && !["radio","checkbox"].includes(input_type)) {
                     const new_value = {}
                     new_value[references_field] = ""
                     new_value[display_field] = "  *** Select ***"

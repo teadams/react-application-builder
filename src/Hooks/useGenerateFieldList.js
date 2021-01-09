@@ -52,7 +52,6 @@ const useGenerateFieldList = (object_type, field_name="", data, mode, form=true,
     if (object_type) {
 
       const base_field_list = object_models[object_type].field_tags[lazy]
-      u.a("lazy, base", lazy, base_field_list)
       field_list = []
       base_field_list.forEach(field => {
          const field_model = field_models[object_type][field] 
