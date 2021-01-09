@@ -50,7 +50,9 @@ const useGenerateFieldList = (object_type, field_name="", data, mode, form=true,
     }
   } else {
     if (object_type) {
+
       const base_field_list = object_models[object_type].field_tags[lazy]
+      u.a("lazy, base", lazy, base_field_list)
       field_list = []
       base_field_list.forEach(field => {
          const field_model = field_models[object_type][field] 
@@ -70,7 +72,6 @@ const useGenerateFieldList = (object_type, field_name="", data, mode, form=true,
   }
  
   let scrubbed_field_list = []
-
   field_list.forEach(field => {
     const field_model = field_models[object_type][field]
     if (include_field(field_model, form, mode))  { 
