@@ -57,6 +57,9 @@ export async function callAPI (path="", params={}, data_object={}, method="get",
   if (data_object) {
     let multi_object = new FormData();
     Object.keys(data_object).forEach(key => {
+      if (typeof data_object[key] === 'object') {
+        data_object[key] = JSON.stringify(data_object[key])
+      }
       multi_object.append(key, data_object[key])
     })
     data_object = multi_object

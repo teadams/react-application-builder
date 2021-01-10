@@ -6,10 +6,17 @@ import {Link, FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typ
 
 import React, {Fragment,useEffect} from 'react';
 
-function ACSReferenceMapping(props)  {
-  const {object_type, mode,  field_name, field_list, num_add=3, allow_add=true, allow_save=false,field_model, valid_values,
-  formAttributes=[],form_field_name=props.field_name, pretty_name,onChange,...params} = props
+function getViewData(data, field) {
+  let view_data = []
+  data.forEach(row => {
+    view_data.push(row[field])
+  })  
+  return view_data.join(", ")
+}
 
+function ACSReferenceMapping(props)  {
+  const {object_type, mode,  field_name, field_list, num_add=3, allow_add=true, data, allow_save=false,field_model, valid_values,
+  formAttributes=[],form_field_name=props.field_name, pretty_name,onChange,...params} = props
   const [formValues, formVisibility, formValidated] = formAttributes
   const visibility = formVisibility?formVisibility[field_name]:"visible"
 
@@ -44,7 +51,8 @@ function ACSReferenceMapping(props)  {
     </div>
     </Fragment>)
   } else {
-    return ( "VIEW")
+    const value = getViewData(data, field_name)
+    return (value)
   }
 }
 export default ACSReferenceMapping;
