@@ -172,7 +172,6 @@ let {default_values_prop={}, field_list, delay_dirty=false, list_form_params={},
 
     let options = {}
     options.path = path
-
     api.handleSubmit (event, formValues, mode, context, object_type, object_model, field_models, handleSubmit, id_field, filesTouched, delay_dirty, options) 
   })
   // single field edit, submits on change
