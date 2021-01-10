@@ -82,7 +82,14 @@ let {default_values_prop={}, field_list, delay_dirty=false, list_form_params={},
           }
 
           if (final_data) {
-            default_value=final_data[data_field]
+            if (field_model.reference_table) {
+                default_value={}
+                final_data.forEach(ref => {
+                  default_value[ref[field_name]]=true
+                })
+            } else {
+              default_value=final_data[data_field]
+            }
             if (default_value===null||default_value===undefined) {
               default_value = field_model.default?field_model.default:""
             }
