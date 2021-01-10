@@ -193,12 +193,19 @@ let {default_values_prop={}, field_list, delay_dirty=false, list_form_params={},
     if (event.target.type) {  
       event.persist();
     }
-    const name = event.target.name
+    const name = event.target.name.split("_acs_")[0]
+  
     const field_model=field_models[name]
     setLastTouched(name)
     if (event.target.type !== "file") {
       let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
-      let new_formValues = {[name]:value}
+      let new_formValues = {[name]:value}    
+      if (field_model.reference_table) {
+          let mapping_values = Object.assign({},formAttributes[0][name])
+          const mapping_key = event.target.name.split("_acs_")[1]
+          mapping_values[mapping_key]=value
+          new_formValues = {[name]:mapping_values}
+      }
       let new_formVisibility = {}
       if (field_model.dependency_data_field) {
           new_formValues[field_model.dependency_data_field]=""
@@ -212,8 +219,7 @@ let {default_values_prop={}, field_list, delay_dirty=false, list_form_params={},
               }
               new_formValues[dependency_visible_field]=""
               new_formVisibility[dependency_visible_field]=new_visibility
-            })
-          
+            })          
       }
       setFormAttributes(formAttributes => {
           let [prior_formValues, prior_formVisibility, prior_formValidated] = formAttributes

@@ -7,7 +7,11 @@ import {Link, FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typ
 import React, {Fragment,useEffect} from 'react';
 
 function ACSReferenceMapping(props)  {
-  const {object_type, mode,  field_name, field_list, num_add=3, allow_add=true, allow_save=false,field_model, valid_values, pretty_name,visibility,onChange,...params} = props
+  const {object_type, mode,  field_name, field_list, num_add=3, allow_add=true, allow_save=false,field_model, valid_values,
+  formAttributes=[],form_field_name=props.field_name, pretty_name,onChange,...params} = props
+
+  const [formValues, formVisibility, formValidated] = formAttributes
+  const visibility = formVisibility?formVisibility[field_name]:"visible"
 
   function handleChange(event) {
     const value=event.target.value
@@ -17,6 +21,7 @@ function ACSReferenceMapping(props)  {
   }
 
   if (["edit","create"].includes(mode)) {
+    const form_values = formValues[form_field_name]
     return (
     <Fragment>
     <div style={{minWidth:"20em", visibility:visibility}}>
@@ -28,9 +33,9 @@ function ACSReferenceMapping(props)  {
         const name=field_name+"_acs_"+valid_value.key
         return(
                <FormControlLabel
-                 control={<Checkbox checked={false} 
-                onChange={handleChange} 
-                name={name} />}
+                 control={<Checkbox checked={form_values[valid_value.key]} 
+                 onChange={handleChange} 
+                 name={name} />}
                  label={valid_value.name}
                />
       )
