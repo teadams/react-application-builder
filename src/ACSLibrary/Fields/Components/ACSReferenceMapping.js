@@ -17,6 +17,7 @@ function getViewData(data, field) {
 function ACSReferenceMapping(props)  {
   const {object_type, mode,  field_name, field_list, num_add=3, allow_add=true, data, allow_save=false,field_model, valid_values,
   formAttributes=[],form_field_name=props.field_name, pretty_name,onChange,...params} = props
+
   const [formValues, formVisibility, formValidated] = formAttributes
   const visibility = formVisibility?formVisibility[field_name]:"visible"
 

@@ -178,8 +178,6 @@ function RenderACSField(props) {
         popup.open(event,FieldEdit)
       }
     }
-   
-
 
     return (<Fragment>
       <FieldWrap   onClick={handleFieldClick} key={field_name+"_wrap1"}   field_name={field_name}>
