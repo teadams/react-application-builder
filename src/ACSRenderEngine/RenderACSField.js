@@ -161,7 +161,7 @@ function RenderACSField(props) {
     }
 
 
-///XXX HERE = FIELD NAME SHOULD BE SOMETHING ELSE for SELECT - role_name_name
+  ///XXX HERE = FIELD NAME SHOULD BE SOMETHING ELSE for SELECT - role_name_name
     const FieldEdit = (props) => {
         return (<Fragment>
           <div style={{width:"100%", minWidth:"400px"}}>
@@ -229,7 +229,7 @@ function RenderACSField(props) {
         <FieldWrap key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}>
             <Tag Tag={wrap_tag} class={wrap_css_class} style={wrap_style}>
               <Tag  Tag={field_tag} col_span={col_span} style={field_style} class={field_css_class}>
-                <Field {...params}  pretty_name={pretty_name}   key={field_name+"field"}/>
+                <Field {...params}  pretty_name={pretty_name}   key={field_name+"field"}/> 
               </Tag>
             </Tag>
         </FieldWrap>

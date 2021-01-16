@@ -9,9 +9,9 @@ import {Link, FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typ
 import * as meta from '../../Utils/meta.js';
 
 const RadioLabel = (props=> {
-  const {value, display_field, summary_key, description_key} = props
+  const {valid_value, display_field, summary_key, description_key} = props
 
-  return (<div> {value[display_field]} {value[summary_key]}</div>)
+  return (<div> {valid_value[display_field]} {valid_value[summary_key]}</div>)
 })
 
 function RABTextField(props) {
@@ -84,10 +84,11 @@ function RABTextField(props) {
     if (field_model.references) {
         summary_key = object_model.summary_key
         description_key = object_model.description_key
-    }
+    } 
     return (
-      valid_values.map ((value, index) => {
-        return (<FormControlLabel value={value[value_field]} control={<Radio />} label={<RadioLabel value={value} display_field={display_field} summary_key={summary_key} description_key={description_key}/>}> {value[summary_key]}</FormControlLabel>)
+      valid_values.map ((valid_value, index) => {
+      //  u.a(field_name, value, valid_value.value, summary_key, valid_value[summary_key], display_field)
+        return (<FormControlLabel value={valid_value.value.toString()} control={<Radio/>} label={<RadioLabel valid_value={valid_value} display_field={display_field} summary_key={summary_key} description_key={description_key}/>}> {valid_value[summary_key]}</FormControlLabel>)
         })
       )
    }
@@ -115,6 +116,8 @@ function RABTextField(props) {
     case "filter":
       let widget_type = "text" 
       value = formValues[form_field_name]
+    //  u.a("field,value ", form_field_name, value)
+
       if (model_valid_values) {
         widget_type=input_type?input_type:"select"
 
@@ -124,14 +127,17 @@ function RABTextField(props) {
        }
 
       if (widget_type === "radio") {
-  
         return (
+          <div style={{minWidth:"20em", visibility:visibility}}>
+            {field_model.summary &&  <div style={{marginBottom:"5px"}} dangerouslySetInnerHTML={{__html: field_model.summary}} 
+        />}
         <FormControl>
          <FormLabel>{pretty_name}</FormLabel>
           <RadioGroup row={props.radio_row} aria-label={field_name} name={field_name} value={value} onChange={onChange}>  
             {radioItems(valid_values)}
            </RadioGroup>
         </FormControl>
+        </div>
         )
       } else {
         return (

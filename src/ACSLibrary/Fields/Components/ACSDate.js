@@ -11,7 +11,6 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 
-
 const date_view = (value) => {
   if (!value) return ""
   let date = new Date(Date.parse(value))

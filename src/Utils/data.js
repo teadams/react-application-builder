@@ -1,5 +1,6 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
+import moment from 'moment'; 
 
 //import * as u from './utils.js';
 import * as log from './log.js';
@@ -57,7 +58,7 @@ export async function callAPI (path="", params={}, data_object={}, method="get",
   if (data_object) {
     let multi_object = new FormData();
     Object.keys(data_object).forEach(key => {
-      if (typeof data_object[key] === 'object') {
+      if (typeof data_object[key] === 'object' && !moment.isMoment(data_object[key])) {    
         data_object[key] = JSON.stringify(data_object[key])
       }
       multi_object.append(key, data_object[key])

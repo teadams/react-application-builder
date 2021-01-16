@@ -82,7 +82,7 @@ let {default_values_prop={}, field_list, delay_dirty=false, list_form_params={},
           }
 
           if (final_data) {
-            if (field_model.reference_table) {
+            if (field_model.category_mapping_table) {
                 default_value={}
                 final_data.forEach(ref => {
                   default_value[ref[field_name]]=true
@@ -206,7 +206,7 @@ let {default_values_prop={}, field_list, delay_dirty=false, list_form_params={},
     if (event.target.type !== "file") {
       let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
       let new_formValues = {[name]:value}    
-      if (field_model.reference_table) {
+      if (field_model.category_mapping_table) {
           let mapping_values = Object.assign({},formAttributes[0][name])
           const mapping_key = event.target.name.split("_acs_")[1]
           mapping_values[mapping_key]=value
@@ -258,7 +258,6 @@ let {default_values_prop={}, field_list, delay_dirty=false, list_form_params={},
       list_form_params.lastTouched.current[index] = lastTouched
     }
   }
-
    return {formAttributes, lastTouched, handleFormSubmit, handleFormChange};
 
 }

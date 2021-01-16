@@ -22,6 +22,7 @@ const ACSMenuController = (props) => {
 
 
   const menu_models = useGetModel("menus")
+
   const menu_model = menu_models.menus[menu_type]
   const context = useContext(AuthContext);
   const history = useHistory({});

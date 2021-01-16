@@ -158,7 +158,6 @@ function ACSFieldController(original_props) {
   }
 
 
-
   if (data === undefined || (object_type && !field_model) || mode === "hidden" || hidden_on_form && mode ==="edit" ||  (hidden_on_form || hidden_on_create_form) && mode==="create") return null
 
 
