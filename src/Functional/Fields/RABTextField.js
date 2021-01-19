@@ -87,7 +87,7 @@ function RABTextField(props) {
     } 
     return (
       valid_values.map ((valid_value, index) => {
-        u.a(summary_key, display_field, valid_value)
+//        u.a(summary_key, display_field, valid_value)
       //  u.a(field_name, value, valid_value.value, summary_key, valid_value[summary_key], display_field)
         return (<FormControlLabel value={valid_value[value_field].toString()} control={<Radio/>} label={<RadioLabel valid_value={valid_value} display_field={display_field} summary_key={summary_key} description_key={description_key}/>}> {valid_value[summary_key]}</FormControlLabel>)
         })
