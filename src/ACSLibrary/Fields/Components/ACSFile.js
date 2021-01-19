@@ -50,7 +50,9 @@ switch (mode) {
         file_name = formValues[form_field_name].name
       }
       if (mode === "edit") {
-        file_name = field_value.name
+        const edited_file_name =  formValues[form_field_name].name
+
+        file_name = edited_file_name?edited_file_name:field_value.name
       }
       const border_style= {
         borderColor:"rgba(0, 0, 0, 0.24)",
