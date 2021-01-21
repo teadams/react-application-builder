@@ -219,7 +219,7 @@ function ACSFieldController(original_props) {
     onSubmit={handleFormSubmit}
     with_thumbnail= {field_model.with_thumbnail}
     autoFocus ={(field_name === lastTouched || (autoFocus && !lastTouched) || form)?true:false}
-    onFieldClick={handleFieldClick} 
+    onFieldClick={onFieldClick?handleFieldClick:""} 
     onFieldBlur = {handleOnFieldBlur} 
     // components
     //components={rab_component_model.field.components}
