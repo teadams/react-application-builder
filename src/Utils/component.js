@@ -83,7 +83,7 @@ const rab_component_models = {
       },
       components:{}, 
       props:{
-          num_columns:"all",
+          num_columns:"2",
           mode:"list",
           pagination:true
       }
@@ -102,7 +102,7 @@ const rab_component_models = {
       components:{},
       default_mode:"view",
       props:{
-          num_columns:"all"
+          num_columns:"2"
       }
     },
     field:{

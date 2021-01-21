@@ -93,7 +93,7 @@ function MessageIcon(props) {
   }
 
   function MessageRow(row_props) {
-    const {mode, form, field_chunk, data, field, rab_component_model, handleFormChange, handleFormSubmit, formAttributes, key_id, field_list, s_index, f_index} = row_props
+    const {mode, form, field_chunk, data, field, rab_component_model, handleFormChange, handleFormSubmit, formAttributes=[], key_id, field_list, s_index, f_index} = row_props
     const {...row_params} = row_props
     const [formValues, formVisibility, formValidated] = formAttributes
 

@@ -8,7 +8,6 @@ import React, { useContext} from 'react';
  function ACSObjectView(props)  {
   const {object_type, id, api_options, layout, sections, field_list, num_columns, row_type="table_row", ...params} = props
   let { form_open=props.row_form} = props
-
   function handleFormClose() {
     if (props.onClose) {
       props.onClose()

@@ -8,7 +8,6 @@ import React, {} from 'react';
 
 function ACSObjectTypeView(props)  {
   const {object_type,  ...params} = props
-
   return (<ACSListController {...params} object_type={object_type} api_options={props.api_options}/> )
 }
 export default ACSObjectTypeView;

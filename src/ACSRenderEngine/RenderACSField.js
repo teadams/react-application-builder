@@ -77,7 +77,7 @@ function RenderACSField(props) {
 
   let {api_options, components:discard_components,reference_formAttributes, reference_lastTouched, ...params} = props
   const {data ={}, row_data, object_type, data_field,  dsiplay_field, references_field, field_name, form_field_name, components={},
-        mode="view", form="true", formAttributes, autoFocus, onSubmit, onBlur, onChange,  click_to_edit, field_model, referred_by_object_type, click_to_edit_field, cardinality} = props
+        mode="view", form="true", formAttributes, autoFocus, onSubmit, onBlur, onChange,  click_to_edit, field_model, onFieldClick, referred_by_object_type, click_to_edit_field, cardinality} = props
 
   // these come froprops.m rab_component_model props
 
@@ -173,7 +173,11 @@ function RenderACSField(props) {
     }
 
     const handleFieldClick = (event) => {
-      if (!prevent_edit && click_to_edit && event.target.name !== "more_link" && event.target.name !=="url_link") {
+      if (onFieldClick) {
+        onFieldClick(data.id, "field", field_name, row_data, data)
+        return
+      }
+      if ((!prevent_edit && !["edit","list_edit"].includes(mode) ) && click_to_edit && event.target.name !== "more_link" && event.target.name !=="url_link") {
         popup.setOrigin(popup_origin)
         popup.open(event,FieldEdit)
       }
