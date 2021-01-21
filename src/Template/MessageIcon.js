@@ -75,22 +75,13 @@ function MessageIcon(props) {
     setRoleData(role_data)
   }
 
-  function handleRoleApprove() {
-
-    const approve_object = {id:message_open.applicant_subsite_role.id, status:"Approved"}
-    api.postData("core_subsite_role", approve_object, {}, (result, error) => { 
+  function handleApprove() {
+    const approve_object = {id:message_open.core_workflow_object, acs_workflow_action:"approve"}
+    api.postData("core_workflow_object", approve_object, {}, (result, error) => { 
         if (error) {
           alert("error is " + error)
         } else {
-          let approve_update_message_data = Array.from(message_data)
-          let message
-          for (message of approve_update_message_data) {
-              if (message.id === message_open.id) {
-                message.applicant_subsite_role.status = "Approved"
-                continue
-              }
-              setMessageData(approve_update_message_data)
-          }
+          u.a("approved")
         }
     })
     handleMessageClose()
@@ -126,15 +117,14 @@ function MessageIcon(props) {
                   field_list={["license_purpose","new_renew","free_form_description"]}
                   object_type="license_application" />
                   }
+                  <Button variant="contained" onClick={handleApprove} color="primary">
+                       Approve
+                  </Button>
+
                 </Fragment>
               }
             </DialogContent>
           <DialogActions>
-          {role_data &&
-          <Button onClick={handleRoleApprove} color="primary">
-            Approve
-          </Button>
-          }
           <Button onClick={handleMessageClose} color="primary">
             Close
           </Button>
