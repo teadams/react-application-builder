@@ -27,39 +27,43 @@ function MessageIcon(props) {
   const [message_count, setMessageCount] = useState(0)
 
   const [anchorEl, setAnchorEl] = useState(null);
+
   const [message_data, setMessageData] = useState(null);
   const [message_open, setMessageOpen] = useState(false);
+
+  const [workflow_object, setWorkflowObject] = useState({});
+
   const [role_data, setRoleData] = useState(null)
 
   function handleMessageClick(event, id, type,field_name, data) {
     if (message_open) {
         handleMessageClose()
+        setWorkflowObject({})
     } else {
+        if (!data.from_user) {
+            data.from_user = "System"
+        }
         handleMessageOpen(data)
     }
   }
 
   function handleMessageOpen(data) {
+      if (data.core_workflow_object) {
+        const object_id = data.data_core_workflow_object.object_id
+        const object_object_type = data.data_core_workflow_object.object_type
+        api.getData (object_object_type, {id:object_id}, (results, error) => { 
+            setWorkflowObject(results)
+        })
+      }
       setMessageOpen(data)  
       if (!data.read_p) {
         const read_object = {id:data.id, read_p:true}
         api.postData("core_message", read_object, {}, (result, error) => { 
             if (error) {
               alert("error is " + error)
-            } else {
-              // could also refetch data
-              let read_update_message_data = Array.from(message_data)
-              let message
-              for (message of read_update_message_data) {
-                  if (message.id === data.id) {
-                    message.read_p = true
-                    continue
-                  }
-                  setMessageData(read_update_message_data)
-              }
-            }
-        })
-      }
+            } 
+      })
+    }
   }
 
   function handleMessageClose() {
@@ -103,20 +107,25 @@ function MessageIcon(props) {
           const emphasis = data.read_p?"":"bold"
           return <ACSFieldController onFieldClick={handleMessageClick} field_mode={mode} field_form={false} field_name={field_name} emphasis={emphasis} {...row_params} key={field_name} key_id={field_name}/>
         })}
-        {message_open && (!message_open.applicant_subsite_role || message_open.applicant_subsite_role.status !== "Applied" || role_data) &&
+        {message_open &&
         <Dialog fullWidth={true} open={message_open} onClose={handleMessageClose} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">{message_open.subject}</DialogTitle>
             <DialogContent>
               <div style={{display:'flex'}}>
                 <div><Typography>From:&nbsp;</Typography></div><div><Typography><ACSFieldController data={message_open} object_type="core_message" field_mode="view" field_model={{with_thumbnail:false}} field_form={false} with_thumbnail={false} field_name="from_user" key="from_user" key_id="from_user"/></Typography></div>
                 <div style={{flexGrow:1}}/>
-                <div><Typography>Date: <ACSFieldController data={message_open} object_type="core_message" field_mode="view" field_form={false} field_name="last_updated_date" key="last_updated_date" key_id="last_updated_date"/>  </Typography></div>
-              
+
+                <div><Typography>Date: <ACSFieldController data={message_open} object_type="core_message" field_mode="view" field_form={false} field_name="last_updated_date" key="last_updated_date" key_id="last_updated_date"/>  </Typography></div>              
               </div>
               <div style={{paddingBottom:20}}/><Typography style={{paddingBottom:20}}>
               <ACSFieldController data={message_open} object_type="core_message" field_mode="view" field_form={false} field_name="body" key="body" key_id="body"/></Typography>
-              {role_data &&
-                  <Typography><i>This message is an application for the role <b>role_data.name}</b> in <b>{message_open.core_subsite.name}</b>.  To accept, click "Approve". Otherwise, click "Close".</i></Typography>
+              {message_open.core_workflow_object&& 
+                <Fragment>
+                  
+                  Workflow is {message_open.core_workflow}
+                  Object is {message_open.core_workflow_object}
+                  data from {JSON.stringify(message_open.data_core_workflow_object)}
+                </Fragment>
               }
             </DialogContent>
           <DialogActions>
@@ -163,9 +172,6 @@ function MessageIcon(props) {
   return    ( 
     <Fragment>
     {user_id && <ACSObjectCount headless={true} object_type="core_message" api_options={{get_count:true, num_rows:1, filter_id:user_id+","+false, filter_join:"and", filter_field:"to_user,read_p"}} onData={handleMessageCount}/> }
-
-    {message_open && message_open.applicant_subsite_role && message_open.applicant_subsite_role.status === "Applied" &&         
-        <ACSObjectView onData={handleRoleData} headless={true} object_type="core_role"  api_options={{filter_id:message_open.applicant_subsite_role.core_role, filter_field:"id"}}/>}
 
     <IconButton aria-label="show new mails" color="inherit" onClick={handleClick}>
         <Badge badgeContent={message_count} color="secondary">
