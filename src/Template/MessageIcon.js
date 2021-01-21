@@ -52,7 +52,7 @@ function MessageIcon(props) {
         const object_id = data.data_core_workflow_object.object_id
         const object_object_type = data.data_core_workflow_object.object_type
         api.getData (object_object_type, {id:object_id}, (results, error) => { 
-            setWorkflowObject(results)
+            setWorkflowObject(results[0])
         })
       }
       setMessageOpen(data)  
@@ -120,11 +120,12 @@ function MessageIcon(props) {
               <div style={{paddingBottom:20}}/><Typography style={{paddingBottom:20}}>
               <ACSFieldController data={message_open} object_type="core_message" field_mode="view" field_form={false} field_name="body" key="body" key_id="body"/></Typography>
               {message_open.core_workflow_object&& 
-                <Fragment>
-                  
-                  Workflow is {message_open.core_workflow}
-                  Object is {message_open.core_workflow_object}
-                  data from {JSON.stringify(message_open.data_core_workflow_object)}
+                <Fragment>  
+                  {workflow_object &&
+                  <ACSObjectView id={workflow_object.id} data={workflow_object}
+                  field_list={["license_purpose","new_renew","free_form_description"]}
+                  object_type="license_application" />
+                  }
                 </Fragment>
               }
             </DialogContent>
