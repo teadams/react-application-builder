@@ -78,8 +78,12 @@ export async function callAPI (path="", params={}, data_object={}, method="get",
       }
   })
   if (api_result) {
+      if (api_result.data.status === "validation_error") {
+        u.a("Validation Error", api_result.data.validation_errors)
+      }
       data = api_result.data
   }
+
   if (callback) {
     callback(data,"");
   } else {
