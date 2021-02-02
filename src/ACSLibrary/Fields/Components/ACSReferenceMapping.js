@@ -39,13 +39,20 @@ function ACSReferenceMapping(props)  {
   <FormGroup row>
     {valid_values!=="transition" && valid_values.map(valid_value =>{
         const name=field_name+"_acs_"+valid_value.key
-        return(
+        const more_info_name=field_name+"_acs_more_info_"+valid_value.key
+        const label = form_values[valid_value.key]?(valid_value.name + ": " + valid_value.more_info_prompt):valid_value.name
+        return(<div>
                <FormControlLabel
                  control={<Checkbox checked={form_values[valid_value.key]} 
-                 onChange={handleChange} 
+                 onChange={handleChange}
+                 key={name}
                  name={name} />}
-                 label={valid_value.name}
+                 label={label}
                />
+              {valid_value.more_info_prompt && form_values[valid_value.key] &&
+                <TextField id={more_info_name} key={more_info_name} name={more_info_name} onChange={handleChange} value={form_values[valid_value.more_info]} label={valid_value.more_info_prompt} />
+              }
+              </div>
       )
     })}
     </FormGroup>
