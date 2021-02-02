@@ -214,8 +214,8 @@ let {default_values_prop={}, field_list, delay_dirty=false, list_form_params={},
               mapping_key = split_name[1]
           } else {
               //more info value
-              name = name + "_acs_more_info"
-              mapping_key = split_name[2]
+              //name = name + "_acs_more_info"
+              mapping_key = split_name[2]+"_more_info"
           }
           mapping_values = Object.assign({},formAttributes[0][name])
           mapping_values[mapping_key]=value

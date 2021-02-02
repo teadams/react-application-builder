@@ -9,7 +9,11 @@ import React, {Fragment,useEffect} from 'react';
 function getViewData(data, field) {
   let view_data = []
   data.forEach(row => {
-    view_data.push(row[field])
+    let row_data = row[field]
+    if (row.more_info) {
+      row_data = row_data + " ("+row.more_info+")"
+    }
+    view_data.push(row_data)
   })  
   return view_data.join(", ")
 }
@@ -30,7 +34,7 @@ function ACSReferenceMapping(props)  {
 
   if (["edit","create"].includes(mode)) {
     const form_values = formValues[form_field_name]
-    const more_info_form_values = formValues[form_field_name+"_acs_more_info"]?formValues[form_field_name+"_acs_more_info"]:{}
+//    const more_info_form_values = formValues[form_field_name+"_acs_more_info"]?formValues[form_field_name+"_acs_more_info"]:{}
 
     return (
     <Fragment>
@@ -53,7 +57,7 @@ function ACSReferenceMapping(props)  {
                  label={label}
                />
               {valid_value.more_info_prompt && form_values[valid_value.key] &&
-                <TextField id={more_info_name} key={more_info_name} name={more_info_name} onChange={handleChange} value={more_info_form_values[valid_value.key]} label={valid_value.more_info_prompt} />
+                <TextField id={more_info_name} key={more_info_name} name={more_info_name} onChange={handleChange} value={form_values[valid_value.key+"_more_info"]} label={valid_value.more_info_prompt} />
               }
               </div>
       )
