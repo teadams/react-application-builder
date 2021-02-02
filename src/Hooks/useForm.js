@@ -208,18 +208,23 @@ let {default_values_prop={}, field_list, delay_dirty=false, list_form_params={},
     if (event.target.type !== "file") {
       let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
       let new_formValues
+
       if (field_model.category_mapping_table) {
           let mapping_values, mapping_key
+          mapping_values = Object.assign({},formAttributes[0][name])
           if (split_name.length === 2 ) { 
               // checkbox
               mapping_key = split_name[1]
+              mapping_values[mapping_key]=value
+              if (!value) {
+                mapping_values[mapping_key+"_more_info"]=""
+              }
           } else {
               //more info value
               //name = name + "_acs_more_info"
               mapping_key = split_name[2]+"_more_info"
+              mapping_values[mapping_key]=value
           }
-          mapping_values = Object.assign({},formAttributes[0][name])
-          mapping_values[mapping_key]=value
           new_formValues = {[name]:mapping_values}
 
       } else {
