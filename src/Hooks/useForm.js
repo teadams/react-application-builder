@@ -86,6 +86,7 @@ let {default_values_prop={}, field_list, delay_dirty=false, list_form_params={},
                 default_value={}
                 final_data.forEach(ref => {
                   default_value[ref[field_name]]=true
+                  default_value[ref[field_name] + "_more_info"] = ref.more_info
                 })
             } else {
               default_value=final_data[data_field]
@@ -193,7 +194,7 @@ let {default_values_prop={}, field_list, delay_dirty=false, list_form_params={},
           handleSubmit(event,'updated', formValues);
         }
     })
-  } 
+  }  
 
   const handleFormChange = ((event) => {
     if (event.target.type) {  
