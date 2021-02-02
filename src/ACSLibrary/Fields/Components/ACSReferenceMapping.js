@@ -30,6 +30,8 @@ function ACSReferenceMapping(props)  {
 
   if (["edit","create"].includes(mode)) {
     const form_values = formValues[form_field_name]
+    const more_info_form_values = formValues[form_field_name+"_acs_more_info"]?formValues[form_field_name+"_acs_more_info"]:{}
+
     return (
     <Fragment>
     <div style={{minWidth:"20em", visibility:visibility}}>
@@ -39,8 +41,9 @@ function ACSReferenceMapping(props)  {
   <FormGroup row>
     {valid_values!=="transition" && valid_values.map(valid_value =>{
         const name=field_name+"_acs_"+valid_value.key
-        const more_info_name=field_name+"_acs_more_info_"+valid_value.key
-        const label = form_values[valid_value.key]?(valid_value.name + ": " + valid_value.more_info_prompt):valid_value.name
+        const more_info_name=field_name+"_acs_more_info_acs_"+valid_value.key
+  //      const label = form_values[valid_value.key]?(valid_value.name + ": " + valid_value.more_info_prompt):valid_value.name
+        const label = valid_value.name
         return(<div>
                <FormControlLabel
                  control={<Checkbox checked={form_values[valid_value.key]} 
@@ -50,7 +53,7 @@ function ACSReferenceMapping(props)  {
                  label={label}
                />
               {valid_value.more_info_prompt && form_values[valid_value.key] &&
-                <TextField id={more_info_name} key={more_info_name} name={more_info_name} onChange={handleChange} value={form_values[valid_value.more_info]} label={valid_value.more_info_prompt} />
+                <TextField id={more_info_name} key={more_info_name} name={more_info_name} onChange={handleChange} value={more_info_form_values[valid_value.key]} label={valid_value.more_info_prompt} />
               }
               </div>
       )

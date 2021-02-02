@@ -199,18 +199,30 @@ let {default_values_prop={}, field_list, delay_dirty=false, list_form_params={},
     if (event.target.type) {  
       event.persist();
     }
-    const name = event.target.name.split("_acs_")[0]
-  
+    const split_name = event.target.name.split("_acs_")
+    let name = split_name[0]
     const field_model=field_models[name]
+
     setLastTouched(name)
     if (event.target.type !== "file") {
       let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
-      let new_formValues = {[name]:value}    
+      let new_formValues
       if (field_model.category_mapping_table) {
-          let mapping_values = Object.assign({},formAttributes[0][name])
-          const mapping_key = event.target.name.split("_acs_")[1]
+          let mapping_values, mapping_key
+          if (split_name.length === 2 ) { 
+              // checkbox
+              mapping_key = split_name[1]
+          } else {
+              //more info value
+              name = name + "_acs_more_info"
+              mapping_key = split_name[2]
+          }
+          mapping_values = Object.assign({},formAttributes[0][name])
           mapping_values[mapping_key]=value
           new_formValues = {[name]:mapping_values}
+
+      } else {
+        new_formValues = {[name]:value}    
       }
       let new_formVisibility = {}
       if (field_model.dependency_data_field) {
