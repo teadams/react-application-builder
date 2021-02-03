@@ -116,9 +116,20 @@ function ACSFieldController(original_props) {
 
   // ** get data for select lists ***//
   const [valid_values, setValidValues] = useState(final_props.valid_values?(final_props.valid_values!=="object"?final_props.valid_values:""):"")
-
-    
+  const [prior_key, setPriorKey] = useState(object_type+field_name);
   const [dependent_value, setDependentValue] = useState(current_dependent_value)
+
+  if (object_type+field_name !== prior_key) {
+      // React is using the same component on a different page
+      // object_type and key uniquely identify the field
+      setValidValues(final_props.valid_values?(final_props.valid_values!=="object"?final_props.valid_values:""):"")
+      setDependentValue(current_dependent_value)
+      setPriorKey(object_type+field_name)
+  }
+//  if (final_props.valid_values && final_props.valid_values !=="object" && JSON.stringify(final_props.valid_values) !== JSON.stringify(valid_values)) {
+//      setValidValues(final_props.valid_values)
+//  }
+
   if (model_valid_values && (!valid_values || (dependent_field && (current_dependent_value !== dependent_value))) && ["edit", "create"].includes(mode)) {
       if (dependent_field && current_dependent_value !== dependent_value) {
         setDependentValue(current_dependent_value)

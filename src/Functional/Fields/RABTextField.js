@@ -18,6 +18,7 @@ function RABTextField(props) {
   const {mode, row_data,  data, object_type, data_field, pretty_name, description_text, display_field=props.field_name, references_field, field_name, form_field_name=props.field_name, field_model={}, object_models, formdata, formAttributes=[], disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values, 
   variant="outlined", required, helperText, placeholder, multiline=false, more_link_cutoff="", more_link_list_cutoff=props.more_link_cutoff, prevent_edit, input_type, data_type, key_id} = props
 
+//u.a(field_name)
   let {with_thumbnail="", with_url="", more_detail=false, toggleMoreDetail} = props
   const [formValues, formVisibility, formValidated] = formAttributes
   const visibility = formVisibility?formVisibility[field_name]:"visible"
@@ -89,6 +90,7 @@ function RABTextField(props) {
       valid_values.map ((valid_value, index) => {
 //        u.a(summary_key, display_field, valid_value)
       //  u.a(field_name, value, valid_value.value, summary_key, valid_value[summary_key], display_field)
+//u.aa("value_field,valid_value", value_field, valid_value)
         return (<FormControlLabel value={valid_value[value_field].toString()} control={<Radio/>} label={<RadioLabel valid_value={valid_value} display_field={display_field} summary_key={summary_key} description_key={description_key}/>}> {valid_value[summary_key]}</FormControlLabel>)
         })
       )
