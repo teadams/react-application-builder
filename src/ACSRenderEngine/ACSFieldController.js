@@ -121,7 +121,7 @@ function ACSFieldController(original_props) {
 
   if (object_type+field_name !== prior_key) {
       // React is using the same component on a different page
-      // object_type and key uniquely identify the field
+      // object_type and key uniquely identify the field 
       setValidValues(final_props.valid_values?(final_props.valid_values!=="object"?final_props.valid_values:""):"")
       setDependentValue(current_dependent_value)
       setPriorKey(object_type+field_name)
