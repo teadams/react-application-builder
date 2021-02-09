@@ -1,5 +1,6 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
+import * as u from '../Utils/utils.js'
 
 function getDataValue(data,string_name) {
   if (string_name.indexOf(".") > -1) {
