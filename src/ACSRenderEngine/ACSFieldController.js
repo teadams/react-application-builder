@@ -19,7 +19,6 @@ import rab_component_models from '../Utils/component.js'
 
 function ACSFieldController(original_props) {
   
-//  u.a("field controlle", original_props.field_name,  original_props.key_id)
 
   const default_object_type_models = useGetModel("object_types")
   const default_field_models =  useGetModel("fields")

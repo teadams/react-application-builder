@@ -69,7 +69,6 @@ function ACSFilterController(props) {
         } else {
           filter.select_api_options= {}
         }
-    //    u.a(filter.name, filter.select_api_options)
         if (filter.filter_type !== "Text") {
             if (!filter.select_display_field) {
               filter.select_display_field = "name"
