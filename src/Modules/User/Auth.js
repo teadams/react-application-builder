@@ -14,6 +14,7 @@ import useGetModel from '../../Hooks/useGetModel.js'
 function Auth(props) {
   let {auth_scope="", auth_priv="", auth_action="read", object_type, prompt_login=true, require_authorization=true, data=""} = props
   // for safety making this explicit instead of defaulting
+
   if (["view","csv","list"].includes(auth_action)) {auth_action="read"}
   if (["list_edit"].includes(auth_action)) {auth_action="edit"}
   if (["list_create"].includes(auth_action)) {auth_action="create"}
@@ -60,7 +61,6 @@ function Auth(props) {
 
   let show_children = true
 
-//  u.aa("object_type, action, auth_scope, auth_priv, context_id, user", object_type, auth_action, auth_scope, auth_priv, context.context_id, context.user.id)
 
   if (auth_priv !== "public") {
         if (!context.user ) {

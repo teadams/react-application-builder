@@ -96,7 +96,7 @@ function ACSRow(row_props) {
 }
 
 function ACSFormWrap(props) {
-  const {object_type, dialog_size="sm", form_title, close_action=true} = props
+  const {object_type, data, dialog_size="sm", form_title, close_action=true} = props
 
   const object_types = useGetModel("object_types")
   if (!object_types) {return null}
@@ -114,7 +114,7 @@ function ACSFormWrap(props) {
             <form onSubmit={props.onSubmit}>
             {props.children}
             <DialogActions>
-            <DelayedAuth   onClick={props.onSubmit} object_type={object_type} auth_action={props.mode} color="primary">
+            <DelayedAuth  data={data} onClick={props.onSubmit} object_type={object_type} auth_action={props.mode} color="primary">
               <Button color="primary">{form_submit_word}</Button>
             </DelayedAuth>
             {close_action && props.onClose && <Button onClick={props.onClose} color="primary">
@@ -134,7 +134,7 @@ function ACSFormWrap(props) {
             <form onSubmit={props.onSubmit}>
             {props.children}
             <DialogActions>
-            <DelayedAuth onClick={props.onSubmit} object_type={object_type} auth_action={props.mode}>
+            <DelayedAuth data={data} onClick={props.onSubmit} object_type={object_type} auth_action={props.mode}>
             <Button  color="primary">{props.mode==="edit"?"save":props.mode}</Button>
             </DelayedAuth>
             {props.onClose && <Button onClick={props.onClose} color="primary">
@@ -266,7 +266,6 @@ function ACSRowController(input_props) {
 // "NEED TO PASS MODE"
   let [object_type, id, prescrubbed_field_list, api_options, data] =  useGetObject(input_props.object_type, input_props.id, input_props.field_list, input_props.api_options, input_props.data, onData, mode);
 
-
   if (!input_props_data && !id && data) {
     // lookup was by filter, not id
     id = data.id
@@ -313,6 +312,7 @@ function ACSRowController(input_props) {
   //// wall /////
   if (!field_models) {return null}
   const field_model = field_models[object_type]
+
 
   if ((!["create","list_create"].includes(mode) && !data) || (object_type && !object_model) || (object_type && !field_model) || field_list.length === 0) return null
 

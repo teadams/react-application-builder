@@ -23,7 +23,7 @@ function RenderACSRow(props) {
   if (data) {
     return (
       <Auth require_authorization={!delayed_auth} auth_action={mode} object_type={object_type} onClose={onClose} data={data}>
-        <FormWrap mode={mode} form={form} object_type = {object_type} open={form_open} dialog_size={dialog_size} form_title={form_title} dialog_center={dialog_center} onSubmit={handleFormSubmit} onClose={onClose} key={"row_form"} close_action={close_action} form_submit_word={form_submit_word}  >
+        <FormWrap data={data} mode={mode} form={form} object_type = {object_type} open={form_open} dialog_size={dialog_size} form_title={form_title} dialog_center={dialog_center} onSubmit={handleFormSubmit} onClose={onClose} key={"row_form"} close_action={close_action} form_submit_word={form_submit_word}  >
          <HeaderWrap {...params} >
            <Header {...params} image_size={header_image_size}/>
          </HeaderWrap>

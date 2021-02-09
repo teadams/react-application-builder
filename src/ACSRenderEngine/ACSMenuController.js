@@ -79,8 +79,14 @@ const ACSMenuController = (props) => {
     }
 
     if (!id) {
-      if (["core_user","core_credential"].includes(menu_item.object_type)) {
+      if ("core_user" === menu_item.object_type) {
           menu_item.id = context.user.id 
+      } else if ("core_credential" === menu_item.object_type) {
+        menu_item.props.api_options.filter_field.push("core_user")
+        menu_item.props.api_options.filter_id.push(context.user.id)
+
+        menu_item.props.api_options.num_rows = 1
+
       }  else if (context.context_id) {
           if (menu_item.object_type === "core_subsite") {
             menu_item.id = context.context_id
