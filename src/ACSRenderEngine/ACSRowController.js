@@ -171,8 +171,11 @@ function ACSSectionHeader(props) {
 
 function ACSRowController(input_props) {
   // Proc, and if build, 
-  const object_models =  useGetModel("object_types")
-  const object_model = object_models?[input_props.object_type]:{}
+  let object_models =  useGetModel("object_types")
+  if (input_props.object_models) { 
+    object_models = _.merge({},object_models, input_props.object_models)
+  }
+  const object_model = input_props.object_type?object_models[input_props.object_type]:{}
   let field_models =  useGetModel("fields")
   if (input_props.field_models) { 
     field_models = _.merge({},field_models, input_props.field_models)
@@ -273,7 +276,7 @@ function ACSRowController(input_props) {
 
 
 // definitely save this
-  let field_list = useGenerateFieldList(object_type, "", data, mode, form, prescrubbed_field_list, "core", layout, sections)
+  let field_list = useGenerateFieldList(object_type, "", data, mode, form, prescrubbed_field_list, "core", layout, sections, field_models, object_models)
   let section_field_lists =[] 
   if (layout) {
       sections = layout_model.sections 
@@ -305,7 +308,8 @@ function ACSRowController(input_props) {
   options.delay_dirty=delay_dirty 
   options.list_form_params=list_form_params
   options.index = index
-
+  options.field_models = field_models;
+  options.object_models = object_models;
   let {formAttributes, lastTouched, handleFormChange, handleFormSubmit} = useForm(object_type, "", data, handleSubmit, mode, form, options);
 
   const [formValues, formVisibility, formValidated] = formAttributes?formAttributes:[undefined,undefined,undefined]

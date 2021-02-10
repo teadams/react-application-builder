@@ -16,6 +16,7 @@ import AuthContext from '../User/AuthContext';
 function convertMetaObjectToData(meta_object) {
   const data = []
   Object.keys(meta_object).forEach (key => {
+    meta_object[key].id=key
     data.push(meta_object[key])
   })
   return data

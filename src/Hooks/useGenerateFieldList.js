@@ -60,7 +60,11 @@ const useGenerateFieldList = (object_type, field_name="", data, mode, form=true,
       })
     } else {
       if (data) {
-        field_list = Object.keys(data[0])
+        if (Array.isArray(data)) {
+          field_list = Object.keys(data[0])
+        } else {
+          field_list = Object.keys(data)
+        }
       } else {
         return []
       }

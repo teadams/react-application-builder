@@ -45,14 +45,10 @@ function ACSDrillDown(props) {
   }
 
   const handleOnClick = (event,selected_row,index) => {
-    setDrillId(selected_row.id);
+    setDrillId(selected_row[id_field]);
     setSelectedRow(selected_row);
   }
 
-  // cases
- // Same Object Type  -- object_type, id, data 
- // Different Object Type  - object_type, id - id_field
-  // Different component - object_type, id, data
 
   return (
       <Fragment>
@@ -69,7 +65,7 @@ function ACSDrillDown(props) {
       }     
         </div>
         <div style={{width:"80%"}}>
-        {id && <Fragment> <ACSObjectView data={selected_row} object_type={object_type} id={id}/> 
+        {id && <Fragment> <ACSObjectView data={selected_row} field_models={field_models} object_models={object_models} object_type={object_type} id={id}/> 
           </Fragment>
         } 
         </div>
