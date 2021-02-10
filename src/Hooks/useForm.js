@@ -31,9 +31,20 @@ let {default_values_prop={}, field_list, delay_dirty=false, list_form_params={},
   const [lastTouched,setLastTouched] = useState(false)
   const [filesTouched,setFilesTouched] = useState([])
   const context = useContext(AuthContext)
-  const object_models = useGetModel("object_types")
-  const object_model =  useGetModel("object_types", object_type)
-  const field_models =  useGetModel("fields", object_type)
+  let object_models = useGetModel("object_types")
+  let all_field_models =  useGetModel("fields")
+
+  if (form_options.object_models) {
+      object_models = form_options.object_models
+  }
+
+  if (form_options.field_models) {
+      all_field_models = form_options.field_models
+  }
+
+  let field_models =  all_field_models[object_type]
+  let object_model =  object_models[object_type]
+
   const [prior_input_mask, setPriorInputMask] = useState(null)
   const [prior_user_id, setPriorUserId] = useState("")
   let [formValues, formVisibility, formValidated] = formAttributes

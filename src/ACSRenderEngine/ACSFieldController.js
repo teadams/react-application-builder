@@ -20,7 +20,7 @@ import rab_component_models from '../Utils/component.js'
 function ACSFieldController(original_props) {
   
 
-  const default_object_type_models = useGetModel("object_types")
+  const default_object_models = useGetModel("object_types")
   const default_field_models =  useGetModel("fields")
 
   // Will make this s paoc
@@ -30,7 +30,6 @@ function ACSFieldController(original_props) {
       field_models = original_props.field_models
     } else { 
       field_models = original_props.field_models
-
 /// Fix this here
 //      field_models =_.merge({}, original_props.field_models)
     }
@@ -38,13 +37,13 @@ function ACSFieldController(original_props) {
     field_models=_.merge({}, default_field_models)
   } 
 
-
-  if (original_props.object_type_models) {
-    object_models = original_props.object_type_models
+  if (original_props.object_models) {
+    object_models = original_props.object_models
   } else {
-    object_models = default_object_type_models
+    object_models = default_object_models
   }
   let field_model
+u.a(object_models, field_models, original_props.object_type, object_models[original_props.object_type])
   if (!field_models[original_props.object_type][original_props.field_name]) {
       if (original_props.object_type) {
         // if field name is not specified use the pretty key for that 
@@ -109,6 +108,8 @@ function ACSFieldController(original_props) {
   const field_list = ["id", field_name]  
   let options ={}
   options.field_list= field_list;
+  options.object_models = object_models;
+  options.field_models = field_models;
 
   const {formAttributes=props_formAttributes, lastTouched=props_lastTouched, handleFormChange=props_handleFormChange, handleFormSubmit=props_handleFormSubmit} = useForm(object_type, form_field_name, data, handleSubmit, mode, form, options);
 
