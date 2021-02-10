@@ -106,10 +106,16 @@ function RABList(list_props) {
 function ACSListController(input_props) {
 
   // do not merge expensive, known unnecessary things
-  const {data:input_props_data, action, target_menu_name, lazy="core", field_models:input_field_models, headless, action_props, no_header=false, onData, api_options:discard_api_options, field_list:discard_field_list, allow_add=false, allow_save=false, num_add=3, reference_formAttributes, reference_lastTouched, reference_field_name, referenced_object_type, referenced_id, ...merging_props} = input_props
+  const {data:input_props_data, action, target_menu_name, lazy="core", field_models:input_field_models, object_models:input_object_models, headless, action_props, no_header=false, onData, api_options:discard_api_options, field_list:discard_field_list, allow_add=false, allow_save=false, num_add=3, reference_formAttributes, reference_lastTouched, reference_field_name, referenced_object_type, referenced_id, ...merging_props} = input_props
   const context = useContext(AuthContext)
-  const object_models =  useGetModel("object_types")
+  let object_models =  useGetModel("object_types")
+  if (input_object_models && Object.keys(input_object_models).length> 0) {
+      object_models =  input_object_models
+  }
+
+
   const object_model = object_models?object_models[input_props.object_type]:{} 
+
   let field_models = useGetModel("fields")
   if (input_field_models && Object.keys(input_field_models).length> 0) {
       field_models =  input_field_models
@@ -155,7 +161,8 @@ function ACSListController(input_props) {
   list_lastTouched.current = {}
   list_formAttributes.current = {}
 
-  const field_list = useGenerateFieldList(object_type, "", data, mode, false, input_props.field_list, api_options.lazy) 
+//  const useGenerateFieldList = (object_type, field_name="", data, mode, form=true,  field_list=[], lazy="core", layout, section, field_models, object_models) => {
+  const field_list = useGenerateFieldList(object_type, "", data, mode, false, input_props.field_list, api_options.lazy, "","",field_models,object_models) 
   if (!data || (object_type && !object_model) || headless) return null
 
   // XX could calcuate server side

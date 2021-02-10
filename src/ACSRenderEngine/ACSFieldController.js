@@ -43,7 +43,6 @@ function ACSFieldController(original_props) {
     object_models = default_object_models
   }
   let field_model
-u.a(object_models, field_models, original_props.object_type, object_models[original_props.object_type])
   if (!field_models[original_props.object_type][original_props.field_name]) {
       if (original_props.object_type) {
         // if field name is not specified use the pretty key for that 
