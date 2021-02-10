@@ -18,17 +18,20 @@ function getCustomObjectModels(custom_object_type) {
 
 function getCustomFieldModels(custom_object_type, data) {
   const field_models = {}  
-  field_models[custom_object_type] = {id:{key:true}, name:{pretty_name:"Name"}}
+  field_models[custom_object_type] ={}
+  Object.keys(data[0]).forEach(key => {
+    field_models[custom_object_type][key] = {name:key, pretty_name:key} 
+  })
   return field_models
 }
 
 
 function ACSDrillDown(props) {
-  const {object_type="custom_object_type", api_options, view_object_type=props.object_type, tmpdata}  = props
+  const {object_type="custom_object_type", api_options, view_object_type=props.object_type, data}  = props
   
-  const data = [{id:1, name:"foo"}, {id:2, name:"bar"}]
+//  const data = [{id:1, name:"foo"}, {id:2, name:"bar"}]
   let object_models, field_models
-  if (object_type === "custom_object_type") {
+  if (object_type === "custom_object_type" && data) {
     object_models = getCustomObjectModels("custom_object_type")
     field_models = getCustomFieldModels("custom_object_type",data)
   }
@@ -44,7 +47,9 @@ function ACSDrillDown(props) {
 
   return (
       <Fragment>
-      <ACSObjectType object_models={object_models} field_models={field_models} onData={handleOnData} headless={true} data={data} object_type={object_type} api_options={api_options}/>
+      {object_type !== "custom_object_type" && 
+        <ACSObjectType object_models={object_models} field_models={field_models} onData={handleOnData} headless={true} data={data} object_type={object_type} api_options={api_options}/>
+      }
       {drill_data && 
         drill_data.map((drill_row_data,index)=> {
           return (<ListItem  onClick={(event) => handleOnClick(event, drill_row_data, index)} key={index} value={index} name={index}><ACSField image_size="tiny" object_type={object_type} data={drill_row_data} object_models={object_models} field_models={field_models} field_name="name"/></ListItem>
