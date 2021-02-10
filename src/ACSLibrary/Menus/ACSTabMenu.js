@@ -49,7 +49,13 @@ const TabMenu = (props) => {
       StyledTab = withStyles({  wrapper: {alignItems:"flex-start" }, root:{paddingTop:0, paddingBottom:0, minHeight:0}})(Tab)
   }  
 
-   const TabComponent = control.componentByName(menu_component_name);
+  let TabComponent
+  if (props.component_name) {
+    // Hook to quickly see a component 
+    TabComponent = control.componentByName(props.component_name);
+  } else {
+    TabComponent = control.componentByName(menu_component_name);
+  }
    return (
      <Fragment>
     {(num_visible_items > 1 || !menu_model.hide_single_menu) &&
