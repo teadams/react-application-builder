@@ -47,7 +47,7 @@ import TreeItem from '@material-ui/lab/TreeItem';
 // layouts
 import ACSMap from '../Functional/Lists/ACSMap.js'
 import ACSMapAndFilter from '../Functional/Layouts/ACSMapAndFilter.js'
-import {ACSWizard, ACSTabMenu, ACSComboField, ACSField, ACSTextField, ACSFile, ACSImage, ACSDate, ACSReferencesList, ACSMapping, ACSReferenceMapping} from '../ACSLibrary/index.js'
+import {ACSDrillDown, ACSWizard, ACSTabMenu, ACSComboField, ACSField, ACSTextField, ACSFile, ACSImage, ACSDate, ACSReferencesList, ACSMapping, ACSReferenceMapping} from '../ACSLibrary/index.js'
 
 // meta 
 
@@ -300,6 +300,7 @@ function componentPicker(name, source="not provided") {
     case "RABObjectTypePrettyPlural": return RABObjectTypePrettyPlural;
     case "ACSMap": return ACSMap;
     case "ACSMapAndFilter": return ACSMapAndFilter;
+    case "ACSDrillDown": return ACSDrillDown;
     case "ACSWizard": return ACSWizard;
     case "ACSTabMenu": return ACSTabMenu;
     case "SubsiteApply": return SubsiteApply;

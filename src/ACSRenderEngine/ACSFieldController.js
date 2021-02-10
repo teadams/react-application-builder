@@ -46,8 +46,12 @@ function ACSFieldController(original_props) {
   }
   let field_model
   if (!field_models[original_props.object_type][original_props.field_name]) {
-//      alert ("No field in model. Object Type: " + original_props.object_type + " Field: " + original_props.field_name)
-// ## TODO - dealing with subobjects
+      if (original_props.object_type) {
+        // if field name is not specified use the pretty key for that 
+        // object type
+        field_model = field_models[original_props.object_type][object_models[original_props.object_type].pretty_key_id]
+
+      }
   } else {
       field_model = field_models[original_props.object_type][original_props.field_name]
   }
