@@ -16,7 +16,7 @@ function getDataValue(data,string_name) {
 export function authorized(context, auth_scope, auth_priv, object_model={}, data="") {
   if (object_model && (object_model.user_context_key)) {
     let data_value = getDataValue(data,object_model.user_context_key);
-      u.a(auth_scope, auth_priv, data_value, context.user.id )
+      //u.a(auth_scope, auth_priv, data_value, context.user.id )
 
       // you can do anything to yourself (for now)
         if ( getDataValue(data,object_model.user_context_key) === context.user.id) {

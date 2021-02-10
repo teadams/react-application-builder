@@ -27,35 +27,53 @@ function getCustomFieldModels(custom_object_type, data) {
 
 
 function ACSDrillDown(props) {
-  const {object_type="custom_object_type", api_options, view_object_type=props.object_type, data}  = props
+  const {object_type="custom_object_type", api_options, id_field="id", view_component="ACSObjectView", data}  = props
   
 //  const data = [{id:1, name:"foo"}, {id:2, name:"bar"}]
+  const [drill_data, setDrillData] = useState(data)
+  const [id, setDrillId] = useState(props.id)
+  const [selected_row, setSelectedRow] = useState(null)
+
   let object_models, field_models
   if (object_type === "custom_object_type" && data) {
     object_models = getCustomObjectModels("custom_object_type")
     field_models = getCustomFieldModels("custom_object_type",data)
   }
 
-  const [drill_data, setDrillData] = useState(data)
   const handleOnData = (api_results) => {
       setDrillData(api_results)
   }
 
-  const handleOnClick = (event,row_data,index) => {
-
+  const handleOnClick = (event,selected_row,index) => {
+    setDrillId(selected_row.id);
+    setSelectedRow(selected_row);
   }
+
+  // cases
+ // Same Object Type  -- object_type, id, data 
+ // Different Object Type  - object_type, id - id_field
+  // Different component - object_type, id, data
 
   return (
       <Fragment>
       {object_type !== "custom_object_type" && 
         <ACSObjectType object_models={object_models} field_models={field_models} onData={handleOnData} headless={true} data={data} object_type={object_type} api_options={api_options}/>
       }
+      <div style={{display:"flex", flexDirection:"row", width:"100%"}}>
+        <div style={{width:"20%"}}>
       {drill_data && 
         drill_data.map((drill_row_data,index)=> {
           return (<ListItem  onClick={(event) => handleOnClick(event, drill_row_data, index)} key={index} value={index} name={index}><ACSField image_size="tiny" object_type={object_type} data={drill_row_data} object_models={object_models} field_models={field_models} field_name="name"/></ListItem>
           )
         })
-      }    
+      }     
+        </div>
+        <div style={{width:"80%"}}>
+        {id && <Fragment> <ACSObjectView data={selected_row} object_type={object_type} id={id}/> 
+          </Fragment>
+        } 
+        </div>
+      </div>
       </Fragment>
   )
 }
