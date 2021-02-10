@@ -13,10 +13,10 @@ import useGetModel from "../../Hooks/useGetModel.js"
 import AuthContext from '../User/AuthContext';
 
 function ObjectTypeMetaView(props) {
-u.a("ASASD")
   const {object_type}  = props
-  const object_model =  useGetModel("object_types")[object_type]
-  u.a("HERE", object_type, object_model)
+  const object_models =  useGetModel("object_types")
+  if (!object_type) {return null}
+  const object_model = object_models[object_type]
   return (
       <>sdfsdfasdf {object_model.name}</>
   )
