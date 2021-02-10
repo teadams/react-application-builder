@@ -84,7 +84,6 @@ function Template(props) {
   if (!selected_menu && !component_name) {
     selected_menu =  menu_model.menus.app_menu[0]
   }
-
   return    ( 
     <div id="tall" className={classes.grow}>
       <AppBar position="static">

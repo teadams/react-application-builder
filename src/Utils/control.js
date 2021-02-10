@@ -49,6 +49,10 @@ import ACSMap from '../Functional/Lists/ACSMap.js'
 import ACSMapAndFilter from '../Functional/Layouts/ACSMapAndFilter.js'
 import {ACSWizard, ACSTabMenu, ACSComboField, ACSField, ACSTextField, ACSFile, ACSImage, ACSDate, ACSReferencesList, ACSMapping, ACSReferenceMapping} from '../ACSLibrary/index.js'
 
+// meta 
+
+import {ObjectTypeMetaView} from "../Modules/ACSMetaModel/index.js"
+
 const useStyles = makeStyles({
   table_cell: {
     padding: "4px"
@@ -299,6 +303,8 @@ function componentPicker(name, source="not provided") {
     case "ACSWizard": return ACSWizard;
     case "ACSTabMenu": return ACSTabMenu;
     case "SubsiteApply": return SubsiteApply;
+
+    case "ObjectTypeMetaView": return  ObjectTypeMetaView;
     default:  { 
       alert("Menu Model Issues - no component for " + name ) 
       return Fragment;
