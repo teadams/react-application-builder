@@ -10,6 +10,12 @@ import * as u from '../../Utils/utils.js';
 
 import useGetModel from "../../Hooks/useGetModel.js"
 
+function ACSDrillCenter(props) {
+  const {object_models,field_models,data,object_type,id} = props;
+    return (<ACSObjectView data={data} field_models={field_models} object_models={object_models} object_type={object_type} id={id}/>)
+}
+
+
 function getCustomObjectModels(custom_object_type) {
   const object_models = {}  
   object_models[custom_object_type] = {name:"new_object", pretty_name:"New Object", key_id:"id", pretty_key_id:"name"}
@@ -27,7 +33,7 @@ function getCustomFieldModels(custom_object_type, data) {
 
 
 function ACSDrillDown(props) {
-  const {object_type="custom_object_type", api_options, id_field="id", view_component="ACSObjectView", data, drill_placement="left"}  = props
+  const {object_type="custom_object_type", api_options, id_field="id", drill_center_component, data, drill_placement="left"}  = props
   
 //  const data = [{id:1, name:"foo"}, {id:2, name:"bar"}]
   const [drill_data, setDrillData] = useState(data)
@@ -56,6 +62,8 @@ function ACSDrillDown(props) {
     setSelectedData ([selected_row[id_field], index, selected_row])
   }
 
+  const DrillCenter = drill_center_component?drill_center_component:ACSDrillCenter
+
   function RowDrillDown(props) {
     return (
     <div style={{display:"flex", flexDirection:"row", width:"100%"}}>
@@ -69,13 +77,13 @@ function ACSDrillDown(props) {
     </div>
 
       <div style={{width:"80%"}}>
-      {id && <Fragment> <ACSObjectView data={selected_row} field_models={field_models} object_models={object_models} object_type={object_type} id={id}/> 
+      {id && <Fragment> 
+        <DrillCenter data={selected_row} field_models={field_models} object_models={object_models} object_type={object_type} id={id}/> 
         </Fragment>
       } 
       </div>
     </div>)
   }
-
 
   function ColumnDrillDown(props) {
     return (
@@ -89,7 +97,8 @@ function ACSDrillDown(props) {
     }     
     </div>
       <div style={{width:"100%"}}>
-      {id && <Fragment> <ACSObjectView data={selected_row} field_models={field_models} object_models={object_models} object_type={object_type} id={id}/> 
+      {id && <Fragment> 
+          <DrillCenter data={selected_row} field_models={field_models} object_models={object_models} object_type={object_type} id={id}/> 
         </Fragment>
       } 
       </div>
