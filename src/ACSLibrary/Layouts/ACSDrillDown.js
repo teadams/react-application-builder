@@ -19,7 +19,7 @@ function getCustomObjectModels(custom_object_type) {
 function getCustomFieldModels(custom_object_type, data) {
   const field_models = {}  
   field_models[custom_object_type] ={}
-  Object.keys(data[0]).forEach(key => {
+  Object.keys(data).forEach(key => {
     field_models[custom_object_type][key] = {name:key, pretty_name:key} 
   })
   return field_models
@@ -31,13 +31,21 @@ function ACSDrillDown(props) {
   
 //  const data = [{id:1, name:"foo"}, {id:2, name:"bar"}]
   const [drill_data, setDrillData] = useState(data)
-  const [id, setDrillId] = useState(props.id)
-  const [selected_row, setSelectedRow] = useState(null)
+  const [selected_data, setSelectedData] = useState([props.id,"", null])
+  const [id, index, selected_row] = selected_data
 
   let object_models, field_models
   if (object_type === "custom_object_type" && data) {
     object_models = getCustomObjectModels("custom_object_type")
-    field_models = getCustomFieldModels("custom_object_type",data)
+
+    // each row may have differnt fields 
+    if (index) {  
+      field_models = getCustomFieldModels("custom_object_type",data[index])
+    } else {
+      // if nothing is selected, use the first row
+      field_models = getCustomFieldModels("custom_object_type",data[0])
+    }
+
   }
 
   const handleOnData = (api_results) => {
@@ -45,8 +53,7 @@ function ACSDrillDown(props) {
   }
 
   const handleOnClick = (event,selected_row,index) => {
-    setDrillId(selected_row[id_field]);
-    setSelectedRow(selected_row);
+    setSelectedData ([selected_row[id_field], index, selected_row])
   }
 
 
