@@ -24,16 +24,25 @@ function convertMetaObjectToData(meta_object) {
 
 }
 
-function CenterDrill(props) {
-    const {object_models,field_models,data,object_type,id} = props;
-      return (<ACSObjectView data={data} field_models={field_models} object_models={object_models} object_type={object_type} id={id}/>)
-}
-
 function ObjectTypeMetaView(props) {
-  const {object_type}  = props
-  const object_models =  useGetModel("object_types")
-  const data = convertMetaObjectToData(object_models)
-  return (<ACSDrillDown drill_placement="top" drill_center_component={CenterDrill} data={data}/>)
+  const meta_object_models =  useGetModel("object_types")
+  const meta_field_models =  useGetModel("fields")
+
+  const object_data = convertMetaObjectToData(meta_object_models)
+
+  function CenterDrill(props) {
+      const {object_models,field_models,data,id} = props;
+        const field_data = convertMetaObjectToData(meta_field_models[data.name])
+        return (
+        <>
+        <ACSObjectView data={data} field_models={field_models} object_models={object_models} object_type="custom_object_type" id={id}/>
+        <ACSDrillDown drill_placement="left" data={field_data}/>
+        </>
+        )
+  }
+
+
+  return (<ACSDrillDown drill_placement="top" drill_center_component={CenterDrill} data={object_data}/>)
 }
 
 export default ObjectTypeMetaView
