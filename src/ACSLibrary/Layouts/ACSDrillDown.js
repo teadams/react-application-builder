@@ -27,7 +27,7 @@ function getCustomFieldModels(custom_object_type, data) {
 
 
 function ACSDrillDown(props) {
-  const {object_type="custom_object_type", api_options, id_field="id", view_component="ACSObjectView", data}  = props
+  const {object_type="custom_object_type", api_options, id_field="id", view_component="ACSObjectView", data, drill_placement="left"}  = props
   
 //  const data = [{id:1, name:"foo"}, {id:2, name:"bar"}]
   const [drill_data, setDrillData] = useState(data)
@@ -56,29 +56,54 @@ function ACSDrillDown(props) {
     setSelectedData ([selected_row[id_field], index, selected_row])
   }
 
+  function RowDrillDown(props) {
+    return (
+    <div style={{display:"flex", flexDirection:"row", width:"100%"}}>
+      <div style={{width:"20%"}}>
+    {drill_data && 
+      drill_data.map((drill_row_data,index)=> {
+        return (<ListItem  onClick={(event) => handleOnClick(event, drill_row_data, index)} key={index} value={index} name={index}><ACSField image_size="tiny" object_type={object_type} data={drill_row_data} object_models={object_models} field_models={field_models} field_name="name"/></ListItem>
+        )
+      })
+    }     
+    </div>
+
+      <div style={{width:"80%"}}>
+      {id && <Fragment> <ACSObjectView data={selected_row} field_models={field_models} object_models={object_models} object_type={object_type} id={id}/> 
+        </Fragment>
+      } 
+      </div>
+    </div>)
+  }
+
+
+  function ColumnDrillDown(props) {
+    return (
+    <div style={{display:"flex", flexDirection:"column", width:"100%"}}>
+      <div style={{display:"flex", flexDirection:"row", flexWrap:"wrap", width:"100%"}}>
+    {drill_data && 
+      drill_data.map((drill_row_data,index)=> {
+        return ( <div><ListItem  onClick={(event) => handleOnClick(event, drill_row_data, index)} key={index} value={index} name={index}><ACSField image_size="tiny" onClick={(event) => handleOnClick(event, drill_row_data, index)} object_type={object_type} data={drill_row_data} object_models={object_models} field_models={field_models} field_name="name"/></ListItem>
+        </div>)
+      })
+    }     
+    </div>
+      <div style={{width:"100%"}}>
+      {id && <Fragment> <ACSObjectView data={selected_row} field_models={field_models} object_models={object_models} object_type={object_type} id={id}/> 
+        </Fragment>
+      } 
+      </div>
+    </div>)
+  }
+
+  let DrillDownLayout = (drill_placement === "left")?RowDrillDown:ColumnDrillDown
 
   return (
       <Fragment>
       {object_type !== "custom_object_type" && 
         <ACSObjectType object_models={object_models} field_models={field_models} onData={handleOnData} headless={true} data={data} object_type={object_type} api_options={api_options}/>
       }
-      <div style={{display:"flex", flexDirection:"row", width:"100%"}}>
-        <div style={{width:"20%"}}>
-      {drill_data && 
-        drill_data.map((drill_row_data,index)=> {
-          return (<ListItem  onClick={(event) => handleOnClick(event, drill_row_data, index)} key={index} value={index} name={index}><ACSField image_size="tiny" object_type={object_type} data={drill_row_data} object_models={object_models} field_models={field_models} field_name="name"/></ListItem>
-
-          // return (<ListItem  onClick={(event) => handleOnClick(event, drill_row_data, index)} key={index} value={index} name={index}><ACSField image_size="tiny" object_type={object_type} data={drill_row_data} object_models={object_models} field_models={field_models} field_name="name"/></ListItem>
-          )
-        })
-      }     
-        </div>
-        <div style={{width:"80%"}}>
-        {id && <Fragment> <ACSObjectView data={selected_row} field_models={field_models} object_models={object_models} object_type={object_type} id={id}/> 
-          </Fragment>
-        } 
-        </div>
-      </div>
+      <DrillDownLayout/>
       </Fragment>
   )
 }

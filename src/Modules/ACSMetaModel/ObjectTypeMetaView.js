@@ -27,7 +27,7 @@ function ObjectTypeMetaView(props) {
   const {object_type}  = props
   const object_models =  useGetModel("object_types")
   const data = convertMetaObjectToData(object_models)
-  return (<ACSDrillDown data={data}/>)
+  return (<ACSDrillDown drill_placement="top" data={data}/>)
 }
 
 export default ObjectTypeMetaView
