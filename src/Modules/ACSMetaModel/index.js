@@ -1,5 +1,5 @@
-import ObjectTypeMetaView from './ObjectTypeMetaView';
+import ACSMetaModelObjectTypeView from './ACSMetaModelObjectTypeView';
 
 export {
-  ObjectTypeMetaView 
+  ACSMetaModelObjectTypeView
 }

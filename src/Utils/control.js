@@ -51,7 +51,7 @@ import {ACSDrillDown, ACSWizard, ACSTabMenu, ACSComboField, ACSField, ACSTextFie
 
 // meta 
 
-import {ObjectTypeMetaView} from "../Modules/ACSMetaModel/index.js"
+import {ACSMetaModelObjectTypeView} from "../Modules/ACSMetaModel/index.js"
 
 const useStyles = makeStyles({
   table_cell: {
@@ -305,7 +305,7 @@ function componentPicker(name, source="not provided") {
     case "ACSTabMenu": return ACSTabMenu;
     case "SubsiteApply": return SubsiteApply;
 
-    case "ObjectTypeMetaView": return  ObjectTypeMetaView;
+    case "ACSMetaModelObjectTypeView": return  ACSMetaModelObjectTypeView;
     default:  { 
       alert("Menu Model Issues - no component for " + name ) 
       return Fragment;

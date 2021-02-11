@@ -24,7 +24,7 @@ function convertMetaObjectToData(meta_object) {
 
 }
 
-function ObjectTypeMetaView(props) {
+function ACSMetaModelObjectTypeView(props) {
   const meta_object_models =  useGetModel("object_types")
   const meta_field_models =  useGetModel("fields")
 
@@ -45,4 +45,4 @@ function ObjectTypeMetaView(props) {
   return (<ACSDrillDown drill_placement="top" drill_center_component={CenterDrill} data={object_data}/>)
 }
 
-export default ObjectTypeMetaView
+export default ACSMetaModelObjectTypeView
