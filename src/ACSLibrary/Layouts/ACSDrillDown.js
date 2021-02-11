@@ -60,6 +60,8 @@ function ACSDrillDown(props) {
       {drill_data && 
         drill_data.map((drill_row_data,index)=> {
           return (<ListItem  onClick={(event) => handleOnClick(event, drill_row_data, index)} key={index} value={index} name={index}><ACSField image_size="tiny" object_type={object_type} data={drill_row_data} object_models={object_models} field_models={field_models} field_name="name"/></ListItem>
+
+          // return (<ListItem  onClick={(event) => handleOnClick(event, drill_row_data, index)} key={index} value={index} name={index}><ACSField image_size="tiny" object_type={object_type} data={drill_row_data} object_models={object_models} field_models={field_models} field_name="name"/></ListItem>
           )
         })
       }     

@@ -12,7 +12,7 @@ import * as u from '../../Utils/utils.js'
 import useGetModel from '../../Hooks/useGetModel.js'
 
 function Auth(props) {
-  let {auth_scope="", auth_priv="", auth_action="read", object_type, prompt_login=true, require_authorization=true, data=""} = props
+  let {auth_scope="", auth_priv="", auth_action="read", object_type, object_models:input_object_models, prompt_login=true, require_authorization=true, data=""} = props
   // for safety making this explicit instead of defaulting
 
   if (["view","csv","list"].includes(auth_action)) {auth_action="read"}
@@ -20,7 +20,10 @@ function Auth(props) {
   if (["list_create"].includes(auth_action)) {auth_action="create"}
 
   const [login_form, setLoginForm] = useState(false)
-  const object_type_meta = useGetModel("object_types", object_type)
+  let object_type_meta = useGetModel("object_types", object_type)
+  if (input_object_models) {
+      object_type_meta = input_object_models[object_type]
+  }
   const app_params  = useGetModel("app_params")
   const context = useContext(AuthContext)
   
@@ -46,9 +49,15 @@ function Auth(props) {
     if (object_type) {        
         auth_action_privs = object_type_meta.auth_action_privs
     } 
-    const auth_and_scope = auth_action_privs[auth_action].split("_")
-    auth_scope = auth_and_scope[0]
-    auth_priv = auth_and_scope[1]
+    let auth_and_scope 
+    if (auth_action_privs) {
+      auth_and_scope = auth_action_privs[auth_action].split("_")
+      auth_scope = auth_and_scope[0]
+      auth_priv = auth_and_scope[1]
+    } else {
+      auth_scope = "site";
+      auth_priv="public"
+    }
   } else {
     if (!auth_scope) {
       if (object_type && object_type_meta.with_context) {

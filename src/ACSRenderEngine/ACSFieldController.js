@@ -23,17 +23,21 @@ function ACSFieldController(original_props) {
   const default_object_models = useGetModel("object_types")
   const default_field_models =  useGetModel("fields")
 
-  // Will make this s paoc
+  // We do not merge with the base model here.
+  // Assume this has been done at a higher level 
+  // (if necessary)
   let field_models, object_models
   if (original_props.field_models) {
+    // ??? TODO. I think we played with merging
     if (original_props.field_models_built) {
       field_models = original_props.field_models
     } else { 
       field_models = original_props.field_models
-/// Fix this here
-//      field_models =_.merge({}, original_props.field_models)
     }
   } else if (!original_props.field_models) {
+    // ?? Does this cause performance issues.  
+    // Do not think this is needed. WE should not 
+    // be chaning it
     field_models=_.merge({}, default_field_models)
   } 
 

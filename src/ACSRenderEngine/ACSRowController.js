@@ -62,7 +62,7 @@ import rab_component_models from '../Utils/component.js'
 //   The rest is just prep
 
 function ACSRow(row_props) {
-  const {mode, form, field_chunk, field_models, data, field, rab_component_model, handleFormChange, handleFormSubmit, formAttributes=[], key_id, s_index, f_index,reference_formAttributes, reference_lastTouched} = row_props 
+  const {mode, form, field_chunk, field_models, object_models, data, field, rab_component_model, handleFormChange, handleFormSubmit, formAttributes=[], key_id, s_index, f_index,reference_formAttributes, reference_lastTouched} = row_props 
   let {autoFocus} = row_props
   const [formValues, formVisibility, formValidated] = formAttributes
   const {...row_params} = row_props
@@ -77,12 +77,12 @@ function ACSRow(row_props) {
            const field_model = field_models[row_props.object_type][field_name]
 // ## TODO - extract proper field model
            if (field_model && field_model.combo_fields) {
-             return <ACSComboField {...row_params}  {...field_model} mode={mode} field_models={field_models} form={!form} field_name={field_name}  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit}
+             return <ACSComboField {...row_params}  {...field_model} mode={mode} field_models={field_models} object_models={object_models} form={!form} field_name={field_name}  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit}
              override_meta_model={false}
              autoFocus ={autoFocus}
              formAttributes={formAttributes} key={ch_index+"field_name"} key_id={key_id+ch_index} />
            } else {
-            return <ACSFieldController {...row_params}  {...field_model} mode={mode} field_models={field_models} form={!form} field_name={field_name}  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit}
+            return <ACSFieldController {...row_params}  {...field_model} mode={mode} field_models={field_models} object_models={object_models} form={!form} field_name={field_name}  handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit}
             override_meta_model={false}
             autoFocus ={autoFocus}
             formAttributes={formAttributes} key={ch_index+"field_name"} key_id={key_id+ch_index}
@@ -370,7 +370,7 @@ function ACSRowController(input_props) {
   if (headless) {
       return null
   }
-  return  (<ACSRowRenderer {...row_model.props} mode={mode} row_type={row_type} field_models={field_models} form={form} object_type={object_type} action_props={ action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options}  formAttributes={formAttributes} form_open={form_open} form_title={form_title} onClose={input_props.onClose} dialog_size={dialog_size} num_columns={num_columns}
+  return  (<ACSRowRenderer {...row_model.props} mode={mode} row_type={row_type} field_models={field_models} object_models={object_models} form={form} object_type={object_type} action_props={ action_props} action={action}  id={id} chunked_field_list={section_field_lists} field_list={field_list} sections={sections} data={data} api_options={api_options}  formAttributes={formAttributes} form_open={form_open} form_title={form_title} onClose={input_props.onClose} dialog_size={dialog_size} num_columns={num_columns}
   handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} lastTouched={lastTouched} rab_component_model={rab_component_model} key={key_id+"Render"} key_id={key_id}   reference_formAttributes= {reference_formAttributes}
     reference_lastTouched = {reference_lastTouched}/>)
 

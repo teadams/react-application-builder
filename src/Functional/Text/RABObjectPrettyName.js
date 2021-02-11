@@ -13,14 +13,20 @@ import useGetModel from "../../Hooks/useGetModel.js"
 
 
 function RABObjectPrettyName(props) {
-  const { object_type, action, variant, header=true, image_size="small"} = props
+  const { object_type, object_models:input_object_models, field_models:input_field_models, action, variant, header=true, image_size="small"} = props
   let {data} = props
-  const object_type_model = useGetModel("object_types", object_type)
-  const field_models = useGetModel("fields", object_type)
-  
+  let object_type_model = useGetModel("object_types", object_type)
+  if (input_object_models) {
+      object_type_model = input_object_models[object_type]
+  }
+  let field_models = useGetModel("fields", object_type)
+  if (input_field_models) {
+    field_models = input_field_models[object_type]
+  }
   const pretty_field_name = object_type_model.pretty_key_id
   const field_model = field_models[pretty_field_name]
-  const field_component_name = field_model.final_field_component?field_model.final_field_component:field_model.field_component
+  const field_component_name = field_model.final_field_component?field_model.final_field_component:(field_model.field_component?field_model.field_component:"")
+
   if (field_model.references) {
     data=data[field_model.references]
   }

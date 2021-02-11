@@ -16,8 +16,7 @@ const RadioLabel = (props=> {
 
 function RABTextField(props) {
   const {mode, row_data,  data, object_type, data_field, pretty_name, description_text, display_field=props.field_name, references_field, field_name, form_field_name=props.field_name, field_model={}, object_models, formdata, formAttributes=[], disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values, 
-  variant="outlined", required, helperText, placeholder, multiline=false, more_link_cutoff="", more_link_list_cutoff=props.more_link_cutoff, prevent_edit, input_type, data_type, key_id} = props
-
+  variant="outlined", required, helperText, placeholder, multiline=false, more_link_cutoff="", more_link_list_cutoff=props.more_link_cutoff, prevent_edit, input_type, data_type, key_id, trace} = props
 //u.a(field_name)
   let {with_thumbnail="", with_url="", more_detail=false, toggleMoreDetail} = props
   const [formValues, formVisibility, formValidated] = formAttributes
@@ -111,6 +110,7 @@ function RABTextField(props) {
     }
   }
 
+
   const rows = multiline?multiline:1
   let value
   switch (mode) {
@@ -190,6 +190,7 @@ function RABTextField(props) {
     case "text":
     case "view":
     case "list":
+
       if (data_type == "boolean") {
         field_value = field_value?"Yes":"No"
       }
@@ -203,7 +204,9 @@ function RABTextField(props) {
         })
         field_value = valid_values_object[field_value]
     }
-  
+    if (typeof(field_value) === "object") {
+      field_value=JSON.stringify(field_value)  
+    }
     switch (mode) {
       case "csv":
         return '"'+field_value+'""'
