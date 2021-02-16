@@ -3,6 +3,7 @@ import AuthContext from './AuthContext.js'
 import useGetModel from "../../Hooks/useGetModel.js"
 import * as api from '../../Utils/data.js';
 import * as u from '../../Utils/utils.js';
+import _ from 'lodash/object'
 
 
 function AuthContextProvider(props) {
@@ -12,7 +13,7 @@ function AuthContextProvider(props) {
   const [user, setUser] = useState("");
   const [subsite, setSubsite] = useState("");
   const [context_id, setContextId] = useState(default_context);
-  const [dirty_stamp, setDirtyData] = useState(Date.now());
+  const [dirty_stamp, setDirtyData] = useState({});
 
 
   const handleRefreshSubsiteContext = (context_id) => {
@@ -44,6 +45,15 @@ function AuthContextProvider(props) {
   }
 
 
+  const handleDirtyData = (object_type) => {
+    let dirty_object = _.merge({},dirty_stamp);
+    if (object_type) {
+      dirty_object[object_type] = Date.now();
+      setDirtyData(dirty_object);
+
+    }
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -51,8 +61,9 @@ function AuthContextProvider(props) {
       context_id: context_id,
       subsite: subsite, 
       dirty_stamp: dirty_stamp,
-      setDirty: () => {
-        setDirtyData(Date.now())},
+      setDirty: (object_type) => {
+        handleDirtyData(object_type);
+      },
       logout: ()=> {setUser("")},  
       refreshUserContext: () => {
         handleRefreshContext()},

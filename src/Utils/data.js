@@ -185,7 +185,7 @@ export function handleSubmit (event, formValues, mode, context, object_type, obj
           context.refreshUserContext()
         }
         if (!delay_dirty) {
-          context.setDirty();
+          context.setDirty(object_type);
         }
       }
     })     
@@ -212,7 +212,7 @@ export function handleSubmit (event, formValues, mode, context, object_type, obj
           context.refreshUserContext()
         }
         if (!delay_dirty) {
-          context.setDirty();
+          context.setDirty(object_type);
         }
       }
     })

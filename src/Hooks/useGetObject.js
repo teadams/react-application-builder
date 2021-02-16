@@ -27,13 +27,13 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
   const [state, setState] = useState(null);
   const isMountedRef = useRef(null);
   const context = useContext(AuthContext)
-  const dirty_data = context?context.dirty_stamp:""
+  const dirty_stamp = (context && object_type)?context.dirty_stamp[object_type]:""
   
   let trigger_change_array
   if (param_data_exists) {
     trigger_change_array = []
   } else {
-    trigger_change_array = [object_type, id, dirty_data]
+    trigger_change_array = [object_type, id, dirty_stamp, context?context.user.id:""]
     api_options.user_id = api_options.user_id?api_options.user_id:(context?context.user.id:"") 
     api_options.subsite_id = api_options.subsite_id?api_options.subsite_id:(context?context.context_id:"")
     trigger_change_array = api.addAPIParams(trigger_change_array, api_options)
@@ -44,7 +44,6 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
 
       isMountedRef.current = true;
       if (!passthrough && !param_data && (object_type && (id||api_options.filter_id||api_options.get_count))) {
-
         api.getData (object_type, Object.assign({id:id},api_options), (results, error) => {  
           if (isMountedRef.current) {
             if (error) {

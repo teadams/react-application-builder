@@ -201,7 +201,7 @@ let {default_values_prop={}, field_list, delay_dirty=false, list_form_params={},
         if (error) {
           alert ('error with file upload ' + error.message)
         } else { 
-          context.setDirty();
+          context.setDirty(object_type);
           handleSubmit(event,'updated', formValues);
         }
     })

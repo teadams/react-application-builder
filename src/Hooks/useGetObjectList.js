@@ -21,16 +21,15 @@ const useGetObjectList = (object_type, api_options={}, param_data, callback="", 
   const context = useContext(AuthContext)
   const isMountedRef = useRef(null);
 
-  const dirty_stamp = context.dirty_stamp;
-
+  const dirty_stamp = (context && object_type)?context.dirty_stamp[object_type]:""
 
   api_options.user_id = api_options.user_id?api_options.user_id:(context?context.user.id:"") 
   api_options.subsite_id = api_options.subsite_id?api_options.subsite_id:(context?context.context_id:"")
 
 
   let return_state = prev_state.slice(1)
-  const trigger_change_array = api.addAPIParams([object_type, dirty_stamp], api_options)
-  console.log(object_type+trigger_change_array)
+  // get new query if the dirty timestamp for the user changes or if the logged in user changes
+  const trigger_change_array = api.addAPIParams([object_type, dirty_stamp, context?context.user.id:""], api_options)
   function markStateReady(object_type, api_options, api_results) {
     setState([true, object_type,  api_options, api_results])
   }
@@ -43,7 +42,6 @@ const useGetObjectList = (object_type, api_options={}, param_data, callback="", 
 
   useLayoutEffect( () => {
     isMountedRef.current = true;
-
       if (!param_data && object_type) {
         api.getData (object_type,  api_options, (api_results, error) => { 
           if (isMountedRef.current) {
