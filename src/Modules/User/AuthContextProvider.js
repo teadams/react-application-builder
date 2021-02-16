@@ -8,6 +8,8 @@ import _ from 'lodash/object'
 
 function AuthContextProvider(props) {
   const app_params =  useGetModel("app_params")
+  const object_types_model =  useGetModel("object_types")
+
   const default_context =app_params["context_default_object"]
 
   const [user, setUser] = useState("");
@@ -49,8 +51,11 @@ function AuthContextProvider(props) {
     let dirty_object = _.merge({},dirty_stamp);
     if (object_type) {
       dirty_object[object_type] = Date.now();
+      const object_type_model = object_types_model[object_type]
+      for (const dependent_object_type of object_type_model.dependent_object_types) {
+        dirty_object[dependent_object_type] = Date.now();
+      }
       setDirtyData(dirty_object);
-
     }
   }
 
