@@ -13,16 +13,25 @@ function getDataValue(data,string_name) {
   }
 }
 
-export function authorized(context, auth_scope, auth_priv, object_model={}, data="") {
-  if (object_model && (object_model.user_context_key)) {
-    let data_value = getDataValue(data,object_model.user_context_key);
-      //u.a(auth_scope, auth_priv, data_value, context.user.id )
+export function authorized(context, auth_scope, auth_priv, auth_action="read", object_model={}, data="") {
+  let exception_fields = []
+  if (object_model && auth_action === "read" && object_model.read_priv_exception_user_fields) {
+      exception_fields = object_model.read_priv_exception_user_fields;
+  }
+  if (object_model && auth_action === "edit"  && object_model.edit_priv_exception_user_fields.length>0) {
+    exception_fields = object_model.edit_priv_exception_user_fields;
+  }
+  if (object_model && auth_action === "delete" && object_model.delete_priv_exception_user_fields) {
+    exception_fields = object_model.delete_priv_exception_user_fields;
+  }
 
-      // you can do anything to yourself (for now)
-        if ( getDataValue(data,object_model.user_context_key) === context.user.id) {
+  for (const exception_field of exception_fields) {
+        let data_value = getDataValue(data,object_model[exception_field]);
+        if (data_value === context.user.id) {
           return true
         }
   }
+
   if (!auth_scope || auth_priv=="public" || ( context.user && context.user.site_admin) || (context.user && auth_priv == "user")) {
       // no auth  check; site admins get into everything
     //  alert ("user is " + JSON.stringify(context.user))
@@ -47,6 +56,7 @@ export function authorized(context, auth_scope, auth_priv, object_model={}, data
           } else {
             return false
           }
+// WHY WOULD PRIV BE READ?
       } else if (auth_priv == "member" || auth_priv == "read") {
           return true
       } else {

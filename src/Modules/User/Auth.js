@@ -81,7 +81,7 @@ function Auth(props) {
        }
   }
   
-  const authorized = auth.authorized({context_id:context.context_id, user:context.user}, auth_scope, auth_priv, object_type_meta, data)
+  const authorized = auth.authorized({context_id:context.context_id, user:context.user}, auth_scope, auth_priv, auth_action, object_type_meta, data)
 
 
   if (login_form && !context.user) {
