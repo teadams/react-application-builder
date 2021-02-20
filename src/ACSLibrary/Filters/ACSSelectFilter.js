@@ -66,7 +66,7 @@ function ACSSelectFilter(props) {
   let field_model = {}
   field_model =  useGetModel("fields")[object_type][filter_field_name]
   
-  const select_values_from_api = !select_options && (!field_model || !field_model.valid_values || field_model.valid_values === "object")
+  const select_values_from_api = !props.data && (!field_model || !field_model.valid_values || field_model.valid_values === "object")
 
   if (!select_options && field_model && field_model.valid_values && field_model.valid_values !== "object") {
       let valid_select_options = []
@@ -82,7 +82,6 @@ function ACSSelectFilter(props) {
 
       setSelectOptions(valid_select_options)
   }
-
 
   function handleSelectValues(results) {
         if (any_item) {
@@ -112,7 +111,7 @@ function ACSSelectFilter(props) {
   return (
       <Fragment>
         {select_values_from_api  &&
-        <ACSObjectType onData={handleSelectValues} headless={true} object_type="core_subsite"/>}
+        <ACSObjectType onData={handleSelectValues} debug={true} headless={true} object_type="core_subsite"/>}
         {select_options && 
           <TextField
             select={true}

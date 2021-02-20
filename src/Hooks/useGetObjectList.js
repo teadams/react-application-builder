@@ -30,6 +30,7 @@ const useGetObjectList = (object_type, api_options={}, param_data, callback="", 
   let return_state = prev_state.slice(1)
   // get new query if the dirty timestamp for the user changes or if the logged in user changes
   const trigger_change_array = api.addAPIParams([object_type, dirty_stamp, context?context.user.id:""], api_options)
+
   function markStateReady(object_type, api_options, api_results) {
     setState([true, object_type,  api_options, api_results])
   }
@@ -40,8 +41,15 @@ const useGetObjectList = (object_type, api_options={}, param_data, callback="", 
   // put the direct flag in the call?  How does that interact with trigger change array. 
   // think about it, it is reall about API_options
 
+if (trace) {
+  u.a("should get data", trace, object_type, dirty_stamp, trigger_change_array)
+}
+
   useLayoutEffect( () => {
     isMountedRef.current = true;
+if (trace) {
+    u.a("getting data for object_type", trace, object_type, api_options, param_data)
+}
       if (!param_data && object_type) {
         api.getData (object_type,  api_options, (api_results, error) => { 
           if (isMountedRef.current) {
