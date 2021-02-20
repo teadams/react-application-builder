@@ -19,14 +19,16 @@ function AuthContextProvider(props) {
 
 
   const handleRefreshSubsiteContext = (context_id) => {
-    api.getData ("core_subsite", ({id:context_id}), (subsite_data, error) => {  
+    api.getData ("core_subsite", ({id:context_id,user_id:user.id}), (subsite_data, error) => {  
       if (error) {
         alert ("error " + error.message)
       } else {
+        u.a("retrieved subsite data, user", subsite_data[0], user.id)
         if (subsite_data[0]) { 
           setContextId(context_id)    
           setSubsite(subsite_data[0])
         } else {
+          setContextId(context_id)    
           setSubsite({})
         }
       }

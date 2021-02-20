@@ -14,10 +14,16 @@ import AuthContext from '../../Modules/User/AuthContext';
 
 
 function ACSGroup(props) {
-  const {object_type,id} = props
+  const {object_type,id,set_context} = props
   const context = useContext(AuthContext)
+u.a(id, context.context_id)
   if (id && id !==context.context_id && id !== "context") {
-    context.setContextId(id)
+    // generally, we'll be getting the contect from the context 
+    // switcher and just have to wait.  Use set_context to force 
+    // a context switch
+    if (set_context) {
+      context.setContextId(id)
+    }
     return null
   }
   const root_path = "/ACSGroup/core_subsite/"+id

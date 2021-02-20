@@ -81,6 +81,7 @@ function Template(props) {
   })
 
   let {component_name, selected_menu, object_type, id, menu_type, field_name } = props.match.params
+  id = parseInt(id);
   if (!selected_menu && !component_name) {
     selected_menu =  menu_model.menus.app_menu[0]
   }
