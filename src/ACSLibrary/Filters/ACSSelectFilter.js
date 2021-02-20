@@ -12,6 +12,9 @@ import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typograp
 
 , Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 import {Link, Container, Box, Card, TableHead, TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
+
+import { ACSObjectType} from '../../ACSLibrary'
+
 import useGetModel from '../../Hooks/useGetModel';
 
 
@@ -63,6 +66,8 @@ function ACSSelectFilter(props) {
   let field_model = {}
   field_model =  useGetModel("fields")[object_type][filter_field_name]
   
+  const select_values_from_api = !select_options && (!field_model || !field_model.valid_values || field_model.valid_values === "object")
+
   if (!select_options && field_model && field_model.valid_values && field_model.valid_values !== "object") {
       let valid_select_options = []
       if (any_item) {
@@ -79,24 +84,18 @@ function ACSSelectFilter(props) {
   }
 
 
-  if (!select_options && (!field_model || !field_model.valid_values || field_model.valid_values === "object")) {
-    api.getData (object_type, api_options, (results, error) => {  
-          if (error) {
-              alert ("error retrieving object in filter" + object_type + " " + error.message)
-          } else {
-              if (any_item) {
-               let new_value = {}
-                new_value.id = "_none_"
-                new_value[select_display_field] = any_display_label
-                results.unshift(new_value)
-              }
-              if (tree_options) {
-                setSelectOptions(formTreeData(results))
-              } else {
-                setSelectOptions(results)
-              }
-          }
-      })
+  function handleSelectValues(results) {
+        if (any_item) {
+            let new_value = {}
+            new_value.id = "_none_"
+            new_value[select_display_field] = any_display_label
+            results.unshift(new_value)
+        }
+        if (tree_options) {
+            setSelectOptions(formTreeData(results))
+        } else {
+            setSelectOptions(results)
+        }
   }
 
 
@@ -109,27 +108,31 @@ function ACSSelectFilter(props) {
       onChange(event)
     }
   }
-  if (select_options) {
-    return (
-      <TextField
-        select={true}
-        name={filter_name}
-        id={filter_name}
-        key={filter_name}
-        label={label}
-        fullWidth={true}
-        value={value}
-        style={select_style}
-        SelectProps={{
-          disableUnderline:true
-        }}
-        onChange={handleChange}>
-        {select_options && selectItems(select_options,select_value_field,select_display_field)}
-        </TextField>
+  
+  return (
+      <Fragment>
+        {select_values_from_api  &&
+        <ACSObjectType onData={handleSelectValues} headless={true} object_type="core_subsite"/>}
+        {select_options && 
+          <TextField
+            select={true}
+            name={filter_name}
+            id={filter_name}
+            key={filter_name}
+            label={label}
+            fullWidth={true}
+            value={value}
+            style={select_style}
+            SelectProps={{
+              disableUnderline:true
+            }}
+            onChange={handleChange}>
+            {select_options && selectItems(select_options,select_value_field,select_display_field)}
+            </TextField>
+          }
+        </Fragment>
      )
-    } else {
-        return null
-    }
+    
   
 }
 
