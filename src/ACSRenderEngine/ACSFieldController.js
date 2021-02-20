@@ -4,6 +4,8 @@ import * as u from '../Utils/utils.js';
 import * as meta from '../Utils/meta.js'
 import * as api from '../Utils/data.js'
 import _ from 'lodash/object'
+import AuthContext from '../Modules/User/AuthContext';
+
 
 import React, { Component, Fragment,  useRef, useState, useContext, useEffect} from 'react';
 import {ACSFieldRenderer} from '../ACSRenderEngine/'
@@ -22,6 +24,7 @@ function ACSFieldController(original_props) {
 
   const default_object_models = useGetModel("object_types")
   const default_field_models =  useGetModel("fields")
+  const context = useContext(AuthContext)
 
   // We do not merge with the base model here.
   // Assume this has been done at a higher level 
@@ -151,6 +154,12 @@ function ACSFieldController(original_props) {
           } 
           select_api_options.filter_id.push(current_dependent_value)
           select_api_options.filter_field.push(dependent_filter)
+        }
+        if (context.user.id) {
+          select_api_options.user_id = context.user.id
+        }
+        if (context.context_id) {
+          select_api_options.subsite_id =context.context_id
         }
         api.getData (references_object_type,select_api_options, (results, error) => {         
               if (error) {
