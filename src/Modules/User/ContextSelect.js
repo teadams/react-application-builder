@@ -34,17 +34,27 @@ const context_style = {
 //  linearGradient(to bottom, #ffffff 0%,#e5e5e5 100%)
 }
 
-function ContextSelect () {
+function ContextSelect (props) {
+  const {object_type,id} = props;
   const context = useContext(AuthContext)
   const app_params = useGetModel("app_params")
   const subsite_id = context.context_id
   const user = context.user
   const history = useHistory({});
-  
+  // context changew will be triggered by the URL.
+  // THis approach handles both "Fresh" hits to the URL 
+  // and changes to the URL caused by this context switcher
+//  if (object_type === "core_subsite" && id) {
+//    context.setContextId(id)  
+//  }
   function handleContextChange(event) {
     const value = event.target.value 
     if (value !== "_none_") {
-        context.setContextId(value)  
+        //        context.setContextId(value)  
+        // context will be set off the new URL in 
+        // Template.  This is to handle the case 
+        // when the user goes to the URL directly 
+        // instead of switching.
         history.push("/ACSGroup/core_subsite/"+value)
     } else {
       context.setContextId(0)

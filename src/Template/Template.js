@@ -12,9 +12,11 @@ import * as u from '../Utils/utils.js'
 
 import {AppBar,Toolbar, Typography} from '@material-ui/core';
 import useGetModel from "../Hooks/useGetModel.js"
+import AuthContext from '../Modules/User/AuthContext';
+
 
 function Template(props) {
-
+  const context = useContext(AuthContext)
   const app_params =  useGetModel("app_params")
   const menu_model = useGetModel("menus")
   const [open,setOpen] = useState(true)
@@ -82,6 +84,9 @@ function Template(props) {
 
   let {component_name, selected_menu, object_type, id, menu_type, field_name } = props.match.params
   id = parseInt(id);
+  if (object_type === "core_subsite" && id) {
+    context.setContextId(id);
+  }
   if (!selected_menu && !component_name) {
     selected_menu =  menu_model.menus.app_menu[0]
   }

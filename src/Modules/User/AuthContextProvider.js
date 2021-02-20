@@ -11,24 +11,25 @@ function AuthContextProvider(props) {
   const object_types_model =  useGetModel("object_types")
 
   const default_context =app_params["context_default_object"]
-
   const [user, setUser] = useState("");
   const [subsite, setSubsite] = useState("");
   const [context_id, setContextId] = useState(default_context);
   const [dirty_stamp, setDirtyData] = useState({});
 
 
-  const handleRefreshSubsiteContext = (context_id) => {
-    api.getData ("core_subsite", ({id:context_id,user_id:user.id}), (subsite_data, error) => {  
+  const handleRefreshSubsiteContext = (new_context_id, user_id) => {
+    if (user_id === undefined) {
+      user_id = user.id
+    }
+    api.getData ("core_subsite", ({id:new_context_id,user_id:user_id}), (subsite_data, error) => {  
       if (error) {
         alert ("error " + error.message)
       } else {
-        u.a("retrieved subsite data, user", subsite_data[0], user.id)
         if (subsite_data[0]) { 
-          setContextId(context_id)    
+          setContextId(new_context_id)    
           setSubsite(subsite_data[0])
         } else {
-          setContextId(context_id)    
+          setContextId(new_context_id)    
           setSubsite({})
         }
       }
@@ -43,6 +44,7 @@ function AuthContextProvider(props) {
           alert ("error " + error.message)
         } else {
           setUser(user_data)
+          handleRefreshSubsiteContext()
         }
       })
     }
@@ -71,11 +73,13 @@ function AuthContextProvider(props) {
       setDirty: (object_type) => {
         handleDirtyData(object_type);
       },
-      logout: ()=> {setUser("")},  
+      logout: ()=> {setUser("");
+          handleRefreshSubsiteContext(context_id,"")},  
       refreshUserContext: () => {
         handleRefreshContext()},
       login: (user)=> {
-      setUser(user)},    
+        setUser(user)
+        handleRefreshSubsiteContext(context_id,user.id)},    
       setContextId:  (new_context_id)=> {
         if (context_id !== new_context_id) {
           handleRefreshSubsiteContext(new_context_id)

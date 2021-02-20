@@ -14,14 +14,12 @@ import AuthContext from '../../Modules/User/AuthContext';
 
 
 function ACSGroup(props) {
-  const {object_type,id,set_context} = props
+  const {object_type,id,force_context} = props
   const context = useContext(AuthContext)
-u.a(id, context.context_id)
   if (id && id !==context.context_id && id !== "context") {
-    // generally, we'll be getting the contect from the context 
-    // switcher and just have to wait.  Use set_context to force 
-    // a context switch
-    if (set_context) {
+    // special case when context is not set but the URL params 
+    // in template 
+    if (force_context) {
       context.setContextId(id)
     }
     return null
