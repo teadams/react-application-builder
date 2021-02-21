@@ -220,6 +220,7 @@ function ACSFieldController(original_props) {
       onBlur()
     }
   }
+  let click_to_edit= true;
 
   return (
      <ACSFieldRenderer 
@@ -238,6 +239,7 @@ function ACSFieldController(original_props) {
     // specifics about the input field
     model_valid_values={model_valid_values}
     valid_values = {valid_values}
+    click_to_edit = {click_to_edit}
 // mode and is this s afield form
     mode={mode}
     form={form}

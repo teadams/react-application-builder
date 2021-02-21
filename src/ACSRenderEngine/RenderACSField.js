@@ -177,6 +177,7 @@ function RenderACSField(props) {
         onFieldClick(data.id, "field", field_name, row_data, data)
         return
       }
+
       if ((!prevent_edit && !["edit","list_edit"].includes(mode) ) && click_to_edit && event.target.name !== "more_link" && event.target.name !=="url_link") {
         popup.setOrigin(popup_origin)
         popup.open(event,FieldEdit)

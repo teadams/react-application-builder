@@ -233,7 +233,7 @@ function RABTableCell(props) {
 }
 
 function RABFragment(props) {
-  return <Fragment>{props.children}</Fragment>
+  return <div onClick={props.onClick} onMouseOver={props.onMouseOver} >{props.children}</div>
 }
 
 function RABVoid(props) {
