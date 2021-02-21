@@ -11,6 +11,7 @@ import { Popup, FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, T
 import useGetModel from '../Hooks/useGetModel';
 import {ACSTextField, ACSField, ACSImageView} from "../ACSLibrary";
 import UIContext from '../Template/UIContext.js';
+import * as auth from '../Utils/auth.js'
 
 
 const ACSVoid = (props) => {
@@ -76,7 +77,7 @@ function RenderACSField(props) {
   }
 
   let {api_options, components:discard_components,reference_formAttributes, reference_lastTouched, ...params} = props
-  const {data ={}, row_data, object_type, data_field,  dsiplay_field, references_field, field_name, form_field_name, components={},
+  const {data ={}, row_data, object_type, object_models, app_params, user,context_id, data_field,  dsiplay_field, references_field, field_name, form_field_name, components={},
         mode="view", form="true", formAttributes, autoFocus, onSubmit, onBlur, onChange,  click_to_edit, field_model, onFieldClick, referred_by_object_type, click_to_edit_field, cardinality} = props
 
   // these come froprops.m rab_component_model props
@@ -178,7 +179,15 @@ function RenderACSField(props) {
         return
       }
 
-      if ((!prevent_edit && !["edit","list_edit"].includes(mode) ) && click_to_edit && event.target.name !== "more_link" && event.target.name !=="url_link") {
+
+      if (!object_models) {
+        // Use case = just showing data
+        return
+      }
+
+      const authorized = auth.authorized({context_id:context_id, user:user}, "", "", "edit", object_models[object_type], data, app_params)
+
+      if ((authorized && !prevent_edit && !["edit","list_edit"].includes(mode) ) && click_to_edit && event.target.name !== "more_link" && event.target.name !=="url_link") {
         popup.setOrigin(popup_origin)
         popup.open(event,FieldEdit)
       }

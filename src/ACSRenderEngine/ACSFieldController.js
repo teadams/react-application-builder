@@ -24,6 +24,7 @@ function ACSFieldController(original_props) {
 
   const default_object_models = useGetModel("object_types")
   const default_field_models =  useGetModel("fields")
+  const app_params =  useGetModel("app_params")
   const context = useContext(AuthContext)
 
   // We do not merge with the base model here.
@@ -68,7 +69,7 @@ function ACSFieldController(original_props) {
     input_data = original_props.formAttributes[0]
   }
 
-  const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options,  onData:props_onData,
+  const {object_type:props_object_type, id:props_id, field_name:props_field_name, api_options:props_api_options,  onData:props_onData, click_to_edit=true,
   handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formAttributes:props_formAttributes, lastTouched:props_lastTouched, onBlur, onFieldClick,  
   mode="view", key_id, autoFocus=false, rab_component_model, onSubmit, reference_formAttributes, reference_lastTouched,...merging_props} = original_props
 
@@ -220,7 +221,6 @@ function ACSFieldController(original_props) {
       onBlur()
     }
   }
-  let click_to_edit= true;
 
   return (
      <ACSFieldRenderer 
@@ -232,8 +232,11 @@ function ACSFieldController(original_props) {
     field_name = {field_name}
     form_field_name={form_field_name}
     object_models={object_models}
+    app_params={app_params}
     field_models={field_models}
     field_model={field_model}
+    user = {(context&&context.user)?context.user:{}}
+    context_id = {context?context.context_id:""}
     reference_formAttributes= {reference_formAttributes}
     reference_lastTouched = {reference_lastTouched}
     // specifics about the input field

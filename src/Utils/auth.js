@@ -13,12 +13,42 @@ function getDataValue(data,string_name) {
   }
 }
 
-export function authorized(context, auth_scope, auth_priv, auth_action="read", object_model={}, data="") {
+export function getAuthScopeAndPriv(object_model,auth_action="read",app_params, auth_scope,auth_priv, trace) {
+  if (!auth_priv) {
+      let auth_action_privs;
+      if (object_model) {
+        auth_action_privs = object_model.auth_action_privs
+      } else if (app_params) {
+        auth_action_privs = app_params.auth_action_privs.site_default
+      }
+      let auth_and_scope 
+      if (auth_action_privs) {
+        auth_and_scope = auth_action_privs[auth_action].split("_")
+        auth_scope = auth_and_scope[0]
+        auth_priv = auth_and_scope[1]
+      } else {
+        auth_scope = "site";
+        auth_priv="public"
+      }
+  } else {
+      if (!auth_scope) {
+        if (object_model.with_context) {
+          auth_scope = "context"
+        } else {
+          auth_scope = "site"
+        }
+      }
+  }
+  return [auth_scope, auth_priv]
+}
+
+export function authorized(context, auth_scope, auth_priv, auth_action="read", object_model={}, data="",app_params={}) {
+  [auth_scope,auth_priv] = getAuthScopeAndPriv(object_model,auth_action, app_params,auth_scope,auth_priv);
   let exception_fields = []
   if (object_model && auth_action === "read" && object_model.read_priv_exception_user_fields) {
       exception_fields = object_model.read_priv_exception_user_fields;
   }
-  if (object_model && auth_action === "edit"  && object_model.edit_priv_exception_user_fields.length>0) {
+  if (object_model && auth_action === "edit"  && object_model.edit_priv_exception_user_fields) {
     exception_fields = object_model.edit_priv_exception_user_fields;
   }
   if (object_model && auth_action === "delete" && object_model.delete_priv_exception_user_fields) {

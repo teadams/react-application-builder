@@ -44,32 +44,9 @@ function Auth(props) {
     }
   }
 
-  if (!auth_priv) {
-    let auth_action_privs = app_params.auth_action_privs.site_default
-    if (object_type) {        
-        auth_action_privs = object_type_meta.auth_action_privs
-    } 
-    let auth_and_scope 
-    if (auth_action_privs) {
-      auth_and_scope = auth_action_privs[auth_action].split("_")
-      auth_scope = auth_and_scope[0]
-      auth_priv = auth_and_scope[1]
-    } else {
-      auth_scope = "site";
-      auth_priv="public"
-    }
-  } else {
-    if (!auth_scope) {
-      if (object_type && object_type_meta.with_context) {
-        auth_scope = "context"
-      } else {
-        auth_scope = "site"
-      }
-    }
-  }
+   [auth_scope,auth_priv] = auth.getAuthScopeAndPriv(object_type_meta,auth_action, app_params, auth_scope,auth_priv);
 
   let show_children = true
-
 
   if (auth_priv !== "public") {
         if (!context.user ) {
@@ -81,7 +58,8 @@ function Auth(props) {
        }
   }
   
-  const authorized = auth.authorized({context_id:context.context_id, user:context.user}, auth_scope, auth_priv, auth_action, object_type_meta, data)
+
+  const authorized = auth.authorized({context_id:context.context_id, user:context.user}, auth_scope, auth_priv, auth_action, object_type_meta, data, app_params)
 
 
   if (login_form && !context.user) {
