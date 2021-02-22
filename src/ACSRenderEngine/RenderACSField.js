@@ -194,7 +194,7 @@ function RenderACSField(props) {
     }
 
     return (<Fragment>
-      <FieldWrap   onClick={handleFieldClick} key={field_name+"_wrap1"}   field_name={field_name}>
+      <FieldWrap   onClick={handleFieldClick}  field_mode={mode} key={field_name+"_wrap1"}   field_name={field_name}>
           <Tag Tag={wrap_tag} class={wrap_css_class} style={wrap_style}>
             {label && 
             <Tag Tag={label_tag} pretty_name={pretty_name} class={label_css_class} style={label_style}>
@@ -240,7 +240,7 @@ function RenderACSField(props) {
 
     return ( 
       <FormWrap width={width} form_wrap_style={form_wrap_style} save_button={save_button} mode={mode} form={form} onSubmit={props.onSubmit} onClose={handleFieldClose} >
-        <FieldWrap key={field_name+"_wrap1"}   field_name={field_name}   col_span={col_span}>
+        <FieldWrap key={field_name+"_wrap1"}  field_name={field_name}   col_span={col_span}>
             <Tag Tag={wrap_tag} class={wrap_css_class} style={wrap_style}>
               <Tag  Tag={field_tag} col_span={col_span} style={field_style} class={field_css_class}>
                 <Field {...params}  pretty_name={pretty_name}   key={field_name+"field"}/> 

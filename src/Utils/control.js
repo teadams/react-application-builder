@@ -233,7 +233,12 @@ function RABTableCell(props) {
 }
 
 function RABFragment(props) {
-  return <div onClick={props.onClick} onMouseOver={props.onMouseOver} >{props.children}</div>
+  const {field_mode} = props
+  if (field_mode === "view") {
+    return <div onClick={props.onClick} onMouseOver={props.onMouseOver} >{props.children}</div>
+  } else {
+    return <Fragment>{props.children}</Fragment>
+  }
 }
 
 function RABVoid(props) {
