@@ -42,7 +42,13 @@ export function getAuthScopeAndPriv(object_model,auth_action="read",app_params, 
   return [auth_scope, auth_priv]
 }
 
+//  const authorized = auth.authorized({context_id:context.context_id, user:context.user}, auth_scope, 
+//auth_priv, auth_action, object_type_meta, data, app_params)
+
 export function authorized(context, auth_scope, auth_priv, auth_action="read", object_model={}, data="",app_params={}) {
+
+
+
   [auth_scope,auth_priv] = getAuthScopeAndPriv(object_model,auth_action, app_params,auth_scope,auth_priv);
   let exception_fields = []
   if (object_model && auth_action === "read" && object_model.read_priv_exception_user_fields) {
@@ -56,7 +62,7 @@ export function authorized(context, auth_scope, auth_priv, auth_action="read", o
   }
 
   for (const exception_field of exception_fields) {
-        let data_value = getDataValue(data,object_model[exception_field]);
+        let data_value = getDataValue(data,exception_field);
         if (data_value === context.user.id) {
           return true
         }

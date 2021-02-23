@@ -14,8 +14,9 @@ import AuthContext from '../../Modules/User/AuthContext';
 
 
 function ACSGroup(props) {
-  const {object_type,id,force_context} = props
+  const {object_type,id, field_name:tab_path, force_context} = props
   const context = useContext(AuthContext)
+
   if (id && id !==context.context_id && id !== "context") {
     // special case when context is not set but the URL params 
     // in template 
@@ -26,7 +27,7 @@ function ACSGroup(props) {
   }
   const root_path = "/ACSGroup/core_subsite/"+id
   if (context.subsite) {
-    return <ACSTabMenu root_path={root_path} menu_type="core_subsite_admin"/>
+    return <ACSTabMenu root_path={root_path} field_name={tab_path} menu_type="core_subsite_admin"/>
   } else {
     return null
   }

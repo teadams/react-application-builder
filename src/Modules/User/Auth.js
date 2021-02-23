@@ -58,10 +58,7 @@ function Auth(props) {
        }
   }
   
-
-  const authorized = auth.authorized({context_id:context.context_id, user:context.user}, auth_scope, auth_priv, auth_action, object_type_meta, data, app_params)
-
-
+  const authorized = auth.authorized({context_id:context.context_id, user:context.user}, auth_scope, auth_priv, auth_action, object_type_meta, data, app_params);
   if (login_form && !context.user) {
     return ( 
       <LoginForm open={login_form} onLogin={handleLogin} onClose={handleClose}/>

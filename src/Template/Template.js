@@ -106,13 +106,12 @@ function Template(props) {
           </Auth>
           </div>
           <div className={classes.sectionDesktop}>
-              <MessageIcon/>
               <AuthToggleLink></AuthToggleLink>
               </div>
       </Toolbar>
       </AppBar>
 
-      <ACSTabMenu menu_type="app_menu" selected_menu={selected_menu} object_type={object_type} id={id} onChange={handleChange} component_name={component_name} field_name={field_name} />
+      <ACSTabMenu menu_type="app_menu" selected_menu={selected_menu} object_type={object_type} id={id} field_name={field_name} onChange={handleChange} component_name={component_name} field_name={field_name} />
 
     <Debug/> 
     </div>

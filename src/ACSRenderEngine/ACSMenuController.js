@@ -18,7 +18,7 @@ const ACSMenuController = (props) => {
   const [open_state, setOpen] = useState(false)
   // open is provided in parent
   const open = props.hasOwnProperty("open")?props.open:open_state 
-  const {open:discard_open, menu_type, selected_menu, object_type, field_name,  onClose, id, root_path="",  ...params} = props
+  const {open:discard_open, menu_type, selected_menu, object_type, field_name:tab_path,  onClose, id, root_path="",  ...params} = props
 
 
   const menu_models = useGetModel("menus")
@@ -44,6 +44,7 @@ const ACSMenuController = (props) => {
   items.forEach((item,index) => {
     // add authentication, expand based on item
     // expand out items like subsites
+
     const menu_item = _.merge({},menu_models.menu_items[item])
     if (!menu_item) { alert ("no menu for " + item)}
     if (item === hidden_item) {
@@ -104,9 +105,14 @@ const ACSMenuController = (props) => {
           menu_item.pretty_name = ""
         }
     }
-    if (menu_model.default_item === item) {
+
+    if (tab_path && item === tab_path) {
+      default_index = index
+    } else if (menu_model.default_item === item) {
         default_index = index
     }
+
+
     item_data[item] = menu_item
     final_items.push(item)
   })
@@ -134,9 +140,7 @@ const ACSMenuController = (props) => {
     if (clicked_item.link) {
       path = clicked_item.link  
     }
-    if (clicked_item.set_subsite_id &&  clicked_item.set_subsite_id !== context.context_id) {
-        context.setContextId(clicked_item.set_subsite_id)
-    }
+
     if (!clicked_item.prevent_history_push) {
       history.push(path);
     }
