@@ -27,8 +27,7 @@ function Membership(props) {
   const context = useContext(AuthContext)
 
   const filters = [
-    {label:"Role", name:"key", default_value:2, object_type:"core_role",  select_field_name:"name", filter_field_name:"core_role", any_display_label:"Any"},
-    {label:"Status", name:"status", default_value:"Accepted", object_type:"core_subsite_role",  select_field_name:"status", filter_field_name:"status", any_display_label:"Any"}
+    {label:"RoleNEW", name:"key", default_value:2, object_type:"core_role",  select_field_name:"name", filter_field_name:"core_role", any_display_label:"Any"},
     ]
 
   if (id && id !=context.context_id && id !== "context") {

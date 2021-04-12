@@ -111,7 +111,7 @@ function ACSSelectFilter(props) {
   return (
       <Fragment>
         {select_values_from_api  &&
-        <ACSObjectType onData={handleSelectValues} debug={true} headless={true} object_type="core_subsite"/>}
+        <ACSObjectType onData={handleSelectValues} debug={true} headless={true} object_type={object_type}/>}
         {select_options && 
           <TextField
             select={true}

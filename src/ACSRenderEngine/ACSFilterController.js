@@ -6,6 +6,7 @@ import {Typography } from '@material-ui/core';
 import { TableContainer} from '@material-ui/core';
 import {ACSSelectFilter, ACSTextFilter} from '../ACSLibrary'
 
+
 // default_value, object_type, label, 
 function ACSFilterController(props) {
   const {filters={},  default_filter_values={}, onChange, label_direction="column", label_variant="subtitle1", filter_direction="column", label_width="70px", select_width="250px", select_display_field, label_position="select", any_display_label} = props
@@ -74,7 +75,7 @@ function ACSFilterController(props) {
               filter.select_display_field = "name"
             }
         }
-
+u.a("fitler object is", filter.object_type)
         return (
           <div key={"div1-"+filter.name} style={{display:"flex", marginTop:"10px", alignSelf:{alignSelf}, flexDirection:label_direction, alignItems:"center"}}>
 
