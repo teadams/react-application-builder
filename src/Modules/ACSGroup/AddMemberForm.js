@@ -14,7 +14,7 @@ import useGenerateFieldList from "../../Hooks/useGenerateFieldList.js"
 
 import AuthContext from '../../Modules/User/AuthContext';
 
-function AddRoleForm(props) {
+function AddMemberForm(props) {
   const {data, core_subsite, id} = props
 
   function handleAddRoleSubmit(event) {
@@ -34,8 +34,17 @@ function AddRoleForm(props) {
       }
   }
 
+  function handleSearchForEmail(event) {
+      // search for email 
+
+      // save the Role and the status
+
+      // if email exist, show the second page with the information filled
+  }
+
+
   return   (
-           <form onSubmit={handleFormSubmit}>
+           <form onSubmit={handleSearchForEmail}>
             <Grid container>
             <Grid item style={{padding:10}} sm={12}>
                 <ACSField
@@ -74,7 +83,7 @@ function AddRoleForm(props) {
                 </Grid>
             </Grid>
         <DialogActions>
-            <Button onClick={handleFormSubmit} color="primary">
+            <Button onClick={handleSearchForEmail} color="primary">
                  Submit
             </Button>
             <Button onClick={handleClose} color="primary">
@@ -86,4 +95,4 @@ function AddRoleForm(props) {
   
 }
 
-export default AddRoleForm;
+export default AddMemberForm;

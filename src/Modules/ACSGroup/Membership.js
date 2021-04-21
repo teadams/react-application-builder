@@ -12,7 +12,7 @@ import UserRoles from './UserRoles.js'
 import {ACSEditButton, ACSField, ACSText, ACSTabMenu, ACSObjectType} from '../../ACSLibrary'
 import {ACSFilterController} from '../../ACSRenderEngine'
 import AuthContext from '../../Modules/User/AuthContext';
-import AddRoleForm from "./AddRoleForm.js"
+import AddMemberForm from "./AddMemberForm.js"
 
 
 function Membership(props) {
@@ -27,7 +27,8 @@ function Membership(props) {
   const context = useContext(AuthContext)
 
   const filters = [
-    {label:"RoleNEW", name:"key", default_value:2, object_type:"core_role",  select_field_name:"name", filter_field_name:"core_role", any_display_label:"Any"},
+    {label:"Role", name:"key", default_value:2, object_type:"core_role",  select_field_name:"name", filter_field_name:"core_role", any_display_label:"Any"},
+    {label:"Status", name:"status", default_value:"Accepted", object_type:"core_subsite_role",  select_field_name:"status", filter_field_name:"status", any_display_label:"Any"}
     ]
 
   if (id && id !=context.context_id && id !== "context") {
@@ -35,7 +36,7 @@ function Membership(props) {
     return null
   }
 
-  const handleAddRole = (props) => {
+  const handleAddMember = (props) => {
     setAddDialog(true)
   }
 
@@ -44,6 +45,7 @@ function Membership(props) {
     api_options.filter_field.push("core_subsite")
     api_options.filter_id.push(context.context_id)
     api_options.filter_join="AND"
+u.a("filter is", api_options)
     setMemberAPIOptions(api_options)    
   }
 
@@ -82,7 +84,7 @@ function Membership(props) {
           <ACSFilterController filter_style={{paddingRight:"40px"}} label_width="50px" select_width="100px" label_direction="row" filter_direction="row" filters={filters} default_value={3} alingSelf="flex-start" label_direction="row" label_variant="subtitle1" onChange={handleFilterChange}/>
         </div>
         <div style={{display:"flex", marginTop:"10px",  alignItems:"center", marginRight:"10px"}}>
-        <Button onClick={handleAddRole}  size="small" variant="outlined" color="primary" style={{margin:5, borderRadius: '12px'}}>Add a Member</Button>
+        <Button onClick={handleAddMember}  size="small" variant="outlined" color="primary" style={{margin:5, borderRadius: '12px'}}>Add a Member</Button>
 
         </div>
       </div>
@@ -118,7 +120,7 @@ function Membership(props) {
   <Dialog open={true}>
     <DialogTitle>Create Role</DialogTitle>
     <DialogContent>
-    <AddRoleForm open={true} core_subsite={context.context_id}  onClose={handleOnAddClose} dialog_size="lg"/>
+    <AddMemberForm open={true} core_subsite={context.context_id}  onClose={handleOnAddClose} dialog_size="lg"/>
   
     </DialogContent>
   </Dialog>

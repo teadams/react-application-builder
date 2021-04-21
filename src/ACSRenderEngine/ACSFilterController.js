@@ -75,7 +75,6 @@ function ACSFilterController(props) {
               filter.select_display_field = "name"
             }
         }
-u.a("fitler object is", filter.object_type)
         return (
           <div key={"div1-"+filter.name} style={{display:"flex", marginTop:"10px", alignSelf:{alignSelf}, flexDirection:label_direction, alignItems:"center"}}>
 

@@ -3,6 +3,8 @@ import * as api from '../Utils/data.js';
 import * as u from '../Utils/utils.js';
 import * as meta from '../Utils/meta.js';
 import useGetModel from '../Hooks/useGetModel';
+import useGenerateFieldList from '../Hooks/useGenerateFieldList';
+
 import {AuthContext} from '../Modules/User';
 import axios from 'axios';
 
@@ -23,9 +25,16 @@ const expand_combos_field_list = (field_list, field_models) => {
 
 }
 
-const useForm = (object_type, field_name="", data, handleSubmit, mode="view", form=true, form_options={}) => {
+const useForm = (object_type, field_name="", data, handleSubmit, mode="view", form=true, form_options={}) => {  
 
 let {default_values_prop={}, field_list, delay_dirty=false, list_form_params={}, index, path=""} = form_options
+
+  // If field list is not provided, use the default.
+  // Example use case.. Forms that are build from custom UI.
+  // if field_list already exists, the hook will return the passed field_list
+//  field_list = useGenerateFieldList(object_type, "", data, mode, true, field_list)
+  
+   
 // XX Have to be passed field_models
   const [formAttributes, setFormAttributes] = useState([{},{},{}]);
   const [lastTouched,setLastTouched] = useState(false)
