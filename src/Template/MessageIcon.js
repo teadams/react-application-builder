@@ -43,7 +43,7 @@ function MessageIcon(props) {
         if (!data.from_user) {
             data.from_user = "System"
         }
-        handleMessageOpen(data)
+        handleMessageOpen(message_data)
     }
   }
 
@@ -58,7 +58,7 @@ function MessageIcon(props) {
       setMessageOpen(data)  
       if (!data.read_p) {
         const read_object = {id:data.id, read_p:true}
-        api.postData("core_message", read_object, {}, (result, error) => { 
+        api.postData("core_notification", read_object, {}, (result, error) => { 
             if (error) {
               alert("error is " + error)
             } 
@@ -100,16 +100,16 @@ function MessageIcon(props) {
         })}
         {message_open &&
         <Dialog fullWidth={true} open={message_open} onClose={handleMessageClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">{message_open.subject}</DialogTitle>
+          <DialogTitle id="form-dialog-title">{message_data.core_message.subject}</DialogTitle>
             <DialogContent>
               <div style={{display:'flex'}}>
-                <div><Typography>From:&nbsp;</Typography></div><div><Typography><ACSFieldController data={message_open} object_type="core_message" field_mode="view" field_model={{with_thumbnail:false}} field_form={false} with_thumbnail={false} field_name="from_user" key="from_user" key_id="from_user"/></Typography></div>
+                <div><Typography>From:&nbsp;</Typography></div><div><Typography><ACSFieldController data={message_open} object_type="core_notification" field_mode="view" field_model={{with_thumbnail:false}} field_form={false} with_thumbnail={false} field_name="from_user" key="from_user" key_id="from_user"/></Typography></div>
                 <div style={{flexGrow:1}}/>
 
-                <div><Typography>Date: <ACSFieldController data={message_open} object_type="core_message" field_mode="view" field_form={false} field_name="last_updated_date" key="last_updated_date" key_id="last_updated_date"/>  </Typography></div>              
+                <div><Typography>Date: <ACSFieldController data={message_open} object_type="core_notification" field_mode="view" field_form={false} field_name="last_updated_date" key="last_updated_date" key_id="last_updated_date"/>  </Typography></div>              
               </div>
               <div style={{paddingBottom:20}}/><Typography style={{paddingBottom:20}}>
-              <ACSFieldController data={message_open} object_type="core_message" field_mode="view" field_form={false} field_name="body" key="body" key_id="body"/></Typography>
+              <ACSFieldController data={message_open} object_type="core_notification" field_mode="view" field_form={false} field_name="core_message.body" key="body" key_id="body"/></Typography>
               {message_open.core_workflow_object&& 
                 <Fragment>  
                   {workflow_object &&
@@ -169,9 +169,9 @@ function MessageIcon(props) {
             <MailIcon />
         </Badge>
     </IconButton>
-    {open &&<Auth object_type="core_message"/>}
+    {open &&<Auth object_type="core_notification"/>}
     {user_id && open && 
-        <ACSObjectTypeView onData={handleMessageData} headless={true} object_type="core_message"  api_options={{filter_id:user_id ,filter_join:"and", filter_field:"to_user"}}/>}
+        <ACSObjectTypeView onData={handleMessageData} headless={true} object_type="core_notification"  api_options={{filter_id:user_id ,filter_join:"and", filter_field:"to_user"}}/>}
     {user_id && open && message_data &&
       <Popover  
         PaperProps={{style:{padding:"20px"}}}
@@ -188,8 +188,8 @@ function MessageIcon(props) {
         horizontal: 'right',
       }}
     ><div>
-        <ACSObjectTypeView data={message_data} field_list={[ "from_user","subject","read_p"]}
-        rab_component_model={{list:{props:{action:""}},row:{components:{row:MessageRow}}}}  object_type="core_message"  api_options={{filter_id:user_id ,filter_join:"and", filter_field:"to_user"}}/>
+        <ACSObjectTypeView data={message_data} field_list={[ "from_user","data_core_message.subject","read_p"]}
+        rab_component_model={{list:{props:{action:""}},row:{components:{row:MessageRow}}}}  object_type="core_notification"  api_options={{filter_id:user_id ,filter_join:"and", filter_field:"to_user"}}/>
       </div>
     </Popover>}
     </Fragment>
