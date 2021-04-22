@@ -162,7 +162,7 @@ function MessageIcon(props) {
 
   return    ( 
     <Fragment>
-    {user_id && <ACSObjectCount headless={true} object_type="core_message" api_options={{get_count:true, num_rows:1, filter_id:user_id+","+false, filter_join:"and", filter_field:"to_user,read_p"}} onData={handleMessageCount}/> }
+    {user_id && <ACSObjectCount headless={true} object_type="core_notification" api_options={{get_count:true, num_rows:1, filter_id:user_id+","+false, filter_join:"and", filter_field:"to_user,read_p"}} onData={handleMessageCount}/> }
 
     <IconButton aria-label="show new mails" color="inherit" onClick={handleClick}>
         <Badge badgeContent={message_count} color="secondary">
