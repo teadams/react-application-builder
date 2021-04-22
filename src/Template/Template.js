@@ -106,6 +106,7 @@ function Template(props) {
           </Auth>
           </div>
           <div className={classes.sectionDesktop}>
+              <MessageIcon/>
               <AuthToggleLink></AuthToggleLink>
               </div>
       </Toolbar>
