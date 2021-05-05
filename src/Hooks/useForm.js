@@ -59,7 +59,7 @@ let {default_values_prop={}, field_list, delay_dirty=false, list_form_params={},
   let [formValues, formVisibility, formValidated] = formAttributes
   // form not needed or inputs not ready
 
-  const id_field = object_model.key_id
+  const id_field = object_model?object_model.key_id:"id"
 
   if ((!["edit","create","list_edit","list_create"].includes(mode)) || !form ||
       (["edit","list_edit"].includes(mode) && !data) || 
