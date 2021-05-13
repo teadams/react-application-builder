@@ -128,7 +128,7 @@ let {default_values_prop={}, field_list, delay_dirty=false, list_form_params={},
       } else if (["create","list_create"].includes(mode)) {
 
         let default_value = ""
-        if (default_value !== undefined && default_value !== null) {
+        if (field_model.default !== undefined && field_model.default !== null) {
           default_value = field_model.default
         }
           // take from context
