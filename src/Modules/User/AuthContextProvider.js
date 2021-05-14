@@ -74,12 +74,13 @@ function AuthContextProvider(props) {
         handleDirtyData(object_type);
       },
       logout: ()=> {setUser("");
+          localStorage.removeItem("user");
           handleRefreshSubsiteContext(context_id,"")},  
       refreshUserContext: () => {
         handleRefreshContext()},
       login: (user)=> {
         setUser(user)
-        handleRefreshSubsiteContext(context_id,user.id)},    
+        handleRefreshSubsiteContext(context_id,user.id)},  
       setContextId:  (new_context_id)=> {
         if (context_id !== new_context_id) {
           handleRefreshSubsiteContext(new_context_id)

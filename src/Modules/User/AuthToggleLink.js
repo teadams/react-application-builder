@@ -10,6 +10,9 @@ import LoginForm from './LoginForm'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
+import * as api from '../../Utils/data.js';
+import * as u from '../../Utils/utils.js';
+
 
 function AuthToggleLink(props) {
   const [login_form, setLoginForm] = useState(false)
@@ -26,6 +29,16 @@ function AuthToggleLink(props) {
   }
   const handleMenuClose= (event) => {
       popup.close()
+  }
+
+  const handleJWTLogin = () => {
+    const jwt_token = JSON.parse(localStorage.getItem('user'));
+    if (jwt_token) {
+      u.a('calling login')
+      api.login ( {},  (user_data, error) => {
+          context.login(user_data)
+      })
+    }
   }
 
   const context = useContext(AuthContext)
@@ -71,6 +84,7 @@ function AuthToggleLink(props) {
       </Fragment>
       )
     } else {
+      handleJWTLogin(); 
       return (
         <Fragment>
             <Button onClick={handleLogin}

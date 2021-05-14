@@ -56,8 +56,12 @@ export async function callAPI (path="", params={}, data_object={}, method="get",
   let data = ""
   let api_result = {}
   if (data_object) {
+    // this approach is needed for file uploads 
+    // anything might be a file update due to the flexible
+    // metadata
     let multi_object = new FormData();
     Object.keys(data_object).forEach(key => {
+      // protects dates 
       if (typeof data_object[key] === 'object' && !(data_object[key] instanceof Blob) && !moment.isMoment(data_object[key])) {    
         data_object[key] = JSON.stringify(data_object[key])
       }
@@ -65,11 +69,17 @@ export async function callAPI (path="", params={}, data_object={}, method="get",
     })
     data_object = multi_object
   }
+  const jwt_token = JSON.parse(localStorage.getItem('user'));
+  let auth_header;
+  if (jwt_token) {
+    auth_header = { 'x-access-token': jwt_token }
+  }
   api_result = await axios({
     method: method,
     url: url,
     data:data_object,
-    params:params
+    params:params,
+    headers:auth_header
   }).catch(error => {
     const error_prompt = 'error connecting to server with url: ' + url + " method: " + method + " params: " + JSON.stringify(params) + " data: " + JSON.stringify(data_object) + " "
     alert (error_prompt + error.message + " " + error.stack)
@@ -80,6 +90,9 @@ export async function callAPI (path="", params={}, data_object={}, method="get",
   if (api_result) {
       if (api_result.data.status === "validation_error") {
         u.a("Validation Error", api_result.data.validation_errors)
+      }
+      if (api_result.data.jwt_token) {
+        localStorage.setItem("user", JSON.stringify(api_result.data.jwt_token));
       }
       data = api_result.data
   }
