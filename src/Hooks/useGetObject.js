@@ -44,8 +44,13 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
 
       isMountedRef.current = true;
       if (!passthrough && !param_data && (object_type && (id||api_options.filter_id||api_options.get_count))) {
-        api.getData (object_type, Object.assign({id:id},api_options), (results, error) => {  
+        api.getData (object_type, Object.assign({id:id},api_options), (results, error) => { 
+          const jwt_token = JSON.parse(localStorage.getItem('user'));
           if (isMountedRef.current) {
+            if (context.user.id && !jwt_token) {
+              u.a("Signout")
+              context.logout();    
+            } 
             if (error) {
                 alert ("error retrieving object " + object_type + " " + id + ":" + error.message)
             } else {

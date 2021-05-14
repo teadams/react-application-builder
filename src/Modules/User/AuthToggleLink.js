@@ -31,10 +31,10 @@ function AuthToggleLink(props) {
       popup.close()
   }
 
+  const jwt_token = JSON.parse(localStorage.getItem('user'));
+
   const handleJWTLogin = () => {
-    const jwt_token = JSON.parse(localStorage.getItem('user'));
     if (jwt_token) {
-      u.a('calling login')
       api.login ( {},  (user_data, error) => {
           context.login(user_data)
       })
@@ -42,6 +42,11 @@ function AuthToggleLink(props) {
   }
 
   const context = useContext(AuthContext)
+
+  if (!jwt_token && context.user) {
+    context.logout();    
+  }
+
   const popup = useContext(UIContext).popup
 
   const ProfilePopup = (props) => {

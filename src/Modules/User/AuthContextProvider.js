@@ -15,8 +15,6 @@ function AuthContextProvider(props) {
   const [subsite, setSubsite] = useState("");
   const [context_id, setContextId] = useState(default_context);
   const [dirty_stamp, setDirtyData] = useState({});
-
-
   const handleRefreshSubsiteContext = (new_context_id, user_id) => {
     if (user_id === undefined) {
       user_id = user.id

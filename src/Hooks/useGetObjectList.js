@@ -47,12 +47,14 @@ if (trace) {
 
   useLayoutEffect( () => {
     isMountedRef.current = true;
-if (trace) {
-    u.a("getting data for object_type", trace, object_type, api_options, param_data)
-}
       if (!param_data && object_type) {
         api.getData (object_type,  api_options, (api_results, error) => { 
           if (isMountedRef.current) {
+            const jwt_token = JSON.parse(localStorage.getItem('user'));
+            if (context.user.id && !jwt_token) {
+              context.logout();    
+            }
+
             if (error) {
                 alert ("error retrieving object list " + object_type + ":" + error.message)
             } else {

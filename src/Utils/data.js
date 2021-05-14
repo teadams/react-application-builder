@@ -91,10 +91,25 @@ export async function callAPI (path="", params={}, data_object={}, method="get",
       if (api_result.data.status === "validation_error") {
         u.a("Validation Error", api_result.data.validation_errors)
       }
-      if (api_result.data.jwt_token) {
-        localStorage.setItem("user", JSON.stringify(api_result.data.jwt_token));
+      if(api_result.data.status === "error") {
+        if (api_result.data.validation_errors) {
+          u.a("Validation Error", api_result.data.validation_errors)
+        }
+        if (api_result.data.authorization_errors) {
+          localStorage.removeItem("user");
+          // call the same API with no username
+          return callAPI (path, params, data_object, method, callback)
+        }
+        if (api_result.data.parsing_errors) {
+          u.a("Parsing Error", api_result.data.parsing_errors)
+        }
+        data ={}
+      } else {
+        if (api_result.data.jwt_token) {
+          localStorage.setItem("user", JSON.stringify(api_result.data.jwt_token));
+        }
+        data = api_result.data
       }
-      data = api_result.data
   }
 
   if (callback) {
@@ -116,7 +131,6 @@ export function getURL (url, params, callback)   {
       
       callback(results.data,"");
   }).catch(error => {
-    log.val('in catch error', error.message)
     alert ("error getting url " + url + "  "+ error.message)
     callback('', error);
   })
