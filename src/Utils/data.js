@@ -58,7 +58,6 @@ export function getParamsObject(options={}, params=validAPIParams()) {
 export async function callAPI (path="", params={}, data_object={}, method="get", callback)   {
   let data = ""
   let api_result = {}
-  u.a("path is ", path)
   if (data_object) {
     // this approach is needed for file uploads 
     // anything might be a file update due to the flexible

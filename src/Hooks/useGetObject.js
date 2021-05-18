@@ -48,7 +48,6 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
           const jwt_token = JSON.parse(localStorage.getItem('user'));
           if (isMountedRef.current) {
             if (context.user.id && !jwt_token) {
-              u.a("Signout")
               context.logout();    
             } 
 
