@@ -35,8 +35,9 @@ export function model(type) {
 }
 
 export async function load(type, callback) {
-  const meta_result = await data.callAPI("meta/model/"+type, {}, {}, "get")
-    callback(meta_result)
+  const path = data.getPathBase() + "/meta/model/"+type
+  const meta_result = await data.callAPI(path, {}, {}, "get")
+  callback(meta_result)
 }
 
 export function resolveFieldModel(object_type, field_name,object_models, field_models) {

@@ -1,17 +1,21 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import moment from 'moment'; 
+import axios from 'axios';
 
 //import * as u from './utils.js';
 import * as log from './log.js';
 import * as u from './utils.js'
-import axios from 'axios';
-import * as meta from './meta.js';
 
 
-export function getPathBase () {
+export function getPathBase (object_model) {
+    if (!object_model || !object_model.base_api_path) {
       // later this will be a config
-      return "/api/v1"
+        return "/api/v1"
+    } else {
+        alert ("base is " + object_model.base_api_path)
+        return object_model.base_api_path
+    }
 } 
 
 export function validAPIParams() {
@@ -52,9 +56,9 @@ export function getParamsObject(options={}, params=validAPIParams()) {
 }
 
 export async function callAPI (path="", params={}, data_object={}, method="get", callback)   {
-  let url = getPathBase() + "/"  + path
   let data = ""
   let api_result = {}
+  u.a("path is ", path)
   if (data_object) {
     // this approach is needed for file uploads 
     // anything might be a file update due to the flexible
@@ -76,12 +80,12 @@ export async function callAPI (path="", params={}, data_object={}, method="get",
   }
   api_result = await axios({
     method: method,
-    url: url,
+    url: path,
     data:data_object,
     params:params,
     headers:auth_header
   }).catch(error => {
-    const error_prompt = 'error connecting to server with url: ' + url + " method: " + method + " params: " + JSON.stringify(params) + " data: " + JSON.stringify(data_object) + " "
+    const error_prompt = 'error connecting to server with url: ' + path + " method: " + method + " params: " + JSON.stringify(params) + " data: " + JSON.stringify(data_object) + " "
     alert (error_prompt + error.message + " " + error.stack)
     if (callback) {
         callback('', error);
@@ -126,7 +130,6 @@ export function getURL (url, params, callback)   {
    method: 'get',
    url: url,
    params: params
-//   data: {address: "France", key: "AIzaSyB7xya0w0DAsz0kODQ0_MWlApayXELLBGo"}
  }).then(results => {
       
       callback(results.data,"");
@@ -138,49 +141,66 @@ export function getURL (url, params, callback)   {
 
 export function getData (object_type, options={}, callback)   {
   // in get data
-
-  var path = options.path?options.path:object_type
-  if (options.id || options.id === 0) {
-    path += '/'+options.id
+  let path = options.path
+  if (!options.path) {
+    path = options.base_api_path?options.base_api_path:getPathBase()
+    path = path + "/" + object_type
+    if (options.id || options.id === 0) {
+      path += '/'+options.id
+    }
   }
-  if (object_type==="core_subsite") {
-}
-
 
   callAPI (path, getParamsObject(options), "", "get", callback) 
 }
 
 // INSERTS 
 export function postData (object_type, data_object, options, callback)   {
-  callAPI (object_type, {}, data_object, "post", callback) 
+  let path = options.path
+  if (!options.path) {
+    path = options.base_api_path?options.base_api_path:getPathBase()
+    path = path + "/" + object_type
+  }
+
+  callAPI (path, {}, data_object, "post", callback) 
 }
 
 export function login (data_object, callback)   {
-  callAPI ("auth/login", {}, data_object, "post", callback) 
+  const path = getPathBase() + "/auth/login"
+  callAPI (path, {}, data_object, "post", callback) 
 }
 
 export function getUserContext (user_id, callback)   {
-  callAPI ("auth/user-context/"+user_id, {}, "", "get", callback) 
+  const path = getPathBase()+"/auth/user-context/" + user_id
+  callAPI (path, {}, "", "get", callback) 
 }
 
 export function createAccount (data_object, callback)   {
-  callAPI ("auth/create-account", {}, data_object, "post", callback) 
+  const path = getPathBase()+"/auth/create-account"
+  callAPI (path, {}, data_object, "post", callback) 
 }
 
 /// UPDATES
 export function putData (object_type, data_object, options, callback)   {
-  let path =  object_type;
-  if (data_object.id) {
-    path +='/'+data_object.id
-  } else {
-    path +=  '/'+data_object[meta.keys[object_type].key_id]
-  } 
-  callAPI (path, {}, data_object, "put", callback) 
 
+  let path = options.path
+  if (!options.path) {
+    path = options.base_api_path?options.base_api_path:getPathBase()
+    path = path + "/" + object_type
+    if (data_object.id || data_object.id === 0) {
+      path += '/'+data_object.id
+    }
+  }
+  callAPI (path, {}, data_object, "put", callback) 
 }
 
 export function deleteData (object_type, data_object, options, callback)   {
-  const path =  object_type  +'/'+data_object[meta.keys(object_type).key_id]
+
+  let path = options.path
+  if (!options.path) {
+    path = options.base_api_path?options.base_api_path:getPathBase()
+    path =  object_type  +'/'+data_object.id;
+  }
+
   callAPI (path, data_object, "delete", callback) 
 }
 
@@ -190,17 +210,23 @@ export function handleSubmit (event, formValues, mode, context, object_type, obj
   if (context.context_id && object_model.with_context && ["create","list_create"].includes(mode) && !formValues.core_subsite) {
     formValues.core_subsite = context.context_id
   }
+  // ROADMAP - deprecate due to jwt token
   if (context.user && context.user.id) {
     formValues.creation_user = context.user.id 
   }
 
-  const path= options.path?options.path:object_type
+  let path = options.path
+  if (!options.path) {
+    path = options.base_api_path?options.base_api_path:getPathBase(object_model)
+    path += "/"+object_type 
+    if (formValues.id) {
+      path += '/'+formValues.id;
+    }
+  }
 
   if (!formValues[id_field]) {
 
     postData(path, formValues, {}, (insert_result, error) => { 
-      // XX user_id, subsite
-
       if (error) {
         alert ('error is ' + error.message)
       } else {

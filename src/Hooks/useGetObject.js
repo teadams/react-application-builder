@@ -51,6 +51,7 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
               u.a("Signout")
               context.logout();    
             } 
+
             if (error) {
                 alert ("error retrieving object " + object_type + " " + id + ":" + error.message)
             } else {

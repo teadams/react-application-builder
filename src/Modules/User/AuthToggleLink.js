@@ -88,17 +88,19 @@ function AuthToggleLink(props) {
         </Button>
       </Fragment>
       )
-    } else {
+    } else if (jwt_token) {
+      // token present but not logged in
       handleJWTLogin(); 
+      return (<Fragment/>)
+    } else {
       return (
         <Fragment>
             <Button onClick={handleLogin}
             color="inherit">Login</Button>
-            {login_form  &&
               <LoginForm
                 open={login_form}
                 onClose={handleClose}
-             />}
+             />
         </Fragment>
       )
     }

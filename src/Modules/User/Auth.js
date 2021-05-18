@@ -48,7 +48,9 @@ function Auth(props) {
 
   let show_children = true
 
-  if (auth_priv !== "public") {
+  const jwt_token = JSON.parse(localStorage.getItem('user'));
+
+  if (auth_priv !== "public" && !jwt_token) {
         if (!context.user ) {
           show_children = false
          if (!login_form && prompt_login) {

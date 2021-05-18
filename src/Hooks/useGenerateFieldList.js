@@ -31,7 +31,7 @@ const useGenerateFieldList = (object_type, field_name="", data, mode, form=true,
   if (layout || section) {
     return []
   }
-  const id_field = object_model.key_id
+  const id_field = object_model?object_model.key_id:"id"
 
 
   if ((field_list && field_list.length >0)) {
