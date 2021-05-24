@@ -180,7 +180,6 @@ export function createAccount (data_object, callback)   {
 
 /// UPDATES
 export function putData (object_type, data_object, options, callback)   {
-
   let path = options.path
   if (!options.path) {
     path = options.base_api_path?options.base_api_path:getPathBase()
@@ -225,7 +224,7 @@ export function handleSubmit (event, formValues, mode, context, object_type, obj
 
   if (!formValues[id_field]) {
 
-    postData(path, formValues, {}, (insert_result, error) => { 
+    postData(object_type, formValues, {path:path}, (insert_result, error) => { 
       if (error) {
         alert ('error is ' + error.message)
       } else {
@@ -252,7 +251,7 @@ export function handleSubmit (event, formValues, mode, context, object_type, obj
       }
     })
 
-    putData(path, formValues, {}, (result, error) => { 
+    putData(object_type, formValues, {path:path}, (result, error) => { 
 
       if (error) {
         alert ('error is ' + error.message)
