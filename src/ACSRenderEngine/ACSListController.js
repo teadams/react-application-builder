@@ -85,6 +85,7 @@ function RABList(list_props) {
     <Fragment>
       {data.map((row, index) => {
           last_index = index
+
           return (<ACSRowController row_type="table_list" {...list_params} data={row} index={row.id} mode={mode} field_models={field_models} rab_component_model={rab_component_model} key={row.id+"Controller"} key_id={row.id}/>)
       })}
       {mode === "list_edit" &&

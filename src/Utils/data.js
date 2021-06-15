@@ -13,7 +13,6 @@ export function getPathBase (object_model) {
       // later this will be a config
         return "/api/v1"
     } else {
-        alert ("base is " + object_model.base_api_path)
         return object_model.base_api_path
     }
 } 
