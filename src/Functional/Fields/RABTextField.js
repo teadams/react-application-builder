@@ -188,8 +188,12 @@ function RABTextField(props) {
     case "view":
     case "list":
 
-      if (data_type == "boolean") {
-        field_value = field_value?"Yes":"No"
+      if (data_type === "boolean") {
+        if (field_value === true) {
+          field_value = "Yes"
+        } else if (field_value === false) {
+          field_value = "No"
+        }
       }
       if (valid_values && valid_values !== "object" && valid_values !== "transition" && data_type !== "boolean") {
         let valid_values_object = {}
