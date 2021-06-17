@@ -117,7 +117,6 @@ function RABTextField(props) {
       let widget_type = "text" 
       value = formValues[form_field_name]
     //  u.a("field,value ", form_field_name, value)
-
       if (model_valid_values) {
         widget_type=input_type?input_type:"select"
 
