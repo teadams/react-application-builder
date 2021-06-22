@@ -49,6 +49,9 @@ import ACSMap from '../Functional/Lists/ACSMap.js'
 import ACSMapAndFilter from '../Functional/Layouts/ACSMapAndFilter.js'
 import {ACSDrillDown, ACSWizard, ACSTabMenu, ACSComboField, ACSField, ACSTextField, ACSFile, ACSImage, ACSDate, ACSReferencesList, ACSMapping, ACSReferenceMapping} from '../ACSLibrary/index.js'
 
+//// CUSTOM (will get passed into APP later)
+import ACSAdminComponentPicker from "../Custom/ACSAdmin/index.js"
+
 // meta 
 
 import {ACSMetaModelObjectTypeView} from "../Modules/ACSMetaModel/index.js"
@@ -262,7 +265,7 @@ function componentPicker(name, source="not provided") {
     case "ACSObjectView": return ACSObjectView;
     case "ACSPeopleAndOpportunitiesChip": return ACSPeopleAndOpportunitiesChip;
     case "Tab": return Tab;
-    case "Tabs": return Tabs;
+    case "Tabs": return Tabs;  
     case "Menu": return Menu;
     case "MenuItem": return MenuItem;
     case "MenuList": return MenuList;
@@ -312,8 +315,13 @@ function componentPicker(name, source="not provided") {
 
     case "ACSMetaModelObjectTypeView": return  ACSMetaModelObjectTypeView;
     default:  { 
-      alert("Menu Model Issues - no component for " + name ) 
-      return Fragment;
+      const CustomComponent = ACSAdminComponentPicker(name);
+      if (CustomComponent) {
+        return CustomComponent
+      } else {
+        alert("Menu Model Issues - no component for " + name ) 
+        return Fragment;
+      }
     }
   }
 }

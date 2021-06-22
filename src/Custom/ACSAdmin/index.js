@@ -1,8 +1,17 @@
-export function componentPicker(name) {
+import React, {Fragment} from 'react';
+
+function ACSTest(props) {
+  return (
+    <Fragment>THIS IS A TEST</Fragment>
+  )
+}
+
+export default function ACSAdminComponentPicker(name) {
   if (!name) {return null}
   switch (name) {
-    case "ACSTEST":  return "THIS IS A TEST";
-    break;
+    case "ACSTEST":  
+      return ACSTest
+      break;
     default:  {
       return
     }
