@@ -6,12 +6,13 @@ import {Grid,  Dialog, DialogTitle, DialogContent ,DialogContentText, DialogActi
 import ACSDrillDown from "../../ACSLibrary/Layouts/ACSDrillDown.js"
 import {ACSObjectView, ACSEditButton, ACSField, ACSText, ACSTabMenu, ACSObjectType} from '../../ACSLibrary/index.js'
 
+
 import * as api from '../../Utils/data.js';
 import * as u from '../../Utils/utils.js';
 
 import useGetModel from "../../Hooks/useGetModel.js"
 
-import AuthContext from '../User/AuthContext';
+import AuthContext from '../../Modules/User/AuthContext';
 
 function convertMetaObjectToData(meta_object) {
   const data = []
@@ -23,7 +24,7 @@ function convertMetaObjectToData(meta_object) {
 
 }
 
-function ACSMetaModelObjectTypeView(props) {
+function MetaModelAdmin(props) {
   const meta_object_models =  useGetModel("object_types")
   const meta_field_models =  useGetModel("fields")
 
@@ -40,8 +41,7 @@ function ACSMetaModelObjectTypeView(props) {
         )
   }
 
-
   return (<ACSDrillDown drill_placement="top" drill_center_component={CenterDrill} data={object_data}/>)
 }
 
-export default ACSMetaModelObjectTypeView
+export default MetaModelAdmin
