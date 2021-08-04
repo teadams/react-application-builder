@@ -5,7 +5,6 @@ import React, {Fragment, useState, useContext} from 'react';
 import {Grid,  Dialog, DialogTitle, DialogContent ,DialogContentText, DialogActions, Button, Tabs, Tab } from '@material-ui/core';
 import ACSDrillDown from "../../ACSLibrary/Layouts/ACSDrillDown.js"
 import {ACSObjectView, ACSEditButton, ACSField, ACSText, ACSTabMenu, ACSObjectType} from '../../ACSLibrary/index.js'
-import {ACSFilterController} from '../../ACSRenderEngine'
 
 
 import * as api from '../../Utils/data.js';
@@ -30,17 +29,6 @@ function MetaModelAdmin(props) {
   const meta_object_models =  useGetModel("object_types")
   const meta_field_models =  useGetModel("fields")
 
-  const object_filters = [{
-    "select_label": "Data Type",
-    "name": "data_type",
-    "default_value": "_none_",
-    "object_type": "object_types",
-    "select_display_field": "pretty_plural",
-    "filter_field_name": "id",
-    "any_display_label": "Select "
-  }]
-
-
   function CenterDrill(props) {
         const {object_models,field_models,data,id} = props;
 
@@ -58,7 +46,10 @@ function MetaModelAdmin(props) {
 
   return (
     <>
-    <ACSFilterController filters={object_filters}  label_direction="row" label_variant="subtitle1"/>
+    <ACSObjectType onData={handleObjectTypeData} headless={true} object_type="object_types" />
+    {object_data && 
+      <ACSDrillDown  drill_center_component={CenterDrill} object_type="object_types" data={object_data}/>
+    }
     </>
   )
 }
