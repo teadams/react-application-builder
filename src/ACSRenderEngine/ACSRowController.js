@@ -265,11 +265,12 @@ function ACSRowController(input_props) {
   const massaged_props = row_model.props
   const { form=false,  ...params} = massaged_props
 
+  let input_api_options = input_props.api_options?input_props.api_options:{}
   if (object_model.base_api_path) {
-    input_props.api_options.base_api_path = object_model.base_api_path
+    input_api_options.base_api_path = object_model.base_api_path
   }
 // "NEED TO PASS MODE"
-  let [object_type, id, prescrubbed_field_list, api_options, data] =  useGetObject(input_props.object_type, input_props.id, input_props.field_list, input_props.api_options, input_props.data, onData, mode);
+  let [object_type, id, prescrubbed_field_list, api_options, data] =  useGetObject(input_props.object_type, input_props.id, input_props.field_list, input_api_options, input_props.data, onData, mode);
 
   if (!input_props_data && !id && data) {
     // lookup was by filter, not id
