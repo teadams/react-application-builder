@@ -104,7 +104,7 @@ function ACSSelectFilter(props) {
         setValue(event_value)
     }
     if (onChange) {
-      onChange(event)
+      onChange(event, select_options)
     }
   }
   
