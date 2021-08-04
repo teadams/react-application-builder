@@ -11,7 +11,7 @@ import * as u from '../../Utils/utils.js';
 import useGetModel from "../../Hooks/useGetModel.js"
 
 function ACSDrillCenter(props) {
-  const {object_models,field_models,data,object_type,id} = props;
+   const {object_models,field_models,data,object_type,id} = props;
     return (<ACSObjectView data={data} field_models={field_models} object_models={object_models} object_type={object_type} id={id}/>)
 }
 
@@ -41,6 +41,7 @@ function ACSDrillDown(props) {
   const [id, index, selected_row] = selected_data
 
   let object_models, field_models
+
   if (object_type === "custom_object_type" && data) {
     object_models = getCustomObjectModels("custom_object_type")
 
@@ -52,8 +53,8 @@ function ACSDrillDown(props) {
       field_models = getCustomFieldModels("custom_object_type",data[0])
     }
 
-  }
-
+  } 
+  
   const handleOnData = (api_results) => {
       setDrillData(api_results)
   }
@@ -70,8 +71,7 @@ function ACSDrillDown(props) {
       <div style={{width:"20%"}}>
     {drill_data && 
       drill_data.map((drill_row_data,index)=> {
-u.a(Object.keys(drill_row_data),drill_row_data.key, drill_row_data.pretty_name, drill_row_data.id)
-        return (<ListItem  onClick={(event) => handleOnClick(event, drill_row_data, index)} key={index} value={index} name={index}><ACSField image_size="tiny" object_type={object_type} data={drill_row_data} object_models={object_models} field_models={field_models} field_name="name"/></ListItem>
+        return (<ListItem  onClick={(event) => handleOnClick(event, drill_row_data, index)} key={index} value={index} name={index}><ACSField image_size="tiny" object_type={object_type} click_to_edit={false} data={drill_row_data} object_models={object_models} field_models={field_models} field_name="name"/></ListItem>
         )
       })
     }     
