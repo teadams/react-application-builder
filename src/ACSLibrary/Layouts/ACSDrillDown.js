@@ -35,10 +35,16 @@ function getCustomFieldModels(custom_object_type, data) {
 function ACSDrillDown(props) {
   const {object_type="custom_object_type", api_options, id_field="id", drill_center_component, data, drill_placement="left"}  = props
   
-//  const data = [{id:1, name:"foo"}, {id:2, name:"bar"}]
   const [drill_data, setDrillData] = useState(data)
   const [selected_data, setSelectedData] = useState([props.id,"", null])
   const [id, index, selected_row] = selected_data
+  if (data && drill_data !== data) {
+    // data was passed in but it has changed
+    setDrillData(data)
+    if (selected_data) {
+      setSelectedData([data[index][id_field], index, data[index]     ])
+    }
+  }
 
   let object_models, field_models
 

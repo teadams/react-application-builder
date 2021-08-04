@@ -14,6 +14,7 @@ import useGetModel from "../../Hooks/useGetModel.js"
 
 import AuthContext from '../../Modules/User/AuthContext';
 
+
 function convertMetaObjectToData(meta_object) {
   const data = []
   Object.keys(meta_object).forEach (key => {
@@ -21,27 +22,36 @@ function convertMetaObjectToData(meta_object) {
     data.push(meta_object[key])
   })
   return data
-
 }
 
 function MetaModelAdmin(props) {
+  const [object_data, setObjectData] = useState()
   const meta_object_models =  useGetModel("object_types")
   const meta_field_models =  useGetModel("fields")
 
-  const object_data = convertMetaObjectToData(meta_object_models)
-
   function CenterDrill(props) {
-      const {object_models,field_models,data,id} = props;
-        const field_data = convertMetaObjectToData(meta_field_models[data.name])
+        const {object_models,field_models,data,id} = props;
+
+        // const field_data = convertMetaObjectToData(meta_field_models[data.name])
         return (
         <>
-        <ACSObjectView data={data} field_models={field_models} object_models={object_models} object_type="custom_object_type" id={id}/>
-        <ACSDrillDown drill_placement="left" data={field_data}/>
+        <ACSObjectView data={data} field_models={field_models} object_models={object_models} object_type="object_types" id={id}/>
         </>
         )
   }
 
-  return (<ACSDrillDown drill_placement="top" drill_center_component={CenterDrill} data={object_data}/>)
+  function handleObjectTypeData(data) {
+      setObjectData(data)
+  }
+
+  return (
+    <>
+    <ACSObjectType onData={handleObjectTypeData} headless={true} object_type="object_types" />
+    {object_data && 
+      <ACSDrillDown  drill_center_component={CenterDrill} object_type="object_types" data={object_data}/>
+    }
+    </>
+  )
 }
 
 export default MetaModelAdmin
