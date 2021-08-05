@@ -8,9 +8,7 @@ import * as meta from '../../Utils/meta.js';
 import * as api from '../../Utils/data.js';
 import { withStyles } from '@material-ui/core/styles';
 import React, { Component, Fragment,  useState, useContext, useEffect} from 'react';
-import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField
-
-, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
+import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Chip, Grid, MenuItem, TextField, Dialog, DialogTitle, DialogContent, Divider,DialogContentText, DialogActions, Button, Paper, Avatar } from '@material-ui/core';
 import {Link, Container, Box, Card, TableHead, TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
 
 import { ACSObjectType} from '../../ACSLibrary'
@@ -95,6 +93,10 @@ function ACSSelectFilter(props) {
         } else {
             setSelectOptions(results)
         }
+        let change_event = {}
+        change_event.target = {}
+        change_event.target.value = value;
+        onChange(change_event,results)
   }
 
 

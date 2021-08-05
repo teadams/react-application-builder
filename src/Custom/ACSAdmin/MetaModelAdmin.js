@@ -20,15 +20,17 @@ function MetaModelAdmin(props) {
   const [object_data, setObjectData] = useState()
   const default_object_value = object_data?object_data.id:"_none_"
   function handleObjectTypeFilter(event, object_data) {
-      const select_id = event.target.value
-      const select_data = object_data.find(object_data => object_data.id === select_id);    
-      setObjectData(select_data)
+      if (object_data) {
+        const select_id = event.target.value
+        const select_data = object_data.find(object_data => object_data.key === select_id);    
+        setObjectData(select_data)
+      }
   }
 
   return (
   <div>
    <div style={{width:'200px'}}>
-    <ACSSelectFilter label="Data Type" key="object_types" onChange={handleObjectTypeFilter} object_type="object_types" filter_name="object_types"  default_value={default_object_value} select_display_field="pretty_plural" any_display_label="-- Select --" select_value_field="id"/>
+    <ACSSelectFilter label="Data Type" key="object_types" onChange={handleObjectTypeFilter} object_type="object_types" filter_name="object_types"  default_value={default_object_value} select_display_field="pretty_plural" any_display_label="-- Select --" select_value_field="key"/>
    </div>
     <div>
     {object_data &&
