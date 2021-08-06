@@ -54,23 +54,31 @@ function selectItems(select_options, value_field="value", display_field) {
     )
 }
 
+function massageDefaultSelectOptions(data, any_item, any_display_label) {
+    if (any_item) {
+      data.unshift({key:"_none_", pretty_name:any_display_label})
+    }
+    return data
+}
 // default_value, object_type, label, 
 function ACSSelectFilter(props) {
   //XX could get default select field by object type from proc?
   const {default_value, object_type, label, field_name, select_display_field, select_value_field="id", filter_name=props.object_type, onChange, api_options, any_item=true, any_display_label="Any", select_style, disable_underline=true, filter_field_name, tree_options=false} = props
+
   const [_value, setValue]= useState(default_value)
   const value = props.hasOwnProperty("value")?props.value:_value
-  const [select_options, setSelectOptions] = useState(props.data)
+
+  const [select_options, setSelectOptions] = useState(massageDefaultSelectOptions(props.data, any_item, any_display_label))
+
   let field_model = {}
   field_model =  useGetModel("fields")[object_type][filter_field_name]
   
   const select_values_from_api = !props.data && (!field_model || !field_model.valid_values || field_model.valid_values === "object")
-
   if (!select_options && field_model && field_model.valid_values && field_model.valid_values !== "object") {
       let valid_select_options = []
       if (any_item) {
        let new_value = {}
-        new_value.id = "_none_"
+        new_value[select_value_field] = "_none_"
         new_value[select_display_field] = any_display_label
         valid_select_options.push(new_value)
       }
@@ -84,7 +92,7 @@ function ACSSelectFilter(props) {
   function handleSelectValues(results) {
         if (any_item) {
             let new_value = {}
-            new_value.id = "_none_"
+            new_value[select_value_field] = "_none_"
             new_value[select_display_field] = any_display_label
             results.unshift(new_value)
         }
