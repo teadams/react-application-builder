@@ -33,6 +33,7 @@ function MetaModelAdmin(props) {
       if (select_id === "_none_") {
         setSelectedObjectData(null);
       }
+      setSelectedFieldData(null);
   }
 
   function handleFieldFilter(event, field_data) {
@@ -58,10 +59,12 @@ function MetaModelAdmin(props) {
     }
    </div>
     <div>
-    {selected_object_data &&
+    {selected_object_data && !selected_field_data &&
     <ACSObjectView data={selected_object_data}  object_type="object_types" id={selected_object_data.id}/>
     }
-    
+    {selected_field_data && 
+      <ACSObjectView data={selected_field_data}  object_type="fields" id={selected_field_data.id}/>
+    }
     </div>
   </div>
   )
