@@ -102,7 +102,8 @@ function ACSFieldController(original_props) {
   ////// ***** DATA and MODEL INPUTS ARE NOW ALIGNED *********
 
   const form_field_name = field_name
-  const {hidden_on_form, hidden_on_create_form, references, form=false, valid_values:model_valid_values, select_api_options={}, dependent_field, dependent_filter, references_object_type, field_required, references_field, display_field, input_type} = final_props
+  const {hidden_on_form, hidden_on_create_form, hidden, references, form=false, valid_values:model_valid_values, select_api_options={}, dependent_field, dependent_filter, references_object_type, field_required, references_field, display_field, input_type} = final_props
+
   let {data_path} = final_props
 
 
@@ -186,7 +187,7 @@ function ACSFieldController(original_props) {
   }
 
 
-  if (data === undefined || (object_type && !field_model) || mode === "hidden" || hidden_on_form && mode ==="edit" ||  (hidden_on_form || hidden_on_create_form) && mode==="create") return null
+  if (data === undefined || (object_type && !field_model) || hidden  || (hidden_on_form && mode ==="edit") ||  (hidden_on_form || hidden_on_create_form) && mode==="create") return null
 
 
   // *** align data ***/// 
