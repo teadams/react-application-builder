@@ -64,7 +64,7 @@ function MetaModelAdmin(props) {
       <div style={{padding:"15px"}}>
         <ACSObjectType onData={handleFieldData} headless={true} object_type="fields" />
         {field_data && selected_object_data &&
-        <ACSSelectFilter data={field_data[selected_object_data.key]} label="Field Name" key="fields" onChange={handleFieldFilter} object_type="fields" filter_name="fields"  default_value={default_field_value} select_display_field="pretty_name" any_display_label="-- Select --" any_item={true} select_value_field="key"/>
+        <ACSSelectFilter data={field_data[selected_object_data.key]} label="Field Name" key="fields" onChange={handleFieldFilter} object_type="fields" filter_name="fields"  default_value={default_field_value} value={selected_field_data?selected_field_data.key:default_field_value} select_display_field="pretty_name" any_display_label="-- Select --" any_item={true} select_value_field="key"/>
       }
       </div>
     </div>
