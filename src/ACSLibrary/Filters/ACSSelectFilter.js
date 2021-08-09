@@ -49,13 +49,15 @@ function selectItems(select_options, value_field="value", display_field) {
     }
     return (
       select_options.map ((value, index) => {
+        if (value_field==="key") {
+        }
         return (<MenuItem key={index}  value={value[value_field]}>{padding(value.tree_depth)}{value[display_field]}</MenuItem>)
         })
     )
 }
 
 function massageDefaultSelectOptions(data, any_item, any_display_label) {
-    if (any_item) {
+    if (data && any_item) {
       data.unshift({key:"_none_", pretty_name:any_display_label})
     }
     return data
@@ -67,13 +69,19 @@ function ACSSelectFilter(props) {
 
   const [_value, setValue]= useState(default_value)
   const value = props.hasOwnProperty("value")?props.value:_value
-
   const [select_options, setSelectOptions] = useState(massageDefaultSelectOptions(props.data, any_item, any_display_label))
+
+  if (props.data && props.data !== select_options) {
+    setSelectOptions(massageDefaultSelectOptions(props.data, any_item, any_display_label))
+  }
+
 
   let field_model = {}
   field_model =  useGetModel("fields")[object_type][filter_field_name]
+
   
-  const select_values_from_api = !props.data && (!field_model || !field_model.valid_values || field_model.valid_values === "object")
+  const select_values_from_api = !props.data && (!field_model || !field_model.valid_values || field_model.valid_values === "object");
+
   if (!select_options && field_model && field_model.valid_values && field_model.valid_values !== "object") {
       let valid_select_options = []
       if (any_item) {
