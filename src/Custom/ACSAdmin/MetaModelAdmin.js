@@ -46,7 +46,15 @@ function MetaModelAdmin(props) {
 
   function handleFieldData(field_data) {
       setFieldData(field_data)
+      if (selected_field_data) {
+        const object_field_data = field_data[selected_object_data.key]
+        
+        const new_select_field_data = object_field_data.find(object_field_data => object_field_data.key === selected_field_data.key);    
+
+        setSelectedFieldData(new_select_field_data)
+      }
   }
+
   return (
   <div>
    <div style={{width:'200px'}}>  
