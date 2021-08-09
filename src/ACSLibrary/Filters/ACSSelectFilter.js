@@ -57,7 +57,7 @@ function selectItems(select_options, value_field="value", display_field) {
 }
 
 function massageDefaultSelectOptions(data, any_item, any_display_label) {
-    if (data && any_item) {
+    if (data && any_item && data[0].key !== "_none_") {
       data.unshift({key:"_none_", pretty_name:any_display_label})
     }
     return data
