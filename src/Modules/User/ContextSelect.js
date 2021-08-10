@@ -49,7 +49,7 @@ function ContextSelect (props) {
 //  }
   function handleContextChange(event) {
     const value = event.target.value 
-    if (value !== "_none_") {
+    if (value && value !== "_none_") {
         //        context.setContextId(value)  
         // context will be set off the new URL in 
         // Template.  This is to handle the case 
