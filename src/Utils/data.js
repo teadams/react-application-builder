@@ -227,7 +227,10 @@ export function handleSubmit (event, formValues, mode, context, object_type, obj
       if (error) {
         alert ('error is ' + error.message)
       } else {
-        var inserted_id = insert_result.rows[0][id_field] 
+        let inserted_id = ''
+        if (insert_result && insert_result.isArray && insert_result.rows && insert_result.rows[0]) {
+            inserted_id = insert_result.rows[0][id_field] 
+        }
         if (handleSubmit) {
           handleSubmit(event,'created', formValues, inserted_id);
         }
