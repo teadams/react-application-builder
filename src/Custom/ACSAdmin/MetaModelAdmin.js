@@ -4,7 +4,8 @@ import 'react-app-polyfill/stable';
 import React, {Fragment, useState, useContext} from 'react';
 import {Grid,  Dialog, DialogTitle, DialogContent ,DialogContentText, DialogActions, Button, Tabs, Tab } from '@material-ui/core';
 import ACSDrillDown from "../../ACSLibrary/Layouts/ACSDrillDown.js"
-import {ACSSelectFilter, ACSObjectView, ACSEditButton, ACSField, ACSText, ACSTabMenu, ACSObjectType} from '../../ACSLibrary/index.js'
+import {ACSSelectFilter, ACSObjectView, ACSEditButton, ACSField, ACSText, ACSTabMenu, ACSObjectType, ACSCreateButton} from '../../ACSLibrary/index.js'
+
 
 
 import * as api from '../../Utils/data.js';
@@ -54,12 +55,13 @@ function MetaModelAdmin(props) {
         setSelectedFieldData(new_select_field_data)
       }
   }
-
+  const ButtonComponent = Button
   return (
   <div style={{paddingLeft:"15px"}}>
     <div style={{display:"flex", flexDirection:"row", alignItems:"flex-start"}}>  
       <div style={{padding:"15px"}}>  
         <ACSSelectFilter label="Data Type" key="object_types" onChange={handleObjectTypeFilter} object_type="object_types" filter_name="object_types"  default_value={default_object_value} select_display_field="pretty_plural" any_display_label="-- Select --" select_value_field="key"/>
+        <ACSCreateButton  ButtonComponent={ButtonComponent} text="Add Data Type" object_type="object_types"/>
       </div>
       <div style={{padding:"15px"}}>
         <ACSObjectType onData={handleFieldData} headless={true} object_type="fields" />

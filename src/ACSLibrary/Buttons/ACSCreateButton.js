@@ -4,7 +4,7 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
 import React, {Fragment, useState, useContext} from 'react';
-import {IconButton} from '@material-ui/core';
+import {IconButton, Button} from '@material-ui/core';
 import IconCreate from "@material-ui/icons/Add";
 import * as u from '../../Utils/utils.js'
 import * as control from '../../Utils/control.js'
@@ -12,7 +12,7 @@ import {Auth, AuthContext} from '../../Modules/User/index.js';
 import useGetModel from '../../Hooks/useGetModel.js'
 
 function ACSCreateButton(props) {
-  const {object_type, ButtonComponent, layout, sections, field_list, dialog_size, action_props, auth_action="create", require_authorization=true, text="", menu="ObjectView"} = props
+  const {object_type, ButtonComponent, layout, sections, field_list, dialog_size, action_props, auth_action="create", require_authorization=true, text="", variant="outlined", menu="ObjectView"} = props
   const [create_dialog, setCreateDialog] = useState(false);
   const context = useContext(AuthContext)
   const context_id = context.context_id
@@ -54,7 +54,7 @@ function ACSCreateButton(props) {
       <Fragment>
       <Auth require_authorization={require_authorization} auth_action={auth_action} object_type={object_type} prompt_login={false}>
       {ButtonComponent?
-       <ButtonComponent text={text} onClick={handleOnClick}/>
+       <ButtonComponent variant={variant} onClick={handleOnClick}>{text}</ButtonComponent>
       : <IconButton variant="fab" color="primary"  style={{ display:"inline"}} onClick={handleOnClick}>
       <IconCreate style={{height:15, width:15}}/>
       </IconButton>

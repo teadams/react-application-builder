@@ -22,10 +22,10 @@ const ACSMenuController = (props) => {
 
 
   const menu_models = useGetModel("menus")
-
-  const menu_model = menu_models.menus[menu_type]
+  let menu_model = menu_models.menus[menu_type]
   const context = useContext(AuthContext);
   const history = useHistory({});
+
   const {items:discard_items, ...menu_model_rest} = menu_model
   let items= [...menu_model.items]
 
