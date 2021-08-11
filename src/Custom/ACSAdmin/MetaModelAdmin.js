@@ -58,9 +58,12 @@ function MetaModelAdmin(props) {
   const ButtonComponent = Button
   return (
   <div style={{paddingLeft:"15px"}}>
-    <div style={{display:"flex", flexDirection:"row", alignItems:"flex-start"}}>  
+    <div style={{display:"flex", flexDirection:"row", alignItems:"center"}}>  
       <div style={{padding:"15px"}}>  
         <ACSSelectFilter label="Data Type" key="object_types" onChange={handleObjectTypeFilter} object_type="object_types" filter_name="object_types"  default_value={default_object_value} select_display_field="pretty_plural" any_display_label="-- Select --" select_value_field="key"/>
+      </div>
+      <div style={{padding:"15px"}}>  
+
         <ACSCreateButton  ButtonComponent={ButtonComponent} text="Add Data Type" object_type="object_types"/>
       </div>
       <div style={{padding:"15px"}}>
