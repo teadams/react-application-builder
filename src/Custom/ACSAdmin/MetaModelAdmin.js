@@ -56,6 +56,11 @@ function MetaModelAdmin(props) {
       }
   }
   const ButtonComponent = Button
+  let field_action_props;
+  if (selected_object_data) {
+    // pretty_name must be included because CreateButton merges in pretty_name from the buttons menu
+    field_action_props = {pretty_name:"", object_type_key:selected_object_data.key}
+  }
   return (
   <div style={{paddingLeft:"15px"}}>
     <ACSObjectType onData={handleFieldData} headless={true} object_type="fields" />
@@ -72,7 +77,7 @@ function MetaModelAdmin(props) {
           <ACSSelectFilter data={field_data[selected_object_data.key]} label="Field Name" key="fields" onChange={handleFieldFilter} object_type="fields" filter_name="fields"  default_value={default_field_value} value={selected_field_data?selected_field_data.key:default_field_value} select_display_field="pretty_name" any_display_label="-- Select --" any_item={true} select_value_field="key"/>
         </div>
         <div style={{padding:"15px"}}>  
-          <ACSCreateButton  ButtonComponent={ButtonComponent} text="Add Field" action_props={{dobject_type:"TEST OBJECT ACTION PROPS", pretty_name:""}} object_type="fields"/>
+          <ACSCreateButton  ButtonComponent={ButtonComponent} text="Add Field" action_props={field_action_props} object_type="fields"/>
         </div>
         </Fragment>
       }

@@ -136,7 +136,7 @@ const useForm = (object_type, field_name="", data, handleSubmit, mode="view", fo
         }
         defaults[field_name] = default_value
       } else if (["create","list_create"].includes(mode)) {
-        let default_value;
+        let default_value = "";
         if (data) {
           default_value = data[field_name]?data[field_name]:default_value
         }
