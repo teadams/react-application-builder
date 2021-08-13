@@ -60,7 +60,7 @@ function ACSCreateButton(props) {
       </IconButton>
       }
       {create_dialog  &&
-      <ActionComponent test="foo" row_delayed_auth={true} object_type={object_type} num_columns={1} mode="create" row_form="true" open={true} layout={layout} sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} field_list={field_list} dialog_size={dialog_size}   {...menu_props}  {...action_props} mode="create"/> }
+      <ActionComponent test="foo" row_delayed_auth={true} object_type={object_type} num_columns={1} mode="create" row_form="true" open={true} layout={layout} sections={sections} onSubmit={handleOnSubmit} onClose={handleOnClose} field_list={field_list} dialog_size={dialog_size}  {...menu_props}  {...action_props}   mode="create"/> }
       </Auth>
       </Fragment>
       )

@@ -306,6 +306,7 @@ function ACSRowController(input_props) {
   }
 
   let options ={}
+
   options.default_values_prop=merging_props;
   options.field_list= field_list;
   options.delay_dirty=delay_dirty 
@@ -314,9 +315,9 @@ function ACSRowController(input_props) {
   options.field_models = field_models;
   options.object_models = object_models;
   let {formAttributes, lastTouched, handleFormChange, handleFormSubmit} = useForm(object_type, "", data, handleSubmit, mode, form, options);
-
   const [formValues, formVisibility, formValidated] = formAttributes?formAttributes:[undefined,undefined,undefined]
   //// wall /////
+
   if (!field_models) {return null}
   const field_model = field_models[object_type]
 

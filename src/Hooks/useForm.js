@@ -27,7 +27,8 @@ const expand_combos_field_list = (field_list, field_models) => {
 
 const useForm = (object_type, field_name="", data, handleSubmit, mode="view", form=true, form_options={}) => {  
 
-let {default_values_prop={}, field_list, delay_dirty=false, list_form_params={}, index, path=""} = form_options
+  let {default_values_prop={}, field_list, delay_dirty=false, list_form_params={}, index, path=""} = form_options
+
 
   // If field list is not provided, use the default.
   // Example use case.. Forms that are build from custom UI.
@@ -69,10 +70,15 @@ let {default_values_prop={}, field_list, delay_dirty=false, list_form_params={},
 
   let input_mask 
   if (data) {
-    input_mask = object_type+","+field_name+mode+field_list.toString()+data.id
+    if (data.id) {
+      input_mask = object_type+","+field_name+mode+field_list.toString()+data.id 
+    } else {
+      input_mask = object_type+","+field_name+mode+field_list.toString()+JSON.stringify(data);       
+    }
   } else {
     input_mask = object_type+","+field_name+mode+field_list.toString()
   }
+
   if (input_mask !== prior_input_mask) {
     // props have changed, new form
     let defaults = {}
@@ -130,15 +136,19 @@ let {default_values_prop={}, field_list, delay_dirty=false, list_form_params={},
         }
         defaults[field_name] = default_value
       } else if (["create","list_create"].includes(mode)) {
-
-        let default_value = ""
-        if (field_model.default !== undefined && field_model.default !== null) {
+        let default_value;
+        if (data) {
+          default_value = data[field_name]?data[field_name]:default_value
+        }
+        if (!default_value && (field_model.default !== undefined && field_model.default !== null)) {
           default_value = field_model.default
         }
           // take from context
           if (context.user.id && references === "core_user" && field_model.use_context) {
               default_value = context.user.id
           } 
+
+
           default_value=default_values_prop[field_name]?default_values_prop[field_name]:default_value  
           
           defaults[field_name] = default_value

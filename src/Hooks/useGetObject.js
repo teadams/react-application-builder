@@ -22,7 +22,6 @@ const useGetObject = (object_type, id, field_list, api_options={}, param_data, o
       passthrough = true
   }
   // XX pass thruogh if param data eixsts or mode is create
-
   //object_type, id, field_list, api_options, param_data
   const [state, setState] = useState(null);
   const isMountedRef = useRef(null);
