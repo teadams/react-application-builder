@@ -42,7 +42,7 @@ function padding(num) {
   return <Fragment>{padding}</Fragment>
 }
 
-function selectItems(select_options, value_field="value", display_field) {
+function selectItems(select_options, value_field="id", display_field) {
   // XX todo Any option, calling field for display ( like full name), tree vuew
     if (!select_options) {
       return null
@@ -50,15 +50,19 @@ function selectItems(select_options, value_field="value", display_field) {
     return (
       select_options.map ((value, index) => {
         if (value_field==="key") {
+    //      u.a(value_field, display_field, value[value_field], value[display_field], value)
         }
         return (<MenuItem key={index}  value={value[value_field]}>{padding(value.tree_depth)}{value[display_field]}</MenuItem>)
         })
     )
 }
 
-function massageDefaultSelectOptions(data, any_item, any_display_label) {
-    if (data && any_item && data[0].key !== "_none_") {
-      data.unshift({key:"_none_", pretty_name:any_display_label})
+function massageDefaultSelectOptions(data, any_item, any_display_label, select_value_field="key", select_display_field="pretty_name") {
+    if (data && any_item && data[0][select_value_field] !== "_none_") {
+      let select_any = {}
+      select_any[select_value_field] = "_none_"
+      select_any[select_display_field] = any_display_label
+      data.unshift(select_any)
     }
     return data
 }
@@ -69,7 +73,7 @@ function ACSSelectFilter(props) {
 
   const [_value, setValue]= useState(default_value)
   const value = props.hasOwnProperty("value")?props.value:_value
-  const [select_options, setSelectOptions] = useState(massageDefaultSelectOptions(props.data, any_item, any_display_label))
+  const [select_options, setSelectOptions] = useState(massageDefaultSelectOptions(props.data, any_item, any_display_label, select_value_field, select_display_field))
 
   if (props.data && props.data !== select_options) {
     setSelectOptions(massageDefaultSelectOptions(props.data, any_item, any_display_label))

@@ -1,6 +1,8 @@
 import React, {Fragment} from 'react';
 import MetaModelAdmin from './MetaModelAdmin';
 import MenuModelAdmin from './MenuModelAdmin';
+import AppParamAdmin from './AppParamAdmin';
+
 
 function ACSTest(props) {
   return (
@@ -15,6 +17,8 @@ export default function ACSAdminComponentPicker(name) {
       return  MetaModelAdmin;
     case "MenuModelAdmin":
       return  MenuModelAdmin;
+    case "AppParamAdmin":
+        return  AppParamAdmin;
     case "ACSTEST":  
       return ACSTest
       break;
