@@ -93,6 +93,9 @@ function MenuModelAdmin(props) {
         value={selected_menu_data?selected_menu_data.key:"_none_"} select_value_field="key" select_display_field="pretty_name" any_display_label="-- Select --"  any_item={true}/>
       </div>
       <div style={{padding:"15px"}}>
+      <ACSSelectFilter label="Menu Item" key="menu_items" data={menu_item_data} onChange={handleMenuItemTypeFilter} object_type="menu_items" filter_name="menus_items"  
+      value={selected_menu_item_data?selected_menu_item_data.key:"_none_"} select_value_field="key" select_display_field="pretty_name" any_display_label="-- Select --"  any_item={true}/>
+
       </div>
       <div style={{padding:"15px"}}>  
       </div>
