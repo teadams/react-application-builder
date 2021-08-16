@@ -39,11 +39,11 @@ function MenuModelAdmin(props) {
 
       if (menu_item_data && menu_item_id !== "_none_") {
         const select_data = menu_item_data.find(menu_item_data => menu_item_data.key === menu_item_id);    
-        setSelectedMenu(select_data);
-        setSelectedMenuItem(null);
+        setSelectedMenu(null);
+        setSelectedMenuItem(select_data);
       } 
       if (menu_item_id === "_none_") {
-        setSelectedMenu(null);
+        setSelectedMenuItem(null);
       }
   }
 
@@ -98,6 +98,7 @@ function MenuModelAdmin(props) {
 
       </div>
       <div style={{padding:"15px"}}>  
+        <ACSCreateButton  ButtonComponent={ButtonComponent} text="Add Menu Item" object_type="menu_items" action_props={{pretty_name:""}}/>
       </div>
      </Fragment>
     }
@@ -106,8 +107,9 @@ function MenuModelAdmin(props) {
     {menu_data && selected_menu_data && !selected_menu_item_data &&
       <ACSObjectView data={selected_menu_data}  object_type="menus" id={selected_menu_data.id}/>
     }
-    {menu_data && selected_menu_item_data && !selected_menu_data &&
-      <ACSObjectView data={selected_menu_data}  object_type="menus" id={selected_menu_data.id}/>
+    {menu_item_data && selected_menu_item_data && !selected_menu_data &&
+      <ACSObjectView data={selected_menu_item_data}  object_type="menu_items" id={selected_menu_item_data.id}/>
+
     }
     </div>
   </div>

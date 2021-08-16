@@ -18,6 +18,12 @@ function RABTextField(props) {
   const {mode, row_data,  data, object_type, data_field, pretty_name, description_text, display_field=props.field_name, references_field, field_name, form_field_name=props.field_name, field_model={}, object_models, formdata, formAttributes=[], disable_underline=false, onChange, autoFocus, fullWidth=true, image_size="small", model_valid_values, valid_values, 
   variant="outlined", required, helperText, placeholder, multiline=false, more_link_cutoff="", more_link_list_cutoff=props.more_link_cutoff, prevent_edit, input_type, data_type, key_id, trace} = props
 //u.a(field_name)
+  let disabled  = false;
+  // if we are in a create-like mode, prevent_edit
+  // does not apply
+  if (prevent_edit && !["create", "list_create"].includes(mode)) {
+      disabled= true;
+  }
   let {with_thumbnail="", with_url="", more_detail=false, toggleMoreDetail} = props
   const [formValues, formVisibility, formValidated] = formAttributes
   const visibility = formVisibility?formVisibility[field_name]:"visible"
@@ -158,7 +164,7 @@ function RABTextField(props) {
             variant={variant}
             rows={rows}
             fullWidth={true}
-            disabled={prevent_edit}
+            disabled={disabled}
             type={input_type}
             onBlur={props.onFieldBlur}
             value={value}
@@ -176,7 +182,7 @@ function RABTextField(props) {
           id={form_field_name+"_"+key_id}
           key={form_field_name+"_"+key_id}
           fullWidth={false}
-          disabled={prevent_edit}
+          disabled={disabled}
           type={input_type}
           value={value}
           onChange={onChange}></TextField>

@@ -163,11 +163,16 @@ function ACSFieldController(original_props) {
         if (context.context_id) {
           select_api_options.subsite_id =context.context_id
         }
+        // determine if the referenced object type 
+        // has a non-standard api path
+        const references_object_type_model = object_models[references_object_type];
+        if (references_object_type_model.base_api_path) {
+            select_api_options.base_api_path = references_object_type_model.base_api_path;
+        }
         api.getData (references_object_type,select_api_options, (results, error) => {         
               if (error) {
                   alert ("error retrieving object " + references + " " + error.message)
               } else {
-                results = results
                 if (!field_required && !["radio","checkbox"].includes(field_model.input_type)) {
                     const new_value = {}
                     new_value[references_field] = ""
