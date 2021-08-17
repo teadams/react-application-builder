@@ -255,7 +255,7 @@ const rab_component_models = {
       props:{
         label: true,
         form_label:false,
-        label_style:{width:"20%", fontWeight:"bold", textAlign:"right",  verticalAlign:"top", overflowWrap:"normal", wordBreak:"normal",paddingTop:"10px"},
+        label_style:{fontWeight:"bold", textAlign:"right",  verticalAlign:"top", overflowWrap:"normal", wordBreak:"normal",paddingTop:"10px"},
         label_post_text:":",
         label_tag:"td",
         field_tag:"td",

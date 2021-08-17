@@ -155,9 +155,9 @@ function ACSSectionWrap(props) {
 }
 
 function ACSSectionBodyWrap(props) {
-  return (<Table style={{marginBottom:20}}>
+  return (<table style={{marginBottom:20}}>
             <TableBody>{props.children}</TableBody>
-        </Table>)
+        </table>)
 }
 
 function ACSSectionHeader(props) {
