@@ -317,7 +317,6 @@ function ACSRowController(input_props) {
   let {formAttributes, lastTouched, handleFormChange, handleFormSubmit} = useForm(object_type, "", data, handleSubmit, mode, form, options);
   const [formValues, formVisibility, formValidated] = formAttributes?formAttributes:[undefined,undefined,undefined]
   //// wall /////
-
   if (!field_models) {return null}
   const field_model = field_models[object_type]
 

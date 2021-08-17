@@ -62,13 +62,27 @@ export async function callAPI (path="", params={}, data_object={}, method="get",
     // anything might be a file update due to the flexible
     // metadata
     let multi_object = new FormData();
+    // FormData always sends strings.
+    // So to protect booleans, number, etc 
+    // we will stringify the non-file attributes 
+   // and parse server side 
+    let acs_type_protected_fields = {}
     Object.keys(data_object).forEach(key => {
-      // protects dates 
-      if (typeof data_object[key] === 'object' && !(data_object[key] instanceof Blob) && !moment.isMoment(data_object[key])) {    
-        data_object[key] = JSON.stringify(data_object[key])
-      }
-      multi_object.append(key, data_object[key])
+      if (typeof data_object[key] === "file" || data_object[key] instanceof Blob || typeof data_object[key] === "string") {
+        multi_object.append(key, data_object[key])
+      } else {
+        acs_type_protected_fields[key] = data_object[key]
+      }  
+//      if (typeof data_object[key] === 'object' && !(data_object[key] instanceof Blob) && !moment.isMoment(data_object[key])) {    
+//        data_object[key] = JSON.stringify(data_object[key])
+//      }
+//      multi_object.append(key, data_object[key])
     })
+    if (acs_type_protected_fields) { 
+      // consolidate them all together 
+      // and stringify.  Will be parsed back on the server
+      multi_object.append("acs_type_protected_fields", JSON.stringify(acs_type_protected_fields))    
+    }
     data_object = multi_object
   }
   const jwt_token = JSON.parse(localStorage.getItem('user'));
@@ -223,7 +237,8 @@ export function handleSubmit (event, formValues, mode, context, object_type, obj
 
   if (!formValues[id_field]) {
 
-    postData(object_type, formValues, {path:path}, (insert_result, error) => { 
+    postData(object_type, formValues, {path:path}, (insert_result, error) => {
+ 
       if (error) {
         alert ('error is ' + error.message)
       } else {
