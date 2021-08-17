@@ -194,12 +194,12 @@ function RenderACSField(props) {
     }
 
     return (<Fragment>
-      <FieldWrap   onClick={handleFieldClick}  field_mode={mode} key={field_name+"_wrap1"}   field_name={field_name}>
-          <Tag Tag={wrap_tag} class={wrap_css_class} style={wrap_style}>
-            {label && 
-            <Tag Tag={label_tag} pretty_name={pretty_name} class={label_css_class} style={label_style}>
-                {label_pre_text}{pretty_name}{label_post_text}
-            </Tag>}
+      <Tag Tag={wrap_tag} class={wrap_css_class} style={wrap_style}>
+      {label && 
+        <Tag Tag={label_tag} pretty_name={pretty_name} class={label_css_class} style={label_style}>
+            {label_pre_text}{pretty_name}{label_post_text}
+        </Tag>}
+        <FieldWrap   onClick={handleFieldClick}  field_mode={mode} key={field_name+"_wrap1"}   field_name={field_name}>
             <Tag Tag={field_tag}  style={field_style} class={field_css_class}>
                 {!show_thumbnail?
                     <Fragment>
@@ -210,10 +210,10 @@ function RenderACSField(props) {
                     <div style={{paddingLeft:3}}>{field_pre_text}<Field {...params}  key={field_name+"field"}/>{field_post_text}</div>
                   </div>
               }
-
             </Tag>
-          </Tag>
-      </FieldWrap></Fragment>
+          </FieldWrap>
+        </Tag>
+      </Fragment>
     )
   
   } else {

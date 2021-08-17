@@ -73,7 +73,6 @@ function ACSFieldController(original_props) {
   handleFormChange:props_handleFormChange, handleFormSubmit:props_handleFormSubmit, formAttributes:props_formAttributes, lastTouched:props_lastTouched, onBlur, onFieldClick,  
   mode="view", key_id, autoFocus=false, rab_component_model, onSubmit, reference_formAttributes, reference_lastTouched,...merging_props} = original_props
 
-
     //// *** NOW HAVE APPROPRIATE MODELS *****
   let final_props;
   if (original_props.built) {
