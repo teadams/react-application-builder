@@ -31,28 +31,34 @@ function RABTableHeaders(props) {
   const classes = useStyles();
   const {object_type, data, rab_component_model, total_width_units, ...list_params} = props
 
-  let {field_list} = props
+   let {field_list} = props
+  // can't call hook conditionally
    let field_models =  useGetModel("fields")
     if (props.field_models) {
+      // field_model from props override the meta model
       field_models = _.merge({},field_models, props.field_models)
     }  
    if (!field_models) {return null}
    const field_model = field_models[object_type]
 
-  // XX 3 places
+  
    if (!props.field_list) {
        if (object_type) {
          field_list = Object.keys(field_model)
        } else {
+        // raw data is passed in
+        // not backed by model
          field_list = Object.keys(data)
        }
    }
 
-
   return (
         <TableRow>
         {field_list.map(field=>{
-            const column_field_model = field_models[object_type][field] 
+            const column_field_model = field_models[object_type][field]
+            if (column_field_model.hidden || column_field_model.not_on_list) {
+              return null;
+            }
             let list_grow =1
             let pretty_name = field
 //## TODO get proper header for subobjects
