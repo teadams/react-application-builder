@@ -301,7 +301,6 @@ const rab_component_models = {
         label_style:{minWidth:"max-content", overflowWrap:"normal", wordBreak:"normal", fontWeight:"bold", align:"right", display:"flex", flexGrow:0},
         label_post_text:": ",
         label_tag:"div",
-        
         field_tag:"div",
         wrap_tag:"div",
         wrap_style:{width:"100%", flexDirection:"row", display:"flex", width:"100%"},

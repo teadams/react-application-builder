@@ -82,7 +82,7 @@ function RenderACSField(props) {
 
   // these come froprops.m rab_component_model props
 
-  const {field_tag="div", field_pre_text, field_post_text, field_css_class, field_style,  //field
+  const {field_tag=Fragment, field_pre_text, field_post_text, field_css_class, field_style,  //field
         label=false, form_label=false, pretty_name, label_tag="", label_pre_text, label_post_text, label_style, label_css_class, //label
         prevent_edit, hide_if_empty, wrap_css_class, wrap_style={display:"flex", flexDirection:"row"},  wrap_tag="",
         with_thumbnail, thumbnail_size="small", thumbnail_avatar=true, thumbnail_style, form_wrap_style} = props  //wrap
@@ -199,7 +199,7 @@ function RenderACSField(props) {
         <Tag Tag={label_tag} pretty_name={pretty_name} class={label_css_class} style={label_style}>
             {label_pre_text}{pretty_name}{label_post_text}
         </Tag>}
-        <Tag Tag={field_tag}  style={field_style} class={field_css_class}>
+        <Tag Tag={field_tag}  style={field_style} class={field_css_class}> 
           <FieldWrap   onClick={handleFieldClick}  field_mode={mode} key={field_name+"_wrap1"}   field_name={field_name}>
                 {!show_thumbnail?
                     <Fragment>
