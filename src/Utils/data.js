@@ -243,7 +243,9 @@ export function handleSubmit (event, formValues, mode, context, object_type, obj
         alert ('error is ' + error.message)
       } else {
         let inserted_id = ''
-        if (insert_result && insert_result.isArray && insert_result.rows && insert_result.rows[0]) {
+        const insert_row = insert_result.rows[0]
+
+        if (insert_result && insert_result.rows && Array.isArray(insert_result.rows) && insert_result.rows[0] ) {
             inserted_id = insert_result.rows[0][id_field] 
         }
         if (handleSubmit) {
