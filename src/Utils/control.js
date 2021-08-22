@@ -47,7 +47,7 @@ import TreeItem from '@material-ui/lab/TreeItem';
 // layouts
 import ACSMap from '../Functional/Lists/ACSMap.js'
 import ACSMapAndFilter from '../Functional/Layouts/ACSMapAndFilter.js'
-import {ACSDrillDown, ACSWizard, ACSTabMenu, ACSComboField, ACSField, ACSTextField, ACSFile, ACSImage, ACSDate, ACSReferencesList, ACSMapping, ACSReferenceMapping} from '../ACSLibrary/index.js'
+import {ACSDrillDown, ACSWizard, ACSTabMenu, ACSComboField, ACSField, ACSTextField, ACSFile, ACSImage, ACSDate, ACSWysiwygEditor, ACSReferencesList, ACSMapping, ACSReferenceMapping} from '../ACSLibrary/index.js'
 
 //// CUSTOM (will get passed into APP later)
 import ACSAdminComponentPicker from "../Custom/ACSAdmin/index.js"
@@ -296,6 +296,8 @@ function componentPicker(name, source="not provided") {
     case "ACSFile":  return ACSFile;
     case "ACSImage":  return ACSImage;
     case "ACSDate":  return ACSDate;
+    case "ACSWysiwygEditor":  return ACSWysiwygEditor;
+
     case "ACSReferenceMapping":  return ACSReferenceMapping;
     case "ACSReferencesList": return ACSReferencesList;
     case "ACSMapping": return ACSMapping;
