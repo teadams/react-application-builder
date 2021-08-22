@@ -23,6 +23,7 @@
     "material-ui-pickers": "^2.2.4",
     "moment": "^2.27.0",
     "mui-datatables": "^2.14.0",
+    "mui-treasury": "^0.1.5-alpha.3",
     "react": "^16.13.1",
     "react-big-calendar": "^0.24.4",
     "react-dom": "^16.13.1",
