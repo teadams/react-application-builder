@@ -45,7 +45,6 @@ function Membership(props) {
     api_options.filter_field.push("core_subsite")
     api_options.filter_id.push(context.context_id)
     api_options.filter_join="AND"
-u.a("filter is", api_options)
     setMemberAPIOptions(api_options)    
   }
 
