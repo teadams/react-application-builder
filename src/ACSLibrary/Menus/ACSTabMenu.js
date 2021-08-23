@@ -18,7 +18,10 @@ import UIContext from '../../Template/UIContext';
 import useGetModel from '../../Hooks/useGetModel'
 
 const TabMenu = (props) => {
-  const {menu_model, items, item_data, field_name:tab_path, prevent_content=false, onClick, open, orientation="horizontal",  default_index=0, num_visible_items} = props
+  const {menu_model, items, item_data,  prevent_content=false, onClick, open, orientation="horizontal",  default_index=0, num_visible_items} = props
+  let {id} = props;
+
+  let {field_name:tab_path} = props
 
   const [controlled_tab, setControlledTab] = useState(default_index)
   const [current_tab, setCurrentTab] = useState(default_index)
@@ -33,7 +36,10 @@ const TabMenu = (props) => {
   } else {
     current_tab_data = item_data[items[current_tab]]
   }
-  const {menu_component_name, pretty_name, summary, description, object_type, mode, menu_item_summary_style, menu_item_description_style, id, dialog=false} = current_tab_data
+  const {menu_component_name, pretty_name, summary, description, object_type, mode, menu_item_summary_style, menu_item_description_style,  dialog=false} = current_tab_data
+  if (!id) {
+    id = current_tab_data.id
+  }
   function handleClose() {
     if (props.onClose) {
       props.onClose()
@@ -57,6 +63,7 @@ const TabMenu = (props) => {
   } else {
     TabComponent = control.componentByName(menu_component_name);
   }
+
    return (
      <Fragment>
     {(num_visible_items > 1 || !menu_model.hide_single_menu) &&
@@ -72,7 +79,7 @@ const TabMenu = (props) => {
          > 
 
         {Object.keys(item_data).map ((item,index) => {
-               const {pretty_name, summary,description, force_refresh=false, hidden=false} = item_data[item]
+               const {pretty_name, summary,description, force_refresh=false, id, hidden=false} = item_data[item]
                if (hidden) {return null}
                return (<StyledTab  value={index} key={index}  label={pretty_name} />)
         })}

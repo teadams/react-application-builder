@@ -20,7 +20,6 @@ const ACSMenuController = (props) => {
   const open = props.hasOwnProperty("open")?props.open:open_state 
   const {open:discard_open, menu_type, selected_menu, object_type, field_name:tab_path,  onClose, id, root_path="",  ...params} = props
 
-
   const menu_models = useGetModel("menus")
   let menu_model = menu_models.menus[menu_type]
   const context = useContext(AuthContext);
@@ -152,6 +151,7 @@ const ACSMenuController = (props) => {
   return (
     <Fragment>
     {React.cloneElement(props.children, {...props, ...menu_model_rest, onClick:handleClick, onClose:handleClose, default_index:default_index, menu_model:menu_model, items:final_items, item_data:item_data, default_menu:default_menu, num_visible_items:num_visible_items, open:open })}
+
     </Fragment>
   )
 
