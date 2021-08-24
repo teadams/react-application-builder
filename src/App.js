@@ -7,16 +7,19 @@ import Template from "./Template/Template.js"
 import {AuthContextProvider} from './Modules/User';
 import ModelContextProvider from './Template/ModelContextProvider.js';
 import UIContextProvider from './Template/UIContextProvider.js';
+import { DragDropContext } from 'react-beautiful-dnd';
 
 function App(props) {
   return      (
-    <ModelContextProvider>
-      <AuthContextProvider>
-        <UIContextProvider>
-            <Template {...props}/>
-        </UIContextProvider>
-      </AuthContextProvider>
-    </ModelContextProvider>
+    <DragDropContext>
+      <ModelContextProvider>
+        <AuthContextProvider>
+          <UIContextProvider>
+              <Template {...props}/>
+          </UIContextProvider>
+        </AuthContextProvider>
+      </ModelContextProvider>
+    </DragDropContext>
   )
 }
 

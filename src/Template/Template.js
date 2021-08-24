@@ -14,6 +14,8 @@ import {AppBar,Toolbar, Typography} from '@material-ui/core';
 import useGetModel from "../Hooks/useGetModel.js"
 import AuthContext from '../Modules/User/AuthContext';
 
+///**
+import { DragDropContext } from 'react-beautiful-dnd';
 
 function Template(props) {
   const context = useContext(AuthContext)
