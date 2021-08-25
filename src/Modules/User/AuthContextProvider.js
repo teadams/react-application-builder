@@ -48,13 +48,22 @@ function AuthContextProvider(props) {
     }
   }
 
-
+  // Cache is simple
+  // For each object type, we mark the last time 
+  // there has been an update that that object type or 
+  // a related object type.
+  // If data was retrieved before this time stamp, 
+  // getObjectType and getObjectList will automatically
+  // refresh. 
+  // User Context chacing is handled seprately.
+  // There is no attempt to refresh by individual row/id (hard to get right)
   const handleDirtyData = (object_type) => {
     let dirty_object = _.merge({},dirty_stamp);
     if (object_type) {
       dirty_object[object_type] = Date.now();
       const object_type_model = object_types_model[object_type]
       for (const dependent_object_type of object_type_model.dependent_object_types) {
+        // clear all the object types that may have also changed
         dirty_object[dependent_object_type] = Date.now();
       }
       setDirtyData(dirty_object);
