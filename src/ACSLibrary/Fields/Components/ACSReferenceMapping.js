@@ -7,6 +7,7 @@ import {Link, FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typ
 import React, {Fragment,useEffect} from 'react';
 
 function getViewData(data, field) {
+  if (!data) return []
   let view_data = []
   data.forEach(row => {
     let row_data = row[field]
