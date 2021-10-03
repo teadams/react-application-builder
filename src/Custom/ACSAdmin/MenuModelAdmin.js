@@ -27,38 +27,23 @@ function MenuModelAdmin(props) {
   const [menu_data, setMenuData] = useState();
   const [menu_item_data, setMenuItemData] = useState();
 
-  const [selected_menu_type, setSelectedMenuType]  = useState();
+  // default state of false to comply with Accordaion State management
+  const [selected_menu_type, setSelectedMenuType]  = useState(false);
+  const [selected_menu_data, setSelectedMenuData] = useState(false);
 
-  const [selected_menu_data, setSelectedMenu] = useState()
-  const [selected_menu_item_data, setSelectedMenuItem] = useState()
+  const [selected_menu_item_data, setSelectedMenuItemData] = useState()
 
   const handleMenuTypeChange = (menu_type) => (event, isExpanded) => {
       setSelectedMenuType(isExpanded ? menu_type : false);
   }
 
-  function handleMenuTypeFilter(event, menu_data) {
-      const menu_id = event.target.value
-      if (menu_data && menu_id !== "_none_") {
-        const select_data = menu_data.find(menu_data => menu_data.key === menu_id);    
-        setSelectedMenu(select_data);
-        setSelectedMenuItem(null);
-      } 
-      if (menu_id === "_none_") {
-        setSelectedMenu(null);
-      }
-  }
-
-  function handleMenuItemTypeFilter(event, menu_item_data) {
-      const menu_item_id = event.target.value
-
-      if (menu_item_data && menu_item_id !== "_none_") {
-        const select_data = menu_item_data.find(menu_item_data => menu_item_data.key === menu_item_id);    
-        setSelectedMenu(null);
-        setSelectedMenuItem(select_data);
-      } 
-      if (menu_item_id === "_none_") {
-        setSelectedMenuItem(null);
-      }
+  const handleMenuChange = (new_selected_menu_id) => (event, isExpanded) => {
+      if (isExpanded) {
+        const new_selected_menu_data = menu_data.find(menu_data => menu_data.id === new_selected_menu_id);    
+        setSelectedMenuData(new_selected_menu_data)
+    } else {
+        setSelectedMenuData(false);
+    }
   }
 
 
@@ -68,12 +53,12 @@ function MenuModelAdmin(props) {
       // chosen
       if (selected_menu_data) {
         const new_selected_menu_data = menu_data.find(menu_data => menu_data.key === selected_menu_data.key);    
-        setSelectedMenu(new_selected_menu_data)
+        setSelectedMenuData(new_selected_menu_data)
       }
       if (selected_menu_item_data) {
         const new_selected_menu_item_data = menu_item_data.find(menu_item_data => menu_item_data.key === selected_menu_item_data.key);    
 
-        setSelectedMenuItem(new_selected_menu_item_data)
+        setSelectedMenuItemData(new_selected_menu_item_data)
       }
   }
 
@@ -83,11 +68,11 @@ function MenuModelAdmin(props) {
       // chosen
       if (selected_menu_data) {
         const new_selected_menu_data = menu_data.find(menu_data => menu_data.key === selected_menu_data.key);    
-        setSelectedMenu(new_selected_menu_data)
+        setSelectedMenuData(new_selected_menu_data)
       }
       if (selected_menu_item_data) {
         const new_selected_menu_item_data = menu_item_data.find(menu_item_data => menu_item_data.key === selected_menu_item_data.key);    
-        setSelectedMenuItem(new_selected_menu_item_data)
+        setSelectedMenuItemData(new_selected_menu_item_data)
       }
   }
 
@@ -102,15 +87,6 @@ function MenuModelAdmin(props) {
     <div style={{display:"flex", flexDirection:"row", alignItems:"center"}}>  
     {menu_data && menu_item_data &&
       <Fragment>
-      <div style={{padding:"15px"}}> 
-        <ACSSelectFilter label="Menu Type" key="menus" data={menu_data} onChange={handleMenuTypeFilter} object_type="menus" filter_name="menus"  
-        value={selected_menu_data?selected_menu_data.key:"_none_"} select_value_field="key" select_display_field="pretty_name" any_display_label="-- Select --"  any_item={true}/>
-      </div>
-      <div style={{padding:"15px"}}>
-      <ACSSelectFilter label="Menu Item" key="menu_items" data={menu_item_data} onChange={handleMenuItemTypeFilter} object_type="menu_items" filter_name="menus_items"  
-      value={selected_menu_item_data?selected_menu_item_data.key:"_none_"} select_value_field="key" select_display_field="pretty_name" any_display_label="-- Select --"  any_item={true}/>
-
-      </div>
       <div style={{padding:"15px"}}>  
         <ACSCreateButton  ButtonComponent={ButtonComponent} text="Add Menu Item" object_type="menu_items" action_props={{pretty_name:""}}/>
       </div>
@@ -118,9 +94,6 @@ function MenuModelAdmin(props) {
     }
     </div>
     <div>
-    {menu_data && selected_menu_data && !selected_menu_item_data &&
-      <ACSObjectView data={selected_menu_data}  object_type="menus" id={selected_menu_data.id}/>
-    }
     {menu_item_data && selected_menu_item_data && !selected_menu_data &&
       <ACSObjectView data={selected_menu_item_data}  object_type="menu_items" id={selected_menu_item_data.id}/>
 
@@ -128,20 +101,23 @@ function MenuModelAdmin(props) {
     {menu_data && Object.keys(menu_types).map((menu_type_key, index) => {
       const menu_type = menu_types[menu_type_key];
       return (<Accordion  expanded={selected_menu_type === menu_type_key} onChange={handleMenuTypeChange(menu_type_key)}>
-        <AccordionSummary  expandIcon={<ExpandMoreIcon />}>
+        <AccordionSummary  expandIcon={<ExpandMoreIcon id={menu_type_key}/>}>
           {menu_type} 
         </AccordionSummary>
         <AccordionDetails style={{display:"flex", flexDirection:"column"}}> 
-          {selected_menu_type === menu_type_key && Object.keys(menu_data).map((menu_data_key,index) => {
-            const menu = menu_data[menu_data_key];
-            if (menu.type !== menu_type_key) return null
+          {selected_menu_type === menu_type_key && menu_data.map((menu,index) => {
+            if (menu.type !== menu_type_key  ) return null
+            const expanded = selected_menu_data && menu.id === selected_menu_data.id
             return (
-            <Accordion >
-              <AccordionSummary  expandIcon={<ExpandMoreIcon />}>
-                {menu.pretty_name} {menu.type} 
+            <Accordion expanded={expanded} onChange={handleMenuChange(menu.id)} >
+              <AccordionSummary  expandIcon={<ExpandMoreIcon id={menu.id}/>}>
+                {menu.pretty_name}
               </AccordionSummary>
               <AccordionDetails > 
-                {Object.keys(menu)}
+                {menu_data && selected_menu_data && menu.id === selected_menu_data.id &&
+                  <ACSObjectView data={selected_menu_data}  object_type="menus" id={selected_menu_data.id}/>
+                }
+
               </AccordionDetails>
             </Accordion>)
           })}
