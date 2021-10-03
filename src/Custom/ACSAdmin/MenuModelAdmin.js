@@ -2,7 +2,10 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
 import React, {Fragment, useState, useContext} from 'react';
-import {Grid,  Dialog, DialogTitle, DialogContent ,DialogContentText, DialogActions, Button, Tabs, Tab } from '@material-ui/core';
+
+import { Accordion, AccordionSummary, AccordionDetails, Grid,  Dialog, DialogTitle, DialogContent ,DialogContentText, DialogActions, Button, Tabs, Tab } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
 import ACSDrillDown from "../../ACSLibrary/Layouts/ACSDrillDown.js"
 import {ACSSelectFilter, ACSObjectView, ACSEditButton, ACSField, ACSText, ACSTabMenu, ACSObjectType, ACSCreateButton} from '../../ACSLibrary/index.js'
 
@@ -14,6 +17,11 @@ import * as u from '../../Utils/utils.js';
 import useGetModel from "../../Hooks/useGetModel.js"
 import AuthContext from '../../Modules/User/AuthContext';
 
+const menu_types = {
+  menu: "Menus",
+  wizard: "Wizards",
+  panel: "Panels"
+}
 
 function MenuModelAdmin(props) {
   const [menu_data, setMenuData] = useState();
@@ -110,6 +118,29 @@ function MenuModelAdmin(props) {
     {menu_item_data && selected_menu_item_data && !selected_menu_data &&
       <ACSObjectView data={selected_menu_item_data}  object_type="menu_items" id={selected_menu_item_data.id}/>
 
+    }
+    {menu_data && Object.keys(menu_types).map((key, index) => {
+      const menu_type = menu_types[key];
+      return (<Accordion>
+        <AccordionSummary  expandIcon={<ExpandMoreIcon />}>
+          {menu_type} 
+        </AccordionSummary>
+        <AccordionDetails style={{display:"flex", flexDirection:"column"}}> 
+          {Object.keys(menu_data).map((menu_data_key,index) => {
+            const menu = menu_data[menu_data_key];
+            return (
+            <Accordion >
+              <AccordionSummary  expandIcon={<ExpandMoreIcon />}>
+                {menu.pretty_name} {menu.type}
+              </AccordionSummary>
+              <AccordionDetails > 
+                {Object.keys(menu)}
+              </AccordionDetails>
+            </Accordion>)
+          })}
+        </AccordionDetails>
+      </Accordion>
+      )})
     }
     </div>
   </div>
