@@ -27,8 +27,14 @@ function MenuModelAdmin(props) {
   const [menu_data, setMenuData] = useState();
   const [menu_item_data, setMenuItemData] = useState();
 
+  const [selected_menu_type, setSelectedMenuType]  = useState();
+
   const [selected_menu_data, setSelectedMenu] = useState()
   const [selected_menu_item_data, setSelectedMenuItem] = useState()
+
+  const handleMenuTypeChange = (menu_type) => (event, isExpanded) => {
+      setSelectedMenuType(isExpanded ? menu_type : false);
+  }
 
   function handleMenuTypeFilter(event, menu_data) {
       const menu_id = event.target.value
@@ -119,19 +125,20 @@ function MenuModelAdmin(props) {
       <ACSObjectView data={selected_menu_item_data}  object_type="menu_items" id={selected_menu_item_data.id}/>
 
     }
-    {menu_data && Object.keys(menu_types).map((key, index) => {
-      const menu_type = menu_types[key];
-      return (<Accordion>
+    {menu_data && Object.keys(menu_types).map((menu_type_key, index) => {
+      const menu_type = menu_types[menu_type_key];
+      return (<Accordion  expanded={selected_menu_type === menu_type_key} onChange={handleMenuTypeChange(menu_type_key)}>
         <AccordionSummary  expandIcon={<ExpandMoreIcon />}>
           {menu_type} 
         </AccordionSummary>
         <AccordionDetails style={{display:"flex", flexDirection:"column"}}> 
-          {Object.keys(menu_data).map((menu_data_key,index) => {
+          {selected_menu_type === menu_type_key && Object.keys(menu_data).map((menu_data_key,index) => {
             const menu = menu_data[menu_data_key];
+            if (menu.type !== menu_type_key) return null
             return (
             <Accordion >
               <AccordionSummary  expandIcon={<ExpandMoreIcon />}>
-                {menu.pretty_name} {menu.type}
+                {menu.pretty_name} {menu.type} 
               </AccordionSummary>
               <AccordionDetails > 
                 {Object.keys(menu)}
