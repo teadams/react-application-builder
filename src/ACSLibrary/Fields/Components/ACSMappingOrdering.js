@@ -13,11 +13,15 @@ function ACSMappingOrdering(props)  {
 
   if (!data) return null
   return (
-      <Fragment>
+    <div style={{display:"flex", flexDirection:"row", flexWrap:true}}>
       {data.map(row => {
-        return (row[field_name])
+        return  (
+          <div style={{margin:"10px"}}>
+            <Button variant="outlined">{row[field_name]}</Button>
+          </div>
+        )
       })} 
-      </Fragment>
+    </div>
   )
 }
 export default ACSMappingOrdering;
