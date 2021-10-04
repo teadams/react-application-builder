@@ -18,6 +18,7 @@ import ACSWysiwygEditor from './Fields/Components/ACSWysiwygEditor.js';
 
 import ACSImageView from './Fields/Components/Widgets/ACSImageView.js';
 import ACSDate from './Fields/Components/ACSDate.js';
+import ACSMappingOrdering from './Fields/Components/ACSMappingOrdering.js';
 import ACSReferenceMapping from './Fields/Components/ACSReferenceMapping.js';
 import ACSReferencesList from './Fields/Components/ACSReferencesList.js';
 import ACSMapping from './Fields/Components/ACSMapping.js';
@@ -75,7 +76,7 @@ export {
   
   ACSDrillDown, ACSCreateButton, ACSCreateDialogButton, ACSEditButton, ACSMapButton, // buttons
   ACSField, ACSComboField, // Field base
-  ACSUser, ACSAddress, ACSFile, ACSImage, ACSImageView, ACSDate, ACSWysiwygEditor, ACSReferenceMapping, ACSReferencesList, ACSReferenceField, ACSMapping, ACSURLField,ACSYouTube, ACSTextField,
+  ACSUser, ACSAddress, ACSFile, ACSImage, ACSImageView, ACSDate, ACSWysiwygEditor, ACSReferenceMapping, ACSMappingOrdering, ACSReferencesList, ACSReferenceField, ACSMapping, ACSURLField,ACSYouTube, ACSTextField,
   ACSSelectFilter, ACSTextFilter, // Field components
   ACSObjectType, ACSChipObjectType, ACSCommunicationObjectType, ACSMap,ACSSummaryObjectType, // object type view
   ACSMapAndFilter, ACSWizard,  ACSTabMenu,// layouts
