@@ -19,7 +19,7 @@ function getViewData(data, field) {
   return view_data.join(", ")
 }
 
-function ACSReferenceMapping(props)  {
+function ACSMappingOrdering(props)  {
   const {object_type, mode,  field_name, field_list, num_add=3, allow_add=true, data, allow_save=false,field_model, valid_values,
   formAttributes=[],form_field_name=props.field_name, pretty_name,onChange,...params} = props
   const [formValues, formVisibility, formValidated] = formAttributes
@@ -70,6 +70,6 @@ function ACSReferenceMapping(props)  {
     return (value)
   }
 }
-export default ACSReferenceMapping;
+export default ACSMappingOrdering;
 
 
