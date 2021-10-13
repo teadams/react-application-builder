@@ -32,7 +32,7 @@ function ACSMappingOrdering(props)  {
    mapping_order.push(row.id)
   })
 
-  const droppableId = `${object_type}_###_${field_name}_###_${row_data.id}`
+  const droppableId = `${field_model.object_type}_###_${field_name}_###_${row_data.id}`
   const drag_key_order = drag_drop_context.drag_key_orders[droppableId]
 
   // ONLY UPDATE IF THE MAPPING ORDER HAS CHANGED FROM THE SERVER 

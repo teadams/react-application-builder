@@ -1,10 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
+import { DragDropContext } from 'react-beautiful-dnd';
 
-import ACSDragDropContext from "./ACSDragDropContext.js"
 import * as meta from "../Utils/meta.js"
 import * as u from "../Utils/utils.js"
-import * as control from "../Utils/control.js"
-import { DragDropContext } from 'react-beautiful-dnd';
+import * as api from '../Utils/data.js';
+
+import ACSDragDropContext from "./ACSDragDropContext.js"
+import {AuthContext} from '../Modules/User';
+import useGetModel from '../Hooks/useGetModel';
+
 
 // This exposes the ordering of the keys to 
 // lower level components. 
@@ -16,11 +20,14 @@ import { DragDropContext } from 'react-beautiful-dnd';
 
 
 function DragDropContextProvider(props) {
-  const [drag_key_orders, setDragKeyOrders] = useState({});
   // drag_key 
-    ///    keys will be the identifiers as descripte above 
-    ///    values will be the ording of the items in that drop zone
-    const onDragEnd = result => {
+  ///    keys will be the identifiers as descripte above 
+  ///    values will be the ording of the items in that drop zone
+  const [drag_key_orders, setDragKeyOrders] = useState({});
+  const context = useContext(AuthContext)
+  let object_models =  useGetModel("object_types")
+
+  const onDragEnd = result => {
       const {destination, source, draggableId} = result
       if (!destination) return 
       if (destination.droppableId === source.droppableId && 
@@ -29,24 +36,23 @@ function DragDropContextProvider(props) {
           return
       }
 
-      const source_info = source.droppableId.split("###")
+      const source_info = source.droppableId.split("_###_")
       const [source_object_type, source_field_name, source_id] = source_info
 
-      const destination_info = destination.droppableId.split("###")
+      const destination_info = destination.droppableId.split("_###_")
       const [destination_object_type, destination_field_name, destination_id] = source_info
 
       const source_droppable_items = drag_key_orders[source.droppableId];
       const destination_droppable_items = drag_key_orders[destination.droppableId];
 
+      let source_data = {}
+      source_data[source_field_name] = source_droppable_items
+      const source_object_model = object_models[source_object_type]
+      const options = {path:source_object_model.base_api_path}
       // REMOVE FROM SOURCE 
-
       // ADD TO DESTIONATION
-
-      // UPDATE SOURCE ON SERVER 
-
+      api.updateMappingOrder(source_object_type, source_id, source_field_name, source_data,  context, options)
       // IF SOURCE AND DESTINATION ORE DIFFERENT, UPDATE DESTINATION
-
-      // MARK THINGS DIRECTY
 
      };
 

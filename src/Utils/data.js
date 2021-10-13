@@ -204,6 +204,24 @@ export function putData (object_type, data_object, options, callback)   {
   callAPI (path, {}, data_object, "put", callback) 
 }
 
+export function updateMappingOrder (object_type, id, field_name,  data_object, context, options, callback)   {
+  let path = options.path
+  if (!options.path) {
+    path = options.base_api_path?options.base_api_path:getPathBase()
+  }
+  path = `${path}/${object_type}/${id}/${field_name}/order`
+
+  callAPI (path, getParamsObject(options), data_object, "put",  (mapping_results, error) => {
+    if (error) {
+      alert ('error is ' + error.message)
+    } else {
+        context.setDirty(object_type);
+        if (callback) callback(mapping_results, error)
+    }
+  })
+}
+
+
 export function deleteData (object_type, data_object, options, callback)   {
 
   let path = options.path
@@ -212,7 +230,7 @@ export function deleteData (object_type, data_object, options, callback)   {
     path =  object_type  +'/'+data_object.id;
   }
 
-  callAPI (path, data_object, "delete", callback) 
+  callAPI (path, getParamsObject(options), data_object, "delete", callback) 
 }
 
 
