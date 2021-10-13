@@ -3,7 +3,7 @@ import 'react-app-polyfill/stable';
 
 import React, {Fragment, useState, useContext} from 'react';
 
-import { Accordion, AccordionSummary, AccordionDetails, Grid,  Dialog, DialogTitle, DialogContent ,DialogContentText, DialogActions, Button, Tabs, Tab } from '@material-ui/core';
+import { Accordion, AccordionSummary, AccordionDetails, AccordionActions, Grid,  Dialog, DialogTitle, DialogContent ,DialogContentText, DialogActions, Button, Tabs, Tab } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import ACSDrillDown from "../../ACSLibrary/Layouts/ACSDrillDown.js"
@@ -18,9 +18,9 @@ import useGetModel from "../../Hooks/useGetModel.js"
 import AuthContext from '../../Modules/User/AuthContext';
 
 const menu_types = {
-  menu: "Menus",
-  wizard: "Wizards",
-  panel: "Panels"
+  menu: {pretty_name:"Menu", pretty_plural:"Menus"}, 
+  wizard: {pretty_name:"Wizard", pretty_plural:"Wizard"},
+  panel: {pretty_name:"Panels", pretty_plural:"Panel"}
 }
 
 function MenuModelAdmin(props) {
@@ -94,22 +94,29 @@ function MenuModelAdmin(props) {
     }
     </div>
     <div>
-    {menu_item_data && selected_menu_item_data && !selected_menu_data &&
-      <ACSObjectView data={selected_menu_item_data}  object_type="menu_items" id={selected_menu_item_data.id}/>
-
-    }
-    {menu_data && Object.keys(menu_types).map((menu_type_key, index) => {
+    {menu_data && Object.keys(menu_types).map((menu_type_key, type_index) => {
       const menu_type = menu_types[menu_type_key];
-      return (<Accordion  expanded={selected_menu_type === menu_type_key} onChange={handleMenuTypeChange(menu_type_key)}>
+      const menu_type_name = menu_type.pretty_name;
+      const menu_type_plural = menu_type.pretty_plural;
+      const add_action = `Add ${menu_type_name}`
+      return (<Accordion  key={type_index}  expanded={selected_menu_type === menu_type_key} onChange={handleMenuTypeChange(menu_type_key)}>
         <AccordionSummary  expandIcon={<ExpandMoreIcon id={menu_type_key}/>}>
-          {menu_type} 
+          <div style={{display:"flex", flexDirection:"row", width:"100%"}}>
+            <div>
+              {menu_type_plural} 
+            </div>
+            <div style={{alignSelf:"flex-end"}}>  
+              <ACSCreateButton    object_type="menus" action_props={{pretty_name:""}}/>
+            </div>
+          </div>
         </AccordionSummary>
         <AccordionDetails style={{display:"flex", flexDirection:"column"}}> 
-          {selected_menu_type === menu_type_key && menu_data.map((menu,index) => {
+          {selected_menu_type === menu_type_key && menu_data.map((menu,menu_index) => {
             if (menu.type !== menu_type_key  ) return null
             const expanded = selected_menu_data && menu.id === selected_menu_data.id
+            const menu_key = `${type_index}_${menu_index}`
             return (
-            <Accordion expanded={expanded} onChange={handleMenuChange(menu.id)} >
+            <Accordion key={menu_key} expanded={expanded} onChange={handleMenuChange(menu.id)} >
               <AccordionSummary  expandIcon={<ExpandMoreIcon id={menu.id}/>}>
                 {menu.pretty_name}
               </AccordionSummary>

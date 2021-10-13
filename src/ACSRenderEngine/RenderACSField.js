@@ -80,6 +80,7 @@ function RenderACSField(props) {
   const {data ={}, row_data, object_type, object_models, app_params, user,context_id, data_field,  dsiplay_field, references_field, field_name, form_field_name, components={},
         mode="view", form="true", formAttributes, autoFocus, onSubmit, onBlur, onChange,  click_to_edit, field_model, onFieldClick, referred_by_object_type, click_to_edit_field, cardinality} = props
 
+
   // these come froprops.m rab_component_model props
 
   const {field_tag=Fragment, field_pre_text, field_post_text, field_css_class, field_style,  //field
@@ -112,6 +113,7 @@ function RenderACSField(props) {
   if (with_thumbnail && data[with_thumbnail]) {
       show_thumbnail = true
   }
+
 
   if (referred_by_object_type && (!["edit","create"].includes(mode) || (referred_by_object_type && cardinality === "many_to_one"))) {
     const referred_by = field_model.referred_by_field
@@ -147,8 +149,8 @@ function RenderACSField(props) {
     if (data !== undefined) {
       params.data = data
     }
+    params.row_data = row_data
   }
-
 
 
 
@@ -193,6 +195,8 @@ function RenderACSField(props) {
       }
     }
 
+
+
     return (<Fragment>
       <Tag Tag={wrap_tag} class={wrap_css_class} style={wrap_style}>
       {label && 
@@ -218,7 +222,7 @@ function RenderACSField(props) {
   
   } else {
 
-    
+
     const handleFieldClose = (event) => {
       popup.close()
     }
