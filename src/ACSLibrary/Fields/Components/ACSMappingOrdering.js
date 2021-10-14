@@ -28,25 +28,34 @@ function ACSMappingOrdering(props)  {
 
   if (!data) return null
 
-  data.map((row,index) => {
-   mapping_order.push(row.id)
-  })
 
   const droppableId = `${field_model.object_type}_###_${field_name}_###_${row_data.id}`
   const drag_key_order = drag_drop_context.drag_key_orders[droppableId]
 
-  // ONLY UPDATE IF THE MAPPING ORDER HAS CHANGED FROM THE SERVER 
-  // OTHERWISE, THIS WILL BE AN INFINATE LOOP
-  if (JSON.stringify(drag_key_order) != JSON.stringify(mapping_order)) {
+  let ordered_data = []
+  // Context has not been set up for this droppable
+  if (!drag_key_order) {
+    data.map((row,index) => {
+     mapping_order.push(row.id)
+    })
     drag_drop_context.setKeyOrder(droppableId,mapping_order)
+    ordered_data = data;
+    return null
+  } 
+
+  for (let element of drag_key_order) {
+        const next_row = data.find ((row) => row.id === element);
+        ordered_data.push(next_row);
   }
+  
+
 
   return (
         <Droppable droppableId={droppableId}>
           {provided => (
               <DroppableContainer key={droppableId} ref={provided.innerRef} {...provided.droppableProps}>
 
-              {data.map((row,index) => 
+              {ordered_data.map((row,index) => 
 
                   <Draggable key={row.id} draggableId={row.id} index={index}>
 

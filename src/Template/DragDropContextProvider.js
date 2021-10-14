@@ -29,7 +29,8 @@ function DragDropContextProvider(props) {
   const context = useContext(AuthContext)
   let object_models =  useGetModel("object_types")
 
-  const onDragEnd = result => {
+
+   function onDragEnd(result)  {
       const {destination, source, draggableId} = result
       if (!destination) return 
       if (destination.droppableId === source.droppableId && 
@@ -68,8 +69,7 @@ function DragDropContextProvider(props) {
       order_updates[source.droppableId] = source_droppable_items;
       order_updates[destination.droppableId] = destination_droppable_items;
 
-      const new_drag_key_orders = _.merge(drag_key_orders,order_updates);
-
+      const new_drag_key_orders = _.merge({}, drag_key_orders,order_updates);
       setDragKeyOrders(new_drag_key_orders)
 
       api.updateMappingOrder(source_object_type, source_id, source_field_name, source_data,  context, options)
