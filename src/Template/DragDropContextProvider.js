@@ -1,5 +1,7 @@
 import React, {useState, useContext} from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
+import _ from 'lodash/object'
+
 
 import * as meta from "../Utils/meta.js"
 import * as u from "../Utils/utils.js"
@@ -40,19 +42,45 @@ function DragDropContextProvider(props) {
       const [source_object_type, source_field_name, source_id] = source_info
 
       const destination_info = destination.droppableId.split("_###_")
-      const [destination_object_type, destination_field_name, destination_id] = source_info
+      const [destination_object_type, destination_field_name, destination_id] = destination_info
 
-      const source_droppable_items = drag_key_orders[source.droppableId];
-      const destination_droppable_items = drag_key_orders[destination.droppableId];
+      // prevent mutation of state
+      const source_droppable_items = _.merge([],drag_key_orders[source.droppableId]);
+  
+      let destination_droppable_items = []
+      if (destination.droppableId !== source.droppableId) {
+            destination_droppable_items = _.merge([],drag_key_orders[destination.droppableId]); 
+      } else {
+          destination_droppable_items = source_droppable_items
+      }
+
+      // Remove from source
+      source_droppable_items.splice(source.index, 1);
+      // ADD TO DESTIONATION
+      destination_droppable_items.splice(destination.index, 0, draggableId);
 
       let source_data = {}
       source_data[source_field_name] = source_droppable_items
       const source_object_model = object_models[source_object_type]
       const options = {path:source_object_model.base_api_path}
-      // REMOVE FROM SOURCE 
-      // ADD TO DESTIONATION
+
+      let order_updates = {}
+      order_updates[source.droppableId] = source_droppable_items;
+      order_updates[destination.droppableId] = destination_droppable_items;
+
+      const new_drag_key_orders = _.merge(drag_key_orders,order_updates);
+
+      setDragKeyOrders(new_drag_key_orders)
+
       api.updateMappingOrder(source_object_type, source_id, source_field_name, source_data,  context, options)
       // IF SOURCE AND DESTINATION ORE DIFFERENT, UPDATE DESTINATION
+      if (destination.droppableId !== source.droppableId) {
+        let destination_data = {}
+        destination_data[destination_field_name] = destination_droppable_items
+        const destination_object_model = object_models[destination_object_type]
+        const destination_options = {path:destination_object_model.base_api_path}
+        api.updateMappingOrder(destination_object_type, destination_id, destination_field_name, destination_data,  context, destination_options)
+      }
 
      };
 
